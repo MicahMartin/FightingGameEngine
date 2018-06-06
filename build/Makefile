@@ -123,6 +123,33 @@ boring_game/fast:
 	$(MAKE) -f CMakeFiles/boring_game.dir/build.make CMakeFiles/boring_game.dir/build
 .PHONY : boring_game/fast
 
+src/graphics.o: src/graphics.cpp.o
+
+.PHONY : src/graphics.o
+
+# target to build an object file
+src/graphics.cpp.o:
+	$(MAKE) -f CMakeFiles/boring_game.dir/build.make CMakeFiles/boring_game.dir/src/graphics.cpp.o
+.PHONY : src/graphics.cpp.o
+
+src/graphics.i: src/graphics.cpp.i
+
+.PHONY : src/graphics.i
+
+# target to preprocess a source file
+src/graphics.cpp.i:
+	$(MAKE) -f CMakeFiles/boring_game.dir/build.make CMakeFiles/boring_game.dir/src/graphics.cpp.i
+.PHONY : src/graphics.cpp.i
+
+src/graphics.s: src/graphics.cpp.s
+
+.PHONY : src/graphics.s
+
+# target to generate assembly for a file
+src/graphics.cpp.s:
+	$(MAKE) -f CMakeFiles/boring_game.dir/build.make CMakeFiles/boring_game.dir/src/graphics.cpp.s
+.PHONY : src/graphics.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -159,6 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... boring_game"
+	@echo "... src/graphics.o"
+	@echo "... src/graphics.i"
+	@echo "... src/graphics.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

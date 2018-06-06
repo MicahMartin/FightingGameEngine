@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/Users/martin/dev/cpp/boringGame/src/graphics.cpp" "/Users/martin/dev/cpp/boringGame/build/CMakeFiles/boring_game.dir/src/graphics.cpp.o"
   "/Users/martin/dev/cpp/boringGame/src/main.cpp" "/Users/martin/dev/cpp/boringGame/build/CMakeFiles/boring_game.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "Clang")

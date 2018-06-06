@@ -6,9 +6,21 @@
 
 #IncludeRegexTransform: 
 
+../include/graphics.h
+SDL2/SDL_opengl.h
+-
+
+/Users/martin/dev/cpp/boringGame/src/graphics.cpp
+graphics.h
+/Users/martin/dev/cpp/boringGame/src/graphics.h
+cmath
+-
+
 /Users/martin/dev/cpp/boringGame/src/main.cpp
 SDL2/SDL.h
 -
 SDL2/SDL_opengl.h
 -
+graphics.h
+/Users/martin/dev/cpp/boringGame/src/graphics.h
 

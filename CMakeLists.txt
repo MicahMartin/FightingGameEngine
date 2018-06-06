@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 2.6)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/build)
 
 file(GLOB SOURCE src/*.cpp)
-file(GLOB HEADER src/*.h)
+file(GLOB HEADER include/*.h)
 
 find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)

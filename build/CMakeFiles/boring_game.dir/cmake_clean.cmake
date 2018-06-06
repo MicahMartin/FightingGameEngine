@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/boring_game.dir/src/graphics.cpp.o"
   "CMakeFiles/boring_game.dir/src/main.cpp.o"
   "boring_game.pdb"
   "boring_game"

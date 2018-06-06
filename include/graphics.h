@@ -6,7 +6,6 @@
 class Graphics
 {
    private:
-      bool global_loaded;
       int width;
       int height;
    public:
@@ -15,6 +14,7 @@ class Graphics
       void init(int w, int h);
       void resizeWindow(int w, int h);
       void perspectiveGl(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar);
+      void render();
       int  getScreenWidth();
       int  getScreenHeight();
 };

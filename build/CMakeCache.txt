@@ -412,7 +412,7 @@ PC_LIBXML_libxml-2.0_VERSION:INTERNAL=
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
 PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
 SDL2_IMAGE_LIBRARY_TEMP:INTERNAL=/Library/Frameworks/SDL2_image.framework
-SDL2_LIBRARY_TEMP:INTERNAL=/Library/Frameworks/SDL2.framework;-framework Cocoa;-framework Cocoa
+SDL2_LIBRARY_TEMP:INTERNAL=/Library/Frameworks/SDL2.framework;-framework Cocoa;-framework Cocoa;-framework Cocoa
 __pkg_config_arguments_PC_LIBXML:INTERNAL=QUIET;libxml-2.0
 __pkg_config_checked_PC_LIBXML:INTERNAL=1
 prefix_result:INTERNAL=/usr/lib
