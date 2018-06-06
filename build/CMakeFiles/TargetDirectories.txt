@@ -1,0 +1,3 @@
+/Users/martin/dev/cpp/boringGame/build/CMakeFiles/rebuild_cache.dir
+/Users/martin/dev/cpp/boringGame/build/CMakeFiles/edit_cache.dir
+/Users/martin/dev/cpp/boringGame/build/CMakeFiles/boring_game.dir

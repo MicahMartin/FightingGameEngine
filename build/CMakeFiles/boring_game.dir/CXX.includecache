@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/martin/dev/cpp/boringGame/src/main.cpp
+SDL2/SDL.h
+-
+SDL2/SDL_opengl.h
+-
+
