@@ -14,7 +14,7 @@ class Graphics
       void init(int w, int h);
       void resizeWindow(int w, int h);
       void perspectiveGl(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar);
-      void render();
+      void renderBackGround(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
       int  getScreenWidth();
       int  getScreenHeight();
 };
