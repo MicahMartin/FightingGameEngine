@@ -9,6 +9,8 @@
 ../include/graphics.h
 SDL2/SDL_opengl.h
 -
+SDL2/SDL.h
+-
 
 /Users/martin/dev/cpp/boringGame/src/graphics.cpp
 graphics.h

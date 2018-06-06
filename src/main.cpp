@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
   Graphics *graphics = new Graphics();
 
   graphics->init(800,600);
-  graphics->render();
+  //graphics->render();
   SDL_RenderPresent(renderer);
 
   SDL_Delay(5000);

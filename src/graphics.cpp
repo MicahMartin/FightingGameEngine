@@ -12,8 +12,9 @@ void Graphics::init(int w, int h){
   this->width  = w;
   this->height = h;
 
-  glClearColor( 0.0f, 0.0f, 0.0f, 0.5f);
+  glClearColor( 0.0f, 0.0f, 0.0f, 0.0f);
   glClearDepth(1.0f);
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
   glShadeModel(GL_SMOOTH);
   glEnable(GL_DEPTH_TEST);
@@ -21,31 +22,32 @@ void Graphics::init(int w, int h){
 
   resizeWindow(w, h);
 }
+
 void Graphics::render() {
-      /* Set the background black */
-    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
-    /* Clear The Screen And The Depth Buffer */
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+  /* Set the background black */
+  glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+  /* Clear The Screen And The Depth Buffer */
+  glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-    /* Move Left 1.5 Units And Into The Screen 6.0 */
-    glLoadIdentity();
-    glTranslatef( -1.5f, 0.0f, -6.0f );
+  /* Move Left 1.5 Units And Into The Screen 6.0 */
+  glLoadIdentity();
+  glTranslatef( -1.5f, 0.0f, -6.0f );
 
-    glBegin( GL_TRIANGLES );            /* Drawing Using Triangles */
-      glVertex3f(  0.0f,  1.0f, 0.0f ); /* Top */
-      glVertex3f( -1.0f, -1.0f, 0.0f ); /* Bottom Left */
-      glVertex3f(  1.0f, -1.0f, 0.0f ); /* Bottom Right */
-    glEnd( );                           /* Finished Drawing The Triangle */
+  glBegin( GL_TRIANGLES );            /* Drawing Using Triangles */
+    glVertex3f(  0.0f,  1.0f, 0.0f ); /* Top */
+    glVertex3f( -1.0f, -1.0f, 0.0f ); /* Bottom Left */
+    glVertex3f(  1.0f, -1.0f, 0.0f ); /* Bottom Right */
+  glEnd( );                           /* Finished Drawing The Triangle */
 
-    /* Move Right 3 Units */
-    glTranslatef( 3.0f, 0.0f, 0.0f );
+  /* Move Right 3 Units */
+  glTranslatef( 3.0f, 0.0f, 0.0f );
 
-    glBegin( GL_QUADS );                /* Draw A Quad */
-      glVertex3f( -1.0f,  1.0f, 0.0f ); /* Top Left */
-      glVertex3f(  1.0f,  1.0f, 0.0f ); /* Top Right */
-      glVertex3f(  1.0f, -1.0f, 0.0f ); /* Bottom Right */
-      glVertex3f( -1.0f, -1.0f, 0.0f ); /* Bottom Left */
-    glEnd( );                           /* Done Drawing The Quad */
+  glBegin( GL_QUADS );                /* Draw A Quad */
+    glVertex3f( -1.0f,  1.0f, 0.0f ); /* Top Left */
+    glVertex3f(  1.0f,  1.0f, 0.0f ); /* Top Right */
+    glVertex3f(  1.0f, -1.0f, 0.0f ); /* Bottom Right */
+    glVertex3f( -1.0f, -1.0f, 0.0f ); /* Bottom Left */
+  glEnd( );                           /* Done Drawing The Quad */
 }
 
 /*  This should be called all over the place */
