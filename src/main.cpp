@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
   Graphics *graphics = new Graphics();
   graphics->init(800, 600);
 
-  graphics->renderBackGround(0.0, 1.0, 1.0, 0.0);
+  graphics->renderBackGround(1.0, 0.0, 0.0, 0.0);
   // Swap back and front buffer
   SDL_GL_SwapWindow(window);
   SDL_Delay(5000);
