@@ -1,4 +1,5 @@
 #include "graphics.h"
+#include <SDL2/SDL.h>
 #include <cmath>
 
 Graphics::Graphics(){
