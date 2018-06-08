@@ -13,21 +13,19 @@ void Graphics::init(int w, int h){
   this->width  = w;
   this->height = h;
 
-  glClearColor( 0.0f, 0.0f, 0.0f, 0.0f);
-  glClearDepth(1.0f);
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-  glShadeModel(GL_SMOOTH);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_TEXTURE_2D);
+  glShadeModel(GL_SMOOTH);
+
+  glClearColor( 0.0f, 0.0f, 0.0f, 0.0f);
+  glClearDepth(1.0f);
 
   resizeWindow(w, h);
 }
 
 void Graphics::renderBackGround(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha){
-  /* Set the background black */
   glClearColor( red, green, blue, alpha);
-  /* Clear The back buffer And The Depth Buffer */
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 }
 

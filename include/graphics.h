@@ -3,8 +3,7 @@
 
 #include <SDL2/SDL_opengl.h>
 
-class Graphics
-{
+class Graphics{
    private:
       int width;
       int height;

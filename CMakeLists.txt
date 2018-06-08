@@ -25,5 +25,5 @@ target_link_libraries(
     boring_game 
     ${OPENGL_LIBRARY}
     ${SDL2_LIBRARY}
-    ${SDL2_IMAGE_LIBRARIES}
+    ${SDL2_IMAGE_LIBRARY}
     ${LIBXML2_LIBRARIES})
