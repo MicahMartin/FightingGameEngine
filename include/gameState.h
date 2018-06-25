@@ -5,8 +5,8 @@
 
 class GameState{
 public:
-  virtual void update();
-  virtual Scene* getCurrentScene();
-  virtual void setCurrentScene(Scene* scene);
+  virtual void update() = 0;
+  virtual Scene* getCurrentScene() = 0;
+  virtual void setCurrentScene(Scene* scene) = 0;
 };
 #endif /* ifndef _gameState_h */
