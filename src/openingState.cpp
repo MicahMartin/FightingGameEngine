@@ -3,8 +3,8 @@
 
 OpeningState::OpeningState(){
 
+  printf("entering intro state \n");
   currentScene = new OpeningScene();
-  currentScene->init();
 }
 
 OpeningState::~OpeningState(){
@@ -12,6 +12,7 @@ OpeningState::~OpeningState(){
 }
 
 void OpeningState::update(){
+  printf("Updating intro state \n");
 
   currentScene->update();
 }

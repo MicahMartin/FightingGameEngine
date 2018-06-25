@@ -43,6 +43,7 @@ int main(int argc, char *argv[]){
   SDL_Event event;
   while ( !quit ) {
 
+    myGame.run();
     while ( SDL_PollEvent(&event) != 0 ) {
 
       if ( event.type ==  SDL_QUIT ) {

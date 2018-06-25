@@ -19,7 +19,8 @@ void Game::init(){
 
 void Game::run(){
 
-  // get input, send to gameState
+  // get input, send to currentState
+  // Input currentInput = inputManager.getLastItemFromInputArray();
 
   currentState->update();
   // the current state holds a pointer to the currrent scene
