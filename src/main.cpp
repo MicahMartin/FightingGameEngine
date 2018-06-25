@@ -1,8 +1,10 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 #include <SDL2_image/SDL_image.h>
 #include <stdexcept>
 
 #include "graphics.h"
+#include "game.h"
 #include "imageSurface.h"
 
 
@@ -10,34 +12,32 @@ int main(int argc, char *argv[]){
 
   bool quit = false;
 
-  printf("foobar\n");
-  Graphics* coreGraphics = new Graphics();
+  // Game.init
+  Game myGame;
 
   try{
-
-    coreGraphics->init(640,480);
+    myGame.init();
   }catch( const char* message ){
-
-    printf("Here is the error from graphics init %s\n", message);
+    printf("Error initializing subsystems %s\n", message);
     return -1;
   }
 
   // render white to screen
-  coreGraphics->clearWindow();
-  coreGraphics->updateWindowSurface();
-  SDL_Delay(2000);
+  //coreGraphics->clearWindow();
+  //coreGraphics->updateWindowSurface();
+  //SDL_Delay(2000);
 
-  ImageSurface* megaMan;
-  try{
+  //ImageSurface* megaMan;
+  //try{
 
-    megaMan = new ImageSurface();
-    megaMan->loadImg("../data/megaMan.bmp");
-  }catch( const char* message ){
+  //  megaMan = new ImageSurface();
+  //  megaMan->loadImg("../data/megaMan.bmp");
+  //}catch( const char* message ){
 
-    megaMan = NULL;
-    printf("Here is the error from tryna load megaman %s\n", message);
-    return -1;
-  }
+  //  megaMan = NULL;
+  //  printf("Here is the error from tryna load megaman %s\n", message);
+  //  return -1;
+  //}
 
 
   SDL_Event event;
@@ -49,13 +49,13 @@ int main(int argc, char *argv[]){
         quit = true;
       }
     }
-
-    // write to frame buffer
-    megaMan->blitImg(coreGraphics->getWindowSurface());
-    // swap buffers and render
-    coreGraphics->updateWindowSurface();
   }
+  //  // write to frame buffer
+  //  megaMan->blitImg(coreGraphics->getWindowSurface());
+  //  // swap buffers and render
+  //  coreGraphics->updateWindowSurface();
+  
 
-  delete coreGraphics;
+  //delete coreGraphics;
   return 0;
 }

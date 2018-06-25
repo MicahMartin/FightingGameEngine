@@ -41,7 +41,7 @@ void Graphics::clearWindow() {
   SDL_FillRect(windowSurface, NULL, SDL_MapRGB(windowSurface->format, 0xFF, 0xFF, 0xFF));
 }
 
-void Graphics::updateWindowSurface() {
+void Graphics::update() {
   // Update the window surface
   SDL_UpdateWindowSurface(window); 
 }

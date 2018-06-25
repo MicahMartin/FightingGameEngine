@@ -6,10 +6,10 @@
 class ImageSurface{
 public:
   ImageSurface();
+  ImageSurface(const char* imgPath);
   ~ImageSurface();
 
-  bool loadImg(const char* imgPath);
-  void freeSurface();
+  void loadImg(const char* imgPath);
   void blitImg(SDL_Surface* surface);
 
 private:

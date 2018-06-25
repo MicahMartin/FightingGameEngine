@@ -1,24 +1,16 @@
 #include "imageSurface.h"
 
-ImageSurface::ImageSurface(){
+ImageSurface::ImageSurface(){}
 
-}
-
-ImageSurface::~ImageSurface(){}
-
-bool ImageSurface::loadImg(const char* imgPath) {
-
+ImageSurface::ImageSurface(const char* imgPath){
   imgBmp = SDL_LoadBMP(imgPath);
 
   if( imgBmp == NULL ){
     throw( SDL_GetError() );
-    return false;
   }
-
-  return true;
 }
 
-void ImageSurface::freeSurface() {
+ImageSurface::~ImageSurface(){
 
   if( imgBmp == NULL ){
     throw( "This objects surface pointer does not currently point to anything" );

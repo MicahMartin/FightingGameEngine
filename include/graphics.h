@@ -4,14 +4,15 @@
 #include <SDL2_image/SDL_image.h>
 //#include <SDL2/SDL_opengl.h>
 
+// handle SDL init, window stuff, and video buffer swapping at the end of every frame
 class Graphics{
 public:
   Graphics();
   ~Graphics();
   void init(int w, int h);
+  void update();
   void resizeWindow(int w, int h);
   void clearWindow();
-  void updateWindowSurface();
 
   int getWindowWidth();
   int getWindowHeight();
