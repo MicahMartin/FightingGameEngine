@@ -4,7 +4,6 @@
 OpeningState::OpeningState(){
 
   currentScene = new OpeningScene();
-  // might wanna get rid of this since this is being called via new?
   currentScene->init();
 }
 

@@ -22,5 +22,8 @@ void Game::run(){
   // get input, send to gameState
 
   currentState->update();
-  coreGraphics.update();
+  // the current state holds a pointer to the currrent scene
+  // scene has a surface pointer with all the pixels that need to be
+  // written and swapped this frame
+  coreGraphics.update(currentState->getCurrentScene()->getCurrentSurface());
 }

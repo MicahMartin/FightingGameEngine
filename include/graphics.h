@@ -10,7 +10,7 @@ public:
   Graphics();
   ~Graphics();
   void init(int w, int h);
-  void update();
+  void update(SDL_Surface* surfaceToBlit);
   void resizeWindow(int w, int h);
 
   int getWindowWidth();

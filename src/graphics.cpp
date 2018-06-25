@@ -36,8 +36,9 @@ void Graphics::init(int w, int h){
 
 void Graphics::resizeWindow(int w, int h){}
 
-void Graphics::update() {
+void Graphics::update(SDL_Surface* surfaceToBlit) {
   // Update the window surface
+  SDL_BlitSurface(surfaceToBlit, NULL, windowSurface, NULL); 
   SDL_UpdateWindowSurface(window); 
 }
 
