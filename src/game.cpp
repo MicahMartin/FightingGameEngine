@@ -13,12 +13,14 @@ void Game::init(){
 
   printf("Successful intialization\n");
   // set initial state.. idk how i feel about doing it here
-  gameState = new OpeningState();
+  // should probably have an 'engine' class?
+  currentState = new OpeningState();
 }
 
 void Game::run(){
 
-  //get input, pipe to gameState
+  // get input, send to gameState
 
-  gameState->update();
+  currentState->update();
+  coreGraphics.update();
 }

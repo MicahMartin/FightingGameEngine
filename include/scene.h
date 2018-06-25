@@ -1,5 +1,6 @@
 #ifndef _scene_h
 #define _scene_h 
+#include <SDL_image.h>
 
 // Base class for all game scenes. 
 // init method & update method
@@ -12,11 +13,11 @@ class Scene{
 // openingscenes update method may return a new scene, idk, gotta find best way to think of state transitions
 public:
   Scene();
-  ~Scene();
-  void init();
-  void update();
+  virtual ~Scene();
+  virtual void init();
+  virtual void update();
 
-private:
-  /* data */
+  virtual SDL_Surface* getCurrentSurface();
+  virtual void setSurface(SDL_Surface* surface);
 };
 #endif /* ifndef _scene_h */

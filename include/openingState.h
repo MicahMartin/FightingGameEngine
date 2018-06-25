@@ -10,6 +10,6 @@ public:
   void update();
 
 private:
-  /* data */
+  Scene* currentScene;
 };
 #endif /* ifndef _openingState_h */

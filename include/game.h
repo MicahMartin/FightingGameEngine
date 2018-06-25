@@ -16,6 +16,6 @@ private:
   /* data */
   Graphics coreGraphics;
   InputManager inputManager;
-  GameState* gameState;
+  GameState* currentState;
 };
 #endif /* ifndef _game_h */

@@ -6,11 +6,11 @@
 class GameState{
 public:
   GameState();
-  ~GameState();
-  void update();
+  virtual ~GameState();
+  virtual void update();
+  virtual Scene* getCurrentScene();
+  virtual void setCurrentScene(Scene* scene);
 
 private:
-  /* data */
-  Scene currentScene;
 };
 #endif /* ifndef _gameState_h */
