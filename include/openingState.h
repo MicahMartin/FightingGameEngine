@@ -8,6 +8,8 @@ public:
   OpeningState();
   ~OpeningState();
   void update();
+  Scene* getCurrentScene();
+  void setCurrentScene(Scene* scene);
 
 private:
   Scene* currentScene;

@@ -1,6 +1,6 @@
 #ifndef _scene_h
 #define _scene_h 
-#include <SDL_image.h>
+#include <SDL2_image/SDL_image.h>
 
 // Base class for all game scenes. 
 // init method & update method
@@ -12,8 +12,6 @@ class Scene{
 // so in the main class I can do something like Scene currentScene = new OpeningScene()
 // openingscenes update method may return a new scene, idk, gotta find best way to think of state transitions
 public:
-  Scene();
-  virtual ~Scene();
   virtual void init();
   virtual void update();
 
