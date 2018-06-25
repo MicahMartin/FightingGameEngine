@@ -36,11 +36,6 @@ void Graphics::init(int w, int h){
 
 void Graphics::resizeWindow(int w, int h){}
 
-void Graphics::clearWindow() {
-  // Fill the window surface white
-  SDL_FillRect(windowSurface, NULL, SDL_MapRGB(windowSurface->format, 0xFF, 0xFF, 0xFF));
-}
-
 void Graphics::update() {
   // Update the window surface
   SDL_UpdateWindowSurface(window); 

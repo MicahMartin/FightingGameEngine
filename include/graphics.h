@@ -12,7 +12,6 @@ public:
   void init(int w, int h);
   void update();
   void resizeWindow(int w, int h);
-  void clearWindow();
 
   int getWindowWidth();
   int getWindowHeight();

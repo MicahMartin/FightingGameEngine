@@ -3,6 +3,7 @@
 
 #include "graphics.h"
 #include "inputManager.h"
+#include "gameState.h"
 
 class Game{
 public:
@@ -15,5 +16,6 @@ private:
   /* data */
   Graphics coreGraphics;
   InputManager inputManager;
+  GameState* gameState;
 };
 #endif /* ifndef _game_h */
