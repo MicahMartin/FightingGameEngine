@@ -9,6 +9,7 @@ void Game::init(){
 
   coreGraphics.init(640,480);
   inputManager.init();
+  inputManager.addObserver(this);
 
 
   printf("Successful intialization\n");
@@ -31,7 +32,7 @@ void Game::run(){
   coreGraphics.update(currentState->getCurrentScene()->getCurrentSurface());
 }
 
-void Game::onNotify(const char* messenger, const char* messageType) {
+void Game::onNotify(const char* messageType) {
 
   // handle quit request
   // def need to make messageType an enum so I can switch on it

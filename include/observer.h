@@ -3,13 +3,11 @@
 
 
 // The messenger, whoever called notify() and notified their observers
-// messageType is just a string of the message. I'll have a Message struct soon
-template<typename M, typename T>
-
+// not sure if this is a proper use of templates its just making sense
 // observer can observe many subjects
 // subject can have many observers
 class Observer{
 public:
-  virtual void onNotify(M messenger, T messageType) = 0;
+  virtual void onNotify(const char* message) = 0;
 };
 #endif /* ifndef _observer_h */

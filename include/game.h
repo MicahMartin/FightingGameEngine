@@ -7,14 +7,14 @@
 #include "observer.h"
 
 
-class Game : public Observer<const char*, const char*>{
+class Game : public Observer{
 public:
   Game();
   ~Game();
   void init();
   void run();
   bool stillRunning();
-  void onNotify(const char* messenger, const char* mesageType);
+  void onNotify(const char* message);
 
 private:
   /* data */
