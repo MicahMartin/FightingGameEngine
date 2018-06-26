@@ -31,6 +31,17 @@ void Game::run(){
   coreGraphics.update(currentState->getCurrentScene()->getCurrentSurface());
 }
 
+void Game::onNotify(const char* messenger, const char* messageType) {
+
+  // handle quit request
+  // def need to make messageType an enum so I can switch on it
+  if(std::strcmp(messageType, "QUIT_REQUEST")){
+    printf("Shutting down\n");
+    running = false;
+  }
+  
+}
+
 bool Game::stillRunning(){
   return running;
 }
