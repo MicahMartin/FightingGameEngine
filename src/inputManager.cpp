@@ -20,6 +20,9 @@ void InputManager::update() {
     }
   }
 }
+Input InputManager::getLastItemFromInputArray() {
+ return inputList.back(); 
+}
 
 void InputManager::addObserver(Observer* observer){
   printf(" Observer added to inputManager \n");

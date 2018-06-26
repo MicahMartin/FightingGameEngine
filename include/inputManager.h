@@ -15,6 +15,7 @@ public:
   ~InputManager();
   void init();
   void update();
+  Input getLastItemFromInputArray();
 
   void addObserver(Observer* observer);
   void removeObserver(Observer* observer);

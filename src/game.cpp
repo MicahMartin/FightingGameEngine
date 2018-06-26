@@ -23,7 +23,7 @@ void Game::run(){
 
   // get input, send to currentState
   inputManager.update();
-  //Input lastInput = inputManager.getLastItemFromInputArray();
+  Input lastInput = inputManager.getLastItemFromInputArray();
 
   currentState->update();
   // the current state holds a pointer to the currrent scene
