@@ -12,7 +12,7 @@ OpeningState::~OpeningState(){
 }
 
 void OpeningState::update(){
-  printf("Updating intro state \n");
+  //printf("Updating intro state \n");
 
   currentScene->update();
 }

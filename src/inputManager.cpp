@@ -22,6 +22,7 @@ void InputManager::update() {
 }
 
 void InputManager::addObserver(Observer* observer){
+  printf(" Observer added to inputManager \n");
   observerList.push_back(observer);
 };
 

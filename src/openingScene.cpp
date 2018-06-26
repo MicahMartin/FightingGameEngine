@@ -14,7 +14,7 @@ void OpeningScene::update(){
 
  // Fill screen with purple 
  SDL_FillRect(currentSurface, NULL, SDL_MapRGBA(currentSurface->format, 115, 15, 118, 1));
- printf("updating the scene \n");
+ //printf("updating the scene \n");
 }
 
 void OpeningScene::init(){}

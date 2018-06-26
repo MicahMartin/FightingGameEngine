@@ -33,12 +33,16 @@ void Game::run(){
 }
 
 void Game::onNotify(const char* messageType) {
+  printf("Notification recieved: %s\n", messageType);
 
   // handle quit request
   // def need to make messageType an enum so I can switch on it
-  if(std::strcmp(messageType, "QUIT_REQUEST")){
+  // strcmp returns 0 on true, dumb
+  if(std::strcmp(messageType, "QUIT_REQUEST") == 0){
     printf("Shutting down\n");
     running = false;
+  }else{
+    printf("Not quitting\n");
   }
   
 }
