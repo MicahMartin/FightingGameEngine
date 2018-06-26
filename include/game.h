@@ -11,11 +11,13 @@ public:
   ~Game();
   void init();
   void run();
+  bool stillRunning();
 
 private:
   /* data */
   Graphics coreGraphics;
   InputManager inputManager;
   GameState* currentState;
+  bool running;
 };
 #endif /* ifndef _game_h */

@@ -7,10 +7,10 @@
 #include "game.h"
 #include "imageSurface.h"
 
+bool G_QUIT = false;
 
 int main(int argc, char *argv[]){
 
-  bool quit = false;
 
   // Game.init
   Game myGame;
@@ -22,41 +22,15 @@ int main(int argc, char *argv[]){
     return -1;
   }
 
-  // render white to screen
-  //coreGraphics->clearWindow();
-  //coreGraphics->updateWindowSurface();
-  //SDL_Delay(2000);
-
-  //ImageSurface* megaMan;
-  //try{
-
-  //  megaMan = new ImageSurface();
-  //  megaMan->loadImg("../data/megaMan.bmp");
-  //}catch( const char* message ){
-
-  //  megaMan = NULL;
-  //  printf("Here is the error from tryna load megaman %s\n", message);
-  //  return -1;
-  //}
-
-
   SDL_Event event;
-  while ( !quit ) {
+  while ( myGame.stillRunning()) {
 
     myGame.run();
-    while ( SDL_PollEvent(&event) != 0 ) {
-
-      if ( event.type ==  SDL_QUIT ) {
-        quit = true;
-      }
-    }
   }
   //  // write to frame buffer
   //  megaMan->blitImg(coreGraphics->getWindowSurface());
   //  // swap buffers and render
   //  coreGraphics->updateWindowSurface();
-  
-
-  //delete coreGraphics;
+  //
   return 0;
 }
