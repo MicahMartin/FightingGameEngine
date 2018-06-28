@@ -22,7 +22,6 @@ int main(int argc, char *argv[]){
     return -1;
   }
 
-  SDL_Event event;
   while ( myGame.stillRunning()) {
 
     myGame.run();

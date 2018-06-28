@@ -12,12 +12,11 @@ ImageSurface::ImageSurface(const char* imgPath){
 
 ImageSurface::~ImageSurface(){
 
-  if( imgBmp == NULL ){
-    throw( "This objects surface pointer does not currently point to anything" );
+  if( imgBmp != NULL ){
+    // free surface that imgBmp points to from memory 
+    SDL_FreeSurface(imgBmp);
   }
 
-  // free surface that imgBmp points to from memory 
-  SDL_FreeSurface(imgBmp);
   imgBmp = NULL;
 }
 

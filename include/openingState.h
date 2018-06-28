@@ -2,12 +2,14 @@
 #define _openingState_h
 
 #include "gameState.h"
+#include "input.h"
 
 class OpeningState : public GameState{
 public:
   OpeningState();
   ~OpeningState();
   void update();
+  void update(Input lastInput);
   Scene* getCurrentScene();
   void setCurrentScene(Scene* scene);
 

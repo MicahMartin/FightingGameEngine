@@ -1,5 +1,8 @@
 #include "openingState.h"
 #include "openingScene.h"
+#include "input.h"
+#include <bitset>
+#include <iostream>
 
 OpeningState::OpeningState(){
 
@@ -10,10 +13,15 @@ OpeningState::OpeningState(){
 OpeningState::~OpeningState(){
   
 }
-
 void OpeningState::update(){
   //printf("Updating intro state \n");
 
+  currentScene->update();
+}
+
+void OpeningState::update(Input lastInput){
+  //printf("Updating intro state \n");
+  std::cout << "Heres the current inputs bit" << std::bitset<32>(lastInput.getKeyCode()) << std::endl;
   currentScene->update();
 }
 

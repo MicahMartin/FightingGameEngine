@@ -1,6 +1,10 @@
 project(boring_game)
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.9)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF) # -std=c++11 instead of -std=gnu++11
+set(MY_CXX_COMPILE_FEATURES cxx_generic_lambdas cxx_range_for cxx_strong_enums)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/build)
 

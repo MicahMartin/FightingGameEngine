@@ -1,6 +1,7 @@
 #include "game.h"
 #include "openingScene.h"
 #include "openingState.h"
+#include <experimental/optional>
 
 Game::Game(){}
 Game::~Game(){}
@@ -9,6 +10,7 @@ void Game::init(){
 
   coreGraphics.init(640,480);
   inputManager.init();
+  // register with input manager so we can catch messages
   inputManager.addObserver(this);
 
 
@@ -23,12 +25,19 @@ void Game::run(){
 
   // get input, send to currentState
   inputManager.update();
-  Input lastInput = inputManager.getLastItemFromInputArray();
+  std::experimental::optional<Input> lastInput = inputManager.getLastInput();
 
-  currentState->update();
+  // print the keysym of the input for the current frame
+  if(lastInput){
+    // unwrap optional (optional is a pointer to null or the obj)
+    currentState->update(*lastInput);
+  }else{
+    currentState->update();
+  }
   // the current state holds a pointer to the currrent scene
   // scene has a surface pointer with all the pixels that need to be
   // written and swapped this frame
+  // currentScene gets updated by currentState
   coreGraphics.update(currentState->getCurrentScene()->getCurrentSurface());
 }
 
@@ -40,6 +49,7 @@ void Game::onNotify(const char* messageType) {
   // strcmp returns 0 on true, dumb
   if(std::strcmp(messageType, "QUIT_REQUEST") == 0){
     printf("Shutting down\n");
+    printf("Here is the input collection size %d\n", inputManager.getInputHistorySize());
     running = false;
   }else{
     printf("Not quitting\n");
