@@ -25,15 +25,9 @@ void Game::run(){
 
   // get input, send to currentState
   inputManager.update();
-  std::experimental::optional<Input> lastInput = inputManager.getLastInput();
 
-  // print the keysym of the input for the current frame
-  if(lastInput){
-    // unwrap optional (optional is a pointer to null or the obj)
-    currentState->update(*lastInput);
-  }else{
-    currentState->update();
-  }
+  Input lastInput = inputManager.getLastInput();
+  currentState->update(lastInput);
   // the current state holds a pointer to the currrent scene
   // scene has a surface pointer with all the pixels that need to be
   // written and swapped this frame

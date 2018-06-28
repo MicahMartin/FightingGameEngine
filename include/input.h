@@ -20,28 +20,21 @@ public:
     RIGHT = 1 << 1,
     LEFT = 1 << 2,
     UP = 1 << 3,
-    UPRIGHT = 1 << 4,
-    UPLEFT = 1 << 5,
-    DOWNRIGHT = 1 << 6,
-    DOWNLEFT = 1 << 7,
-    LIGHTP = 1 << 8,
-    LIGHTK = 1 << 9,
-    MEDIUMP = 1 << 10,
-    MEDIUMK = 1 << 11,
-    HARDP = 1 << 12,
-    HARDK = 1 << 13,
-    SELECT = 1 << 14,
-    START = 1 << 15,
-    ANYP = 1 << 16,
-    ANYK = 1 << 17,
-    LEFTANDRIGHT = 1 << 18,
-    ANYRIGHT = 1 << 19,
-    ANYLEFT = 1 << 20,
-    ANYUP = 1 << 21,
-    ANYDOWN = 1 << 22,
-    NOTHING = 1 << 23,
-    MISC1 = 1 << 24,
-    MISC2 = 1 << 25,
+    // DOWNRIGHT = 0000 0011 ( 3 )
+    // DOWNLEFT = 0000 0101 ( 5 )
+    //
+    // UPRIGHT = 0000 1010 ( 10 )
+    // UPLEFT = 0000 1100 ( 12 )
+    LIGHTP = 1 << 4,
+    LIGHTK = 1 << 5,
+    MEDIUMP = 1 << 6,
+    MEDIUMK = 1 << 7,
+    HARDP = 1 << 8,
+    HARDK = 1 << 9,
+    ALLP = 1 << 10,
+    ALLK = 1 << 11,
+    SELECT = 1 << 11,
+    START = 1 << 12,
   };
 
 private:

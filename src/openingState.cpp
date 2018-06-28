@@ -15,6 +15,7 @@ OpeningState::~OpeningState(){
 }
 void OpeningState::update(){
   //printf("Updating intro state \n");
+  printf("updating with no input!\n");
 
   currentScene->update();
 }
