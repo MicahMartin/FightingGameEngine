@@ -2,6 +2,7 @@
 #include "openingScene.h"
 #include "openingState.h"
 #include <experimental/optional>
+#include <iostream>
 
 Game::Game(){}
 Game::~Game(){}
@@ -27,12 +28,14 @@ void Game::run(){
   inputManager.update();
 
   Input lastInput = inputManager.getLastInput();
-  currentState->update(lastInput);
+  std::cout << "Heres the current inputs bit" << std::bitset<32>(lastInput.getKeyCode()) << std::endl;
+  // currentState->update(lastInput);
   // the current state holds a pointer to the currrent scene
   // scene has a surface pointer with all the pixels that need to be
   // written and swapped this frame
   // currentScene gets updated by currentState
-  coreGraphics.update(currentState->getCurrentScene()->getCurrentSurface());
+  //  coreGraphics.update(currentState->getCurrentScene()->getCurrentSurface());
+  SDL_Delay(1);
 }
 
 void Game::onNotify(const char* messageType) {
