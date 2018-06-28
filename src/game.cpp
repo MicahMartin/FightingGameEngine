@@ -28,14 +28,13 @@ void Game::run(){
   inputManager.update();
 
   Input lastInput = inputManager.getLastInput();
-  std::cout << "Heres the current inputs bit" << std::bitset<32>(lastInput.getKeyCode()) << std::endl;
-  // currentState->update(lastInput);
+  // std::cout << "Heres the current inputs bit" << std::bitset<32>(lastInput.getKeyCode()) << std::endl;
+  currentState->update(lastInput);
   // the current state holds a pointer to the currrent scene
   // scene has a surface pointer with all the pixels that need to be
   // written and swapped this frame
   // currentScene gets updated by currentState
-  //  coreGraphics.update(currentState->getCurrentScene()->getCurrentSurface());
-  SDL_Delay(1);
+  coreGraphics.update(currentState->getCurrentScene()->getCurrentSurface());
 }
 
 void Game::onNotify(const char* messageType) {

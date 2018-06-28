@@ -7,7 +7,6 @@
 #include "game.h"
 #include "imageSurface.h"
 
-bool G_QUIT = false;
 
 int main(int argc, char *argv[]){
 
@@ -21,10 +20,26 @@ int main(int argc, char *argv[]){
     printf("Error initializing subsystems %s\n", message);
     return -1;
   }
+  double FPS = 1000/60;
 
   while ( myGame.stillRunning()) {
 
+    double frameStart = SDL_GetTicks();
+
     myGame.run();
+
+    double frameEnd = SDL_GetTicks();
+    // we want to run the update stuff once every frame (16~ MS)
+    // so we check how many MS its taken us to generate the current frame 
+    // so if it took 3MS to render this frame, we have 13MS of free time before reading input and rendering again
+    double delayLength = FPS - (frameEnd - frameStart);
+    printf("ticks this frame: %d\n", int(frameEnd - frameStart));
+
+    if(int(delayLength) > 0){
+      printf("The delay length: %d\n", int(delayLength));
+      SDL_Delay(int(delayLength));
+    }
+
   }
   //  // write to frame buffer
   //  megaMan->blitImg(coreGraphics->getWindowSurface());
