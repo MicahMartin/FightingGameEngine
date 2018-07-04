@@ -20,10 +20,9 @@ void OpeningState::update(){
   currentScene->update();
 }
 
-void OpeningState::update(Input lastInput){
+void OpeningState::update(InputManager* inputManager){
   //printf("Updating intro state \n");
-  std::cout << "Heres the current inputs bit" << std::bitset<32>(lastInput.getKeyCode()) << std::endl;
-  currentScene->update();
+    printf("Heres the current byte of input %d\n", inputManager->getInputByte());
 }
 
 void OpeningState::setCurrentScene(Scene* scene){

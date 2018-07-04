@@ -1,7 +1,6 @@
 #include "game.h"
 #include "openingScene.h"
 #include "openingState.h"
-#include <experimental/optional>
 #include <iostream>
 
 Game::Game(){}
@@ -11,12 +10,12 @@ void Game::init(){
 
   coreGraphics.init(640,480);
   inputManager.init();
-  // register with input manager so we can catch messages
+  running = true;
+  // register with input manager so we can catch quit messages
   inputManager.addObserver(this);
 
 
   printf("Successful intialization\n");
-  running = true;
   // set initial state.. idk how i feel about doing it here
   // should probably have an 'engine' class?
   currentState = new OpeningState();
@@ -26,15 +25,15 @@ void Game::run(){
 
   // get input, send to currentState
   inputManager.update();
-
-  Input lastInput = inputManager.getLastInput();
   // std::cout << "Heres the current inputs bit" << std::bitset<32>(lastInput.getKeyCode()) << std::endl;
-  currentState->update(lastInput);
+  currentState->update(&inputManager);
   // the current state holds a pointer to the currrent scene
   // scene has a surface pointer with all the pixels that need to be
   // written and swapped this frame
   // currentScene gets updated by currentState
-  coreGraphics.update(currentState->getCurrentScene()->getCurrentSurface());
+  Scene* currentScene = currentState->getCurrentScene();
+  currentScene->update();
+  //coreGraphics.update(currentScene->getCurrentSurface());
 }
 
 void Game::onNotify(const char* messageType) {
@@ -45,8 +44,8 @@ void Game::onNotify(const char* messageType) {
   // strcmp returns 0 on true, dumb
   if(std::strcmp(messageType, "QUIT_REQUEST") == 0){
     printf("Shutting down\n");
-    printf("Here is the input collection size %d\n", inputManager.getInputHistorySize());
     running = false;
+    // printf("Here is the input history size %d\n", inputManager.getInputHistorySize());
   }else{
     printf("Not quitting\n");
   }

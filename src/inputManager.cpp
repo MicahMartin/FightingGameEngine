@@ -1,6 +1,5 @@
 #include "inputManager.h"
 #include "input.h"
-#include <experimental/optional>
 
 InputManager::InputManager(){}
 
@@ -9,6 +8,7 @@ InputManager::~InputManager(){}
 void InputManager::init() {}
 
 void InputManager::update() {
+
   SDL_Event event;
 
   while( SDL_PollEvent(&event) != 0 ){
@@ -21,16 +21,61 @@ void InputManager::update() {
       if(event.type == SDL_KEYDOWN){
 
         printf("bits being flipped on current frame of input\n");
-        inputEvent.setBits(event);
+        setBits(event);
       }else{
 
-        inputEvent.clearBits(event);
+        clearBits(event);
       }
     }
   }
 }
 
-Input InputManager::getLastInput(){
+void InputManager::setBits(SDL_Event event) {
+
+  switch (event.key.keysym.sym) {
+    // Directional inputs
+    case SDLK_DOWN:
+      inputEnum |= DOWN;
+    break;
+
+    case SDLK_RIGHT:
+      inputEnum |= RIGHT;
+    break;
+
+    case SDLK_LEFT:
+      inputEnum |= LEFT;
+    break;
+
+    case SDLK_UP:
+      inputEnum |= UP;
+    break;
+  }
+}
+
+void InputManager::clearBits(SDL_Event event) {
+
+  switch (event.key.keysym.sym) {
+    // Directional inputs
+    case SDLK_DOWN:
+      inputEnum &= ~DOWN;
+    break;
+
+    case SDLK_RIGHT:
+      inputEnum &= ~RIGHT;
+    break;
+
+    case SDLK_LEFT:
+      inputEnum &= ~LEFT;
+    break;
+
+    case SDLK_UP:
+      inputEnum &= ~UP;
+    break;
+  }
+}
+
+
+uint32_t InputManager::getInputByte(){
 
   // get the most recent input for this game tick
 
@@ -38,7 +83,7 @@ Input InputManager::getLastInput(){
   // 2 data structures and a copy because I cant think of a better way 
   // to look at the most recent input every game tick, confirm its been looked at
   // and save a history of inputs
-  return inputEvent;
+  return inputEnum;
 }
 
 void InputManager::addObserver(Observer* observer){
@@ -46,9 +91,7 @@ void InputManager::addObserver(Observer* observer){
   observerList.push_back(observer);
 };
 
-void InputManager::removeObserver(Observer* observer){
-
-};
+void InputManager::removeObserver(Observer* observer){ };
 
 void InputManager::notifyAll(const char* messageType){
 
@@ -58,7 +101,4 @@ void InputManager::notifyAll(const char* messageType){
 
 
 };
-int InputManager::getInputHistorySize(){
-  return inputHistory.size();
-
-};
+int InputManager::getInputHistorySize(){ return 0;};

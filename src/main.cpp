@@ -39,12 +39,7 @@ int main(int argc, char *argv[]){
       printf("The delay length: %d\n", int(delayLength));
       SDL_Delay(int(delayLength));
     }
-
   }
-  //  // write to frame buffer
-  //  megaMan->blitImg(coreGraphics->getWindowSurface());
-  //  // swap buffers and render
-  //  coreGraphics->updateWindowSurface();
-  //
+
   return 0;
 }
