@@ -10,11 +10,12 @@ public:
   void init();
   void update();
 
-  SDL_Surface* getCurrentSurface();
-  void setSurface(SDL_Surface* surface);
+  SDL_Texture* getCurrentTexture();
+  // set the address of a texture to sceneTexture
+  void setTexture(SDL_Texture* texture);
 
 private:
-  SDL_Surface* currentSurface;
+  SDL_Texture* sceneTexture;
   /* data */
 };
 #endif /* ifndef  _openingScne_h */

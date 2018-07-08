@@ -22,7 +22,7 @@ void OpeningState::update(){
 
 void OpeningState::update(InputManager* inputManager){
   //printf("Updating intro state \n");
-    printf("Heres the current byte of input %d\n", inputManager->getInputByte());
+    std::cout << "Heres the current byte of input" << std::bitset<32>(inputManager->getInputByte()) << std::endl;
 }
 
 void OpeningState::setCurrentScene(Scene* scene){

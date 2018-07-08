@@ -15,7 +15,7 @@ public:
   virtual void init() = 0;
   virtual void update() = 0;
 
-  virtual SDL_Surface* getCurrentSurface() = 0;
-  virtual void setSurface(SDL_Surface* surface) = 0;
+  virtual SDL_Texture* getCurrentTexture() = 0;
+  virtual void setTexture(SDL_Texture* texture) = 0;
 };
 #endif /* ifndef _scene_h */
