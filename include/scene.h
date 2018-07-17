@@ -1,6 +1,7 @@
 #ifndef _scene_h
 #define _scene_h 
 #include <SDL2_image/SDL_image.h>
+#include <gameTexture.h>
 
 // Base class for all game scenes. 
 // init method & update method
@@ -15,7 +16,7 @@ public:
   virtual void init() = 0;
   virtual void update() = 0;
 
-  virtual SDL_Texture* getCurrentTexture() = 0;
-  virtual void setTexture(SDL_Texture* texture) = 0;
+  virtual void addTexture(GameTexture* gText) = 0;
+  virtual void removeTexture(int index) = 0;
 };
 #endif /* ifndef _scene_h */

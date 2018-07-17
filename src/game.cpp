@@ -31,9 +31,10 @@ void Game::run(){
   // scene has a surface pointer with all the pixels that need to be
   // written and swapped this frame
   // currentScene gets updated by currentState
+  // TODO: need to decouple currentState and currentScene
   Scene* currentScene = currentState->getCurrentScene();
   currentScene->update();
-  //coreGraphics.update(currentScene->getCurrentSurface());
+  coreGraphics.update();
 }
 
 void Game::onNotify(const char* messageType) {

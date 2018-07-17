@@ -1,7 +1,9 @@
 #ifndef _openingScene_h
 #define _openingScene_h
-#include "scene.h"
 
+#include "scene.h"
+#include "gameTexture.h"
+#include <vector>
 
 class OpeningScene : public Scene{
 public:
@@ -10,12 +12,11 @@ public:
   void init();
   void update();
 
-  SDL_Texture* getCurrentTexture();
-  // set the address of a texture to sceneTexture
-  void setTexture(SDL_Texture* texture);
+  void addTexture(GameTexture* gText);
+  void removeTexture(int index);
 
 private:
-  SDL_Texture* sceneTexture;
+  std::vector<GameTexture*> textureList;
   /* data */
 };
 #endif /* ifndef  _openingScne_h */

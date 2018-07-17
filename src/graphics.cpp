@@ -6,6 +6,8 @@ Graphics::Graphics(){}
 
 Graphics::~Graphics(){
   SDL_DestroyWindow(window);
+  SDL_DestroyRenderer(renderer);
+  IMG_Quit();
   SDL_Quit();
 }
 
@@ -29,15 +31,17 @@ void Graphics::init(int w, int h){
     throw(std::runtime_error(SDL_GetError()));
   }
 
+  // create sdl renderer
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
   if( renderer == NULL ){
     throw(std::runtime_error(SDL_GetError()));
   }
 
+  // not sure what this does
   SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
-  //Initialize PNG loading
+  // Initialize format loading
   int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
   if( !( IMG_Init(imgFlags) & imgFlags)){
     throw(std::runtime_error(IMG_GetError()));
@@ -48,13 +52,27 @@ void Graphics::init(int w, int h){
   // windowSurface = SDL_GetWindowSurface(window);
 }
 
-void Graphics::resizeWindow(int w, int h){}
-
-void Graphics::update() {
-  // Update the window surface
-  // SDL_BlitSurface(surfaceToBlit, NULL, windowSurface, NULL); 
-  // SDL_UpdateWindowSurface(window); 
+void Graphics::update(){
+  // flip buffer
+  SDL_RenderClear(renderer);
+  SDL_RenderPresent(renderer);
 }
+
+void Graphics::resizeWindow(int w, int h){
+  // resize the window
+}
+
+
+SDL_Renderer* Graphics::getRenderer() {
+  // return renderer pointer
+  return renderer;
+}
+
+SDL_Window* Graphics::getWindow() {
+  // return window pointer 
+  return window;
+}
+
 
 int Graphics::getWindowWidth(){
   return width;
@@ -64,23 +82,3 @@ int Graphics::getWindowHeight(){
   return height;
 }
 
-SDL_Texture* Graphics::loadTexture(const char* path, SDL_Renderer* rend){
-  SDL_Texture* text;
-
-  SDL_Surface* img = IMG_Load(path);
-  if(img == NULL){
-    printf("Error loading image with path %s, error: %s", path, IMG_GetError());
-  }
-  SDL_FreeSurface(img);
-
-  text = SDL_CreateTextureFromSurface(rend, img);
-  return text;
-  
-}
-
-//SDL_Surface* Graphics::getWindowSurface() {
-//  if( windowSurface == NULL ){
-//    throw( "Windowsurface pointer is null" );
-//  }
-//  return windowSurface;
-//}
