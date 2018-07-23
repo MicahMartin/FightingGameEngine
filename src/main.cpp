@@ -34,10 +34,10 @@ int main(int argc, char *argv[]){
     // so if it took 3MS to render this frame, we have 13MS of free time before reading input and rendering again
     // def not percise but meh frn
     double delayLength = FPS - (frameEnd - frameStart);
-    printf("ticks this frame: %d\n", int(frameEnd - frameStart));
+    //printf("ticks this frame: %d\n", int(frameEnd - frameStart));
 
     if(int(delayLength) > 0){
-      printf("The delay length: %d\n", int(delayLength));
+      //printf("The delay length: %d\n", int(delayLength));
       SDL_Delay(int(delayLength));
     }
   }

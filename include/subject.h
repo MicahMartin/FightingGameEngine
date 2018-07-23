@@ -9,9 +9,10 @@
 // subject can have many observers
 class Subject{
 protected:
-  virtual void addObserver(Observer* observer) = 0;
-  virtual void removeObserver(Observer* observer) = 0;
-  virtual void notifyAll(const char* messageType) = 0;
+  virtual void addObserver(const char* observerName, Observer* observer) = 0;
+  virtual void removeObserver(const char* observerName) = 0;
+  virtual void notifyAll(const char* eventName) = 0;
+  virtual void notifyOne(const char* observerName, const char* eventName) = 0;
 
 private:
 };

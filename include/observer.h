@@ -8,6 +8,6 @@
 // subject can have many observers
 class Observer{
 public:
-  virtual void onNotify(const char* message) = 0;
+  virtual void onNotify(const char* eventName) = 0;
 };
 #endif /* ifndef _observer_h */
