@@ -18,8 +18,8 @@ void Game::init(){
 
 
   printf("Successful intialization\n");
-  // set initial state.. idk how i feel about doing it here
-  // should probably have an 'engine' class?
+  // might make sense to make the game states singletons 
+  // but gahhh I dont feel right using singleton
   changeState(new OpeningState());
 
 }
@@ -32,7 +32,7 @@ void Game::update(){
   //
   inputManager.update();
   // std::cout << "Heres the current inputs bit" << std::bitset<32>(lastInput.getKeyCode()) << std::endl;
-  // gameState is passed a reference to this object so it can call changeState
+  // gameState is passed a reference to this object so it can call changeState and read input from getVirtualController();
   gameState->update(this);
   // the current state holds a pointer to the currrent scene
   // scene has a surface pointer with all the pixels that need to be
@@ -55,21 +55,25 @@ GameState* Game::getCurrentState() {
 }
 
 void Game::onNotify(const char* eventName) {
-  printf("Notification recieved: %s\n", eventName);
+  printf("Game: handling event - %s\n", eventName);
 
   // handle quit request
-  // def need to make eventName an enum so I can switch on it
+  // def need to make eventName a  bit flag enum so I can switch on it
   // strcmp returns 0 on true, dumb
   if(std::strcmp(eventName, "QUIT_REQUEST") == 0){
     printf("Shutting down\n");
     running = false;
     // printf("Here is the input history size %d\n", inputManager.getInputHistorySize());
+
   }else{
     printf("Not quitting\n");
   }
-  
 }
 
 bool Game::stillRunning(){
   return running;
+}
+
+InputManager* Game::getInputManager(){
+  return &inputManager;
 }

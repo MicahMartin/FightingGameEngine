@@ -85,6 +85,12 @@ uint16_t InputManager::getInputByte(){
   // copy everything else into input history list
 }
 
+int InputManager::getInputHistorySize(){ return 0;};
+
+VirtualController* InputManager::getVirtualController(){
+  return &virtualController;
+}
+
 void InputManager::addObserver(const char* observerName, Observer* observer){
   printf("Observer added to inputManager \n");
   observerList.insert(std::make_pair(observerName, observer));
@@ -107,4 +113,3 @@ void InputManager::notifyOne(const char* observerName, const char* eventName){
   observer->onNotify(eventName);
 
 }
-int InputManager::getInputHistorySize(){ return 0;};

@@ -2,8 +2,6 @@
 #define _openingState_h
 
 #include "gameState.h"
-#include "stateManager.h"
-#include "inputManager.h"
 
 class OpeningState : public GameState{
 public:
@@ -14,8 +12,8 @@ public:
   Scene* getCurrentScene();
   void setCurrentScene(Scene* scene);
 
-  void enter(StateManager* manager);
-  void update(StateManager* manager);
+  void enter(Game* manager);
+  void update(Game* manager);
   void exit();
 
   void pause();

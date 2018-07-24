@@ -7,7 +7,7 @@
 #include "observer.h"
 
 
-class Game : public Observer, StateManager{
+class Game : public Observer{
 public:
   Game();
   ~Game();
@@ -23,9 +23,13 @@ public:
   void init();
   bool stillRunning();
 
+  // getters setters
+  InputManager* getInputManager();
+
 private:
   /* data */
   Graphics coreGraphics;
+  // TODO: make this a list of input managers
   InputManager inputManager;
   GameState* gameState;
   bool running;

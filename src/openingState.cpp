@@ -1,6 +1,6 @@
 #include "openingState.h"
 #include "openingScene.h"
-#include "input.h"
+#include "game.h"
 #include <bitset>
 #include <iostream>
 
@@ -9,10 +9,10 @@ OpeningState::OpeningState(){ }
 OpeningState::~OpeningState(){
 }
 
-void OpeningState::update(StateManager* stateManager){
+void OpeningState::update(Game* stateManager){
 }
 
-void OpeningState::enter(StateManager* stateManager) {
+void OpeningState::enter(Game* stateManager) {
   printf("entering intro state \n");
   setCurrentScene(new OpeningScene);
 }

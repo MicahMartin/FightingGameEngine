@@ -20,6 +20,7 @@ public:
 
   uint16_t getInputByte();
   int getInputHistorySize();
+  VirtualController* getVirtualController();
 
   void setBit(SDL_Event event);
   void clearBit(SDL_Event event);

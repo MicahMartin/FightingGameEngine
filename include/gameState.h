@@ -2,13 +2,17 @@
 #define _gameState_h
 
 #include "scene.h"
-#include "stateManager.h"
+
+// forward decl
+// not sure if this is anti pattern
+// but its gotten in my way twice tonight
+class Game;
 
 class GameState{
 public:
 
-  virtual void enter(StateManager* manager) = 0;
-  virtual void update(StateManager* manager) = 0;
+  virtual void enter(Game* manager) = 0;
+  virtual void update(Game* manager) = 0;
   virtual void exit() = 0;
 
   virtual void pause() = 0;
