@@ -7,20 +7,27 @@
 #include "observer.h"
 
 
-class Game : public Observer{
+class Game : public Observer, StateManager{
 public:
   Game();
   ~Game();
-  void init();
-  void run();
-  bool stillRunning();
+
+  // state manager
+  void changeState(GameState* newState);
+  GameState* getCurrentState();
+  void update();
+   
+  // observer
   void onNotify(const char* message);
+
+  void init();
+  bool stillRunning();
 
 private:
   /* data */
   Graphics coreGraphics;
   InputManager inputManager;
-  GameState* currentState;
+  GameState* gameState;
   bool running;
 };
 #endif /* ifndef _game_h */

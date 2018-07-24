@@ -4,26 +4,24 @@
 #include <bitset>
 #include <iostream>
 
-OpeningState::OpeningState(){
-
-  printf("entering intro state \n");
-  currentScene = new OpeningScene();
-}
+OpeningState::OpeningState(){ }
 
 OpeningState::~OpeningState(){
-  
-}
-void OpeningState::update(){
-  //printf("Updating intro state \n");
-  printf("updating with no input!\n");
-
-  currentScene->update();
 }
 
-void OpeningState::update(InputManager* inputManager){
-  //printf("Updating intro state \n");
-    std::cout << "Heres the current byte of input" << std::bitset<32>(inputManager->getInputByte()) << std::endl;
+void OpeningState::update(StateManager* stateManager){
 }
+
+void OpeningState::enter(StateManager* stateManager) {
+  printf("entering intro state \n");
+  setCurrentScene(new OpeningScene);
+}
+
+void OpeningState::exit() { }
+
+void OpeningState::pause() { }
+
+void OpeningState::resume() { }
 
 void OpeningState::setCurrentScene(Scene* scene){
 

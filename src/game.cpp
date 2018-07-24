@@ -2,7 +2,6 @@
 // TODO: abstract virtual controller into player 
 #include "virtualController.h"
 // TODO: Abstract state and scene
-#include "openingScene.h"
 #include "openingState.h"
 #include <iostream>
 
@@ -21,17 +20,20 @@ void Game::init(){
   printf("Successful intialization\n");
   // set initial state.. idk how i feel about doing it here
   // should probably have an 'engine' class?
-  currentState = new OpeningState();
+  changeState(new OpeningState());
+
 }
 
-void Game::run(){
+void Game::update(){
 
-  // get input, send to currentState
-  // TODO: build some kind of virtual controller, send input to virtual controller
-  // dont wanna couple inputmanager to state here
+  // dont wanna couple inputmanager to state here, but in the future virtualController will belong to a player object
+  // and input manager will need to know of the player object, so might as well couple player object to this class
+  // until I can feel out a better approach
+  //
   inputManager.update();
   // std::cout << "Heres the current inputs bit" << std::bitset<32>(lastInput.getKeyCode()) << std::endl;
-  // currentState->update(&inputManager);
+  // gameState is passed a reference to this object so it can call changeState
+  gameState->update(this);
   // the current state holds a pointer to the currrent scene
   // scene has a surface pointer with all the pixels that need to be
   // written and swapped this frame
@@ -40,6 +42,14 @@ void Game::run(){
   // Scene* currentScene = currentState->getCurrentScene();
   // currentScene->update();
   coreGraphics.update();
+}
+
+void Game::changeState(GameState* newState) {
+  
+}
+
+GameState* Game::getCurrentState() {
+  
 }
 
 void Game::onNotify(const char* eventName) {

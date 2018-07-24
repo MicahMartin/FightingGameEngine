@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
 
     double frameStart = SDL_GetTicks();
 
-    myGame.run();
+    myGame.update();
 
     double frameEnd = SDL_GetTicks();
     // we want to run the update stuff once every frame (16~ MS)
