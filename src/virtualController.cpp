@@ -8,7 +8,6 @@ VirtualController::~VirtualController() {
 }
 
 void VirtualController::update(uint16_t inputByte) {
-  printf(" input byte val %d\n", inputByte);
   switch (inputByte) {
     case (InputManager::NEUTRAL):
       setState(NEUTRAL);
@@ -66,7 +65,7 @@ void VirtualController::update(uint16_t inputByte) {
       break;
       
   }
-  printf("currentState %d \n", currentState);
+  // printf("currentState %d \n", currentState);
 }
 
 void VirtualController::setState(int stickState) {

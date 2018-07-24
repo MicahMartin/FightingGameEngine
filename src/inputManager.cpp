@@ -27,7 +27,7 @@ void InputManager::update() {
       break;
     }
   }
-  std::cout << "Heres the current byte of input" << std::bitset<16>(inputEnum) << std::endl;
+  // std::cout << "Heres the current byte of input" << std::bitset<16>(inputEnum) << std::endl;
   // printf("heres the current byte of input %s\n", std::bitset<16>(inputEnum).to_string().c_str());
   virtualController.update(inputEnum);
 }

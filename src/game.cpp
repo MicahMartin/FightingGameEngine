@@ -45,11 +45,13 @@ void Game::update(){
 }
 
 void Game::changeState(GameState* newState) {
-  
+  newState->enter(this);
+  gameState = newState;
 }
 
 GameState* Game::getCurrentState() {
-  
+
+  return gameState;
 }
 
 void Game::onNotify(const char* eventName) {
