@@ -38,13 +38,16 @@ void Game::update(){
   // scene has a surface pointer with all the pixels that need to be
   // written and swapped this frame
   // currentScene gets updated by currentState
-  // TODO: need to decouple currentState and currentScene
+  // TODO: might need to decouple currentState and currentScene?
   // Scene* currentScene = currentState->getCurrentScene();
   // currentScene->update();
   coreGraphics.update();
 }
 
 void Game::changeState(GameState* newState) {
+  if(gameState){
+    gameState->exit();
+  }
   newState->enter(this);
   gameState = newState;
 }

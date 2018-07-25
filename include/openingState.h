@@ -2,6 +2,7 @@
 #define _openingState_h
 
 #include "gameState.h"
+#include "virtualController.h"
 
 class OpeningState : public GameState{
 public:
@@ -20,6 +21,7 @@ public:
   void resume();
 
 private:
+  VirtualController* virtualController;
   Scene* currentScene;
 };
 #endif /* ifndef _openingState_h */

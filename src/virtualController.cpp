@@ -1,78 +1,141 @@
 #include "virtualController.h"
 #include "inputManager.h"
 
+#include <bitset>
+#include <iostream>
+#include <fstream>
+#include <json/json.h>
+
+
 VirtualController::VirtualController() {
 }
 
 VirtualController::~VirtualController() {
 }
 
-void VirtualController::update(uint16_t inputByte) {
+void VirtualController::update() {
+  // printf("currentState %d \n", currentState);
+  // std::cout << "Heres the current byte of input" << std::bitset<16>(inputByte) << std::endl;
+  // printf("heres the current byte of input %s\n", std::bitset<16>(inputEnum).to_string().c_str());
+  setStickState();
+}
+
+void VirtualController::init() { 
+  std::ifstream userConfig("../data/userConf/p1ControllerConfig.json", std::ifstream::binary);
+  userConfig >> buttonConfig;
+  printf("The user config %s\n", buttonConfig.toStyledString().c_str());
+}
+
+void VirtualController::setBit(SDL_Event event) {
+
+  switch (event.key.keysym.sym) {
+    // Directional inputs
+    // TODO: allow user to create config like {'buttonForDown': sdlGetKeyCode(userDefinedButtonForDown)} 
+    case SDLK_d:
+      inputByte |= DOWN;
+    break;
+
+    case SDLK_f:
+      inputByte |= RIGHT;
+    break;
+
+    case SDLK_s:
+      inputByte |= LEFT;
+    break;
+
+    case SDLK_SPACE:
+      inputByte |= UP;
+    break;
+  }
+}
+
+void VirtualController::clearBit(SDL_Event event) {
+
+  switch (event.key.keysym.sym) {
+    // Directional inputs
+    case SDLK_d:
+      inputByte &= ~DOWN;
+    break;
+
+    case SDLK_f:
+      inputByte &= ~RIGHT;
+    break;
+
+    case SDLK_s:
+      inputByte &= ~LEFT;
+    break;
+
+    case SDLK_SPACE:
+      inputByte &= ~UP;
+    break;
+  }
+}
+
+void VirtualController::setStickState(){
   switch (inputByte) {
-    case (InputManager::NEUTRAL):
-      setState(NEUTRAL);
+    case (NEUTRAL):
+      setState(N);
       break;
-    case (InputManager::DOWN):
-      setState(DOWN);
+    case (DOWN):
+      setState(D);
       break;
-    case (InputManager::RIGHT):
-      setState(FORWARD);
+    case (RIGHT):
+      setState(R);
       break;
-    case (InputManager::LEFT):
-      setState(BACK);
+    case (LEFT):
+      setState(L);
       break;
-    case (InputManager::UP):
-      setState(UP);
+    case (UP):
+      setState(U);
       break;
-    case (InputManager::DOWN | InputManager::RIGHT):
-      setState(DOWNFORWARD);
+    case (DOWN | RIGHT):
+      setState(DR);
       break;
-    case (InputManager::DOWN |  InputManager::LEFT):
-      setState(DOWNBACK);
+    case (DOWN |  LEFT):
+      setState(DL);
       break;
-    case (InputManager::DOWN |  InputManager::UP):
+    case (DOWN |  UP):
       // weirdo byte
-      setState(UP, false);
+      setState(U, false);
       break;
-    case (InputManager::RIGHT |  InputManager::LEFT):
+    case (RIGHT |  LEFT):
       // weirdo byte
-      setState(NEUTRAL, false);
+      setState(N, false);
       break;
-    case (InputManager::UP |  InputManager::RIGHT):
-      setState(UPFORWARD);
+    case (UP |  RIGHT):
+      setState(UR);
       break;
-    case (InputManager::UP |  InputManager::LEFT):
-      setState(UPBACK);
+    case (UP |  LEFT):
+      setState(UL);
       break;
 
     // everything past this point is a weirdo byte
-    case (InputManager::DOWN |  InputManager::LEFT | InputManager::RIGHT):
-      setState(DOWN, false);
+    case (DOWN |  LEFT | RIGHT):
+      setState(D, false);
       break;
-    case (InputManager::UP |  InputManager::LEFT | InputManager::RIGHT):
-      setState(UP, false);
+    case (UP |  LEFT | RIGHT):
+      setState(U, false);
       break;
-    case (InputManager::DOWN |  InputManager::UP | InputManager::RIGHT):
-      setState(UPFORWARD, false);
+    case (DOWN |  UP | RIGHT):
+      setState(UR, false);
       break;
-    case (InputManager::DOWN |  InputManager::UP | InputManager::LEFT):
-      setState(UPBACK, false);
+    case (DOWN |  UP | LEFT):
+      setState(UL, false);
       break;
-    case (InputManager::DOWN |  InputManager::LEFT | InputManager::RIGHT | InputManager::UP):
-      setState(UP, false);
+    case (DOWN |  LEFT | RIGHT | UP):
+      setState(U, false);
       break;
     default:
       break;
-      
   }
-  // printf("currentState %d \n", currentState);
 }
 
-void VirtualController::setState(int stickState) {
-  setState(stickState, true);
+void VirtualController::setState(int stateVal) {
+  setState(stateVal, true);
 }
-void VirtualController::setState(int stickState, bool addToHistory) {
-  currentState = stickState;
+
+void VirtualController::setState(int stateVal, bool addToHistory) {
+  currentState = stateVal;
   if(addToHistory){
     // add to input history
     // dont add to input history if we got to the state with a weird input 
@@ -82,6 +145,19 @@ void VirtualController::setState(int stickState, bool addToHistory) {
   }
 }
 
+int VirtualController::getState() {
+
+  return currentState;
+}
+
 void VirtualController::onNotify(const char* eventName){
 
 }
+
+uint16_t VirtualController::getInputByte(){
+
+  // get the most recent input for this game tick
+  return inputByte;
+}
+
+int VirtualController::getInputHistorySize(){ return 0;};

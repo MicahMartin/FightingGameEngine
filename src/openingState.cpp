@@ -10,14 +10,21 @@ OpeningState::~OpeningState(){
 }
 
 void OpeningState::update(Game* stateManager){
+  int stickState = virtualController->getState();
+  // printf("inside the opening state, heres current state of virtual controller %d\n", stickState);
 }
 
 void OpeningState::enter(Game* stateManager) {
   printf("entering intro state \n");
+  virtualController = stateManager->getInputManager()->getVirtualController();
   setCurrentScene(new OpeningScene);
 }
 
-void OpeningState::exit() { }
+void OpeningState::exit() { 
+
+  printf("leaving the opening state! \n");
+  // cleanup
+}
 
 void OpeningState::pause() { }
 

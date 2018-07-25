@@ -2,7 +2,10 @@
 #define _virtualController_h 
 
 #include <vector>
+#include <SDL2/SDL.h>
 #include "observer.h"
+#include <json/json.h>
+
 
 //TODO: This class needs to take the input byte from inputManager and mimick a physical joystick
 // compound motions need to be handled sequentially somehow??? 
@@ -21,28 +24,64 @@ public:
   VirtualController();
   ~VirtualController();
 
-  void update(uint16_t inputByte);
+  void update();
+  void init();
+
+  void setBit(SDL_Event event);
+  void clearBit(SDL_Event event);
+
+  void setStickState();
   void setState(int stickState);
   void setState(int stickState, bool addToHistory);
+
+  uint16_t getInputByte();
+  int getInputHistorySize();
+  int getState();
+
   void onNotify(const char* eventName);
 
 
 private:
-  enum stickState {
-    NOINPUT = 0,
-    DOWNBACK = 1,
-    DOWN = 2,
-    DOWNFORWARD = 3,
-    BACK = 4,
-    NEUTRAL = 5,
-    FORWARD = 6,
-    UPBACK = 7,
-    UP = 8,
-    UPFORWARD = 9
+  enum InputType {  
+    NEUTRAL = 0,
+    DOWN = 1 << 0,
+    RIGHT = 1 << 1,
+    LEFT = 1 << 2,
+    UP = 1 << 3,
+    LIGHTP = 1 << 4,
+    LIGHTK = 1 << 5,
+    MEDIUMP = 1 << 6,
+    MEDIUMK = 1 << 7,
+    HARDP = 1 << 8,
+    HARDK = 1 << 9,
+    ALLP = 1 << 10,
+    ALLK = 1 << 12,
+    SELECT = 1 << 13,
+    START = 1 << 14,
+    MISC = 1 << 15,
   };
+
+  enum stickState {
+    NOINPUT,
+    DL, // DOWN | LEFT
+    D,  // DOWN
+    DR, // DOWN | LEFT
+    L,  // LEFT
+    N,  // NEUTRAL  
+    R,  // RIGHT
+    UL, // UP | LEFT
+    U,  // UP
+    UR  // UP | RIGHT
+  };
+
+
+  uint16_t inputByte = NEUTRAL;
   // chargeTimer[0] is down charge, chargeTimer[1] is backCharge
   int chargeTimer[1];
   int currentState;
+
+  // This stuff will be in the player class
+  Json::Value buttonConfig;
 };
 
 #endif /* ifndef _virtualController_h */
