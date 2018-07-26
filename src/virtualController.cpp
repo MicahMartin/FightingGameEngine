@@ -4,7 +4,7 @@
 #include <bitset>
 #include <iostream>
 #include <fstream>
-#include <json/json.h>
+#include <nlohmann/json.hpp>
 
 
 VirtualController::VirtualController() {
@@ -23,12 +23,12 @@ void VirtualController::update() {
 void VirtualController::init() { 
   std::ifstream userConfig("../data/userConf/p1ControllerConfig.json", std::ifstream::binary);
   userConfig >> buttonConfig;
-  printf("The user config %s\n", buttonConfig.toStyledString().c_str());
+  printf("The user config %s\n", buttonConfig.dump().c_str());
   // iterate through the conf object, convert all user config key values to their corresponding hex codes
   // only need to do this once every time the file is changed
-  for (auto jsonObj : buttonConfig) {
-    const char* fuck = jsonObj.asCString();
-  }
+  // for (auto jsonObj : buttonConfig) {
+  //  const char* fuck = jsonObj.asCString();
+  // }
 }
 
 void VirtualController::setBit(SDL_Event event) {

@@ -12,7 +12,6 @@ file(GLOB SOURCE src/*.cpp)
 file(GLOB HEADER include/*.h)
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(JSONCPP jsoncpp)
 find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
@@ -21,7 +20,6 @@ find_package(LibXml2 REQUIRED)
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
     ${PROJECT_SOURCE_DIR}/lib
-    ${JSONCPP_INCLUDE_DIRS}
     ${OPENGL_INCLUDE_DIR}
     ${SDL2_INCLUDE_DIR}
     ${SDL2_IMAGE_INCLUDE_DIR}
@@ -35,6 +33,5 @@ target_link_libraries(
     ${SDL2_LIBRARY}
     ${SDL2_IMAGE_LIBRARY}
     ${LIBXML2_LIBRARIES}
-    ${JSONCPP_LIBRARIES}
 )
 
