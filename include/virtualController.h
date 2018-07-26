@@ -81,7 +81,7 @@ private:
   int currentState;
 
   // This stuff will be in the player class
-  nlohmann::json buttonConfig;
+  nlohmann::json bConf;
 };
 
 #endif /* ifndef _virtualController_h */

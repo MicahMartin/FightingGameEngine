@@ -22,13 +22,17 @@ void VirtualController::update() {
 
 void VirtualController::init() { 
   std::ifstream userConfig("../data/userConf/p1ControllerConfig.json", std::ifstream::binary);
-  userConfig >> buttonConfig;
-  printf("The user config %s\n", buttonConfig.dump().c_str());
+  userConfig >> bConf;
+  printf("The user config");
   // iterate through the conf object, convert all user config key values to their corresponding hex codes
   // only need to do this once every time the file is changed
-  // for (auto jsonObj : buttonConfig) {
-  //  const char* fuck = jsonObj.asCString();
-  // }
+  // it.key, it.value... thankyou
+  for (nlohmann::json::iterator i = bConf.begin(); i != bConf.end(); ++i) {
+    const char* btnKey = i.value().get<std::string>().c_str(); 
+    printf(" the fucking value %s\n", btnKey);
+    int keyCode = SDL_GetKeyFromName(btnKey);
+    printf(" the fucking sdl keycode corresponding to this value %d\n", keyCode);
+  }
 }
 
 void VirtualController::setBit(SDL_Event event) {
