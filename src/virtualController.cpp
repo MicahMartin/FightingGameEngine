@@ -24,14 +24,18 @@ void VirtualController::init() {
   std::ifstream userConfig("../data/userConf/p1ControllerConfig.json", std::ifstream::binary);
   userConfig >> buttonConfig;
   printf("The user config %s\n", buttonConfig.toStyledString().c_str());
+  // iterate through the conf object, convert all user config key values to their corresponding hex codes
+  // only need to do this once every time the file is changed
+  for (auto jsonObj : buttonConfig) {
+    const char* fuck = jsonObj.asCString();
+  }
 }
 
 void VirtualController::setBit(SDL_Event event) {
-
   switch (event.key.keysym.sym) {
     // Directional inputs
     // TODO: allow user to create config like {'buttonForDown': sdlGetKeyCode(userDefinedButtonForDown)} 
-    case SDLK_d:
+    case SDLK_DOWN:
       inputByte |= DOWN;
     break;
 

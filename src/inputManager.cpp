@@ -50,7 +50,7 @@ void InputManager::removeObserver(const char* observerName){
 
 void InputManager::notifyAll(const char* eventName){
 
-  for( auto const& [key, observer] : observerList ){
+  for( const auto& [key, observer] : observerList ){
     observer->onNotify(eventName);
   }
 };
