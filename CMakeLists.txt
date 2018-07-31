@@ -15,15 +15,14 @@ find_package(PkgConfig REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
-find_package(LibXml2 REQUIRED)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
-    ${PROJECT_SOURCE_DIR}/lib
+    ${PROJECT_SOURCE_DIR}/libs
     ${OPENGL_INCLUDE_DIR}
     ${SDL2_INCLUDE_DIR}
     ${SDL2_IMAGE_INCLUDE_DIR}
-    ${LIBXML2_INCLUDE_DIR})
+    )
 
 add_executable(boring_game ${SOURCE} ${HEADER})
 
@@ -32,6 +31,5 @@ target_link_libraries(
     ${OPENGL_LIBRARY}
     ${SDL2_LIBRARY}
     ${SDL2_IMAGE_LIBRARY}
-    ${LIBXML2_LIBRARIES}
 )
 

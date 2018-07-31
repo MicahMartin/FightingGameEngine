@@ -4,7 +4,6 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include "observer.h"
-#include <nlohmann/json.hpp>
 
 
 //TODO: This class needs to take the input byte from inputManager and mimick a physical joystick
@@ -27,8 +26,8 @@ public:
   void update();
   void init();
 
-  void setBit(SDL_Event event);
-  void clearBit(SDL_Event event);
+  void setBits(uint16_t bits);
+  void clearBits(uint16_t bits);
 
   void setStickState();
   void setState(int stickState);
@@ -81,7 +80,6 @@ private:
   int currentState;
 
   // This stuff will be in the player class
-  nlohmann::json bConf;
 };
 
 #endif /* ifndef _virtualController_h */

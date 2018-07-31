@@ -3,10 +3,12 @@
 
 #include <SDL2/SDL.h>
 #include <vector>
+#include <unordered_map>
+#include <map>
 #include "observer.h"
 #include "subject.h"
 #include "virtualController.h"
-#include <map>
+#include "input.h"
 
 
 class InputManager : public Subject{
@@ -18,6 +20,9 @@ public:
   void init();
   void update();
 
+  // create a key composed of 2 32 byte values from sdl event
+  uint32_t getEventKey(uint16_t eventTypeEnum, uint16_t eventTypeValue);
+  uint16_t getEventValue(SDL_Event event);
   // virtual controller is gonna be owned by player object
   VirtualController* getVirtualController();
 
@@ -35,6 +40,9 @@ private:
   // would need to be careful about observing deleted objects since using pointers
   std::map<const char*, Observer*> observerList;
   int numOfObservers;
+  
+  std::unordered_map<Input, int, Input::InputHasher>  bConf;
 };
+
 
 #endif /* ifndef _inputManager_h */

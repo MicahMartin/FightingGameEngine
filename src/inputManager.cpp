@@ -1,36 +1,33 @@
 #include "inputManager.h"
+#include <nlohmann/json.hpp>
+#include <iostream>
+#include <fstream>
 
 InputManager::InputManager(){}
 
 InputManager::~InputManager(){}
 
 void InputManager::init() {
-  // TODO: this is gonna get called by the player object
-  virtualController.init();
+}
+
+uint32_t InputManager::getEventKey(uint16_t sdlEventType, uint16_t sdlEventValue){
+}
+
+uint16_t InputManager::getEventValue(SDL_Event event){
+  // for each event, get the value for that event type
+  // HashMap<int, int> userInputHashMap
+  // uint16_t bitValForEvent = userInputHashMap[getInput(event)]
 }
 
 void InputManager::update() {
-
   SDL_Event event;
-
+  
+  uint32_t forVirtualController;
   while( SDL_PollEvent(&event) != 0 ){
-    switch (event.type) {
-      case SDL_KEYDOWN:
-        virtualController.setBit(event);
-      break;
-      case SDL_KEYUP:
-        virtualController.clearBit(event);
-      break;
-      case SDL_QUIT:
-        notifyOne("game", "QUIT_REQUEST");
-      break;
-      default:
-      break;
-    }
+    std::cout << "Heres the current byte of input" << std::bitset<32>(event.type) << std::endl;
   }
-  // std::cout << "Heres the current byte of input" << std::bitset<16>(inputEnum) << std::endl;
   // printf("heres the current byte of input %s\n", std::bitset<16>(inputEnum).to_string().c_str());
-  virtualController.update();
+  // virtualController.update();
 }
 
 VirtualController* InputManager::getVirtualController(){
