@@ -21,7 +21,7 @@ public:
   void update();
 
   // create a key composed of 2 32 byte values from sdl event
-  uint32_t getEventKey(uint16_t eventTypeEnum, uint16_t eventTypeValue);
+  // uint32_t getEventKey(uint16_t eventTypeEnum, uint16_t eventTypeValue);
   uint16_t getEventValue(SDL_Event event);
   // virtual controller is gonna be owned by player object
   VirtualController* getVirtualController();
@@ -41,7 +41,7 @@ private:
   std::map<const char*, Observer*> observerList;
   int numOfObservers;
   
-  std::unordered_map<Input, int, Input::InputHasher>  bConf;
+  std::unordered_map<Input, int>  bConf;
 };
 
 

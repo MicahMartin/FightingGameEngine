@@ -10,22 +10,59 @@ InputManager::~InputManager(){}
 void InputManager::init() {
 }
 
-uint32_t InputManager::getEventKey(uint16_t sdlEventType, uint16_t sdlEventValue){
-}
-
 uint16_t InputManager::getEventValue(SDL_Event event){
   // for each event, get the value for that event type
   // HashMap<int, int> userInputHashMap
   // uint16_t bitValForEvent = userInputHashMap[getInput(event)]
+  switch (event.type) {
+    case SDL_KEYDOWN:
+      return event.key.keysym.sym;
+    break;
+
+    case SDL_JOYHATMOTION:
+      return event.jhat.value;
+      //if (event.jhat.value == SDL_HAT_CENTERED)
+      //    SDL_Log(" centered");
+      //if (event.jhat.value & SDL_HAT_UP)
+      //    SDL_Log(" up");
+      //if (event.jhat.value & SDL_HAT_RIGHT)
+      //    SDL_Log(" right");
+      //if (event.jhat.value & SDL_HAT_DOWN)
+      //    SDL_Log(" down");
+      //if (event.jhat.value & SDL_HAT_LEFT)
+      //    SDL_Log(" left");
+      //SDL_Log("\n");
+    break;
+
+    case SDL_JOYBUTTONDOWN:
+      return event.jbutton.button;
+      // SDL_Log("Joystick %d button %d down\n", event.jbutton.which, event.jbutton.button);
+    break;
+
+    default:
+      return 0;
+    break;
+  }
 }
 
 void InputManager::update() {
   SDL_Event event;
-  
-  uint32_t forVirtualController;
+  uint64_t forVirtualController = 0;
+
   while( SDL_PollEvent(&event) != 0 ){
-    std::cout << "Heres the current byte of input" << std::bitset<32>(event.type) << std::endl;
+    switch (event.type) {
+      case SDL_QUIT:
+        notifyOne("game", "QUIT_REQUEST");
+      break;
+      default:
+        //Input i(event.type, getEventValue(event));
+        //int inputFromConf = bConf[i];
+        //forVirtualController |= inputFromConf;
+      break;
+    }
   }
+  std::cout << "Heres the current byte of input" << std::bitset<64>(forVirtualController) << std::endl;
+
   // printf("heres the current byte of input %s\n", std::bitset<16>(inputEnum).to_string().c_str());
   // virtualController.update();
 }
