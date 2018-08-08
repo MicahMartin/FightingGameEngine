@@ -8,7 +8,8 @@
 #include "observer.h"
 #include "subject.h"
 #include "virtualController.h"
-#include "input.h"
+#include "pugixml.hpp"
+
 
 
 class InputManager : public Subject{
@@ -22,7 +23,7 @@ public:
 
   // create a key composed of 2 32 byte values from sdl event
   // uint32_t getEventKey(uint16_t eventTypeEnum, uint16_t eventTypeValue);
-  uint16_t getEventValue(SDL_Event event);
+  uint32_t getEventValue(SDL_Event event);
   // virtual controller is gonna be owned by player object
   VirtualController* getVirtualController();
 
@@ -41,7 +42,8 @@ private:
   std::map<const char*, Observer*> observerList;
   int numOfObservers;
   
-  std::unordered_map<Input, int>  bConf;
+  pugi::xml_document config;
+  std::unordered_map<uint32_t, uint16_t>  bConf;
 };
 
 

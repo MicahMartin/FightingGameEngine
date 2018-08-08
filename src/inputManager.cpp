@@ -1,21 +1,28 @@
 #include "inputManager.h"
-#include <nlohmann/json.hpp>
 #include <iostream>
 #include <fstream>
+#include "pugixml.hpp"
 
 InputManager::InputManager(){}
 
 InputManager::~InputManager(){}
 
 void InputManager::init() {
+  config.load_file("../data/p1Config.xml");
+  for (pugi::xml_node item : config.first_child()) {
+    std::cout << item.attribute("value").as_int() << std::endl;
+    std::cout << item.text().as_int() << std::endl;
+    bConf[item.attribute("value").as_int()] = item.text().as_int();
+  }
 }
 
-uint16_t InputManager::getEventValue(SDL_Event event){
+uint32_t InputManager::getEventValue(SDL_Event event){
   // for each event, get the value for that event type
   // HashMap<int, int> userInputHashMap
   // uint16_t bitValForEvent = userInputHashMap[getInput(event)]
   switch (event.type) {
     case SDL_KEYDOWN:
+    case SDL_KEYUP:
       return event.key.keysym.sym;
     break;
 
@@ -47,24 +54,41 @@ uint16_t InputManager::getEventValue(SDL_Event event){
 
 void InputManager::update() {
   SDL_Event event;
-  uint64_t forVirtualController = 0;
 
   while( SDL_PollEvent(&event) != 0 ){
+
+    // printf("heres the current input value %s\n", std::bitset<32>(getEventValue(event)).to_string().c_str());
+    // lets just say the user can only use one device and thats the end of that
+
     switch (event.type) {
+      case SDL_KEYDOWN:
+        std::cout << bConf[event.key.keysym.sym] << std::endl;
+        //virtualController.setBits(bConf[event.key.keysym.sym]);
+      break;
+
+      case SDL_KEYUP:
+        //virtualController.clearBits(bConf[event.key.keysym.sym]);
+      break;
+
+      //case SDL_JOYBUTTONDOWN:
+      //break;
+
+      //case SDL_JOYBUTTONUP:
+      //break;
+
+      //case SDL_JOYAXISMOTION:
+      //break;
+
       case SDL_QUIT:
         notifyOne("game", "QUIT_REQUEST");
       break;
       default:
-        //Input i(event.type, getEventValue(event));
-        //int inputFromConf = bConf[i];
-        //forVirtualController |= inputFromConf;
       break;
     }
   }
-  std::cout << "Heres the current byte of input" << std::bitset<64>(forVirtualController) << std::endl;
 
   // printf("heres the current byte of input %s\n", std::bitset<16>(inputEnum).to_string().c_str());
-  // virtualController.update();
+  virtualController.update();
 }
 
 VirtualController* InputManager::getVirtualController(){
