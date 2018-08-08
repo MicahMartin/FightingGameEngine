@@ -32,6 +32,7 @@ void VirtualController::clearBits(uint16_t bits) {
 }
 
 void VirtualController::setStickState(){
+  //TODO: do I need this
   switch (inputByte) {
     case (NEUTRAL):
       setState(N);

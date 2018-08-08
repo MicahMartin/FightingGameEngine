@@ -9,46 +9,16 @@ InputManager::~InputManager(){}
 
 void InputManager::init() {
   config.load_file("../data/p1Config.xml");
-  for (pugi::xml_node item : config.first_child()) {
+  std::cout << "inital config" << std::endl;
+
+  for (auto item : config.first_child()) {
     std::cout << item.attribute("value").as_int() << std::endl;
-    std::cout << item.text().as_int() << std::endl;
-    bConf[item.attribute("value").as_int()] = item.text().as_int();
-  }
-}
+    std::cout << std::bitset<16>(item.text().as_int()) << std::endl;
 
-uint32_t InputManager::getEventValue(SDL_Event event){
-  // for each event, get the value for that event type
-  // HashMap<int, int> userInputHashMap
-  // uint16_t bitValForEvent = userInputHashMap[getInput(event)]
-  switch (event.type) {
-    case SDL_KEYDOWN:
-    case SDL_KEYUP:
-      return event.key.keysym.sym;
-    break;
-
-    case SDL_JOYHATMOTION:
-      return event.jhat.value;
-      //if (event.jhat.value == SDL_HAT_CENTERED)
-      //    SDL_Log(" centered");
-      //if (event.jhat.value & SDL_HAT_UP)
-      //    SDL_Log(" up");
-      //if (event.jhat.value & SDL_HAT_RIGHT)
-      //    SDL_Log(" right");
-      //if (event.jhat.value & SDL_HAT_DOWN)
-      //    SDL_Log(" down");
-      //if (event.jhat.value & SDL_HAT_LEFT)
-      //    SDL_Log(" left");
-      //SDL_Log("\n");
-    break;
-
-    case SDL_JOYBUTTONDOWN:
-      return event.jbutton.button;
-      // SDL_Log("Joystick %d button %d down\n", event.jbutton.which, event.jbutton.button);
-    break;
-
-    default:
-      return 0;
-    break;
+    // set config to virtualConf
+    if(item.attribute("value").as_int()){
+      bConf[item.attribute("value").as_int()] = item.text().as_int();
+    }
   }
 }
 
@@ -62,21 +32,25 @@ void InputManager::update() {
 
     switch (event.type) {
       case SDL_KEYDOWN:
-        std::cout << bConf[event.key.keysym.sym] << std::endl;
-        //virtualController.setBits(bConf[event.key.keysym.sym]);
+        virtualController.setBits(bConf[event.key.keysym.sym]);
       break;
 
       case SDL_KEYUP:
-        //virtualController.clearBits(bConf[event.key.keysym.sym]);
+        virtualController.clearBits(bConf[event.key.keysym.sym]);
       break;
 
-      //case SDL_JOYBUTTONDOWN:
-      //break;
+      case SDL_JOYBUTTONDOWN:
+        virtualController.setBits(bConf[event.jbutton.button]);
+      break;
 
-      //case SDL_JOYBUTTONUP:
-      //break;
+      case SDL_JOYBUTTONUP:
+        virtualController.clearBits(bConf[event.jbutton.button]);
+      break;
 
+      // TODO
       //case SDL_JOYAXISMOTION:
+      //break;
+      //case SDL_JOYHATMOTION:
       //break;
 
       case SDL_QUIT:
