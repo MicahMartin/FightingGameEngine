@@ -15,6 +15,7 @@
 class InputManager : public Subject{
 
 public:
+  uint16_t inputBits;
   InputManager();
   ~InputManager();
   // runnable?
@@ -35,12 +36,14 @@ private:
   // Player* player;
   // VirtualController* virtualController; ...player->getVirtualController();
   VirtualController virtualController;
+  
+  // button config
+  pugi::xml_document config;
+  std::unordered_map<uint32_t, uint16_t>  bConf;
+
   // would need to be careful about observing deleted objects since using pointers
   std::map<const char*, Observer*> observerList;
   int numOfObservers;
-  
-  pugi::xml_document config;
-  std::unordered_map<uint32_t, uint16_t>  bConf;
 };
 
 

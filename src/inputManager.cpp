@@ -8,11 +8,13 @@ InputManager::InputManager(){}
 InputManager::~InputManager(){}
 
 void InputManager::init() {
+  // load the config(s)
   config.load_file("../data/p1Config.xml");
-  std::cout << "inital config" << std::endl;
 
   for (auto item : config.first_child()) {
+    // the 'value' is gonna be the button value for corresponding device
     std::cout << item.attribute("value").as_int() << std::endl;
+    // the node text is gonna be the bit for said button
     std::cout << std::bitset<16>(item.text().as_int()) << std::endl;
 
     // set config to virtualConf
@@ -27,24 +29,21 @@ void InputManager::update() {
 
   while( SDL_PollEvent(&event) != 0 ){
 
-    // printf("heres the current input value %s\n", std::bitset<32>(getEventValue(event)).to_string().c_str());
-    // lets just say the user can only use one device and thats the end of that
-
     switch (event.type) {
       case SDL_KEYDOWN:
-        virtualController.setBits(bConf[event.key.keysym.sym]);
+        inputBits |= bConf[event.key.keysym.sym];
       break;
 
       case SDL_KEYUP:
-        virtualController.clearBits(bConf[event.key.keysym.sym]);
+        inputBits &= ~bConf[event.key.keysym.sym];
       break;
 
       case SDL_JOYBUTTONDOWN:
-        virtualController.setBits(bConf[event.jbutton.button]);
+        inputBits |= bConf[event.jbutton.button];
       break;
 
       case SDL_JOYBUTTONUP:
-        virtualController.clearBits(bConf[event.jbutton.button]);
+        inputBits &= ~bConf[event.jbutton.button];
       break;
 
       // TODO
@@ -61,8 +60,7 @@ void InputManager::update() {
     }
   }
 
-  // printf("heres the current byte of input %s\n", std::bitset<16>(inputEnum).to_string().c_str());
-  virtualController.update();
+  virtualController.update(inputBits);
 }
 
 VirtualController* InputManager::getVirtualController(){
@@ -90,5 +88,4 @@ void InputManager::notifyAll(const char* eventName){
 void InputManager::notifyOne(const char* observerName, const char* eventName){
   Observer* observer = observerList.at(observerName);
   observer->onNotify(eventName);
-
 }
