@@ -18,10 +18,8 @@ void Game::init(){
 
 
   printf("Successful intialization\n");
-  // might make sense to make the game states singletons 
-  // but gahhh I dont feel right using singleton
-  changeState(new OpeningState());
 
+  changeState(new OpeningState(this));
 }
 
 void Game::update(){
@@ -29,11 +27,10 @@ void Game::update(){
   // dont wanna couple inputmanager to state here, but in the future virtualController will belong to a player object
   // and input manager will need to know of the player object, so might as well couple player object to this class
   // until I can feel out a better approach
-  //
   inputManager.update();
   // std::cout << "Heres the current inputs bit" << std::bitset<32>(lastInput.getKeyCode()) << std::endl;
   // gameState is passed a reference to this object so it can call changeState and read input from getVirtualController();
-  gameState->update(this);
+  gameState->update();
   // the current state holds a pointer to the currrent scene
   // scene has a surface pointer with all the pixels that need to be
   // written and swapped this frame
@@ -45,12 +42,18 @@ void Game::update(){
 }
 
 void Game::changeState(GameState* newState) {
+  // call exit on current gameState for cleanup logic
   if(gameState){
     gameState->exit();
   }
-  newState->enter(this);
+  // call enter on next gameState for enter logic
+  newState->enter();
   gameState = newState;
 }
+
+// TODO: push / pop state so we can have state stack.. useful for something like a pause state on top of a game state
+//void Game::pushState(GameState* newState) {}
+//void Game::popState(GameState* newState) {}
 
 GameState* Game::getCurrentState() {
 

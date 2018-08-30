@@ -1,14 +1,14 @@
-#ifndef _openingState_h
-#define _openingState_h
+#ifndef _menuState_h
+#define _menuState_h
 
 #include "gameState.h"
 #include "game.h"
 #include "virtualController.h"
 
-class OpeningState : public GameState{
+class MenuState : public GameState{
 public:
-  OpeningState(Game* game);
-  ~OpeningState();
+  MenuState(Game* game);
+  ~MenuState();
 
   void update();
   void draw();
