@@ -9,7 +9,6 @@ Game::Game(){}
 Game::~Game(){}
 
 void Game::init(){
-
   coreGraphics.init(640,480);
   inputManager.init();
   running = true;
@@ -23,26 +22,27 @@ void Game::init(){
 }
 
 void Game::update(){
-
   // dont wanna couple inputmanager to state here, but in the future virtualController will belong to a player object
   // and input manager will need to know of the player object, so might as well couple player object to this class
   // until I can feel out a better approach
   inputManager.update();
 
-  GameState* nextState = currentState->handleInput(inputManager.getVirtualController()->getState());
-  if(nextState){
-    changeState(nextState);
+  // pass input to currentState. Might return a new state or stay in the same state
+  GameState* newState = currentState->handleInput(inputManager.getVirtualController()->getState());
+  if(newState){
+    changeState(newState);
   }
 
   currentState->update();
+
   // the current state holds a pointer to the currrent scene
   // scene has a surface pointer with all the pixels that need to be
   // written and swapped this frame
-  // currentScene gets updated by currentState
   // TODO: might need to decouple currentState and currentScene?
-  // Scene* currentScene = currentState->getCurrentScene();
-  // currentScene->update();
-  coreGraphics.update();
+  coreGraphics.clear();
+  currentState->draw();
+  coreGraphics.present();
+
 }
 
 void Game::changeState(GameState* newState) {
@@ -51,7 +51,6 @@ void Game::changeState(GameState* newState) {
     currentState->exit();
     delete currentState;
   }
-  // call enter on next currentState for enter logic
   newState->enter();
   currentState = newState;
 }
@@ -61,7 +60,6 @@ void Game::changeState(GameState* newState) {
 //void Game::popState() {}
 
 GameState* Game::getCurrentState() {
-
   return currentState;
 }
 
@@ -87,4 +85,8 @@ bool Game::stillRunning(){
 
 InputManager* Game::getInputManager(){
   return &inputManager;
+}
+
+Graphics* Game::getGraphics() {
+  return &coreGraphics;
 }

@@ -26,6 +26,7 @@ public:
   // getters setters
   bool stillRunning();
   InputManager* getInputManager();
+  Graphics* getGraphics();
 
 private:
   /* data */

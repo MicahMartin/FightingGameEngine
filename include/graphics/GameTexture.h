@@ -8,13 +8,16 @@ public:
   ~GameTexture();
 
   bool loadTexture(const char* path, SDL_Renderer* rend);
-  void render(int x, int y);
+  void render(SDL_Renderer* rend);
+
+  void setDimensions(int xCord, int yCord, int width, int height);
+  std::pair<int, int> getDimensions();
+  std::pair<int, int> getCords();
 
 private:
   SDL_Texture* texture;
-
-  int width;
-  int height;
+  SDL_Rect textRect;
+  int xCord, yCord, width, height;
   /* data */
 };
 #endif /* ifndef _GameTexture_h */

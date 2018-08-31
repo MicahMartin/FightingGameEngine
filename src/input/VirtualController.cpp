@@ -7,9 +7,9 @@
 
 
 
-VirtualController::VirtualController() {}
-VirtualController::~VirtualController() {} 
-void VirtualController::init() {}
+VirtualController::VirtualController() { }
+VirtualController::~VirtualController() { } 
+void VirtualController::init() { }
 
 void VirtualController::update(uint16_t inputBits) {
   // printf("currentState %d \n", currentState);
@@ -21,16 +21,14 @@ void VirtualController::update(uint16_t inputBits) {
 }
 
 uint16_t VirtualController::getState() {
-
   return currentState;
 }
 
 uint8_t VirtualController::getStickState() {
-
   return stickState;
 }
 
-void VirtualController::onNotify(const char* eventName) {}
+void VirtualController::onNotify(const char* eventName) { }
 
 int VirtualController::getInputHistorySize() { 
   return 0;

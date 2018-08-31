@@ -20,13 +20,11 @@ public:
   void update();
   void draw();
 
-  // gamestate
-  // Scene* getCurrentScene();
-  // void setCurrentScene(Scene* scene);
+  Scene* getCurrentScene();
+  void setCurrentScene(Scene* scene);
 
 private:
   Game* game;
-  VirtualController* p1Controller;
-  // Scene* currentScene;
+  Scene* currentScene;
 };
 #endif /* ifndef _openingState_h */

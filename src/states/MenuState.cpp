@@ -5,21 +5,18 @@
 #include "states/OpeningState.h"
 #include "Game.h"
 
-MenuState::MenuState(Game* gameP){
+MenuState::MenuState(Game* game) : game(game) {
   // set game pointer
-  game = gameP;
   // get virtual controller pointer(s) from game pointer
-  p1Controller = game->getInputManager()->getVirtualController();
 }
 
-MenuState::~MenuState(){}
+MenuState::~MenuState(){ }
 
 void MenuState::enter() {
   // setCurrentScene(new OpeningScene);
 }
 
 void MenuState::exit() { 
-
   printf("leaving the menu state! \n");
   //cleanup
 }
@@ -29,7 +26,6 @@ void MenuState::pause() { }
 void MenuState::resume() { }
 
 GameState* MenuState::handleInput(uint16_t inputBits) {
-
   uint8_t stickState = (inputBits & 0x0f);
   printf("in menu, the current bitset for input %s\n", std::bitset<16>(inputBits).to_string().c_str());
 
@@ -43,17 +39,19 @@ GameState* MenuState::handleInput(uint16_t inputBits) {
   }
 }
 
-void MenuState::update(){ printf("updating the menu state\n"); }
+void MenuState::update(){
+  printf("updating the menu state\n"); 
+}
 
-void MenuState::draw(){ }
+void MenuState::draw(){ 
+  //currentScene->draw();
+}
 
 
-//void MenuState::setCurrentScene(Scene* scene){
+void MenuState::setCurrentScene(Scene* scene){
+ currentScene = scene; 
+}
 
-// currentScene = scene; 
-//}
-
-//Scene* MenuState::getCurrentScene(){
-
-//  return currentScene;
-//}
+Scene* MenuState::getCurrentScene(){
+  return currentScene;
+}

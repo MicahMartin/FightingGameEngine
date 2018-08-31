@@ -12,6 +12,9 @@ public:
   void init(int w, int h);
   void update();
 
+  void clear();
+  void present();
+
   void resizeWindow(int w, int h);
 
   SDL_Renderer* getRenderer();

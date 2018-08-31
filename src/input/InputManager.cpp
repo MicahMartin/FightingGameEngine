@@ -3,9 +3,9 @@
 #include <fstream>
 #include "pugixml.hpp"
 
-InputManager::InputManager(){}
+InputManager::InputManager(){ }
 
-InputManager::~InputManager(){}
+InputManager::~InputManager(){ }
 
 void InputManager::init() {
   // load the config(s)
@@ -74,12 +74,10 @@ void InputManager::addObserver(const char* observerName, Observer* observer){
 };
 
 void InputManager::removeObserver(const char* observerName){
-
   observerList.erase(observerName);
 };
 
 void InputManager::notifyAll(const char* eventName){
-
   for( const auto& [key, observer] : observerList ){
     observer->onNotify(eventName);
   }

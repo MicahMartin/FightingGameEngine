@@ -52,9 +52,14 @@ void Graphics::init(int w, int h){
   // windowSurface = SDL_GetWindowSurface(window);
 }
 
-void Graphics::update(){
-  // flip buffer
+void Graphics::update(){ }
+
+void Graphics::clear() {
+    // flip buffer
   SDL_RenderClear(renderer);
+
+}
+void Graphics::present() {
   SDL_RenderPresent(renderer);
 }
 

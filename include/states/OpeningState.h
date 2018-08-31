@@ -2,6 +2,7 @@
 #define _OpeningState_h
 
 #include "states/GameState.h"
+#include "scenes/OpeningScene.h"
 #include "Game.h"
 
 class OpeningState : public GameState{
@@ -19,10 +20,11 @@ public:
   void update();
   void draw();
 
+  Scene* getCurrentScene();
+  void setCurrentScene(Scene* scene);
+
 private:
   Game* game;
-  uint16_t controllerState;
-  uint8_t stickState;
-  // Scene* currentScene;
+  Scene* currentScene;
 };
 #endif /* ifndef _openingState_h */
