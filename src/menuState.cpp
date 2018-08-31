@@ -36,7 +36,8 @@ void MenuState::enter() {
 
 void MenuState::exit() { 
 
-  printf("leaving the opening state! \n");
+  printf("leaving the menu state! \n");
+  delete this;
   // cleanup
 }
 
