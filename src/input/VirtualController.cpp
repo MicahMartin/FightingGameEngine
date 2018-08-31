@@ -1,10 +1,10 @@
-#include "input/VirtualController.h"
-#include "input/InputManager.h"
-
 #include <bitset>
 #include <iostream>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include "input/VirtualController.h"
+#include "input/InputManager.h"
+
 
 
 VirtualController::VirtualController() {}

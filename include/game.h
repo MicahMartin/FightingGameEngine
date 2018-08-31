@@ -12,26 +12,26 @@ public:
   Game();
   ~Game();
 
+  void init();
+  void update();
+
   // state manager
   void changeState(GameState* newState);
   GameState* getCurrentState();
-  void update();
+
    
   // observer
   void onNotify(const char* message);
 
-  void init();
-  bool stillRunning();
-
   // getters setters
+  bool stillRunning();
   InputManager* getInputManager();
 
 private:
   /* data */
   Graphics coreGraphics;
-  // TODO: make this a list of input managers
   InputManager inputManager;
-  GameState* gameState;
+  GameState* currentState;
   bool running;
 };
 #endif /* ifndef _Game_h */

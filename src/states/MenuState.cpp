@@ -1,8 +1,9 @@
-#include "states/MenuState.h"
-#include "Game.h"
-#include "input/VirtualController.h"
 #include <bitset>
 #include <iostream>
+#include "input/VirtualController.h"
+#include "states/MenuState.h"
+#include "states/OpeningState.h"
+#include "Game.h"
 
 MenuState::MenuState(Game* gameP){
   // set game pointer
@@ -13,23 +14,6 @@ MenuState::MenuState(Game* gameP){
 
 MenuState::~MenuState(){}
 
-void MenuState::update(){
-
-  uint8_t stickState = p1Controller->getState();
-
-  printf("inside the menu state heres current state of controller %d\n", stickState);
-
-  if(stickState == VirtualController::DOWNLEFT){
-    printf("Stick is in downleft state");
-    return;
-  }
-
-}
-
-void MenuState::draw(){
-  // printf("inside the opening state, heres current state of virtual controller %d\n", stickState);
-}
-
 void MenuState::enter() {
   // setCurrentScene(new OpeningScene);
 }
@@ -37,13 +21,32 @@ void MenuState::enter() {
 void MenuState::exit() { 
 
   printf("leaving the menu state! \n");
-  delete this;
-  // cleanup
+  //cleanup
 }
 
 void MenuState::pause() { }
 
 void MenuState::resume() { }
+
+GameState* MenuState::handleInput(uint16_t inputBits) {
+
+  uint8_t stickState = (inputBits & 0x0f);
+  printf("in menu, the current bitset for input %s\n", std::bitset<16>(inputBits).to_string().c_str());
+
+  switch (stickState) {
+    case VirtualController::DOWNLEFT:
+      return new OpeningState(game);
+    break;
+      
+    default:
+      return NULL;
+  }
+}
+
+void MenuState::update(){ printf("updating the menu state\n"); }
+
+void MenuState::draw(){ }
+
 
 //void MenuState::setCurrentScene(Scene* scene){
 

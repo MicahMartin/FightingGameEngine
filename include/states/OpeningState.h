@@ -3,15 +3,11 @@
 
 #include "states/GameState.h"
 #include "Game.h"
-#include "input/VirtualController.h"
 
 class OpeningState : public GameState{
 public:
   OpeningState(Game* game);
   ~OpeningState();
-
-  void update();
-  void draw();
 
   void enter();
   void exit();
@@ -19,13 +15,14 @@ public:
   void pause();
   void resume();
 
-  // gamestate
-  // Scene* getCurrentScene();
-  // void setCurrentScene(Scene* scene);
+  GameState* handleInput(uint16_t inputBits);
+  void update();
+  void draw();
 
 private:
   Game* game;
-  VirtualController* p1Controller;
+  uint16_t controllerState;
+  uint8_t stickState;
   // Scene* currentScene;
 };
 #endif /* ifndef _openingState_h */

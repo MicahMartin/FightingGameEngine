@@ -1,23 +1,24 @@
 #ifndef _MenuState_h
 #define _MenuState_h
 
+#include "input/VirtualController.h"
 #include "states/GameState.h"
 #include "Game.h"
-#include "input/VirtualController.h"
 
 class MenuState : public GameState{
 public:
   MenuState(Game* game);
   ~MenuState();
 
-  void update();
-  void draw();
-
   void enter();
   void exit();
 
   void pause();
   void resume();
+
+  GameState* handleInput(uint16_t inputBits);
+  void update();
+  void draw();
 
   // gamestate
   // Scene* getCurrentScene();

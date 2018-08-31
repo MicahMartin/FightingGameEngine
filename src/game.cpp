@@ -1,9 +1,9 @@
-#include "Game.h"
+#include <iostream>
 // TODO: abstract virtual controller into player 
 #include "input/VirtualController.h"
 // TODO: Abstract state and scene
 #include "states/OpeningState.h"
-#include <iostream>
+#include "Game.h"
 
 Game::Game(){}
 Game::~Game(){}
@@ -28,9 +28,13 @@ void Game::update(){
   // and input manager will need to know of the player object, so might as well couple player object to this class
   // until I can feel out a better approach
   inputManager.update();
-  // std::cout << "Heres the current inputs bit" << std::bitset<32>(lastInput.getKeyCode()) << std::endl;
-  // gameState is passed a reference to this object so it can call changeState and read input from getVirtualController();
-  gameState->update();
+
+  GameState* nextState = currentState->handleInput(inputManager.getVirtualController()->getState());
+  if(nextState){
+    changeState(nextState);
+  }
+
+  currentState->update();
   // the current state holds a pointer to the currrent scene
   // scene has a surface pointer with all the pixels that need to be
   // written and swapped this frame
@@ -42,22 +46,23 @@ void Game::update(){
 }
 
 void Game::changeState(GameState* newState) {
-  // call exit on current gameState for cleanup logic
-  if(gameState){
-    gameState->exit();
+  // call exit on current currentState for cleanup logic
+  if(currentState){
+    currentState->exit();
+    delete currentState;
   }
-  // call enter on next gameState for enter logic
+  // call enter on next currentState for enter logic
   newState->enter();
-  gameState = newState;
+  currentState = newState;
 }
 
 // TODO: push / pop state so we can have state stack.. useful for something like a pause state on top of a game state
 //void Game::pushState(GameState* newState) {}
-//void Game::popState(GameState* newState) {}
+//void Game::popState() {}
 
 GameState* Game::getCurrentState() {
 
-  return gameState;
+  return currentState;
 }
 
 void Game::onNotify(const char* eventName) {
