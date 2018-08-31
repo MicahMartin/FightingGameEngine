@@ -1,4 +1,4 @@
-#include "gameTexture.h"
+#include "graphics/GameTexture.h"
 #include <cmath>
 #include <stdexcept>
 

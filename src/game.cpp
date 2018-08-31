@@ -1,8 +1,8 @@
-#include "game.h"
+#include "Game.h"
 // TODO: abstract virtual controller into player 
-#include "virtualController.h"
+#include "input/VirtualController.h"
 // TODO: Abstract state and scene
-#include "openingState.h"
+#include "states/OpeningState.h"
 #include <iostream>
 
 Game::Game(){}

@@ -1,8 +1,8 @@
-#ifndef _openingScene_h
-#define _openingScene_h
+#ifndef _OpeningScene_h
+#define _OpeningScene_h
 
-#include "scene.h"
-#include "gameTexture.h"
+#include "Scene.h"
+#include "graphics/GameTexture.h"
 #include <vector>
 
 class OpeningScene : public Scene{

@@ -1,5 +1,5 @@
-#include "openingScene.h"
-#include "gameTexture.h"
+#include "scenes/OpeningScene.h"
+#include "graphics/GameTexture.h"
 #include <SDL2_image/SDL_image.h>
 
 OpeningScene::OpeningScene(){

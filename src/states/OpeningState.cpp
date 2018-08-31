@@ -1,7 +1,7 @@
-#include "openingState.h"
-#include "menuState.h"
-#include "game.h"
-#include "virtualController.h"
+#include "states/OpeningState.h"
+#include "states/MenuState.h"
+#include "Game.h"
+#include "input/VirtualController.h"
 #include <bitset>
 #include <iostream>
 

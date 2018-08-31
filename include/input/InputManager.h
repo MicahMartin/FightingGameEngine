@@ -1,14 +1,14 @@
-#ifndef _inputManager_h
-#define _inputManager_h 
+#ifndef _InputManager_h
+#define _InputManager_h 
 
 #include <SDL2/SDL.h>
 #include <vector>
 #include <unordered_map>
 #include <map>
-#include "observer.h"
-#include "subject.h"
-#include "virtualController.h"
 #include "pugixml.hpp"
+#include "observer/Observer.h"
+#include "observer/Subject.h"
+#include "input/VirtualController.h"
 
 
 

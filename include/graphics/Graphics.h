@@ -1,5 +1,5 @@
-#ifndef _graphics_h
-#define _graphics_h
+#ifndef _Graphics_h
+#define _Graphics_h
 
 #include <SDL2_image/SDL_image.h>
 //#include <SDL2/SDL_opengl.h>

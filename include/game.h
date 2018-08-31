@@ -1,10 +1,10 @@
-#ifndef _game_h
-#define _game_h
+#ifndef _Game_h
+#define _Game_h
 
-#include "graphics.h"
-#include "inputManager.h"
-#include "gameState.h"
-#include "observer.h"
+#include "graphics/Graphics.h"
+#include "input/InputManager.h"
+#include "states/GameState.h"
+#include "observer/Observer.h"
 
 
 class Game : public Observer{
@@ -34,4 +34,4 @@ private:
   GameState* gameState;
   bool running;
 };
-#endif /* ifndef _game_h */
+#endif /* ifndef _Game_h */

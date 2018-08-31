@@ -1,5 +1,5 @@
-#ifndef _gameTexture_h
-#define _gameTexture_h 
+#ifndef _GameTexture_h
+#define _GameTexture_h 
 #include <SDL2_image/SDL_image.h>
 
 class GameTexture{
@@ -17,4 +17,4 @@ private:
   int height;
   /* data */
 };
-#endif /* ifndef _gameTexture_h */
+#endif /* ifndef _GameTexture_h */

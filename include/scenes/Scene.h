@@ -1,7 +1,8 @@
-#ifndef _scene_h
-#define _scene_h 
+#ifndef _Scene_h
+#define _Scene_h 
+
 #include <SDL2_image/SDL_image.h>
-#include <gameTexture.h>
+#include "graphics/GameTexture.h"
 
 // Base class for all game scenes. 
 // init method & update method

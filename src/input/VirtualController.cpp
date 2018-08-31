@@ -1,5 +1,5 @@
-#include "virtualController.h"
-#include "inputManager.h"
+#include "input/VirtualController.h"
+#include "input/InputManager.h"
 
 #include <bitset>
 #include <iostream>

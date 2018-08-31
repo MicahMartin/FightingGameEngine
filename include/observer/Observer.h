@@ -1,5 +1,5 @@
-#ifndef _observer_h
-#define _observer_h
+#ifndef _Observer_h
+#define _Observer_h
 
 
 // The messenger, whoever called notify() and notified their observers

@@ -8,8 +8,8 @@ set(MY_CXX_COMPILE_FEATURES cxx_generic_lambdas cxx_range_for cxx_strong_enums)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/build)
 
-file(GLOB SOURCE src/*.cpp)
-file(GLOB HEADER include/*.h)
+file(GLOB_RECURSE SOURCE src/*.cpp)
+file(GLOB_RECURSE HEADER include/*.h)
 
 find_package(PkgConfig REQUIRED)
 find_package(OpenGL REQUIRED)

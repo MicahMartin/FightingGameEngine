@@ -1,5 +1,5 @@
-#ifndef _imageSurface_h
-#define _imageSurface_h
+#ifndef _ImageSurface_h
+#define _ImageSurface_h
 
 #include <SDL2_image/SDL_image.h>
 

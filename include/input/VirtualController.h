@@ -1,9 +1,9 @@
-#ifndef _virtualController_h
-#define _virtualController_h 
+#ifndef _VirtualController_h
+#define _VirtualController_h 
 
 #include <vector>
 #include <SDL2/SDL.h>
-#include "observer.h"
+#include "observer/Observer.h"
 
 class VirtualController : public Observer{
 public:

@@ -1,5 +1,5 @@
-#ifndef _input_h
-#define _input_h
+#ifndef _Input_h
+#define _Input_h
 
 #include <SDL2/SDL.h>
 #include <boost/functional/hash.hpp>

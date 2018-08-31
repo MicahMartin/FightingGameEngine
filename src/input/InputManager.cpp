@@ -1,4 +1,4 @@
-#include "inputManager.h"
+#include "input/InputManager.h"
 #include <iostream>
 #include <fstream>
 #include "pugixml.hpp"

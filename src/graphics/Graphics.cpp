@@ -1,4 +1,4 @@
-#include "graphics.h"
+#include "graphics/Graphics.h"
 #include <cmath>
 #include <stdexcept>
 

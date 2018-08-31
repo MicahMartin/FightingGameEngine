@@ -3,9 +3,9 @@
 #include <SDL2_image/SDL_image.h>
 #include <stdexcept>
 
-#include "graphics.h"
-#include "game.h"
-#include "imageSurface.h"
+#include "graphics/Graphics.h"
+#include "graphics/ImageSurface.h"
+#include "Game.h"
 
 
 int main(int argc, char *argv[]){
