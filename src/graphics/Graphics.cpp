@@ -55,11 +55,14 @@ void Graphics::init(int w, int h){
 void Graphics::update(){ }
 
 void Graphics::clear() {
-    // flip buffer
+  // flip buffer
+  // wrapping these methods for convenience. not sure how useful these 'hooks' will be in the future
   SDL_RenderClear(renderer);
 
 }
 void Graphics::present() {
+  // present back buffer
+  // wrapping these methods for convenience. not sure how useful these 'hooks' will be in the future
   SDL_RenderPresent(renderer);
 }
 

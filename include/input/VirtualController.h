@@ -1,7 +1,6 @@
 #ifndef _VirtualController_h
 #define _VirtualController_h 
 
-#include <vector>
 #include <SDL2/SDL.h>
 #include "observer/Observer.h"
 

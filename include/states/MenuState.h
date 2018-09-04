@@ -1,7 +1,7 @@
 #ifndef _MenuState_h
 #define _MenuState_h
 
-#include "input/VirtualController.h"
+#include <vector>
 #include "states/GameState.h"
 #include "Game.h"
 
@@ -20,11 +20,7 @@ public:
   void update();
   void draw();
 
-  Scene* getCurrentScene();
-  void setCurrentScene(Scene* scene);
-
 private:
   Game* game;
-  Scene* currentScene;
 };
-#endif /* ifndef _openingState_h */
+#endif

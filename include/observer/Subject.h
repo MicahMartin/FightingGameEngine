@@ -2,7 +2,6 @@
 #define _Subject_h
 
 #include "Observer.h"
-#include <vector>
 
 // The messenger, whoever called notify() and notified their observers
 // observer can observe many subjects

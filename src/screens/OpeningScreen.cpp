@@ -1,9 +1,9 @@
-#include "scenes/OpeningScene.h"
+#include "screens/OpeningScreen.h"
 #include "graphics/GameTexture.h"
 #include <SDL2_image/SDL_image.h>
 
-OpeningScene::OpeningScene(Graphics* graphics) : graphics(graphics){
-  printf("Entering opening scene \n");
+OpeningScreen::OpeningScreen(Graphics* graphics) : graphics(graphics){
+  printf("Entering opening screen \n");
 
   renderer = graphics->getRenderer();
   // set the screen to all white 
@@ -19,18 +19,18 @@ OpeningScene::OpeningScene(Graphics* graphics) : graphics(graphics){
   addTexture(sprite);
 }
 
-OpeningScene::~OpeningScene(){
+OpeningScreen::~OpeningScreen(){
 }
 
-void OpeningScene::init(){ }
+void OpeningScreen::init(){ }
 
-void OpeningScene::update(){
+void OpeningScreen::update(){
  // Fill screen with purple 
- //printf("updating the scene \n");
+ //printf("updating the screen \n");
  // foreach in texture vector, call render
 }
 
-void OpeningScene::draw() {
+void OpeningScreen::draw() {
   for (auto gameTexture : textureList) {
     gameTexture->render(renderer);
   }
@@ -38,9 +38,9 @@ void OpeningScene::draw() {
 
 
 
-void OpeningScene::addTexture(GameTexture* gText) {
+void OpeningScreen::addTexture(GameTexture* gText) {
   textureList.push_back(gText);
 }
-void OpeningScene::removeTexture(int index) {
+void OpeningScreen::removeTexture(int index) {
   textureList.erase(textureList.begin() + index);
 }

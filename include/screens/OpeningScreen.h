@@ -1,15 +1,15 @@
-#ifndef _OpeningScene_h
-#define _OpeningScene_h
+#ifndef _OpeningScreen_h
+#define _OpeningScreen_h
 
 #include <vector>
 #include "graphics/GameTexture.h"
 #include "graphics/Graphics.h"
-#include "Scene.h"
+#include "Screen.h"
 
-class OpeningScene : public Scene{
+class OpeningScreen : public Screen{
 public:
-  OpeningScene(Graphics* graphics);
-  ~OpeningScene();
+  OpeningScreen(Graphics* graphics);
+  ~OpeningScreen();
 
   void init();
   void update();

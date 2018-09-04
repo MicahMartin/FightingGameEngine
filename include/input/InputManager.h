@@ -2,7 +2,6 @@
 #define _InputManager_h 
 
 #include <SDL2/SDL.h>
-#include <vector>
 #include <unordered_map>
 #include <map>
 #include "pugixml.hpp"

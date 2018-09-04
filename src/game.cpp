@@ -1,14 +1,14 @@
 #include <iostream>
 // TODO: abstract virtual controller into player 
 #include "input/VirtualController.h"
-// TODO: Abstract state and scene
+// TODO: Abstract state and screen
 #include "states/OpeningState.h"
 #include "Game.h"
 
 Game::Game(){}
 Game::~Game(){}
 
-void Game::init(){
+void Game::init() {
   coreGraphics.init(640,480);
   inputManager.init();
   running = true;
@@ -21,7 +21,7 @@ void Game::init(){
   changeState(new OpeningState(this));
 }
 
-void Game::update(){
+void Game::update() {
   // dont wanna couple inputmanager to state here, but in the future virtualController will belong to a player object
   // and input manager will need to know of the player object, so might as well couple player object to this class
   // until I can feel out a better approach
@@ -35,10 +35,10 @@ void Game::update(){
 
   currentState->update();
 
-  // the current state holds a pointer to the currrent scene
-  // scene has a surface pointer with all the pixels that need to be
+  // the current state holds a pointer to the currrent screen
+  // screen has a surface pointer with all the pixels that need to be
   // written and swapped this frame
-  // TODO: might need to decouple currentState and currentScene?
+  // TODO: might need to decouple currentState and currentScreen?
   coreGraphics.clear();
   currentState->draw();
   coreGraphics.present();
@@ -54,10 +54,6 @@ void Game::changeState(GameState* newState) {
   newState->enter();
   currentState = newState;
 }
-
-// TODO: push / pop state so we can have state stack.. useful for something like a pause state on top of a game state
-//void Game::pushState(GameState* newState) {}
-//void Game::popState() {}
 
 GameState* Game::getCurrentState() {
   return currentState;
@@ -79,11 +75,11 @@ void Game::onNotify(const char* eventName) {
   }
 }
 
-bool Game::stillRunning(){
+bool Game::stillRunning() {
   return running;
 }
 
-InputManager* Game::getInputManager(){
+InputManager* Game::getInputManager() {
   return &inputManager;
 }
 

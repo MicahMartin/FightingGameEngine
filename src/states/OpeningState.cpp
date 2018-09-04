@@ -13,7 +13,9 @@ OpeningState::~OpeningState() {
 
 void OpeningState::enter() {
   printf("Entered the opening state");
-  currentScene = new OpeningScene(game->getGraphics());
+  setCurrentScreen(new OpeningScreen(game->getGraphics()));
+  pushState(new MenuState(game));
+  pushState(new MenuState(game));
 }
 
 void OpeningState::exit() { 
@@ -24,7 +26,7 @@ void OpeningState::pause() { }
 
 void OpeningState::resume() { }
 
-GameState* OpeningState::handleInput(uint16_t inputBits){
+GameState* OpeningState::handleInput(uint16_t inputBits) {
   printf("in opening, heres the current bitset for input %s\n", std::bitset<16>(inputBits).to_string().c_str());
 
   uint8_t stickState = (inputBits & 0x0f);
@@ -44,13 +46,5 @@ void OpeningState::update() {
 
 void OpeningState::draw() {
   // printf("inside the opening state, heres current state of virtual controller %d\n", stickState);
-  currentScene->draw();
-}
-
-void OpeningState::setCurrentScene(Scene* scene){
- currentScene = scene; 
-}
-
-Scene* OpeningState::getCurrentScene(){
-  return currentScene;
+  currentScreen->draw();
 }

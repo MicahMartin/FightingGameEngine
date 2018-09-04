@@ -13,7 +13,7 @@ MenuState::MenuState(Game* game) : game(game) {
 MenuState::~MenuState(){ }
 
 void MenuState::enter() {
-  // setCurrentScene(new OpeningScene);
+  // setCurrentScreen(new OpeningScreen);
 }
 
 void MenuState::exit() { 
@@ -44,14 +44,5 @@ void MenuState::update(){
 }
 
 void MenuState::draw(){ 
-  //currentScene->draw();
-}
-
-
-void MenuState::setCurrentScene(Scene* scene){
- currentScene = scene; 
-}
-
-Scene* MenuState::getCurrentScene(){
-  return currentScene;
+  //currentScreen->draw();
 }

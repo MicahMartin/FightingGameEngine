@@ -1,8 +1,9 @@
 #ifndef _OpeningState_h
 #define _OpeningState_h
 
+#include <vector>
 #include "states/GameState.h"
-#include "scenes/OpeningScene.h"
+#include "screens/OpeningScreen.h"
 #include "Game.h"
 
 class OpeningState : public GameState{
@@ -20,11 +21,7 @@ public:
   void update();
   void draw();
 
-  Scene* getCurrentScene();
-  void setCurrentScene(Scene* scene);
-
 private:
   Game* game;
-  Scene* currentScene;
 };
-#endif /* ifndef _openingState_h */
+#endif
