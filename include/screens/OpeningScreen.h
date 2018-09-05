@@ -22,6 +22,5 @@ private:
   std::vector<GameTexture*> textureList;
   Graphics* graphics;
   SDL_Renderer* renderer;
-  /* data */
 };
-#endif /* ifndef  _openingScne_h */
+#endif

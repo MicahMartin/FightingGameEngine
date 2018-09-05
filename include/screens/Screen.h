@@ -22,4 +22,4 @@ public:
 
   
 };
-#endif /* ifndef _screen_h */
+#endif

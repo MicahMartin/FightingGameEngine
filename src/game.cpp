@@ -9,22 +9,24 @@ Game::Game(){}
 Game::~Game(){}
 
 void Game::init() {
+  running = true;
+
+  // init stuff
   coreGraphics.init(640,480);
   inputManager.init();
-  running = true;
+
   // register with input manager so we can catch quit messages
   inputManager.addObserver("game", this);
 
 
   printf("Successful intialization\n");
 
+  // set the state to the title screen
   changeState(new OpeningState(this));
 }
 
 void Game::update() {
-  // dont wanna couple inputmanager to state here, but in the future virtualController will belong to a player object
-  // and input manager will need to know of the player object, so might as well couple player object to this class
-  // until I can feel out a better approach
+  // read input event stack for this frame and send to virtual controllers
   inputManager.update();
 
   // pass input to currentState. Might return a new state or stay in the same state

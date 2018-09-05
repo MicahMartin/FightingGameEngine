@@ -3,8 +3,8 @@
 
 #include "graphics/Graphics.h"
 #include "input/InputManager.h"
-#include "states/GameState.h"
 #include "observer/Observer.h"
+#include "states/GameState.h"
 
 
 class Game : public Observer{
@@ -29,10 +29,9 @@ public:
   Graphics* getGraphics();
 
 private:
-  /* data */
   Graphics coreGraphics;
   InputManager inputManager;
   GameState* currentState;
   bool running;
 };
-#endif /* ifndef _Game_h */
+#endif
