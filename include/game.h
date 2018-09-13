@@ -5,6 +5,7 @@
 #include "input/InputManager.h"
 #include "observer/Observer.h"
 #include "states/GameState.h"
+#include "states/StateCollection.h"
 
 
 class Game : public Observer{
@@ -18,18 +19,6 @@ public:
   // state manager
   void changeState(GameState* newState);
   GameState* getCurrentState();
-
-  void pushState(GameState* state) {
-    stateList.push_back(state);
-  };
-
-  void popState() {
-    if(!stateList.empty()){
-      stateList.pop_back();
-    }
-  };
-
-
    
   // observer
   void onNotify(const char* message);
@@ -42,7 +31,7 @@ public:
 private:
   Graphics coreGraphics;
   InputManager inputManager;
-  std::vector<GameState*> stateList;
+  std::vector<StateCollection*> stateList;
   GameState* currentState;
   bool running;
   int gameTime = 0;

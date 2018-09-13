@@ -1,8 +1,6 @@
 #include <iostream>
-// TODO: abstract virtual controller into player 
 #include "input/VirtualController.h"
-// TODO: Abstract state and screen
-#include "states/OpeningState.h"
+#include "states/StateCollection.h"
 #include "Game.h"
 
 Game::Game(){}
@@ -15,14 +13,13 @@ void Game::init() {
   coreGraphics.init(640,480);
   inputManager.init();
 
+  printf("Successful intialization\n");
+
   // register with input manager so we can catch quit messages
   inputManager.addObserver("game", this);
 
-
-  printf("Successful intialization\n");
-
   // set the state to the title screen
-  changeState(new OpeningState(this));
+  stateList.push_back(new StateCollection());
 }
 
 void Game::update() {
@@ -31,10 +28,8 @@ void Game::update() {
   inputManager.update();
 
   // pass input to currentState. Might return a new state or stay in the same state
-  GameState* newState = currentState->handleInput(inputManager.getVirtualController()->getState());
-  if(newState){
-    changeState(newState);
-  }
+  currentState = stateList.back()->getCurrentState();
+  currentState->handleInput(inputManager.getVirtualController()->getState());
 
   currentState->update();
 

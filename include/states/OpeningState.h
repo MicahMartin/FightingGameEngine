@@ -3,25 +3,22 @@
 
 #include <vector>
 #include "states/GameState.h"
+#include "states/StateCollection.h"
 #include "screens/OpeningScreen.h"
-#include "Game.h"
 
 class OpeningState : public GameState{
 public:
-  OpeningState(Game* game);
+  OpeningState(StateCollection* stateCollection);
   ~OpeningState();
 
   void enter();
   void exit();
-
-  void pause();
-  void resume();
 
   GameState* handleInput(uint16_t inputBits);
   void update();
   void draw();
 
 private:
-  Game* game;
+  StateCollection* stateCollection;
 };
 #endif

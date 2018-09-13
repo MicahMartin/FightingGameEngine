@@ -5,7 +5,7 @@
 #include "states/OpeningState.h"
 #include "Game.h"
 
-MenuState::MenuState(Game* game) : game(game) {
+MenuState::MenuState(StateCollection* stateCollection) : stateCollection(stateCollection){
   // set game pointer
   // get virtual controller pointer(s) from game pointer
 }
@@ -21,17 +21,14 @@ void MenuState::exit() {
   //cleanup
 }
 
-void MenuState::pause() { }
-
-void MenuState::resume() { }
-
 GameState* MenuState::handleInput(uint16_t inputBits) {
   uint8_t stickState = (inputBits & 0x0f);
   printf("in menu, the current bitset for input %s\n", std::bitset<16>(inputBits).to_string().c_str());
 
   switch (stickState) {
     case VirtualController::DOWNLEFT:
-      return new OpeningState(game);
+      printf("woohoo\n");
+      stateCollection->swapLast();
     break;
       
     default:

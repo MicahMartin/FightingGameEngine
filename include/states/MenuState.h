@@ -7,20 +7,17 @@
 
 class MenuState : public GameState{
 public:
-  MenuState(Game* game);
+  MenuState(StateCollection* stateCollection);
   ~MenuState();
 
   void enter();
   void exit();
-
-  void pause();
-  void resume();
 
   GameState* handleInput(uint16_t inputBits);
   void update();
   void draw();
 
 private:
-  Game* game;
+  StateCollection* stateCollection;
 };
 #endif

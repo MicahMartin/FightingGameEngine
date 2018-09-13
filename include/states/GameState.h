@@ -12,8 +12,12 @@ public:
   virtual void enter() = 0;
   virtual void exit() = 0;
 
-  virtual void pause() = 0;
-  virtual void resume() = 0;
+  void pause() {
+    paused = true;
+  }
+  void resume() {
+    paused = false;
+  }
 
   virtual GameState* handleInput(uint16_t inputBits) = 0;
   virtual void update() = 0;
@@ -29,5 +33,6 @@ public:
 
 protected:
   Screen* currentScreen;
+  bool paused = false;
 };
 #endif
