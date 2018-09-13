@@ -27,7 +27,7 @@ void VirtualController::setBit(uint16_t bit) {
 void VirtualController::clearBit(uint16_t bit) {
   currentState &= ~bit;
   printf("counter: %d\n", counter);
-  //inputHistory.at(counter).push_back(currentState);
+  inputHistory.at(counter).push_back(currentState);
 }
 
 void VirtualController::printLastFewFrames() {
