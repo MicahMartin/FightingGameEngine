@@ -26,6 +26,7 @@ void Game::init() {
 }
 
 void Game::update() {
+  gameTime++;
   // read input event stack for this frame and send to virtual controllers
   inputManager.update();
 
@@ -44,6 +45,11 @@ void Game::update() {
   coreGraphics.clear();
   currentState->draw();
   coreGraphics.present();
+
+  if(gameTime == 300){
+    printf("LAST 5 seconds of input!!\n");
+    inputManager.getVirtualController()->printLastFewFrames();
+  }
 
 }
 

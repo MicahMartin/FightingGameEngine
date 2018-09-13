@@ -14,7 +14,6 @@
 class InputManager : public Subject{
 
 public:
-  uint16_t inputBits;
   InputManager();
   ~InputManager();
   // runnable?

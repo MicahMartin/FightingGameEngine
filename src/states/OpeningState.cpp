@@ -14,8 +14,6 @@ OpeningState::~OpeningState() {
 void OpeningState::enter() {
   printf("Entered the opening state");
   setCurrentScreen(new OpeningScreen(game->getGraphics()));
-  pushState(new MenuState(game));
-  pushState(new MenuState(game));
 }
 
 void OpeningState::exit() { 
@@ -27,8 +25,6 @@ void OpeningState::pause() { }
 void OpeningState::resume() { }
 
 GameState* OpeningState::handleInput(uint16_t inputBits) {
-  printf("in opening, heres the current bitset for input %s\n", std::bitset<16>(inputBits).to_string().c_str());
-
   uint8_t stickState = (inputBits & 0x0f);
   switch (stickState) {
     case VirtualController::DOWNRIGHT:
@@ -41,7 +37,7 @@ GameState* OpeningState::handleInput(uint16_t inputBits) {
 }
 
 void OpeningState::update() {
-  printf("updating the opening state\n");
+  //printf("updating the opening state\n");
 }
 
 void OpeningState::draw() {

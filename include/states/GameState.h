@@ -15,16 +15,6 @@ public:
   virtual void pause() = 0;
   virtual void resume() = 0;
 
-  void pushState(GameState* state) {
-    stateList.push_back(state);
-  };
-
-  void popState() {
-    if(!stateList.empty()){
-      stateList.pop_back();
-    }
-  };
-
   virtual GameState* handleInput(uint16_t inputBits) = 0;
   virtual void update() = 0;
   virtual void draw() = 0;
@@ -39,6 +29,5 @@ public:
 
 protected:
   Screen* currentScreen;
-  std::vector<GameState*> stateList;
 };
 #endif

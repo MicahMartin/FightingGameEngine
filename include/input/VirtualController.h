@@ -1,6 +1,7 @@
 #ifndef _VirtualController_h
 #define _VirtualController_h 
 
+#include <vector>
 #include <SDL2/SDL.h>
 #include "observer/Observer.h"
 
@@ -11,10 +12,12 @@ public:
 
   void init();
 
-  void update(uint16_t inputBits);
+  void update();
 
-  // void setBit(uint16_t bit);
-  // void clearBit(uint16_t bit);
+  void setBit(uint16_t bit);
+  void clearBit(uint16_t bit);
+
+  void printLastFewFrames();
 
   //void setStickState();
   //void setState(int stickState, bool addToHistory);
@@ -62,9 +65,8 @@ private:
 
   uint16_t currentState = NOINPUT;
   uint8_t stickState = NOINPUT;
-  // chargeTimer[0] is down charge, chargeTimer[1] is backCharge
-  int chargeTimer[1];
-
+  int counter = 0;
+  std::vector<std::vector<uint16_t>> inputHistory{1};
   // This stuff will be in the player class
 };
 

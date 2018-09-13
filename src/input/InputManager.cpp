@@ -31,19 +31,21 @@ void InputManager::update() {
 
     switch (event.type) {
       case SDL_KEYDOWN:
-        inputBits |= bConf[event.key.keysym.sym];
+        printf("SDL KEYDOWN\n");
+        virtualController.setBit(bConf[event.key.keysym.sym]);
       break;
 
       case SDL_KEYUP:
-        inputBits &= ~bConf[event.key.keysym.sym];
+        printf("SDL KEYUP\n");
+        virtualController.clearBit(bConf[event.key.keysym.sym]);
       break;
 
       case SDL_JOYBUTTONDOWN:
-        inputBits |= bConf[event.jbutton.button];
+        virtualController.setBit(bConf[event.jbutton.button]);
       break;
 
       case SDL_JOYBUTTONUP:
-        inputBits &= ~bConf[event.jbutton.button];
+        virtualController.clearBit(bConf[event.jbutton.button]);
       break;
 
       // TODO
@@ -59,8 +61,7 @@ void InputManager::update() {
       break;
     }
   }
-
-  virtualController.update(inputBits);
+  virtualController.update();
 }
 
 VirtualController* InputManager::getVirtualController(){

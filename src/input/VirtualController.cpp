@@ -11,13 +11,35 @@ VirtualController::VirtualController() { }
 VirtualController::~VirtualController() { } 
 void VirtualController::init() { }
 
-void VirtualController::update(uint16_t inputBits) {
-  // printf("currentState %d \n", currentState);
-  // std::cout << "Heres the current byte of input" << std::bitset<16>(inputByte) << std::endl;
-  // printf("heres the current byte of input %s\n", std::bitset<16>(inputEnum).to_string().c_str());
+void VirtualController::update() {
   // set lowest nibble to stick state
-  currentState = inputBits;
-  stickState = (inputBits & 0x0f);
+  stickState = (currentState& 0x0f);
+  inputHistory.push_back(std::vector<uint16_t>());
+  counter++;
+}
+
+void VirtualController::setBit(uint16_t bit) {
+  currentState |= bit;
+  printf("counter: %d\n", counter);
+  inputHistory.at(counter).push_back(currentState);
+}
+
+void VirtualController::clearBit(uint16_t bit) {
+  currentState &= ~bit;
+  printf("counter: %d\n", counter);
+  //inputHistory.at(counter).push_back(currentState);
+}
+
+void VirtualController::printLastFewFrames() {
+  for (int i = 0; i < inputHistory.size(); ++i) {
+    if (inputHistory[i].size() > 0) {
+      for (auto input : inputHistory[i]) {
+        printf("Frame:%d stickState: %s\n", i, std::bitset<16>(input).to_string().c_str());
+      }
+    }
+  }
+  printf("input history size: %d\n", (int)inputHistory.size());
+
 }
 
 uint16_t VirtualController::getState() {

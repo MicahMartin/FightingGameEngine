@@ -19,6 +19,17 @@ public:
   void changeState(GameState* newState);
   GameState* getCurrentState();
 
+  void pushState(GameState* state) {
+    stateList.push_back(state);
+  };
+
+  void popState() {
+    if(!stateList.empty()){
+      stateList.pop_back();
+    }
+  };
+
+
    
   // observer
   void onNotify(const char* message);
@@ -31,7 +42,9 @@ public:
 private:
   Graphics coreGraphics;
   InputManager inputManager;
+  std::vector<GameState*> stateList;
   GameState* currentState;
   bool running;
+  int gameTime = 0;
 };
 #endif
