@@ -1,13 +1,12 @@
 #ifndef _MenuState_h
 #define _MenuState_h
 
-#include <vector>
+#include "states/StateManager.h"
 #include "states/GameState.h"
-#include "Game.h"
 
 class MenuState : public GameState{
 public:
-  MenuState(StateCollection* stateCollection);
+  MenuState(StateManager* stateManager);
   ~MenuState();
 
   void enter();
@@ -18,6 +17,6 @@ public:
   void draw();
 
 private:
-  StateCollection* stateCollection;
+  StateManager* stateManager;
 };
 #endif

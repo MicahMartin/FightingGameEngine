@@ -1,14 +1,12 @@
 #ifndef _OpeningState_h
 #define _OpeningState_h
 
-#include <vector>
+#include "states/StateManager.h"
 #include "states/GameState.h"
-#include "states/StateCollection.h"
-#include "screens/OpeningScreen.h"
 
 class OpeningState : public GameState{
 public:
-  OpeningState(StateCollection* stateCollection);
+  OpeningState(StateManager* stateManager);
   ~OpeningState();
 
   void enter();
@@ -19,6 +17,6 @@ public:
   void draw();
 
 private:
-  StateCollection* stateCollection;
+  StateManager* stateManager;
 };
 #endif

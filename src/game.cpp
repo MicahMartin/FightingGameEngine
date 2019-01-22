@@ -1,6 +1,6 @@
 #include <iostream>
 #include "input/VirtualController.h"
-#include "states/StateCollection.h"
+#include "states/OpeningState.h"
 #include "Game.h"
 
 Game::Game(){}
@@ -13,13 +13,14 @@ void Game::init() {
   coreGraphics.init(640,480);
   inputManager.init();
 
-  printf("Successful intialization\n");
+  printf("Successful Init baybe\n");
 
   // register with input manager so we can catch quit messages
   inputManager.addObserver("game", this);
 
   // set the state to the title screen
-  stateList.push_back(new StateCollection());
+  stateManager.pushState(new OpeningState(getStateManager()));
+  printf("state pushed\n");
 }
 
 void Game::update() {
@@ -28,8 +29,8 @@ void Game::update() {
   inputManager.update();
 
   // pass input to currentState. Might return a new state or stay in the same state
-  currentState = stateList.back()->getCurrentState();
-  currentState->handleInput(inputManager.getVirtualController()->getState());
+  GameState* currentState = stateManager.getState();
+  currentState->handleInput(inputManager.getVirtualController()->getStickState());
 
   currentState->update();
 
@@ -40,26 +41,6 @@ void Game::update() {
   coreGraphics.clear();
   currentState->draw();
   coreGraphics.present();
-
-  if(gameTime == 300){
-    printf("LAST 5 seconds of input!!\n");
-    inputManager.getVirtualController()->printLastFewFrames();
-  }
-
-}
-
-void Game::changeState(GameState* newState) {
-  // call exit on current currentState for cleanup logic
-  if(currentState){
-    currentState->exit();
-    delete currentState;
-  }
-  newState->enter();
-  currentState = newState;
-}
-
-GameState* Game::getCurrentState() {
-  return currentState;
 }
 
 void Game::onNotify(const char* eventName) {
@@ -88,4 +69,8 @@ InputManager* Game::getInputManager() {
 
 Graphics* Game::getGraphics() {
   return &coreGraphics;
+}
+
+StateManager* Game::getStateManager() {
+  return &stateManager;
 }

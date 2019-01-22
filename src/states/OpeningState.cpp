@@ -1,11 +1,9 @@
 #include <bitset>
-#include <iostream>
-#include "input/VirtualController.h"
 #include "states/OpeningState.h"
 #include "states/MenuState.h"
-#include "Game.h"
+#include "input/InputManager.h"
 
-OpeningState::OpeningState(StateCollection* stateCollection) : stateCollection(stateCollection) { }
+OpeningState::OpeningState(StateManager* stateManager) : stateManager(stateManager) { }
 
 OpeningState::~OpeningState() { 
   printf("openingState destructor called");
@@ -17,24 +15,18 @@ void OpeningState::enter() {
 
 void OpeningState::exit() { 
   printf("leaving the opening state! \n");
-  stateCollection->popState();
+  //cleanup
+  delete this;
 }
 
 GameState* OpeningState::handleInput(uint16_t inputBits) {
-  uint8_t stickState = (inputBits & 0x0f);
-  switch (stickState) {
-    case VirtualController::DOWNRIGHT:
-      // Menu state is behind this state, we are ok to swap.
-      stateCollection->swapLast();
-    break;
-
-    default:
-      return NULL;
+  if(inputBits == InputManager::DOWNRIGHT){
+    printf("downright fierce\n");
+    stateManager->pushState(new MenuState(stateManager));
   }
 }
 
 void OpeningState::update() {
-  //printf("updating the opening state\n");
 }
 
 void OpeningState::draw() {

@@ -1,11 +1,8 @@
 #include <bitset>
-#include <iostream>
-#include "input/VirtualController.h"
 #include "states/MenuState.h"
-#include "states/OpeningState.h"
-#include "Game.h"
+#include "input/InputManager.h"
 
-MenuState::MenuState(StateCollection* stateCollection) : stateCollection(stateCollection){
+MenuState::MenuState(StateManager* stateManager) : stateManager(stateManager) {
   // set game pointer
   // get virtual controller pointer(s) from game pointer
 }
@@ -19,25 +16,17 @@ void MenuState::enter() {
 void MenuState::exit() { 
   printf("leaving the menu state! \n");
   //cleanup
+  delete this;
 }
 
 GameState* MenuState::handleInput(uint16_t inputBits) {
-  uint8_t stickState = (inputBits & 0x0f);
-  printf("in menu, the current bitset for input %s\n", std::bitset<16>(inputBits).to_string().c_str());
-
-  switch (stickState) {
-    case VirtualController::DOWNLEFT:
-      printf("woohoo\n");
-      stateCollection->swapLast();
-    break;
-      
-    default:
-      return NULL;
+  if(inputBits == InputManager::DOWNLEFT){
+    printf("downLEFT BABY\n");
+    stateManager->popState();
   }
 }
 
 void MenuState::update(){
-  printf("updating the menu state\n"); 
 }
 
 void MenuState::draw(){ 

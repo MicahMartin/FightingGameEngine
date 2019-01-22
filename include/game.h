@@ -3,10 +3,8 @@
 
 #include "graphics/Graphics.h"
 #include "input/InputManager.h"
+#include "states/StateManager.h"
 #include "observer/Observer.h"
-#include "states/GameState.h"
-#include "states/StateCollection.h"
-
 
 class Game : public Observer{
 public:
@@ -16,24 +14,20 @@ public:
   void init();
   void update();
 
-  // state manager
-  void changeState(GameState* newState);
-  GameState* getCurrentState();
-   
+  bool stillRunning();
+
+  Graphics* getGraphics();
+  InputManager* getInputManager();
+  StateManager* getStateManager();
+
   // observer
   void onNotify(const char* message);
 
-  // getters setters
-  bool stillRunning();
-  InputManager* getInputManager();
-  Graphics* getGraphics();
-
 private:
-  Graphics coreGraphics;
-  InputManager inputManager;
-  std::vector<StateCollection*> stateList;
-  GameState* currentState;
   bool running;
   int gameTime = 0;
+  Graphics coreGraphics;
+  InputManager inputManager;
+  StateManager stateManager;
 };
 #endif

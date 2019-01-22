@@ -12,16 +12,16 @@ public:
   virtual void enter() = 0;
   virtual void exit() = 0;
 
+  virtual GameState* handleInput(uint16_t inputBits) = 0;
+  virtual void update() = 0;
+  virtual void draw() = 0;
+
   void pause() {
     paused = true;
   }
   void resume() {
     paused = false;
   }
-
-  virtual GameState* handleInput(uint16_t inputBits) = 0;
-  virtual void update() = 0;
-  virtual void draw() = 0;
 
   Screen* getCurrentScreen() {
     return currentScreen;

@@ -31,12 +31,10 @@ void InputManager::update() {
 
     switch (event.type) {
       case SDL_KEYDOWN:
-        printf("SDL KEYDOWN\n");
         virtualController.setBit(bConf[event.key.keysym.sym]);
       break;
 
       case SDL_KEYUP:
-        printf("SDL KEYUP\n");
         virtualController.clearBit(bConf[event.key.keysym.sym]);
       break;
 
