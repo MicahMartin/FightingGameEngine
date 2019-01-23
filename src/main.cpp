@@ -16,8 +16,8 @@ int main(int argc, char *argv[]){
 
   try{
     myGame.init();
-  }catch( const char* message ){
-    printf("Error initializing subsystems %s\n", message);
+  }catch(const std::exception& e){
+    printf("Error initializing subsystems %s\n", e.what());
     return -1;
   }
   double FPS = 1000/60;
