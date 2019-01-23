@@ -21,6 +21,8 @@ void OpeningState::exit() {
 }
 
 GameState* OpeningState::handleInput(uint16_t inputBits) {
+  // Ok this obviously isnt the right way to go about this. Maybe register for specific sdl events in inputManager through obs/subj? 
+  // There should only be one active state at a time
   if(inputBits == InputManager::DOWNRIGHT){
     printf("downright fierce\n");
     internalState = 2;
