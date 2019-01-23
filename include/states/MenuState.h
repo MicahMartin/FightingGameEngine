@@ -6,17 +6,18 @@
 
 class MenuState : public GameState{
 public:
-  MenuState(StateManager* stateManager);
+  MenuState();
   ~MenuState();
 
   void enter();
   void exit();
 
   GameState* handleInput(uint16_t inputBits);
-  void update();
+  void update(StateManager* stateManager);
   void draw();
 
 private:
-  StateManager* stateManager;
+  std::string menu[3] = {"Option one!", "Option Two!", "Option Three!"};
+  int menuCounter = 0;
 };
 #endif

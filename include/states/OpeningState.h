@@ -6,17 +6,17 @@
 
 class OpeningState : public GameState{
 public:
-  OpeningState(StateManager* stateManager);
+  OpeningState();
   ~OpeningState();
 
   void enter();
   void exit();
 
   GameState* handleInput(uint16_t inputBits);
-  void update();
+  void update(StateManager* stateManager);
   void draw();
 
 private:
-  StateManager* stateManager;
+  int internalState = 0;
 };
 #endif

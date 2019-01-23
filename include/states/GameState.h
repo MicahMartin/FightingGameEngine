@@ -5,6 +5,7 @@
 #include <vector>
 #include "screens/Screen.h"
 
+class StateManager;
 class GameState{
 public:
   virtual ~GameState() { };
@@ -13,7 +14,7 @@ public:
   virtual void exit() = 0;
 
   virtual GameState* handleInput(uint16_t inputBits) = 0;
-  virtual void update() = 0;
+  virtual void update(StateManager* stateManager) = 0;
   virtual void draw() = 0;
 
   void pause() {

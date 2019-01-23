@@ -3,7 +3,8 @@
 #include "states/MenuState.h"
 #include "input/InputManager.h"
 
-OpeningState::OpeningState(StateManager* stateManager) : stateManager(stateManager) { }
+OpeningState::OpeningState(){ 
+}
 
 OpeningState::~OpeningState() { 
   printf("openingState destructor called");
@@ -22,11 +23,15 @@ void OpeningState::exit() {
 GameState* OpeningState::handleInput(uint16_t inputBits) {
   if(inputBits == InputManager::DOWNRIGHT){
     printf("downright fierce\n");
-    stateManager->pushState(new MenuState(stateManager));
+    internalState = 2;
   }
+  // update internal state
 }
 
-void OpeningState::update() {
+void OpeningState::update(StateManager* stateManager) {
+  if (internalState == 2) {
+    stateManager->pushState(new MenuState());
+  }
 }
 
 void OpeningState::draw() {

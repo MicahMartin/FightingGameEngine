@@ -3,26 +3,26 @@
 #include <stdexcept>
 #include <iostream>
 
-GameTexture::GameTexture(){
+GameTexture::GameTexture(SDL_Renderer* renderer):renderer(renderer){
 }
 GameTexture::~GameTexture(){
 }
 
-bool GameTexture::loadTexture(const char* path, SDL_Renderer* rend){
+bool GameTexture::loadTexture(const char* path){
   SDL_Surface* img = IMG_Load(path);
   if(img == NULL){
     printf("Error loading image with path %s, error: %s", path, IMG_GetError());
     return false;
   }
 
-  texture = SDL_CreateTextureFromSurface(rend, img);
+  texture = SDL_CreateTextureFromSurface(renderer, img);
   SDL_FreeSurface(img);
 
   return true;
 }
 
-void GameTexture::render(SDL_Renderer* rend) {
-  SDL_RenderCopy(rend, texture, NULL, &textRect);
+void GameTexture::render() {
+  SDL_RenderCopy(renderer, texture, NULL, &textRect);
 }
 
 void GameTexture::setDimensions(int xCord, int yCord, int width, int height) { 

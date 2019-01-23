@@ -3,6 +3,7 @@
 
 #include <SDL2_image/SDL_image.h>
 #include "graphics/GameTexture.h"
+#include "graphics/Graphics.h"
 
 // Base class for all game screens. 
 // init method & update method

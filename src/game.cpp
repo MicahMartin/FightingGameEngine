@@ -19,7 +19,7 @@ void Game::init() {
   inputManager.addObserver("game", this);
 
   // set the state to the title screen
-  stateManager.pushState(new OpeningState(getStateManager()));
+  stateManager.pushState(new OpeningState());
   printf("state pushed\n");
 }
 
@@ -32,7 +32,7 @@ void Game::update() {
   GameState* currentState = stateManager.getState();
   currentState->handleInput(inputManager.getVirtualController()->getStickState());
 
-  currentState->update();
+  currentState->update(&stateManager);
 
   // the current state holds a pointer to the currrent screen
   // screen has a surface pointer with all the pixels that need to be

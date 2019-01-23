@@ -8,7 +8,7 @@
 
 class OpeningScreen : public Screen{
 public:
-  OpeningScreen(Graphics* graphics);
+  OpeningScreen();
   ~OpeningScreen();
 
   void init();
@@ -20,7 +20,5 @@ public:
 
 private:
   std::vector<GameTexture*> textureList;
-  Graphics* graphics;
-  SDL_Renderer* renderer;
 };
 #endif

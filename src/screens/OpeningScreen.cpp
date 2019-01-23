@@ -2,21 +2,21 @@
 #include "graphics/GameTexture.h"
 #include <SDL2_image/SDL_image.h>
 
-OpeningScreen::OpeningScreen(Graphics* graphics) : graphics(graphics){
+OpeningScreen::OpeningScreen(){
   printf("Entering opening screen \n");
 
-  renderer = graphics->getRenderer();
+  // renderer = graphics->getRenderer();
   // set the screen to all white 
-  GameTexture* background = new GameTexture();
-  background->loadTexture("../data/background.jpg", renderer);
-  background->setDimensions(0,0,400,400);
+  // GameTexture* background = new GameTexture();
+  // background->loadTexture("../data/background.jpg");
+  // background->setDimensions(0,0,400,400);
 
-  GameTexture* sprite = new GameTexture();
-  sprite->loadTexture("../data/megaMan.jpg", renderer);
-  sprite->setDimensions(0,0,50,50);
+  // GameTexture* sprite = new GameTexture();
+  // sprite->loadTexture("../data/megaMan.jpg");
+  // sprite->setDimensions(0,0,50,50);
 
-  addTexture(background);
-  addTexture(sprite);
+  // addTexture(background);
+  // addTexture(sprite);
 }
 
 OpeningScreen::~OpeningScreen(){
@@ -32,7 +32,7 @@ void OpeningScreen::update(){
 
 void OpeningScreen::draw() {
   for (auto gameTexture : textureList) {
-    gameTexture->render(renderer);
+    gameTexture->render();
   }
 }
 
