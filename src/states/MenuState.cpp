@@ -23,11 +23,9 @@ GameState* MenuState::handleInput(uint16_t inputBits) {
 
   if(inputBits == InputManager::DOWN){
     menuCounter == 2 ? menuCounter = 0 : menuCounter++;
-    printf("%s is the mother fucking option niggah\n", menu[menuCounter].c_str());
   }
   if(inputBits == InputManager::UP){
     menuCounter == 0 ? menuCounter = 2 : menuCounter--;
-    printf("%s is the mother fucking option niggah\n", menu[menuCounter].c_str());
   }
 }
 
