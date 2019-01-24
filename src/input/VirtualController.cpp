@@ -15,6 +15,7 @@ void VirtualController::update() {
   // set lowest nibble to stick state
   stickState = (currentState& 0x0f);
   // Refactor input history
+  std::cout << std::bitset<16>(stickState)<< std::endl;
 }
 
 void VirtualController::setBit(uint16_t bit) {

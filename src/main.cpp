@@ -20,6 +20,7 @@ int main(int argc, char *argv[]){
     printf("Error initializing subsystems %s\n", e.what());
     return -1;
   }
+
   double FPS = 1000/60;
 
   while ( myGame.stillRunning()) {

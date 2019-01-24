@@ -27,10 +27,12 @@ void Game::update() {
   gameTime++;
   // read input event stack for this frame and send to virtual controllers
   inputManager.update();
+  uint16_t stickState = inputManager.getVirtualController()->getStickState();
+  
 
   // pass input to currentState. Might return a new state or stay in the same state
   GameState* currentState = stateManager.getState();
-  currentState->handleInput(inputManager.getVirtualController()->getStickState());
+  currentState->handleInput(stickState);
 
   currentState->update(&stateManager);
 

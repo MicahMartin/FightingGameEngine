@@ -17,7 +17,7 @@ public:
   void draw();
 
 private:
-  std::string menu[3] = {"Option one!", "Option Two!", "Option Three!"};
+  enum menu { VERSUS, CONFIG };
   int menuCounter = 0;
 };
 #endif
