@@ -17,6 +17,5 @@ public:
   void draw();
 
 private:
-  int internalState = 0;
 };
 #endif

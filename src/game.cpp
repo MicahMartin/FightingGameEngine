@@ -13,14 +13,14 @@ void Game::init() {
   coreGraphics.init(640,480);
   inputManager.init();
 
-  printf("Successful Init baybe\n");
-
   // register with input manager so we can catch quit messages
   inputManager.addObserver("game", this);
 
   // set the state to the title screen
   stateManager.pushState(new OpeningState());
-  printf("state pushed\n");
+
+  printf("Successful Init baybe\n");
+
 }
 
 void Game::update() {
