@@ -6,6 +6,8 @@
 #include "screens/Screen.h"
 #include "input/VirtualController.h"
 
+class StateManager;
+
 class GameState{
 public:
   virtual ~GameState() { };
@@ -13,7 +15,7 @@ public:
   virtual void enter() = 0;
   virtual void exit() = 0;
 
-  virtual GameState* handleInput(VirtualController* vc) = 0;
+  virtual void handleInput(StateManager* sm, VirtualController* vc) = 0;
   virtual void update() = 0;
   virtual void draw() = 0;
 

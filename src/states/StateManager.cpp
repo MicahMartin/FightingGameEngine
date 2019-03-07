@@ -11,17 +11,25 @@ GameState* StateManager::getState(){
 }
 
 void StateManager::pushState(GameState* newState){
-  newState->enter();
+  if(!stateStack.empty()){
+    stateStack.top()->exit();
+  }
   stateStack.push(newState);
+  stateStack.top()->enter();
 }
 
 void StateManager::changeState(GameState* newState){
   // call exit on current currentState for cleanup logic
-  popState();
-  pushState(newState);
+  stateStack.top()->exit();
+  stateStack.pop();
+
+  stateStack.push(newState);
+  stateStack.top()->enter();
+
 }
 
 void StateManager::popState(){
-  getState()->exit();
+  stateStack.top()->exit();
   stateStack.pop();
+  stateStack.top()->enter();
 }

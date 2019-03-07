@@ -2,7 +2,8 @@
 #define _OpeningState_h
 
 #include "states/GameState.h"
-#include "input/VirtualController.h"
+#include "states/MenuState.h"
+#include "StateManager.h"
 
 class OpeningState : public GameState{
 public:
@@ -12,10 +13,11 @@ public:
   void enter();
   void exit();
 
-  GameState* handleInput(VirtualController* vc);
+  void handleInput(StateManager* sm, VirtualController* vc);
   void update();
   void draw();
 
 private:
+  MenuState mainMenu;
 };
 #endif

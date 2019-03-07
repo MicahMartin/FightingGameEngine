@@ -1,6 +1,5 @@
 #include <bitset>
 #include "states/OpeningState.h"
-#include "states/MenuState.h"
 #include "input/InputManager.h"
 
 OpeningState::OpeningState(){ 
@@ -16,16 +15,13 @@ void OpeningState::enter() {
 
 void OpeningState::exit() { 
   printf("leaving the opening state! \n");
-  //cleanup
-  delete this;
 }
 
-GameState* OpeningState::handleInput(VirtualController* vc) {
+void OpeningState::handleInput(StateManager* sm, VirtualController* vc) {
   if(vc->wasPressed(InputManager::DOWN)){
     printf("down was pressed, transitioning to menu state \n");
-    return new MenuState();
+    sm->pushState(&mainMenu);
   }
-  return this;
 }
 
 void OpeningState::update() {

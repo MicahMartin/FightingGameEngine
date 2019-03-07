@@ -1,5 +1,6 @@
 #include <bitset>
 #include "states/MenuState.h"
+#include "input/InputManager.h"
 
 MenuState::MenuState(){
   // set game pointer
@@ -9,17 +10,19 @@ MenuState::MenuState(){
 MenuState::~MenuState(){ }
 
 void MenuState::enter() {
-  // setCurrentScreen(new OpeningScreen);
+  printf("entered the menu state\n");
 }
 
 void MenuState::exit() { 
   printf("leaving the menu state! \n");
-  //cleanup
-  delete this;
 }
 
-GameState* MenuState::handleInput(VirtualController* vc) {
-  return this;
+void MenuState::handleInput(StateManager* sm, VirtualController* vc) {
+  if(vc->wasPressed(InputManager::DOWN)){
+    printf("up was pressed, transitioning back to opening state \n");
+    // return to title screen
+    sm->popState();
+  }
 }
 
 void MenuState::update(){

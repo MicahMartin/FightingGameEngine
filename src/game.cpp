@@ -32,16 +32,9 @@ void Game::update() {
 
   // pass input to currentState. Might return a new state or itself
   GameState* currentState = stateManager.getState();
-  GameState* newState = currentState->handleInput(vc);
-
-  if(newState != currentState){
-    // new state returned
-    printf("new state\n");
-    stateManager.changeState(newState);
-
-  }else{
-    currentState->update();
-  }
+  // this method modifies state stack
+  currentState->handleInput(getStateManager(), vc);
+  currentState->update();
 
   // the current state holds a pointer to the currrent screen
   // screen has a surface pointer with all the pixels that need to be

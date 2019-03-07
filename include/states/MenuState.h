@@ -2,7 +2,7 @@
 #define _MenuState_h
 
 #include "states/GameState.h"
-#include "input/VirtualController.h"
+#include "StateManager.h"
 
 class MenuState : public GameState{
 public:
@@ -12,7 +12,7 @@ public:
   void enter();
   void exit();
 
-  GameState* handleInput(VirtualController* vc);
+  void handleInput(StateManager* sm, VirtualController* vc);
   void update();
   void draw();
 
