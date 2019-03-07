@@ -17,7 +17,7 @@ public:
 
   virtual void handleInput(StateManager* sm, VirtualController* vc) = 0;
   virtual void update() = 0;
-  virtual void draw() = 0;
+  virtual void draw(SDL_Renderer* renderer) = 0;
 
   void pause() {
     paused = true;

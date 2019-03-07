@@ -30,9 +30,9 @@ void OpeningScreen::update(){
  // foreach in texture vector, call render
 }
 
-void OpeningScreen::draw() {
+void OpeningScreen::draw(SDL_Renderer* renderer) {
   for (auto gameTexture : textureList) {
-    gameTexture->render();
+    gameTexture->render(renderer);
   }
 }
 

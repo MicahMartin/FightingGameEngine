@@ -1,6 +1,7 @@
 #ifndef _Screen_h
 #define _Screen_h 
 
+#include <vector>
 #include <SDL2_image/SDL_image.h>
 #include "graphics/GameTexture.h"
 #include "graphics/Graphics.h"
@@ -16,11 +17,12 @@ class Screen{
 public:
   virtual void init() = 0;
   virtual void update() = 0;
-  virtual void draw() = 0;
+  virtual void draw(SDL_Renderer* renderer) = 0;
 
   virtual void addTexture(GameTexture* gText) = 0;
   virtual void removeTexture(int index) = 0;
 
-  
+protected:
+  std::vector<GameTexture*> textureList;
 };
 #endif

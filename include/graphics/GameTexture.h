@@ -4,11 +4,11 @@
 
 class GameTexture{
 public:
-  GameTexture(SDL_Renderer* renderer);
+  GameTexture();
   ~GameTexture();
 
-  bool loadTexture(const char* path);
-  void render();
+  bool loadTexture(SDL_Renderer* renderer, const char* path);
+  void render(SDL_Renderer* renderer);
 
   void setDimensions(int xCord, int yCord, int width, int height);
   std::pair<int, int> getDimensions();
@@ -17,7 +17,6 @@ public:
 private:
   SDL_Texture* texture;
   SDL_Rect textRect;
-  SDL_Renderer* renderer;
   int xCord, yCord, width, height;
   /* data */
 };

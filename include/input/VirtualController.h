@@ -24,6 +24,9 @@ public:
   bool wasPressed(uint16_t bit);
   bool wasReleased(uint16_t bit);
 
+  bool anyPressed();
+  bool anyReleased();
+
   void clearPressed();
   void clearReleased();
 

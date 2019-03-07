@@ -1,7 +1,6 @@
 #ifndef _OpeningScreen_h
 #define _OpeningScreen_h
 
-#include <vector>
 #include "graphics/GameTexture.h"
 #include "graphics/Graphics.h"
 #include "Screen.h"
@@ -13,12 +12,9 @@ public:
 
   void init();
   void update();
-  void draw();
+  void draw(SDL_Renderer* renderer);
 
   void addTexture(GameTexture* gText);
   void removeTexture(int index);
-
-private:
-  std::vector<GameTexture*> textureList;
 };
 #endif

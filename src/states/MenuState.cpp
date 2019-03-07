@@ -5,6 +5,7 @@
 MenuState::MenuState(){
   // set game pointer
   // get virtual controller pointer(s) from game pointer
+  printf("menuState constructor\n");
 }
 
 MenuState::~MenuState(){ }
@@ -28,6 +29,6 @@ void MenuState::handleInput(StateManager* sm, VirtualController* vc) {
 void MenuState::update(){
 }
 
-void MenuState::draw(){ 
+void MenuState::draw(SDL_Renderer* renderer){ 
   //currentScreen->draw();
 }

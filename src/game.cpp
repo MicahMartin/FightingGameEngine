@@ -19,18 +19,18 @@ void Game::init() {
   // set the state to the title screen
   stateManager.pushState(new OpeningState());
 
-  printf("Successful Init baybe\n");
+  printf("We Init\n");
 
 }
 
 void Game::update() {
   gameTime++;
-  // read input event stack for this frame and send to virtual controllers
+  // read input event stack for this frame and send to virtual controller(s)
   inputManager.update();
   VirtualController* vc = inputManager.getVirtualController();
   
 
-  // pass input to currentState. Might return a new state or itself
+  // pass input to currentState. side effects inbound
   GameState* currentState = stateManager.getState();
   // this method modifies state stack
   currentState->handleInput(getStateManager(), vc);
@@ -39,9 +39,8 @@ void Game::update() {
   // the current state holds a pointer to the currrent screen
   // screen has a surface pointer with all the pixels that need to be
   // written and swapped this frame
-  // TODO: might need to decouple currentState and currentScreen?
   coreGraphics.clear();
-  currentState->draw();
+  currentState->draw(coreGraphics.getRenderer());
   coreGraphics.present();
 }
 

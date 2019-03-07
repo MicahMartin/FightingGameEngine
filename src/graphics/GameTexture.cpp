@@ -3,12 +3,12 @@
 #include <stdexcept>
 #include <iostream>
 
-GameTexture::GameTexture(SDL_Renderer* renderer):renderer(renderer){
+GameTexture::GameTexture(){
 }
 GameTexture::~GameTexture(){
 }
 
-bool GameTexture::loadTexture(const char* path){
+bool GameTexture::loadTexture(SDL_Renderer* renderer, const char* path){
   SDL_Surface* img = IMG_Load(path);
   if(img == NULL){
     printf("Error loading image with path %s, error: %s", path, IMG_GetError());
@@ -21,7 +21,7 @@ bool GameTexture::loadTexture(const char* path){
   return true;
 }
 
-void GameTexture::render() {
+void GameTexture::render(SDL_Renderer* renderer) {
   SDL_RenderCopy(renderer, texture, NULL, &textRect);
 }
 
