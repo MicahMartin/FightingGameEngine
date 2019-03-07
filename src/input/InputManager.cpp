@@ -26,24 +26,30 @@ void InputManager::init() {
 
 void InputManager::update() {
   SDL_Event event;
+  virtualController.clearPressed();
+  virtualController.clearReleased();
 
   while( SDL_PollEvent(&event) != 0 ){
 
     switch (event.type) {
       case SDL_KEYDOWN:
         virtualController.setBit(bConf[event.key.keysym.sym]);
+        virtualController.isPressed(bConf[event.key.keysym.sym]);
       break;
 
       case SDL_KEYUP:
         virtualController.clearBit(bConf[event.key.keysym.sym]);
+        virtualController.isReleased(bConf[event.key.keysym.sym]);
       break;
 
       case SDL_JOYBUTTONDOWN:
         virtualController.setBit(bConf[event.jbutton.button]);
+        virtualController.isPressed(bConf[event.key.keysym.sym]);
       break;
 
       case SDL_JOYBUTTONUP:
         virtualController.clearBit(bConf[event.jbutton.button]);
+        virtualController.isReleased(bConf[event.key.keysym.sym]);
       break;
 
       // TODO

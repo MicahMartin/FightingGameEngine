@@ -7,11 +7,11 @@ OpeningState::OpeningState(){
 }
 
 OpeningState::~OpeningState() { 
-  printf("openingState destructor called");
+  printf("openingState destructor called\n");
 }
 
 void OpeningState::enter() {
-  printf("Entered the opening state");
+  printf("Entered the opening state\n");
 }
 
 void OpeningState::exit() { 
@@ -20,17 +20,15 @@ void OpeningState::exit() {
   delete this;
 }
 
-GameState* OpeningState::handleInput(uint16_t inputBits) {
-  // Ok this obviously isnt the right way to go about this. Maybe register for specific sdl events in inputManager through obs/subj? 
-  // There should only be one active state at a time
-//  if(inputBits == InputManager::DOWNRIGHT){
-//    printf("downright fierce\n");
-//    internalState = 2;
-//  }
-  // update internal state
+GameState* OpeningState::handleInput(VirtualController* vc) {
+  if(vc->wasPressed(InputManager::DOWN)){
+    printf("down was pressed, transitioning to menu state \n");
+    return new MenuState();
+  }
+  return this;
 }
 
-void OpeningState::update(StateManager* stateManager) {
+void OpeningState::update() {
 }
 
 void OpeningState::draw() {

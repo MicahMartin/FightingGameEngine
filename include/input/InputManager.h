@@ -74,7 +74,7 @@ private:
   std::unordered_map<uint32_t, uint16_t>  bConf;
 
   // would need to be careful about observing deleted objects since using pointers
-  std::map<const char*, Observer*> observerList;
+  std::unordered_map<const char*, Observer*> observerList;
   int numOfObservers;
 };
 

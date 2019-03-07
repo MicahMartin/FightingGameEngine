@@ -27,14 +27,21 @@ void Game::update() {
   gameTime++;
   // read input event stack for this frame and send to virtual controllers
   inputManager.update();
-  uint16_t stickState = inputManager.getVirtualController()->getStickState();
+  VirtualController* vc = inputManager.getVirtualController();
   
 
-  // pass input to currentState. Might return a new state or stay in the same state
+  // pass input to currentState. Might return a new state or itself
   GameState* currentState = stateManager.getState();
-  currentState->handleInput(stickState);
+  GameState* newState = currentState->handleInput(vc);
 
-  currentState->update(&stateManager);
+  if(newState != currentState){
+    // new state returned
+    printf("new state\n");
+    stateManager.changeState(newState);
+
+  }else{
+    currentState->update();
+  }
 
   // the current state holds a pointer to the currrent screen
   // screen has a surface pointer with all the pixels that need to be

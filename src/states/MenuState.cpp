@@ -1,6 +1,5 @@
 #include <bitset>
 #include "states/MenuState.h"
-#include "input/InputManager.h"
 
 MenuState::MenuState(){
   // set game pointer
@@ -19,17 +18,11 @@ void MenuState::exit() {
   delete this;
 }
 
-GameState* MenuState::handleInput(uint16_t inputBits) {
-
-  if(inputBits == InputManager::DOWN){
-    menuCounter == 2 ? menuCounter = 0 : menuCounter++;
-  }
-  if(inputBits == InputManager::UP){
-    menuCounter == 0 ? menuCounter = 2 : menuCounter--;
-  }
+GameState* MenuState::handleInput(VirtualController* vc) {
+  return this;
 }
 
-void MenuState::update(StateManager* stateManager){
+void MenuState::update(){
 }
 
 void MenuState::draw(){ 

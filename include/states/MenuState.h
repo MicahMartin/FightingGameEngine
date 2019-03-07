@@ -1,8 +1,8 @@
 #ifndef _MenuState_h
 #define _MenuState_h
 
-#include "states/StateManager.h"
 #include "states/GameState.h"
+#include "input/VirtualController.h"
 
 class MenuState : public GameState{
 public:
@@ -12,8 +12,8 @@ public:
   void enter();
   void exit();
 
-  GameState* handleInput(uint16_t inputBits);
-  void update(StateManager* stateManager);
+  GameState* handleInput(VirtualController* vc);
+  void update();
   void draw();
 
 private:
