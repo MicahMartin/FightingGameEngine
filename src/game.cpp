@@ -10,7 +10,7 @@ void Game::init() {
   running = true;
 
   // init stuff
-  coreGraphics.init(640,480);
+  graphics.init(640,480);
   inputManager.init();
 
   // register with input manager so we can catch quit messages
@@ -33,15 +33,15 @@ void Game::update() {
   // pass input to currentState. side effects inbound
   GameState* currentState = stateManager.getState();
   // this method modifies state stack
-  currentState->handleInput(getStateManager(), vc);
+  currentState->handleInput(&stateManager, vc);
   currentState->update();
 
   // the current state holds a pointer to the currrent screen
   // screen has a surface pointer with all the pixels that need to be
   // written and swapped this frame
-  coreGraphics.clear();
-  currentState->draw(coreGraphics.getRenderer());
-  coreGraphics.present();
+  graphics.clear();
+  currentState->draw();
+  graphics.present();
 }
 
 void Game::onNotify(const char* eventName) {
@@ -62,16 +62,4 @@ void Game::onNotify(const char* eventName) {
 
 bool Game::stillRunning() {
   return running;
-}
-
-InputManager* Game::getInputManager() {
-  return &inputManager;
-}
-
-Graphics* Game::getGraphics() {
-  return &coreGraphics;
-}
-
-StateManager* Game::getStateManager() {
-  return &stateManager;
 }

@@ -2,15 +2,6 @@
 #include <cmath>
 #include <stdexcept>
 
-Graphics::Graphics(){}
-
-Graphics::~Graphics(){
-  SDL_DestroyWindow(window);
-  SDL_DestroyRenderer(renderer);
-  IMG_Quit();
-  SDL_Quit();
-}
-
 void Graphics::init(int w, int h){
   width = w;
   height = h;

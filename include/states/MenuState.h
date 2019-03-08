@@ -14,7 +14,7 @@ public:
 
   void handleInput(StateManager* sm, VirtualController* vc);
   void update();
-  void draw(SDL_Renderer* renderer);
+  void draw();
 
 private:
   enum menu { VERSUS, CONFIG };

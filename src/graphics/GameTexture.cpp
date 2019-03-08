@@ -8,7 +8,7 @@ GameTexture::GameTexture(){
 GameTexture::~GameTexture(){
 }
 
-bool GameTexture::loadTexture(SDL_Renderer* renderer, const char* path){
+bool GameTexture::loadTexture(const char* path){
   SDL_Surface* img = IMG_Load(path);
   if(img == NULL){
     printf("Error loading image with path %s, error: %s", path, IMG_GetError());
@@ -21,7 +21,7 @@ bool GameTexture::loadTexture(SDL_Renderer* renderer, const char* path){
   return true;
 }
 
-void GameTexture::render(SDL_Renderer* renderer) {
+void GameTexture::render() {
   SDL_RenderCopy(renderer, texture, NULL, &textRect);
 }
 

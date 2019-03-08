@@ -17,7 +17,7 @@ class Screen{
 public:
   virtual void init() = 0;
   virtual void update() = 0;
-  virtual void draw(SDL_Renderer* renderer) = 0;
+  virtual void draw() = 0;
 
   virtual void addTexture(GameTexture* gText) = 0;
   virtual void removeTexture(int index) = 0;

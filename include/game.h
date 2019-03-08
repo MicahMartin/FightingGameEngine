@@ -15,18 +15,13 @@ public:
   void update();
 
   bool stillRunning();
-
-  Graphics* getGraphics();
-  InputManager* getInputManager();
-  StateManager* getStateManager();
-
   // observer
   void onNotify(const char* message);
 
 private:
   bool running;
   int gameTime = 0;
-  Graphics coreGraphics;
+  Graphics& graphics = Graphics::getInstance();
   InputManager inputManager;
   StateManager stateManager;
 };

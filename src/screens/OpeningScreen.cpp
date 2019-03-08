@@ -3,26 +3,25 @@
 #include <SDL2_image/SDL_image.h>
 
 OpeningScreen::OpeningScreen(){
-  printf("Entering opening screen \n");
-
-  // renderer = graphics->getRenderer();
-  // set the screen to all white 
-  // GameTexture* background = new GameTexture();
-  // background->loadTexture("../data/background.jpg");
-  // background->setDimensions(0,0,400,400);
-
-  // GameTexture* sprite = new GameTexture();
-  // sprite->loadTexture("../data/megaMan.jpg");
-  // sprite->setDimensions(0,0,50,50);
-
-  // addTexture(background);
-  // addTexture(sprite);
 }
 
 OpeningScreen::~OpeningScreen(){
 }
 
-void OpeningScreen::init(){ }
+void OpeningScreen::init(){ 
+  printf("init opening screen \n");
+
+  GameTexture* background = new GameTexture();
+  background->loadTexture("../data/background.jpg");
+  background->setDimensions(0,0,400,400);
+
+  GameTexture* sprite = new GameTexture();
+  sprite->loadTexture("../data/megaMan.jpg");
+  sprite->setDimensions(0,0,50,50);
+
+  addTexture(background);
+  addTexture(sprite);
+}
 
 void OpeningScreen::update(){
  // Fill screen with purple 
@@ -30,9 +29,9 @@ void OpeningScreen::update(){
  // foreach in texture vector, call render
 }
 
-void OpeningScreen::draw(SDL_Renderer* renderer) {
+void OpeningScreen::draw() {
   for (auto gameTexture : textureList) {
-    gameTexture->render(renderer);
+    gameTexture->render();
   }
 }
 

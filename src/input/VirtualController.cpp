@@ -45,7 +45,7 @@ bool VirtualController::wasReleased(uint16_t bit) {
 }
 
 bool VirtualController::anyPressed() {
-  bool anyPressed = pressedButtons.empty();
+  bool anyPressed = !pressedButtons.empty();
   return anyPressed;
 }
 

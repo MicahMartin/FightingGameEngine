@@ -12,7 +12,7 @@ public:
 
   void init();
   void update();
-  void draw(SDL_Renderer* renderer);
+  void draw();
 
   void addTexture(GameTexture* gText);
   void removeTexture(int index);

@@ -5,10 +5,13 @@
 //#include <SDL2/SDL_opengl.h>
 
 // handle SDL init, window stuff, and video buffer swapping at the end of every frame
-class Graphics{
+class Graphics final {
 public:
-  Graphics();
-  ~Graphics();
+  static Graphics& getInstance(){
+    static Graphics instance;
+    return instance;
+  };
+
   void init(int w, int h);
   void update();
 
@@ -26,8 +29,20 @@ public:
   //void renderBackGround(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
   //GLuint imgToTexture(const char *imageLocation);
 private:
-  SDL_Window* window = NULL;
-  SDL_Renderer* renderer = NULL;
+  Graphics() = default;
+  ~Graphics(){
+    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(renderer);
+    IMG_Quit();
+    SDL_Quit();
+  };
+  Graphics(const Graphics&) = delete;
+  Graphics& operator=(const Graphics&) = delete;
+  Graphics(Graphics&&) = delete;
+  Graphics& operator=(Graphics&&) = delete;
+
+  SDL_Window* window;
+  SDL_Renderer* renderer;
   int width;
   int height;
   // The sdlSurface is a data type with the pixel data 

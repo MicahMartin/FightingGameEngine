@@ -29,6 +29,6 @@ void MenuState::handleInput(StateManager* sm, VirtualController* vc) {
 void MenuState::update(){
 }
 
-void MenuState::draw(SDL_Renderer* renderer){ 
+void MenuState::draw(){ 
   //currentScreen->draw();
 }

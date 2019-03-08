@@ -6,6 +6,7 @@
 OpeningState::OpeningState(){ 
   printf("opening state constructor\n");
   currentScreen = new OpeningScreen();
+  currentScreen->init();
 }
 
 OpeningState::~OpeningState() { 
@@ -30,7 +31,7 @@ void OpeningState::handleInput(StateManager* sm, VirtualController* vc) {
 void OpeningState::update() {
 }
 
-void OpeningState::draw(SDL_Renderer* renderer) {
+void OpeningState::draw() {
   // printf("inside the opening state, heres current state of virtual controller %d\n", stickState);
-  currentScreen->draw(renderer);
+  currentScreen->draw();
 }
