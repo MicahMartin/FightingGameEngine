@@ -16,5 +16,7 @@ public:
 
   void addTexture(GameTexture* gText);
   void removeTexture(int index);
+private:
+  int screenTime;
 };
 #endif

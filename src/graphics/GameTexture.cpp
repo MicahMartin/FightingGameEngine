@@ -3,10 +3,8 @@
 #include <stdexcept>
 #include <iostream>
 
-GameTexture::GameTexture(){
-}
-GameTexture::~GameTexture(){
-}
+GameTexture::GameTexture(){ }
+GameTexture::~GameTexture(){ }
 
 bool GameTexture::loadTexture(const char* path){
   SDL_Surface* img = IMG_Load(path);
@@ -23,7 +21,33 @@ bool GameTexture::loadTexture(const char* path){
 
 void GameTexture::render() {
   SDL_RenderCopy(renderer, texture, NULL, &textRect);
+
 }
+
+void GameTexture::incTransperancy(){
+  alpha++;
+  setTransperancy(alpha);
+}
+
+void GameTexture::decTransperancy(){
+  alpha++;
+  setTransperancy(alpha);
+
+}
+
+void GameTexture::setTransperancy(uint8_t tran){
+  alpha = tran;
+  SDL_SetTextureAlphaMod(texture, alpha);
+}
+
+uint8_t GameTexture::getTransperancy(){
+  return alpha;
+}
+
+void GameTexture::setBlendMode(SDL_BlendMode mode){
+  SDL_SetTextureBlendMode(texture, mode);
+}
+
 
 void GameTexture::setDimensions(int xCord, int yCord, int width, int height) { 
   textRect.x = xCord;

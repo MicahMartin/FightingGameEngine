@@ -12,6 +12,9 @@ public:
   void enter();
   void exit();
 
+  void pause();
+  void resume();
+
   void handleInput(StateManager* sm, VirtualController* vc);
   void update();
   void draw();

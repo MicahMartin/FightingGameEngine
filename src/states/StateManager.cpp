@@ -12,14 +12,13 @@ GameState* StateManager::getState(){
 
 void StateManager::pushState(GameState* newState){
   if(!stateStack.empty()){
-    stateStack.top()->exit();
+    stateStack.top()->pause();
   }
   stateStack.push(newState);
   stateStack.top()->enter();
 }
 
 void StateManager::changeState(GameState* newState){
-  // call exit on current currentState for cleanup logic
   stateStack.top()->exit();
   stateStack.pop();
 
@@ -31,5 +30,5 @@ void StateManager::changeState(GameState* newState){
 void StateManager::popState(){
   stateStack.top()->exit();
   stateStack.pop();
-  stateStack.top()->enter();
+  stateStack.top()->resume();
 }

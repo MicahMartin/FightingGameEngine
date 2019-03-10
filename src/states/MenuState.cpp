@@ -3,8 +3,6 @@
 #include "input/InputManager.h"
 
 MenuState::MenuState(){
-  // set game pointer
-  // get virtual controller pointer(s) from game pointer
   printf("menuState constructor\n");
 }
 
@@ -16,6 +14,14 @@ void MenuState::enter() {
 
 void MenuState::exit() { 
   printf("leaving the menu state! \n");
+}
+
+void MenuState::pause() {
+  printf("pausing the menu state\n");
+}
+
+void MenuState::resume() { 
+  printf("resuming the menu state! \n");
 }
 
 void MenuState::handleInput(StateManager* sm, VirtualController* vc) {

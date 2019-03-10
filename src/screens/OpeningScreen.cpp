@@ -12,25 +12,31 @@ void OpeningScreen::init(){
   printf("init opening screen \n");
 
   GameTexture* background = new GameTexture();
-  background->loadTexture("../data/background.jpg");
-  background->setDimensions(0,0,400,400);
+  background->loadTexture("../data/images/background.jpg");
+  background->setBlendMode(SDL_BLENDMODE_BLEND);
+  background->setTransperancy(0);
+  background->setDimensions(0,0,640,480);
 
-  GameTexture* sprite = new GameTexture();
-  sprite->loadTexture("../data/megaMan.jpg");
-  sprite->setDimensions(0,0,50,50);
+  GameTexture* title = new GameTexture();
+  title->loadTexture("../data/images/uVAT4b.png");
+  title->setBlendMode(SDL_BLENDMODE_BLEND);
+  title->setTransperancy(0);
+  title->setDimensions(180,100,300,100);
 
   addTexture(background);
-  addTexture(sprite);
+  addTexture(title);
+  screenTime = 0;
 }
 
 void OpeningScreen::update(){
- // Fill screen with purple 
- //printf("updating the screen \n");
- // foreach in texture vector, call render
+  screenTime++;
 }
 
 void OpeningScreen::draw() {
   for (auto gameTexture : textureList) {
+    if(gameTexture->getTransperancy() != 255){
+      gameTexture->incTransperancy();
+    }
     gameTexture->render();
   }
 }
