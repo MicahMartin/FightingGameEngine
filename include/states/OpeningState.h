@@ -22,7 +22,7 @@ public:
   void draw();
 
 private:
-  MenuState* mainMenu;
-  OpeningScreen currentScreen;
+  MenuState mainMenu;
+  OpeningScreen openingScreen;
 };
 #endif

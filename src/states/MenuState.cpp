@@ -4,6 +4,20 @@
 
 MenuState::MenuState(){
   printf("menuState constructor\n");
+  menuScreen.init();
+
+  MenuItem versus;
+  versus.title = "versus";
+  MenuItem training;
+  training.title = "training";
+
+  MenuItem config;
+  config.title = "config";
+  MenuItem about;
+  about.title = "about";
+
+  mainMenu.menuItemArray.push_back(versus);
+  mainMenu.menuItemArray.push_back(training);
 }
 
 MenuState::~MenuState(){ }
@@ -25,16 +39,24 @@ void MenuState::resume() {
 }
 
 void MenuState::handleInput(StateManager* sm, VirtualController* vc) {
+  if(vc->wasPressed(InputManager::RIGHT)){
+    mainMenu.activate();
+  }
   if(vc->wasPressed(InputManager::DOWN)){
-    printf("up was pressed, transitioning back to opening state \n");
-    // return to title screen
+    mainMenu.moveCursorDown();
+  }
+  if(vc->wasPressed(InputManager::UP)){
+    mainMenu.moveCursorUp();
+  }
+  if(vc->wasPressed(InputManager::LEFT)){
     sm->popState();
   }
 }
 
 void MenuState::update(){
+  menuScreen.update();
 }
 
 void MenuState::draw(){ 
-  //currentScreen->draw();
+  menuScreen.draw();
 }

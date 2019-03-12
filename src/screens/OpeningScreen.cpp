@@ -18,10 +18,10 @@ void OpeningScreen::init(){
   background->setDimensions(0,0,640,480);
 
   GameTexture* title = new GameTexture();
-  title->loadTexture("../data/images/uVAT4b.png");
+  title->loadTexture("../data/images/title.png");
   title->setBlendMode(SDL_BLENDMODE_BLEND);
   title->setTransperancy(0);
-  title->setDimensions(180,100,300,100);
+  title->setDimensions(150,100,340,100);
 
   addTexture(background);
   addTexture(title);

@@ -5,6 +5,7 @@
 
 OpeningState::OpeningState(){ 
   printf("opening state constructor\n");
+  openingScreen.init();
 }
 
 OpeningState::~OpeningState() { 
@@ -13,8 +14,6 @@ OpeningState::~OpeningState() {
 
 void OpeningState::enter() {
   printf("Entered the opening state\n");
-  currentScreen.init();
-  mainMenu = new MenuState();
 }
 
 void OpeningState::exit() { 
@@ -30,17 +29,17 @@ void OpeningState::resume() {
 }
 
 void OpeningState::handleInput(StateManager* sm, VirtualController* vc) {
-  if(vc->anyPressed()){
-    printf("someting was pressed");
-    sm->pushState(mainMenu);
+  if(vc->wasPressed(InputManager::DOWN)){
+    printf("down was pressed\n");
+    sm->pushState(&mainMenu);
   }
 }
 
 void OpeningState::update() {
-  currentScreen.update();
+  openingScreen.update();
 }
 
 void OpeningState::draw() {
   // printf("inside the opening state, heres current state of virtual controller %d\n", stickState);
-  currentScreen.draw();
+  openingScreen.draw();
 }
