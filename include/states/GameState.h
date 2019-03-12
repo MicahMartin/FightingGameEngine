@@ -4,8 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "input/VirtualController.h"
-
-class StateManager;
+#include "StateManager.h"
 
 class GameState{
 public:
@@ -17,11 +16,12 @@ public:
   virtual void resume() = 0;
   virtual void pause() = 0;
 
-  virtual void handleInput(StateManager* sm, VirtualController* vc) = 0;
+  virtual void handleInput(VirtualController* vc) = 0;
   virtual void update() = 0;
   virtual void draw() = 0;
 
 protected:
   bool paused = false;
+  StateManager* stateManager = StateManager::getInstance();
 };
 #endif

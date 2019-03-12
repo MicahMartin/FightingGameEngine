@@ -1,10 +1,6 @@
 #include <bitset>
 #include "states/StateManager.h"
-
-StateManager::StateManager() { }
-
-StateManager::~StateManager() { 
-}
+#include "states/GameState.h"
 
 GameState* StateManager::getState(){
   return stateStack.top();

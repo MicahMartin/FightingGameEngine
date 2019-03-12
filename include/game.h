@@ -21,8 +21,8 @@ public:
 private:
   bool running;
   int gameTime = 0;
-  Graphics& graphics = Graphics::getInstance();
+  Graphics* graphics = Graphics::getInstance();
+  StateManager* stateManager = StateManager::getInstance();
   InputManager inputManager;
-  StateManager stateManager;
 };
 #endif

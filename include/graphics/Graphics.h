@@ -7,9 +7,9 @@
 // handle SDL init, window stuff, and video buffer swapping at the end of every frame
 class Graphics final {
 public:
-  static Graphics& getInstance(){
+  static Graphics* getInstance(){
     static Graphics instance;
-    return instance;
+    return &instance;
   };
 
   void init(int w, int h);

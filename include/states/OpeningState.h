@@ -4,7 +4,6 @@
 #include "states/GameState.h"
 #include "states/MenuState.h"
 #include "screens/OpeningScreen.h"
-#include "StateManager.h"
 
 class OpeningState : public GameState{
 public:
@@ -17,7 +16,7 @@ public:
   void pause();
   void resume();
 
-  void handleInput(StateManager* sm, VirtualController* vc);
+  void handleInput(VirtualController* vc);
   void update();
   void draw();
 

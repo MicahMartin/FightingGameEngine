@@ -8,13 +8,16 @@ MenuState::MenuState(){
 
   MenuItem versus;
   versus.title = "versus";
+  versus.callBack = []{
+    printf("Oh man this is a callback in c++ \n");
+    StateManager::getInstance()->popState();
+  };
   MenuItem training;
   training.title = "training";
-
-  MenuItem config;
-  config.title = "config";
-  MenuItem about;
-  about.title = "about";
+  training.callBack = []{
+    printf("Oh man this is a callback in c++ baby\n");
+    StateManager::getInstance()->popState();
+  };
 
   mainMenu.menuItemArray.push_back(versus);
   mainMenu.menuItemArray.push_back(training);
@@ -38,18 +41,19 @@ void MenuState::resume() {
   printf("resuming the menu state! \n");
 }
 
-void MenuState::handleInput(StateManager* sm, VirtualController* vc) {
-  if(vc->wasPressed(InputManager::RIGHT)){
-    mainMenu.activate();
+void MenuState::handleInput(VirtualController* vc) {
+  if(vc->wasPressed(InputManager::UP)){
+    mainMenu.moveCursorUp();
   }
   if(vc->wasPressed(InputManager::DOWN)){
     mainMenu.moveCursorDown();
   }
-  if(vc->wasPressed(InputManager::UP)){
-    mainMenu.moveCursorUp();
-  }
   if(vc->wasPressed(InputManager::LEFT)){
-    sm->popState();
+    // go back to title
+    stateManager->popState();
+  }
+  if(vc->wasPressed(InputManager::RIGHT)){
+    mainMenu.activate();
   }
 }
 

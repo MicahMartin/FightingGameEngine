@@ -10,14 +10,14 @@ void Game::init() {
   running = true;
 
   // init stuff
-  graphics.init(640,480);
+  graphics->init(640,480);
   inputManager.init();
 
   // register with input manager so we can catch quit messages
   inputManager.addObserver("game", this);
 
   // set the state to the title screen
-  stateManager.pushState(new OpeningState());
+  stateManager->pushState(new OpeningState());
 
   printf("We Init\n");
 
@@ -31,17 +31,17 @@ void Game::update() {
   
 
   // pass input to currentState. side effects inbound
-  GameState* currentState = stateManager.getState();
+  GameState* currentState = stateManager->getState();
   // this method modifies state stack
-  currentState->handleInput(&stateManager, vc);
+  currentState->handleInput(vc);
   currentState->update();
 
   // the current state holds a pointer to the currrent screen
   // screen has a surface pointer with all the pixels that need to be
   // written and swapped this frame
-  graphics.clear();
+  graphics->clear();
   currentState->draw();
-  graphics.present();
+  graphics->present();
 }
 
 void Game::onNotify(const char* eventName) {
