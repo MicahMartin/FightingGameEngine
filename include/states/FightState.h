@@ -4,8 +4,9 @@
 #include "states/GameState.h"
 #include "game_objects/Stage.h"
 #include "game_objects/Character.h"
+#include "screens/FightScreen.h"
 
-class FightState : public GameState{
+class FightState : public GameState {
 public:
   FightState();
   ~FightState();
@@ -24,5 +25,6 @@ private:
   Character* player1;
   Character* player2;
   Stage* stage;
+  FightScreen* currentScreen;
 };
 #endif

@@ -8,10 +8,11 @@ MenuState::MenuState(){
 
   MenuItem versus;
   versus.title = "versus";
-  versus.callBack = []{
-    printf("Oh man this is a callback in c++ \n");
-    StateManager::getInstance()->popState();
+  versus.callBack = [this]{
+    printf("Oh man this is a callback in c++! pushing the fightState \n");
+    StateManager::getInstance()->pushState(&fightState);
   };
+
   MenuItem training;
   training.title = "training";
   training.callBack = []{
@@ -19,6 +20,7 @@ MenuState::MenuState(){
     StateManager::getInstance()->popState();
   };
 
+  menuScreen.addTexture(&mainMenu.menuCursor.cursorTexture);
   mainMenu.menuItemArray.push_back(versus);
   mainMenu.menuItemArray.push_back(training);
 }

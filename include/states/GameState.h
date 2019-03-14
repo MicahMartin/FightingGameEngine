@@ -2,7 +2,6 @@
 #define _GameState_h
 
 #include <iostream>
-#include <vector>
 #include "input/VirtualController.h"
 #include "StateManager.h"
 

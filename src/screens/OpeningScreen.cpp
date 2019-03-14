@@ -44,8 +44,8 @@ void OpeningScreen::draw() {
 
 
 void OpeningScreen::addTexture(GameTexture* gText) {
-  textureList.push_back(gText);
+  Screen::addTexture(gText);
 }
 void OpeningScreen::removeTexture(int index) {
-  textureList.erase(textureList.begin() + index);
+  Screen::removeTexture(index);
 }

@@ -1,7 +1,7 @@
 #ifndef _StateDef_h
 #define _StateDef_h
 
-#include <unordered_set>
+#include <vector>
 #include "controllers/StateController.h"
 
 class StateDef {
@@ -11,6 +11,6 @@ public:
 
 private:
   int STATE_NUMBER;
-  std::unordered_set<StateController> controllers;
+  std::vector<StateController> controllers;
 };
 #endif

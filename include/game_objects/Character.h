@@ -9,9 +9,11 @@ public:
   Character();
   ~Character();
 
+  void update();
+  void draw();
+
 private:
-  StateDef currentState;
-  std::vector<int, int> position;
+  std::vector<std::pair<int, int>> position;
 };
 
 #endif

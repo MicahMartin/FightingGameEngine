@@ -3,9 +3,11 @@
 
 #include <functional>
 #include "states/GameState.h"
+#include "states/FightState.h"
+#include "states/ConfigState.h"
 #include "screens/MenuScreen.h"
 
-class MenuState : public GameState{
+class MenuState : public GameState {
 public:
   MenuState();
   ~MenuState();
@@ -32,26 +34,36 @@ private:
     std::function<void()> callBack;
   };
 
+  struct MenuCursor {
+    int position = 0;
+    GameTexture cursorTexture;
+  };
+
   struct Menu {
+    Menu(){
+      menuCursor.cursorTexture.loadTexture("../../data/images/cursor.png");
+      menuCursor.cursorTexture.setDimensions(150,100,25,25);
+    }
+
     std::vector<MenuItem> menuItemArray;
+    MenuCursor menuCursor;
+
     void moveCursorDown(){
-      printf("moving cursor down%d\n", menuCounter);
-      (menuCounter == menuItemArray.size() - 1) ? menuCounter = 0 : menuCounter++;
+      printf("moving cursor down%d\n", menuCursor.position);
+      (menuCursor.position == menuItemArray.size() - 1) ? menuCursor.position = 0 : menuCursor.position++;
     };
 
     void moveCursorUp(){
-      printf("moving cursor up%d\n", menuCounter);
-      menuCounter == 0 ? menuCounter = (menuItemArray.size() - 1) : menuCounter--;
+      printf("moving cursor up%d\n", menuCursor.position);
+      menuCursor.position == 0 ? menuCursor.position = (menuItemArray.size() - 1) : menuCursor.position--;
     };
 
     void activate(){
-      menuItemArray.at(menuCounter).doSomething();
+      menuItemArray.at(menuCursor.position).doSomething();
     };
-
-    private:
-    int menuCounter = 0;
   };
   Menu mainMenu;
-  int foobar = 10;
+  FightState fightState;
+  ConfigState configState;
 };
 #endif

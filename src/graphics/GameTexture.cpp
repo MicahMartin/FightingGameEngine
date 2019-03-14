@@ -49,6 +49,11 @@ void GameTexture::setBlendMode(SDL_BlendMode mode){
 }
 
 
+void GameTexture::setCords(int xCord, int yCord) { 
+  textRect.x = xCord;
+  textRect.y = yCord;
+}
+
 void GameTexture::setDimensions(int xCord, int yCord, int width, int height) { 
   textRect.x = xCord;
   textRect.y = yCord;
