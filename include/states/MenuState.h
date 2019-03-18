@@ -43,6 +43,7 @@ private:
     Menu(){
       menuCursor.cursorTexture.loadTexture("../../data/images/cursor.png");
       menuCursor.cursorTexture.setDimensions(150,100,25,25);
+
     }
 
     std::vector<MenuItem> menuItemArray;
