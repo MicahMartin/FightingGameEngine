@@ -26,12 +26,15 @@ private:
   MenuScreen menuScreen;
 
   struct MenuItem {
-    const char* title;
-    void doSomething(){
+    MenuItem(const char* title, std::function<void()> callBack): callBack(callBack), title(title){};
+
+    void onActivate(){
       printf("%s bouta do some stuff \n", title);
       callBack();
     };
+
     std::function<void()> callBack;
+    const char* title;
   };
 
   struct MenuCursor {
@@ -60,7 +63,7 @@ private:
     };
 
     void activate(){
-      menuItemArray.at(menuCursor.position).doSomething();
+      menuItemArray.at(menuCursor.position).onActivate();
     };
   };
   Menu mainMenu;
