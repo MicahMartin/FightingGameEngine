@@ -5,7 +5,7 @@
 #include "states/MenuState.h"
 #include "screens/OpeningScreen.h"
 
-class OpeningState : public GameState {
+class OpeningState : public GameState{
 public:
   OpeningState();
   ~OpeningState();
@@ -16,7 +16,7 @@ public:
   void pause();
   void resume();
 
-  void handleInput(VirtualController* input);
+  void handleInput(VirtualController* vc);
   void update();
   void draw();
 

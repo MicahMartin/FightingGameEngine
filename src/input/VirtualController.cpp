@@ -24,10 +24,20 @@ void VirtualController::update() {
   inputHistory.push_front(std::vector<uint16_t>{0});
 }
 
+bool VirtualController::wasPressed(VirtualController::Input input) {
+  for (uint16_t bytes : inputHistory.front()) {
+    if((bytes & input)){
+      return true;
+    }
+  }
+  return false;
+}
+
 void VirtualController::printStickState(){
   std::bitset<4> stickState(currentState);
   std::cout << stickState << std::endl;
 }
+
 uint16_t VirtualController::getState() {
   return currentState;
 }

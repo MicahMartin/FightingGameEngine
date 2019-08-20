@@ -4,19 +4,22 @@
 
 MenuState::MenuState(){
   printf("menuState constructor\n");
-  menuScreen.init();
+  fightState = new FightState();
+  menuScreen = new MenuScreen();
+  menuScreen->addTexture(&mainMenu.menuCursor.cursorTexture);
 
   MenuItem versus("versus", [this]{
     printf("pushing the fightState \n");
+    stateManager->pushState(fightState);
   });
 
-  MenuItem training("training", []{
-    printf("callback\n");
+  MenuItem config("config", [this]{
+    printf("not yet implemented\n");
+    stateManager->popState();
   });
 
-  menuScreen.addTexture(&mainMenu.menuCursor.cursorTexture);
   mainMenu.menuItemArray.push_back(versus);
-  mainMenu.menuItemArray.push_back(training);
+  mainMenu.menuItemArray.push_back(config);
 }
 
 MenuState::~MenuState(){ }
@@ -37,11 +40,26 @@ void MenuState::resume() {
   printf("resuming the menu state! \n");
 }
 
-void MenuState::handleInput(VirtualController* input) {
+void MenuState::handleInput(VirtualController* vc) {
+  if(vc->wasPressed(VirtualController::UP)){
+    mainMenu.moveCursorUp();
+  }
+  if(vc->wasPressed(VirtualController::DOWN)){
+    mainMenu.moveCursorDown();
+  }
+  if(vc->wasPressed(VirtualController::LEFT)){
+    // go back to title
+    stateManager->popState();
+  }
+  if(vc->wasPressed(VirtualController::RIGHT)){
+    mainMenu.activate();
+  }
 }
 
 void MenuState::update(){
+  menuScreen->update();
 }
 
 void MenuState::draw(){ 
+  menuScreen->draw();
 }

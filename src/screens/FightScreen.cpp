@@ -2,6 +2,12 @@
 
 FightScreen::FightScreen(){
   printf("the address of the screen %p\n", this);
+
+  GameTexture* stage = new GameTexture();
+  stage->loadTexture("../data/images/newGrid.png");
+  stage->setDimensions(0,0,640,480);
+
+  addTexture(stage);
 };
 FightScreen::~FightScreen(){};
 

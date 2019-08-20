@@ -20,6 +20,7 @@ void FightState::enter(){
 void FightState::exit(){ 
   delete player1;
   delete player2;
+  delete currentScreen;
 };
 
 void FightState::pause(){ };
@@ -29,4 +30,6 @@ void FightState::update(){ };
 
 void FightState::draw(){  
   currentScreen->draw();
+  player1->draw();
+  player2->draw();
 };

@@ -3,12 +3,6 @@
 #include <SDL2_image/SDL_image.h>
 
 OpeningScreen::OpeningScreen() {
-}
-
-OpeningScreen::~OpeningScreen() {
-}
-
-void OpeningScreen::init(){ 
   printf("init opening screen \n");
 
   GameTexture* background = new GameTexture();
@@ -26,6 +20,12 @@ void OpeningScreen::init(){
   addTexture(background);
   addTexture(title);
   screenTime = 0;
+}
+
+OpeningScreen::~OpeningScreen() {
+}
+
+void OpeningScreen::init(){ 
 }
 
 void OpeningScreen::update(){

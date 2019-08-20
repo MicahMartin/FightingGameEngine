@@ -11,7 +11,6 @@ void Game::init() {
 
   graphics.init(640,480);
   inputManager = new InputManager();
-  stateManager = new StateManager();
 
   // register with input manager so we can catch quit messages
   inputManager->init();

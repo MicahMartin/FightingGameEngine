@@ -9,20 +9,6 @@
 
 class VirtualController : public Observer {
 public:
-  VirtualController();
-  ~VirtualController();
-
-
-  void setBit(uint16_t bit);
-  void clearBit(uint16_t bit);
-
-  void update();
-
-  uint16_t getState();
-  uint8_t getStickState();
-  void printStickState();
-
-  void onNotify(const char* eventName);
 
   enum Input { 
     NOINPUT = 0,
@@ -56,6 +42,23 @@ public:
     MISC1 = 0x4000,
     MISC2 = 0x8000,
   };
+
+  VirtualController();
+  ~VirtualController();
+
+
+  void setBit(uint16_t bit);
+  void clearBit(uint16_t bit);
+
+  bool wasPressed(Input input);
+
+  void update();
+
+  uint16_t getState();
+  uint8_t getStickState();
+  void printStickState();
+
+  void onNotify(const char* eventName);
 
 private:
   uint16_t currentState = 0;

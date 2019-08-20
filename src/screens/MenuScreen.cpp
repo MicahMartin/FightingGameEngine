@@ -3,13 +3,7 @@
 #include <SDL2_image/SDL_image.h>
 
 MenuScreen::MenuScreen(){
-}
-
-MenuScreen::~MenuScreen(){
-}
-
-void MenuScreen::init(){ 
-  printf("init menu screen \n");
+  printf("menu screen constructor\n");
 
   GameTexture* menuBackground = new GameTexture();
   menuBackground->loadTexture("../data/images/menuBackground.png");
@@ -27,6 +21,12 @@ void MenuScreen::init(){
   addTexture(versus);
   addTexture(config);
   screenTime = 0;
+}
+
+MenuScreen::~MenuScreen(){
+}
+
+void MenuScreen::init(){ 
 }
 
 void MenuScreen::update(){

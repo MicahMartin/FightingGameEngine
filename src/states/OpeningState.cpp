@@ -5,7 +5,6 @@
 
 OpeningState::OpeningState(){ 
   printf("opening state constructor\n");
-  openingScreen = new OpeningScreen();
 }
 
 OpeningState::~OpeningState() { 
@@ -15,12 +14,11 @@ OpeningState::~OpeningState() {
 void OpeningState::enter() {
   // initialize the menu state & opening screen
   printf("Entered the opening state\n");
-  openingScreen->init();
+  mainMenu = new MenuState();
+  openingScreen = new OpeningScreen();
 }
 
 void OpeningState::exit() { 
-  // 
-  printf("leaving the opening state! \n");
 }
 
 void OpeningState::pause() {
@@ -32,6 +30,10 @@ void OpeningState::resume() {
 }
 
 void OpeningState::handleInput(VirtualController* input) {
+  if(input->wasPressed(VirtualController::DOWN)){
+    printf("down was pressed\n");
+    stateManager->pushState(mainMenu);
+  }
 }
 
 void OpeningState::update() {

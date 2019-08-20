@@ -10,7 +10,7 @@
 // init method & update method
 // up here to abstract general stuff out of screen subclasses?
 // idk yet
-class Screen{
+class Screen {
 // a screen should be the final surface thats written to for a current frame
 // subclass of screen will basically represent the games current screen state
 // so in the main class I can do something like Screen currentScreen = new OpeningScreen()
