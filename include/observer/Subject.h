@@ -6,7 +6,7 @@
 // The messenger, whoever called notify() and notified their observers
 // observer can observe many subjects
 // subject can have many observers
-class Subject{
+class Subject {
 protected:
   virtual void addObserver(const char* observerName, Observer* observer) = 0;
   virtual void removeObserver(const char* observerName) = 0;

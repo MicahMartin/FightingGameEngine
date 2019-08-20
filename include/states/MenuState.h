@@ -18,7 +18,7 @@ public:
   void pause();
   void resume();
 
-  void handleInput(VirtualController* vc);
+  void handleInput();
   void update();
   void draw();
 
@@ -67,7 +67,5 @@ private:
     };
   };
   Menu mainMenu;
-  FightState fightState;
-  ConfigState configState;
 };
 #endif

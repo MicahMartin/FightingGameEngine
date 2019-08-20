@@ -3,10 +3,11 @@
 
 #include "graphics/Graphics.h"
 #include "input/InputManager.h"
+#include "input/VirtualController.h"
 #include "states/StateManager.h"
 #include "observer/Observer.h"
 
-class Game : public Observer{
+class Game : public Observer {
 public:
   Game();
   ~Game();
@@ -19,10 +20,11 @@ public:
   void onNotify(const char* message);
 
 private:
-  bool running;
+  bool running = true;
   int gameTime = 0;
-  Graphics* graphics = Graphics::getInstance();
-  StateManager* stateManager = StateManager::getInstance();
-  InputManager inputManager;
+  Graphics* graphics;
+  StateManager* stateManager;
+  InputManager* inputManager;
+  VirtualController virtualControllers[3];
 };
 #endif

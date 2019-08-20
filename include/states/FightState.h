@@ -17,14 +17,13 @@ public:
   void pause();
   void resume();
 
-  void handleInput(VirtualController* vc);
+  void handleInput();
   void update();
   void draw();
 
 private:
   Character* player1;
   Character* player2;
-  Stage* stage;
   FightScreen* currentScreen;
 };
 #endif

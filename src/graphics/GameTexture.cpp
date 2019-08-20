@@ -13,15 +13,12 @@ bool GameTexture::loadTexture(const char* path){
     return false;
   }
 
-  texture = SDL_CreateTextureFromSurface(renderer, img);
   SDL_FreeSurface(img);
 
   return true;
 }
 
 void GameTexture::render() {
-  SDL_RenderCopy(renderer, texture, NULL, &textRect);
-
 }
 
 void GameTexture::incTransperancy(){

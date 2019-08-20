@@ -8,12 +8,10 @@ MenuState::MenuState(){
 
   MenuItem versus("versus", [this]{
     printf("pushing the fightState \n");
-    StateManager::getInstance()->pushState(&fightState);
   });
 
   MenuItem training("training", []{
     printf("callback\n");
-    StateManager::getInstance()->popState();
   });
 
   menuScreen.addTexture(&mainMenu.menuCursor.cursorTexture);
@@ -39,26 +37,11 @@ void MenuState::resume() {
   printf("resuming the menu state! \n");
 }
 
-void MenuState::handleInput(VirtualController* vc) {
-  if(vc->wasPressed(InputManager::UP)){
-    mainMenu.moveCursorUp();
-  }
-  if(vc->wasPressed(InputManager::DOWN)){
-    mainMenu.moveCursorDown();
-  }
-  if(vc->wasPressed(InputManager::LEFT)){
-    // go back to title
-    stateManager->popState();
-  }
-  if(vc->wasPressed(InputManager::RIGHT)){
-    mainMenu.activate();
-  }
+void MenuState::handleInput() {
 }
 
 void MenuState::update(){
-  menuScreen.update();
 }
 
 void MenuState::draw(){ 
-  menuScreen.draw();
 }

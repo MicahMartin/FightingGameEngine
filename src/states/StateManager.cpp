@@ -2,6 +2,12 @@
 #include "states/StateManager.h"
 #include "states/GameState.h"
 
+StateManager::StateManager(){
+}
+
+StateManager::~StateManager(){
+}
+
 GameState* StateManager::getState(){
   return stateStack.top();
 }

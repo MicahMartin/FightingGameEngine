@@ -15,18 +15,17 @@ void FightState::enter(){
   player1 = new Character();
   player2 = new Character();
   currentScreen = new FightScreen();
-  stage = new Stage(currentScreen);
 };
+
 void FightState::exit(){ 
   delete player1;
   delete player2;
-  delete stage;
 };
 
 void FightState::pause(){ };
 void FightState::resume(){ };
-void FightState::handleInput(VirtualController* vc){  };
-void FightState::update(){  };
+void FightState::handleInput(){ };
+void FightState::update(){ };
 
 void FightState::draw(){  
   currentScreen->draw();

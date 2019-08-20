@@ -2,27 +2,19 @@
 #define _StateManager_h 
 
 #include <stack>
+#include "GameState.h"
 
-class GameState;
-class StateManager final {
+class StateManager {
 public:
-  static StateManager* getInstance(){
-    static StateManager instance;
-    return &instance;
-  };
+  StateManager();
+  ~StateManager();
+
   GameState* getState();
   void pushState(GameState* newState);
   void changeState(GameState* newState);
   void popState();
 
 private:
-  StateManager() = default;
-  ~StateManager() = default;
-  StateManager(const StateManager&) = delete;
-  StateManager& operator=(const StateManager&) = delete;
-  StateManager(StateManager&&) = delete;
-  StateManager& operator=(StateManager&&) = delete;
-
   std::stack<GameState*> stateStack;
 };
 

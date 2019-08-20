@@ -7,33 +7,29 @@ Game::Game(){}
 Game::~Game(){}
 
 void Game::init() {
-  running = true;
-
   // init stuff
-  graphics->init(640,480);
-  inputManager.init();
+  graphics = new Graphics(600, 600);
+  inputManager = new InputManager();
+  stateManager = new StateManager();
 
   // register with input manager so we can catch quit messages
-  inputManager.addObserver("game", this);
-
+  inputManager->init();
+  inputManager->addObserver("game", this);
+  // add the initial virtual controller
+  inputManager->addVirtualController(&virtualControllers[0]);
   // set the state to the title screen
   stateManager->pushState(new OpeningState());
-
-  printf("We Init\n");
-
 }
 
 void Game::update() {
-  gameTime++;
+  ++gameTime;
   // read input event stack for this frame and send to virtual controller(s)
-  inputManager.update();
-  VirtualController* vc = inputManager.getVirtualController();
-  
+  inputManager->update();
 
   // pass input to currentState. side effects inbound
   GameState* currentState = stateManager->getState();
   // this method modifies state stack
-  currentState->handleInput(vc);
+  currentState->handleInput();
   currentState->update();
 
   // the current state holds a pointer to the currrent screen
@@ -45,6 +41,8 @@ void Game::update() {
 }
 
 void Game::onNotify(const char* eventName) {
+
+
   printf("Game: handling event - %s\n", eventName);
 
   // handle quit request

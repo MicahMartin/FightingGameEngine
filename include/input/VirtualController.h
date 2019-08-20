@@ -6,45 +6,55 @@
 #include <SDL2/SDL.h>
 #include "observer/Observer.h"
 
-class VirtualController : public Observer{
+class VirtualController : public Observer {
 public:
   VirtualController();
   ~VirtualController();
 
-  void init();
-
-  void update();
 
   void setBit(uint16_t bit);
   void clearBit(uint16_t bit);
 
-  void isPressed(uint16_t bit);
-  void isReleased(uint16_t bit);
-
-  bool wasPressed(uint16_t bit);
-  bool wasReleased(uint16_t bit);
-
-  bool anyPressed();
-  bool anyReleased();
-
-  void clearPressed();
-  void clearReleased();
-
   uint16_t getState();
   uint8_t getStickState();
-  int getInputHistorySize();
 
   void onNotify(const char* eventName);
 
-private:
+  enum Input { 
+    NOINPUT = 0,
 
-  uint16_t currentState;
-  uint8_t stickState;
-  int counter = 0;
-  std::vector<std::vector<uint16_t>> inputHistory{1};
-  std::unordered_set<uint16_t> pressedButtons;
-  std::unordered_set<uint16_t> releasedButtons;
-  // This stuff will be in the player class
+    DOWN = 0x1,
+    RIGHT = 0x2,
+    LEFT = 0x4,
+    UP = 0x8,
+
+    DOWNLEFT = (DOWN | LEFT),
+    DOWNRIGHT = (DOWN | RIGHT),
+    UPLEFT = (UP | LEFT),
+    UPRIGHT = (UP | RIGHT),
+
+    LP  = 0x10,
+    MP = 0x20,
+    HP = 0x40,
+    AP = 0x80,
+    // TODO: ANYP
+    // TODO: MULTIP
+
+    LK  = 0x100,
+    MK = 0x200,
+    HK = 0x400,
+    AK = 0x800,
+    // TODO: ANYK
+    // TODO: MULTIK
+
+    START = 0x1000,
+    SELECT = 0x2000,
+    MISC1 = 0x4000,
+    MISC2 = 0x8000,
+  };
+
+private:
+  uint16_t currentState = 0;
 };
 
 #endif /* ifndef _virtualController_h */

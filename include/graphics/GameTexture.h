@@ -24,8 +24,6 @@ public:
   std::pair<int, int> getCords();
 
 private:
-  Graphics* graphics = Graphics::getInstance();
-  SDL_Renderer* renderer = graphics->getRenderer();
   SDL_Texture* texture;
   SDL_Rect textRect;
   int xCord, yCord, width, height;
