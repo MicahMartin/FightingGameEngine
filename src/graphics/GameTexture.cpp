@@ -50,12 +50,12 @@ void GameTexture::setBlendMode(SDL_BlendMode mode){
 
 void GameTexture::setCords(int xCord, int yCord) { 
   textRect.x = xCord;
-  textRect.y = yCord;
+  cartesian ? textRect.y = yCord + (graphics.getWindowHeight() - textRect.h) : textRect.y = yCord;
 }
 
 void GameTexture::setDimensions(int xCord, int yCord, int width, int height) { 
   textRect.x = xCord;
-  textRect.y = yCord;
+  cartesian ? textRect.y = yCord + (graphics.getWindowHeight() - height) : textRect.y = yCord;
   textRect.w = width;
   textRect.h = height;
 }

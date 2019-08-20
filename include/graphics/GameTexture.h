@@ -23,6 +23,7 @@ public:
   std::pair<int, int> getDimensions();
   std::pair<int, int> getCords();
 
+  bool cartesian = false;
 private:
   Graphics& graphics = Graphics::getInstance();
   SDL_Renderer* renderer = graphics.getRenderer();
