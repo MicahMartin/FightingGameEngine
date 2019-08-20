@@ -8,7 +8,8 @@ Game::~Game(){}
 
 void Game::init() {
   // init stuff
-  graphics = new Graphics(600, 600);
+
+  graphics.init(640,480);
   inputManager = new InputManager();
   stateManager = new StateManager();
 
@@ -29,15 +30,15 @@ void Game::update() {
   // pass input to currentState. side effects inbound
   GameState* currentState = stateManager->getState();
   // this method modifies state stack
-  currentState->handleInput();
+  currentState->handleInput(&virtualControllers[0]);
   currentState->update();
 
   // the current state holds a pointer to the currrent screen
   // screen has a surface pointer with all the pixels that need to be
   // written and swapped this frame
-  graphics->clear();
+  graphics.clear();
   currentState->draw();
-  graphics->present();
+  graphics.present();
 }
 
 void Game::onNotify(const char* eventName) {

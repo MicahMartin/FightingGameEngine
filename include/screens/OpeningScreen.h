@@ -5,7 +5,7 @@
 #include "graphics/Graphics.h"
 #include "Screen.h"
 
-class OpeningScreen : public Screen{
+class OpeningScreen : public Screen {
 public:
   OpeningScreen();
   ~OpeningScreen();

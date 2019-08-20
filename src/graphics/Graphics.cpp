@@ -2,40 +2,48 @@
 #include <cmath>
 #include <stdexcept>
 
-Graphics::Graphics(int w, int h) {
+void Graphics::init(int w, int h){
   width = w;
   height = h;
 
-  // Init SDL Video system
-  if(SDL_Init(SDL_INIT_VIDEO) != 0){
+  // setup window. return -1 on error
+  if( SDL_Init(SDL_INIT_VIDEO) != 0 ){
     throw( std::runtime_error(SDL_GetError()) );
   }
 
-  // Create the window
-  window = SDL_CreateWindow("Boring Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
+  window = SDL_CreateWindow("Boring Game",
+      SDL_WINDOWPOS_UNDEFINED,
+      SDL_WINDOWPOS_UNDEFINED,
+      getWindowWidth(),
+      getWindowHeight(),
+      SDL_WINDOW_SHOWN);
 
-  // Window shouldn't be null
-  if(window == NULL){
+  if( window == NULL ){
     throw(std::runtime_error(SDL_GetError()));
   }
 
-  // Create sdl renderer
+  // create sdl renderer
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-  // Renderer shouldn't be null
-  if(renderer == NULL){
+  if( renderer == NULL ){
     throw(std::runtime_error(SDL_GetError()));
   }
 
-  // Not sure what this does
+  // not sure what this does
   SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
   // Initialize format loading
   int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
-  if(!(IMG_Init(imgFlags) & imgFlags)){
+  if( !( IMG_Init(imgFlags) & imgFlags)){
     throw(std::runtime_error(IMG_GetError()));
   }
+
+  // We want to show image surfaces inside of the window and in order to do that 
+  // we need to get the entire image surface contained by the window
+  // windowSurface = SDL_GetWindowSurface(window);
 }
+
+void Graphics::update(){ }
 
 void Graphics::clear() {
   // flip buffer
@@ -44,6 +52,7 @@ void Graphics::clear() {
 
 void Graphics::present() {
   // present back buffer
+  // wrapping these methods for convenience. not sure how useful these 'hooks' will be in the future
   SDL_RenderPresent(renderer);
 }
 
@@ -70,4 +79,3 @@ int Graphics::getWindowWidth(){
 int Graphics::getWindowHeight(){
   return height;
 }
-

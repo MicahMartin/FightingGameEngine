@@ -22,7 +22,7 @@ public:
 private:
   bool running = true;
   int gameTime = 0;
-  Graphics* graphics;
+  Graphics& graphics = Graphics::getInstance();
   StateManager* stateManager;
   InputManager* inputManager;
   VirtualController virtualControllers[3];

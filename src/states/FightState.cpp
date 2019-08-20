@@ -24,7 +24,7 @@ void FightState::exit(){
 
 void FightState::pause(){ };
 void FightState::resume(){ };
-void FightState::handleInput(){ };
+void FightState::handleInput(VirtualController* input){ };
 void FightState::update(){ };
 
 void FightState::draw(){  

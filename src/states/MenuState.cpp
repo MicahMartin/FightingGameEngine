@@ -37,7 +37,7 @@ void MenuState::resume() {
   printf("resuming the menu state! \n");
 }
 
-void MenuState::handleInput() {
+void MenuState::handleInput(VirtualController* input) {
 }
 
 void MenuState::update(){

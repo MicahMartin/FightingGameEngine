@@ -1,10 +1,11 @@
 #ifndef _VirtualController_h
 #define _VirtualController_h 
 
+#include "observer/Observer.h"
 #include <vector>
 #include <unordered_set>
 #include <SDL2/SDL.h>
-#include "observer/Observer.h"
+#include <boost/circular_buffer.hpp>
 
 class VirtualController : public Observer {
 public:
@@ -15,8 +16,11 @@ public:
   void setBit(uint16_t bit);
   void clearBit(uint16_t bit);
 
+  void update();
+
   uint16_t getState();
   uint8_t getStickState();
+  void printStickState();
 
   void onNotify(const char* eventName);
 
@@ -55,6 +59,7 @@ public:
 
 private:
   uint16_t currentState = 0;
+  boost::circular_buffer<std::vector<uint16_t>> inputHistory;
 };
 
 #endif /* ifndef _virtualController_h */

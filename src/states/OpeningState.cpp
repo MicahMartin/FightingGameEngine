@@ -5,6 +5,7 @@
 
 OpeningState::OpeningState(){ 
   printf("opening state constructor\n");
+  openingScreen = new OpeningScreen();
 }
 
 OpeningState::~OpeningState() { 
@@ -14,6 +15,7 @@ OpeningState::~OpeningState() {
 void OpeningState::enter() {
   // initialize the menu state & opening screen
   printf("Entered the opening state\n");
+  openingScreen->init();
 }
 
 void OpeningState::exit() { 
@@ -29,12 +31,13 @@ void OpeningState::resume() {
   printf("resuming the opening state! \n");
 }
 
-void OpeningState::handleInput() {
+void OpeningState::handleInput(VirtualController* input) {
 }
 
 void OpeningState::update() {
+  openingScreen->update();
 }
 
 void OpeningState::draw() {
-  // printf("inside the opening state, heres current state of virtual controller %d\n", stickState);
+  openingScreen->draw();
 }

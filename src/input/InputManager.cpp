@@ -37,6 +37,10 @@ void InputManager::init() {
 void InputManager::update() {
   SDL_Event event;
 
+  for (VirtualController* controller : controllers) {
+    controller->update();
+  }
+
   while(SDL_PollEvent(&event) != 0){
 
     switch (event.type) {

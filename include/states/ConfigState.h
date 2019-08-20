@@ -3,7 +3,7 @@
 
 #include "states/GameState.h"
 
-class ConfigState : public GameState{
+class ConfigState : public GameState {
 public:
   ConfigState();
   ~ConfigState();
@@ -14,7 +14,7 @@ public:
   void pause();
   void resume();
 
-  void handleInput();
+  void handleInput(VirtualController* input);
   void update();
   void draw();
 

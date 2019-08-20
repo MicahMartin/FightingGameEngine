@@ -2,10 +2,10 @@
 #include "graphics/GameTexture.h"
 #include <SDL2_image/SDL_image.h>
 
-OpeningScreen::OpeningScreen(){
+OpeningScreen::OpeningScreen() {
 }
 
-OpeningScreen::~OpeningScreen(){
+OpeningScreen::~OpeningScreen() {
 }
 
 void OpeningScreen::init(){ 

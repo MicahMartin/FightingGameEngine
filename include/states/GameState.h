@@ -2,6 +2,7 @@
 #define _GameState_h
 
 #include <iostream>
+#include "input/VirtualController.h"
 
 class GameState {
 public:
@@ -11,7 +12,7 @@ public:
   virtual void resume() = 0;
   virtual void pause() = 0;
 
-  virtual void handleInput() = 0;
+  virtual void handleInput(VirtualController* input) = 0;
   virtual void update() = 0;
   virtual void draw() = 0;
 

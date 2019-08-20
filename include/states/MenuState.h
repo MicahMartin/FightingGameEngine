@@ -18,7 +18,7 @@ public:
   void pause();
   void resume();
 
-  void handleInput();
+  void handleInput(VirtualController* input);
   void update();
   void draw();
 

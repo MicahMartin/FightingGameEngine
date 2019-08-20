@@ -6,19 +6,21 @@
 GameTexture::GameTexture(){ }
 GameTexture::~GameTexture(){ }
 
-bool GameTexture::loadTexture(const char* path){
+bool GameTexture::loadTexture(const char* path) {
   SDL_Surface* img = IMG_Load(path);
   if(img == NULL){
     printf("Error loading image with path %s, error: %s", path, IMG_GetError());
     return false;
   }
 
+  texture = SDL_CreateTextureFromSurface(renderer, img);
   SDL_FreeSurface(img);
 
   return true;
 }
 
 void GameTexture::render() {
+  SDL_RenderCopy(renderer, texture, NULL, &textRect);
 }
 
 void GameTexture::incTransperancy(){
