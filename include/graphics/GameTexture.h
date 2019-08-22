@@ -10,6 +10,7 @@ public:
 
   bool loadTexture(const char* path);
   void render();
+  void render(bool flip);
 
   void incTransperancy();
   void decTransperancy();

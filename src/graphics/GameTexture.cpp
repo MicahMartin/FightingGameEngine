@@ -23,6 +23,11 @@ void GameTexture::render() {
   SDL_RenderCopy(renderer, texture, NULL, &textRect);
 }
 
+void GameTexture::render(bool faceRight) {
+  SDL_RendererFlip flipFlag = faceRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL ;
+  SDL_RenderCopyEx(renderer, texture, NULL, &textRect, 0, NULL, flipFlag);
+}
+
 void GameTexture::incTransperancy(){
   alpha++;
   setTransperancy(alpha);

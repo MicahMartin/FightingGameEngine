@@ -5,6 +5,7 @@
 #include "game_objects/Stage.h"
 #include "game_objects/Character.h"
 #include "screens/FightScreen.h"
+#include "character_state/CharStateManager.h"
 
 class FightState : public GameState {
 public:
@@ -25,5 +26,6 @@ private:
   Character* player1;
   Character* player2;
   FightScreen* currentScreen;
+  CharStateManager* charStateManager = CharStateManager::getInstance();
 };
 #endif

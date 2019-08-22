@@ -12,8 +12,12 @@ void FightState::enter(){
   // init all fields
   
   printf("entered the fight state \n");
-  player1 = new Character(std::make_pair(140,0));
-  player2 = new Character(std::make_pair(340,0));
+  player1 = new Character(std::make_pair(140,0), 1);
+  player2 = new Character(std::make_pair(340,0), 2);
+  
+  charStateManager->registerCharacter(player1, 1);
+  charStateManager->registerCharacter(player2, 2);
+
   currentScreen = new FightScreen();
 };
 
@@ -26,8 +30,14 @@ void FightState::exit(){
 void FightState::pause(){ };
 void FightState::resume(){ };
 
-void FightState::handleInput(VirtualController* input){ };
-void FightState::update(){ };
+void FightState::handleInput(VirtualController* input){ 
+  player1->handleInput(input);
+  player2->handleInput(input);
+};
+void FightState::update(){ 
+  player1->update();
+  player2->update();
+};
 
 void FightState::draw(){  
   currentScreen->draw();

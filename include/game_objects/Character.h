@@ -2,26 +2,30 @@
 #define _Character_h 
 
 #include "character_state/StateDef.h"
-#include "character_state/CharacterState.h"
 #include "input/VirtualController.h"
-#include "graphics/GameTexture.h"
 
 class Character {
 public:
-  Character(std::pair<int, int> position, int health);
+  Character(std::pair<int, int> position, int playerNum);
   Character(std::pair<int, int> position);
-  void init();
 
   ~Character();
+
+  void loadStates();
+  void changeState(int stateDefNum);
 
   void handleInput(VirtualController* controller);
   void update();
   void draw();
 
+  std::pair<int,int> getPos();
+  bool faceRight;
 private:
+  std::vector<StateDef> stateList;
+
+  StateDef* currentState;
   std::pair<int, int> position;
-  CharacterState* currentState;
-  GameTexture* currentSprite;
+  int playerNum;
   int health;
 };
 
