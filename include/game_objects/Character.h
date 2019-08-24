@@ -18,7 +18,12 @@ public:
   void update();
   void draw();
 
+  // position stuff
   std::pair<int,int> getPos();
+  void setX(int x);
+  void setY(int y);
+
+  // getters for these guys
   bool faceRight;
   VirtualController* virtualController;
 private:

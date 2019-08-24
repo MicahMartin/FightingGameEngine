@@ -15,19 +15,23 @@ public:
 
   void loadControllers(nlohmann::json json);
   void loadAnimation(nlohmann::json json);
+  void loadUpdate(std::string updateCommand);
 
   void enter();
   void handleInput();
+  void update();
   void draw();
 
   bool evalController(StateController* controller);
   void executeController(StateController* controller);
+
 private:
-  Animation anim;
-  int charNum;
-  std::vector<StateController> controllers;
-  CharStateManager* charStateManager = CharStateManager::getInstance();
-  
+  void _changeState(std::string stateNum);
+  void _moveForward(int ammount);
+  void _moveBack(int ammount);
+  int _getAnimTime();
+  int _getInput(VirtualController::Input input);
+
   enum StateMethod {
     CHANGE_STATE,
   };
@@ -35,13 +39,9 @@ private:
     GET_ANIM_TIME,
     GET_INPUT
   };
-  // State methods
-  std::map<std::string, StateMethod> stateMethodMap = {
-    {"CHANGE_STATE", CHANGE_STATE},
-  };
-  std::map<std::string, StateCondition> stateConditionMap = {
-    {"GET_ANIM_TIME", GET_ANIM_TIME},
-    {"GET_INPUT", GET_INPUT},
+  enum UpdateCommand {
+    MOVE_F,
+    MOVE_B
   };
 
   std::map<std::string, std::function<bool(int, int)>> stateOperationMap = {
@@ -52,8 +52,25 @@ private:
     {">=", std::greater_equal<int>()},
     {"<=", std::less_equal<int>()},
   };
-  void _changeState(std::string stateNum);
-  int _getAnimTime();
-  int _getInput(VirtualController::Input input);
+
+  // State methods
+  std::map<std::string, StateMethod> stateMethodMap = {
+    {"CHANGE_STATE", CHANGE_STATE},
+  };
+  std::map<std::string, StateCondition> stateConditionMap = {
+    {"GET_ANIM_TIME", GET_ANIM_TIME},
+    {"GET_INPUT", GET_INPUT},
+  };
+
+  std::map<std::string, UpdateCommand> stateUpdateCommandMap = {
+    {"MOVE_F", MOVE_F},
+    {"MOVE_B", MOVE_B}
+  };
+
+  Animation anim;
+  int charNum;
+  std::string updateCommand;
+  std::vector<StateController> controllers;
+  CharStateManager* charStateManager = CharStateManager::getInstance();
 };
 #endif

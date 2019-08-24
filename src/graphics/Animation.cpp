@@ -25,7 +25,6 @@ void Animation::loadAnimEvents(nlohmann::json json){
 }
 
 void Animation::render(int x, int y, bool faceRight){
-  std::cout << "anim elem index" << currentAnimElemIndex <<  std::endl;
   AnimationElement* elem = &animationElements.at(currentAnimElemIndex);
 
   GameTexture* currentText = elem->gameTexture;

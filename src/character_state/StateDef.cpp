@@ -17,6 +17,11 @@ void StateDef::loadAnimation(nlohmann::json json){
   anim.loadAnimEvents(json);
 };
 
+void StateDef::loadUpdate(std::string yaySetters){
+  // one day I'll shake my bad java habit
+  updateCommand = yaySetters;
+};
+
 void StateDef::enter(){
   anim.setAnimTime(0);
   anim.resetAnimEvents();
@@ -31,6 +36,27 @@ void StateDef::handleInput(){
      std::cout << "CONTROLLER MATCHED" << std::endl;
      executeController(&controllers[i]);
    }
+  }
+}
+
+void StateDef::update(){
+  std::size_t pos = updateCommand.find(" ");
+  if(pos != -1){
+    std::string updateCall = updateCommand.substr(0, pos);
+    std::string updateP = updateCommand.substr(pos+1);
+    std::cout << "UPDATE CALL " << updateCall << std::endl;
+    std::cout << "UPDATE PARAM " << updateP << std::endl;
+    switch (stateUpdateCommandMap.at(updateCall)) {
+      case MOVE_F:
+        _moveForward(std::stoi(updateP));
+      break;
+      case MOVE_B: {
+        _moveBack(std::stoi(updateP));
+      break;
+      }
+      default:
+      break;
+    }
   }
 }
 
@@ -79,6 +105,24 @@ void StateDef::executeController(StateController* controller){
 
 void StateDef::_changeState(std::string stateNum){
   charStateManager->getCharPointer(charNum)->changeState(std::stoi(stateNum));
+}
+
+void StateDef::_moveForward(int ammount){
+  bool faceRight = charStateManager->getCharPointer(charNum)->faceRight;
+  if (faceRight) {
+    charStateManager->getCharPointer(charNum)->setX(ammount);
+  } else {
+    charStateManager->getCharPointer(charNum)->setX(-ammount);
+  }
+}
+
+void StateDef::_moveBack(int ammount){
+  bool faceRight = charStateManager->getCharPointer(charNum)->faceRight;
+  if (faceRight) {
+    charStateManager->getCharPointer(charNum)->setX(-ammount);
+  } else {
+    charStateManager->getCharPointer(charNum)->setX(ammount);
+  }
 }
 
 int StateDef::_getAnimTime(){

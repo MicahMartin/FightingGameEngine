@@ -28,10 +28,11 @@ void Character::loadStates(){
   std::ifstream configFile("../data/characters/alucard/def.json");
   configFile >> stateJson;
 
-  for(auto i : stateJson.items()){
+  for(auto i : stateJson.at("states").items()){
     StateDef state(playerNum);
     state.loadControllers(i.value().at("controllers"));
     state.loadAnimation(i.value().at("animation"));
+    state.loadUpdate(i.value().at("update"));
     stateList.push_back(state);
   }
 }
@@ -43,7 +44,7 @@ void Character::handleInput(){
 };
 
 void Character::update(){ 
-  // currentState->update();
+  currentState->update();
 };
 void Character::draw(){
   currentState->draw();
@@ -52,4 +53,12 @@ void Character::draw(){
 
 std::pair<int,int> Character::getPos(){
   return position;
+};
+
+void Character::setX(int x){
+  position.first += x;
+};
+
+void Character::setY(int y){
+  position.second += y;
 };
