@@ -10,6 +10,6 @@ void ConfigState::exit(){ };
 
 void ConfigState::pause(){ };
 void ConfigState::resume(){ };
-void ConfigState::handleInput(VirtualController* input){ };
+void ConfigState::handleInput(){ };
 void ConfigState::update(){  };
 void ConfigState::draw(){  };

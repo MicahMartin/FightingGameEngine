@@ -29,7 +29,8 @@ void OpeningState::resume() {
   printf("resuming the opening state! \n");
 }
 
-void OpeningState::handleInput(VirtualController* input) {
+void OpeningState::handleInput() {
+  VirtualController* input = inputManager->getVirtualController(0);
   if(input->wasPressed(VirtualController::DOWN)){
     printf("down was pressed\n");
     stateManager->pushState(mainMenu);

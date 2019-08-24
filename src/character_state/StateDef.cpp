@@ -19,10 +19,10 @@ void StateDef::loadAnimation(nlohmann::json json){
 
 void StateDef::enter(){
   anim.setAnimTime(0);
-  anim.setAnimElemIndex(0);
+  anim.resetAnimEvents();
 };
 
-void StateDef::handleInput(VirtualController* input){
+void StateDef::handleInput(){
   bool controllerMatched = false;
   for (int i = 0; i < controllers.size() && !controllerMatched; ++i) {
    controllerMatched = evalController(&controllers[i]);
@@ -37,7 +37,6 @@ void StateDef::handleInput(VirtualController* input){
 void StateDef::draw(){
   std::pair charPos = charStateManager->getCharPointer(charNum)->getPos();
   bool faceRight = charStateManager->getCharPointer(charNum)->faceRight;
-  std::cout << "drawing char num " << charNum << std::endl;
   anim.render(charPos.first, charPos.second, faceRight);
 };
 
@@ -52,6 +51,12 @@ bool StateDef::evalController(StateController* controller){
     case GET_ANIM_TIME:
       return stateOperationMap[op](_getAnimTime(), std::stoi(param));
       break;
+    case GET_INPUT: {
+      bool faceRight = charStateManager->getCharPointer(charNum)->faceRight;
+      VirtualController::Input input = VirtualController::getInputForString(param, faceRight);
+      return stateOperationMap[op](_getInput(input), 1);
+      break;
+    }
     default:
       return false;
   }
@@ -68,7 +73,7 @@ void StateDef::executeController(StateController* controller){
   switch (stateMethodMap.at(actionFunction)) {
     case CHANGE_STATE:
       _changeState(param);
-    break;
+      break;
   }
 }
 
@@ -78,4 +83,8 @@ void StateDef::_changeState(std::string stateNum){
 
 int StateDef::_getAnimTime(){
   return anim.timeRemaining();
+}
+
+int StateDef::_getInput(VirtualController::Input input){
+  return charStateManager->getCharPointer(charNum)->virtualController->isPressed(input) ? 1 : 0;
 }

@@ -24,7 +24,7 @@ private:
   int gameTime = 0;
   Graphics& graphics = Graphics::getInstance();
   StateManager* stateManager = StateManager::getInstance();
-  InputManager* inputManager;
+  InputManager* inputManager = InputManager::getInstance();
   VirtualController virtualControllers[3];
 };
 #endif

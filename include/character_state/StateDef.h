@@ -17,7 +17,7 @@ public:
   void loadAnimation(nlohmann::json json);
 
   void enter();
-  void handleInput(VirtualController* input);
+  void handleInput();
   void draw();
 
   bool evalController(StateController* controller);
@@ -33,6 +33,7 @@ private:
   };
   enum StateCondition {
     GET_ANIM_TIME,
+    GET_INPUT
   };
   // State methods
   std::map<std::string, StateMethod> stateMethodMap = {
@@ -40,6 +41,7 @@ private:
   };
   std::map<std::string, StateCondition> stateConditionMap = {
     {"GET_ANIM_TIME", GET_ANIM_TIME},
+    {"GET_INPUT", GET_INPUT},
   };
 
   std::map<std::string, std::function<bool(int, int)>> stateOperationMap = {
@@ -52,5 +54,6 @@ private:
   };
   void _changeState(std::string stateNum);
   int _getAnimTime();
+  int _getInput(VirtualController::Input input);
 };
 #endif

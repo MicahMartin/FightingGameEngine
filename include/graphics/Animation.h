@@ -16,22 +16,22 @@ public:
 
   void setAnimTime(int time);
   void setAnimElemIndex(int index);
+  void resetAnimEvents();
   int timeRemaining();
 
   struct AnimationElement {
     AnimationElement(GameTexture* gameTexture, int elemTime): gameTexture(gameTexture), elemTime(elemTime){
-      elemTimePassed = 0;
       elemTime = 0;
     }
     GameTexture* gameTexture;
     int elemTime;
-    int elemTimePassed;
   };
 
 private:
   /* data */
   std::vector<AnimationElement> animationElements;
   int currentAnimElemIndex;
+  int currentAnimElemTimePassed;
   int animationTime;
   int animationTimePassed;
 };

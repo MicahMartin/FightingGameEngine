@@ -40,7 +40,8 @@ void MenuState::resume() {
   printf("resuming the menu state! \n");
 }
 
-void MenuState::handleInput(VirtualController* vc) {
+void MenuState::handleInput() {
+  VirtualController* vc = inputManager->getVirtualController(0);
   if(vc->wasPressed(VirtualController::UP)){
     mainMenu.moveCursorUp();
   }

@@ -7,16 +7,14 @@ Game::Game(){}
 Game::~Game(){}
 
 void Game::init() {
-  // init stuff
-
+  // init Graphics
   graphics.init(640,480);
-  inputManager = new InputManager();
-
   // register with input manager so we can catch quit messages
   inputManager->init();
   inputManager->addObserver("game", this);
   // add the initial virtual controller
   inputManager->addVirtualController(&virtualControllers[0]);
+  inputManager->addVirtualController(&virtualControllers[1]);
   // set the state to the title screen
   stateManager->pushState(new OpeningState());
 }
@@ -29,7 +27,7 @@ void Game::update() {
   // pass input to currentState. side effects inbound
   GameState* currentState = stateManager->getState();
   // this method modifies state stack
-  currentState->handleInput(&virtualControllers[0]);
+  currentState->handleInput();
   currentState->update();
 
   // the current state holds a pointer to the currrent screen

@@ -6,9 +6,10 @@ Animation::Animation(){ }
 Animation::~Animation(){ }
 
 void Animation::loadAnimEvents(nlohmann::json json){
+  currentAnimElemIndex = 0;
+  currentAnimElemTimePassed = 0;
   animationTime = 0;
   animationTimePassed = 0;
-  currentAnimElemIndex = 0;
   for (auto i : json.items()) {
     GameTexture* text = new GameTexture();
     text->cartesian = true;
@@ -24,18 +25,17 @@ void Animation::loadAnimEvents(nlohmann::json json){
 }
 
 void Animation::render(int x, int y, bool faceRight){
+  std::cout << "anim elem index" << currentAnimElemIndex <<  std::endl;
   AnimationElement* elem = &animationElements.at(currentAnimElemIndex);
-  std::cout << "The current elem timePassed " << elem->elemTimePassed << std::endl;
-  std::cout << "The current elem time" << elem->elemTime << std::endl;
 
   GameTexture* currentText = elem->gameTexture;
   currentText->setCords(x,y);
   currentText->render(faceRight);
 
-  elem->elemTimePassed++;
+  currentAnimElemTimePassed++;
   animationTimePassed++;
-  if(elem->elemTimePassed == elem->elemTime){
-    elem->elemTimePassed = 0;
+  if(currentAnimElemTimePassed == elem->elemTime){
+    currentAnimElemTimePassed = 0;
     currentAnimElemIndex++;
   }
 }
@@ -48,8 +48,11 @@ void Animation::setAnimElemIndex(int index){
   currentAnimElemIndex = index;
 }
 
+void Animation::resetAnimEvents(){
+  currentAnimElemIndex = 0;
+  currentAnimElemTimePassed = 0;
+}
+
 int Animation::timeRemaining(){
-  std::cout << "The anim timePassed " << animationTimePassed << std::endl;
-  std::cout << "The animTimeTotal" << animationTime << std::endl;
   return animationTime - animationTimePassed;
 }

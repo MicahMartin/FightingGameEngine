@@ -38,8 +38,8 @@ void Character::loadStates(){
 
 Character::~Character(){};
 
-void Character::handleInput(VirtualController* input){ 
-  currentState->handleInput(input);
+void Character::handleInput(){ 
+  currentState->handleInput();
 };
 
 void Character::update(){ 

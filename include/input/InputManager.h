@@ -12,13 +12,16 @@
 class InputManager : public Subject {
 
 public:
-  InputManager();
-  ~InputManager();
+  static InputManager* getInstance(){
+    static InputManager instance;
+    return &instance;
+  };
   // runnable?
   void init();
   void update();
 
   void addVirtualController(VirtualController* controller);
+  VirtualController* getVirtualController(int index);
 
   // Subject
   void addObserver(const char* observerName, Observer* observer);
@@ -27,6 +30,12 @@ public:
   void notifyOne(const char* observerName, const char* eventName);
 
 private:
+  InputManager() = default;
+  ~InputManager() = default;
+  InputManager(const InputManager&) = delete;
+  InputManager& operator=(const InputManager&) = delete;
+  InputManager(InputManager&&) = delete;
+  InputManager& operator=(InputManager&&) = delete;
   std::vector<VirtualController*> controllers;
   
   // button config

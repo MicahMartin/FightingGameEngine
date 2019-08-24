@@ -14,12 +14,13 @@ public:
   void loadStates();
   void changeState(int stateDefNum);
 
-  void handleInput(VirtualController* controller);
+  void handleInput();
   void update();
   void draw();
 
   std::pair<int,int> getPos();
   bool faceRight;
+  VirtualController* virtualController;
 private:
   std::vector<StateDef> stateList;
 

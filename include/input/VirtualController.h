@@ -42,6 +42,7 @@ public:
     MISC1 = 0x4000,
     MISC2 = 0x8000,
   };
+  static Input getInputForString(std::string inputStr, bool faceRight);
 
   VirtualController();
   ~VirtualController();
@@ -51,6 +52,7 @@ public:
   void clearBit(uint16_t bit);
 
   bool wasPressed(Input input);
+  bool isPressed(Input input);
 
   void update();
 

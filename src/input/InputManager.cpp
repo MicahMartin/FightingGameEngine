@@ -6,11 +6,6 @@
 // input manager is gonna get all input events from SDL for all devices
 // keep a map with input keycodes as the key and tuple of player number actual 'button code' as the value
 // so lets say the map has {key: SDL_CODE, val: {playerNum:1, buttonVal: 0x1}} with the bits on the buttonVal byte corresponding to InputManager::Input
-
-InputManager::InputManager(){ }
-
-InputManager::~InputManager(){ }
-
 void InputManager::init() {
   // load the config(s)
   std::ifstream configFile("../data/buttonconf.json");
@@ -103,6 +98,10 @@ void InputManager::notifyAll(const char* eventName){
 
 void InputManager::addVirtualController(VirtualController* controller){
   controllers.push_back(controller);
+}
+
+VirtualController* InputManager::getVirtualController(int index){
+  return controllers.at(index);
 }
 
 void InputManager::notifyOne(const char* observerName, const char* eventName){
