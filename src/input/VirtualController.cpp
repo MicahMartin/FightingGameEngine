@@ -9,6 +9,10 @@ VirtualController::Input VirtualController::getInputForString(std::string inputS
     return VirtualController::UP;
   } else if (inputStr == "d") {
     return VirtualController::DOWN;
+  } else if (inputStr == "df") {
+    return faceRight ? VirtualController::DOWNRIGHT : VirtualController::DOWNLEFT;
+  } else if (inputStr == "db") {
+    return faceRight ? VirtualController::DOWNLEFT : VirtualController::DOWNRIGHT;
   } else if (inputStr == "f") {
     return faceRight ? VirtualController::RIGHT : VirtualController::LEFT;
   } else if (inputStr == "b") {
@@ -40,10 +44,9 @@ void VirtualController::update() {
 
 bool VirtualController::isPressed(VirtualController::Input input) {
   if(input == NOINPUT && currentState == 0){
-    std::cout << "NEUTRAL DEteCTED" << std::endl;
     return true;
   }
-  return (input & currentState);
+  return (input == (currentState & 0x0F));
 }
 
 bool VirtualController::wasPressed(VirtualController::Input input) {
