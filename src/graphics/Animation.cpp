@@ -1,4 +1,5 @@
 #include "graphics/Animation.h"
+#include <fstream>
 
 
 Animation::Animation(){ }
@@ -12,9 +13,12 @@ void Animation::loadAnimEvents(nlohmann::json json){
   animationTimePassed = 0;
   for (auto i : json.items()) {
     GameTexture* text = new GameTexture();
+    const char* path = i.value().at("file").get<std::string>().c_str();
+    std::pair dimensions = getDimensions(path);
+
     text->cartesian = true;
-    text->loadTexture(i.value().at("file").get<std::string>().c_str());
-    text->setDimensions(0, 0, 150, 200);
+    text->loadTexture(path);
+    text->setDimensions(0, 0, dimensions.first*1.5, dimensions.second*1.5);
 
     int animTime = i.value().at("time");
     animationTime += animTime;
@@ -54,4 +58,23 @@ void Animation::resetAnimEvents(){
 
 int Animation::timeRemaining(){
   return animationTime - animationTimePassed;
+}
+
+std::pair<int, int> Animation::getDimensions(const char* path){
+    std::pair<int, int> returnPair;
+    unsigned int width, height;
+
+    std::ifstream img(path);
+
+    // width and height are offset by 16 bytes
+    // ty TCP training, everything has a TLV
+    img.seekg(16);
+    img.read((char *)&width, 4);
+    img.read((char *)&height, 4);
+
+    returnPair.first = ntohl(width);
+    returnPair.second = ntohl(height);
+
+    std::cout << "IMAGE: " << path << " DIMENSIONS: w[" << returnPair.first << "] h[" << returnPair.second << "]" << std::endl;
+    return returnPair;
 }

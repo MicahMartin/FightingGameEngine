@@ -15,7 +15,7 @@ public:
 
   void loadControllers(nlohmann::json json);
   void loadAnimation(nlohmann::json json);
-  void loadUpdate(std::string updateCommand);
+  void loadUpdate(nlohmann::json json);
 
   void enter();
   void handleInput();
@@ -23,25 +23,34 @@ public:
   void draw();
 
   bool evalController(StateController* controller);
+  bool evalCondition(std::string condition);
   void executeController(StateController* controller);
 
 private:
   void _changeState(std::string stateNum);
   void _moveForward(int ammount);
   void _moveBack(int ammount);
+  void _moveUp(int ammount);
+  void _moveDown(int ammount);
+
   int _getAnimTime();
+  int _getStateTime();
+  int _getYPos();
   int _getInput(VirtualController::Input input);
 
   enum StateMethod {
     CHANGE_STATE,
+    MOVE_F,
+    MOVE_B,
+    MOVE_U,
+    MOVE_D
   };
+
   enum StateCondition {
     GET_ANIM_TIME,
+    GET_STATE_TIME,
+    GET_Y_POS,
     GET_INPUT
-  };
-  enum UpdateCommand {
-    MOVE_F,
-    MOVE_B
   };
 
   std::map<std::string, std::function<bool(int, int)>> stateOperationMap = {
@@ -56,20 +65,23 @@ private:
   // State methods
   std::map<std::string, StateMethod> stateMethodMap = {
     {"CHANGE_STATE", CHANGE_STATE},
-  };
-  std::map<std::string, StateCondition> stateConditionMap = {
-    {"GET_ANIM_TIME", GET_ANIM_TIME},
-    {"GET_INPUT", GET_INPUT},
+    {"MOVE_F", MOVE_F},
+    {"MOVE_B", MOVE_B},
+    {"MOVE_U", MOVE_U},
+    {"MOVE_D", MOVE_D}
   };
 
-  std::map<std::string, UpdateCommand> stateUpdateCommandMap = {
-    {"MOVE_F", MOVE_F},
-    {"MOVE_B", MOVE_B}
+  std::map<std::string, StateCondition> stateConditionMap = {
+    {"GET_ANIM_TIME", GET_ANIM_TIME},
+    {"GET_STATE_TIME", GET_STATE_TIME},
+    {"GET_INPUT", GET_INPUT},
+    {"GET_Y_POS", GET_Y_POS},
   };
 
   Animation anim;
   int charNum;
-  std::string updateCommand;
+  int stateTime;
+  std::vector<StateController> updateCommands;
   std::vector<StateController> controllers;
   CharStateManager* charStateManager = CharStateManager::getInstance();
 };

@@ -19,6 +19,8 @@ public:
   void resetAnimEvents();
   int timeRemaining();
 
+  std::pair<int, int> getDimensions(const char* path);
+
   struct AnimationElement {
     AnimationElement(GameTexture* gameTexture, int elemTime): gameTexture(gameTexture), elemTime(elemTime){
       elemTime = 0;

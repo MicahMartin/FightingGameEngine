@@ -2,6 +2,7 @@
 #include "game_objects/Character.h"
 #include <iostream>
 #include <functional>
+#include "Util.h"
 
 StateDef::StateDef(int charNum) : charNum(charNum){ }
 StateDef::~StateDef(){ }
@@ -17,14 +18,17 @@ void StateDef::loadAnimation(nlohmann::json json){
   anim.loadAnimEvents(json);
 };
 
-void StateDef::loadUpdate(std::string yaySetters){
-  // one day I'll shake my bad java habit
-  updateCommand = yaySetters;
+void StateDef::loadUpdate(nlohmann::json json){
+  for(auto i : json.items()){
+    StateController updateCommand(i.value().at("condition"), i.value().at("action"));
+    updateCommands.push_back(updateCommand);
+  }
 };
 
 void StateDef::enter(){
   anim.setAnimTime(0);
   anim.resetAnimEvents();
+  stateTime = 0;
 };
 
 void StateDef::handleInput(){
@@ -40,24 +44,14 @@ void StateDef::handleInput(){
 }
 
 void StateDef::update(){
-  std::size_t pos = updateCommand.find(" ");
-  if(pos != -1){
-    std::string updateCall = updateCommand.substr(0, pos);
-    std::string updateP = updateCommand.substr(pos+1);
-    std::cout << "UPDATE CALL " << updateCall << std::endl;
-    std::cout << "UPDATE PARAM " << updateP << std::endl;
-    switch (stateUpdateCommandMap.at(updateCall)) {
-      case MOVE_F:
-        _moveForward(std::stoi(updateP));
-      break;
-      case MOVE_B: {
-        _moveBack(std::stoi(updateP));
-      break;
-      }
-      default:
-      break;
+  for(int i = 0; i < updateCommands.size(); ++i){
+    bool updateCondition = evalController(&updateCommands[i]);
+    if(updateCondition){
+      std::cout << "UPDATE CONDITION MATCHED" << std::endl;
+      executeController(&updateCommands[i]);
     }
   }
+  stateTime++;
 }
 
 void StateDef::draw(){
@@ -66,9 +60,39 @@ void StateDef::draw(){
   anim.render(charPos.first, charPos.second, faceRight);
 };
 
+
 bool StateDef::evalController(StateController* controller){
   std::string condition = controller->getCondition();
+  std::cout << "evaluating controller" << std::endl;
+
+  std::size_t hasAndCondition = condition.find("&&");
+  if (hasAndCondition != -1) {
+    std::vector<std::string> conditions = Util::split(condition, "&&");
+    bool finalFlag = false;
+
+    for (auto andCondition : conditions) {
+      std::cout << "evaling and cndition "<< andCondition << std::endl;
+      finalFlag = evalCondition(andCondition);
+      if (finalFlag) {
+        std::cout << "this one was true" << std::endl;
+      }
+    }
+    if (finalFlag) {
+      std::cout << "all true" << std::endl;
+      return finalFlag;
+    }
+    return false;
+  }
+
+  return evalCondition(condition);
+}
+
+bool StateDef::evalCondition(std::string condition){
+  std::cout << "evalCondition " << condition << std::endl;
   std::size_t pos = condition.find(" ");
+  if(pos == -1){
+    return true;
+  }
   std::string actionName = condition.substr(0, pos);
   std::string op = condition.substr(pos+1, 2);
   std::string param = condition.substr(pos+4);
@@ -77,14 +101,18 @@ bool StateDef::evalController(StateController* controller){
     case GET_ANIM_TIME:
       return stateOperationMap[op](_getAnimTime(), std::stoi(param));
       break;
+    case GET_STATE_TIME:
+      return stateOperationMap[op](_getStateTime(), std::stoi(param));
+      break;
+    case GET_Y_POS:
+      return stateOperationMap[op](_getYPos(), std::stoi(param));
+      break;
     case GET_INPUT: {
       bool faceRight = charStateManager->getCharPointer(charNum)->faceRight;
       VirtualController::Input input = VirtualController::getInputForString(param, faceRight);
       return stateOperationMap[op](_getInput(input), 1);
       break;
     }
-    default:
-      return false;
   }
 }
 
@@ -99,6 +127,18 @@ void StateDef::executeController(StateController* controller){
   switch (stateMethodMap.at(actionFunction)) {
     case CHANGE_STATE:
       _changeState(param);
+      break;
+    case MOVE_F:
+      _moveForward(std::stoi(param));
+      break;
+    case MOVE_B:
+      _moveBack(std::stoi(param));
+      break;
+    case MOVE_U:
+      _moveUp(std::stoi(param));
+      break;
+    case MOVE_D:
+      _moveDown(std::stoi(param));
       break;
   }
 }
@@ -125,8 +165,26 @@ void StateDef::_moveBack(int ammount){
   }
 }
 
+void StateDef::_moveUp(int ammount){
+  charStateManager->getCharPointer(charNum)->setY(ammount);
+}
+
+void StateDef::_moveDown(int ammount){
+  charStateManager->getCharPointer(charNum)->setY(-ammount);
+}
+
 int StateDef::_getAnimTime(){
   return anim.timeRemaining();
+}
+
+int StateDef::_getYPos(){
+  int yPos = charStateManager->getCharPointer(charNum)->getPos().second;
+  std::cout << "the yPos " << yPos << std::endl;
+  return yPos;
+}
+
+int StateDef::_getStateTime(){
+  return stateTime;
 }
 
 int StateDef::_getInput(VirtualController::Input input){

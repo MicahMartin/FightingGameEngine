@@ -41,6 +41,10 @@ public:
     SELECT = 0x2000,
     MISC1 = 0x4000,
     MISC2 = 0x8000,
+    
+    // invalid inputs 
+    LEFTRIGHT = (LEFT | RIGHT),
+    UPDOWN = (UP | DOWN),
   };
   static Input getInputForString(std::string inputStr, bool faceRight);
 

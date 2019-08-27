@@ -7,6 +7,10 @@ VirtualController::Input VirtualController::getInputForString(std::string inputS
     return VirtualController::NOINPUT;
   } else if (inputStr == "u") {
     return VirtualController::UP;
+  } else if (inputStr == "uf") {
+    return faceRight ? VirtualController::UPRIGHT : VirtualController::UPLEFT;
+  } else if (inputStr == "ub") {
+    return faceRight ? VirtualController::UPLEFT : VirtualController::UPRIGHT;
   } else if (inputStr == "d") {
     return VirtualController::DOWN;
   } else if (inputStr == "df") {
@@ -43,7 +47,7 @@ void VirtualController::update() {
 }
 
 bool VirtualController::isPressed(VirtualController::Input input) {
-  if(input == NOINPUT && currentState == 0){
+  if(input == NOINPUT && (currentState == 0 || ((currentState & LEFT) && (currentState & RIGHT)))) {
     return true;
   }
   return (input == (currentState & 0x0F));

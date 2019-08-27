@@ -60,5 +60,5 @@ void Character::setX(int x){
 };
 
 void Character::setY(int y){
-  position.second += y;
+  position.second -= y;
 };
