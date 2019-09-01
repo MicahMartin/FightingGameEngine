@@ -22,9 +22,7 @@ public:
   std::pair<int, int> getDimensions(const char* path);
 
   struct AnimationElement {
-    AnimationElement(GameTexture* gameTexture, int elemTime): gameTexture(gameTexture), elemTime(elemTime){
-      elemTime = 0;
-    }
+    AnimationElement(GameTexture* gameTexture, int elemTime): gameTexture(gameTexture), elemTime(elemTime){ }
     GameTexture* gameTexture;
     int elemTime;
   };

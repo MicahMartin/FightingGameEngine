@@ -18,9 +18,10 @@ void Animation::loadAnimEvents(nlohmann::json json){
 
     text->cartesian = true;
     text->loadTexture(path);
-    text->setDimensions(0, 0, dimensions.first*1.5, dimensions.second*1.5);
+    text->setDimensions(0, 0, dimensions.first*2, dimensions.second*2);
 
     int animTime = i.value().at("time");
+    std::cout << " THE ANIM TIME " << animTime << std::endl;
     animationTime += animTime;
 
     AnimationElement element(text, animTime);

@@ -5,7 +5,7 @@ FightScreen::FightScreen(){
 
   GameTexture* stage = new GameTexture();
   stage->loadTexture("../data/images/newGrid.png");
-  stage->setDimensions(0,0,640,480);
+  stage->setDimensions(0,0, 1280, 720);
 
   addTexture(stage);
 };

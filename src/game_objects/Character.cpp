@@ -6,6 +6,8 @@
 Character::Character(std::pair<int, int> _position, int _playerNum) : position(_position), playerNum(_playerNum) {
   faceRight = playerNum == 1 ? true : false;
   health = 100;
+  velocityX = 0;
+  velocityY = 0;
   loadStates();
   changeState(1);
 }
@@ -44,6 +46,19 @@ void Character::handleInput(){
 };
 
 void Character::update(){ 
+
+  position.first += velocityX;
+  position.second -= velocityY;
+
+  if(position.second >> 0){
+    --velocityY;
+  }
+
+  if(position.second >= 0){
+    position.second = 0;
+    velocityY = 0;
+  }
+
   currentState->update();
 };
 void Character::draw(){

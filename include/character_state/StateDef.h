@@ -28,6 +28,8 @@ public:
 
 private:
   void _changeState(std::string stateNum);
+  void _velSetX(int ammount);
+  void _velSetY(int ammount);
   void _moveForward(int ammount);
   void _moveBack(int ammount);
   void _moveUp(int ammount);
@@ -40,6 +42,8 @@ private:
 
   enum StateMethod {
     CHANGE_STATE,
+    VELSET_X,
+    VELSET_Y,
     MOVE_F,
     MOVE_B,
     MOVE_U,
@@ -65,6 +69,8 @@ private:
   // State methods
   std::map<std::string, StateMethod> stateMethodMap = {
     {"CHANGE_STATE", CHANGE_STATE},
+    {"VELSET_X", VELSET_X},
+    {"VELSET_Y", VELSET_Y},
     {"MOVE_F", MOVE_F},
     {"MOVE_B", MOVE_B},
     {"MOVE_U", MOVE_U},

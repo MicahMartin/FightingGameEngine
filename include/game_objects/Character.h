@@ -26,13 +26,15 @@ public:
   // getters for these guys
   bool faceRight;
   VirtualController* virtualController;
+  int playerNum;
+  int health;
+  int velocityX;
+  int velocityY;
 private:
   std::vector<StateDef> stateList;
 
   StateDef* currentState;
   std::pair<int, int> position;
-  int playerNum;
-  int health;
 };
 
 #endif

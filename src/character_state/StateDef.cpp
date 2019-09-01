@@ -63,7 +63,6 @@ void StateDef::draw(){
 
 bool StateDef::evalController(StateController* controller){
   std::string condition = controller->getCondition();
-  std::cout << "evaluating controller" << std::endl;
 
   std::size_t hasAndCondition = condition.find("&&");
   if (hasAndCondition != -1) {
@@ -71,24 +70,19 @@ bool StateDef::evalController(StateController* controller){
     bool finalFlag = false;
 
     for (auto andCondition : conditions) {
-      std::cout << "evaling and cndition "<< andCondition << std::endl;
       finalFlag = evalCondition(andCondition);
       if (finalFlag) {
-        std::cout << "this one was true" << std::endl;
+      } else {
+        return false;
       }
     }
-    if (finalFlag) {
-      std::cout << "all true" << std::endl;
-      return finalFlag;
-    }
-    return false;
+    return finalFlag;
   }
 
   return evalCondition(condition);
 }
 
 bool StateDef::evalCondition(std::string condition){
-  std::cout << "evalCondition " << condition << std::endl;
   std::size_t pos = condition.find(" ");
   if(pos == -1){
     return true;
@@ -128,6 +122,12 @@ void StateDef::executeController(StateController* controller){
     case CHANGE_STATE:
       _changeState(param);
       break;
+    case VELSET_X:
+      _velSetX(std::stoi(param));
+      break;
+    case VELSET_Y:
+      _velSetY(std::stoi(param));
+      break;
     case MOVE_F:
       _moveForward(std::stoi(param));
       break;
@@ -145,6 +145,13 @@ void StateDef::executeController(StateController* controller){
 
 void StateDef::_changeState(std::string stateNum){
   charStateManager->getCharPointer(charNum)->changeState(std::stoi(stateNum));
+}
+void StateDef::_velSetX(int ammount){
+  charStateManager->getCharPointer(charNum)->velocityX = ammount;
+}
+
+void StateDef::_velSetY(int ammount){
+  charStateManager->getCharPointer(charNum)->velocityY = ammount;
 }
 
 void StateDef::_moveForward(int ammount){

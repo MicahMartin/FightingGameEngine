@@ -62,6 +62,7 @@ void GameTexture::setDimensions(int xCord, int yCord, int width, int height) {
   textRect.x = xCord;
   cartesian ? textRect.y = yCord + (graphics.getWindowHeight() - height) : textRect.y = yCord;
   textRect.w = width;
+  halfWidth = width/2;
   textRect.h = height;
 }
 
