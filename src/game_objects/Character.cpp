@@ -32,6 +32,7 @@ void Character::loadStates(){
 
   for(auto i : stateJson.at("states").items()){
     StateDef state(playerNum);
+    state.loadFlags(i.value().at("flags"));
     state.loadControllers(i.value().at("controllers"));
     state.loadAnimation(i.value().at("animation"));
     state.loadUpdate(i.value().at("update"));

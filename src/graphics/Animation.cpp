@@ -30,10 +30,15 @@ void Animation::loadAnimEvents(nlohmann::json json){
 }
 
 void Animation::render(int x, int y, bool faceRight){
+  // draw a vertical line on the character's position
+  SDL_SetRenderDrawColor(graphics->getRenderer(), 255, 0, 0, 0);
+  SDL_RenderDrawLine(graphics->getRenderer(), x, graphics->getWindowHeight(), x, y);
+  SDL_SetRenderDrawColor(graphics->getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
+
   AnimationElement* elem = &animationElements.at(currentAnimElemIndex);
 
   GameTexture* currentText = elem->gameTexture;
-  currentText->setCords(x,y);
+  currentText->setCords(x - currentText->halfWidth, y);
   currentText->render(faceRight);
 
   currentAnimElemTimePassed++;

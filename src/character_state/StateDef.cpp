@@ -7,6 +7,13 @@
 StateDef::StateDef(int charNum) : charNum(charNum){ }
 StateDef::~StateDef(){ }
 
+void StateDef::loadFlags(nlohmann::json json){
+  for(auto i : json.items()){
+    std::string flag(i.value());
+    flagByte |= flagMap[flag];
+  }
+};
+
 void StateDef::loadControllers(nlohmann::json json){
   for(auto i : json.items()){
     StateController controller(i.value().at("condition"), i.value().at("action"));
@@ -60,6 +67,9 @@ void StateDef::draw(){
   anim.render(charPos.first, charPos.second, faceRight);
 };
 
+bool StateDef::checkFlag(StateDef::FlagBit bit){
+  return flagByte & bit;
+};
 
 bool StateDef::evalController(StateController* controller){
   std::string condition = controller->getCondition();
@@ -147,7 +157,8 @@ void StateDef::_changeState(std::string stateNum){
   charStateManager->getCharPointer(charNum)->changeState(std::stoi(stateNum));
 }
 void StateDef::_velSetX(int ammount){
-  charStateManager->getCharPointer(charNum)->velocityX = ammount;
+  bool faceRight = charStateManager->getCharPointer(charNum)->faceRight;
+  faceRight ? charStateManager->getCharPointer(charNum)->velocityX = ammount : charStateManager->getCharPointer(charNum)->velocityX = -ammount;
 }
 
 void StateDef::_velSetY(int ammount){

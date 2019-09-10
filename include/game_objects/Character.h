@@ -24,16 +24,15 @@ public:
   void setY(int y);
 
   // getters for these guys
-  bool faceRight;
   VirtualController* virtualController;
+  StateDef* currentState;
+  bool faceRight;
   int playerNum;
-  int health;
   int velocityX;
   int velocityY;
+  int health;
 private:
   std::vector<StateDef> stateList;
-
-  StateDef* currentState;
   std::pair<int, int> position;
 };
 

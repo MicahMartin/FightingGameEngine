@@ -13,20 +13,32 @@ public:
   StateDef(int charNum);
   ~StateDef();
 
+  // load shit
+  void loadFlags(nlohmann::json json);
+  void loadUpdate(nlohmann::json json);
   void loadControllers(nlohmann::json json);
   void loadAnimation(nlohmann::json json);
-  void loadUpdate(nlohmann::json json);
+  void loadCollisionBoxes(nlohmann::json json);
 
   void enter();
   void handleInput();
   void update();
   void draw();
 
+  enum FlagBit {
+    NO_TURN = 0x01,
+    FOO = 0x02,
+    BAR = 0x04,
+    BAZZ = 0x08,
+  };
+
+  bool checkFlag(FlagBit bit);
+
+private:
   bool evalController(StateController* controller);
   bool evalCondition(std::string condition);
   void executeController(StateController* controller);
 
-private:
   void _changeState(std::string stateNum);
   void _velSetX(int ammount);
   void _velSetY(int ammount);
@@ -55,6 +67,13 @@ private:
     GET_STATE_TIME,
     GET_Y_POS,
     GET_INPUT
+  };
+
+  std::map<std::string, FlagBit> flagMap = {
+    {"NO_TURN", NO_TURN},
+    {"FOO", FOO},
+    {"BAR", BAR},
+    {"BAZZ", BAZZ}
   };
 
   std::map<std::string, std::function<bool(int, int)>> stateOperationMap = {
@@ -87,6 +106,7 @@ private:
   Animation anim;
   int charNum;
   int stateTime;
+  uint8_t flagByte = 0;
   std::vector<StateController> updateCommands;
   std::vector<StateController> controllers;
   CharStateManager* charStateManager = CharStateManager::getInstance();

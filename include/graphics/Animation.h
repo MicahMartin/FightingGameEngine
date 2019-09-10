@@ -5,6 +5,7 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include "graphics/GameTexture.h"
+#include "graphics/Graphics.h"
 
 class Animation {
 public:
@@ -30,6 +31,7 @@ public:
 private:
   /* data */
   std::vector<AnimationElement> animationElements;
+  Graphics* graphics = Graphics::getInstance();
   int currentAnimElemIndex;
   int currentAnimElemTimePassed;
   int animationTime;

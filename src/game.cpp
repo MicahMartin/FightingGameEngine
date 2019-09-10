@@ -8,7 +8,7 @@ Game::~Game(){}
 
 void Game::init() {
   // init Graphics
-  graphics.init(1280, 720);
+  graphics->init(1280, 720);
   // register with input manager so we can catch quit messages
   inputManager->init();
   inputManager->addObserver("game", this);
@@ -33,9 +33,9 @@ void Game::update() {
   // the current state holds a pointer to the currrent screen
   // screen has a surface pointer with all the pixels that need to be
   // written and swapped this frame
-  graphics.clear();
+  graphics->clear();
   currentState->draw();
-  graphics.present();
+  graphics->present();
 }
 
 void Game::onNotify(const char* eventName) {
