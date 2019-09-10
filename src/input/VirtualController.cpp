@@ -2,6 +2,7 @@
 #include <bitset>
 #include <iostream>
 
+// TODO: map<string, (*funcToGetKeyCode)()> for the love of fucking god
 VirtualController::Input VirtualController::getInputForString(std::string inputStr, bool faceRight){
   if (inputStr == "n") {
     return VirtualController::NOINPUT;
