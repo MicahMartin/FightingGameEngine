@@ -1,7 +1,8 @@
-#include "character_state/StateDef.h"
-#include "game_objects/Character.h"
 #include <iostream>
 #include <functional>
+#include "character_state/StateDef.h"
+#include "game_objects/Character.h"
+#include "physics/CollisionBox.h"
 #include "Util.h"
 
 StateDef::StateDef(int charNum) : charNum(charNum){ }
@@ -29,6 +30,11 @@ void StateDef::loadUpdate(nlohmann::json json){
   for(auto i : json.items()){
     StateController updateCommand(i.value().at("condition"), i.value().at("action"));
     updateCommands.push_back(updateCommand);
+  }
+};
+
+void StateDef::loadCollisionBoxes(nlohmann::json json){
+  for(auto i : json.items()){
   }
 };
 

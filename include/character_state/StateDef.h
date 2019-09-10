@@ -7,7 +7,9 @@
 #include "character_state/CharStateManager.h"
 #include "input/VirtualController.h"
 #include "graphics/Animation.h"
+#include "physics/CollisionBox.h"
 
+// TODO: Check out map usage, json.hpp is giving me the behavior I want???
 class StateDef {
 public:
   StateDef(int charNum);
@@ -109,6 +111,7 @@ private:
   uint8_t flagByte = 0;
   std::vector<StateController> updateCommands;
   std::vector<StateController> controllers;
+  std::vector<CollisionBox> collisionBoxes;
   CharStateManager* charStateManager = CharStateManager::getInstance();
 };
 #endif
