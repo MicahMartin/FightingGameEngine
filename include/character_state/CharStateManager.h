@@ -10,7 +10,7 @@ public:
   };
 
   void registerCharacter(Character* character, int playerNum);
-  Character*  getCharPointer(int playerNum);
+  Character* getCharPointer(int playerNum);
 
 private:
   CharStateManager() = default;

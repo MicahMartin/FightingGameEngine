@@ -35,6 +35,28 @@ void StateDef::loadUpdate(nlohmann::json json){
 
 void StateDef::loadCollisionBoxes(nlohmann::json json){
   for(auto i : json.items()){
+    CollisionBox::CollisionType type = CollisionBox::collisionTypeMap.at(i.value().at("type"));
+    int width = i.value().at("width");
+    int height = i.value().at("height");
+    int offsetX = i.value().at("offsetX");
+    int offsetY = i.value().at("offsetY");
+
+    Character* player = charStateManager->getCharPointer(charNum);
+    printf("%d loading collision boxes \n", player->playerNum);
+    std::pair charPos = player->getPos();
+
+    CollisionBox cb(type, width, height, offsetX, offsetY);
+    cb.positionX = charPos.first - (width/2);
+    cb.positionY = charPos.second;
+
+    switch (type) {
+      case CollisionBox::POSITION:
+        pushBoxes.push_back(cb);
+        break;
+      case CollisionBox::HURT:
+        hurtBoxes.push_back(cb);
+        break;
+    }
   }
 };
 
@@ -45,22 +67,13 @@ void StateDef::enter(){
 };
 
 void StateDef::handleInput(){
-  bool controllerMatched = false;
-  for (int i = 0; i < controllers.size() && !controllerMatched; ++i) {
-   controllerMatched = evalController(&controllers[i]);
-   if(controllerMatched){
-     // execute controller action
-     std::cout << "CONTROLLER MATCHED" << std::endl;
-     executeController(&controllers[i]);
-   }
-  }
 }
 
 void StateDef::update(){
+  std::pair charPos = charStateManager->getCharPointer(charNum)->getPos();
   for(int i = 0; i < updateCommands.size(); ++i){
     bool updateCondition = evalController(&updateCommands[i]);
     if(updateCondition){
-      std::cout << "UPDATE CONDITION MATCHED" << std::endl;
       executeController(&updateCommands[i]);
     }
   }
@@ -71,6 +84,10 @@ void StateDef::draw(){
   std::pair charPos = charStateManager->getCharPointer(charNum)->getPos();
   bool faceRight = charStateManager->getCharPointer(charNum)->faceRight;
   anim.render(charPos.first, charPos.second, faceRight);
+
+  for (auto cb : pushBoxes) {
+    cb.render();
+  }
 };
 
 bool StateDef::checkFlag(StateDef::FlagBit bit){
@@ -131,8 +148,6 @@ void StateDef::executeController(StateController* controller){
   std::size_t pos = action.find(" ");
   std::string actionFunction = action.substr(0, pos);
   std::string param = action.substr(pos+1);
-
-  std::cout << "Executing " << actionFunction << " with param " << param << std::endl;
 
   switch (stateMethodMap.at(actionFunction)) {
     case CHANGE_STATE:
@@ -203,7 +218,6 @@ int StateDef::_getAnimTime(){
 
 int StateDef::_getYPos(){
   int yPos = charStateManager->getCharPointer(charNum)->getPos().second;
-  std::cout << "the yPos " << yPos << std::endl;
   return yPos;
 }
 

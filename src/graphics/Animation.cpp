@@ -21,10 +21,11 @@ void Animation::loadAnimEvents(nlohmann::json json){
     text->setDimensions(0, 0, dimensions.first*2, dimensions.second*2);
 
     int animTime = i.value().at("time");
+    int offsetX = i.value().at("offsetX");
     std::cout << " THE ANIM TIME " << animTime << std::endl;
     animationTime += animTime;
 
-    AnimationElement element(text, animTime);
+    AnimationElement element(text, animTime, offsetX);
     animationElements.push_back(element);
   }
 }
@@ -38,7 +39,7 @@ void Animation::render(int x, int y, bool faceRight){
   AnimationElement* elem = &animationElements.at(currentAnimElemIndex);
 
   GameTexture* currentText = elem->gameTexture;
-  currentText->setCords(x - currentText->halfWidth, y);
+  faceRight ? currentText->setCords(x - (elem->offsetX*2), y) : currentText->setCords(x - elem->offsetX, y);
   currentText->render(faceRight);
 
   currentAnimElemTimePassed++;

@@ -23,11 +23,13 @@ public:
   std::pair<int, int> getDimensions(const char* path);
 
   struct AnimationElement {
-    AnimationElement(GameTexture* gameTexture, int elemTime): gameTexture(gameTexture), elemTime(elemTime){ }
+    AnimationElement(GameTexture* gameTexture, int elemTime, int offsetX): gameTexture(gameTexture), elemTime(elemTime), offsetX(offsetX){ }
     GameTexture* gameTexture;
     int elemTime;
+    int offsetX;
   };
 
+  int center;
 private:
   /* data */
   std::vector<AnimationElement> animationElements;

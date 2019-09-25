@@ -22,6 +22,7 @@ public:
   void loadAnimation(nlohmann::json json);
   void loadCollisionBoxes(nlohmann::json json);
 
+
   void enter();
   void handleInput();
   void update();
@@ -36,6 +37,10 @@ public:
 
   bool checkFlag(FlagBit bit);
 
+  // TODO: Polymorph
+  std::vector<CollisionBox> collisionBoxes;
+  std::vector<CollisionBox> pushBoxes;
+  std::vector<CollisionBox> hurtBoxes;
 private:
   bool evalController(StateController* controller);
   bool evalCondition(std::string condition);
@@ -111,7 +116,6 @@ private:
   uint8_t flagByte = 0;
   std::vector<StateController> updateCommands;
   std::vector<StateController> controllers;
-  std::vector<CollisionBox> collisionBoxes;
   CharStateManager* charStateManager = CharStateManager::getInstance();
 };
 #endif

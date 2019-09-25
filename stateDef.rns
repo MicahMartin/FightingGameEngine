@@ -1,0 +1,27 @@
+state IDLE {
+  def enter {
+    setAnim("idle.anim")
+    setControl(1)
+    setVelocity(0,0)
+  }
+
+  def update {
+    if(!getAnimTime()){
+      resetAnim()
+    }
+  }
+}
+
+state ST_A {
+  def enter {
+    setAnim("standing_light_punch.anim")
+    setControl(0)
+    setVelocity(0,0)
+  }
+
+  def update {
+    if(!getAnimTime()){
+      setControl(1)
+    }
+  }
+}

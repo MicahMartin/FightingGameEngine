@@ -3,18 +3,22 @@
 #include <fstream>
 #include <iostream>
 
-Character::Character(std::pair<int, int> _position, int _playerNum) : position(_position), playerNum(_playerNum) {
+Character::Character(std::pair<int, int> _position, int _playerNum) {
   faceRight = playerNum == 1 ? true : false;
   health = 100;
   velocityX = 0;
   velocityY = 0;
-  loadStates();
-  changeState(1);
+  position = _position;
+  playerNum = _playerNum;
 }
 
-Character::Character(std::pair<int, int> _position) : position(_position) { 
+Character::Character(std::pair<int, int> _position) { 
   faceRight = playerNum == 1 ? true : false;
   health = 100;
+  position = _position;
+}
+
+void Character::init(){
   loadStates();
   changeState(1);
 }
@@ -25,7 +29,7 @@ void Character::changeState(int stateDefNum){
 };
 
 void Character::loadStates(){
-  printf("Loading states\n");
+  printf("%d Loading states\n", playerNum);
   nlohmann::json stateJson;
   std::ifstream configFile("../data/characters/alucard/def.json");
   configFile >> stateJson;
@@ -34,7 +38,6 @@ void Character::loadStates(){
     StateDef state(playerNum);
 
     state.loadFlags(i.value().at("flags"));
-    state.loadControllers(i.value().at("controllers"));
     state.loadAnimation(i.value().at("animation"));
     state.loadUpdate(i.value().at("update"));
     state.loadCollisionBoxes(i.value().at("collision_boxes"));
@@ -51,6 +54,8 @@ void Character::handleInput(){
 
 void Character::update(){ 
 
+  currentState->update();
+
   position.first += velocityX;
   position.second -= velocityY;
 
@@ -63,7 +68,12 @@ void Character::update(){
     velocityY = 0;
   }
 
-  currentState->update();
+
+  for (auto &cb : currentState->pushBoxes) {
+    cb.positionX = position.first - (cb.width / 2);
+    cb.positionY = position.second;
+  }
+
 };
 void Character::draw(){
   currentState->draw();

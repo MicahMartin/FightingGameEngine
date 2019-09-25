@@ -8,6 +8,7 @@ class Character {
 public:
   Character(std::pair<int, int> position, int playerNum);
   Character(std::pair<int, int> position);
+  void init();
 
   ~Character();
 

@@ -24,7 +24,7 @@ void GameTexture::render() {
 }
 
 void GameTexture::render(bool faceRight) {
-  SDL_RendererFlip flipFlag = faceRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL ;
+  SDL_RendererFlip flipFlag = faceRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
   SDL_RenderCopyEx(renderer, texture, NULL, &textRect, 0, NULL, flipFlag);
 }
 
