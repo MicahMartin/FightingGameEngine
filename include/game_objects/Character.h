@@ -28,9 +28,11 @@ public:
   void setY(int y);
 
   // getters for these guys
+  std::vector<StateController> inputCommands;
   VirtualController* virtualController;
   StateDef* currentState;
   bool faceRight;
+  int control = 1;
   int playerNum;
   int velocityX;
   int velocityY;

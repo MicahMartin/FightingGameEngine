@@ -26,13 +26,6 @@ void StateDef::loadUpdate(nlohmann::json json){
   }
 };
 
-void StateDef::loadInputCommands(nlohmann::json json){
-  for(auto i : json.items()){
-    StateController inputCommand(i.value().at("condition"), i.value().at("action"));
-    inputCommands.push_back(inputCommand);
-  }
-}
-
 void StateDef::loadCollisionBoxes(nlohmann::json json){
   for(auto i : json.items()){
     CollisionBox::CollisionType type = CollisionBox::collisionTypeMap.at(i.value().at("type"));
@@ -67,7 +60,8 @@ void StateDef::enter(){
 };
 
 void StateDef::handleInput(){
-
+  std::vector<StateController> inputCommands = charStateManager->getCharPointer(charNum)->inputCommands;
+  
   bool commandMatched = false;
   for (int i = 0; i < inputCommands.size() && !commandMatched; ++i) {
   std::string condition = inputCommands[i].getCondition();
@@ -151,6 +145,9 @@ bool StateDef::evalCondition(std::string condition){
     case GET_STATE_NUM:
       return stateOperationMap[op](_getStateNum(), std::stoi(param));
       break;
+    case GET_CONTROL:
+      return stateOperationMap[op](_getControl(), std::stoi(param));
+      break;
   }
 }
 
@@ -181,6 +178,9 @@ void StateDef::executeController(StateController* controller){
       break;
     case MOVE_D:
       _moveDown(std::stoi(param));
+      break;
+    case SET_CONTROL:
+      _setControl(std::stoi(param));
       break;
   }
 }
@@ -223,6 +223,10 @@ void StateDef::_moveDown(int ammount){
   charStateManager->getCharPointer(charNum)->setY(-ammount);
 }
 
+void StateDef::_setControl(int val){
+  charStateManager->getCharPointer(charNum)->control = val;
+}
+
 int StateDef::_getAnimTime(){
   return anim.timeRemaining();
 }
@@ -242,4 +246,9 @@ int StateDef::_getInput(VirtualController::Input input){
 
 int StateDef::_getStateNum(){
   return charStateManager->getCharPointer(charNum)->currentState->stateNum;
+}
+
+int StateDef::_getControl(){
+  int control = charStateManager->getCharPointer(charNum)->control;
+  return control;
 }

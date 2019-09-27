@@ -18,7 +18,6 @@ public:
   // load shit
   void loadFlags(nlohmann::json json);
   void loadUpdate(nlohmann::json json);
-  void loadInputCommands(nlohmann::json json);
   void loadAnimation(nlohmann::json json);
   void loadCollisionBoxes(nlohmann::json json);
 
@@ -42,6 +41,8 @@ public:
   std::vector<CollisionBox> collisionBoxes;
   std::vector<CollisionBox> pushBoxes;
   std::vector<CollisionBox> hurtBoxes;
+  std::vector<CollisionBox> hitBoxes;
+
 private:
   bool evalController(StateController* controller);
   bool evalCondition(std::string condition);
@@ -54,12 +55,14 @@ private:
   void _moveBack(int ammount);
   void _moveUp(int ammount);
   void _moveDown(int ammount);
+  void _setControl(int val);
 
   int _getAnimTime();
   int _getStateTime();
   int _getYPos();
   int _getInput(VirtualController::Input input);
   int _getStateNum();
+  int _getControl();
 
   enum StateMethod {
     CHANGE_STATE,
@@ -68,7 +71,8 @@ private:
     MOVE_F,
     MOVE_B,
     MOVE_U,
-    MOVE_D
+    MOVE_D,
+    SET_CONTROL
   };
 
   enum StateCondition {
@@ -76,7 +80,8 @@ private:
     GET_STATE_TIME,
     GET_Y_POS,
     GET_INPUT,
-    GET_STATE_NUM
+    GET_STATE_NUM,
+    GET_CONTROL
   };
 
   std::map<std::string, FlagBit> flagMap = {
@@ -103,7 +108,8 @@ private:
     {"MOVE_F", MOVE_F},
     {"MOVE_B", MOVE_B},
     {"MOVE_U", MOVE_U},
-    {"MOVE_D", MOVE_D}
+    {"MOVE_D", MOVE_D},
+    {"SET_CONTROL", SET_CONTROL}
   };
 
   std::map<std::string, StateCondition> stateConditionMap = {
@@ -112,6 +118,7 @@ private:
     {"GET_INPUT", GET_INPUT},
     {"GET_Y_POS", GET_Y_POS},
     {"GET_STATE_NUM", GET_STATE_NUM},
+    {"GET_CONTROL", GET_CONTROL}
   };
 
   Animation anim;
@@ -119,7 +126,6 @@ private:
   int stateTime;
   uint8_t flagByte = 0;
   std::vector<StateController> updateCommands;
-  std::vector<StateController> inputCommands;
   CharStateManager* charStateManager = CharStateManager::getInstance();
 };
 #endif

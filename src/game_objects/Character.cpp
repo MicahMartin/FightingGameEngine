@@ -39,10 +39,14 @@ void Character::loadStates(){
     state.loadFlags(i.value().at("flags"));
     state.loadAnimation(i.value().at("animation"));
     state.loadUpdate(i.value().at("update"));
-    state.loadInputCommands(i.value().at("commands"));
     state.loadCollisionBoxes(i.value().at("collision_boxes"));
 
     stateList.push_back(state);
+  }
+
+  for(auto i : stateJson.at("commands").items()){
+    StateController inputCommand(i.value().at("condition"), i.value().at("action"));
+    inputCommands.push_back(inputCommand);
   }
 }
 
