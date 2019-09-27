@@ -5,20 +5,13 @@
 #include "physics/CollisionBox.h"
 #include "Util.h"
 
-StateDef::StateDef(int charNum) : charNum(charNum){ }
+StateDef::StateDef(int charNum, int stateNum) : charNum(charNum), stateNum(stateNum){ }
 StateDef::~StateDef(){ }
 
 void StateDef::loadFlags(nlohmann::json json){
   for(auto i : json.items()){
     std::string flag(i.value());
     flagByte |= flagMap[flag];
-  }
-};
-
-void StateDef::loadControllers(nlohmann::json json){
-  for(auto i : json.items()){
-    StateController controller(i.value().at("condition"), i.value().at("action"));
-    controllers.push_back(controller);
   }
 };
 
@@ -32,6 +25,13 @@ void StateDef::loadUpdate(nlohmann::json json){
     updateCommands.push_back(updateCommand);
   }
 };
+
+void StateDef::loadInputCommands(nlohmann::json json){
+  for(auto i : json.items()){
+    StateController inputCommand(i.value().at("condition"), i.value().at("action"));
+    inputCommands.push_back(inputCommand);
+  }
+}
 
 void StateDef::loadCollisionBoxes(nlohmann::json json){
   for(auto i : json.items()){
@@ -67,10 +67,19 @@ void StateDef::enter(){
 };
 
 void StateDef::handleInput(){
+
+  bool commandMatched = false;
+  for (int i = 0; i < inputCommands.size() && !commandMatched; ++i) {
+  std::string condition = inputCommands[i].getCondition();
+   commandMatched = evalController(&inputCommands[i]);
+   if(commandMatched){
+     // execute controller action
+     executeController(&inputCommands[i]);
+   }
+  }
 }
 
 void StateDef::update(){
-  std::pair charPos = charStateManager->getCharPointer(charNum)->getPos();
   for(int i = 0; i < updateCommands.size(); ++i){
     bool updateCondition = evalController(&updateCommands[i]);
     if(updateCondition){
@@ -104,8 +113,7 @@ bool StateDef::evalController(StateController* controller){
 
     for (auto andCondition : conditions) {
       finalFlag = evalCondition(andCondition);
-      if (finalFlag) {
-      } else {
+      if (!finalFlag) {
         return false;
       }
     }
@@ -140,6 +148,9 @@ bool StateDef::evalCondition(std::string condition){
       return stateOperationMap[op](_getInput(input), 1);
       break;
     }
+    case GET_STATE_NUM:
+      return stateOperationMap[op](_getStateNum(), std::stoi(param));
+      break;
   }
 }
 
@@ -227,4 +238,8 @@ int StateDef::_getStateTime(){
 
 int StateDef::_getInput(VirtualController::Input input){
   return charStateManager->getCharPointer(charNum)->virtualController->isPressed(input) ? 1 : 0;
+}
+
+int StateDef::_getStateNum(){
+  return charStateManager->getCharPointer(charNum)->currentState->stateNum;
 }

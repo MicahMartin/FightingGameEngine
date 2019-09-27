@@ -13,7 +13,7 @@ public:
     std::vector<std::string> res;
 
     while ((pos_end = s.find(delimiter, pos_start)) != std::string::npos) {
-        token = s.substr (pos_start, pos_end - pos_start);
+        token = s.substr (pos_start, pos_end - pos_start - 1);
         pos_start = pos_end + delim_len+1;
         res.push_back(token);
     }

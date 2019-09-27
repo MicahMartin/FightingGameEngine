@@ -1,5 +1,4 @@
 #include "game_objects/Character.h"
-#include <nlohmann/json.hpp>
 #include <fstream>
 #include <iostream>
 
@@ -30,16 +29,17 @@ void Character::changeState(int stateDefNum){
 
 void Character::loadStates(){
   printf("%d Loading states\n", playerNum);
-  nlohmann::json stateJson;
   std::ifstream configFile("../data/characters/alucard/def.json");
   configFile >> stateJson;
 
   for(auto i : stateJson.at("states").items()){
-    StateDef state(playerNum);
+    int stateNum = i.value().at("state_num");
+    StateDef state(playerNum, stateNum);
 
     state.loadFlags(i.value().at("flags"));
     state.loadAnimation(i.value().at("animation"));
     state.loadUpdate(i.value().at("update"));
+    state.loadInputCommands(i.value().at("commands"));
     state.loadCollisionBoxes(i.value().at("collision_boxes"));
 
     stateList.push_back(state);
@@ -82,6 +82,10 @@ void Character::draw(){
 
 std::pair<int,int> Character::getPos(){
   return position;
+};
+
+void Character::setXPos(int x){
+  position.first = x;
 };
 
 void Character::setX(int x){

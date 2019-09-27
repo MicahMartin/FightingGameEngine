@@ -3,6 +3,8 @@
 
 #include "character_state/StateDef.h"
 #include "input/VirtualController.h"
+#include "character_state/StateController.h"
+#include <nlohmann/json.hpp>
 
 class Character {
 public:
@@ -21,6 +23,7 @@ public:
 
   // position stuff
   std::pair<int,int> getPos();
+  void setXPos(int x);
   void setX(int x);
   void setY(int y);
 
@@ -32,7 +35,9 @@ public:
   int velocityX;
   int velocityY;
   int health;
+
 private:
+  nlohmann::json stateJson;
   std::vector<StateDef> stateList;
   std::pair<int, int> position;
 };

@@ -104,6 +104,21 @@ void FightState::update(){
     }
   }
 
+  if(player1->getPos().first < 0) {
+    player1->setXPos(0);
+  }
+
+  if(player1->getPos().first > 1280) {
+    player1->setXPos(1280);
+  }
+
+  if(player2->getPos().first < 0) {
+    player2->setXPos(0);
+  }
+
+  if(player2->getPos().first > 1280) {
+    player2->setXPos(1280);
+  }
 };
 
 void FightState::draw(){  

@@ -12,13 +12,13 @@
 // TODO: Check out map usage, json.hpp is giving me the behavior I want???
 class StateDef {
 public:
-  StateDef(int charNum);
+  StateDef(int charNum, int stateNum);
   ~StateDef();
 
   // load shit
   void loadFlags(nlohmann::json json);
   void loadUpdate(nlohmann::json json);
-  void loadControllers(nlohmann::json json);
+  void loadInputCommands(nlohmann::json json);
   void loadAnimation(nlohmann::json json);
   void loadCollisionBoxes(nlohmann::json json);
 
@@ -36,6 +36,7 @@ public:
   };
 
   bool checkFlag(FlagBit bit);
+  int stateNum;
 
   // TODO: Polymorph
   std::vector<CollisionBox> collisionBoxes;
@@ -58,6 +59,7 @@ private:
   int _getStateTime();
   int _getYPos();
   int _getInput(VirtualController::Input input);
+  int _getStateNum();
 
   enum StateMethod {
     CHANGE_STATE,
@@ -73,7 +75,8 @@ private:
     GET_ANIM_TIME,
     GET_STATE_TIME,
     GET_Y_POS,
-    GET_INPUT
+    GET_INPUT,
+    GET_STATE_NUM
   };
 
   std::map<std::string, FlagBit> flagMap = {
@@ -108,6 +111,7 @@ private:
     {"GET_STATE_TIME", GET_STATE_TIME},
     {"GET_INPUT", GET_INPUT},
     {"GET_Y_POS", GET_Y_POS},
+    {"GET_STATE_NUM", GET_STATE_NUM},
   };
 
   Animation anim;
@@ -115,7 +119,7 @@ private:
   int stateTime;
   uint8_t flagByte = 0;
   std::vector<StateController> updateCommands;
-  std::vector<StateController> controllers;
+  std::vector<StateController> inputCommands;
   CharStateManager* charStateManager = CharStateManager::getInstance();
 };
 #endif
