@@ -119,6 +119,21 @@ void FightState::update(){
   if(player2->getPos().first > 1280) {
     player2->setXPos(1280);
   }
+
+  // check hitboxes
+  std::vector<CollisionBox> p1Hitboxes = player1->currentState->hitBoxes;
+  std::vector<CollisionBox> p1HurtBoxes = player1->currentState->hurtBoxes;
+
+  std::vector<CollisionBox> p2Hitboxes = player2->currentState->hitBoxes;
+  std::vector<CollisionBox> p2HurtBoxes = player2->currentState->hurtBoxes;
+
+  for (auto p1Hitbox : p1Hitboxes) {
+    for (auto p2HurtBox : p2HurtBoxes) {
+      if (CollisionBox::checkAABB(p1Hitbox, p2HurtBox)) {
+        printf("holy fuck lets go\n");
+      }
+    }
+  }
 };
 
 void FightState::draw(){  

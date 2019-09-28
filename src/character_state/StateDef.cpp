@@ -33,12 +33,14 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
     int height = i.value().at("height");
     int offsetX = i.value().at("offsetX");
     int offsetY = i.value().at("offsetY");
+    int start = i.value().at("start");
+    int end = i.value().at("end");
 
     Character* player = charStateManager->getCharPointer(charNum);
     printf("%d loading collision boxes \n", player->playerNum);
     std::pair charPos = player->getPos();
 
-    CollisionBox cb(type, width, height, offsetX, offsetY);
+    CollisionBox cb(type, width, height, offsetX, offsetY, start, end);
     cb.positionX = charPos.first - (width/2);
     cb.positionY = charPos.second;
 
@@ -48,6 +50,9 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
         break;
       case CollisionBox::HURT:
         hurtBoxes.push_back(cb);
+        break;
+      case CollisionBox::HIT:
+        hitBoxes.push_back(cb);
         break;
     }
   }
@@ -88,8 +93,21 @@ void StateDef::draw(){
   bool faceRight = charStateManager->getCharPointer(charNum)->faceRight;
   anim.render(charPos.first, charPos.second, faceRight);
 
+  // stateTime is 2
   for (auto cb : pushBoxes) {
-    cb.render();
+    if(cb.end == -1 || ( cb.start >= stateTime && cb.end <= stateTime )){
+      cb.render();
+    }
+  }
+  for (auto cb : hurtBoxes) {
+    if(cb.end == -1 || ( stateTime >= cb.start && stateTime <= cb.end )){
+      cb.render();
+    }
+  }
+  for (auto cb : hitBoxes) {
+    if(cb.end == -1 || ( stateTime >= cb.start && stateTime <= cb.end )){
+      cb.render();
+    }
   }
 };
 
@@ -138,8 +156,14 @@ bool StateDef::evalCondition(std::string condition){
       break;
     case GET_INPUT: {
       bool faceRight = charStateManager->getCharPointer(charNum)->faceRight;
-      VirtualController::Input input = VirtualController::getInputForString(param, faceRight);
+      VirtualController::Input input = VirtualController::inputMap[param](faceRight);
       return stateOperationMap[op](_getInput(input), 1);
+      break;
+    }
+    case WAS_PRESSED: {
+      bool faceRight = charStateManager->getCharPointer(charNum)->faceRight;
+      VirtualController::Input input = VirtualController::inputMap[param](faceRight);
+      return stateOperationMap[op](_wasPressed(input), 1);
       break;
     }
     case GET_STATE_NUM:
@@ -251,4 +275,8 @@ int StateDef::_getStateNum(){
 int StateDef::_getControl(){
   int control = charStateManager->getCharPointer(charNum)->control;
   return control;
+}
+
+int StateDef::_wasPressed(VirtualController::Input input){
+  return charStateManager->getCharPointer(charNum)->virtualController->wasPressed(input) ? 1 : 0;
 }

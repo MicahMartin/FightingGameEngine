@@ -39,7 +39,9 @@ void Animation::render(int x, int y, bool faceRight){
   AnimationElement* elem = &animationElements.at(currentAnimElemIndex);
 
   GameTexture* currentText = elem->gameTexture;
-  faceRight ? currentText->setCords(x - (elem->offsetX*2), y) : currentText->setCords(x - elem->offsetX, y);
+  int width = currentText->getDimensions().first;
+  int offsetX = elem->offsetX;
+  faceRight ? currentText->setCords(x-width+offsetX, y) : currentText->setCords(x-offsetX, y);
   currentText->render(faceRight);
 
   currentAnimElemTimePassed++;

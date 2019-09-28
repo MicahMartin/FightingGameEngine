@@ -6,6 +6,7 @@
 #include <unordered_set>
 #include <SDL2/SDL.h>
 #include <boost/circular_buffer.hpp>
+#include <nlohmann/json.hpp>
 
 class VirtualController : public Observer {
 public:
@@ -46,7 +47,8 @@ public:
     LEFTRIGHT = (LEFT | RIGHT),
     UPDOWN = (UP | DOWN),
   };
-  static Input getInputForString(std::string inputStr, bool faceRight);
+
+  static std::map<std::string, Input(*)(bool)> inputMap;
 
   VirtualController();
   ~VirtualController();

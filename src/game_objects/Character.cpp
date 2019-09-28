@@ -78,6 +78,16 @@ void Character::update(){
     cb.positionY = position.second;
   }
 
+  for (auto &cb : currentState->hurtBoxes) {
+    cb.positionX = position.first + (faceRight ? cb.offsetX : - (cb.offsetX + cb.width));
+    cb.positionY = position.second - cb.offsetY;
+  }
+
+  for (auto &cb : currentState->hitBoxes) {
+    cb.positionX = position.first + (faceRight ? cb.offsetX : - (cb.offsetX + cb.width));
+    cb.positionY = position.second - cb.offsetY;
+  }
+
 };
 void Character::draw(){
   currentState->draw();

@@ -1,29 +1,22 @@
 #include "input/VirtualController.h"
 #include <bitset>
 #include <iostream>
+#include <nlohmann/json.hpp>
 
-// TODO: map<string, (*funcToGetKeyCode)()> for the love of fucking god
-VirtualController::Input VirtualController::getInputForString(std::string inputStr, bool faceRight){
-  if (inputStr == "n") {
-    return VirtualController::NOINPUT;
-  } else if (inputStr == "u") {
-    return VirtualController::UP;
-  } else if (inputStr == "uf") {
-    return faceRight ? VirtualController::UPRIGHT : VirtualController::UPLEFT;
-  } else if (inputStr == "ub") {
-    return faceRight ? VirtualController::UPLEFT : VirtualController::UPRIGHT;
-  } else if (inputStr == "d") {
-    return VirtualController::DOWN;
-  } else if (inputStr == "df") {
-    return faceRight ? VirtualController::DOWNRIGHT : VirtualController::DOWNLEFT;
-  } else if (inputStr == "db") {
-    return faceRight ? VirtualController::DOWNLEFT : VirtualController::DOWNRIGHT;
-  } else if (inputStr == "f") {
-    return faceRight ? VirtualController::RIGHT : VirtualController::LEFT;
-  } else if (inputStr == "b") {
-    return faceRight ? VirtualController::LEFT : VirtualController::RIGHT;
-  }
+std::map<std::string, VirtualController::Input(*)(bool)> VirtualController::inputMap = {
+  {"n", [](bool faceRight){return VirtualController::NOINPUT;}},
+  {"u", [](bool faceRight){return VirtualController::UP;}},
+  {"d", [](bool faceRight){return VirtualController::DOWN;}},
+  {"f", [](bool faceRight){return faceRight ? VirtualController::RIGHT:VirtualController::LEFT;}},
+  {"uf", [](bool faceRight){return faceRight ? VirtualController::UPRIGHT:VirtualController::UPLEFT;}},
+  {"df", [](bool faceRight){return faceRight ? VirtualController::DOWNRIGHT:VirtualController::DOWNLEFT;}},
+  {"b", [](bool faceRight){return faceRight ? VirtualController::LEFT:VirtualController::RIGHT;}},
+  {"ub", [](bool faceRight){return faceRight ? VirtualController::UPLEFT:VirtualController::UPRIGHT;}},
+  {"db", [](bool faceRight){return faceRight ? VirtualController::DOWNLEFT:VirtualController::DOWNRIGHT;}},
+  {"lp", [](bool faceRight){return VirtualController::LP;}},
+  {"lk", [](bool faceRight){return VirtualController::LK;}},
 };
+
 
 VirtualController::VirtualController() { 
   inputHistory.set_capacity(60);

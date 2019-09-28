@@ -38,7 +38,6 @@ public:
   int stateNum;
 
   // TODO: Polymorph
-  std::vector<CollisionBox> collisionBoxes;
   std::vector<CollisionBox> pushBoxes;
   std::vector<CollisionBox> hurtBoxes;
   std::vector<CollisionBox> hitBoxes;
@@ -63,6 +62,7 @@ private:
   int _getInput(VirtualController::Input input);
   int _getStateNum();
   int _getControl();
+  int _wasPressed(VirtualController::Input input);
 
   enum StateMethod {
     CHANGE_STATE,
@@ -81,7 +81,8 @@ private:
     GET_Y_POS,
     GET_INPUT,
     GET_STATE_NUM,
-    GET_CONTROL
+    GET_CONTROL,
+    WAS_PRESSED
   };
 
   std::map<std::string, FlagBit> flagMap = {
@@ -118,7 +119,8 @@ private:
     {"GET_INPUT", GET_INPUT},
     {"GET_Y_POS", GET_Y_POS},
     {"GET_STATE_NUM", GET_STATE_NUM},
-    {"GET_CONTROL", GET_CONTROL}
+    {"GET_CONTROL", GET_CONTROL},
+    {"WAS_PRESSED", WAS_PRESSED}
   };
 
   Animation anim;

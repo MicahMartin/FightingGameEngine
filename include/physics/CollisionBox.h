@@ -12,14 +12,15 @@ public:
 
   enum CollisionType {
     POSITION,
-    HURT
+    HURT,
+    HIT
   };
 
 
   static bool checkAABB(CollisionBox box1, CollisionBox box2);
-  static const std::map<std::string, CollisionType> collisionTypeMap;
+  static std::map<std::string, CollisionType> collisionTypeMap;
 
-  CollisionBox(CollisionType boxType, int width, int height, int offsetX, int offsetY);
+  CollisionBox(CollisionType boxType, int width, int height, int offsetX, int offsetY, int start, int end);
   ~CollisionBox();
 
   void render();
@@ -32,6 +33,9 @@ public:
 
   int offsetX; 
   int offsetY;
+
+  int start;
+  int end;
 private:
   Graphics* graphics = Graphics::getInstance();
   CollisionType boxType;
