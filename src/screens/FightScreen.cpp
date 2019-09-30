@@ -4,7 +4,7 @@ FightScreen::FightScreen(){
   printf("the address of the screen %p\n", this);
 
   GameTexture* stage = new GameTexture();
-  stage->loadTexture("../data/images/newGrid.png");
+  stage->loadTexture("../data/images/purple_stage.png");
   stage->setDimensions(0,0, 1280, 720);
 
   addTexture(stage);

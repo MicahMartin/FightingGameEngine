@@ -5,6 +5,7 @@
 Character::Character(std::pair<int, int> _position, int _playerNum) {
   faceRight = playerNum == 1 ? true : false;
   health = 100;
+  maxHealth = 100;
   velocityX = 0;
   velocityY = 0;
   position = _position;
@@ -14,6 +15,7 @@ Character::Character(std::pair<int, int> _position, int _playerNum) {
 Character::Character(std::pair<int, int> _position) { 
   faceRight = playerNum == 1 ? true : false;
   health = 100;
+  maxHealth = 100;
   position = _position;
 }
 
@@ -48,6 +50,11 @@ void Character::loadStates(){
     StateController inputCommand(i.value().at("condition"), i.value().at("action"));
     inputCommands.push_back(inputCommand);
   }
+
+  for(auto i : stateJson.at("hitscripts").items()){
+    HitScript hitScript(i.value().at("script_num"), i.value().at("screenFreeze"), i.value().at("damage"));
+    hitScripts .push_back(hitScript);
+  }
 }
 
 Character::~Character(){};
@@ -63,11 +70,11 @@ void Character::update(){
   position.first += velocityX;
   position.second -= velocityY;
 
-  if(position.second >> 0){
+  if(position.second < 0){
     --velocityY;
   }
 
-  if(position.second >= 0){
+  if(position.second > 0){
     position.second = 0;
     velocityY = 0;
   }
@@ -86,10 +93,19 @@ void Character::update(){
   for (auto &cb : currentState->hitBoxes) {
     cb.positionX = position.first + (faceRight ? cb.offsetX : - (cb.offsetX + cb.width));
     cb.positionY = position.second - cb.offsetY;
+    int stateTime = currentState->stateTime;
+    if (stateTime == cb.start) {
+      cb.disabled = false;
+    }
+    if (stateTime == cb.end) {
+      cb.disabled = true;
+    }
   }
 
 };
+
 void Character::draw(){
+  // draw health bars
   currentState->draw();
 };
 

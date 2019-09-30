@@ -61,6 +61,9 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
 void StateDef::enter(){
   anim.setAnimTime(0);
   anim.resetAnimEvents();
+  for (auto &i : hitBoxes) {
+    i.disabled = true;
+  }
   stateTime = 0;
 };
 
@@ -91,7 +94,7 @@ void StateDef::update(){
 void StateDef::draw(){
   std::pair charPos = charStateManager->getCharPointer(charNum)->getPos();
   bool faceRight = charStateManager->getCharPointer(charNum)->faceRight;
-  anim.render(charPos.first, charPos.second, faceRight);
+  anim.render(charPos.first, charPos.second, faceRight, charStateManager->screenFrozen);
 
   // stateTime is 2
   for (auto cb : pushBoxes) {
@@ -206,6 +209,9 @@ void StateDef::executeController(StateController* controller){
     case SET_CONTROL:
       _setControl(std::stoi(param));
       break;
+    case SET_COMBO:
+      _setCombo(std::stoi(param));
+      break;
   }
 }
 
@@ -249,6 +255,10 @@ void StateDef::_moveDown(int ammount){
 
 void StateDef::_setControl(int val){
   charStateManager->getCharPointer(charNum)->control = val;
+}
+
+void StateDef::_setCombo(int val){
+  charStateManager->getCharPointer(charNum)->comboCounter = val;
 }
 
 int StateDef::_getAnimTime(){

@@ -36,6 +36,7 @@ public:
 
   bool checkFlag(FlagBit bit);
   int stateNum;
+  int stateTime;
 
   // TODO: Polymorph
   std::vector<CollisionBox> pushBoxes;
@@ -55,6 +56,7 @@ private:
   void _moveUp(int ammount);
   void _moveDown(int ammount);
   void _setControl(int val);
+  void _setCombo(int val);
 
   int _getAnimTime();
   int _getStateTime();
@@ -62,6 +64,7 @@ private:
   int _getInput(VirtualController::Input input);
   int _getStateNum();
   int _getControl();
+  int _getCombo();
   int _wasPressed(VirtualController::Input input);
 
   enum StateMethod {
@@ -72,7 +75,8 @@ private:
     MOVE_B,
     MOVE_U,
     MOVE_D,
-    SET_CONTROL
+    SET_CONTROL,
+    SET_COMBO
   };
 
   enum StateCondition {
@@ -82,7 +86,8 @@ private:
     GET_INPUT,
     GET_STATE_NUM,
     GET_CONTROL,
-    WAS_PRESSED
+    WAS_PRESSED,
+    GET_COMBO
   };
 
   std::map<std::string, FlagBit> flagMap = {
@@ -110,7 +115,8 @@ private:
     {"MOVE_B", MOVE_B},
     {"MOVE_U", MOVE_U},
     {"MOVE_D", MOVE_D},
-    {"SET_CONTROL", SET_CONTROL}
+    {"SET_CONTROL", SET_CONTROL},
+    {"SET_COMBO", SET_COMBO}
   };
 
   std::map<std::string, StateCondition> stateConditionMap = {
@@ -120,12 +126,12 @@ private:
     {"GET_Y_POS", GET_Y_POS},
     {"GET_STATE_NUM", GET_STATE_NUM},
     {"GET_CONTROL", GET_CONTROL},
-    {"WAS_PRESSED", WAS_PRESSED}
+    {"WAS_PRESSED", WAS_PRESSED},
+    {"GET_COMBO", GET_COMBO}
   };
 
   Animation anim;
   int charNum;
-  int stateTime;
   uint8_t flagByte = 0;
   std::vector<StateController> updateCommands;
   CharStateManager* charStateManager = CharStateManager::getInstance();

@@ -1,7 +1,13 @@
 #include "physics/CollisionBox.h"
+// TODO: STOP BEING LAZY AND POLY THIS
 
 CollisionBox::CollisionBox(CollisionBox::CollisionType boxType, int width, int height, int offsetX, int offsetY, int start, int end) 
-  : boxType(boxType), width(width), height(height), offsetX(offsetX), offsetY(offsetY), start(start), end(end) { }
+: CollisionBox(boxType, width, height, offsetX, offsetY, start, end, 0) {}
+
+CollisionBox::CollisionBox(CollisionBox::CollisionType boxType, int width, int height, int offsetX, int offsetY, int start, int end, int hitScript) 
+: boxType(boxType), width(width), height(height), offsetX(offsetX), offsetY(offsetY), start(start), end(end), hitScript(hitScript) { 
+
+}
 
 CollisionBox::~CollisionBox(){ }
 
@@ -41,7 +47,7 @@ void CollisionBox::render(){
   SDL_Rect collisionRect;
 
   collisionRect.x = positionX;
-  collisionRect.y = positionY + (720 - height);
+  collisionRect.y = positionY + (720 - height) - 30;
   collisionRect.w = width;
   collisionRect.h = height;
 

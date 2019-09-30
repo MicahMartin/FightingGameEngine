@@ -30,7 +30,7 @@ void Animation::loadAnimEvents(nlohmann::json json){
   }
 }
 
-void Animation::render(int x, int y, bool faceRight){
+void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
   // draw a vertical line on the character's position
   SDL_SetRenderDrawColor(graphics->getRenderer(), 255, 0, 0, 0);
   SDL_RenderDrawLine(graphics->getRenderer(), x, graphics->getWindowHeight(), x, y);
@@ -41,14 +41,16 @@ void Animation::render(int x, int y, bool faceRight){
   GameTexture* currentText = elem->gameTexture;
   int width = currentText->getDimensions().first;
   int offsetX = elem->offsetX;
-  faceRight ? currentText->setCords(x-width+offsetX, y) : currentText->setCords(x-offsetX, y);
+  faceRight ? currentText->setCords(x-width+offsetX, y - 30) : currentText->setCords(x-offsetX, y - 30);
   currentText->render(faceRight);
 
-  currentAnimElemTimePassed++;
-  animationTimePassed++;
-  if(currentAnimElemTimePassed == elem->elemTime){
-    currentAnimElemTimePassed = 0;
-    currentAnimElemIndex++;
+  if(!screenFreeze){
+    currentAnimElemTimePassed++;
+    animationTimePassed++;
+    if(currentAnimElemTimePassed == elem->elemTime){
+      currentAnimElemTimePassed = 0;
+      currentAnimElemIndex++;
+    }
   }
 }
 

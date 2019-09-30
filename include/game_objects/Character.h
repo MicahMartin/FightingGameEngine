@@ -4,6 +4,7 @@
 #include "character_state/StateDef.h"
 #include "input/VirtualController.h"
 #include "character_state/StateController.h"
+#include "character_state/HitScript.h"
 #include <nlohmann/json.hpp>
 
 class Character {
@@ -29,14 +30,17 @@ public:
 
   // getters for these guys
   std::vector<StateController> inputCommands;
+  std::vector<HitScript> hitScripts;
   VirtualController* virtualController;
   StateDef* currentState;
   bool faceRight;
   int control = 1;
+  int comboCounter = 0;
   int playerNum;
   int velocityX;
   int velocityY;
   int health;
+  int maxHealth;
 
 private:
   nlohmann::json stateJson;

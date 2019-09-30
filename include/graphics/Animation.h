@@ -13,7 +13,7 @@ public:
   ~Animation();
 
   void loadAnimEvents(nlohmann::json json);
-  void render(int x, int y, bool faceRight);
+  void render(int x, int y, bool faceRight, bool screenFreeze);
 
   void setAnimTime(int time);
   void setAnimElemIndex(int index);
