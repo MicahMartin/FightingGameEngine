@@ -40,19 +40,26 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
     printf("%d loading collision boxes \n", player->playerNum);
     std::pair charPos = player->getPos();
 
-    CollisionBox cb(type, width, height, offsetX, offsetY, start, end);
-    cb.positionX = charPos.first - (width/2);
-    cb.positionY = charPos.second;
+    CollisionBox* cb;
+    if(i.value().contains("hitscript")){
+      cb = new CollisionBox(type, width, height, offsetX, offsetY, start, end, i.value().at("hitscript"));
+
+    } else {
+      cb = new CollisionBox(type, width, height, offsetX, offsetY, start, end);
+    }
+
+    cb->positionX = charPos.first - (width/2);
+    cb->positionY = charPos.second;
 
     switch (type) {
       case CollisionBox::POSITION:
-        pushBoxes.push_back(cb);
+        pushBoxes.push_back(*cb);
         break;
       case CollisionBox::HURT:
-        hurtBoxes.push_back(cb);
+        hurtBoxes.push_back(*cb);
         break;
       case CollisionBox::HIT:
-        hitBoxes.push_back(cb);
+        hitBoxes.push_back(*cb);
         break;
     }
   }

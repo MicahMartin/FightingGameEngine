@@ -127,7 +127,9 @@ void FightState::update(){
       if(!p1Hitbox.disabled){
         for (auto &p2HurtBox : player2->currentState->hurtBoxes) {
           if (CollisionBox::checkAABB(p1Hitbox, p2HurtBox)) {
+            // TODO: Run hitscript
             charStateManager->screenFrozen = true;
+            screenFreeze = 10;
             p1Hitbox.disabled = true;
             player2->control = 0;
 

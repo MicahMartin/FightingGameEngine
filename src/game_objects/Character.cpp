@@ -53,7 +53,7 @@ void Character::loadStates(){
 
   for(auto i : stateJson.at("hitscripts").items()){
     HitScript hitScript(i.value().at("script_num"), i.value().at("screenFreeze"), i.value().at("damage"));
-    hitScripts .push_back(hitScript);
+    hitScripts.push_back(hitScript);
   }
 }
 
