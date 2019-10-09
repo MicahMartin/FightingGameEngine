@@ -39,8 +39,8 @@ static const char* InstructionStrings[20] = {
   "LESS",
   "GREATER",
   "BRANCH", // branching
-  "BRANCH_T",
-  "BRANCH_F",
+  "BRANCHT",
+  "BRANCHF",
   "CALL", // functions
   "RETURN",
   "PRINT", // misc
