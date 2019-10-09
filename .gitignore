@@ -1,4 +1,8 @@
 build/*
 tags
+.DS_Store
+arch.text
+*rns
+compile_commands.json
 data/*
 .ccls-cache/*
