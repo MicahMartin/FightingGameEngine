@@ -8,8 +8,8 @@
 #include "input/VirtualController.h"
 #include "graphics/Animation.h"
 #include "physics/CollisionBox.h"
+#include "domain_language/ByteCode.h"
 
-// TODO: Check out map usage, json.hpp is giving me the behavior I want???
 class StateDef {
 public:
   StateDef(int charNum, int stateNum);
@@ -18,6 +18,7 @@ public:
   // load shit
   void loadFlags(nlohmann::json json);
   void loadUpdate(nlohmann::json json);
+  void loadByteCode(nlohmann::json json);
   void loadAnimation(nlohmann::json json);
   void loadCollisionBoxes(nlohmann::json json);
 
@@ -43,6 +44,7 @@ public:
   std::vector<CollisionBox> hurtBoxes;
   std::vector<CollisionBox> hitBoxes;
 
+  std::vector<uint8_t> byteCode;
 private:
   bool evalController(StateController* controller);
   bool evalCondition(std::string condition);

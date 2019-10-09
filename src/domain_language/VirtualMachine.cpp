@@ -128,7 +128,7 @@ void VirtualMachine::execute(uint8_t bytecode[], int size, int main) {
         printf("%d\n", val);
         break;
       }
-      case _NULL: {
+      case NOP: {
         break;
       }
       case HALT: {

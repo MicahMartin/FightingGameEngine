@@ -26,6 +26,20 @@ void StateDef::loadUpdate(nlohmann::json json){
   }
 };
 
+void StateDef::loadByteCode(nlohmann::json json){
+  for(auto i : json.items()){
+    // If the value isn't already a number literal, get the int representation of that instruction string
+    uint8_t instruction;
+    nlohmann::json::value_t type = i.value().type();
+    if(type == nlohmann::json::value_t::number_integer){
+      instruction = i.value();
+    } else if (type == nlohmann::json::value_t::string) {
+      instruction = instructonStrings[i.value()];
+    }
+    byteCode.push_back(instruction);
+  }
+};
+
 void StateDef::loadCollisionBoxes(nlohmann::json json){
   for(auto i : json.items()){
     CollisionBox::CollisionType type = CollisionBox::collisionTypeMap.at(i.value().at("type"));
@@ -89,12 +103,8 @@ void StateDef::handleInput(){
 }
 
 void StateDef::update(){
-  for(int i = 0; i < updateCommands.size(); ++i){
-    bool updateCondition = evalController(&updateCommands[i]);
-    if(updateCondition){
-      executeController(&updateCommands[i]);
-    }
-  }
+  VirtualMachine* charVM = charStateManager->getCharPointer(charNum)->virtualMachine;
+  charVM->execute(&byteCode[0], byteCode.size(), 0);
   stateTime++;
 }
 
@@ -104,6 +114,7 @@ void StateDef::draw(){
   anim.render(charPos.first, charPos.second, faceRight, charStateManager->screenFrozen);
 
   // stateTime is 2
+  // TODO: Thread this up
   for (auto cb : pushBoxes) {
     if(cb.end == -1 || ( cb.start >= stateTime && cb.end <= stateTime )){
       cb.render();
