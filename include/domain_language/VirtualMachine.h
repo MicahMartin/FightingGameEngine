@@ -9,17 +9,22 @@
 class Character;
 class VirtualMachine {
 public:
-  VirtualMachine(Character* character)
-    :character(character){};
+  VirtualMachine() {
+    instructionPointer = 0;
+  };
   ~VirtualMachine(){};
 
-  void execute(uint8_t bytecode[], int size, int main);
+  void init(Character* charPointer){
+    character = charPointer;
+  }
+
+  void execute(uint8_t* bytecode, int size, int main);
 
 private:
   Stack stack;
   Character* character;
   int globals[256];
-  int instructionPointer = 0;
+  int instructionPointer;
 };
 
 #endif

@@ -36,8 +36,10 @@ void FightState::pause(){ };
 void FightState::resume(){ };
 
 void FightState::handleInput(){ 
-  player1->handleInput();
-  player2->handleInput();
+  if (charStateManager->screenFrozen == false) {
+    player1->handleInput();
+    player2->handleInput();
+  }
 };
 
 void FightState::update(){ 

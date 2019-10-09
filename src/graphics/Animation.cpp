@@ -22,7 +22,6 @@ void Animation::loadAnimEvents(nlohmann::json json){
 
     int animTime = i.value().at("time");
     int offsetX = i.value().at("offsetX");
-    std::cout << " THE ANIM TIME " << animTime << std::endl;
     animationTime += animTime;
 
     AnimationElement element(text, animTime, offsetX);
@@ -86,6 +85,5 @@ std::pair<int, int> Animation::getDimensions(const char* path){
     returnPair.first = ntohl(width);
     returnPair.second = ntohl(height);
 
-    std::cout << "IMAGE: " << path << " DIMENSIONS: w[" << returnPair.first << "] h[" << returnPair.second << "]" << std::endl;
     return returnPair;
 }

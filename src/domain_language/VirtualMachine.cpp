@@ -2,7 +2,7 @@
 #include "game_objects/Character.h"
 
 
-void VirtualMachine::execute(uint8_t bytecode[], int size, int main) {
+void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
   instructionPointer = main;
 
   while(instructionPointer < size){
@@ -20,7 +20,6 @@ void VirtualMachine::execute(uint8_t bytecode[], int size, int main) {
       case ADD: {
         uint8_t secondVal = stack.pop();
         uint8_t firstVal = stack.pop();
-        printf("adding %d+%d\n", firstVal, secondVal);
 
         stack.push(firstVal+secondVal);
         break;
@@ -78,7 +77,6 @@ void VirtualMachine::execute(uint8_t bytecode[], int size, int main) {
       case GLOAD: {
         uint8_t operand = bytecode[instructionPointer++];
         uint8_t val = globals[operand];
-        printf("loading from location %d\n", operand);
 
         stack.push(val);
         break;
@@ -90,11 +88,17 @@ void VirtualMachine::execute(uint8_t bytecode[], int size, int main) {
         stack.push(firstVal == secondVal ? true : false);
         break;
       }
+      case NEQUAL: {
+        uint8_t secondVal = stack.pop();
+        uint8_t firstVal = stack.pop();
+
+        stack.push(firstVal != secondVal ? true : false);
+        break;
+      }
       case GREATER: {
         uint8_t secondVal = stack.pop();
         uint8_t firstVal = stack.pop();
 
-        printf("is %d greater than %d\n", firstVal, secondVal);
         stack.push(firstVal > secondVal ? true : false);
         break;
       }
@@ -108,7 +112,6 @@ void VirtualMachine::execute(uint8_t bytecode[], int size, int main) {
       case LESS: {
         uint8_t secondVal = stack.pop();
         uint8_t firstVal = stack.pop();
-        printf("comparing %d < %d\n", firstVal, secondVal);
 
         stack.push(firstVal < secondVal ? true : false);
         break;
@@ -134,7 +137,6 @@ void VirtualMachine::execute(uint8_t bytecode[], int size, int main) {
       }
       case PRINT: {
         uint8_t val = stack.peek();
-        printf("%d\n", val);
         break;
       }
       case GET_ANIM_TIME: {
@@ -182,16 +184,23 @@ void VirtualMachine::execute(uint8_t bytecode[], int size, int main) {
       case CHANGE_STATE: {
         uint8_t operand = bytecode[instructionPointer++];
         character->_changeState(operand);
-        break;
+        // STATE IS DONE EXECUTING. WE GOT UP OUTA THERE.
+        return;
       }
       case VELSET_X: {
         uint8_t operand = bytecode[instructionPointer++];
         character->_velSetX(operand);
         break;
       }
+      // nhollman json interprets all ints as unsigned so no negatives 
+      case NEG_VELSET_X: {
+        uint8_t operand = bytecode[instructionPointer++];
+        character->_negVelSetX(operand);
+        break;
+      }
       case VELSET_Y: {
         uint8_t operand = bytecode[instructionPointer++];
-        character->_velSetX(operand);
+        character->_velSetY(operand);
         break;
       }
       case MOVE_F: {
@@ -228,9 +237,12 @@ void VirtualMachine::execute(uint8_t bytecode[], int size, int main) {
         break;
       }
       case HALT: {
-        printf("Halting\n");
         return;
       }
+      default: {
+       printf("invalid opcode\n");
+       break;
+     }
     }
   }
 }

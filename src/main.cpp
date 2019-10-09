@@ -18,6 +18,8 @@ int main() {
     double delayLength = FPS - (frameEnd - frameStart);
     if(int(delayLength) > 0){
       SDL_Delay(int(delayLength));
+    } else  {
+      printf("slow tick\n");
     }
   }
   return 0;

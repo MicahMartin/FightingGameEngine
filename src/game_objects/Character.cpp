@@ -20,6 +20,7 @@ Character::Character(std::pair<int, int> _position) {
 }
 
 void Character::init(){
+  virtualMachine.init(this);
   loadStates();
   changeState(1);
 }
@@ -52,7 +53,9 @@ void Character::loadStates(){
 Character::~Character(){};
 
 void Character::handleInput(){ 
-  virtualMachine->execute(&inputByteCode[0], inputByteCode.size(), 0);
+  if(control){
+    virtualMachine.execute(inputByteCode.data(), inputByteCode.size(), 0);
+  }
 };
 
 void Character::update(){ 
@@ -124,8 +127,13 @@ void Character::setY(int y){
 void Character::_changeState(int  stateNum){
   changeState(stateNum);
 }
+
 void Character::_velSetX(int ammount){
  velocityX = faceRight ? ammount : -ammount;
+}
+
+void Character::_negVelSetX(int ammount){
+ velocityX = faceRight ? -ammount : ammount;
 }
 
 void Character::_velSetY(int ammount){
@@ -186,5 +194,7 @@ int Character::_getCombo(){
 }
 
 int Character::_wasPressed(int input){
+  VirtualController::Input inputEnum = VirtualController::inputMap[input](faceRight);
+  
   return virtualController->wasPressed(VirtualController::inputMap[input](faceRight)) ? 1 : 0;
 }

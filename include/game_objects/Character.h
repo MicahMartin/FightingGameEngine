@@ -36,7 +36,7 @@ public:
 
   VirtualController* virtualController;
   StateDef* currentState;
-  VirtualMachine* virtualMachine;
+  VirtualMachine virtualMachine;
 
   int control = 1;
   int comboCounter = 0;
@@ -49,6 +49,7 @@ public:
 
   void _changeState(int stateNum);
   void _velSetX(int ammount);
+  void _negVelSetX(int ammount);
   void _velSetY(int ammount);
   void _moveForward(int ammount);
   void _moveBack(int ammount);

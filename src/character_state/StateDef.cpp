@@ -35,7 +35,6 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
     int end = i.value().at("end");
 
     Character* player = charStateManager->getCharPointer(charNum);
-    printf("%d loading collision boxes \n", player->playerNum);
     std::pair charPos = player->getPos();
 
     CollisionBox* cb;
@@ -73,7 +72,7 @@ void StateDef::enter(){
 };
 
 void StateDef::update(){
-  VirtualMachine* charVM = charStateManager->getCharPointer(charNum)->virtualMachine;
+  VirtualMachine* charVM = &charStateManager->getCharPointer(charNum)->virtualMachine;
   charVM->execute(&byteCode[0], byteCode.size(), 0);
   stateTime++;
 }
