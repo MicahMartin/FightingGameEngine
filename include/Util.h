@@ -22,7 +22,6 @@ public:
     return res;
 }
 
-
 private:
   Util();
   ~Util();

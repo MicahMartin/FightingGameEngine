@@ -48,7 +48,7 @@ public:
     UPDOWN = (UP | DOWN),
   };
 
-  static std::map<std::string, Input(*)(bool)> inputMap;
+  static std::map<int, Input(*)(bool)> inputMap;
 
   VirtualController();
   ~VirtualController();

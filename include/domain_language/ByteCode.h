@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <json.hpp>
 
 enum Instruction { 
   NOP,
@@ -19,6 +20,7 @@ enum Instruction {
   EQUAL, // comparison
   LESS,
   GREATER,
+  AND,
   BRANCH, // branching
   BRANCHT,
   BRANCHF,
@@ -44,6 +46,7 @@ enum Instruction {
   SET_COMBO,
   HALT,
 };
+
 static std::map<std::string, Instruction> instructonStrings = {
   { "NOP", NOP },
   { "PUSH", PUSH },
@@ -58,6 +61,7 @@ static std::map<std::string, Instruction> instructonStrings = {
   { "EQUAL", EQUAL },
   { "LESS", LESS },
   { "GREATER", GREATER },
+  { "AND", AND },
   { "BRANCH", BRANCH },
   { "BRANCHT", BRANCHT },
   { "BRANCHF", BRANCHF },
@@ -83,4 +87,24 @@ static std::map<std::string, Instruction> instructonStrings = {
   { "GET_COMBO", SET_COMBO },
   { "HALT", HALT },
 };
+
+namespace ByteCode {
+
+  static std::vector<uint8_t> compile(nlohmann::json json){
+    std::vector<uint8_t> byteCode;
+    for(auto i : json.items()){
+      // If the value isn't already a number literal, get the int representation of that instruction string
+      uint8_t instruction;
+      nlohmann::json::value_t type = i.value().type();
+      if(type == nlohmann::json::value_t::number_integer){
+        instruction = i.value();
+      } else if (type == nlohmann::json::value_t::string) {
+        instruction = instructonStrings[i.value()];
+      }
+      byteCode.push_back(instruction);
+    }
+
+    return byteCode;
+  };
+}
 #endif

@@ -90,17 +90,17 @@ void FightState::update(){
     }
 
     if(player1->getPos().first <= player2->getPos().first){
-      if(!player1->currentState->checkFlag(StateDef::NO_TURN)){
+      if(!player1->currentState->checkFlag(NO_TURN)){
         player1->faceRight = true;
       }
-      if(!player2->currentState->checkFlag(StateDef::NO_TURN)){
+      if(!player2->currentState->checkFlag(NO_TURN)){
         player2->faceRight = false;
       }
     } else {
-      if(!player1->currentState->checkFlag(StateDef::NO_TURN)){
+      if(!player1->currentState->checkFlag(NO_TURN)){
         player1->faceRight = false;
       }
-      if(!player2->currentState->checkFlag(StateDef::NO_TURN)){
+      if(!player2->currentState->checkFlag(NO_TURN)){
         player2->faceRight = true;
       }
     }
@@ -169,15 +169,15 @@ void FightState::draw(){
 };
 
 void FightState::renderHealthBar(int x, int y, int w, int h, float percent, SDL_Color fgColor, SDL_Color bgColor) {
- SDL_Color old;
- SDL_GetRenderDrawColor(graphics->getRenderer(), &old.r, &old.g, &old.g, &old.a);
- SDL_Rect bgrect = { x, y, w, h };
- SDL_SetRenderDrawColor(graphics->getRenderer(), bgColor.r, bgColor.g, bgColor.b, bgColor.a);
- SDL_RenderFillRect(graphics->getRenderer(), &bgrect);
- SDL_SetRenderDrawColor(graphics->getRenderer(), fgColor.r, fgColor.g, fgColor.b, fgColor.a);
- int pw = (int)((float)w * percent);
- int px = x + (w - pw);
- SDL_Rect fgrect = { px, y, pw, h };
- SDL_RenderFillRect(graphics->getRenderer(), &fgrect);
- SDL_SetRenderDrawColor(graphics->getRenderer(), old.r, old.g, old.b, old.a);
+  SDL_Color old;
+  SDL_GetRenderDrawColor(graphics->getRenderer(), &old.r, &old.g, &old.g, &old.a);
+  SDL_Rect bgrect = { x, y, w, h };
+  SDL_SetRenderDrawColor(graphics->getRenderer(), bgColor.r, bgColor.g, bgColor.b, bgColor.a);
+  SDL_RenderFillRect(graphics->getRenderer(), &bgrect);
+  SDL_SetRenderDrawColor(graphics->getRenderer(), fgColor.r, fgColor.g, fgColor.b, fgColor.a);
+  int pw = (int)((float)w * percent);
+  int px = x + (w - pw);
+  SDL_Rect fgrect = { px, y, pw, h };
+  SDL_RenderFillRect(graphics->getRenderer(), &fgrect);
+  SDL_SetRenderDrawColor(graphics->getRenderer(), old.r, old.g, old.b, old.a);
 }

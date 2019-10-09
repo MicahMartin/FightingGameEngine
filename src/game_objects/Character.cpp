@@ -39,34 +39,27 @@ void Character::loadStates(){
     StateDef state(playerNum, stateNum);
 
     state.loadFlags(i.value().at("flags"));
+    state.loadByteCode(i.value().at("byte_code"));
     state.loadAnimation(i.value().at("animation"));
-    state.loadUpdate(i.value().at("update"));
     state.loadCollisionBoxes(i.value().at("collision_boxes"));
 
     stateList.push_back(state);
   }
 
-  for(auto i : stateJson.at("commands").items()){
-    StateController inputCommand(i.value().at("condition"), i.value().at("action"));
-    inputCommands.push_back(inputCommand);
-  }
-
-  for(auto i : stateJson.at("hitscripts").items()){
-    HitScript hitScript(i.value().at("script_num"), i.value().at("screenFreeze"), i.value().at("damage"));
-    hitScripts.push_back(hitScript);
-  }
+  inputByteCode = ByteCode::compile(stateJson.at("commands"));
 }
 
 Character::~Character(){};
 
 void Character::handleInput(){ 
-  currentState->handleInput();
+  virtualMachine->execute(&inputByteCode[0], inputByteCode.size(), 0);
 };
 
 void Character::update(){ 
 
   currentState->update();
 
+  // TODO: abstract into updatePos function
   position.first += velocityX;
   position.second -= velocityY;
 
@@ -80,6 +73,7 @@ void Character::update(){
   }
 
 
+  // TODO: abstract into updateCollisionBoxPos function
   for (auto &cb : currentState->pushBoxes) {
     cb.positionX = position.first - (cb.width / 2);
     cb.positionY = position.second;
@@ -125,3 +119,72 @@ void Character::setX(int x){
 void Character::setY(int y){
   position.second -= y;
 };
+
+
+void Character::_changeState(int  stateNum){
+  changeState(stateNum);
+}
+void Character::_velSetX(int ammount){
+ velocityX = faceRight ? ammount : -ammount;
+}
+
+void Character::_velSetY(int ammount){
+  velocityY = ammount;
+}
+
+void Character::_moveForward(int ammount){
+  faceRight ? setX(ammount) : setX(-ammount);
+}
+
+void Character::_moveBack(int ammount){
+  faceRight ? setX(-ammount) : setX(ammount);
+}
+
+void Character::_moveUp(int ammount){
+  setY(ammount);
+}
+
+void Character::_moveDown(int ammount){
+  setY(-ammount);
+}
+
+void Character::_setControl(int val){
+  control = val;
+}
+
+void Character::_setCombo(int val){
+  comboCounter = val;
+}
+
+int Character::_getAnimTime(){
+  return currentState->anim.timeRemaining();
+}
+
+int Character::_getYPos(){
+  int yPos = getPos().second;
+  return yPos;
+}
+
+int Character::_getStateTime(){
+  return currentState->stateTime;
+}
+
+int Character::_getInput(int input){
+  return virtualController->isPressed(VirtualController::inputMap[input](faceRight)) ? 1 : 0;
+}
+
+int Character::_getStateNum(){
+  return currentState->stateNum;
+}
+
+int Character::_getControl(){
+  return control;
+}
+
+int Character::_getCombo(){
+  return comboCounter;
+}
+
+int Character::_wasPressed(int input){
+  return virtualController->wasPressed(VirtualController::inputMap[input](faceRight)) ? 1 : 0;
+}

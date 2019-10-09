@@ -2,10 +2,10 @@
 #define _Character_h 
 
 #include "character_state/StateDef.h"
-#include "input/VirtualController.h"
 #include "character_state/StateController.h"
 #include "character_state/HitScript.h"
 #include "domain_language/VirtualMachine.h"
+#include "input/VirtualController.h"
 #include <nlohmann/json.hpp>
 
 class Character {
@@ -32,6 +32,8 @@ public:
   // getters for these guys
   std::vector<StateController> inputCommands;
   std::vector<HitScript> hitScripts;
+  std::vector<uint8_t> inputByteCode;
+
   VirtualController* virtualController;
   StateDef* currentState;
   VirtualMachine* virtualMachine;
@@ -44,6 +46,26 @@ public:
   int health;
   int maxHealth;
   bool faceRight;
+
+  void _changeState(int stateNum);
+  void _velSetX(int ammount);
+  void _velSetY(int ammount);
+  void _moveForward(int ammount);
+  void _moveBack(int ammount);
+  void _moveUp(int ammount);
+  void _moveDown(int ammount);
+  void _setControl(int val);
+  void _setCombo(int val);
+
+  int _getAnimTime();
+  int _getStateTime();
+  int _getYPos();
+  int _getInput(int input);
+  int _getStateNum();
+  int _getControl();
+  int _getCombo();
+  int _wasPressed(int input);
+
 
 private:
   nlohmann::json stateJson;

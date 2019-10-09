@@ -1,4 +1,6 @@
 #include "domain_language/VirtualMachine.h"
+#include "game_objects/Character.h"
+
 
 void VirtualMachine::execute(uint8_t bytecode[], int size, int main) {
   instructionPointer = main;
@@ -96,6 +98,13 @@ void VirtualMachine::execute(uint8_t bytecode[], int size, int main) {
         stack.push(firstVal > secondVal ? true : false);
         break;
       }
+      case AND: {
+        uint8_t secondBool = stack.pop();
+        uint8_t firstBool = stack.pop();
+
+        stack.push(firstBool && secondBool ? true : false);
+        break;
+      }
       case LESS: {
         uint8_t secondVal = stack.pop();
         uint8_t firstVal = stack.pop();
@@ -126,6 +135,93 @@ void VirtualMachine::execute(uint8_t bytecode[], int size, int main) {
       case PRINT: {
         uint8_t val = stack.peek();
         printf("%d\n", val);
+        break;
+      }
+      case GET_ANIM_TIME: {
+        uint8_t val = character->_getAnimTime();
+        stack.push(val);
+        break;
+      }
+      case GET_STATE_TIME: {
+        uint8_t val = character->_getStateTime();
+        stack.push(val);
+        break;
+      }
+      case GET_Y_POS: {
+        uint8_t val = character->_getYPos();
+        stack.push(val);
+        break;
+      }
+      case GET_INPUT: {
+        uint8_t operand = bytecode[instructionPointer++];
+        uint8_t boolean = character->_getInput(operand);
+        stack.push(boolean);
+        break;
+      }
+      case GET_STATE_NUM: {
+        uint8_t val = character->_getStateNum();
+        stack.push(val);
+        break;
+      }
+      case GET_CONTROL: {
+        uint8_t val = character->_getControl();
+        stack.push(val);
+        break;
+      }
+      case WAS_PRESSED: {
+        uint8_t operand = bytecode[instructionPointer++];
+        uint8_t boolean = character->_wasPressed(operand);
+        stack.push(boolean);
+        break;
+      }
+      case GET_COMBO: {
+        uint8_t val = character->_getCombo();
+        stack.push(val);
+        break;
+      }
+      case CHANGE_STATE: {
+        uint8_t operand = bytecode[instructionPointer++];
+        character->_changeState(operand);
+        break;
+      }
+      case VELSET_X: {
+        uint8_t operand = bytecode[instructionPointer++];
+        character->_velSetX(operand);
+        break;
+      }
+      case VELSET_Y: {
+        uint8_t operand = bytecode[instructionPointer++];
+        character->_velSetX(operand);
+        break;
+      }
+      case MOVE_F: {
+        uint8_t operand = bytecode[instructionPointer++];
+        character->_moveForward(operand);
+        break;
+      }
+      case MOVE_B: {
+        uint8_t operand = bytecode[instructionPointer++];
+        character->_moveBack(operand);
+        break;
+      }
+      case MOVE_U: {
+        uint8_t operand = bytecode[instructionPointer++];
+        character->_moveUp(operand);
+        break;
+      }
+      case MOVE_D: {
+        uint8_t operand = bytecode[instructionPointer++];
+        character->_moveDown(operand);
+        break;
+      }
+      case SET_CONTROL: {
+        uint8_t operand = bytecode[instructionPointer++];
+        character->_setControl(operand);
+        break;
+      }
+      case SET_COMBO: {
+        uint8_t operand = bytecode[instructionPointer++];
+        character->_setCombo(operand);
         break;
       }
       case NOP: {
