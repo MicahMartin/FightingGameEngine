@@ -50,13 +50,13 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
 
     switch (type) {
       case CollisionBox::POSITION:
-        pushBoxes.push_back(*cb);
+        pushBoxes.push_back(cb);
         break;
       case CollisionBox::HURT:
-        hurtBoxes.push_back(*cb);
+        hurtBoxes.push_back(cb);
         break;
       case CollisionBox::HIT:
-        hitBoxes.push_back(*cb);
+        hitBoxes.push_back(cb);
         break;
     }
   }
@@ -65,10 +65,12 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
 void StateDef::enter(){
   anim.setAnimTime(0);
   anim.resetAnimEvents();
-  for (auto &i : hitBoxes) {
-    i.disabled = true;
+  for (auto i : hitBoxes) {
+    i->disabled = true;
   }
   stateTime = 0;
+  Character* player = charStateManager->getCharPointer(charNum);
+  player->updateCollisionBoxes();
 };
 
 void StateDef::update(){
@@ -85,18 +87,18 @@ void StateDef::draw(){
   // stateTime is 2
   // TODO: Thread this up
   for (auto cb : pushBoxes) {
-    if(cb.end == -1 || ( cb.start >= stateTime && cb.end <= stateTime )){
-      cb.render();
+    if(cb->end == -1 || ( cb->start >= stateTime && cb->end <= stateTime )){
+      cb->render();
     }
   }
   for (auto cb : hurtBoxes) {
-    if(cb.end == -1 || ( stateTime >= cb.start && stateTime <= cb.end )){
-      cb.render();
+    if(cb->end == -1 || ( stateTime >= cb->start && stateTime <= cb->end )){
+      cb->render();
     }
   }
   for (auto cb : hitBoxes) {
-    if(cb.end == -1 || ( stateTime >= cb.start && stateTime <= cb.end )){
-      cb.render();
+    if(cb->end == -1 || ( stateTime >= cb->start && stateTime <= cb->end )){
+      cb->render();
     }
   }
 };

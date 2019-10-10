@@ -38,9 +38,9 @@ public:
 
   std::vector<uint8_t> byteCode;
   // TODO: Polymorph
-  std::vector<CollisionBox> pushBoxes;
-  std::vector<CollisionBox> hurtBoxes;
-  std::vector<CollisionBox> hitBoxes;
+  std::vector<CollisionBox*> pushBoxes;
+  std::vector<CollisionBox*> hurtBoxes;
+  std::vector<CollisionBox*> hitBoxes;
   // TODO: Methods to talk to anim so this stuff can stay private
   Animation anim;
   int stateNum;

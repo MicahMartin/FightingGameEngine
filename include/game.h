@@ -19,6 +19,10 @@ public:
   // observer
   void onNotify(const char* message);
 
+  double inputLength;
+  double handleInputLength;
+  double updateLength;
+  double drawLength;
 private:
   bool running = true;
   int gameTime = 0;

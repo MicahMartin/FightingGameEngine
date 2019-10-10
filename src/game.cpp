@@ -22,20 +22,34 @@ void Game::init() {
 void Game::update() {
   ++gameTime;
   // read input event stack for this frame and send to virtual controller(s)
+  double inputManagerStart = SDL_GetTicks();
   inputManager->update();
+  double inputManagerEnd = SDL_GetTicks();
+  inputLength = inputManagerEnd-inputManagerStart;
 
   // pass input to currentState. side effects inbound
   GameState* currentState = stateManager->getState();
   // this method modifies state stack
+  double handleInputFrameStart = SDL_GetTicks();
   currentState->handleInput();
+  double handleInputFrameEnd = SDL_GetTicks();
+  handleInputLength = handleInputFrameEnd-handleInputFrameStart;
+
+  double stateUpdateStart = SDL_GetTicks();
   currentState->update();
+  double stateUpdateEnd = SDL_GetTicks();
+  updateLength = stateUpdateEnd-stateUpdateStart;
 
   // the current state holds a pointer to the currrent screen
   // screen has a surface pointer with all the pixels that need to be
   // written and swapped this frame
+  // TODO: Shit is really slow because we're creating textures every frame instead of preallocating
   graphics->clear();
+  double drawStart = SDL_GetTicks();
   currentState->draw();
   graphics->present();
+  double drawEnd = SDL_GetTicks();
+  drawLength = drawEnd-drawStart;
 }
 
 void Game::onNotify(const char* eventName) {

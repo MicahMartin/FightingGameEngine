@@ -61,8 +61,11 @@ void Character::handleInput(){
 void Character::update(){ 
 
   currentState->update();
+  updatePosition();
+  updateCollisionBoxes();
+};
 
-  // TODO: abstract into updatePos function
+void Character::updatePosition(){
   position.first += velocityX;
   position.second -= velocityY;
 
@@ -74,29 +77,28 @@ void Character::update(){
     position.second = 0;
     velocityY = 0;
   }
-};
-
+}
 void Character::updateCollisionBoxes(){
   // TODO: abstract into updateCollisionBoxPos function
-  for (auto &cb : currentState->pushBoxes) {
-    cb.positionX = position.first - (cb.width / 2);
-    cb.positionY = position.second;
+  for (auto cb : currentState->pushBoxes) {
+    cb->positionX = position.first - (cb->width / 2);
+    cb->positionY = position.second;
   }
 
-  for (auto &cb : currentState->hurtBoxes) {
-    cb.positionX = position.first + (faceRight ? cb.offsetX : - (cb.offsetX + cb.width));
-    cb.positionY = position.second - cb.offsetY;
+  for (auto cb : currentState->hurtBoxes) {
+    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
+    cb->positionY = position.second - cb->offsetY;
   }
 
-  for (auto &cb : currentState->hitBoxes) {
-    cb.positionX = position.first + (faceRight ? cb.offsetX : - (cb.offsetX + cb.width));
-    cb.positionY = position.second - cb.offsetY;
+  for (auto cb : currentState->hitBoxes) {
+    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
+    cb->positionY = position.second - cb->offsetY;
     int stateTime = currentState->stateTime;
-    if (stateTime == cb.start) {
-      cb.disabled = false;
+    if (stateTime == cb->start) {
+      cb->disabled = false;
     }
-    if (stateTime == cb.end) {
-      cb.disabled = true;
+    if (stateTime == cb->end) {
+      cb->disabled = true;
     }
   }
 
