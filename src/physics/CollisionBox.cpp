@@ -23,7 +23,6 @@ bool CollisionBox::checkAABB(CollisionBox box1, CollisionBox box2){
      box1.positionY > box2.positionY - box2.height &&
      box1.positionY - box1.height < box2.positionY) 
   {
-     printf("collision detected\n");
      return true;
   }
 

@@ -48,16 +48,36 @@ void FightState::update(){
     player2->update();
 
     // get the collision box(s) for the current state
-    std::vector<CollisionBox> p1PushBoxes = player1->currentState->pushBoxes;
-    std::vector<CollisionBox> p2PushBoxes = player2->currentState->pushBoxes;
     std::pair<int, int> p1Pos = player1->getPos();
     std::pair<int, int> p2Pos = player2->getPos();
 
-    // I know
-    for (auto p1PushBox : p1PushBoxes) {
-      for (auto p2PushBox : p2PushBoxes) {
+    for (auto &p1Hitbox : player1->currentState->hitBoxes) {
+      if(!p1Hitbox.disabled){
+        for (auto &p2HurtBox : player2->currentState->hurtBoxes) {
+          if (CollisionBox::checkAABB(p1Hitbox, p2HurtBox)) {
+            printf("hitbox collision detected\n");
+            // TODO: Run hitscript
+            charStateManager->screenFrozen = true;
+            screenFreeze = 10;
+            p1Hitbox.disabled = true;
+
+            player2->control = 0;
+            player2->health -= 10;
+            player2->comboCounter++;
+            player2->changeState(9);
+            if(player2->comboCounter > 1){
+              printf("player 2 been combo'd for %d hits\n", player2->comboCounter);
+            }
+          }
+        }
+      }
+    }
+
+    for (auto &p1PushBox : player1->currentState->pushBoxes) {
+      for (auto &p2PushBox : player2->currentState->pushBoxes) {
         if (CollisionBox::checkAABB(p1PushBox, p2PushBox)) {
           // if p1 is in the air and p2 is not
+          printf("pushbox collision detected\n");
           if (p1Pos.second < 0 && p2Pos.second >= 0) {
             // find how deeply intersected they are
             printf("p1 in the air annd p2 grounded\n");
@@ -91,6 +111,8 @@ void FightState::update(){
       }
     }
 
+    // check hits
+
     if(player1->getPos().first <= player2->getPos().first){
       if(!player1->currentState->checkFlag(NO_TURN)){
         player1->faceRight = true;
@@ -123,34 +145,14 @@ void FightState::update(){
       player2->setXPos(1280);
     }
 
-    // check hits
-
-    for (auto &p1Hitbox : player1->currentState->hitBoxes) {
-      if(!p1Hitbox.disabled){
-        for (auto &p2HurtBox : player2->currentState->hurtBoxes) {
-          if (CollisionBox::checkAABB(p1Hitbox, p2HurtBox)) {
-            // TODO: Run hitscript
-            charStateManager->screenFrozen = true;
-            screenFreeze = 10;
-            p1Hitbox.disabled = true;
-            player2->control = 0;
-
-            player2->health -= 10;
-            player2->comboCounter++;
-            player2->changeState(9);
-            if(player2->comboCounter > 1){
-              printf("player 2 been combo'd for %d hits\n", player2->comboCounter);
-            }
-          }
-        }
-      }
-    }
   } else {
     screenFreeze--;
     if(screenFreeze == 0){
       charStateManager->screenFrozen = false;
     }
   }
+  player1->updateCollisionBoxes();
+  player2->updateCollisionBoxes();
 };
 
 void FightState::draw(){  

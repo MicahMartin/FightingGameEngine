@@ -28,6 +28,7 @@ public:
   void setXPos(int x);
   void setX(int x);
   void setY(int y);
+  void updateCollisionBoxes();
 
   // getters for these guys
   std::vector<StateController> inputCommands;

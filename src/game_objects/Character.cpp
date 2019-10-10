@@ -74,8 +74,9 @@ void Character::update(){
     position.second = 0;
     velocityY = 0;
   }
+};
 
-
+void Character::updateCollisionBoxes(){
   // TODO: abstract into updateCollisionBoxPos function
   for (auto &cb : currentState->pushBoxes) {
     cb.positionX = position.first - (cb.width / 2);
@@ -99,7 +100,7 @@ void Character::update(){
     }
   }
 
-};
+}
 
 void Character::draw(){
   // draw health bars
