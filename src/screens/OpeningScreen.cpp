@@ -9,7 +9,7 @@ OpeningScreen::OpeningScreen() {
   background->loadTexture("../data/images/background.jpg");
   background->setBlendMode(SDL_BLENDMODE_BLEND);
   background->setTransperancy(0);
-  background->setDimensions(0,0,640,480);
+  background->setDimensions(0,0, graphics->getWindowWidth(), graphics->getWindowHeight());
 
   GameTexture* title = new GameTexture();
   title->loadTexture("../data/images/title.png");

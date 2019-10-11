@@ -65,9 +65,6 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
 void StateDef::enter(){
   anim.setAnimTime(0);
   anim.resetAnimEvents();
-  for (auto i : hitBoxes) {
-    i->disabled = true;
-  }
   stateTime = 0;
   Character* player = charStateManager->getCharPointer(charNum);
   player->updateCollisionBoxes();
@@ -102,6 +99,11 @@ void StateDef::draw(){
     }
   }
 };
+
+void StateDef::resetAnim(){
+  anim.setAnimTime(0);
+  anim.resetAnimEvents();
+}
 
 bool StateDef::checkFlag(FlagBit bit){
   return flagByte & bit;

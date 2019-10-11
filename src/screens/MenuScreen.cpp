@@ -7,7 +7,7 @@ MenuScreen::MenuScreen(){
 
   GameTexture* menuBackground = new GameTexture();
   menuBackground->loadTexture("../data/images/menuBackground.png");
-  menuBackground->setDimensions(0,0,640,480);
+  menuBackground->setDimensions(0,0, graphics->getWindowWidth(), graphics->getWindowHeight());
 
   GameTexture* versus = new GameTexture();
   versus->loadTexture("../data/images/versus.png");

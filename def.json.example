@@ -21,8 +21,8 @@
         "GET_ANIM_TIME",
         "EQUAL",
         "BRANCHT", 28,
-        "BRANCH", 30,
-        "CHANGE_STATE", 1,
+        "BRANCH", 29,
+        "RESET_ANIM",
         "HALT"
       ],
       "animation": [
@@ -50,8 +50,8 @@
         "GET_ANIM_TIME",
         "EQUAL",
         "BRANCHT", 18,
-        "BRANCH", 20,
-        "CHANGE_STATE", 2,
+        "BRANCH", 19,
+        "RESET_ANIM",
         "HALT"
       ],
       "animation": [
@@ -82,8 +82,8 @@
         "GET_ANIM_TIME",
         "EQUAL",
         "BRANCHT", 18,
-        "BRANCH", 20,
-        "CHANGE_STATE", 3,
+        "BRANCH", 19,
+        "RESET_ANIM",
         "HALT"
       ],
       "animation": [
@@ -111,8 +111,8 @@
         "GET_ANIM_TIME",
         "EQUAL",
         "BRANCHT", 18,
-        "BRANCH", 20,
-        "CHANGE_STATE", 4,
+        "BRANCH", 19,
+        "RESET_ANIM",
         "HALT"
       ],
       "animation": [
@@ -162,7 +162,8 @@
         { "file": "../data/characters/alucard/sprites/7.png", "time": 200, "offsetX": 75 }
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":125, "offsetX":0, "offsetY": 0}
+        {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":125, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":200, "offsetX":-50, "offsetY": 0}
       ]
     },
     {
@@ -204,7 +205,8 @@
         { "file": "../data/characters/alucard/sprites/54.png", "time": 200, "offsetX": 75 }
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":125, "offsetX":0, "offsetY": 0}
+        {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":125, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":200, "offsetX":-50, "offsetY": 0}
       ]
     },
     {
@@ -246,7 +248,8 @@
         { "file": "../data/characters/alucard/sprites/7.png", "time": 200, "offsetX": 75 }
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":125, "offsetX":0, "offsetY": 0}
+        {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":125, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":200, "offsetX":-50, "offsetY": 0}
       ]
     },
     {
@@ -303,7 +306,7 @@
         "BRANCHT", 8,
         "BRANCH", 10,
         "VELSET_X", 0,
-        "PUSH", 0,
+        "PUSH", 1,
         "GET_STATE_TIME",
         "EQUAL",
         "BRANCHT", 18,
@@ -331,41 +334,149 @@
         {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":125, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":200, "offsetX":-50, "offsetY": 0}
       ]
+    },
+    {
+      "state_num": 10,
+      "state_name": "DASH_F",
+      "flags": [
+        "NO_TURN"
+      ],
+      "byte_code": [
+         "PUSH", 0,
+        "GET_STATE_TIME",
+        "EQUAL",
+        "BRANCHT", 8,
+        "BRANCH", 10,
+        "SET_CONTROL", 0,
+        "PUSH", 0,
+        "GET_STATE_TIME",
+        "EQUAL",
+        "BRANCHT", 18,
+        "BRANCH", 20,
+        "VELSET_X", 8,
+        "PUSH", 18,
+        "GET_STATE_TIME",
+        "EQUAL",
+        "BRANCHT", 28,
+        "BRANCH", 30,
+        "VELSET_X", 0,
+        "PUSH", 18,
+        "GET_STATE_TIME",
+        "EQUAL",
+        "BRANCHT", 38,
+        "BRANCH", 40,
+        "SET_CONTROL", 1,
+        "HALT"
+     ],
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/11.png", "time": 4, "offsetX": 75},
+        { "file": "../data/characters/alucard/sprites/19.png", "time": 8, "offsetX": 75},
+        { "file": "../data/characters/alucard/sprites/12.png", "time": 4, "offsetX": 75},
+        { "file": "../data/characters/alucard/sprites/19.png", "time": 8, "offsetX": 75}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":125, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":200, "offsetX":-50, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 11,
+      "state_name": "DASH_B",
+      "flags": [
+        "NO_TURN"
+      ],
+      "byte_code": [
+         "PUSH", 0,
+        "GET_STATE_TIME",
+        "EQUAL",
+        "BRANCHT", 8,
+        "BRANCH", 10,
+        "SET_CONTROL", 0,
+        "PUSH", 0,
+        "GET_STATE_TIME",
+        "EQUAL",
+        "BRANCHT", 18,
+        "BRANCH", 20,
+        "NEG_VELSET_X", 8,
+        "PUSH", 2,
+        "GET_STATE_TIME",
+        "EQUAL",
+        "BRANCHT", 28,
+        "BRANCH", 30,
+        "VELSET_Y", 6,
+        "PUSH", 18,
+        "GET_STATE_TIME",
+        "EQUAL",
+        "BRANCHT", 38,
+        "BRANCH", 40,
+        "VELSET_X", 0,
+        "PUSH", 22,
+        "GET_STATE_TIME",
+        "EQUAL",
+        "BRANCHT", 48,
+        "BRANCH", 50,
+        "SET_CONTROL", 1,
+        "HALT"
+     ],
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/10.png", "time": 11, "offsetX": 75},
+        { "file": "../data/characters/alucard/sprites/9.png", "time": 12, "offsetX": 75}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":125, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 11, "end": 23, "width":100, "height":200, "offsetX":-50, "offsetY": 0}
+      ]
     }
 
   ],
   "commands": [
-    "WAS_PRESSED", 10,
+    "CHECK_COMMAND", 1,
     "PUSH", 0,
     "GET_Y_POS",
     "EQUAL",
     "AND",
     "BRANCHT", 11,
     "BRANCH", 13,
-    "CHANGE_STATE", 8,
-    "GET_INPUT", 9,
+    "CHANGE_STATE", 11,
+    "CHECK_COMMAND", 0,
     "PUSH", 0,
     "GET_Y_POS",
     "EQUAL",
     "AND",
     "BRANCHT", 24,
     "BRANCH", 26,
-    "CHANGE_STATE", 6,
-    "GET_INPUT", 7,
+    "CHANGE_STATE", 10,
+    "WAS_PRESSED", 10,
     "PUSH", 0,
     "GET_Y_POS",
     "EQUAL",
     "AND",
     "BRANCHT", 37,
     "BRANCH", 39,
-    "CHANGE_STATE", 7,
-    "GET_INPUT", 8,
+    "CHANGE_STATE", 8,
+    "GET_INPUT", 9,
     "PUSH", 0,
     "GET_Y_POS",
     "EQUAL",
     "AND",
     "BRANCHT", 50,
     "BRANCH", 52,
+    "CHANGE_STATE", 6,
+    "GET_INPUT", 7,
+    "PUSH", 0,
+    "GET_Y_POS",
+    "EQUAL",
+    "AND",
+    "BRANCHT", 63,
+    "BRANCH", 65,
+    "CHANGE_STATE", 7,
+    "GET_INPUT", 8,
+    "PUSH", 0,
+    "GET_Y_POS",
+    "EQUAL",
+    "AND",
+    "BRANCHT", 76,
+    "BRANCH", 78,
     "CHANGE_STATE", 5,
     "GET_INPUT", 1,
     "PUSH", 4,
@@ -376,8 +487,8 @@
     "GET_Y_POS",
     "EQUAL",
     "AND",
-    "BRANCHT", 68, 
-    "BRANCH", 70,
+    "BRANCHT", 94,
+    "BRANCH", 96,
     "CHANGE_STATE", 4,
     "GET_INPUT", 2,
     "PUSH", 4,
@@ -388,8 +499,8 @@
     "GET_Y_POS",
     "EQUAL",
     "AND",
-    "BRANCHT", 86, 
-    "BRANCH", 88,
+    "BRANCHT", 112,
+    "BRANCH", 114,
     "CHANGE_STATE", 4,
     "GET_INPUT", 3,
     "PUSH", 4,
@@ -400,8 +511,8 @@
     "GET_Y_POS",
     "EQUAL",
     "AND",
-    "BRANCHT", 104, 
-    "BRANCH", 106,
+    "BRANCHT", 130,
+    "BRANCH", 132,
     "CHANGE_STATE", 4,
     "GET_INPUT", 4,
     "PUSH", 3,
@@ -412,8 +523,8 @@
     "GET_Y_POS",
     "EQUAL",
     "AND",
-    "BRANCHT", 122, 
-    "BRANCH", 124,
+    "BRANCHT", 148,
+    "BRANCH", 150,
     "CHANGE_STATE", 3,
     "GET_INPUT", 6,
     "PUSH", 2,
@@ -424,8 +535,8 @@
     "GET_Y_POS",
     "EQUAL",
     "AND",
-    "BRANCHT", 140, 
-    "BRANCH", 142,
+    "BRANCHT", 166,
+    "BRANCH", 168,
     "CHANGE_STATE", 2,
     "GET_INPUT", 5,
     "PUSH", 1,
@@ -436,8 +547,8 @@
     "GET_Y_POS",
     "EQUAL",
     "AND",
-    "BRANCHT", 158, 
-    "BRANCH", 160,
+    "BRANCHT", 184,
+    "BRANCH", 186,
     "CHANGE_STATE", 1,
     "HALT"
   ],

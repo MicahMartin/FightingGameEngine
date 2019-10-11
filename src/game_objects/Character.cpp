@@ -80,20 +80,41 @@ void Character::updatePosition(){
 }
 void Character::updateCollisionBoxes(){
   // TODO: abstract into updateCollisionBoxPos function
+  int stateTime = currentState->stateTime;
   for (auto cb : currentState->pushBoxes) {
     cb->positionX = position.first - (cb->width / 2);
     cb->positionY = position.second;
+    if (stateTime < cb->start) {
+      cb->disabled = true;
+    }
+    if (stateTime == cb->start) {
+      cb->disabled = false;
+    }
+    if (stateTime == cb->end) {
+      cb->disabled = true;
+    }
   }
 
   for (auto cb : currentState->hurtBoxes) {
     cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
     cb->positionY = position.second - cb->offsetY;
+    if (stateTime < cb->start) {
+      cb->disabled = true;
+    }
+    if (stateTime == cb->start) {
+      cb->disabled = false;
+    }
+    if (stateTime == cb->end) {
+      cb->disabled = true;
+    }
   }
 
   for (auto cb : currentState->hitBoxes) {
     cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
     cb->positionY = position.second - cb->offsetY;
-    int stateTime = currentState->stateTime;
+    if (stateTime < cb->start) {
+      cb->disabled = true;
+    }
     if (stateTime == cb->start) {
       cb->disabled = false;
     }
@@ -167,6 +188,10 @@ void Character::_setCombo(int val){
   comboCounter = val;
 }
 
+void Character::_resetAnim(){
+  currentState->resetAnim();
+}
+
 int Character::_getAnimTime(){
   return currentState->anim.timeRemaining();
 }
@@ -181,7 +206,8 @@ int Character::_getStateTime(){
 }
 
 int Character::_getInput(int input){
-  return virtualController->isPressed(VirtualController::inputMap[input](faceRight)) ? 1 : 0;
+  Input inputType = VirtualController::inputMap[input](faceRight);
+  return virtualController->isPressed(inputType) ? 1 : 0;
 }
 
 int Character::_getStateNum(){
@@ -197,7 +223,9 @@ int Character::_getCombo(){
 }
 
 int Character::_wasPressed(int input){
-  VirtualController::Input inputEnum = VirtualController::inputMap[input](faceRight);
-  
-  return virtualController->wasPressed(VirtualController::inputMap[input](faceRight)) ? 1 : 0;
+  return virtualController->wasPressed(VirtualController::inputMap[input](faceRight), 0) ? 1 : 0;
+}
+
+int Character::_checkCommand(int commandIndex){
+  return virtualController->checkCommand(commandIndex, faceRight);
 }

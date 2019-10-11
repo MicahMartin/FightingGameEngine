@@ -5,7 +5,7 @@ FightScreen::FightScreen(){
 
   GameTexture* stage = new GameTexture();
   stage->loadTexture("../data/images/purple_stage.png");
-  stage->setDimensions(0,0, 1280, 720);
+  stage->setDimensions(0,0, graphics->getWindowWidth()*3, graphics->getWindowHeight());
 
   addTexture(stage);
 };

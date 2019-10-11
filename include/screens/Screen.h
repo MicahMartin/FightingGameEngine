@@ -28,6 +28,7 @@ public:
   };
 
 protected:
+  Graphics* graphics = Graphics::getInstance();
   std::vector<GameTexture*> textureList;
 };
 #endif

@@ -35,6 +35,8 @@ public:
   void update();
   void draw();
 
+  void resetAnim();
+
 
   std::vector<uint8_t> byteCode;
   // TODO: Polymorph

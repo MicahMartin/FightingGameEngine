@@ -233,6 +233,16 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
         character->_setCombo(operand);
         break;
       }
+      case RESET_ANIM: {
+        character->_resetAnim();
+        break;
+      }
+      case CHECK_COMMAND: {
+        uint8_t operand = bytecode[instructionPointer++];
+        bool commandFound = character->_checkCommand(operand);
+        stack.push(commandFound);
+        break;
+      }
       case NOP: {
         break;
       }

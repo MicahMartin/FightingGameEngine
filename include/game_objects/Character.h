@@ -2,7 +2,6 @@
 #define _Character_h 
 
 #include "character_state/StateDef.h"
-#include "character_state/StateController.h"
 #include "character_state/HitScript.h"
 #include "domain_language/VirtualMachine.h"
 #include "input/VirtualController.h"
@@ -32,7 +31,6 @@ public:
   void updateCollisionBoxes();
 
   // getters for these guys
-  std::vector<StateController> inputCommands;
   std::vector<HitScript> hitScripts;
   std::vector<uint8_t> inputByteCode;
 
@@ -59,15 +57,17 @@ public:
   void _moveDown(int ammount);
   void _setControl(int val);
   void _setCombo(int val);
+  void _resetAnim();
 
   int _getAnimTime();
   int _getStateTime();
   int _getYPos();
-  int _getInput(int input);
   int _getStateNum();
   int _getControl();
   int _getCombo();
+  int _getInput(int input);
   int _wasPressed(int input);
+  int _checkCommand(int commandIndex);
 
 
 private:

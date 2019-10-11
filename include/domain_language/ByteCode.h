@@ -47,6 +47,8 @@ enum Instruction {
   MOVE_D,
   SET_CONTROL,
   SET_COMBO,
+  RESET_ANIM,
+  CHECK_COMMAND,
   HALT,
 };
 
@@ -90,6 +92,8 @@ static std::map<std::string, Instruction> instructonStrings = {
   { "MOVE_D", MOVE_D },
   { "SET_CONTROL", SET_CONTROL },
   { "SET_COMBO", SET_COMBO },
+  { "RESET_ANIM", RESET_ANIM},
+  { "CHECK_COMMAND", CHECK_COMMAND},
   { "HALT", HALT },
 };
 
