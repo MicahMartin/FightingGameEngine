@@ -95,7 +95,7 @@ public:
   std::vector<std::vector<int>> commandSequences = {
     {6, 5, 6},
     {4, 5, 4},
-    {10, 6, 3, 2}
+    {11, 6, 3, 2}
   };
 
   bool debugEnabled = false;

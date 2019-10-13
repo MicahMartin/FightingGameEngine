@@ -11,7 +11,6 @@ FightState::~FightState(){ }
 void FightState::enter(){ 
   // init all fields
   
-  printf("entered the fight state \n");
   player1 = new Character(std::make_pair(500,0), 1);
   player2 = new Character(std::make_pair(780,0), 2);
   player1->virtualController = inputManager->getVirtualController(0);
@@ -100,11 +99,13 @@ void FightState::update(){
               printf("hitbox collision detected\n");
               // TODO: Run hitscript
               charStateManager->screenFrozen = true;
-              screenFreeze = 8;
               p1Hitbox->disabled = true;
+              screenFreeze = p1Hitbox->hitstop;
 
               player2->control = 0;
-              player2->health -= 10;
+              player2->health -= p1Hitbox->damage;
+              player2->hitstun = p1Hitbox->hitstun;
+              player2->_negVelSetX(p1Hitbox->pushback);
               player2->comboCounter++;
               player2->changeState(9);
               if(player2->comboCounter > 1){
@@ -150,6 +151,8 @@ void FightState::update(){
     }
 
   } else {
+    player1->currentState->handleCancels();
+    player2->currentState->handleCancels();
     screenFreeze--;
     if(screenFreeze == 0){
       charStateManager->screenFrozen = false;

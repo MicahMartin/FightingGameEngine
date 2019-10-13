@@ -15,11 +15,13 @@ std::map<int, Input(*)(bool)> VirtualController::inputMap = {
   {9, [](bool faceRight){return faceRight ? UPRIGHT:UPLEFT;}},
   {10, [](bool faceRight){return LP;}},
   {11, [](bool faceRight){return LK;}},
+  {12, [](bool faceRight){return MP;}},
+  {13, [](bool faceRight){return MK;}},
 };
 
 
 VirtualController::VirtualController() { 
-  inputHistory.set_capacity(60);
+  inputHistory.set_capacity(120);
 }
 
 VirtualController::~VirtualController() { } 

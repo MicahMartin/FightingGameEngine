@@ -21,7 +21,8 @@ public:
   static std::map<std::string, CollisionType> collisionTypeMap;
 
   CollisionBox(CollisionType boxType, int width, int height, int offsetX, int offsetY, int start, int end);
-  CollisionBox(CollisionType boxType, int width, int height, int offsetX, int offsetY, int start, int end, int hitScript);
+  CollisionBox(CollisionType boxType, 
+      int width, int height, int offsetX, int offsetY, int start, int end, int hitScript, int damage, int pushback, int hitstop, int hitstun);
   ~CollisionBox();
 
   void render();
@@ -38,8 +39,15 @@ public:
   int start;
   int end;
 
-  int hitScript;
   bool disabled = false; 
+
+  // i know, poly
+  int hitScript;
+  int damage;
+  int pushback;
+  int hitstop;
+  int hitstun;
+
 private:
   Graphics* graphics = Graphics::getInstance();
   CollisionType boxType;

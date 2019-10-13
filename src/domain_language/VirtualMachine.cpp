@@ -1,6 +1,6 @@
 #include "domain_language/VirtualMachine.h"
 #include "game_objects/Character.h"
-
+#include <bitset>
 
 void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
   instructionPointer = main;
@@ -118,6 +118,7 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
       }
       case BRANCH: {
         uint8_t operand = bytecode[instructionPointer];
+        // printf("branching to line %d\n", operand);
         instructionPointer = operand;
         break;
       }
@@ -135,12 +136,32 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
           instructionPointer = operand;
         break;
       }
+      case IBRANCH: {
+        break;
+      }
+      case IBRANCHT: {
+        break;
+      }
+      case IBRANCHF: {
+        break;
+      }
       case PRINT: {
         uint8_t val = stack.peek();
         break;
       }
+      case PRINT_NEXT_OPCODE: {
+        uint8_t val = bytecode[instructionPointer++];
+        uint8_t secondVal = bytecode[instructionPointer++];
+        printf("first val should be 44: %d, second val should be 1: %d\n", val, secondVal);
+        break;
+      }
       case GET_ANIM_TIME: {
         uint8_t val = character->_getAnimTime();
+        stack.push(val);
+        break;
+      }
+      case GET_HIT_STUN: {
+        uint8_t val = character->_getHitStun();
         stack.push(val);
         break;
       }
@@ -181,9 +202,19 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
         stack.push(val);
         break;
       }
+      case HAS_AIR_ACTION: {
+        stack.push(character->_getAirActions());
+        break;
+      }
       case CHANGE_STATE: {
         uint8_t operand = bytecode[instructionPointer++];
         character->_changeState(operand);
+        // STATE IS DONE EXECUTING. WE GOT UP OUTA THERE.
+        return;
+      }
+      case CANCEL_STATE: {
+        uint8_t operand = bytecode[instructionPointer++];
+        character->_cancelState(operand);
         // STATE IS DONE EXECUTING. WE GOT UP OUTA THERE.
         return;
       }
@@ -233,6 +264,22 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
         character->_setCombo(operand);
         break;
       }
+      case SET_GRAVITY: {
+        bool operand = bytecode[instructionPointer++];
+        character->_setGravity(operand);
+        break;
+      }
+      case SET_NOGRAV_COUNT: {
+        int operand = bytecode[instructionPointer++];
+        printf("setting noGravCount to %d\n", operand);
+        character->_setNoGravityCounter(operand);
+        break;
+      }
+      case SET_AIR_ACTION: {
+        bool operand = bytecode[instructionPointer++];
+        character->_setAirAction(operand);
+        break;
+      }
       case RESET_ANIM: {
         character->_resetAnim();
         break;
@@ -247,6 +294,7 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
         break;
       }
       case HALT: {
+        printf("halting\n");
         return;
       }
       default: {

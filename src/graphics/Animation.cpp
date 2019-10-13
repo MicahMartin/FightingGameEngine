@@ -11,6 +11,7 @@ void Animation::loadAnimEvents(nlohmann::json json){
   currentAnimElemTimePassed = 0;
   animationTime = 0;
   animationTimePassed = 0;
+
   for (auto i : json.items()) {
     GameTexture* text = new GameTexture();
     const char* path = i.value().at("file").get<std::string>().c_str();
@@ -62,6 +63,7 @@ void Animation::setAnimElemIndex(int index){
 }
 
 void Animation::resetAnimEvents(){
+  animationTimePassed = 0;
   currentAnimElemIndex = 0;
   currentAnimElemTimePassed = 0;
 }

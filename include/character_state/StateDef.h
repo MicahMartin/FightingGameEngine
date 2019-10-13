@@ -26,12 +26,14 @@ public:
   // load shit
   void loadFlags(nlohmann::json json);
   void loadByteCode(nlohmann::json json);
+  void loadCancelByteCode(nlohmann::json json);
   void loadAnimation(nlohmann::json json);
   void loadCollisionBoxes(nlohmann::json json);
 
   bool checkFlag(FlagBit bit);
 
   void enter();
+  void handleCancels();
   void update();
   void draw();
 
@@ -39,6 +41,7 @@ public:
 
 
   std::vector<uint8_t> byteCode;
+  std::vector<uint8_t> cancelByteCode;
   // TODO: Polymorph
   std::vector<CollisionBox*> pushBoxes;
   std::vector<CollisionBox*> hurtBoxes;
@@ -47,6 +50,7 @@ public:
   Animation anim;
   int stateNum;
   int stateTime;
+  bool hasAirAction = true;
 
 private:
   std::map<std::string, FlagBit> flagMap = {

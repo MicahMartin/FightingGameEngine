@@ -23,6 +23,10 @@ void StateDef::loadByteCode(nlohmann::json json){
   byteCode = ByteCode::compile(json);
 };
 
+void StateDef::loadCancelByteCode(nlohmann::json json){
+  cancelByteCode = ByteCode::compile(json);
+};
+
 void StateDef::loadCollisionBoxes(nlohmann::json json){
   for(auto i : json.items()){
     // TODO: POLYMORPH THIS SHIT
@@ -39,7 +43,8 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
 
     CollisionBox* cb;
     if(i.value().contains("hitscript")){
-      cb = new CollisionBox(type, width, height, offsetX, offsetY, start, end, i.value().at("hitscript"));
+      cb = new CollisionBox(type, width, height, offsetX, offsetY, start, end, 
+          i.value().at("hitscript"), i.value().at("damage"), i.value().at("push"), i.value().at("hitstop"), i.value().at("hitstun"));
 
     } else {
       cb = new CollisionBox(type, width, height, offsetX, offsetY, start, end);
@@ -63,10 +68,10 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
 };
 
 void StateDef::enter(){
-  anim.setAnimTime(0);
-  anim.resetAnimEvents();
   stateTime = 0;
+  anim.resetAnimEvents();
   Character* player = charStateManager->getCharPointer(charNum);
+  // TODO: move updateCollisionBoxes into here, shouldnt belong to player
   player->updateCollisionBoxes();
 };
 
@@ -74,6 +79,13 @@ void StateDef::update(){
   VirtualMachine* charVM = &charStateManager->getCharPointer(charNum)->virtualMachine;
   charVM->execute(&byteCode[0], byteCode.size(), 0);
   stateTime++;
+}
+
+void StateDef::handleCancels(){
+  VirtualMachine* charVM = &charStateManager->getCharPointer(charNum)->virtualMachine;
+  if(cancelByteCode.size()){
+    charVM->execute(&cancelByteCode[0], cancelByteCode.size(), 0);
+  }
 }
 
 void StateDef::draw(){
@@ -84,17 +96,17 @@ void StateDef::draw(){
   // stateTime is 2
   // TODO: Thread this up
   for (auto cb : pushBoxes) {
-    if(cb->end == -1 || ( cb->start >= stateTime && cb->end <= stateTime )){
+    if(cb->end == -1 || ( cb->start >= stateTime && cb->end < stateTime )){
       cb->render();
     }
   }
   for (auto cb : hurtBoxes) {
-    if(cb->end == -1 || ( stateTime >= cb->start && stateTime <= cb->end )){
+    if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
       cb->render();
     }
   }
   for (auto cb : hitBoxes) {
-    if(cb->end == -1 || ( stateTime >= cb->start && stateTime <= cb->end )){
+    if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
       cb->render();
     }
   }

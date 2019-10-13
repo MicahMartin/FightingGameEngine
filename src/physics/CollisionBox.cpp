@@ -1,13 +1,14 @@
 #include "physics/CollisionBox.h"
 // TODO: STOP BEING LAZY AND POLY THIS
 
-CollisionBox::CollisionBox(CollisionBox::CollisionType boxType, int width, int height, int offsetX, int offsetY, int start, int end) 
-: CollisionBox(boxType, width, height, offsetX, offsetY, start, end, 0) {}
+CollisionBox::CollisionBox(CollisionBox::CollisionType boxType, int width, int height, 
+  int offsetX, int offsetY, int start, int end) 
+: CollisionBox(boxType, width, height, offsetX, offsetY, start, end, 0, 0,0,0,0) {}
 
-CollisionBox::CollisionBox(CollisionBox::CollisionType boxType, int width, int height, int offsetX, int offsetY, int start, int end, int hitScript) 
-: boxType(boxType), width(width), height(height), offsetX(offsetX), offsetY(offsetY), start(start), end(end), hitScript(hitScript) { 
-
-}
+CollisionBox::CollisionBox(CollisionBox::CollisionType boxType, int width, int height, 
+  int offsetX, int offsetY, int start, int end, int hitScript, int damage, int pushback, int hitstop, int hitstun)
+: boxType(boxType), width(width), height(height), offsetX(offsetX), offsetY(offsetY), start(start), end(end), hitScript(hitScript),
+  damage(damage), pushback(pushback), hitstop(hitstop), hitstun(hitstun) { }
 
 CollisionBox::~CollisionBox(){ }
 
