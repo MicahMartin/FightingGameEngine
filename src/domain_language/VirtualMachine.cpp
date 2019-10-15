@@ -98,6 +98,7 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
       case GREATER: {
         uint8_t secondVal = stack.pop();
         uint8_t firstVal = stack.pop();
+        printf("whats is %d greater than ? %d i think %d\n", firstVal, secondVal, firstVal > secondVal);
 
         stack.push(firstVal > secondVal ? true : false);
         break;
@@ -106,6 +107,7 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
         uint8_t secondBool = stack.pop();
         uint8_t firstBool = stack.pop();
 
+        printf("whats %d and %d? %d\n", firstBool, secondBool, (firstBool && secondBool));
         stack.push(firstBool && secondBool ? true : false);
         break;
       }
@@ -118,7 +120,6 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
       }
       case BRANCH: {
         uint8_t operand = bytecode[instructionPointer];
-        // printf("branching to line %d\n", operand);
         instructionPointer = operand;
         break;
       }
@@ -137,22 +138,53 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
         break;
       }
       case IBRANCH: {
+        uint8_t byte1 = bytecode[instructionPointer++];
+        uint8_t byte2 = bytecode[instructionPointer++];
+        uint8_t byte3 = bytecode[instructionPointer++];
+        uint8_t byte4 = bytecode[instructionPointer++];
+        uint32_t operand = uint32_t((uint8_t)(byte4) << 24 |
+            (uint8_t)(byte3) << 16 |
+            (uint8_t)(byte2) << 8 |
+            (uint8_t)(byte1));
+        instructionPointer = operand;
         break;
       }
       case IBRANCHT: {
+        uint8_t byte1 = bytecode[instructionPointer++];
+        uint8_t byte2 = bytecode[instructionPointer++];
+        uint8_t byte3 = bytecode[instructionPointer++];
+        uint8_t byte4 = bytecode[instructionPointer];
+        uint32_t operand = uint32_t((uint8_t)(byte4) << 24 |
+            (uint8_t)(byte3) << 16 |
+            (uint8_t)(byte2) << 8 |
+            (uint8_t)(byte1));
+        uint8_t boolean = stack.pop();
+        if(boolean){
+          instructionPointer = operand;
+          printf("just set the instructionPointer to %d! it really is at %d\n", operand, instructionPointer);
+        }
         break;
       }
       case IBRANCHF: {
+        uint8_t byte1 = bytecode[instructionPointer++];
+        uint8_t byte2 = bytecode[instructionPointer++];
+        uint8_t byte3 = bytecode[instructionPointer++];
+        uint8_t byte4 = bytecode[instructionPointer++];
+        uint32_t operand = uint32_t((uint8_t)(byte4) << 24 |
+            (uint8_t)(byte3) << 16 |
+            (uint8_t)(byte2) << 8 |
+            (uint8_t)(byte1));
+        uint8_t boolean = stack.pop();
+        if(!boolean)
+          instructionPointer = operand;
         break;
       }
       case PRINT: {
         uint8_t val = stack.peek();
+        printf("val %d\n", val);
         break;
       }
       case PRINT_NEXT_OPCODE: {
-        uint8_t val = bytecode[instructionPointer++];
-        uint8_t secondVal = bytecode[instructionPointer++];
-        printf("first val should be 44: %d, second val should be 1: %d\n", val, secondVal);
         break;
       }
       case GET_ANIM_TIME: {
@@ -172,6 +204,7 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
       }
       case GET_Y_POS: {
         uint8_t val = character->_getYPos();
+        printf("whats y pos? %d\n", val);
         stack.push(val);
         break;
       }
@@ -194,6 +227,7 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
       case WAS_PRESSED: {
         uint8_t operand = bytecode[instructionPointer++];
         uint8_t boolean = character->_wasPressed(operand);
+        printf("was %d pressed? %d\n", operand, boolean);
         stack.push(boolean);
         break;
       }
@@ -209,6 +243,7 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
       case CHANGE_STATE: {
         uint8_t operand = bytecode[instructionPointer++];
         character->_changeState(operand);
+        printf("changing state to %d\n", operand);
         // STATE IS DONE EXECUTING. WE GOT UP OUTA THERE.
         return;
       }
@@ -294,7 +329,6 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
         break;
       }
       case HALT: {
-        printf("halting\n");
         return;
       }
       default: {

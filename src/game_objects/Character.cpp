@@ -70,6 +70,7 @@ void Character::handleInput(){
     changeState(cancelPointer);
   }
   if(control){
+    printf("control tru1?!!?\n");
     virtualMachine.execute(inputByteCode.data(), inputByteCode.size(), 0);
   }
 };

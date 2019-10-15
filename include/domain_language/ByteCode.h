@@ -128,20 +128,37 @@ namespace ByteCode {
 
       if(type == nlohmann::json::value_t::number_unsigned){
         uint32_t val = i.value();
-        uint8_t *bytes;
 
         if(val>255){
-          memcpy(bytes, &val, sizeof(uint32_t));
-          printf("them bytes [%d - %d - %d - %d]\n", bytes[0], bytes[1], bytes[2], bytes[3]);
+          // ok so the next item is 4 bytes instead of one.
+          // 300 should look like 0000 0001 0010 1100
+          // printf("handling big number %d\n", val);
+          int codeSize = byteCode.size();
+          printf("bytecode size %d\n", codeSize);
+          for (int i = 0; i < sizeof(val); ++i) {
+            // Convert to unsigned char* because a char is 1 byte in size.
+            // That is guaranteed by the standard.
+            // Note that is it NOT required to be 8 bits in size.
+            uint8_t byte = *((uint8_t*)&val + i);
+            printf("Byte %d = %u\n", i, (unsigned)byte);
+            byteCode.push_back(byte);
+          }
+          byteCode.resize(codeSize + sizeof(uint32_t));
+          printf("bytecode{%d-%d-%d-%d}\n", byteCode[256], byteCode[257], byteCode[258], byteCode[259]);
+
         } else {
           instruction = i.value();
           byteCode.push_back(instruction);
-          printf("pushing back instruction %d\n", instruction);
+        }
+        if (byteCode.size()==274) {
+          printf("what the fuck is at 274 %d\n", instruction);
         }
       } else if (type == nlohmann::json::value_t::string) {
         instruction = instructonStrings[i.value()];
-        printf("pushing back instruction %d from string %s!\n", instruction, i.value().get<std::string>().c_str());
         byteCode.push_back(instruction);
+        if (byteCode.size()==274) {
+          printf("what the fuck is at 274 %s\n", i.value().get<std::string>().c_str());
+        }
       } else {
         printf("unknown type!\n");
       }
@@ -162,11 +179,6 @@ namespace ByteCode {
       for (int i = offset; i < sizeof(uint32_t); ++i)
           result += byteArray[i] << (i & CHAR_BIT);
       return result;
-  }
-
-  static void printbits(int x) {
-  for(int i=sizeof(x)<<3; i; i--)
-    putchar('0'+((x>>(i-1))&1));
   }
 }
 #endif
