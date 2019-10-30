@@ -8,7 +8,7 @@ Game::~Game(){}
 
 void Game::init() {
   // init Graphics
-  graphics->init(1280, 720);
+  graphics->init();
   // register with input manager so we can catch quit messages
   inputManager->init();
   inputManager->addObserver("game", this);

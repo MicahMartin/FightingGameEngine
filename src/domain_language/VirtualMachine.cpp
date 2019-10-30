@@ -98,7 +98,6 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
       case GREATER: {
         uint8_t secondVal = stack.pop();
         uint8_t firstVal = stack.pop();
-        printf("whats is %d greater than ? %d i think %d\n", firstVal, secondVal, firstVal > secondVal);
 
         stack.push(firstVal > secondVal ? true : false);
         break;
@@ -107,7 +106,6 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
         uint8_t secondBool = stack.pop();
         uint8_t firstBool = stack.pop();
 
-        printf("whats %d and %d? %d\n", firstBool, secondBool, (firstBool && secondBool));
         stack.push(firstBool && secondBool ? true : false);
         break;
       }
@@ -204,7 +202,6 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
       }
       case GET_Y_POS: {
         uint8_t val = character->_getYPos();
-        printf("whats y pos? %d\n", val);
         stack.push(val);
         break;
       }
@@ -227,7 +224,6 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
       case WAS_PRESSED: {
         uint8_t operand = bytecode[instructionPointer++];
         uint8_t boolean = character->_wasPressed(operand);
-        printf("was %d pressed? %d\n", operand, boolean);
         stack.push(boolean);
         break;
       }

@@ -24,8 +24,9 @@ void GameTexture::render() {
 }
 
 void GameTexture::render(bool faceRight) {
+  Camera* cam = graphics->getCamera();
   SDL_RendererFlip flipFlag = faceRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
-  SDL_RenderCopyEx(renderer, texture, NULL, &textRect, 0, NULL, flipFlag);
+  SDL_RenderCopyEx(renderer, texture, &cam->cameraRect, &textRect, 0, NULL, flipFlag);
 }
 
 void GameTexture::incTransperancy(){

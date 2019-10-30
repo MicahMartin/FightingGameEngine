@@ -2,9 +2,9 @@
 #define _Graphics_h
 
 #include <SDL2_image/SDL_image.h>
-//#include <SDL2/SDL_opengl.h>
 
 // handle SDL init, window stuff, and video buffer swapping at the end of every frame
+class Camera;
 class Graphics final {
 public:
   static Graphics* getInstance(){
@@ -12,8 +12,9 @@ public:
     return &instance;
   };
 
-  void init(int w, int h);
+  void init();
   void update();
+  void setCamera(Camera* cam);
 
   void clear();
   void present();
@@ -22,12 +23,9 @@ public:
 
   SDL_Renderer* getRenderer();
   SDL_Window* getWindow();
+  Camera* getCamera();
   int getWindowWidth();
   int getWindowHeight();
-  // SDL_Surface* getWindowSurface();
-  //void perspectiveGl(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar);
-  //void renderBackGround(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
-  //GLuint imgToTexture(const char *imageLocation);
 private:
   Graphics() = default;
   ~Graphics(){
@@ -41,6 +39,7 @@ private:
   Graphics(Graphics&&) = delete;
   Graphics& operator=(Graphics&&) = delete;
 
+  Camera* camera;
   SDL_Window* window;
   SDL_Renderer* renderer;
   int width;

@@ -2,10 +2,7 @@
 #include <cmath>
 #include <stdexcept>
 
-void Graphics::init(int w, int h){
-  width = w;
-  height = h;
-
+void Graphics::init(){
   // setup window. return -1 on error
   if( SDL_Init(SDL_INIT_VIDEO) != 0 ){
     throw( std::runtime_error(SDL_GetError()) );
@@ -14,13 +11,15 @@ void Graphics::init(int w, int h){
   window = SDL_CreateWindow("Boring Game",
       SDL_WINDOWPOS_UNDEFINED,
       SDL_WINDOWPOS_UNDEFINED,
-      getWindowWidth(),
-      getWindowHeight(),
-      SDL_WINDOW_SHOWN);
+      0,
+      0,
+      SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SHOWN);
 
   if( window == NULL ){
     throw(std::runtime_error(SDL_GetError()));
   }
+  SDL_GetWindowSize(window, &width, &height);
+
 
   // create sdl renderer
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -79,3 +78,11 @@ int Graphics::getWindowWidth(){
 int Graphics::getWindowHeight(){
   return height;
 }
+void Graphics::setCamera(Camera* cam){
+  camera = cam;
+}
+
+Camera* Graphics::getCamera(){
+  return camera;
+}
+

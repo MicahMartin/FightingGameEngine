@@ -23,23 +23,24 @@ void FightState::enter(){
   player2->init();
 
   currentScreen = new FightScreen();
-};
+  graphics->setCamera(&camera);
+}
 
 void FightState::exit(){ 
   delete player1;
   delete player2;
   delete currentScreen;
-};
+}
 
-void FightState::pause(){ };
-void FightState::resume(){ };
+void FightState::pause(){ }
+void FightState::resume(){ }
 
 void FightState::handleInput(){ 
   if (charStateManager->screenFrozen == false) {
     player1->handleInput();
     player2->handleInput();
   }
-};
+}
 
 void FightState::update(){ 
   if(charStateManager->screenFrozen == false){
@@ -98,6 +99,7 @@ void FightState::update(){
             if (CollisionBox::checkAABB(*p1Hitbox, *p2HurtBox)) {
               printf("hitbox collision detected\n");
               // TODO: Run hitscript
+              camera.moveCamera();
               charStateManager->screenFrozen = true;
               p1Hitbox->disabled = true;
               screenFreeze = p1Hitbox->hitstop;
@@ -158,10 +160,10 @@ void FightState::update(){
       charStateManager->screenFrozen = false;
     }
   }
-};
+  camera.update(player1->getPos().first, player2->getPos().first);
+}
 
-void FightState::draw(){  
-  currentScreen->draw();
+void FightState::renderHealthBars(){
   int p1Hp = player1->health;
   float p1HpPercent = p1Hp / player1->maxHealth;
   int p2Hp = player2->health;
@@ -172,10 +174,14 @@ void FightState::draw(){
   // draw p1 healthbar
   renderHealthBar(100, 50, 500, 50, p1HpPercent, green, red);
   renderHealthBar(680, 50, 500, 50, p2HpPercent, green, red);
+}
 
+void FightState::draw(){  
+  currentScreen->draw();
+  renderHealthBars();
   player1->draw();
   player2->draw();
-};
+}
 
 void FightState::renderHealthBar(int x, int y, int w, int h, float percent, SDL_Color fgColor, SDL_Color bgColor) {
   SDL_Color old;

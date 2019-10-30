@@ -66,11 +66,9 @@ void Character::handleInput(){
     hitstun--;
   }
   if(cancelPointer != 0){
-    printf("cancelPointer true\n");
     changeState(cancelPointer);
   }
   if(control){
-    printf("control tru1?!!?\n");
     virtualMachine.execute(inputByteCode.data(), inputByteCode.size(), 0);
   }
 };

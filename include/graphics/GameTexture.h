@@ -2,6 +2,7 @@
 #define _GameTexture_h 
 #include <SDL2_image/SDL_image.h>
 #include "Graphics.h"
+#include "Camera.h"
 
 class GameTexture {
 public:
@@ -11,6 +12,7 @@ public:
   bool loadTexture(const char* path);
   void render();
   void render(bool flip);
+  void setCamera(Camera* camera);
 
   void incTransperancy();
   void decTransperancy();
@@ -30,6 +32,7 @@ public:
 private:
   Graphics* graphics = Graphics::getInstance();
   SDL_Renderer* renderer = graphics->getRenderer();
+  Camera* camera;
 
   SDL_Texture* texture;
   SDL_Rect textRect;

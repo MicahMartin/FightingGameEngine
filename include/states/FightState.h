@@ -6,6 +6,7 @@
 #include "game_objects/Character.h"
 #include "screens/FightScreen.h"
 #include "character_state/CharStateManager.h"
+#include "graphics/Camera.h"
 
 class FightState : public GameState {
 public:
@@ -17,6 +18,7 @@ public:
 
   void pause();
   void resume();
+  void renderHealthBars();
   void renderHealthBar(int x, int y, int w, int h, float percent, SDL_Color fgColor, SDL_Color bgColor);
 
   void handleInput();
@@ -30,5 +32,6 @@ private:
   FightScreen* currentScreen;
   CharStateManager* charStateManager = CharStateManager::getInstance();
   Graphics* graphics = Graphics::getInstance();
+  Camera camera;
 };
 #endif

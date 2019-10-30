@@ -16,6 +16,7 @@ public:
   void removeTexture(int index);
 
 private:
+  GameTexture stage;
 };
 
 #endif
