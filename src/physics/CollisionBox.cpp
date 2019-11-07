@@ -1,4 +1,5 @@
 #include "physics/CollisionBox.h"
+#include "graphics/Camera.h"
 // TODO: STOP BEING LAZY AND POLY THIS
 
 CollisionBox::CollisionBox(CollisionBox::CollisionType boxType, int width, int height, 
@@ -33,6 +34,7 @@ bool CollisionBox::checkAABB(CollisionBox box1, CollisionBox box2){
 
 
 void CollisionBox::render(){
+  Camera* cam = graphics->getCamera();
   switch (boxType) {
     case POSITION:
       SDL_SetRenderDrawColor(graphics->getRenderer(), 0, 0, 255, 0);
@@ -46,7 +48,7 @@ void CollisionBox::render(){
   }
   SDL_Rect collisionRect;
 
-  collisionRect.x = positionX;
+  collisionRect.x = (positionX - cam->cameraRect.x);
   collisionRect.y = positionY + (graphics->getWindowHeight() - height) - 30;
   collisionRect.w = width;
   collisionRect.h = height;

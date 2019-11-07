@@ -69,6 +69,7 @@ void Character::handleInput(){
     changeState(cancelPointer);
   }
   if(control){
+    // TODO: Precompile all scripts
     virtualMachine.execute(inputByteCode.data(), inputByteCode.size(), 0);
   }
 };

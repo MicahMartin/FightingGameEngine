@@ -239,7 +239,6 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
       case CHANGE_STATE: {
         uint8_t operand = bytecode[instructionPointer++];
         character->_changeState(operand);
-        printf("changing state to %d\n", operand);
         // STATE IS DONE EXECUTING. WE GOT UP OUTA THERE.
         return;
       }

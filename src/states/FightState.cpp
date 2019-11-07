@@ -11,8 +11,8 @@ FightState::~FightState(){ }
 void FightState::enter(){ 
   // init all fields
   
-  player1 = new Character(std::make_pair(500,0), 1);
-  player2 = new Character(std::make_pair(780,0), 2);
+  player1 = new Character(std::make_pair(1600,0), 1);
+  player2 = new Character(std::make_pair(2300,0), 2);
   player1->virtualController = inputManager->getVirtualController(0);
   player2->virtualController = inputManager->getVirtualController(1);
   
@@ -24,6 +24,7 @@ void FightState::enter(){
 
   currentScreen = new FightScreen();
   graphics->setCamera(&camera);
+  camera.update(1600, 2300);
 }
 
 void FightState::exit(){ 
@@ -83,8 +84,16 @@ void FightState::update(){
               } else {
                 int p1Vel = player1->velocityX;
                 int p2Vel = player2->velocityX;
-                player1->setX(p2Vel);
-                player2->setX(p1Vel);
+                if(p1Pos.first == 0 || p1Pos.first == 3840){
+                  player1->setX(p2Vel);
+                  player2->setX(-p2Vel);
+                } else if (p2Pos.first == 0 || p2Pos.first == 3840){
+                  player1->setX(-p1Vel);
+                  player2->setX(p1Vel);
+                } else {
+                  player1->setX(p2Vel);
+                  player2->setX(p1Vel);
+                }
               }
             }
           }
@@ -99,7 +108,6 @@ void FightState::update(){
             if (CollisionBox::checkAABB(*p1Hitbox, *p2HurtBox)) {
               printf("hitbox collision detected\n");
               // TODO: Run hitscript
-              camera.moveCamera();
               charStateManager->screenFrozen = true;
               p1Hitbox->disabled = true;
               screenFreeze = p1Hitbox->hitstop;
@@ -120,6 +128,8 @@ void FightState::update(){
     }
 
 
+    // TODO: Refactor jesus
+    // THIS IS THE UPDATE TURN STUFF
     if(player1->getPos().first <= player2->getPos().first){
       if(!player1->currentState->checkFlag(NO_TURN)){
         player1->faceRight = true;
@@ -136,20 +146,36 @@ void FightState::update(){
       }
     }
 
+    // BOUND CHECKING
+    // TODO: pls refactor one day
     if(player1->getPos().first < 0) {
       player1->setXPos(0);
     }
+    if (player1->getPos().first < camera.lowerBound) {
+      printf("why am I outside the camera on the left?\n");
+      player1->setXPos(camera.lowerBound);
+    }
 
-    if(player1->getPos().first > 1280) {
-      player1->setXPos(1280);
+    if(player1->getPos().first > 3840) {
+      player1->setXPos(3840);
+    }
+    if (player1->getPos().first > camera.upperBound) {
+      printf("why am I outside the camera on the right?\n");
+      player1->setXPos(camera.upperBound);
     }
 
     if(player2->getPos().first < 0) {
       player2->setXPos(0);
     }
+    if (player2->getPos().first < camera.lowerBound) {
+      player2->setXPos(camera.lowerBound);
+    }
 
-    if(player2->getPos().first > 1280) {
-      player2->setXPos(1280);
+    if(player2->getPos().first > 3840) {
+      player2->setXPos(3840);
+    }
+    if (player2->getPos().first > camera.upperBound) {
+      player2->setXPos(camera.upperBound);
     }
 
   } else {
@@ -176,13 +202,6 @@ void FightState::renderHealthBars(){
   renderHealthBar(680, 50, 500, 50, p2HpPercent, green, red);
 }
 
-void FightState::draw(){  
-  currentScreen->draw();
-  renderHealthBars();
-  player1->draw();
-  player2->draw();
-}
-
 void FightState::renderHealthBar(int x, int y, int w, int h, float percent, SDL_Color fgColor, SDL_Color bgColor) {
   SDL_Color old;
   SDL_GetRenderDrawColor(graphics->getRenderer(), &old.r, &old.g, &old.g, &old.a);
@@ -195,4 +214,11 @@ void FightState::renderHealthBar(int x, int y, int w, int h, float percent, SDL_
   SDL_Rect fgrect = { px, y, pw, h };
   SDL_RenderFillRect(graphics->getRenderer(), &fgrect);
   SDL_SetRenderDrawColor(graphics->getRenderer(), old.r, old.g, old.b, old.a);
+}
+
+void FightState::draw(){  
+  currentScreen->draw();
+  renderHealthBars();
+  player1->draw();
+  player2->draw();
 }

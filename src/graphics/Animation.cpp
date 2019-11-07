@@ -19,7 +19,7 @@ void Animation::loadAnimEvents(nlohmann::json json){
 
     text->cartesian = true;
     text->loadTexture(path);
-    text->setDimensions(0, 0, dimensions.first*2, dimensions.second*2);
+    text->setDimensions(0, 0, dimensions.first*3, dimensions.second*3);
 
     int animTime = i.value().at("time");
     int offsetX = i.value().at("offsetX");
@@ -32,8 +32,9 @@ void Animation::loadAnimEvents(nlohmann::json json){
 
 void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
   // draw a vertical line on the character's position
+  int camOffset = graphics->getCamera()->cameraRect.x;
   SDL_SetRenderDrawColor(graphics->getRenderer(), 255, 0, 0, 0);
-  SDL_RenderDrawLine(graphics->getRenderer(), x, graphics->getWindowHeight(), x, y);
+  SDL_RenderDrawLine(graphics->getRenderer(), x - camOffset, graphics->getWindowHeight(), x - camOffset, y);
   SDL_SetRenderDrawColor(graphics->getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 
   AnimationElement* elem = &animationElements.at(currentAnimElemIndex);

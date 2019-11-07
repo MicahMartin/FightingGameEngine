@@ -23,10 +23,13 @@ void GameTexture::render() {
   SDL_RenderCopy(renderer, texture, NULL, &textRect);
 }
 
+// TODO: cleaner signature using defaults
 void GameTexture::render(bool faceRight) {
   Camera* cam = graphics->getCamera();
+  SDL_Rect srcRect = textRect;
+  srcRect.x -= cam->cameraRect.x;
   SDL_RendererFlip flipFlag = faceRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
-  SDL_RenderCopyEx(renderer, texture, &cam->cameraRect, &textRect, 0, NULL, flipFlag);
+  SDL_RenderCopyEx(renderer, texture, NULL, &srcRect, 0, NULL, flipFlag);
 }
 
 void GameTexture::incTransperancy(){

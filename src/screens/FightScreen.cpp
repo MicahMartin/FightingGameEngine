@@ -3,8 +3,9 @@
 FightScreen::FightScreen(){
   printf("the address of the screen %p\n", this);
 
+  int windowWidth = graphics->getWindowWidth();
   stage.loadTexture("../data/images/purple_stage.png");
-  stage.setDimensions(0,0, graphics->getWindowWidth()*3, graphics->getWindowHeight());
+  stage.setDimensions(0, 0, windowWidth*3, graphics->getWindowHeight());
 
   addTexture(&stage);
 }
@@ -17,7 +18,7 @@ void FightScreen::update(){}
 void FightScreen::draw(){
 
   for (auto gameTexture : textureList) {
-    gameTexture->render();
+    gameTexture->render(true);
   }
 }
 
