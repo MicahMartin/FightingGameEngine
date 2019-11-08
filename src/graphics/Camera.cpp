@@ -18,9 +18,7 @@ void Camera::update(int p1Xpos, int p2Xpos){
   }
 
   lowerBound = cameraRect.x;
-  printf("camera lower bound %d\n", lowerBound);
   upperBound = cameraRect.x+cameraRect.w;
-  printf("camera upper bound %d\n", upperBound);
 }
 
 void Camera::render(){

@@ -8,7 +8,8 @@
 #include "input/VirtualController.h"
 #include "graphics/Animation.h"
 #include "physics/CollisionBox.h"
-#include "domain_language/ByteCode.h"
+#include "domain_language/Script.h"
+#include "domain_language/VirtualMachine.h"
 
 
 enum FlagBit {
@@ -25,8 +26,6 @@ public:
 
   // load shit
   void loadFlags(nlohmann::json json);
-  void loadByteCode(nlohmann::json json);
-  void loadCancelByteCode(nlohmann::json json);
   void loadAnimation(nlohmann::json json);
   void loadCollisionBoxes(nlohmann::json json);
 
@@ -40,12 +39,17 @@ public:
   void resetAnim();
 
 
+  VirtualMachine* charVm;
+  Script updateScript;
+  Script cancelScript;
   std::vector<uint8_t> byteCode;
   std::vector<uint8_t> cancelByteCode;
-  // TODO: Polymorph
+
+  // TODO: Polymorph or atleast use a union
   std::vector<CollisionBox*> pushBoxes;
   std::vector<CollisionBox*> hurtBoxes;
   std::vector<CollisionBox*> hitBoxes;
+
   // TODO: Methods to talk to anim so this stuff can stay private
   Animation anim;
   int stateNum;

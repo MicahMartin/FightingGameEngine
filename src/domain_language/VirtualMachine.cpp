@@ -1,330 +1,331 @@
 #include "domain_language/VirtualMachine.h"
 #include "game_objects/Character.h"
-#include <bitset>
 
-void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
-  instructionPointer = main;
 
-  while(instructionPointer < size){
-    uint8_t instruction = bytecode[instructionPointer++];
+VirtualMachine::VirtualMachine(){}
 
-    switch (instruction) {
-      case PUSH: {
-        stack.push(bytecode[instructionPointer++]);
+VirtualMachine::~VirtualMachine(){}
+
+void VirtualMachine::runtimeError(const char* format, ...) {
+  va_list args;
+  va_start(args, format);
+  vfprintf(stderr, format, args);
+  va_end(args);
+  fputs("\n", stderr);
+
+  size_t instruction = instructionPointer - scriptPointer->scriptStart();
+  int line = scriptPointer->lines[instruction];
+  fprintf(stderr, "[line %d] in script\n", line);
+
+  stack.reset();
+}
+
+inline bool VirtualMachine::isFalsey(Value value) {
+  return IS_NIL(value) || (IS_BOOL(value) && !AS_BOOL(value));
+}
+
+inline void VirtualMachine::concatenate() {
+  std::string* b = AS_STRING(stack.pop());
+  std::string* a = AS_STRING(stack.pop());
+  // TODO: intern for garbage collection
+  std::string* newString = new std::string(*a + *b);
+  stack.push(STRING_VAL(newString));
+}
+
+inline bool VirtualMachine::valuesEqual(Value valueA, Value valueB) {
+  if (valueA.type != valueB.type) return false;
+
+  switch (valueA.type) {
+    case VAL_BOOL:   return AS_BOOL(valueA) == AS_BOOL(valueB);
+    case VAL_NIL:    return true;
+    case VAL_NUMBER: return AS_NUMBER(valueA) == AS_NUMBER(valueB);
+    case VAL_STRING: return  *(AS_STRING(valueA)) == *(AS_STRING(valueB));
+  }
+}
+
+inline ExecutionCode VirtualMachine::run(){
+  const char* unreachable = R""""(If you're seeing this, the code is in what I thought was an unreachable state. 
+  I could give you advice for what to do. But honestly, why should you trust me? I clearly screwed this up. 
+  I'm writing a message that should never appear, yet I know it will probably appear someday.
+  On a deep level, I know I'm not up to this task. I'm so sorry.)"""";
+  // lets go fast bb
+  #define READ_BYTE() (*instructionPointer++)
+  #define READ_SYMBOL() (scriptPointer->symbols[READ_BYTE()])
+  #define READ_SHORT() \
+    (instructionPointer += 2, (uint16_t)((instructionPointer[-2] << 8) | instructionPointer[-1]))
+  #define READ_STRING() AS_STRING(READ_SYMBOL())
+  #define BINARY_OP(valueType, op) \
+    do { \
+      if (!IS_NUMBER(stack.peek(0)) || !IS_NUMBER(stack.peek(1))) { \
+        runtimeError(unreachable); \
+        return EC_RUNTIME_ERROR; \
+      } \
+      long b = AS_NUMBER(stack.pop()); \
+      long a = AS_NUMBER(stack.pop()); \
+      stack.push(valueType(a op b)); \
+    } while (false)
+
+  for (;;) {
+    //if (debugMode) { 
+    //  printf("          ");
+    //  for (Value* slot = stack.stack; slot < stack.stackTop; slot++) {
+    //    printf("[ ");
+    //    ValueFn::printValue(*slot);
+    //    printf(" ]");
+    //  }
+    //  printf("\n");
+    //  scriptPointer->disassembleInstruction((int)(instructionPointer - scriptPointer->scriptStart()));
+    //}
+
+    uint8_t instruction;
+    switch (instruction = READ_BYTE()) {
+      case OP_CONSTANT: {
+        Value symbol = READ_SYMBOL();
+        stack.push(symbol);
         break;
       }
-      case POP: {
-        uint8_t val = stack.pop();
-        break;
-      }
-      case ADD: {
-        uint8_t secondVal = stack.pop();
-        uint8_t firstVal = stack.pop();
-
-        stack.push(firstVal+secondVal);
-        break;
-      }
-      case SUB: {
-        uint8_t secondVal = stack.pop();
-        uint8_t firstVal = stack.pop();
-
-        stack.push(firstVal-secondVal);
-        break;
-      }
-      case MUL: {
-        uint8_t secondVal = stack.pop();
-        uint8_t firstVal = stack.pop();
-
-        stack.push(firstVal*secondVal);
-        break;
-      }
-      case CALL: {
-        uint8_t address = bytecode[instructionPointer++];
-        uint8_t numArgs = bytecode[instructionPointer++];
-
-        stack.push(numArgs);
-        stack.push(stack.framePointer);
-        stack.push(instructionPointer);
-
-        stack.framePointer = stack.stackPointer;
-        instructionPointer = address;
-        break;
-      }
-      case RETURN: {
-        uint8_t returnVal = stack.pop();
-        stack.stackPointer = stack.framePointer;
-
-        instructionPointer = stack.pop();
-        stack.framePointer = stack.pop();
-        int numArgs = stack.pop();
-        stack.stackPointer -= numArgs;
-        stack.push(returnVal);
-        break;
-      }
-      case STORE: {
-        break;
-      }
-      case LOAD: {
-        uint8_t offset = bytecode[instructionPointer++];
-        stack.push(stack.peekIndex(stack.framePointer + offset));
-        break;
-      }
-      case GSTORE: {
-        uint8_t operand = bytecode[instructionPointer++];
-        globals[operand] = stack.pop();
-        break;
-      }
-      case GLOAD: {
-        uint8_t operand = bytecode[instructionPointer++];
-        uint8_t val = globals[operand];
-
+      case OP_NIL: stack.push(NIL_VAL); break;
+      case OP_TRUE: stack.push(BOOL_VAL(true)); break;
+      case OP_FALSE: stack.push(BOOL_VAL(false)); break;
+      case OP_POP: stack.pop(); break;
+      case OP_GET_LOCAL: {
+        uint8_t slot = READ_BYTE();
+        Value val = stack.at(slot);
         stack.push(val);
         break;
       }
-      case EQUAL: {
-        uint8_t secondVal = stack.pop();
-        uint8_t firstVal = stack.pop();
-
-        stack.push(firstVal == secondVal ? true : false);
+       case OP_SET_LOCAL: {
+        uint8_t slot = READ_BYTE();
+        stack.set(stack.peek(0), slot);
         break;
       }
-      case NEQUAL: {
-        uint8_t secondVal = stack.pop();
-        uint8_t firstVal = stack.pop();
-
-        stack.push(firstVal != secondVal ? true : false);
+      case OP_GET_GLOBAL: {
+        std::string* name = READ_STRING();
+//        for (auto i : scriptPointer->globals) {
+//          printf("wtf %s\n", AS_STRING(i.second)->chars);
+//        }
+        auto globalVal = scriptPointer->globals.find(*name);
+        if (globalVal == scriptPointer->globals.end()) {
+          runtimeError("Undefined variable '%s'.", name->c_str());
+          return EC_RUNTIME_ERROR;
+        }
+        printf("got global %s with val %d\n", name->c_str(), globalVal->second);
+        stack.push(globalVal->second);
         break;
       }
-      case GREATER: {
-        uint8_t secondVal = stack.pop();
-        uint8_t firstVal = stack.pop();
-
-        stack.push(firstVal > secondVal ? true : false);
+      case OP_DEFINE_GLOBAL: {               
+        std::string* name = READ_STRING();
+        // printf("defining global %s:%s\n", name->chars, AS_STRING(stack.peek(0))->chars);
+        scriptPointer->globals.insert(std::make_pair(*name, stack.peek(0)));
+        stack.pop();
+        break;                               
+      }                                      
+      case OP_SET_GLOBAL: {               
+        std::string* name = READ_STRING();
+        auto globalVal = scriptPointer->globals.find(*name);
+        if (globalVal == scriptPointer->globals.end()) {
+          runtimeError("Undefined variable '%s'.", name->c_str());
+          return EC_RUNTIME_ERROR;
+        }
+        scriptPointer->globals[*name] = stack.peek(0);
+        break;                               
+      }                                      
+      case OP_EQUAL: {
+        Value b = stack.pop();
+        Value a = stack.pop();
+        stack.push(BOOL_VAL(valuesEqual(a, b)));
         break;
       }
-      case AND: {
-        uint8_t secondBool = stack.pop();
-        uint8_t firstBool = stack.pop();
-
-        stack.push(firstBool && secondBool ? true : false);
-        break;
-      }
-      case LESS: {
-        uint8_t secondVal = stack.pop();
-        uint8_t firstVal = stack.pop();
-
-        stack.push(firstVal < secondVal ? true : false);
-        break;
-      }
-      case BRANCH: {
-        uint8_t operand = bytecode[instructionPointer];
-        instructionPointer = operand;
-        break;
-      }
-      case BRANCHT: {
-        uint8_t operand = bytecode[instructionPointer++];
-        uint8_t boolean = stack.pop();
-        if(boolean)
-          instructionPointer = operand;
-        break;
-      }
-      case BRANCHF: {
-        uint8_t operand = bytecode[instructionPointer++];
-        uint8_t boolean = stack.pop();
-        if(!boolean)
-          instructionPointer = operand;
-        break;
-      }
-      case IBRANCH: {
-        uint8_t byte1 = bytecode[instructionPointer++];
-        uint8_t byte2 = bytecode[instructionPointer++];
-        uint8_t byte3 = bytecode[instructionPointer++];
-        uint8_t byte4 = bytecode[instructionPointer++];
-        uint32_t operand = uint32_t((uint8_t)(byte4) << 24 |
-            (uint8_t)(byte3) << 16 |
-            (uint8_t)(byte2) << 8 |
-            (uint8_t)(byte1));
-        instructionPointer = operand;
-        break;
-      }
-      case IBRANCHT: {
-        uint8_t byte1 = bytecode[instructionPointer++];
-        uint8_t byte2 = bytecode[instructionPointer++];
-        uint8_t byte3 = bytecode[instructionPointer++];
-        uint8_t byte4 = bytecode[instructionPointer];
-        uint32_t operand = uint32_t((uint8_t)(byte4) << 24 |
-            (uint8_t)(byte3) << 16 |
-            (uint8_t)(byte2) << 8 |
-            (uint8_t)(byte1));
-        uint8_t boolean = stack.pop();
-        if(boolean){
-          instructionPointer = operand;
-          printf("just set the instructionPointer to %d! it really is at %d\n", operand, instructionPointer);
+      case OP_GREATER:  BINARY_OP(BOOL_VAL, >); break;
+      case OP_LESS:     BINARY_OP(BOOL_VAL, <); break;
+      case OP_ADD: {
+        if (IS_STRING(stack.peek(0)) && IS_STRING(stack.peek(1))) {
+          concatenate();
+        } else if (IS_NUMBER(stack.peek(0)) && IS_NUMBER(stack.peek(1))) {
+          long b = AS_NUMBER(stack.pop());
+          long a = AS_NUMBER(stack.pop());
+          stack.push(NUMBER_VAL(a + b));
+        } else {
+          runtimeError("Operands must be two numbers or two strings.");
+          return EC_RUNTIME_ERROR;
         }
         break;
       }
-      case IBRANCHF: {
-        uint8_t byte1 = bytecode[instructionPointer++];
-        uint8_t byte2 = bytecode[instructionPointer++];
-        uint8_t byte3 = bytecode[instructionPointer++];
-        uint8_t byte4 = bytecode[instructionPointer++];
-        uint32_t operand = uint32_t((uint8_t)(byte4) << 24 |
-            (uint8_t)(byte3) << 16 |
-            (uint8_t)(byte2) << 8 |
-            (uint8_t)(byte1));
-        uint8_t boolean = stack.pop();
-        if(!boolean)
-          instructionPointer = operand;
+      case OP_SUBTRACT: BINARY_OP(NUMBER_VAL, -); break;
+      case OP_MULTIPLY: BINARY_OP(NUMBER_VAL, *); break;
+      case OP_DIVIDE:   BINARY_OP(NUMBER_VAL, /); break;
+      case OP_NOT:
+        stack.push(BOOL_VAL(isFalsey(stack.pop())));
+        break;
+      case OP_NEGATE: {
+        if (!IS_NUMBER(stack.peek(0))) {
+          runtimeError("Operand must be a number.");
+          return EC_RUNTIME_ERROR;
+        }
+
+        stack.push(NUMBER_VAL(-AS_NUMBER(stack.pop())));
         break;
       }
-      case PRINT: {
-        uint8_t val = stack.peek();
-        printf("val %d\n", val);
+      case OP_PRINT: {
+        ValueFn::printValue(stack.pop());
+        printf("\n");
         break;
       }
-      case PRINT_NEXT_OPCODE: {
+      case OP_JUMP_IF_FALSE: {
+        uint16_t offset = READ_SHORT();
+        if (isFalsey(stack.peek(0))) instructionPointer  += offset;
         break;
       }
-      case GET_ANIM_TIME: {
-        uint8_t val = character->_getAnimTime();
-        stack.push(val);
+      case OP_JUMP: {
+        uint16_t offset = READ_SHORT();
+        instructionPointer += offset;
         break;
       }
-      case GET_HIT_STUN: {
-        uint8_t val = character->_getHitStun();
-        stack.push(val);
+      case OP_LOOP: {
+        uint16_t offset = READ_SHORT();
+        instructionPointer -= offset;
         break;
       }
-      case GET_STATE_TIME: {
-        uint8_t val = character->_getStateTime();
-        stack.push(val);
+      case OP_GET_ANIM_TIME: {
+        long val = character->_getAnimTime();
+        stack.push(NUMBER_VAL(val));
         break;
       }
-      case GET_Y_POS: {
-        uint8_t val = character->_getYPos();
-        stack.push(val);
+      case OP_GET_HIT_STUN: {
+        long val = character->_getHitStun();
+        stack.push(NUMBER_VAL(val));
         break;
       }
-      case GET_INPUT: {
-        uint8_t operand = bytecode[instructionPointer++];
-        uint8_t boolean = character->_getInput(operand);
-        stack.push(boolean);
+      case OP_GET_STATE_TIME: {
+        int val = character->_getStateTime();
+        stack.push(NUMBER_VAL(val));
         break;
       }
-      case GET_STATE_NUM: {
-        uint8_t val = character->_getStateNum();
-        stack.push(val);
+      case OP_GET_Y_POS: {
+        long val = character->_getYPos();
+        stack.push(NUMBER_VAL(val));
         break;
       }
-      case GET_CONTROL: {
-        uint8_t val = character->_getControl();
-        stack.push(val);
+      case OP_GET_INPUT: {
+        uint8_t operand = READ_BYTE();
+        bool boolean = character->_getInput(operand);
+        stack.push(BOOL_VAL(boolean));
         break;
       }
-      case WAS_PRESSED: {
-        uint8_t operand = bytecode[instructionPointer++];
-        uint8_t boolean = character->_wasPressed(operand);
-        stack.push(boolean);
+      case OP_GET_STATE_NUM: {
+        long val = character->_getStateNum();
+        stack.push(NUMBER_VAL(val));
         break;
       }
-      case GET_COMBO: {
-        uint8_t val = character->_getCombo();
-        stack.push(val);
+      case OP_GET_CONTROL: {
+        long val = character->_getControl();
+        stack.push(NUMBER_VAL(val));
         break;
       }
-      case HAS_AIR_ACTION: {
-        stack.push(character->_getAirActions());
+      case OP_WAS_PRESSED: {
+        uint8_t operand = READ_BYTE();
+        bool boolean = character->_wasPressed(operand);
+        stack.push(BOOL_VAL(boolean));
         break;
       }
-      case CHANGE_STATE: {
-        uint8_t operand = bytecode[instructionPointer++];
+      case OP_GET_COMBO: {
+        long val = character->_getCombo();
+        stack.push(NUMBER_VAL(val));
+        break;
+      }
+      case OP_HAS_AIR_ACTION: {
+        stack.push(NUMBER_VAL(character->_getAirActions()));
+        break;
+      }
+      case OP_CHANGE_STATE: {
+        printf("in changeState\n");
+        long operand = AS_NUMBER(stack.pop());
+        printf("the muh fuckin operand %ld\n", operand);
         character->_changeState(operand);
         // STATE IS DONE EXECUTING. WE GOT UP OUTA THERE.
-        return;
+        return EC_OK;
       }
-      case CANCEL_STATE: {
-        uint8_t operand = bytecode[instructionPointer++];
+      case OP_CANCEL_STATE: {
+        uint8_t operand = READ_BYTE();
         character->_cancelState(operand);
         // STATE IS DONE EXECUTING. WE GOT UP OUTA THERE.
-        return;
+        return EC_OK;
       }
-      case VELSET_X: {
-        uint8_t operand = bytecode[instructionPointer++];
+      case OP_VELSET_X: {
+        uint8_t operand = READ_BYTE();
         character->_velSetX(operand);
         break;
       }
-      // nhollman json interprets all ints as unsigned so no negatives 
-      case NEG_VELSET_X: {
-        uint8_t operand = bytecode[instructionPointer++];
+      // this gets called often enough to justify its own instruction rather than negating the val
+      case OP_NEG_VELSET_X: {
+        uint8_t operand = READ_BYTE();
         character->_negVelSetX(operand);
         break;
       }
-      case VELSET_Y: {
-        uint8_t operand = bytecode[instructionPointer++];
+      case OP_VELSET_Y: {
+        uint8_t operand = READ_BYTE();
         character->_velSetY(operand);
         break;
       }
-      case MOVE_F: {
-        uint8_t operand = bytecode[instructionPointer++];
+      case OP_MOVE_F: {
+        uint8_t operand = READ_BYTE();
         character->_moveForward(operand);
         break;
       }
-      case MOVE_B: {
-        uint8_t operand = bytecode[instructionPointer++];
+      case OP_MOVE_B: {
+        uint8_t operand = READ_BYTE();
         character->_moveBack(operand);
         break;
       }
-      case MOVE_U: {
-        uint8_t operand = bytecode[instructionPointer++];
+      case OP_MOVE_U: {
+        uint8_t operand = READ_BYTE();
         character->_moveUp(operand);
         break;
       }
-      case MOVE_D: {
-        uint8_t operand = bytecode[instructionPointer++];
+      case OP_MOVE_D: {
+        uint8_t operand = READ_BYTE();
         character->_moveDown(operand);
         break;
       }
-      case SET_CONTROL: {
-        uint8_t operand = bytecode[instructionPointer++];
+      case OP_SET_CONTROL: {
+        uint8_t operand = READ_BYTE();
         character->_setControl(operand);
         break;
       }
-      case SET_COMBO: {
-        uint8_t operand = bytecode[instructionPointer++];
+      case OP_SET_COMBO: {
+        uint8_t operand = READ_BYTE();
         character->_setCombo(operand);
         break;
       }
-      case SET_GRAVITY: {
-        bool operand = bytecode[instructionPointer++];
+      case OP_SET_GRAVITY: {
+        bool operand = READ_BYTE();
         character->_setGravity(operand);
         break;
       }
-      case SET_NOGRAV_COUNT: {
-        int operand = bytecode[instructionPointer++];
+      case OP_SET_NOGRAV_COUNT: {
+        int operand = READ_BYTE();
         printf("setting noGravCount to %d\n", operand);
         character->_setNoGravityCounter(operand);
         break;
       }
-      case SET_AIR_ACTION: {
-        bool operand = bytecode[instructionPointer++];
+      case OP_SET_AIR_ACTION: {
+        bool operand = READ_BYTE();
         character->_setAirAction(operand);
         break;
       }
-      case RESET_ANIM: {
+      case OP_RESET_ANIM: {
+        printf("resetting animations\n");
         character->_resetAnim();
         break;
       }
-      case CHECK_COMMAND: {
-        uint8_t operand = bytecode[instructionPointer++];
+      case OP_CHECK_COMMAND: {
+        uint8_t operand = READ_BYTE();
         bool commandFound = character->_checkCommand(operand);
-        stack.push(commandFound);
+        stack.push(BOOL_VAL(commandFound));
         break;
       }
-      case NOP: {
-        break;
-      }
-      case HALT: {
-        return;
+      case OP_RETURN: {
+        return EC_OK;
       }
       default: {
        printf("invalid opcode\n");
@@ -332,4 +333,19 @@ void VirtualMachine::execute(uint8_t* bytecode, int size, int main) {
      }
     }
   }
+
+  #undef READ_BYTE
+  #undef READ_STRING
+  #undef READ_SYMBOL
+  #undef READ_SHORT
+  #undef BINARY_OP
 }
+
+ExecutionCode VirtualMachine::execute(Script* script){
+  scriptPointer = script;
+  instructionPointer = scriptPointer->scriptStart();
+
+  ExecutionCode result = run();
+  // TODO: account for constant table / string table
+  return EC_OK;
+};

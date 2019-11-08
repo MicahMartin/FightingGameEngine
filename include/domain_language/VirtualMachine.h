@@ -1,30 +1,41 @@
 #ifndef _VirtualMachine_h
 #define _VirtualMachine_h
 
-#include <stdio.h>
-#include <inttypes.h>
-#include "Stack.h"
-#include "ByteCode.h"
+#include "domain_language/Common.h"
+#include "domain_language/Script.h"
+#include "domain_language/Stack.h"
+#include "domain_language/Compiler.h"
+#include <unordered_map>
+
+typedef enum {
+  EC_OK,
+  EC_COMPILE_ERROR,
+  EC_RUNTIME_ERROR,
+} ExecutionCode;
+
 
 class Character;
 class VirtualMachine {
 public:
-  VirtualMachine() {
-    instructionPointer = 0;
-  };
-  ~VirtualMachine(){};
+  VirtualMachine();
+  ~VirtualMachine();
 
-  void init(Character* charPointer){
-    character = charPointer;
-  }
+  ExecutionCode execute(Script* script);
+  bool debugMode;
 
-  void execute(uint8_t* bytecode, int size, int main);
-
-private:
-  Stack stack;
+  Compiler compiler;
   Character* character;
-  int globals[256];
-  int instructionPointer;
+private:
+  ExecutionCode run();
+  void runtimeError(const char* format, ...);
+  bool isFalsey(Value value);
+  bool valuesEqual(Value valueA, Value valueB);
+  void concatenate();
+
+  Script* scriptPointer;
+  uint8_t* instructionPointer;
+  Stack stack;
+  //TODO: Free these objects
 };
 
 #endif

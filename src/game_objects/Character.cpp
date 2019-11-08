@@ -20,7 +20,7 @@ Character::Character(std::pair<int, int> _position) {
 }
 
 void Character::init(){
-  virtualMachine.init(this);
+  virtualMachine.character = this;
   loadStates();
   changeState(1);
 }
@@ -40,23 +40,47 @@ void Character::loadStates(){
   std::ifstream configFile("../data/characters/alucard/def.json");
   configFile >> stateJson;
 
+  // compile character's input scripte 
+  const char* inputCommandSource = stateJson.at("command_script").get<std::string>().c_str();
+  printf("the entire input command src %s\n", inputCommandSource);
+  bool inputScriptCompiled = virtualMachine.compiler.compile(inputCommandSource, &inputScript, "inputCommandScript");
+  if(!inputScriptCompiled){
+    throw std::runtime_error("inputScript failed to compile");
+  }
+  inputScript.disassembleScript("input command script");
+
   for(auto i : stateJson.at("states").items()){
     int stateNum = i.value().at("state_num");
     StateDef state(playerNum, stateNum);
+    state.charVm = &virtualMachine;
 
     state.loadFlags(i.value().at("flags"));
-    state.loadByteCode(i.value().at("byte_code"));
+    // compile state's update script
+    const char* stateUpdateSource = i.value().at("update_script").get<std::string>().c_str();
+    std::string scriptTag = "updateScript:" + std::to_string(stateNum);
+    bool updateScriptCompiled = virtualMachine.compiler.compile(stateUpdateSource, &state.updateScript, scriptTag.c_str());
+    if(!updateScriptCompiled){
+      throw std::runtime_error("updateScript failed to compile");
+    }
+
     try {
-      nlohmann::json cancelByteCode = i.value().at("cancel_list");
-      state.loadCancelByteCode(cancelByteCode);
-    }catch(nlohmann::json::exception e) { }
+      // compile state's cancel script
+      const char* cancelSource = i.value().at("cancel_script").get<std::string>().c_str();
+      std::string cancelScriptTag = "cancelScript:" + std::to_string(stateNum);
+      bool cancelScriptCompiled = virtualMachine.compiler.compile(cancelSource, &state.cancelScript, cancelScriptTag.c_str());
+      if(!cancelScriptCompiled){
+        throw std::runtime_error("inputScript failed to compile");
+      }
+    } catch(std::runtime_error e){
+        throw e;
+    } catch(nlohmann::json::exception e) { 
+
+    }
     state.loadAnimation(i.value().at("animation"));
     state.loadCollisionBoxes(i.value().at("collision_boxes"));
 
     stateList.push_back(state);
   }
-
-  inputByteCode = ByteCode::compile(stateJson.at("commands"));
 }
 
 Character::~Character(){};
@@ -70,7 +94,7 @@ void Character::handleInput(){
   }
   if(control){
     // TODO: Precompile all scripts
-    virtualMachine.execute(inputByteCode.data(), inputByteCode.size(), 0);
+    virtualMachine.execute(&inputScript);
   }
 };
 

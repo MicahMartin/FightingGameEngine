@@ -1,17 +1,33 @@
 #include "domain_language/Stack.h"
 
-void Stack::push(uint8_t value){
-  stack[++stackPointer] = value;
-};
+Stack::Stack(){
+  stackTop = stack;
+}
 
-uint8_t Stack::pop(){
-  return stack[stackPointer--];
-};
+Stack::~Stack(){}
 
-uint8_t Stack::peek(){
-  return stack[stackPointer];
-};
+void Stack::reset(){
+  stackTop = stack;
+}
 
-uint8_t Stack::peekIndex(int index){
+void Stack::push(Value value){
+  *stackTop = value;
+  stackTop++;
+}
+
+Value Stack::at(int index){
   return stack[index];
-};
+}
+
+void Stack::set(Value val, int index){
+  stack[index] = val;
+}
+
+Value Stack::pop(){
+  stackTop--;
+  return *stackTop;
+}
+
+Value Stack::peek(int distance){
+  return stackTop[-1 - distance];
+}

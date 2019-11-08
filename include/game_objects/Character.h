@@ -4,6 +4,7 @@
 #include "character_state/StateDef.h"
 #include "character_state/HitScript.h"
 #include "domain_language/VirtualMachine.h"
+#include "domain_language/Script.h"
 #include "input/VirtualController.h"
 #include <nlohmann/json.hpp>
 
@@ -32,11 +33,12 @@ public:
   void updateCollisionBoxes();
 
   // getters for these guys
-  std::vector<HitScript> hitScripts;
-  std::vector<uint8_t> inputByteCode;
 
   VirtualController* virtualController;
   StateDef* currentState;
+  // std::vector<HitScript> hitScripts;
+  std::vector<uint8_t> inputByteCode;
+  Script inputScript;
   VirtualMachine virtualMachine;
 
   int control = 1;

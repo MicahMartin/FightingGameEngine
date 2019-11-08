@@ -1,26 +1,23 @@
 #ifndef _Stack_h
 #define _Stack_h
 
-#include <stdio.h>
-#include <inttypes.h>
+#include "domain_language/Common.h"
+#include "domain_language/Value.h"
 
 class Stack {
 public:
-  Stack() {
-    stackPointer = -1;
-  };
-  ~Stack(){};
+  Stack();
+  ~Stack();
+  void reset();
 
-  void push(uint8_t value);
-  uint8_t pop();
+  void push(Value value);
+  Value pop();
+  Value peek(int distance);
+  Value at(int index);
+  void set(Value val, int index);
 
-  uint8_t peek();
-  uint8_t peekIndex(int index);
-
-  int stackPointer;
-  int framePointer;
-private:
-  int stack[256];
+  Value stack[256];
+  Value* stackTop;
 };
 
-#endif
+#endif /* STACK_H */

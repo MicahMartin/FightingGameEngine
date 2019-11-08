@@ -19,14 +19,6 @@ void StateDef::loadAnimation(nlohmann::json json){
   anim.loadAnimEvents(json);
 };
 
-void StateDef::loadByteCode(nlohmann::json json){
-  byteCode = ByteCode::compile(json);
-};
-
-void StateDef::loadCancelByteCode(nlohmann::json json){
-  cancelByteCode = ByteCode::compile(json);
-};
-
 void StateDef::loadCollisionBoxes(nlohmann::json json){
   for(auto i : json.items()){
     // TODO: POLYMORPH THIS SHIT
@@ -76,15 +68,13 @@ void StateDef::enter(){
 };
 
 void StateDef::update(){
-  VirtualMachine* charVM = &charStateManager->getCharPointer(charNum)->virtualMachine;
-  charVM->execute(&byteCode[0], byteCode.size(), 0);
+  charVm->execute(&updateScript);
   stateTime++;
 }
 
 void StateDef::handleCancels(){
-  VirtualMachine* charVM = &charStateManager->getCharPointer(charNum)->virtualMachine;
-  if(cancelByteCode.size()){
-    charVM->execute(&cancelByteCode[0], cancelByteCode.size(), 0);
+  if(cancelScript.code.size()){
+    charVm->execute(&cancelScript);
   }
 }
 
