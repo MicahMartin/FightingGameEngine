@@ -103,7 +103,7 @@ int Compiler::emitJump(uint8_t offset) {
 void Compiler::engineCall(bool canAssign){
   std::string callString(parser.previous.start, parser.previous.length);
   printf("in engine call! %s\n", callString.c_str());
-  emitByte(OP_GET_STATE_TIME);
+  emitByte(engineCallMap.at(callString));
 }
 void Compiler::number(bool canAssign) {
   printf("in number\n");
@@ -390,6 +390,7 @@ void Compiler::statement() {
   } else if (match(TOKEN_HAS_AIR_ACTION)) {
     engineCallStatement(OP_HAS_AIR_ACTION);
   } else if (match(TOKEN_CHANGE_STATE)) {
+    printf("changing state\n");
     engineCallExpressionStatement(OP_CHANGE_STATE);
   } else if (match(TOKEN_CANCEL_STATE)) {
     engineCallExpressionStatement(OP_CANCEL_STATE);

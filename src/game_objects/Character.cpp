@@ -55,19 +55,19 @@ void Character::loadStates(){
     state.charVm = &virtualMachine;
 
     state.loadFlags(i.value().at("flags"));
-    // compile state's update script
-    const char* stateUpdateSource = i.value().at("update_script").get<std::string>().c_str();
+    // compile state's update script%s
+    std::string* stateUpdateSource = new std::string(i.value().at("update_script").get<std::string>());
     std::string scriptTag = "updateScript:" + std::to_string(stateNum);
-    bool updateScriptCompiled = virtualMachine.compiler.compile(stateUpdateSource, &state.updateScript, scriptTag.c_str());
+    bool updateScriptCompiled = virtualMachine.compiler.compile(stateUpdateSource->c_str(), &state.updateScript, scriptTag.c_str());
     if(!updateScriptCompiled){
       throw std::runtime_error("updateScript failed to compile");
     }
 
     try {
       // compile state's cancel script
-      const char* cancelSource = i.value().at("cancel_script").get<std::string>().c_str();
+      std::string* cancelSource = new std::string(i.value().at("cancel_script").get<std::string>());
       std::string cancelScriptTag = "cancelScript:" + std::to_string(stateNum);
-      bool cancelScriptCompiled = virtualMachine.compiler.compile(cancelSource, &state.cancelScript, cancelScriptTag.c_str());
+      bool cancelScriptCompiled = virtualMachine.compiler.compile(cancelSource->c_str(), &state.cancelScript, cancelScriptTag.c_str());
       if(!cancelScriptCompiled){
         throw std::runtime_error("inputScript failed to compile");
       }

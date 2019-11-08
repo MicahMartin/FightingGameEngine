@@ -142,18 +142,18 @@ private:
     { NULL,     NULL,    PREC_NONE },                             // TOKEN_WHILE
     { NULL,     NULL,    PREC_NONE },                             // TOKEN_ERROR
     { NULL,     NULL,    PREC_NONE },                             // TOKEN_EOF
-    { &Compiler::engineCall, NULL, PREC_CALL },  // TOKEN_GET_ANIM_TIME, 
-    { NULL, NULL, PREC_NONE },  // TOKEN_GET_HIT_STUN, 
-    { &Compiler::engineCall, &Compiler::engineCall, PREC_CALL},  // TOKEN_GET_STATE_TIME,
-    { NULL, NULL, PREC_NONE },  // TOKEN_GET_Y_POS, 
-    { NULL, NULL, PREC_NONE },  // TOKEN_GET_INPUT, 
-    { NULL, NULL, PREC_NONE },  // TOKEN_GET_STATE_NUM,
-    { NULL, NULL, PREC_NONE },  // TOKEN_GET_COMBO, 
-    { NULL, NULL, PREC_NONE },  // TOKEN_GET_CONTROL,
+    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_ANIM_TIME, 
+    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_HIT_STUN, 
+    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_STATE_TIME,
+    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_Y_POS, 
+    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_INPUT, 
+    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_STATE_NUM,
+    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_COMBO, 
+    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_CONTROL,
 
-    { NULL, NULL, PREC_NONE },  // TOKEN_CHECK_COMMAND, 
-    { NULL, NULL, PREC_NONE },  // TOKEN_WAS_PRESSED, 
-    { NULL, NULL, PREC_NONE },  // TOKEN_HAS_AIR_ACTION,
+    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_CHECK_COMMAND, 
+    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_WAS_PRESSED, 
+    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_HAS_AIR_ACTION,
 
     { NULL, NULL, PREC_NONE },  // TOKEN_CHANGE_STATE, 
     { NULL, NULL, PREC_NONE },  // TOKEN_CANCEL_STATE,

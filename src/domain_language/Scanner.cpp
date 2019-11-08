@@ -17,7 +17,7 @@ bool Scanner::isAtEnd() {
 }
 
 bool Scanner::isAlpha(char c) {
-  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
+  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || c == '#';
 }
 
 bool Scanner::isDigit(char c) {
