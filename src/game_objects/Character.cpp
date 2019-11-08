@@ -41,9 +41,9 @@ void Character::loadStates(){
   configFile >> stateJson;
 
   // compile character's input scripte 
-  const char* inputCommandSource = stateJson.at("command_script").get<std::string>().c_str();
-  printf("the entire input command src %s\n", inputCommandSource);
-  bool inputScriptCompiled = virtualMachine.compiler.compile(inputCommandSource, &inputScript, "inputCommandScript");
+  std::string* inputCommandSource = new std::string(stateJson.at("command_script").get<std::string>());
+  printf("the entire input command src %s\n", inputCommandSource->c_str());
+  bool inputScriptCompiled = virtualMachine.compiler.compile(inputCommandSource->c_str(), &inputScript, "inputCommandScript");
   if(!inputScriptCompiled){
     throw std::runtime_error("inputScript failed to compile");
   }
