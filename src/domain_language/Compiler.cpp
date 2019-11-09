@@ -6,7 +6,7 @@ Compiler::~Compiler(){}
 
 void Compiler::parsePrecedence(Precedence precedence){
   advance();
-  printf("looking for prefix rule for token %s \n", std::string(parser.previous.start, parser.previous.length).c_str());
+  // printf("looking for prefix rule for token %s \n", std::string(parser.previous.start, parser.previous.length).c_str());
   ParseFn prefixRule = getRule(parser.previous.type)->prefix;
   if (prefixRule == NULL) {
     error("Prefix rule is null");
@@ -15,10 +15,10 @@ void Compiler::parsePrecedence(Precedence precedence){
   bool canAssign = precedence <= PREC_ASSIGNMENT;
   // prefix rule should be Compiler::number
   (*this.*prefixRule)(canAssign);
-  printf("called some prefixRule\n");
+  // printf("called some prefixRule\n");
 
   while (precedence <= getRule(parser.current.type)->precedence) {
-    printf("we in here\n");
+    // printf("we in here\n");
     advance();
     ParseFn infixRule = getRule(parser.previous.type)->infix;
     // theres gotta be a better way to write this lol
@@ -76,7 +76,7 @@ void Compiler::addLocal(Token name) {
 }
 
 void Compiler::emitConstant(Value value) {
-  printf("in emitConstant\n");
+  // printf("in emitConstant\n");
   uint8_t symbolIndex = makeConstant(value);
   emitBytes(OP_CONSTANT, symbolIndex);
 }
@@ -101,36 +101,37 @@ int Compiler::emitJump(uint8_t offset) {
 }
 
 void Compiler::engineCall(bool canAssign){
-  printf("what is the value of canAssign? %d\n", canAssign);
+  // printf("what is the value of canAssign? %d\n", canAssign);
   std::string callString(parser.previous.start, parser.previous.length);
-  printf("in engine call! %s\n", callString.c_str());
+  // printf("in engine call! %s\n", callString.c_str());
   emitByte(engineCallMap.at(callString));
 }
 
 void Compiler::engineCallArg(bool canAssign){
   std::string callString(parser.previous.start, parser.previous.length);
   long value = strtol(parser.current.start, NULL, 10);
-  printf("in parameterized engine call! %s(%ld)\n", callString.c_str(), value);
+  // printf("in parameterized engine call! %s(%ld)\n", callString.c_str(), value);
 
+  consume(TOKEN_NUMBER, "expected number after parameterized engine call");
   uint8_t symbolIndex = makeConstant(NUMBER_VAL(value));
-  emitByte(engineCallMap.at(callString));
   emitBytes(OP_CONSTANT, symbolIndex);
+  emitByte(engineCallMap.at(callString));
 }
 
 void Compiler::number(bool canAssign) {
-  printf("in number\n");
+  // printf("in number\n");
   long value = strtol(parser.previous.start, NULL, 10);
-  printf("working with val %ld \n", value);
+  // printf("working with val %ld \n", value);
   emitConstant(NUMBER_VAL(value));
 }
 
 void Compiler::string(bool canAssign) {
-  printf("in string\n");
+  // printf("in string\n");
   // TODO: keep a refernce to this somehow
   std::string* stringVal = new std::string(parser.previous.start+1, parser.previous.length-2);
-  printf("creating string %s, the address %p\n", stringVal->c_str(), stringVal);
+  // printf("creating string %s, the address %p\n", stringVal->c_str(), stringVal);
   Value val = STRING_VAL(stringVal);
-  printf("creating string on some weird shit?? %s, the address %p\n", val.as.string->c_str(), val.as.string);
+  // printf("creating string on some weird shit?? %s, the address %p\n", val.as.string->c_str(), val.as.string);
   emitConstant(val);
 }
 
@@ -155,12 +156,12 @@ void Compiler::namedVariable(Token name, bool canAssign) {
 }
 
 void Compiler::variable(bool canAssign) {
-  printf("in variable\n");
+  // printf("in variable\n");
   namedVariable(parser.previous, canAssign);
 }
 
 void Compiler::unary(bool canAssign) {
-  printf("in unary\n");
+  // printf("in unary\n");
   TokenType operatorType = parser.previous.type;
 
   // Compile the operand.
@@ -177,7 +178,7 @@ void Compiler::unary(bool canAssign) {
 
 void Compiler::binary(bool canAssign) {
   // Remember the operator.
-  printf("in binary\n");
+  // printf("in binary\n");
   TokenType operatorType = parser.previous.type;
 
   // Compile the right operand.
@@ -253,7 +254,7 @@ void Compiler::advance() {
 
   for (;;) {
     parser.current = scanner.scan();
-    printf("done scan, parser at %s\n", std::string(parser.current.start, parser.current.length).c_str());
+    // printf("done scan, parser at %s\n", std::string(parser.current.start, parser.current.length).c_str());
     if (parser.current.type != TOKEN_ERROR) break;
 
     errorAtCurrent(parser.current.start);
@@ -261,7 +262,7 @@ void Compiler::advance() {
 }
 
 void Compiler::expression() {
-  printf("in expression\n");
+  // printf("in expression\n");
   parsePrecedence(PREC_ASSIGNMENT);
 }
 
@@ -285,7 +286,7 @@ void Compiler::endScope(){
 
 void Compiler::block(){
   while (!check(TOKEN_RIGHT_BRACE) && !check(TOKEN_EOF)) {
-    printf("in block\n");
+    // printf("in block\n");
     declaration();
   }
 
@@ -325,7 +326,7 @@ void Compiler::ifStatement() {
   emitByte(OP_POP);
   if (match(TOKEN_ELSE)) statement();
   patchJump(elseJump);
-  printf("if parsed successfully\n");
+  // printf("if parsed successfully\n");
 }
 
 void Compiler::forStatement() {
@@ -336,7 +337,7 @@ void Compiler::forStatement() {
     // No initializer.
   } else if (match(TOKEN_VAR)) {
     varDeclaration();
-    printf("var declared\n");
+    // printf("var declared\n");
   } else {
     expressionStatement();
   }
@@ -385,7 +386,7 @@ void Compiler::statement() {
   } else if (match(TOKEN_GET_HIT_STUN)) {
     engineCallStatement(OP_GET_HIT_STUN);
   } else if (match(TOKEN_GET_STATE_TIME)) {
-    printf("matching get_state_time statement\n");
+    // printf("matching get_state_time statement\n");
     engineCallStatement(OP_GET_STATE_TIME);
   } else if (match(TOKEN_GET_Y_POS)) {
     engineCallStatement(OP_GET_Y_POS);
@@ -396,14 +397,14 @@ void Compiler::statement() {
   } else if (match(TOKEN_GET_CONTROL)) {
     engineCallStatement(OP_GET_CONTROL);
   } else if (match(TOKEN_WAS_PRESSED)) {
-    printf("matching wasPressed\n");
+    // printf("matching wasPressed\n");
     engineCallExpressionStatement(OP_WAS_PRESSED);
   } else if (match(TOKEN_GET_COMBO)) {
     engineCallStatement(OP_GET_COMBO);
   } else if (match(TOKEN_HAS_AIR_ACTION)) {
     engineCallStatement(OP_HAS_AIR_ACTION);
   } else if (match(TOKEN_CHANGE_STATE)) {
-    printf("changing state\n");
+    // printf("changing state\n");
     engineCallExpressionStatement(OP_CHANGE_STATE);
   } else if (match(TOKEN_CANCEL_STATE)) {
     engineCallExpressionStatement(OP_CANCEL_STATE);
@@ -449,7 +450,7 @@ void Compiler::statement() {
     endScope(); 
   }
   else {
-    printf("nothing matched\n");
+    // printf("nothing matched\n");
     expressionStatement();
   }
 }
@@ -458,7 +459,7 @@ void Compiler::declareVariable() {
   // Global variables are implicitly declared.
   if (scriptPointer->scopeDepth == 0) return;
 
-  printf("adding local\n");
+  // printf("adding local\n");
   Token* name = &parser.previous;
   for (int i = scriptPointer->localCount - 1; i >= 0; i--) {
     Local* local = &scriptPointer->locals[i];
@@ -471,11 +472,11 @@ void Compiler::declareVariable() {
     }
   }
   addLocal(*name);
-  printf("added local\n");
+  // printf("added local\n");
 }
 
 uint8_t Compiler::parseVariable(const char* errorMessage) {
-  printf("in parseVariable\n");
+  // printf("in parseVariable\n");
   consume(TOKEN_IDENTIFIER, errorMessage);              
   declareVariable();
   if (scriptPointer->scopeDepth > 0) return 0;
@@ -491,36 +492,36 @@ void Compiler::defineVariable(uint8_t var) {
     markInitialized();
     return;
   }
-  printf("defining global\n");
+  // printf("defining global\n");
   emitBytes(OP_DEFINE_GLOBAL, var);
 }
 
 void Compiler::varDeclaration() {
-  printf("in var decl\n");
+  // printf("in var decl\n");
   uint8_t global = parseVariable("Expect variable name.");
-  printf("var parsed, parser currently at %s\n", std::string(parser.current.start, parser.current.length).c_str());
+  // printf("var parsed, parser currently at %s\n", std::string(parser.current.start, parser.current.length).c_str());
 
   if (match(TOKEN_EQUAL)) {
-    printf("matched equal\n");
+    // printf("matched equal\n");
     expression();
   } else {
-    printf("emmiting null byte\n");
+    // printf("emmiting null byte\n");
     emitByte(OP_NIL);
   }
-  printf("going to consume until semicolon\n");
+  // printf("going to consume until semicolon\n");
   consume(TOKEN_SEMICOLON, "Expect ';' after variable declaration.");
 
-  printf("about to define\n");
+  // printf("about to define\n");
   defineVariable(global);
 }
 
 void Compiler::declaration() {
   if (match(TOKEN_VAR)) {
-    printf("we are declaring a var!\n");
+    // printf("we are declaring a var!\n");
     varDeclaration();
-    printf("done var declaration!\n");
+    // printf("done var declaration!\n");
   } else {
-    printf("we are declaring a statement!\n");
+    // printf("we are declaring a statement!\n");
     statement();
   }
   if (parser.panicMode) synchronize();
@@ -543,14 +544,14 @@ bool Compiler::compile(const char *source, Script* script, const char* scriptTag
   parser.hadError = false;
   parser.panicMode = false;
 
-  printf("running first advance\n");
+  // printf("running first advance\n");
   advance();
-  printf("first advance done\n");
+  // printf("first advance done\n");
   while (!match(TOKEN_EOF)) {
-    printf("not EOF\n");
+    // printf("not EOF\n");
     declaration();
   }
-  printf("matched EOF\n");
+  // printf("matched EOF\n");
   emitByte(OP_RETURN);
   return !parser.hadError;
 }

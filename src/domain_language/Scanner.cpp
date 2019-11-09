@@ -31,7 +31,7 @@ Token Scanner::makeToken(TokenType tokenType) {
   token.length = (int)(current - start);
   token.line = line;
 
-  printf("made token %s\n", std::string(start, current-start).c_str());
+  // printf("made token %s\n", std::string(start, current-start).c_str());
   return token;
 }
 
@@ -144,13 +144,13 @@ TokenType Scanner::identifierType() {
       break;
     case '#':
       std::string theStr(start, current - start);
-      printf("the str in question %s\n", theStr.c_str());
+      // printf("the str in question %s\n", theStr.c_str());
       auto type = keywordTypes.find(theStr);
       if (type == keywordTypes.end()) {
-        printf("couldnt find %s\n", theStr.c_str());
+        // printf("couldnt find %s\n", theStr.c_str());
         return TOKEN_IDENTIFIER;
       } else {
-        printf("found the %s\n", theStr.c_str());
+        // printf("found the %s\n", theStr.c_str());
         return type->second;
       }
       // return (type == keywordTypes.end() ? TOKEN_IDENTIFIER : type->second);
@@ -160,24 +160,24 @@ TokenType Scanner::identifierType() {
 }
 
 Token Scanner::identifier(){
-  printf("in identifier\n");
+  // printf("in identifier\n");
   // consume all alphaNumeric chars for this identifier
   while (isAlpha(peek()) || isDigit(peek())) advance();
   return makeToken(identifierType());
 }
 
 Token Scanner::scan(){
-  printf("in scan\n");
+  // printf("in scan\n");
   skipWhitespace();
   start = current;
 
   if (isAtEnd()) {
-    printf("scan reached end of file\n");
+    // printf("scan reached end of file\n");
     return makeToken(TOKEN_EOF);
   }
 
   char c = advance();
-  printf("char from advance is %c\n", c);
+  // printf("char from advance is %c\n", c);
 
   if (isAlpha(c)) return identifier();
   if (isDigit(c)) return number();

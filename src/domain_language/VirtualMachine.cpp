@@ -66,16 +66,16 @@ inline ExecutionCode VirtualMachine::run(){
     } while (false)
 
   for (;;) {
-    //if (debugMode) { 
-    //  printf("          ");
-    //  for (Value* slot = stack.stack; slot < stack.stackTop; slot++) {
-    //    printf("[ ");
-    //    ValueFn::printValue(*slot);
-    //    printf(" ]");
-    //  }
-    //  printf("\n");
-    //  scriptPointer->disassembleInstruction((int)(instructionPointer - scriptPointer->scriptStart()));
-    //}
+    if (debugMode) { 
+      printf("          ");
+      for (Value* slot = stack.stack; slot < stack.stackTop; slot++) {
+        printf("[ ");
+        ValueFn::printValue(*slot);
+        printf(" ]");
+      }
+      printf("\n");
+      scriptPointer->disassembleInstruction((int)(instructionPointer - scriptPointer->scriptStart()));
+    }
 
     uint8_t instruction;
     switch (instruction = READ_BYTE()) {
@@ -100,6 +100,7 @@ inline ExecutionCode VirtualMachine::run(){
         break;
       }
       case OP_GET_GLOBAL: {
+        // TODO: No globals
         std::string* name = READ_STRING();
 //        for (auto i : scriptPointer->globals) {
 //          printf("wtf %s\n", AS_STRING(i.second)->chars);
@@ -109,7 +110,6 @@ inline ExecutionCode VirtualMachine::run(){
           runtimeError("Undefined variable '%s'.", name->c_str());
           return EC_RUNTIME_ERROR;
         }
-        printf("got global %s with val %d\n", name->c_str(), globalVal->second);
         stack.push(globalVal->second);
         break;
       }
@@ -225,7 +225,6 @@ inline ExecutionCode VirtualMachine::run(){
       case OP_WAS_PRESSED: {
         long operand = AS_NUMBER(stack.pop());
         bool boolean = character->_wasPressed(operand);
-        printf("checking if %ld something was pressed, %d \n", operand, boolean);
         stack.push(BOOL_VAL(boolean));
         break;
       }
@@ -239,10 +238,9 @@ inline ExecutionCode VirtualMachine::run(){
         break;
       }
       case OP_CHANGE_STATE: {
-        printf("in changeState\n");
         long operand = AS_NUMBER(stack.pop());
-        printf("the muh fuckin operand %ld\n", operand);
         character->_changeState(operand);
+        printf("changing state\n");
         // STATE IS DONE EXECUTING. WE GOT UP OUTA THERE.
         return EC_OK;
       }

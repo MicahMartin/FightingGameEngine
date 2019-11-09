@@ -109,6 +109,59 @@ int Script::disassembleInstruction(int offset){
       return jumpInstruction("OP_JUMP_IF_FALSE", 1, offset);
     case OP_LOOP:
       return jumpInstruction("OP_LOOP", -1, offset);
+    case OP_GET_ANIM_TIME: 
+      return simpleInstruction("OP_GET_ANIM_TIME", offset);
+    case OP_GET_HIT_STUN: 
+      return simpleInstruction("OP_GET_HIT_STUN", offset);
+    case OP_GET_STATE_TIME: 
+      return simpleInstruction("OP_GET_STATE_TIME", offset);
+    case OP_GET_Y_POS: 
+      return simpleInstruction("OP_GET_Y_POS", offset);
+    case OP_GET_INPUT: 
+      return simpleInstruction("OP_GET_INPUT", offset);
+    case OP_GET_STATE_NUM: 
+      return simpleInstruction("OP_GET_STATE_NUM", offset);
+    case OP_GET_CONTROL: 
+      return simpleInstruction("OP_GET_CONTROL", offset);
+    case OP_WAS_PRESSED: 
+      return simpleInstruction("OP_WAS_PRESSED", offset);
+    case OP_GET_COMBO: 
+      return simpleInstruction("OP_GET_COMBO", offset);
+    case OP_HAS_AIR_ACTION: 
+      return simpleInstruction("OP_HAS_AIR_ACTION", offset);
+    case OP_CHANGE_STATE: 
+      return simpleInstruction("OP_CHANGE_STATE", offset);
+    case OP_CANCEL_STATE: 
+      return simpleInstruction("OP_CANCEL_STATE", offset);
+    case OP_VELSET_X: 
+      return simpleInstruction("OP_VELSET_X", offset);
+    // this gets called often enough to justify its own instruction rather than negating the val
+    case OP_NEG_VELSET_X: 
+      return simpleInstruction("OP_NEG_VELSET_X", offset);
+    case OP_VELSET_Y: 
+      return simpleInstruction("OP_VELSET_Y", offset);
+    case OP_MOVE_F: 
+      return simpleInstruction("OP_MOVE_F", offset);
+    case OP_MOVE_B: 
+      return simpleInstruction("OP_MOVE_B", offset);
+    case OP_MOVE_U: 
+      return simpleInstruction("OP_MOVE_U", offset);
+    case OP_MOVE_D: 
+      return simpleInstruction("OP_MOVE_D", offset);
+    case OP_SET_CONTROL:
+      return simpleInstruction("OP_SET_CONTROL", offset);
+    case OP_SET_COMBO:
+      return simpleInstruction("OP_SET_COMBO", offset);
+    case OP_SET_GRAVITY:
+      return simpleInstruction("OP_SET_GRAVITY", offset);
+    case OP_SET_NOGRAV_COUNT:
+      return simpleInstruction("OP_SET_NOGRAV_COUNT", offset);
+    case OP_SET_AIR_ACTION:
+      return simpleInstruction("OP_SET_AIR_ACTION", offset);
+    case OP_RESET_ANIM:
+      return simpleInstruction("OP_RESET_ANIM", offset);
+    case OP_CHECK_COMMAND:
+      return simpleInstruction("OP_CHECK_COMMAND", offset);
     case OP_RETURN:
       return simpleInstruction("OP_RETURN", offset);
       break;
