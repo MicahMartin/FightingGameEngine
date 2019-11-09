@@ -317,3 +317,21 @@
     { "script_num": 1, "screenFreeze": 8, "damage": 5} 
   ]
 }
+{
+  var stateNum = #get_state_num; 
+  var neutral = #was_pressed 5; 
+  var down = #was_pressed 2; 
+  var forward = #was_pressed 6; 
+  var back = #was_pressed 4; 
+
+  if(neutral == true and stateNum != 1){
+    #change_state 1; 
+  }
+  if(forward == true and stateNum != 2){
+    #change_state 2; 
+  }
+  if(back == true and stateNum != 3){
+    #change_state 3; 
+  }
+}
+

@@ -66,16 +66,16 @@ inline ExecutionCode VirtualMachine::run(){
     } while (false)
 
   for (;;) {
-    if (debugMode) { 
-      printf("          ");
-      for (Value* slot = stack.stack; slot < stack.stackTop; slot++) {
-        printf("[ ");
-        ValueFn::printValue(*slot);
-        printf(" ]");
-      }
-      printf("\n");
-      scriptPointer->disassembleInstruction((int)(instructionPointer - scriptPointer->scriptStart()));
-    }
+    //if (debugMode) { 
+    //  printf("          ");
+    //  for (Value* slot = stack.stack; slot < stack.stackTop; slot++) {
+    //    printf("[ ");
+    //    ValueFn::printValue(*slot);
+    //    printf(" ]");
+    //  }
+    //  printf("\n");
+    //  scriptPointer->disassembleInstruction((int)(instructionPointer - scriptPointer->scriptStart()));
+    //}
 
     uint8_t instruction;
     switch (instruction = READ_BYTE()) {
@@ -245,54 +245,54 @@ inline ExecutionCode VirtualMachine::run(){
         return EC_OK;
       }
       case OP_CANCEL_STATE: {
-        uint8_t operand = READ_BYTE();
+        long operand = AS_NUMBER(stack.pop());
         character->_cancelState(operand);
         // STATE IS DONE EXECUTING. WE GOT UP OUTA THERE.
         return EC_OK;
       }
       case OP_VELSET_X: {
-        uint8_t operand = READ_BYTE();
+        long operand = AS_NUMBER(stack.pop());
         character->_velSetX(operand);
         break;
       }
       // this gets called often enough to justify its own instruction rather than negating the val
       case OP_NEG_VELSET_X: {
-        uint8_t operand = READ_BYTE();
+        long operand = AS_NUMBER(stack.pop());
         character->_negVelSetX(operand);
         break;
       }
       case OP_VELSET_Y: {
-        uint8_t operand = READ_BYTE();
+        long operand = AS_NUMBER(stack.pop());
         character->_velSetY(operand);
         break;
       }
       case OP_MOVE_F: {
-        uint8_t operand = READ_BYTE();
+        long operand = AS_NUMBER(stack.pop());
         character->_moveForward(operand);
         break;
       }
       case OP_MOVE_B: {
-        uint8_t operand = READ_BYTE();
+        long operand = AS_NUMBER(stack.pop());
         character->_moveBack(operand);
         break;
       }
       case OP_MOVE_U: {
-        uint8_t operand = READ_BYTE();
+        long operand = AS_NUMBER(stack.pop());
         character->_moveUp(operand);
         break;
       }
       case OP_MOVE_D: {
-        uint8_t operand = READ_BYTE();
+        long operand = AS_NUMBER(stack.pop());
         character->_moveDown(operand);
         break;
       }
       case OP_SET_CONTROL: {
-        uint8_t operand = READ_BYTE();
+        long operand = AS_NUMBER(stack.pop());
         character->_setControl(operand);
         break;
       }
       case OP_SET_COMBO: {
-        uint8_t operand = READ_BYTE();
+        long operand = AS_NUMBER(stack.pop());
         character->_setCombo(operand);
         break;
       }
@@ -318,7 +318,7 @@ inline ExecutionCode VirtualMachine::run(){
         break;
       }
       case OP_CHECK_COMMAND: {
-        uint8_t operand = READ_BYTE();
+        long operand = AS_NUMBER(stack.pop());
         bool commandFound = character->_checkCommand(operand);
         stack.push(BOOL_VAL(commandFound));
         break;
@@ -341,6 +341,7 @@ inline ExecutionCode VirtualMachine::run(){
 }
 
 ExecutionCode VirtualMachine::execute(Script* script){
+  stack.reset();
   scriptPointer = script;
   instructionPointer = scriptPointer->scriptStart();
 
