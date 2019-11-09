@@ -101,10 +101,22 @@ int Compiler::emitJump(uint8_t offset) {
 }
 
 void Compiler::engineCall(bool canAssign){
+  printf("what is the value of canAssign? %d\n", canAssign);
   std::string callString(parser.previous.start, parser.previous.length);
   printf("in engine call! %s\n", callString.c_str());
   emitByte(engineCallMap.at(callString));
 }
+
+void Compiler::engineCallArg(bool canAssign){
+  std::string callString(parser.previous.start, parser.previous.length);
+  long value = strtol(parser.current.start, NULL, 10);
+  printf("in parameterized engine call! %s(%ld)\n", callString.c_str(), value);
+
+  uint8_t symbolIndex = makeConstant(NUMBER_VAL(value));
+  emitByte(engineCallMap.at(callString));
+  emitBytes(OP_CONSTANT, symbolIndex);
+}
+
 void Compiler::number(bool canAssign) {
   printf("in number\n");
   long value = strtol(parser.previous.start, NULL, 10);
@@ -384,6 +396,7 @@ void Compiler::statement() {
   } else if (match(TOKEN_GET_CONTROL)) {
     engineCallStatement(OP_GET_CONTROL);
   } else if (match(TOKEN_WAS_PRESSED)) {
+    printf("matching wasPressed\n");
     engineCallExpressionStatement(OP_WAS_PRESSED);
   } else if (match(TOKEN_GET_COMBO)) {
     engineCallStatement(OP_GET_COMBO);
@@ -458,6 +471,7 @@ void Compiler::declareVariable() {
     }
   }
   addLocal(*name);
+  printf("added local\n");
 }
 
 uint8_t Compiler::parseVariable(const char* errorMessage) {
@@ -484,12 +498,16 @@ void Compiler::defineVariable(uint8_t var) {
 void Compiler::varDeclaration() {
   printf("in var decl\n");
   uint8_t global = parseVariable("Expect variable name.");
+  printf("var parsed, parser currently at %s\n", std::string(parser.current.start, parser.current.length).c_str());
 
   if (match(TOKEN_EQUAL)) {
+    printf("matched equal\n");
     expression();
   } else {
+    printf("emmiting null byte\n");
     emitByte(OP_NIL);
   }
+  printf("going to consume until semicolon\n");
   consume(TOKEN_SEMICOLON, "Expect ';' after variable declaration.");
 
   printf("about to define\n");
@@ -500,6 +518,7 @@ void Compiler::declaration() {
   if (match(TOKEN_VAR)) {
     printf("we are declaring a var!\n");
     varDeclaration();
+    printf("done var declaration!\n");
   } else {
     printf("we are declaring a statement!\n");
     statement();

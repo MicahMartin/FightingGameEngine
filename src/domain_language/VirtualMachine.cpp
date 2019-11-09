@@ -223,8 +223,9 @@ inline ExecutionCode VirtualMachine::run(){
         break;
       }
       case OP_WAS_PRESSED: {
-        uint8_t operand = READ_BYTE();
+        long operand = AS_NUMBER(stack.pop());
         bool boolean = character->_wasPressed(operand);
+        printf("checking if %ld something was pressed, %d \n", operand, boolean);
         stack.push(BOOL_VAL(boolean));
         break;
       }

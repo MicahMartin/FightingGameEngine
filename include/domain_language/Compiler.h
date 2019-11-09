@@ -73,6 +73,7 @@ private:
   void binary(bool canAssign);
   void literal(bool canAssign);
   void engineCall(bool canAssign);
+  void engineCallArg(bool canAssign);
   void grouping(bool canAssign);
   void logicalOr(bool canAssign);
   void logicalAnd(bool canAssign);
@@ -151,9 +152,9 @@ private:
     { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_COMBO, 
     { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_CONTROL,
 
-    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_CHECK_COMMAND, 
-    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_WAS_PRESSED, 
-    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_HAS_AIR_ACTION,
+    { &Compiler::engineCallArg, &Compiler::engineCallArg, PREC_NONE },  // TOKEN_CHECK_COMMAND, 
+    { &Compiler::engineCallArg, &Compiler::engineCallArg, PREC_NONE },  // TOKEN_WAS_PRESSED, 
+    { &Compiler::engineCallArg, &Compiler::engineCallArg, PREC_NONE },  // TOKEN_HAS_AIR_ACTION,
 
     { NULL, NULL, PREC_NONE },  // TOKEN_CHANGE_STATE, 
     { NULL, NULL, PREC_NONE },  // TOKEN_CANCEL_STATE,
