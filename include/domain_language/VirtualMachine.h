@@ -21,7 +21,7 @@ public:
   ~VirtualMachine();
 
   ExecutionCode execute(Script* script);
-  bool debugMode;
+  bool debugMode = false;
 
   Compiler compiler;
   Character* character;

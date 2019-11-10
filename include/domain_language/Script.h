@@ -88,7 +88,7 @@ static const std::unordered_map<std::string, OpCode> engineCallMap {
   {"$set_nograv_count", OP_SET_NOGRAV_COUNT},
   {"$set_air_action", OP_SET_AIR_ACTION},
   {"$reset_anim", OP_RESET_ANIM},
-  {"$checkCommand", OP_CHECK_COMMAND}
+  {"$check_command", OP_CHECK_COMMAND}
 };
 
 typedef struct {

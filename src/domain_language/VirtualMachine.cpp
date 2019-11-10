@@ -259,18 +259,17 @@ inline ExecutionCode VirtualMachine::run(){
         break;
       }
       case OP_SET_GRAVITY: {
-        bool operand = READ_BYTE();
+        long operand = AS_NUMBER(stack.pop());
         character->_setGravity(operand);
         break;
       }
       case OP_SET_NOGRAV_COUNT: {
-        int operand = READ_BYTE();
-        printf("setting noGravCount to %d\n", operand);
+        long operand = AS_NUMBER(stack.pop());
         character->_setNoGravityCounter(operand);
         break;
       }
       case OP_SET_AIR_ACTION: {
-        bool operand = READ_BYTE();
+        long operand = AS_NUMBER(stack.pop());
         character->_setAirAction(operand);
         break;
       }

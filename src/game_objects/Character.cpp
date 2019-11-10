@@ -86,14 +86,12 @@ void Character::loadStates(){
 
     try {
       // compile state's cancel script
-      std::string* cancelSource = new std::string(i.value().at("cancel_script").get<std::string>());
+      const char* cancelSource = readFile(i.value().at("cancel_script").get<std::string>().c_str());
       std::string cancelScriptTag = "cancelScript:" + std::to_string(stateNum);
-      bool cancelScriptCompiled = virtualMachine.compiler.compile(cancelSource->c_str(), &state.cancelScript, cancelScriptTag.c_str());
-      if(!cancelScriptCompiled){
-        throw std::runtime_error("inputScript failed to compile");
+      if(!virtualMachine.compiler.compile(cancelSource, &state.cancelScript, cancelScriptTag.c_str())){
+        throw std::runtime_error("cancelScript failed to compile");
       }
     } catch(std::runtime_error e){
-        throw e;
     } catch(nlohmann::json::exception e) { 
 
     }
@@ -130,7 +128,6 @@ void Character::updatePosition(){
   position.second -= velocityY;
 
   if(noGravityCounter > 0){
-    printf("gravity counter grater than 0 %d\n", noGravityCounter);
     gravity = false;
     if(--noGravityCounter == 0){
       gravity = true;

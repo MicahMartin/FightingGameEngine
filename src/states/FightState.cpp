@@ -23,7 +23,6 @@ void FightState::enter(){
   charStateManager->registerCharacter(player2, 2);
 
   player1->init();
-  player1->virtualMachine.debugMode = true;
   player2->init();
 }
 
@@ -57,7 +56,7 @@ void FightState::update(){
         for (auto p2PushBox : player2->currentState->pushBoxes) {
           if(!p2PushBox->disabled){
             if (CollisionBox::checkAABB(*p1PushBox, *p2PushBox)) {
-              printf("pushbox collision detected\n");
+              // printf("pushbox collision detected\n");
               // if p1 is in the air and p2 is not
               if (p1Pos.second < 0 && p2Pos.second >= 0) {
                 // find how deeply intersected they are

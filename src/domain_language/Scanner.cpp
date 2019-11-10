@@ -150,7 +150,7 @@ TokenType Scanner::identifierType() {
         // printf("couldnt find %s\n", theStr.c_str());
         return TOKEN_IDENTIFIER;
       } else {
-        // printf("found the %s\n", theStr.c_str());
+        printf("found the %s\n", theStr.c_str());
         return type->second;
       }
       // return (type == keywordTypes.end() ? TOKEN_IDENTIFIER : type->second);

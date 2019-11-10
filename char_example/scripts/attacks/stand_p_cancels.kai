@@ -1,0 +1,30 @@
+{
+  var qcf_k = $check_command 2;
+
+  var up = $get_input 8; 
+  var upforward = $get_input 9; 
+  var upback = $get_input 7; 
+
+  var stand_p = $was_pressed 10;
+  var stand_k = $was_pressed 11;
+
+
+  if(qcf_k){
+    $cancel_state 14;
+  }
+  if(stand_p){
+    $cancel_state 8;
+  }
+  if(stand_k){
+    $cancel_state 15;
+  }
+  if(up){
+    $cancel_state 5;
+  }
+  if(upforward){
+    $cancel_state 6;
+  }
+  if(upback){
+    $cancel_state 7;
+  }
+}

@@ -154,7 +154,7 @@ private:
 
     { &Compiler::engineCallArg, &Compiler::engineCallArg, PREC_NONE },  // TOKEN_CHECK_COMMAND, 
     { &Compiler::engineCallArg, &Compiler::engineCallArg, PREC_NONE },  // TOKEN_WAS_PRESSED, 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg, PREC_NONE },  // TOKEN_HAS_AIR_ACTION,
+    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_HAS_AIR_ACTION,
 
     { NULL, NULL, PREC_NONE },  // TOKEN_CHANGE_STATE, 
     { NULL, NULL, PREC_NONE },  // TOKEN_CANCEL_STATE,

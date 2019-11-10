@@ -2,8 +2,8 @@
   if($get_state_time == 0){
     $set_control 0; 
     $set_air_action 0; 
-    $set_nograv_count 18; 
-    $neg_velset_x 8; 
+    $set_nograv_count 11; 
+    $neg_velset_x 10; 
     $velset_y 0; 
   }
   if($get_state_time == 12){
