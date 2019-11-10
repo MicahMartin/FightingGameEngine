@@ -16,6 +16,19 @@
   var forward = $get_input 6; 
   var back = $get_input 4; 
 
+
+  if(control == 1 and yPos == 0 and upforward){
+    $change_state 6; 
+  }
+
+  if(control == 1 and yPos == 0 and upback){
+    $change_state 7; 
+  }
+
+  if(control == 1 and yPos == 0 and up){
+    $change_state 5; 
+  }
+
   if(control == 1 and yPos == 0 and (down or downback or downforward) and stateNum != 4){
     $change_state 4; 
   }

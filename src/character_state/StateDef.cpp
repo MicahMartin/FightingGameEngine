@@ -5,7 +5,7 @@
 #include "physics/CollisionBox.h"
 #include "Util.h"
 
-StateDef::StateDef(int stateNum, Character* player) : stateNum(stateNum), player(player){ }
+StateDef::StateDef(int stateNum, Character* player, VirtualMachine* charVm) : stateNum(stateNum), player(player), charVm(charVm){ }
 StateDef::~StateDef(){ }
 
 void StateDef::loadFlags(nlohmann::json json){

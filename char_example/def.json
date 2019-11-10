@@ -4,7 +4,7 @@
       "state_num": 1,
       "state_name": "IDLE",
       "flags": [ ],
-      "update_script": "{if(#get_anim_time == 0) {#reset_anim;}}",
+      "update_script": "../data/characters/alucard/scripts/movement/idle.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/98.png", "time": 10, "offsetX": 115},
         { "file": "../data/characters/alucard/sprites/99.png", "time": 10, "offsetX": 115}, 
@@ -19,7 +19,7 @@
       "state_num": 2,
       "state_name": "WALK_F",
       "flags": [ ],
-      "update_script": "{if(#get_anim_time == 0) {#reset_anim;}}",
+      "update_script": "../data/characters/alucard/scripts/movement/walk_f.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/1.png", "time": 7, "offsetX": 125 },
         { "file": "../data/characters/alucard/sprites/2.png", "time": 7, "offsetX": 125 },
@@ -37,7 +37,7 @@
       "state_num": 3,
       "state_name": "WALK_B",
       "flags": [ ],
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/movement/walk_b.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/2.png", "time": 14, "offsetX": 135 },
         { "file": "../data/characters/alucard/sprites/1.png", "time": 14, "offsetX": 135 },
@@ -52,9 +52,9 @@
       "state_num": 4,
       "state_name": "CROUCH",
       "flags": [ ],
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/movement/crouch.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/0.png", "time": 60, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/0.png", "time": -1, "offsetX": 115 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":75, "offsetX":0, "offsetY": 0},
@@ -67,7 +67,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/movement/jump_n.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 115 },
         { "file": "../data/characters/alucard/sprites/6.png", "time": 20, "offsetX": 115 },
@@ -84,7 +84,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/movement/jump_f.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/9.png", "time": 4, "offsetX": 115 },
         { "file": "../data/characters/alucard/sprites/8.png", "time": 13, "offsetX": 115 },
@@ -101,7 +101,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/movement/jump_b.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 115 },
         { "file": "../data/characters/alucard/sprites/9.png", "time": 20, "offsetX": 115 },
@@ -119,7 +119,7 @@
         "NO_TURN"
       ],
       "cancel_script": "",
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/attacks/stand_p.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/14.png", "time": 2, "offsetX": 115},
         { "file": "../data/characters/alucard/sprites/13.png", "time": 2, "offsetX": 140},
@@ -140,7 +140,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/hurt.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/90.png", "time": 99, "offsetX": 75},
         { "file": "../data/characters/alucard/sprites/92.png", "time": 1, "offsetX": 75}
@@ -156,7 +156,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/movement/dash_f.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/11.png", "time": 4, "offsetX": 75},
         { "file": "../data/characters/alucard/sprites/19.png", "time": 8, "offsetX": 75},
@@ -174,7 +174,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/movement/dash_b.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/10.png", "time": 11, "offsetX": 75},
         { "file": "../data/characters/alucard/sprites/9.png", "time": 12, "offsetX": 75}
@@ -190,7 +190,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/movement/airdash_f.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/104.png", "time": 45, "offsetX": 75},
         { "file": "../data/characters/alucard/sprites/105.png", "time": 15, "offsetX": 75}
@@ -206,7 +206,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/movement/airdash_b.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/105.png", "time": 45, "offsetX": 75},
         { "file": "../data/characters/alucard/sprites/104.png", "time": 15, "offsetX": 75}
@@ -222,8 +222,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "cancel_script": "",
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/attacks/upslash.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/68.png", "time": 12, "offsetX": 75},
         { "file": "../data/characters/alucard/sprites/69.png", "time": 2, "offsetX": 77},
@@ -244,8 +243,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "cancel_script": "",
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/attacks/stand_k.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/39.png", "time": 4, "offsetX": 150},
         { "file": "../data/characters/alucard/sprites/40.png", "time": 7, "offsetX": 225},
@@ -265,8 +263,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "cancel_script": "",
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/attacks/jump_s.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/55.png", "time": 8, "offsetX": 175},
         { "file": "../data/characters/alucard/sprites/58.png", "time": 2, "offsetX": 175},
@@ -284,7 +281,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/jump_recovery.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/7.png", "time": 200, "offsetX": 75 }
       ],
@@ -299,8 +296,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "cancel_script": "",
-      "update_script": "",
+      "update_script": "../data/characters/alucard/scripts/attacks/jump_p.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/53.png", "time": 4, "offsetX": 175},
         { "file": "../data/characters/alucard/sprites/52.png", "time": 4, "offsetX": 175}
@@ -311,43 +307,9 @@
       ]
     }
   ],
-  "command_script": "{var forward = #was_pressed 6; if(forward == true){print \"forward held\";}}",
+  "command_script": "../data/characters/alucard/scripts/input.kai",
    
   "hitscripts": [
     { "script_num": 1, "screenFreeze": 8, "damage": 5} 
   ]
 }
-
-{
-  var stateNum = #get_state_num; 
-  var control = #get_control; 
-  var yPos = #get_y_pos;
-
-  var neutral = #get_input 5; 
-
-  var up = #get_input 8; 
-  var upback = #get_input 7; 
-  var upforward = #get_input 9; 
-
-  var down = #get_input 2; 
-  var downback = #get_input 1; 
-  var downforward = #get_input 3; 
-
-  var forward = #get_input 6; 
-  var back = #get_input 4; 
-
-  if(control == 1 and yPos == 0 and (down or downback or downforward) and stateNum != 4){
-    #change_state 4; 
-  }
-
-  if(control == 1 and yPos == 0 and forward and stateNum != 2){
-    #change_state 2; 
-  }
-  if(control == 1 and yPos == 0 and back and stateNum != 3){
-    #change_state 3; 
-  }
-  if(control == 1 and yPos == 0 and neutral and stateNum != 1){
-    #change_state 1; 
-  }
-}
-

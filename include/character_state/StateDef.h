@@ -21,7 +21,7 @@ enum FlagBit {
 
 class StateDef {
 public:
-  StateDef(int stateNum, Character* player);
+  StateDef(int stateNum, Character* player, VirtualMachine* charVm);
   ~StateDef();
 
   // load shit

@@ -35,28 +35,36 @@ void Character::cancelState(int stateDefNum){
   cancelPointer = stateDefNum;
 };
 
-char* readFile(const char* fileName){
-  std::ifstream file(fileName, std::ios::in|std::ios::binary|std::ios::ate);
-  file.seekg(0, std::ios::end);
+// NOTE: must delete
+static inline char* readFile(const char* path){
+  // why is everything in c / c++ a chore..
+  std::ifstream file(path, std::ios::in|std::ios::binary|std::ios::ate);
+  if(file.is_open()){
 
-  size_t size = file.tellg();
-  char* fileContent = new char[size];
+    file.seekg(0, std::ios::end);
+    size_t size = file.tellg();
+    char* fileContent = new char[size];
 
-  file.seekg(0, std::ios::beg);
-  file.read(fileContent, size);
-  file.close();
+    file.seekg(0, std::ios::beg);
+    file.read(fileContent, size);
+    file.close();
 
-  return fileContent;
+    fileContent[size] = '\0';
+    printf("read file: %s \n %s\n", path, fileContent);
+
+    return fileContent;
+  } else {
+    throw std::runtime_error("unable to open file!");
+  }
 }
 
 void Character::loadStates(){
   printf("%d Loading states\n", playerNum);
   std::ifstream configFile("../data/characters/alucard/def.json");
   configFile >> stateJson;
-  configFile.close();
 
   // compile character's input scripte 
-  // TODO: Delete this
+  // TODO: DELETE DIS!!
   char* inputCommandSource = readFile(stateJson.at("command_script").get<std::string>().c_str());
   if(!virtualMachine.compiler.compile(inputCommandSource, &inputScript, "inputCommandScript")){
     inputScript.disassembleScript("input command script");
@@ -65,15 +73,14 @@ void Character::loadStates(){
 
   for(auto i : stateJson.at("states").items()){
     int stateNum = i.value().at("state_num");
-    StateDef state(stateNum, this);
-    state.charVm = &virtualMachine;
+    std::string scriptTag = "updateScript:" + std::to_string(stateNum);
+    StateDef state(stateNum, this, &virtualMachine);
 
     state.loadFlags(i.value().at("flags"));
     // compile state's update script%s
-    std::string* stateUpdateSource = new std::string(i.value().at("update_script").get<std::string>());
-    std::string scriptTag = "updateScript:" + std::to_string(stateNum);
-    bool updateScriptCompiled = virtualMachine.compiler.compile(stateUpdateSource->c_str(), &state.updateScript, scriptTag.c_str());
-    if(!updateScriptCompiled){
+    const char* stateUpdateSource = readFile(i.value().at("update_script").get<std::string>().c_str());
+    if(!virtualMachine.compiler.compile(stateUpdateSource, &state.updateScript, scriptTag.c_str())){
+      printf("looking at %s\n", scriptTag.c_str());
       throw std::runtime_error("updateScript failed to compile");
     }
 

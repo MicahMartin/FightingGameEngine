@@ -1,0 +1,42 @@
+{
+  "1073741905": {
+    "user": 1,
+    "input": "0x1",
+    "inputString": "DOWN"
+  },
+  "1073741903": {
+    "user": 1,
+    "input": "0x2",
+    "inputString": "RIGHT"
+  },
+  "1073741904": {
+    "user": 1,
+    "input": "0x4",
+    "inputString": "LEFT"
+  },
+  "1073741906": {
+    "user": 1,
+    "input": "0x8",
+    "inputString": "UP"
+  },
+  "97": {
+    "user": 1,
+    "input": "0x10",
+    "inputString": "PUNCH" 
+  },
+  "115": {
+    "user": 1,
+    "input": "0x100",
+    "inputString": "KICK" 
+  },
+  "100": {
+    "user": 1,
+    "input": "0x20",
+    "inputString": "SLICE" 
+  },
+  "102": {
+    "user": 1,
+    "input": "0x200",
+    "inputString": "HEAVYSLICE" 
+  }
+}

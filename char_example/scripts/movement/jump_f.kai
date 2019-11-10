@@ -1,0 +1,16 @@
+{ 
+  if($get_state_time == 0){ 
+    $set_control 0; 
+    $set_air_action 1; 
+    $velset_x 0; 
+  } 
+  if($get_state_time == 3){ 
+    $velset_y 20; 
+  } 
+  if($get_state_time == 4){ 
+    $velset_x 6; 
+  } 
+  if($get_state_time == 4){ 
+    $set_control 1; 
+  } 
+} 
