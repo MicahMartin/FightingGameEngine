@@ -31,11 +31,11 @@ inline ExecutionCode VirtualMachine::run(){
   for (;;) {
     if (debugMode) { 
       printf("          ");
-      for (Value* slot = stack.stack; slot < stack.stackTop; slot++) {
-        printf("[ ");
-        ValueFn::printValue(*slot);
-        printf(" ]");
-      }
+      //for (Value* slot = stack.stack; slot < stack.stackTop; slot++) {
+      //  printf("[ ");
+      //  ValueFn::printValue(*slot);
+      //  printf(" ]");
+      //}
       printf("\n");
       scriptPointer->disassembleInstruction((int)(instructionPointer - scriptPointer->scriptStart()));
     }

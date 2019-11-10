@@ -2,7 +2,7 @@
   var control = ($get_control == 1); 
   var grounded = ($get_y_pos == 0);
   var airborne = ($get_y_pos > 0);
-  var aboveMinHeight = ($get_y_pos > 90);
+  var aboveMinHeight = ($get_y_pos > 120);
   var hasAirAction = ($has_air_action > 0);
   var stateNum = $get_state_num; 
   var yPos = $get_y_pos;
@@ -21,12 +21,28 @@
   var forward = $get_input 6; 
   var back = $get_input 4; 
 
+  var stand_p = $was_pressed 10;
+  var stand_k = $was_pressed 11;
+  var stand_s = $was_pressed 12;
+
 
   if(control and grounded and qcf_k){
     $change_state 14; 
   }
 
-  if(control and grounded and ($was_pressed 10)){
+  if(control and grounded and stand_p and (down or downforward or downback)){
+    $change_state 21; 
+  }
+
+  if(control and grounded and stand_k and (down or downforward or downback)){
+    $change_state 22; 
+  }
+
+  if(control and grounded and stand_s and (down or downforward or downback)){
+    $change_state 23; 
+  }
+
+  if(control and grounded and stand_p){
     $change_state 8; 
   }
 

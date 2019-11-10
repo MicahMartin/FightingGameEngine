@@ -267,12 +267,12 @@
       "update_script": "../data/characters/alucard/scripts/attacks/jump_s.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/55.png", "time": 8, "offsetX": 175},
-        { "file": "../data/characters/alucard/sprites/58.png", "time": 2, "offsetX": 175},
+        { "file": "../data/characters/alucard/sprites/58.png", "time": 4, "offsetX": 175},
         { "file": "../data/characters/alucard/sprites/57.png", "time": 15, "offsetX": 175}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":75, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "hitstun":22, "hitstop": 16, "damage":15, "push": 8, "hitscript": 1, "start": 11, "end": 14, "width":150, "height":50, "offsetX":50, "offsetY": 0},
+        {"type": "HIT", "hitstun":22, "hitstop": 16, "damage":15, "push": 8, "hitscript": 1, "start": 13, "end": 18, "width":150, "height":50, "offsetX":50, "offsetY": 10},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -300,12 +300,117 @@
       "cancel_script": "../data/characters/alucard/scripts/attacks/jump_p_cancels.kai",
       "update_script": "../data/characters/alucard/scripts/attacks/jump_p.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/53.png", "time": 4, "offsetX": 175},
-        { "file": "../data/characters/alucard/sprites/52.png", "time": 4, "offsetX": 175}
+        { "file": "../data/characters/alucard/sprites/54.png", "time": 2, "offsetX": 120},
+        { "file": "../data/characters/alucard/sprites/53.png", "time": 2, "offsetX": 120},
+        { "file": "../data/characters/alucard/sprites/52.png", "time": 6, "offsetX": 120},
+        { "file": "../data/characters/alucard/sprites/53.png", "time": 3, "offsetX": 120},
+        { "file": "../data/characters/alucard/sprites/54.png", "time": 3, "offsetX": 120}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":75, "offsetX":0, "offsetY": 0},
+        {"type": "HIT", "hitstun":12, "hitstop": 12, "damage":15, "push": 8, "hitscript": 1, "start": 5, "end": 10, "width":100, "height":100, "offsetX":75, "offsetY": 100},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 19,
+      "state_name": "JUMP_K",
+      "flags": [
+        "NO_TURN"
+      ],
+      "cancel_script": "../data/characters/alucard/scripts/attacks/jump_k_cancels.kai",
+      "update_script": "../data/characters/alucard/scripts/attacks/jump_k.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/54.png", "time": 8, "offsetX": 120},
+        { "file": "../data/characters/alucard/sprites/56.png", "time": 8, "offsetX": 120},
+        { "file": "../data/characters/alucard/sprites/54.png", "time": 8, "offsetX": 120}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":75, "offsetX":0, "offsetY": 0},
+        {"type": "HIT", "hitstun":12, "hitstop": 12, "damage":15, "push": 8, "hitscript": 1, "start": 9, "end": 16, "width":100, "height":100, "offsetX":75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 20,
+      "state_name": "STAND_S",
+      "flags": [
+        "NO_TURN"
+      ],
+      "cancel_script": "../data/characters/alucard/scripts/attacks/stand_s_cancels.kai",
+      "update_script": "../data/characters/alucard/scripts/attacks/stand_s.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/29.png", "time": 5, "offsetX": 175},
+        { "file": "../data/characters/alucard/sprites/27.png", "time": 5, "offsetX": 175},
+        { "file": "../data/characters/alucard/sprites/28.png", "time": 8, "offsetX": 450},
+        { "file": "../data/characters/alucard/sprites/24.png", "time": 6, "offsetX": 350},
+        { "file": "../data/characters/alucard/sprites/29.png", "time": 4, "offsetX": 175}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":75, "offsetX":0, "offsetY": 0},
+        {"type": "HIT", "hitstun":12, "hitstop": 12, "damage":15, "push": 8, "hitscript": 1, "start": 11, "end": 16, "width":360, "height":75, "offsetX":75, "offsetY": 185},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":80, "offsetX":75, "offsetY": 185},
+        {"type": "HURT", "start": 1, "end": -1, "width":115, "height":185, "offsetX":75, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 21,
+      "state_name": "CROUCH_P",
+      "flags": [
+        "NO_TURN"
+      ],
+      "cancel_script": "../data/characters/alucard/scripts/attacks/crouch_p_cancels.kai",
+      "update_script": "../data/characters/alucard/scripts/attacks/crouch_p.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/20.png", "time": 3, "offsetX": 125},
+        { "file": "../data/characters/alucard/sprites/15.png", "time": 5, "offsetX": 175},
+        { "file": "../data/characters/alucard/sprites/20.png", "time": 5, "offsetX": 125}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":75, "offsetX":0, "offsetY": 0},
+        {"type": "HIT", "hitstun":12, "hitstop": 12, "damage":5, "push": 8, "hitscript": 1, "start": 5, "end": 8, "width":95, "height":60, "offsetX":100, "offsetY": 100},
+        {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 22,
+      "state_name": "CROUCH_K",
+      "flags": [
+        "NO_TURN"
+      ],
+      "cancel_script": "../data/characters/alucard/scripts/attacks/crouch_k_cancels.kai",
+      "update_script": "../data/characters/alucard/scripts/attacks/crouch_k.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/48.png", "time": 6, "offsetX": 175, "offsetY": 25},
+        { "file": "../data/characters/alucard/sprites/46.png", "time": 5, "offsetX": 225, "offsetY": 25},
+        { "file": "../data/characters/alucard/sprites/48.png", "time": 5, "offsetX": 175, "offsetY": 25}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":75, "offsetX":0, "offsetY": 0},
+        {"type": "HIT", "hitstun":12, "hitstop": 12, "damage":5, "push": 8, "hitscript": 1, "start": 7, "end": 8, "width":115, "height":100, "offsetX":100, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 23,
+      "state_name": "CROUCH_S",
+      "flags": [
+        "NO_TURN"
+      ],
+      "cancel_script": "../data/characters/alucard/scripts/attacks/crouch_s_cancels.kai",
+      "update_script": "../data/characters/alucard/scripts/attacks/crouch_s.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/50.png", "time": 3, "offsetX": 310, "offsetY": 20},
+        { "file": "../data/characters/alucard/sprites/49.png", "time": 5, "offsetX": 325, "offsetY": 20},
+        { "file": "../data/characters/alucard/sprites/51.png", "time": 8, "offsetX": 335, "offsetY": 20},
+        { "file": "../data/characters/alucard/sprites/49.png", "time": 6, "offsetX": 325, "offsetY": 20},
+        { "file": "../data/characters/alucard/sprites/50.png", "time": 6, "offsetX": 315, "offsetY": 20}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":60, "height":75, "offsetX":0, "offsetY": 0},
+        {"type": "HIT", "hitstun":12, "hitstop": 12, "damage":5, "push": 8, "hitscript": 1, "start": 10, "end": 14, "width":200, "height":100, "offsetX":100, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0}
       ]
     }
   ],

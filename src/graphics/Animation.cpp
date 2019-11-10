@@ -23,9 +23,15 @@ void Animation::loadAnimEvents(nlohmann::json json){
 
     int animTime = i.value().at("time");
     int offsetX = i.value().at("offsetX");
+    int offsetY = 0;
+    try {
+      offsetY = i.value().at("offsetY");
+      printf("the offsetY: %d\n", offsetY);
+    }catch(std::exception e) {
+    }
     animationTime += animTime;
 
-    AnimationElement element(text, animTime, offsetX);
+    AnimationElement element(text, animTime, offsetX, offsetY);
     animationElements.push_back(element);
   }
 }
@@ -42,7 +48,8 @@ void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
   GameTexture* currentText = elem->gameTexture;
   int width = currentText->getDimensions().first;
   int offsetX = elem->offsetX;
-  faceRight ? currentText->setCords(x-width+offsetX, y - 30) : currentText->setCords(x-offsetX, y - 30);
+  int offsetY = elem->offsetY;
+  faceRight ? currentText->setCords(x-width+offsetX, ((y - 30) + offsetY)) : currentText->setCords(x-offsetX, ((y - 30) + offsetY));
   currentText->render(faceRight);
 
   if(!screenFreeze){
