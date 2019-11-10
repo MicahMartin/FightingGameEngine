@@ -21,7 +21,7 @@ enum FlagBit {
 
 class StateDef {
 public:
-  StateDef(int charNum, int stateNum);
+  StateDef(int stateNum, Character* player);
   ~StateDef();
 
   // load shit
@@ -39,11 +39,10 @@ public:
   void resetAnim();
 
 
+  Character* player;
   VirtualMachine* charVm;
   Script updateScript;
   Script cancelScript;
-  std::vector<uint8_t> byteCode;
-  std::vector<uint8_t> cancelByteCode;
 
   // TODO: Polymorph or atleast use a union
   std::vector<CollisionBox*> pushBoxes;
@@ -64,7 +63,6 @@ private:
     {"BAZZ", BAZZ}
   };
 
-  int charNum;
   uint8_t flagByte = 0;
   CharStateManager* charStateManager = CharStateManager::getInstance();
 };

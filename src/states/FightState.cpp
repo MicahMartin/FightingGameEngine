@@ -10,6 +10,9 @@ FightState::~FightState(){ }
 
 void FightState::enter(){ 
   // init all fields
+  currentScreen = new FightScreen();
+  graphics->setCamera(&camera);
+  camera.update(1600, 2300);
   
   player1 = new Character(std::make_pair(1600,0), 1);
   player2 = new Character(std::make_pair(2300,0), 2);
@@ -20,12 +23,7 @@ void FightState::enter(){
   charStateManager->registerCharacter(player2, 2);
 
   player1->init();
-  player1->virtualMachine.debugMode = true;
   player2->init();
-
-  currentScreen = new FightScreen();
-  graphics->setCamera(&camera);
-  camera.update(1600, 2300);
 }
 
 void FightState::exit(){ 

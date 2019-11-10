@@ -5,7 +5,7 @@
 #include "physics/CollisionBox.h"
 #include "Util.h"
 
-StateDef::StateDef(int charNum, int stateNum) : charNum(charNum), stateNum(stateNum){ }
+StateDef::StateDef(int stateNum, Character* player) : stateNum(stateNum), player(player){ }
 StateDef::~StateDef(){ }
 
 void StateDef::loadFlags(nlohmann::json json){
@@ -30,7 +30,6 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
     int start = i.value().at("start");
     int end = i.value().at("end");
 
-    Character* player = charStateManager->getCharPointer(charNum);
     std::pair charPos = player->getPos();
 
     CollisionBox* cb;
@@ -62,7 +61,6 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
 void StateDef::enter(){
   stateTime = 0;
   anim.resetAnimEvents();
-  Character* player = charStateManager->getCharPointer(charNum);
   // TODO: move updateCollisionBoxes into here, shouldnt belong to player
   player->updateCollisionBoxes();
 };
@@ -79,8 +77,8 @@ void StateDef::handleCancels(){
 }
 
 void StateDef::draw(){
-  std::pair charPos = charStateManager->getCharPointer(charNum)->getPos();
-  bool faceRight = charStateManager->getCharPointer(charNum)->faceRight;
+  std::pair charPos = player->getPos();
+  bool faceRight = player->faceRight;
   anim.render(charPos.first, charPos.second, faceRight, charStateManager->screenFrozen);
 
   // stateTime is 2

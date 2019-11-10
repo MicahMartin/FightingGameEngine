@@ -621,7 +621,6 @@ void Compiler::engineCallExpressionStatement(OpCode call){
   expression();
   consume(TOKEN_SEMICOLON, "expected ; after value");
   emitByte(call);
-  printf("emitting call byte\n");
 }
 
 void Compiler::engineCallStatement(OpCode call){

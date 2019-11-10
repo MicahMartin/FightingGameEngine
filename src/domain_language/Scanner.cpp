@@ -17,7 +17,7 @@ bool Scanner::isAtEnd() {
 }
 
 bool Scanner::isAlpha(char c) {
-  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || c == '#';
+  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || c == '$';
 }
 
 bool Scanner::isDigit(char c) {
@@ -142,7 +142,7 @@ TokenType Scanner::identifierType() {
         }
       }
       break;
-    case '#':
+    case '$':
       std::string theStr(start, current - start);
       // printf("the str in question %s\n", theStr.c_str());
       auto type = keywordTypes.find(theStr);

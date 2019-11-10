@@ -35,23 +35,37 @@ void Character::cancelState(int stateDefNum){
   cancelPointer = stateDefNum;
 };
 
+char* readFile(const char* fileName){
+  std::ifstream file(fileName, std::ios::in|std::ios::binary|std::ios::ate);
+  file.seekg(0, std::ios::end);
+
+  size_t size = file.tellg();
+  char* fileContent = new char[size];
+
+  file.seekg(0, std::ios::beg);
+  file.read(fileContent, size);
+  file.close();
+
+  return fileContent;
+}
+
 void Character::loadStates(){
   printf("%d Loading states\n", playerNum);
   std::ifstream configFile("../data/characters/alucard/def.json");
   configFile >> stateJson;
+  configFile.close();
 
   // compile character's input scripte 
-  std::string* inputCommandSource = new std::string(stateJson.at("command_script").get<std::string>());
-  printf("the entire input command src %s\n", inputCommandSource->c_str());
-  bool inputScriptCompiled = virtualMachine.compiler.compile(inputCommandSource->c_str(), &inputScript, "inputCommandScript");
-  if(!inputScriptCompiled){
+  // TODO: Delete this
+  char* inputCommandSource = readFile(stateJson.at("command_script").get<std::string>().c_str());
+  if(!virtualMachine.compiler.compile(inputCommandSource, &inputScript, "inputCommandScript")){
+    inputScript.disassembleScript("input command script");
     throw std::runtime_error("inputScript failed to compile");
   }
-  inputScript.disassembleScript("input command script");
 
   for(auto i : stateJson.at("states").items()){
     int stateNum = i.value().at("state_num");
-    StateDef state(playerNum, stateNum);
+    StateDef state(stateNum, this);
     state.charVm = &virtualMachine;
 
     state.loadFlags(i.value().at("flags"));

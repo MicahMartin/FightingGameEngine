@@ -87,6 +87,7 @@ std::pair<int, int> Animation::getDimensions(const char* path){
 
     returnPair.first = ntohl(width);
     returnPair.second = ntohl(height);
+    img.close();
 
     return returnPair;
 }
