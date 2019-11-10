@@ -29,10 +29,6 @@ public:
 private:
   Graphics() = default;
   ~Graphics(){
-    SDL_DestroyWindow(window);
-    SDL_DestroyRenderer(renderer);
-    IMG_Quit();
-    SDL_Quit();
   };
   Graphics(const Graphics&) = delete;
   Graphics& operator=(const Graphics&) = delete;

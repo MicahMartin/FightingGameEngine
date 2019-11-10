@@ -34,8 +34,20 @@
     $change_state 15; 
   }
 
+  if(control and grounded and ($was_pressed 12)){
+    $change_state 20; 
+  }
+
   if(control and airborne and ($was_pressed 12)){
     $change_state 16; 
+  }
+
+  if(control and airborne and ($was_pressed 11)){
+    $change_state 19; 
+  }
+
+  if(control and airborne and ($was_pressed 10)){
+    $change_state 18; 
   }
 
   if(control and aboveMinHeight and hasAirAction and dash_f){

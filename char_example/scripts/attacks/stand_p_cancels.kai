@@ -7,6 +7,7 @@
 
   var stand_p = $was_pressed 10;
   var stand_k = $was_pressed 11;
+  var stand_s = $was_pressed 12;
 
 
   if(qcf_k){
@@ -17,6 +18,9 @@
   }
   if(stand_k){
     $cancel_state 15;
+  }
+  if(stand_s){
+    $cancel_state 20;
   }
   if(up){
     $cancel_state 5;

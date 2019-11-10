@@ -5,13 +5,8 @@
   var upforward = $get_input 9; 
   var upback = $get_input 7; 
 
-  var stand_s = $was_pressed 12;
-
   if(qcf_k){
     $cancel_state 14;
-  }
-  if(stand_s){
-    $cancel_state 20;
   }
   if(up){
     $cancel_state 5;
