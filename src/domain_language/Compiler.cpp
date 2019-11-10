@@ -391,7 +391,7 @@ void Compiler::statement() {
   } else if (match(TOKEN_GET_Y_POS)) {
     engineCallStatement(OP_GET_Y_POS);
   } else if (match(TOKEN_GET_INPUT)) {
-    engineCallStatement(OP_GET_INPUT);
+    engineCallExpressionStatement(OP_GET_INPUT);
   } else if (match(TOKEN_GET_STATE_NUM)) {
     engineCallStatement(OP_GET_STATE_NUM);
   } else if (match(TOKEN_GET_CONTROL)) {

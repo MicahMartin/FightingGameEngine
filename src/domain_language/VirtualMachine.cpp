@@ -207,7 +207,7 @@ inline ExecutionCode VirtualMachine::run(){
         break;
       }
       case OP_GET_INPUT: {
-        uint8_t operand = READ_BYTE();
+        long operand = AS_NUMBER(stack.pop());
         bool boolean = character->_getInput(operand);
         stack.push(BOOL_VAL(boolean));
         break;
@@ -240,7 +240,6 @@ inline ExecutionCode VirtualMachine::run(){
       case OP_CHANGE_STATE: {
         long operand = AS_NUMBER(stack.pop());
         character->_changeState(operand);
-        printf("changing state\n");
         // STATE IS DONE EXECUTING. WE GOT UP OUTA THERE.
         return EC_OK;
       }
@@ -313,7 +312,6 @@ inline ExecutionCode VirtualMachine::run(){
         break;
       }
       case OP_RESET_ANIM: {
-        printf("resetting animations\n");
         character->_resetAnim();
         break;
       }

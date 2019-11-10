@@ -3,10 +3,7 @@
 #include "states/OpeningState.h"
 #include "Game.h"
 
-Game::Game(){}
-Game::~Game(){}
-
-void Game::init() {
+Game::Game(){
   // init Graphics
   graphics->init();
   // register with input manager so we can catch quit messages
@@ -17,7 +14,10 @@ void Game::init() {
   inputManager->addVirtualController(&virtualControllers[1]);
   // set the state to the title screen
   stateManager->pushState(new OpeningState());
+
 }
+
+Game::~Game(){}
 
 void Game::update() {
   ++gameTime;

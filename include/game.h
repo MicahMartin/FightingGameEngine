@@ -12,7 +12,6 @@ public:
   Game();
   ~Game();
 
-  void init();
   void update();
 
   bool stillRunning();
@@ -29,6 +28,6 @@ private:
   Graphics* graphics = Graphics::getInstance();
   StateManager* stateManager = StateManager::getInstance();
   InputManager* inputManager = InputManager::getInstance();
-  VirtualController virtualControllers[3];
+  VirtualController virtualControllers[2];
 };
 #endif

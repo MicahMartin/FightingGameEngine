@@ -147,7 +147,7 @@ private:
     { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_HIT_STUN, 
     { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_STATE_TIME,
     { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_Y_POS, 
-    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_INPUT, 
+    { &Compiler::engineCallArg, &Compiler::engineCallArg, PREC_NONE },  // TOKEN_GET_INPUT, 
     { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_STATE_NUM,
     { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_COMBO, 
     { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_CONTROL,
