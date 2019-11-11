@@ -197,7 +197,8 @@ inline ExecutionCode VirtualMachine::run(){
         break;
       }
       case OP_HAS_AIR_ACTION: {
-        stack.push(NUMBER_VAL(character->_getAirActions()));
+        bool hasAirAction = character->_getAirActions() > 0 ? true : false;
+        stack.push(BOOL_VAL(hasAirAction));
         break;
       }
       case OP_CHANGE_STATE: {

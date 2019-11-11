@@ -1,7 +1,7 @@
 #include <iostream>
 #include "input/VirtualController.h"
 #include "states/OpeningState.h"
-#include "Game.h"
+#include "game.h"
 
 Game::Game(){
   // init Graphics

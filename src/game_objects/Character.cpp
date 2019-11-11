@@ -297,11 +297,11 @@ int Character::_getControl(){
 }
 
 int Character::_getAirActions(){
-  return currentState->hasAirAction;
+  return hasAirAction;
 }
 
 void Character::_setAirAction(int operand){
-  currentState->hasAirAction = operand;
+  hasAirAction = operand;
 }
 
 int Character::_getCombo(){

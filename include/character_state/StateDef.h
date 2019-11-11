@@ -53,7 +53,6 @@ public:
   Animation anim;
   int stateNum;
   int stateTime;
-  bool hasAirAction = true;
 
 private:
   std::map<std::string, FlagBit> flagMap = {

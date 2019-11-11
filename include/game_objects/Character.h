@@ -53,6 +53,7 @@ public:
   int noGravityCounter = 0;
   int cancelPointer = 0;
   int hitstun = 0;
+  int hasAirAction = 0;
 
   void _changeState(int stateNum);
   void _cancelState(int stateNum);

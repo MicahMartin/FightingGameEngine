@@ -23,7 +23,6 @@ void FightState::enter(){
   charStateManager->registerCharacter(player2, 2);
 
   player1->init();
-  player1->virtualMachine.debugMode = true;
   player2->init();
 }
 
