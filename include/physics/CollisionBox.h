@@ -7,6 +7,7 @@
 #include <map>
 
 
+// TODO: poly this whn you find a break in fun stuff
 class CollisionBox {
 public:
 
@@ -47,6 +48,7 @@ public:
   int pushback;
   int hitstop;
   int hitstun;
+  bool canTrip = false;
 
 private:
   Graphics* graphics = Graphics::getInstance();

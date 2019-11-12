@@ -50,7 +50,7 @@ static inline char* readFile(const char* path){
     file.close();
 
     fileContent[size] = '\0';
-    printf("read file: %s \n %s\n", path, fileContent);
+    // printf("read file: %s \n %s\n", path, fileContent);
 
     return fileContent;
   } else {
@@ -64,12 +64,12 @@ void Character::loadStates(){
   configFile >> stateJson;
 
   // compile character's input scripte 
-  // TODO: DELETE DIS!!
   char* inputCommandSource = readFile(stateJson.at("command_script").get<std::string>().c_str());
   if(!virtualMachine.compiler.compile(inputCommandSource, &inputScript, "inputCommandScript")){
     inputScript.disassembleScript("input command script");
     throw std::runtime_error("inputScript failed to compile");
   }
+  delete inputCommandSource;
 
   for(auto i : stateJson.at("states").items()){
     int stateNum = i.value().at("state_num");
@@ -78,19 +78,21 @@ void Character::loadStates(){
 
     state.loadFlags(i.value().at("flags"));
     // compile state's update script%s
-    const char* stateUpdateSource = readFile(i.value().at("update_script").get<std::string>().c_str());
+    char* stateUpdateSource = readFile(i.value().at("update_script").get<std::string>().c_str());
     if(!virtualMachine.compiler.compile(stateUpdateSource, &state.updateScript, scriptTag.c_str())){
       printf("looking at %s\n", scriptTag.c_str());
       throw std::runtime_error("updateScript failed to compile");
     }
+    delete stateUpdateSource;
 
     try {
       // compile state's cancel script
-      const char* cancelSource = readFile(i.value().at("cancel_script").get<std::string>().c_str());
+      char* cancelSource = readFile(i.value().at("cancel_script").get<std::string>().c_str());
       std::string cancelScriptTag = "cancelScript:" + std::to_string(stateNum);
       if(!virtualMachine.compiler.compile(cancelSource, &state.cancelScript, cancelScriptTag.c_str())){
         throw std::runtime_error("cancelScript failed to compile");
       }
+      delete cancelSource;
     } catch(std::runtime_error e){
     } catch(nlohmann::json::exception e) { 
 

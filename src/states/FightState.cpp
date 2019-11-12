@@ -36,6 +36,27 @@ void FightState::pause(){ }
 void FightState::resume(){ }
 
 void FightState::handleInput(){ 
+  if (player1->health <= 0) {
+    player1->health = 100;
+  }
+  if (player2->health <= 0) {
+    player2->health = 100;
+  }
+  if(player1->getPos().first <= player2->getPos().first){
+    if(!player1->currentState->checkFlag(NO_TURN)){
+      player1->faceRight = true;
+    }
+    if(!player2->currentState->checkFlag(NO_TURN)){
+      player2->faceRight = false;
+    }
+  } else {
+    if(!player1->currentState->checkFlag(NO_TURN)){
+      player1->faceRight = false;
+    }
+    if(!player2->currentState->checkFlag(NO_TURN)){
+      player2->faceRight = true;
+    }
+  }
   if (charStateManager->screenFrozen == false) {
     player1->handleInput();
     player2->handleInput();
@@ -43,6 +64,7 @@ void FightState::handleInput(){
 }
 
 void FightState::update(){ 
+
   if(charStateManager->screenFrozen == false){
     player1->update();
     player2->update();
@@ -116,7 +138,11 @@ void FightState::update(){
               player2->hitstun = p1Hitbox->hitstun;
               player2->_negVelSetX(p1Hitbox->pushback);
               player2->comboCounter++;
-              player2->changeState(9);
+              if(p1Hitbox->canTrip){
+                player2->changeState(24);
+              } else {
+                player2->changeState(9);
+              }
               if(player2->comboCounter > 1){
                 printf("player 2 been combo'd for %d hits\n", player2->comboCounter);
               }
@@ -129,22 +155,6 @@ void FightState::update(){
 
     // TODO: Refactor jesus
     // THIS IS THE UPDATE TURN STUFF
-    if(player1->getPos().first <= player2->getPos().first){
-      if(!player1->currentState->checkFlag(NO_TURN)){
-        player1->faceRight = true;
-      }
-      if(!player2->currentState->checkFlag(NO_TURN)){
-        player2->faceRight = false;
-      }
-    } else {
-      if(!player1->currentState->checkFlag(NO_TURN)){
-        player1->faceRight = false;
-      }
-      if(!player2->currentState->checkFlag(NO_TURN)){
-        player2->faceRight = true;
-      }
-    }
-
     // BOUND CHECKING
     // TODO: pls refactor one day
     if(player1->getPos().first < 0) {
@@ -193,30 +203,32 @@ void FightState::renderHealthBars(){
   float p1HpPercent = p1Hp / player1->maxHealth;
   int p2Hp = player2->health;
   float p2HpPercent = (float)p2Hp / (float)player2->maxHealth;
+
   SDL_Color green = {0, 255, 0, 0};
   SDL_Color red = {255, 0, 0, 0};
-
   // draw p1 healthbar
-  renderHealthBar(100, 50, 500, 50, p1HpPercent, green, red);
-  renderHealthBar(680, 50, 500, 50, p2HpPercent, green, red);
+  currentScreen->renderHealthBar(100, 50, 500, 50, p1HpPercent, green, red);
+  currentScreen->renderHealthBar(680, 50, 500, 50, p2HpPercent, green, red);
 }
 
-void FightState::renderHealthBar(int x, int y, int w, int h, float percent, SDL_Color fgColor, SDL_Color bgColor) {
-  SDL_Color old;
-  SDL_GetRenderDrawColor(graphics->getRenderer(), &old.r, &old.g, &old.g, &old.a);
-  SDL_Rect bgrect = { x, y, w, h };
-  SDL_SetRenderDrawColor(graphics->getRenderer(), bgColor.r, bgColor.g, bgColor.b, bgColor.a);
-  SDL_RenderFillRect(graphics->getRenderer(), &bgrect);
-  SDL_SetRenderDrawColor(graphics->getRenderer(), fgColor.r, fgColor.g, fgColor.b, fgColor.a);
-  int pw = (int)((float)w * percent);
-  int px = x + (w - pw);
-  SDL_Rect fgrect = { px, y, pw, h };
-  SDL_RenderFillRect(graphics->getRenderer(), &fgrect);
-  SDL_SetRenderDrawColor(graphics->getRenderer(), old.r, old.g, old.b, old.a);
+void FightState::renderComboCount(){
+  int p1ComboCount = player1->comboCounter;
+  int p2ComboCount = player1->comboCounter;
+  if(p1ComboCount > 0){
+    currentScreen->renderComboCount(true, p1ComboCount);
+  }
+  if(p2ComboCount > 0){
+    currentScreen->renderComboCount(false, p2ComboCount);
+  }
 }
+
+void FightState::renderInputHistory(){
+}
+
 
 void FightState::draw(){  
   currentScreen->draw();
+  // TODO: move renderHP into currentScreen
   renderHealthBars();
   player1->draw();
   player2->draw();

@@ -19,6 +19,8 @@ public:
   void pause();
   void resume();
   void renderHealthBars();
+  void renderComboCount();
+  void renderInputHistory();
   void renderHealthBar(int x, int y, int w, int h, float percent, SDL_Color fgColor, SDL_Color bgColor);
 
   void handleInput();

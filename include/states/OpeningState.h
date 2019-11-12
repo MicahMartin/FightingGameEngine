@@ -2,7 +2,6 @@
 #define _OpeningState_h
 
 #include "states/GameState.h"
-#include "states/MenuState.h"
 #include "screens/OpeningScreen.h"
 
 class OpeningState : public GameState{
@@ -21,7 +20,6 @@ public:
   void draw();
 
 private:
-  MenuState* mainMenu;
-  OpeningScreen* openingScreen;
+  OpeningScreen openingScreen;
 };
 #endif

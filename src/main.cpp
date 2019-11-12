@@ -1,5 +1,5 @@
 #include <SDL2/SDL.h>
-#include "Game.h"
+#include "game.h"
 
 int main() {
   static double FPS = 1000/60;

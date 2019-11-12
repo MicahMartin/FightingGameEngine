@@ -1,6 +1,6 @@
 #include <bitset>
 #include "states/OpeningState.h"
-#include "screens/OpeningScreen.h"
+#include "states/MenuState.h"
 #include "input/InputManager.h"
 
 OpeningState::OpeningState(){ 
@@ -14,8 +14,6 @@ OpeningState::~OpeningState() {
 void OpeningState::enter() {
   // initialize the menu state & opening screen
   printf("Entered the opening state\n");
-  mainMenu = new MenuState();
-  openingScreen = new OpeningScreen();
 }
 
 void OpeningState::exit() { 
@@ -33,14 +31,14 @@ void OpeningState::handleInput() {
   VirtualController* input = inputManager->getVirtualController(0);
   if(input->wasPressed(DOWN, 0)){
     printf("down was pressed\n");
-    stateManager->pushState(mainMenu);
+    stateManager->pushState(new MenuState());
   }
 }
 
 void OpeningState::update() {
-  openingScreen->update();
+  openingScreen.update();
 }
 
 void OpeningState::draw() {
-  openingScreen->draw();
+  openingScreen.draw();
 }

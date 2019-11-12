@@ -48,6 +48,7 @@ public:
   int velocityY;
   int health;
   int maxHealth;
+  bool inputFaceRight;
   bool faceRight;
   bool gravity = true;
   int noGravityCounter = 0;

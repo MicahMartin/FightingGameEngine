@@ -13,8 +13,8 @@ Game::Game(){
   inputManager->addVirtualController(&virtualControllers[0]);
   inputManager->addVirtualController(&virtualControllers[1]);
   // set the state to the title screen
-  stateManager->pushState(new OpeningState());
-
+  OpeningState* openingState = new OpeningState();
+  stateManager->pushState(openingState);
 }
 
 Game::~Game(){}
