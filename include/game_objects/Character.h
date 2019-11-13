@@ -1,12 +1,12 @@
 #ifndef _Character_h
 #define _Character_h 
 
+#include <nlohmann/json.hpp>
 #include "character_state/StateDef.h"
 #include "character_state/HitScript.h"
 #include "domain_language/VirtualMachine.h"
 #include "domain_language/Script.h"
 #include "input/VirtualController.h"
-#include <nlohmann/json.hpp>
 
 class Character {
 public:
