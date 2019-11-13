@@ -1,6 +1,7 @@
 #include <iostream>
 #include "input/VirtualController.h"
 #include "states/OpeningState.h"
+#include "states/FightState.h"
 #include "game.h"
 
 Game::Game(){
@@ -29,6 +30,14 @@ void Game::update() {
 
   // pass input to currentState. side effects inbound
   GameState* currentState = stateManager->getState();
+  if(strcmp(currentState->stateName, "FightState") == 0){
+    FightState* fightState = (FightState*)currentState;
+    printf("in fight state %s, %d\n", fightState->stateName, fightState->everythingCompiled);
+    if(fightState->everythingCompiled){
+      printf("everything compiled\n");
+      inFightState = true;
+    }
+  }
   currentState->gameTime = gameTime;
   // this method modifies state stack
   double handleInputFrameStart = SDL_GetTicks();
@@ -44,7 +53,6 @@ void Game::update() {
   // the current state holds a pointer to the currrent screen
   // screen has a surface pointer with all the pixels that need to be
   // written and swapped this frame
-  // TODO: Shit is really slow because we're creating textures every frame instead of preallocating
   double clearStart = SDL_GetTicks();
   graphics->clear();
   double clearEnd = SDL_GetTicks();
@@ -78,8 +86,4 @@ void Game::onNotify(const char* eventName) {
   }else{
     printf("Not quitting\n");
   }
-}
-
-bool Game::stillRunning() {
-  return running;
 }

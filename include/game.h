@@ -14,7 +14,6 @@ public:
 
   void update();
 
-  bool stillRunning();
   // observer
   void onNotify(const char* message);
 
@@ -25,8 +24,9 @@ public:
   double clearLength;
   double stateDrawLength;
   long gameTime = 0;
-private:
   bool running = true;
+  bool inFightState = false;
+private:
   Graphics* graphics = Graphics::getInstance();
   StateManager* stateManager = StateManager::getInstance();
   InputManager* inputManager = InputManager::getInstance();

@@ -3,7 +3,9 @@
 #include "game_objects/Character.h"
 #include "game_objects/Stage.h"
 
-FightState::FightState(){ }
+FightState::FightState(){ 
+  stateName = "FightState";
+}
 
 FightState::~FightState(){ }
 
@@ -43,6 +45,10 @@ void FightState::handleInput(){
 }
 
 void FightState::update(){ 
+  stateTime++;
+  if (stateTime > 120) {
+    everythingCompiled = true;
+  }
   if(charStateManager->screenFrozen == false){
     checkPushCollisions();
     checkHitCollisions();
@@ -65,11 +71,11 @@ void FightState::draw(){
          p1DrawStart, p1DrawEnd,
          p2DrawStart, p2DrawEnd;
   screenDrawStart = SDL_GetTicks();
-  currentScreen.draw();
+  // currentScreen.draw();
   screenDrawEnd = SDL_GetTicks();
   // TODO: move renderHP into currentScreen
   barDrawStart = SDL_GetTicks();
-  renderHealthBars();
+  // renderHealthBars();
   barDrawEnd = SDL_GetTicks();
   if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
     p2DrawStart = SDL_GetTicks();

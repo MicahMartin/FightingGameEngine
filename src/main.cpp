@@ -7,7 +7,7 @@ int main() {
   // Game.init
   Game game;
 
-  while(game.stillRunning()){
+  while(game.running){
     double frameStart = SDL_GetTicks();
     game.update();
     // we want to run the update stuff once every frame (16~ MS)
@@ -17,7 +17,11 @@ int main() {
     double delayLength = FPS - (frameEnd - frameStart);
     if(int(delayLength) > 0){
       SDL_Delay(int(delayLength));
-    } else  { }
+    } else  { 
+      if(game.inFightState){
+        game.running = false;
+      }
+    }
     printf("--- slow tick ---\n");
     printf("frameStart  %f\n", frameStart);
     printf("frameEnd    %f\n", frameEnd);

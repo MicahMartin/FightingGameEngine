@@ -33,6 +33,8 @@ public:
   void draw();
 
   int screenFreeze = 0;
+  int stateTime = 0;
+  bool everythingCompiled = false;
 private:
   Character* player1;
   Character* player2;

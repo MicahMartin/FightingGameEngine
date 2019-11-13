@@ -22,7 +22,7 @@ void Graphics::init(){
 
 
   // create sdl renderer
-  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
   if( renderer == NULL ){
     throw(std::runtime_error(SDL_GetError()));
