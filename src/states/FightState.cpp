@@ -12,10 +12,10 @@ void FightState::enter(){
   // init all fields
   currentScreen = new FightScreen();
   graphics->setCamera(&camera);
-  camera.update(1600, 2300);
+  camera.update(1700, 2200);
   
-  player1 = new Character(std::make_pair(1600,0), 1);
-  player2 = new Character(std::make_pair(2300,0), 2);
+  player1 = new Character(std::make_pair(1700,0), 1);
+  player2 = new Character(std::make_pair(2200,0), 2);
   player1->virtualController = inputManager->getVirtualController(0);
   player2->virtualController = inputManager->getVirtualController(1);
   
@@ -127,6 +127,7 @@ void FightState::update(){
         for (auto p2HurtBox : player2->currentState->hurtBoxes) {
           if(!p2HurtBox->disabled){
             if (CollisionBox::checkAABB(*p1Hitbox, *p2HurtBox)) {
+              player1->frameLastAttackConnected = gameTime; 
               printf("hitbox collision detected\n");
               // TODO: Run hitscript
               charStateManager->screenFrozen = true;
@@ -230,6 +231,11 @@ void FightState::draw(){
   currentScreen->draw();
   // TODO: move renderHP into currentScreen
   renderHealthBars();
-  player1->draw();
-  player2->draw();
+  if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
+    player2->draw();
+    player1->draw();
+  } else {
+    player1->draw();
+    player2->draw();
+  }
 }

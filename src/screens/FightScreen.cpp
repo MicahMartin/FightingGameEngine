@@ -7,9 +7,9 @@ FightScreen::FightScreen(){
   stage.loadTexture("../data/images/purple_stage.png");
   stage.setDimensions(0, 0, windowWidth*3, graphics->getWindowHeight());
 
-  for (int i = 0; i < 9; i++) {
-    numbers[i].loadTexture("../data/images/font/num.png");
-  }
+//  for (int i = 0; i < 9; i++) {
+//    numbers[i].loadTexture("../data/images/font/num.png");
+//  }
 
   addTexture(&stage);
 }

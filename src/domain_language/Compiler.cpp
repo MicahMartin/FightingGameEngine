@@ -1,3 +1,5 @@
+#include <fstream>
+#include <iostream>
 #include "domain_language/Compiler.h"
 
 
@@ -254,7 +256,6 @@ void Compiler::advance() {
 
   for (;;) {
     parser.current = scanner.scan();
-    // printf("done scan, parser at %s\n", std::string(parser.current.start, parser.current.length).c_str());
     if (parser.current.type != TOKEN_ERROR) break;
 
     errorAtCurrent(parser.current.start);
@@ -269,6 +270,7 @@ void Compiler::expression() {
 void Compiler::expressionStatement() {
   expression();
   consume(TOKEN_SEMICOLON, "Expect ';' after expression.");
+  // printf("expression done\n");
   emitByte(OP_POP);
 }
 
@@ -336,9 +338,10 @@ void Compiler::forStatement() {
   if (match(TOKEN_SEMICOLON)) {
     // No initializer.
   } else if (match(TOKEN_VAR)) {
+    // printf("starting var decl\n");
     varDeclaration();
-    // printf("var declared\n");
   } else {
+    // printf("starting expression \n");
     expressionStatement();
   }
 
@@ -450,7 +453,7 @@ void Compiler::statement() {
     endScope(); 
   }
   else {
-    // printf("nothing matched\n");
+    // printf("starting expression \n");
     expressionStatement();
   }
 }
@@ -523,6 +526,7 @@ void Compiler::declaration() {
   } else {
     // printf("we are declaring a statement!\n");
     statement();
+    // printf("done statement decl!\n");
   }
   if (parser.panicMode) synchronize();
 }
@@ -537,8 +541,11 @@ void Compiler::consume(TokenType type, const char* syntaxErrorMessage){
   errorAtCurrent(syntaxErrorMessage);
 }
 
-bool Compiler::compile(const char *source, Script* script, const char* scriptTag){
-  scanner.initScanner(source);
+bool Compiler::compile(const char* path, Script* script, const char* scriptTag){
+  std::ifstream scriptFileStream(path);
+  std::string scriptFile((std::istreambuf_iterator<char>(scriptFileStream)), std::istreambuf_iterator<char>());
+
+  scanner.initScanner(scriptFile.c_str());
   scriptPointer = script;
 
   parser.hadError = false;
@@ -548,11 +555,11 @@ bool Compiler::compile(const char *source, Script* script, const char* scriptTag
   advance();
   // printf("first advance done\n");
   while (!match(TOKEN_EOF)) {
-    // printf("not EOF\n");
     declaration();
   }
   // printf("matched EOF\n");
   emitByte(OP_RETURN);
+  scriptFileStream.close();
   return !parser.hadError;
 }
 

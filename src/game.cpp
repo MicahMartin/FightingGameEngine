@@ -29,6 +29,7 @@ void Game::update() {
 
   // pass input to currentState. side effects inbound
   GameState* currentState = stateManager->getState();
+  currentState->gameTime = gameTime;
   // this method modifies state stack
   double handleInputFrameStart = SDL_GetTicks();
   currentState->handleInput();

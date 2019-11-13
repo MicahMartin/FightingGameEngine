@@ -1,16 +1,15 @@
 #include <bitset>
 #include "states/MenuState.h"
+#include "states/FightState.h"
 #include "input/InputManager.h"
 
 MenuState::MenuState(){
   printf("menuState constructor\n");
-  fightState = new FightState();
-  menuScreen = new MenuScreen();
-  menuScreen->addTexture(&mainMenu.menuCursor.cursorTexture);
+  menuScreen.addTexture(&mainMenu.menuCursor.cursorTexture);
 
   MenuItem versus("versus", [this]{
     printf("pushing the fightState \n");
-    stateManager->pushState(fightState);
+    stateManager->pushState(new FightState());
   });
 
   MenuItem config("config", [this]{
@@ -22,7 +21,9 @@ MenuState::MenuState(){
   mainMenu.menuItemArray.push_back(config);
 }
 
-MenuState::~MenuState(){ }
+MenuState::~MenuState(){ 
+  printf("menuState destructor\n");
+}
 
 void MenuState::enter() {
   printf("entered the menu state\n");
@@ -30,6 +31,7 @@ void MenuState::enter() {
 
 void MenuState::exit() { 
   printf("leaving the menu state! \n");
+  delete this;
 }
 
 void MenuState::pause() {
@@ -58,9 +60,9 @@ void MenuState::handleInput() {
 }
 
 void MenuState::update(){
-  menuScreen->update();
+  menuScreen.update();
 }
 
 void MenuState::draw(){ 
-  menuScreen->draw();
+  menuScreen.draw();
 }

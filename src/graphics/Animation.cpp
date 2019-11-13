@@ -2,35 +2,36 @@
 #include <fstream>
 
 
-Animation::Animation(){ }
-
-Animation::~Animation(){ }
-
-void Animation::loadAnimEvents(nlohmann::json json){
+Animation::Animation(){ 
   currentAnimElemIndex = 0;
   currentAnimElemTimePassed = 0;
   animationTime = 0;
   animationTimePassed = 0;
+}
 
+Animation::~Animation(){ }
+
+void Animation::loadAnimEvents(nlohmann::json json){
   for (auto i : json.items()) {
+    // TODO: Texture caching
     GameTexture* text = new GameTexture();
     const char* path = i.value().at("file").get<std::string>().c_str();
     std::pair dimensions = getDimensions(path);
-
     text->cartesian = true;
     text->loadTexture(path);
     text->setDimensions(0, 0, dimensions.first*3, dimensions.second*3);
 
     int animTime = i.value().at("time");
-    int offsetX = i.value().at("offsetX");
+    int offsetX = 0;
     int offsetY = 0;
-    try {
+    if(i.value().count("offsetY")){
       offsetY = i.value().at("offsetY");
-      printf("the offsetY: %d\n", offsetY);
-    }catch(std::exception e) {
     }
-    animationTime += animTime;
+    if(i.value().count("offsetX")){
+      offsetX = i.value().at("offsetX");
+    }
 
+    animationTime += animTime;
     AnimationElement element(text, animTime, offsetX, offsetY);
     animationElements.push_back(element);
   }

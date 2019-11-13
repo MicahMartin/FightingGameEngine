@@ -22,9 +22,9 @@ public:
   double handleInputLength;
   double updateLength;
   double drawLength;
+  long gameTime = 0;
 private:
   bool running = true;
-  int gameTime = 0;
   Graphics* graphics = Graphics::getInstance();
   StateManager* stateManager = StateManager::getInstance();
   InputManager* inputManager = InputManager::getInstance();

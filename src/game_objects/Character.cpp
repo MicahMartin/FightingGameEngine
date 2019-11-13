@@ -35,73 +35,22 @@ void Character::cancelState(int stateDefNum){
   cancelPointer = stateDefNum;
 };
 
-// NOTE: must delete
-static inline char* readFile(const char* path){
-  // why is everything in c / c++ a chore..
-  std::ifstream file(path, std::ios::in|std::ios::binary|std::ios::ate);
-  if(file.is_open()){
-
-    file.seekg(0, std::ios::end);
-    size_t size = file.tellg();
-    char* fileContent = new char[size];
-
-    file.seekg(0, std::ios::beg);
-    file.read(fileContent, size);
-    file.close();
-
-    fileContent[size] = '\0';
-    // printf("read file: %s \n %s\n", path, fileContent);
-
-    return fileContent;
-  } else {
-    throw std::runtime_error("unable to open file!");
-  }
-}
-
 void Character::loadStates(){
   printf("%d Loading states\n", playerNum);
   std::ifstream configFile("../data/characters/alucard/def.json");
   configFile >> stateJson;
-
-  // compile character's input scripte 
-  char* inputCommandSource = readFile(stateJson.at("command_script").get<std::string>().c_str());
-  if(!virtualMachine.compiler.compile(inputCommandSource, &inputScript, "inputCommandScript")){
+  // compile inputs
+  if(!virtualMachine.compiler.compile(stateJson.at("command_script").get<std::string>().c_str(), &inputScript, "input script")){
     inputScript.disassembleScript("input command script");
     throw std::runtime_error("inputScript failed to compile");
   }
-  delete inputCommandSource;
 
+  // load states
   for(auto i : stateJson.at("states").items()){
-    int stateNum = i.value().at("state_num");
-    std::string scriptTag = "updateScript:" + std::to_string(stateNum);
-    StateDef state(stateNum, this, &virtualMachine);
-
-    state.loadFlags(i.value().at("flags"));
-    // compile state's update script%s
-    char* stateUpdateSource = readFile(i.value().at("update_script").get<std::string>().c_str());
-    if(!virtualMachine.compiler.compile(stateUpdateSource, &state.updateScript, scriptTag.c_str())){
-      printf("looking at %s\n", scriptTag.c_str());
-      throw std::runtime_error("updateScript failed to compile");
-    }
-    delete stateUpdateSource;
-
-    try {
-      // compile state's cancel script
-      char* cancelSource = readFile(i.value().at("cancel_script").get<std::string>().c_str());
-      std::string cancelScriptTag = "cancelScript:" + std::to_string(stateNum);
-      if(!virtualMachine.compiler.compile(cancelSource, &state.cancelScript, cancelScriptTag.c_str())){
-        throw std::runtime_error("cancelScript failed to compile");
-      }
-      delete cancelSource;
-    } catch(std::runtime_error e){
-    } catch(nlohmann::json::exception e) { 
-
-    }
-    state.loadAnimation(i.value().at("animation"));
-    state.loadCollisionBoxes(i.value().at("collision_boxes"));
-
+    StateDef state(i.value(), this, &virtualMachine);
     stateList.push_back(state);
   }
+  configFile.close();
 }
 
 Character::~Character(){};

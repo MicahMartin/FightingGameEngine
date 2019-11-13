@@ -21,11 +21,11 @@ enum FlagBit {
 
 class StateDef {
 public:
-  StateDef(int stateNum, Character* player, VirtualMachine* charVm);
+  StateDef(nlohmann::json::value_type json, Character* player, VirtualMachine* charVm);
   ~StateDef();
 
   // load shit
-  void loadFlags(nlohmann::json json);
+  void loadFlags(nlohmann::json::value_type json);
   void loadAnimation(nlohmann::json json);
   void loadCollisionBoxes(nlohmann::json json);
 

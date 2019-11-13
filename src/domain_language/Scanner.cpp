@@ -203,7 +203,8 @@ Token Scanner::scan(){
     case '>':
       return makeToken(match('=') ? TOKEN_GREATER_EQUAL : TOKEN_GREATER);
     case '"': return string();
+    default:
+      printf("what is going onnnnnn %c\n", c);
+      return errorToken("Unexpected character.");
   }
-
-  return errorToken("Unexpected character.");
 }

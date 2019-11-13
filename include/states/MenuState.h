@@ -3,8 +3,6 @@
 
 #include <functional>
 #include "states/GameState.h"
-#include "states/FightState.h"
-#include "states/ConfigState.h"
 #include "screens/MenuScreen.h"
 
 class MenuState : public GameState {
@@ -82,8 +80,6 @@ private:
   };
 
   Menu mainMenu;
-  MenuScreen* menuScreen;
-  FightState* fightState;
-  ConfigState* configState;
+  MenuScreen menuScreen;
 };
 #endif

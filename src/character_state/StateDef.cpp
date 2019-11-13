@@ -5,10 +5,40 @@
 #include "physics/CollisionBox.h"
 #include "Util.h"
 
-StateDef::StateDef(int stateNum, Character* player, VirtualMachine* charVm) : stateNum(stateNum), player(player), charVm(charVm){ }
+StateDef::StateDef(nlohmann::json::value_type json, Character* player, VirtualMachine* charVm) : player(player), charVm(charVm) {
+    stateNum = json.at("state_num");
+    loadFlags(json.at("flags"));
+
+    std::string updateScriptTag = "updateScript:" + std::to_string(stateNum);
+    std::string updateScriptError = "updateScript:" + std::to_string(stateNum) + "failed to compile";
+    const char*  updateScriptPath = json.at("update_script").get<std::string>().c_str();
+
+    if(!charVm->compiler.compile(updateScriptPath, &updateScript, updateScriptTag.c_str())){
+      updateScript.disassembleScript(updateScriptTag.c_str());
+      throw std::runtime_error(updateScriptError);
+    }
+
+    // compile state's cancel script
+    if(json.count("cancel_script")){
+      std::string cancelScriptTag = "cancelScript:" + std::to_string(stateNum);
+      std::string cancelScriptError = "cancelScript:" + std::to_string(stateNum) + "failed to compile";
+      const char* cancelScriptPath = json.at("cancel_script").get<std::string>().c_str();
+
+      if(!charVm->compiler.compile(cancelScriptPath, &cancelScript, cancelScriptTag.c_str())){
+        throw std::runtime_error(cancelScriptError);
+      }
+      // delete cancelSource;
+    }
+    printf("done compiling\n");
+    printf("loading anim\n");
+    loadAnimation(json.at("animation"));
+    printf("loading collisions\n");
+    loadCollisionBoxes(json.at("collision_boxes"));
+}
+
 StateDef::~StateDef(){ }
 
-void StateDef::loadFlags(nlohmann::json json){
+void StateDef::loadFlags(nlohmann::json::value_type json){
   for(auto i : json.items()){
     std::string flag(i.value());
     flagByte |= flagMap[flag];

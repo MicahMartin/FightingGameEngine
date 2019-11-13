@@ -16,6 +16,7 @@ public:
 
   ~Character();
 
+  void compileScript(const char* path, Script* script, const char* scriptTag);
   void loadStates();
   void changeState(int stateDefNum);
   void cancelState(int stateDefNum);
@@ -55,6 +56,7 @@ public:
   int cancelPointer = 0;
   int hitstun = 0;
   int hasAirAction = 0;
+  long frameLastAttackConnected = 0;
 
   void _changeState(int stateNum);
   void _cancelState(int stateNum);
