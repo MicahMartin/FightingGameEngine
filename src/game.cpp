@@ -45,9 +45,17 @@ void Game::update() {
   // screen has a surface pointer with all the pixels that need to be
   // written and swapped this frame
   // TODO: Shit is really slow because we're creating textures every frame instead of preallocating
+  double clearStart = SDL_GetTicks();
   graphics->clear();
-  double drawStart = SDL_GetTicks();
+  double clearEnd = SDL_GetTicks();
+  clearLength = clearEnd - clearStart;
+
+  double stateDrawStart = SDL_GetTicks();
   currentState->draw();
+  double stateDrawEnd = SDL_GetTicks();
+  stateDrawLength = stateDrawEnd - stateDrawStart;
+
+  double drawStart = SDL_GetTicks();
   graphics->present();
   double drawEnd = SDL_GetTicks();
   drawLength = drawEnd-drawStart;

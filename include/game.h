@@ -22,6 +22,8 @@ public:
   double handleInputLength;
   double updateLength;
   double drawLength;
+  double clearLength;
+  double stateDrawLength;
   long gameTime = 0;
 private:
   bool running = true;

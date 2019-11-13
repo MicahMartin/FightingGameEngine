@@ -23,8 +23,8 @@ public:
   std::pair<int, int> getDimensions(const char* path);
 
   struct AnimationElement {
-    AnimationElement(GameTexture* gameTexture, int elemTime, int offsetX, int offsetY): gameTexture(gameTexture), elemTime(elemTime), offsetX(offsetX), offsetY(offsetY){ }
-    GameTexture* gameTexture;
+    AnimationElement(int elemTime, int offsetX, int offsetY): elemTime(elemTime), offsetX(offsetX), offsetY(offsetY){ }
+    GameTexture gameTexture;
     int elemTime;
     int offsetX;
     int offsetY;

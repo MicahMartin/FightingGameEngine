@@ -333,6 +333,7 @@ inline void VirtualMachine::concatenate() {
   std::string* b = AS_STRING(stack.pop());
   std::string* a = AS_STRING(stack.pop());
   // TODO: intern for garbage collection
+  // TODO: THis is very bad
   std::string* newString = new std::string(*a + *b);
   stack.push(STRING_VAL(newString));
 }

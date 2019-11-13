@@ -13,14 +13,6 @@ Animation::~Animation(){ }
 
 void Animation::loadAnimEvents(nlohmann::json json){
   for (auto i : json.items()) {
-    // TODO: Texture caching
-    GameTexture* text = new GameTexture();
-    const char* path = i.value().at("file").get<std::string>().c_str();
-    std::pair dimensions = getDimensions(path);
-    text->cartesian = true;
-    text->loadTexture(path);
-    text->setDimensions(0, 0, dimensions.first*3, dimensions.second*3);
-
     int animTime = i.value().at("time");
     int offsetX = 0;
     int offsetY = 0;
@@ -30,9 +22,16 @@ void Animation::loadAnimEvents(nlohmann::json json){
     if(i.value().count("offsetX")){
       offsetX = i.value().at("offsetX");
     }
+    AnimationElement element(animTime, offsetX, offsetY);
+
+    GameTexture* text = &element.gameTexture;
+    text->cartesian = true;
+    const char* path = i.value().at("file").get<std::string>().c_str();
+    std::pair dimensions = getDimensions(path);
+    text->loadTexture(path);
+    text->setDimensions(0, 0, dimensions.first*3, dimensions.second*3);
 
     animationTime += animTime;
-    AnimationElement element(text, animTime, offsetX, offsetY);
     animationElements.push_back(element);
   }
 }
@@ -46,7 +45,7 @@ void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
 
   AnimationElement* elem = &animationElements.at(currentAnimElemIndex);
 
-  GameTexture* currentText = elem->gameTexture;
+  GameTexture* currentText = &elem->gameTexture;
   int width = currentText->getDimensions().first;
   int offsetX = elem->offsetX;
   int offsetY = elem->offsetY;

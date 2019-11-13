@@ -5,20 +5,18 @@
 OpeningScreen::OpeningScreen() {
   printf("init opening screen \n");
 
-  GameTexture* background = new GameTexture();
-  background->loadTexture("../data/images/background.jpg");
-  background->setBlendMode(SDL_BLENDMODE_BLEND);
-  background->setTransperancy(0);
-  background->setDimensions(0,0, graphics->getWindowWidth(), graphics->getWindowHeight());
+  background.loadTexture("../data/images/background.jpg");
+  background.setBlendMode(SDL_BLENDMODE_BLEND);
+  background.setTransperancy(0);
+  background.setDimensions(0,0, graphics->getWindowWidth(), graphics->getWindowHeight());
 
-  GameTexture* title = new GameTexture();
-  title->loadTexture("../data/images/title.png");
-  title->setBlendMode(SDL_BLENDMODE_BLEND);
-  title->setTransperancy(0);
-  title->setDimensions(150,100,340,100);
+  title.loadTexture("../data/images/title.png");
+  title.setBlendMode(SDL_BLENDMODE_BLEND);
+  title.setTransperancy(0);
+  title.setDimensions(150,100,340,100);
 
-  addTexture(background);
-  addTexture(title);
+  addTexture(&background);
+  addTexture(&title);
   screenTime = 0;
 }
 

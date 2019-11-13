@@ -7,6 +7,8 @@
 
 class GameTexture {
 public:
+  // TODO: Count references to textureObj when adding/deleting from cache, 
+  // free texture when no references are left
   GameTexture();
   ~GameTexture();
 

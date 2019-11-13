@@ -19,7 +19,7 @@ public:
   void renderComboCount(bool side, int count);
 private:
   GameTexture stage;
-  GameTexture numbers[9];
+  // GameTexture numbers[9];
 };
 
 #endif
