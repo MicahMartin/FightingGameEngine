@@ -18,6 +18,11 @@ public:
 
   void pause();
   void resume();
+  void checkPushCollisions();
+  void checkHitCollisions();
+  void checkBounds();
+  void checkHealth();
+  void updateFaceRight();
   void renderHealthBars();
   void renderComboCount();
   void renderInputHistory();
@@ -31,9 +36,9 @@ public:
 private:
   Character* player1;
   Character* player2;
-  FightScreen* currentScreen;
+  FightScreen currentScreen;
+  Camera camera;
   CharStateManager* charStateManager = CharStateManager::getInstance();
   Graphics* graphics = Graphics::getInstance();
-  Camera camera;
 };
 #endif

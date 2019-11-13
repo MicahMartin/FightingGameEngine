@@ -2,6 +2,7 @@
 #define _GameTexture_h 
 #include <SDL2_image/SDL_image.h>
 #include "Graphics.h"
+#include "TextureManager.h"
 #include "Camera.h"
 
 class GameTexture {
@@ -29,8 +30,10 @@ public:
   bool cartesian = false;
   int xCord, yCord, width, height;
   int halfWidth;
+
 private:
   Graphics* graphics = Graphics::getInstance();
+  TextureManager* textureManager = TextureManager::getInstance();
   SDL_Renderer* renderer = graphics->getRenderer();
   Camera* camera;
 

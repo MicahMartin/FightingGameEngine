@@ -6,37 +6,79 @@
 #include "Util.h"
 
 StateDef::StateDef(nlohmann::json::value_type json, Character* player, VirtualMachine* charVm) : player(player), charVm(charVm) {
-    stateNum = json.at("state_num");
-    loadFlags(json.at("flags"));
+  stateNum = json.at("state_num");
+  loadFlags(json.at("flags"));
 
-    std::string updateScriptTag = "updateScript:" + std::to_string(stateNum);
-    std::string updateScriptError = "updateScript:" + std::to_string(stateNum) + "failed to compile";
-    const char*  updateScriptPath = json.at("update_script").get<std::string>().c_str();
+  std::string updateScriptTag = "updateScript:" + std::to_string(stateNum);
+  std::string updateScriptError = "updateScript:" + std::to_string(stateNum) + "failed to compile";
+  const char*  updateScriptPath = json.at("update_script").get<std::string>().c_str();
 
-    if(!charVm->compiler.compile(updateScriptPath, &updateScript, updateScriptTag.c_str())){
-      updateScript.disassembleScript(updateScriptTag.c_str());
-      throw std::runtime_error(updateScriptError);
+  if(!charVm->compiler.compile(updateScriptPath, &updateScript, updateScriptTag.c_str())){
+    updateScript.disassembleScript(updateScriptTag.c_str());
+    throw std::runtime_error(updateScriptError);
+  }
+
+  // compile state's cancel script
+  if(json.count("cancel_script")){
+    std::string cancelScriptTag = "cancelScript:" + std::to_string(stateNum);
+    std::string cancelScriptError = "cancelScript:" + std::to_string(stateNum) + "failed to compile";
+    const char* cancelScriptPath = json.at("cancel_script").get<std::string>().c_str();
+
+    if(!charVm->compiler.compile(cancelScriptPath, &cancelScript, cancelScriptTag.c_str())){
+      throw std::runtime_error(cancelScriptError);
     }
+  }
 
-    // compile state's cancel script
-    if(json.count("cancel_script")){
-      std::string cancelScriptTag = "cancelScript:" + std::to_string(stateNum);
-      std::string cancelScriptError = "cancelScript:" + std::to_string(stateNum) + "failed to compile";
-      const char* cancelScriptPath = json.at("cancel_script").get<std::string>().c_str();
-
-      if(!charVm->compiler.compile(cancelScriptPath, &cancelScript, cancelScriptTag.c_str())){
-        throw std::runtime_error(cancelScriptError);
-      }
-      // delete cancelSource;
-    }
-    printf("done compiling\n");
-    printf("loading anim\n");
-    loadAnimation(json.at("animation"));
-    printf("loading collisions\n");
-    loadCollisionBoxes(json.at("collision_boxes"));
+  printf("done compiling\n");
+  printf("loading anim\n");
+  loadAnimation(json.at("animation"));
+  printf("loading collisions\n");
+  loadCollisionBoxes(json.at("collision_boxes"));
 }
 
 StateDef::~StateDef(){ }
+
+void StateDef::enter(){
+  stateTime = 0;
+  anim.resetAnimEvents();
+  // TODO: move updateCollisionBoxes into here, shouldnt belong to player
+  player->updateCollisionBoxes();
+};
+
+void StateDef::update(){
+  charVm->execute(&updateScript);
+  stateTime++;
+}
+
+void StateDef::handleCancels(){
+  if(cancelScript.code.size()){
+    charVm->execute(&cancelScript);
+  }
+}
+
+void StateDef::draw(){
+  std::pair charPos = player->getPos();
+  bool faceRight = player->faceRight;
+  anim.render(charPos.first, charPos.second, faceRight, charStateManager->screenFrozen);
+
+  // stateTime is 2
+  // TODO: Thread this up
+  for (auto cb : pushBoxes) {
+    if(cb->end == -1 || ( cb->start >= stateTime && cb->end < stateTime )){
+      cb->render();
+    }
+  }
+  for (auto cb : hurtBoxes) {
+    if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
+      cb->render();
+    }
+  }
+  for (auto cb : hitBoxes) {
+    if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
+      cb->render();
+    }
+  }
+};
 
 void StateDef::loadFlags(nlohmann::json::value_type json){
   for(auto i : json.items()){
@@ -92,47 +134,6 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
   }
 };
 
-void StateDef::enter(){
-  stateTime = 0;
-  anim.resetAnimEvents();
-  // TODO: move updateCollisionBoxes into here, shouldnt belong to player
-  player->updateCollisionBoxes();
-};
-
-void StateDef::update(){
-  charVm->execute(&updateScript);
-  stateTime++;
-}
-
-void StateDef::handleCancels(){
-  if(cancelScript.code.size()){
-    charVm->execute(&cancelScript);
-  }
-}
-
-void StateDef::draw(){
-  std::pair charPos = player->getPos();
-  bool faceRight = player->faceRight;
-  anim.render(charPos.first, charPos.second, faceRight, charStateManager->screenFrozen);
-
-  // stateTime is 2
-  // TODO: Thread this up
-  for (auto cb : pushBoxes) {
-    if(cb->end == -1 || ( cb->start >= stateTime && cb->end < stateTime )){
-      cb->render();
-    }
-  }
-  for (auto cb : hurtBoxes) {
-    if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
-      cb->render();
-    }
-  }
-  for (auto cb : hitBoxes) {
-    if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
-      cb->render();
-    }
-  }
-};
 
 void StateDef::resetAnim(){
   anim.setAnimTime(0);
