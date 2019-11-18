@@ -98,18 +98,18 @@ void FightState::draw(){
    double barDraw = barDrawEnd - barDrawStart;
    double p1Draw = p1DrawEnd - p1DrawStart;
    double p2Draw = p2DrawEnd - p2DrawStart;
-   // if (screenDraw > 0) {
-   //   printf("screenDraw %f\n", screenDraw);
-   // }
-   // if (barDraw > 0) {
-   //   printf("barDraw %f\n", barDraw);
-   // }
-   // if(p1Draw > 0) {
-   //   printf("p1Draw %f\n", p1Draw);
-   // }
-   // if(p2Draw > 0){
-   //   printf("p2Draw %f\n", p2Draw);
-   // }
+   if (screenDraw > 0) {
+     printf("screenDraw %f\n", screenDraw);
+   }
+   if (barDraw > 0) {
+     printf("barDraw %f\n", barDraw);
+   }
+   if(p1Draw > 0) {
+     printf("p1Draw %f\n", p1Draw);
+   }
+   if(p2Draw > 0){
+     printf("p2Draw %f\n", p2Draw);
+   }
 }
 
 void FightState::checkPushCollisions(){

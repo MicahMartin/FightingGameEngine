@@ -21,6 +21,8 @@ Game::Game(){
 Game::~Game(){}
 
 void Game::update() {
+ //  For more precise ticks use SDL_GetPerformanceFrequency & SDL_GetPerformanceCounter so you can get a milisecond value, 
+ //  but as a more precise double
   ++gameTime;
   // read input event stack for this frame and send to virtual controller(s)
   double inputManagerStart = SDL_GetTicks();
@@ -28,16 +30,16 @@ void Game::update() {
   double inputManagerEnd = SDL_GetTicks();
   inputLength = inputManagerEnd-inputManagerStart;
 
-  // pass input to currentState. side effects inbound
+  // printf("made it back to update\n");
   GameState* currentState = stateManager->getState();
-  if(strcmp(currentState->stateName, "FightState") == 0){
-    FightState* fightState = (FightState*)currentState;
-    printf("in fight state %s, %d\n", fightState->stateName, fightState->everythingCompiled);
-    if(fightState->everythingCompiled){
-      printf("everything compiled\n");
-      inFightState = true;
-    }
-  }
+  // if(strcmp(currentState->stateName, "FightState") == 0){
+  //   FightState* fightState = (FightState*)currentState;
+  //   printf("in fight state %s, %d\n", fightState->stateName, fightState->everythingCompiled);
+  //   if(fightState->everythingCompiled){
+  //     printf("everything compiled\n");
+  //     inFightState = true;
+  //   }
+  // }
   currentState->gameTime = gameTime;
   // this method modifies state stack
   double handleInputFrameStart = SDL_GetTicks();
@@ -59,11 +61,12 @@ void Game::update() {
   clearLength = clearEnd - clearStart;
 
   double stateDrawStart = SDL_GetTicks();
-  currentState->draw();
+  // currentState->draw();
   double stateDrawEnd = SDL_GetTicks();
   stateDrawLength = stateDrawEnd - stateDrawStart;
 
   double drawStart = SDL_GetTicks();
+  printf("drawStart %f\n", drawStart);
   graphics->present();
   double drawEnd = SDL_GetTicks();
   drawLength = drawEnd-drawStart;

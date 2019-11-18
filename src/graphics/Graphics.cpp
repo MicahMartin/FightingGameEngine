@@ -23,7 +23,7 @@ void Graphics::init(){
 
   // create sdl renderer
   //
-  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
   if( renderer == NULL ){
     throw(std::runtime_error(SDL_GetError()));
@@ -53,6 +53,8 @@ void Graphics::clear() {
 void Graphics::present() {
   // present back buffer
   // wrapping these methods for convenience. not sure how useful these 'hooks' will be in the future
+  double drawStart = SDL_GetTicks();
+  printf("how long does it take to resolve this pointer %f\n", drawStart);
   SDL_RenderPresent(renderer);
 }
 

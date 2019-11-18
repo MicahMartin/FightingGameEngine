@@ -59,7 +59,7 @@ void StateDef::handleCancels(){
 void StateDef::draw(){
   std::pair charPos = player->getPos();
   bool faceRight = player->faceRight;
-  // anim.render(charPos.first, charPos.second, faceRight, charStateManager->screenFrozen);
+  anim.render(charPos.first, charPos.second, faceRight, charStateManager->screenFrozen);
 
   // stateTime is 2
   // TODO: Thread this up
