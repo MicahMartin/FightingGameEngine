@@ -71,12 +71,13 @@ void FightState::draw(){
          p1DrawStart, p1DrawEnd,
          p2DrawStart, p2DrawEnd;
   screenDrawStart = SDL_GetTicks();
-  // currentScreen.draw();
+  currentScreen.draw();
   screenDrawEnd = SDL_GetTicks();
   // TODO: move renderHP into currentScreen
   barDrawStart = SDL_GetTicks();
-  // renderHealthBars();
+  renderHealthBars();
   barDrawEnd = SDL_GetTicks();
+  renderComboCount();
   if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
     p2DrawStart = SDL_GetTicks();
     player2->draw();
@@ -99,16 +100,16 @@ void FightState::draw(){
    double p1Draw = p1DrawEnd - p1DrawStart;
    double p2Draw = p2DrawEnd - p2DrawStart;
    if (screenDraw > 0) {
-     printf("screenDraw %f\n", screenDraw);
+     // printf("screenDraw %f\n", screenDraw);
    }
    if (barDraw > 0) {
-     printf("barDraw %f\n", barDraw);
+     // printf("barDraw %f\n", barDraw);
    }
    if(p1Draw > 0) {
-     printf("p1Draw %f\n", p1Draw);
+     // printf("p1Draw %f\n", p1Draw);
    }
    if(p2Draw > 0){
-     printf("p2Draw %f\n", p2Draw);
+     // printf("p2Draw %f\n", p2Draw);
    }
 }
 
@@ -274,12 +275,12 @@ void FightState::renderHealthBars(){
 
 void FightState::renderComboCount(){
   int p1ComboCount = player1->comboCounter;
-  int p2ComboCount = player1->comboCounter;
-  if(p1ComboCount > 0){
-    currentScreen.renderComboCount(true, p1ComboCount);
-  }
+  int p2ComboCount = player2->comboCounter;
   if(p2ComboCount > 0){
-    currentScreen.renderComboCount(false, p2ComboCount);
+    currentScreen.renderComboCount(true, p2ComboCount);
+  }
+  if(p1ComboCount > 0){
+    currentScreen.renderComboCount(false, p1ComboCount);
   }
 }
 

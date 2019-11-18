@@ -54,7 +54,7 @@ void Graphics::present() {
   // present back buffer
   // wrapping these methods for convenience. not sure how useful these 'hooks' will be in the future
   double drawStart = SDL_GetTicks();
-  printf("how long does it take to resolve this pointer %f\n", drawStart);
+  // printf("how long does it take to resolve this pointer %f\n", drawStart);
   SDL_RenderPresent(renderer);
 }
 

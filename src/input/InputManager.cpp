@@ -11,22 +11,20 @@ void InputManager::init() {
   std::ifstream configFile("../data/buttonconf.json");
   configFile >> configJson;
 
+   bConf.reserve(32);
    for(auto& item : configJson.items()){
+     // TODO: Check for too much configItems
      // the 'value' is gonna be the button value for corresponding device
      // std::cout << item.attribute("value").as_int() << std::endl;
      // the node text is gonna be the bit for said button
      // std::cout << std::bitset<16>(item.text().as_int()) << std::endl;
      ConfItem myItem;
-     myItem.user = item.value()["user"].get<int>();
-     myItem.inputBit = std::stoi(item.value()["input"].get<std::string>(), 0 ,16);
-     myItem.inputString = item.value()["inputString"].get<std::string>();
+     myItem.user = item.value()["user"].get<uint8_t>();
+     myItem.inputBit = (Input)std::stoi(item.value()["input"].get<std::string>(), 0 ,16);
 
      bConf[std::stoi(item.key())] = myItem;
-     // set config to virtualConf
-     // if(item.attribute("value").as_int()){
-     //   bConf[item.attribute("value").as_int()] = item.text().as_int();
-     // }
    }
+   configFile.close();
 }
 
 void InputManager::update() {
@@ -40,18 +38,50 @@ void InputManager::update() {
 
     switch (event.type) {
       case SDL_KEYDOWN: {
-        try {
-          ConfItem item = bConf.at(event.key.keysym.sym);
-          controllers.at(item.user - 1)->setBit(item.inputBit);
-        } catch(std::exception e) { }
+        if(event.key.repeat == 0){
+          if(bConf.find(event.key.keysym.sym) != bConf.end()){
+            ConfItem* item = &bConf.at(event.key.keysym.sym);
+            VirtualController* controller = controllers.at(item->user - 1);
+            Input* inputBit = &item->inputBit;
+            // is cardinal?
+            if (*inputBit <= 8) {
+              printf("isCardinal!\n");
+              bool isXAxis = *inputBit <= 2;
+              if (isXAxis) {
+                *inputBit == RIGHT ? controller->xAxis++ : controller->xAxis--;
+              } else {
+                *inputBit == UP ? controller->yAxis++ : controller->yAxis--;
+              }
+              // this calls setBit
+              controller->updateAxis(isXAxis);
+            } else {
+              controller->setBit(*inputBit);
+            }
+          }
+        }
         break;
       }
 
       case SDL_KEYUP: {
-        try {
-          ConfItem item = bConf.at(event.key.keysym.sym);
-          controllers.at(item.user - 1)->clearBit(item.inputBit);
-        } catch(std::exception e) { }
+        if (bConf.find(event.key.keysym.sym) != bConf.end()) {
+          ConfItem* item = &bConf.at(event.key.keysym.sym);
+          VirtualController* controller = controllers.at(item->user - 1);
+          Input* inputBit = &item->inputBit;
+          // is cardinal?
+          if (*inputBit <= 8) {
+            printf("isCardinal! clearing\n");
+            bool isXAxis = *inputBit <= 2;
+            if (isXAxis) {
+              *inputBit == RIGHT ? controller->xAxis-- : controller->xAxis++;
+            } else {
+              *inputBit == UP ? controller->yAxis-- : controller->yAxis++;
+            }
+            // this calls clearBit
+            controller->updateAxis(isXAxis);
+          } else {
+            controller->clearBit(*inputBit);
+          }  
+        }
         break;
       }
 

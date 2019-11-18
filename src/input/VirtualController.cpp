@@ -21,83 +21,133 @@ std::map<int, Input(*)(bool)> VirtualController::inputMap = {
 
 
 VirtualController::VirtualController() { 
-  inputHistory.set_capacity(120);
+  newInputHistory.set_capacity(120);
 }
 
 VirtualController::~VirtualController() { } 
 
 void VirtualController::setBit(uint16_t bit) {
   currentState |= bit;
-  inputHistory.front().push_back(InputEvent(currentState, true));
-  printStickState();
+  newInputHistory.front().push_back(InputEvent(bit, true));
 }
 
 void VirtualController::clearBit(uint16_t bit) {
   currentState &= ~bit;
-  inputHistory.front().push_back(InputEvent(currentState, false));
+  newInputHistory.front().push_back(InputEvent(bit, false));
+}
+
+void VirtualController::setBitOffset(uint16_t offset) {
+  currentState |= (1 << offset);
+}
+
+void VirtualController::clearBitOffset(uint16_t offset) {
+  currentState &= ~(1 << offset);
+}
+
+void VirtualController::updateAxis(bool isXAxis) {
+  int axis = isXAxis ? xAxis : yAxis;
+  uint8_t offset = isXAxis ? 0 : 2;
+  uint8_t oldStickState = currentState & 0x0F;
+  std::list<InputEvent>& currentList = newInputHistory.front();
+  printf("new axis value %d\n", axis);
+
+  switch (axis) {
+    case NEGATIVE:
+      clearBitOffset(0+offset);
+      setBitOffset(1+offset);
+      printf("negative\n");
+      break;
+    case NEUTRAL:
+      clearBitOffset(0+offset);
+      clearBitOffset(1+offset);
+      printf("neutral\n");
+      break;
+    case POSITIVE:
+      clearBitOffset(1+offset);
+      setBitOffset(0+offset);
+      printf("positive\n");
+      break;
+    default:
+      printf("howd you get here??\n");
+      break;
+  }
   printStickState();
+
+  uint8_t newStickState = currentState & 0x0F;
+  currentList.push_back(InputEvent(oldStickState, false));
+  currentList.push_back(InputEvent(newStickState, true));
 }
 
 void VirtualController::update() {
-  inputHistory.push_front(std::vector<InputEvent>());
+  newInputHistory.push_front(std::list<InputEvent>());
 }
 
 bool VirtualController::isPressed(Input input) {
-  if(input == NOINPUT && ( currentState == 0 || ((currentState & LEFT) && (currentState & RIGHT)) )) {
-    return true;
-  }
   return (input == (currentState & 0x0F));
 }
 
 bool VirtualController::wasPressed(Input input, int index) {
-  for(InputEvent event : inputHistory[index]) {
-    if(input == NOINPUT ) {
-      if(debugEnabled){
-        printf("checking noInput, inputEvent bit is %d\n", event.inputBit);
-      }
-      if(event.inputBit == 0 || ((event.inputBit & LEFT) && (event.inputBit & RIGHT))){
-        if(debugEnabled){
-          printf("found noInput\n");
-        }
+  int historySize = newInputHistory.size();
+  // printf("the inputHistory size %d, the index %d\n", historySize, index);
+  if (index >= historySize) {
+    printf("returning false\n");
+    return false;
+  }
+  // printf("checking eventList\n");
+  std::list<InputEvent>* eventList = &newInputHistory[index];
+  // printf("eventListSize %ld\n", eventList->size());
+  if (eventList->size() == 0) {
+    // printf("empty eventList\n");
+    // printStickState();
+    return false;
+  }
+
+  for(InputEvent event : *eventList) {
+    if(event.pressed){
+      if (input <= 10) {
+        // printf("checking cardinal direction %s\n", inputToString[input]);
+        return (event.inputBit == input);       
+      } else if(event.inputBit & input) {
+        // printf("checking non cardinal direction %d\n", input);
         return true;
       }
-    }
-    if(event.pressed && event.inputBit & input){
-      return true;
     }
   }
   return false;
 }
 
 bool VirtualController::wasReleased(Input input, int index) {
-  for(InputEvent event : inputHistory[index]) {
-    if(!event.pressed && event.inputBit & input){
-      return true;
+  int historySize = newInputHistory.size();
+  if (index >= historySize) {
+    return false;
+  }
+  for(InputEvent event : newInputHistory[historySize - index+1]) {
+    if(!event.pressed){
+      if (input <= 10) {
+        return (event.inputBit == input);       
+      } else if(event.inputBit & input) {
+        return true;
+      }
     }
   }
   return false;
 }
 
 bool VirtualController::checkCommand(int commandIndex, bool faceRight) {
-  if(debugEnabled){
-    printf("checking..\n");
-  }
-
-  // look for A
-  std::vector<int> commandSequence = commandSequences[commandIndex];
-  // commandSeq = {10, 6, 3, 2}
-
   bool found = false;
   bool breakFlag = false;
   bool foundSeq = false;
   int searchOffset = 0;
+  int bufferLen = 8;
+  std::vector<int> commandSequence = commandSequences[commandIndex];
+
 
   for (int sCount = 0; sCount < commandSequence.size() && !breakFlag; ++sCount) {
     Input inputToCheck = inputMap[commandSequence[sCount]](faceRight); 
     if (debugEnabled) {
       printf("looking for %s at offset %d\n", inputToString[inputToCheck], searchOffset);
     }
-    for (int i = 0; !found && i < 8; ++i) {
+    for (int i = 0; !found && i < bufferLen; ++i) {
       found = wasPressed(inputToCheck, i+searchOffset);
       if(found){
         searchOffset += i;

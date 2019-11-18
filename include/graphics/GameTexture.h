@@ -14,6 +14,7 @@ public:
 
   bool loadTexture(const char* path);
   void render();
+  void render(SDL_Rect dest);
   void render(bool flip);
   void setCamera(Camera* camera);
 

@@ -143,7 +143,7 @@ void Character::updateCollisionBoxes(){
 
 void Character::draw(){
   // draw health bars
-  // currentState->draw();
+  currentState->draw();
 };
 
 

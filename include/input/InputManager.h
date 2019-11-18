@@ -42,10 +42,8 @@ private:
   nlohmann::json configJson;
 
   struct ConfItem {
-    /* data */
-    int user;
-    uint16_t inputBit;
-    std::string inputString;
+    uint8_t user;
+    Input inputBit;
   };
   std::unordered_map<uint32_t, ConfItem> bConf;
 

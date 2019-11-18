@@ -17,9 +17,14 @@ public:
 
   void renderHealthBar(int x, int y, int w, int h, float percent, SDL_Color fgColor, SDL_Color bgColor);
   void renderComboCount(bool side, int count);
+  void renderInputHistory(bool side);
 private:
   GameTexture stage;
-  // GameTexture numbers[9];
+  GameTexture numbers[10];
+  SDL_Rect p1ComboCountPosition;
+  SDL_Rect p2ComboCountPosition;
+  SDL_Rect p1ComboCountPositionSecond;
+  SDL_Rect p2ComboCountPositionSecond;
 };
 
 #endif

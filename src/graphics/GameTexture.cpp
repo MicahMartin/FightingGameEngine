@@ -18,6 +18,10 @@ void GameTexture::render() {
   SDL_RenderCopy(renderer, texture, NULL, &textRect);
 }
 
+void GameTexture::render(SDL_Rect dest) {
+  SDL_RenderCopy(renderer, texture, NULL, &dest);
+}
+
 // TODO: cleaner signature using defaults
 void GameTexture::render(bool faceRight) {
   Camera* cam = graphics->getCamera();

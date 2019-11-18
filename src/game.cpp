@@ -29,6 +29,7 @@ void Game::update() {
   inputManager->update();
   double inputManagerEnd = SDL_GetTicks();
   inputLength = inputManagerEnd-inputManagerStart;
+  // printf("inputLength %f\n", inputLength);
 
   // printf("made it back to update\n");
   GameState* currentState = stateManager->getState();
@@ -61,12 +62,12 @@ void Game::update() {
   clearLength = clearEnd - clearStart;
 
   double stateDrawStart = SDL_GetTicks();
-  // currentState->draw();
+  currentState->draw();
   double stateDrawEnd = SDL_GetTicks();
   stateDrawLength = stateDrawEnd - stateDrawStart;
 
   double drawStart = SDL_GetTicks();
-  printf("drawStart %f\n", drawStart);
+  // printf("drawStart %f\n", drawStart);
   graphics->present();
   double drawEnd = SDL_GetTicks();
   drawLength = drawEnd-drawStart;
