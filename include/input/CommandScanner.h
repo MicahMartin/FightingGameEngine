@@ -14,6 +14,8 @@ typedef enum {
   CTOKEN_ANY, 
   CTOKEN_NOT,
   CTOKEN_DELIM,
+  CTOKEN_END,
+
 } CommandTokenType;
 
 typedef struct {

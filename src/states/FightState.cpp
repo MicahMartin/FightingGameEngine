@@ -19,7 +19,10 @@ void FightState::enter(){
   player2 = new Character(std::make_pair(2200,0), 2);
   player1->virtualController = inputManager->getVirtualController(0);
   player2->virtualController = inputManager->getVirtualController(1);
-  
+
+  player1->virtualController->initCommandCompiler();
+  player2->virtualController->initCommandCompiler();
+ 
   charStateManager->registerCharacter(player1, 1);
   charStateManager->registerCharacter(player2, 2);
 

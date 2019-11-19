@@ -2,7 +2,6 @@
 #define _VirtualController_h 
 
 #include "observer/Observer.h"
-#include "input/CommandCompiler.h"
 #include <list>
 #include <vector>
 #include <unordered_set>
@@ -51,7 +50,7 @@ struct InputEvent {
   InputEvent(uint16_t inputBit, bool pressed): inputBit(inputBit), pressed(pressed){}
 };
 
-
+class CommandCompiler;
 class VirtualController : public Observer {
 public:
 
@@ -60,8 +59,19 @@ public:
 
   void update();
 
-  bool wasPressed(Input input, int index, bool strict = true, bool pressed = true);
-  bool wasReleased(Input input, int index, bool strict = true);
+  inline bool wasPressedWrapper(Input input, bool strict, int index){
+    return wasPressed(input, strict, index);
+  };
+  inline bool wasReleasedWrapper(Input input, bool strict, int index){
+    return wasReleased(input, strict, index);
+  };
+  inline bool isPressedWrapper(Input input, bool strict, int index){
+    return isPressed(input, strict);
+  };
+
+  void initCommandCompiler();
+  bool wasPressed(Input input, bool strict = true, int index = 0, bool pressed = true);
+  bool wasReleased(Input input, bool strict = true, int index = 0);
   bool isPressed(Input input, bool strict = true);
   bool checkCommand(int commandIndex, bool faceRight);
 
@@ -84,7 +94,7 @@ public:
   int xAxis = NEUTRAL;
   int yAxis = NEUTRAL;
   boost::circular_buffer<InputEvent> inputEventList;
-  CommandCompiler commandCompiler;
+  CommandCompiler* commandCompiler;
 private:
   uint16_t currentState = 0;
   boost::circular_buffer<std::list<InputEvent>> inputHistory;

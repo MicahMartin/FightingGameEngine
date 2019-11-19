@@ -1,17 +1,5 @@
 #include "input/CommandScanner.h"
 
-// std::vector<std::string> CommandCompiler::commandStrings = {
-//   "F, N, F",
-//   "B, N, B",
-//   "@~D, N, @D, LP",
-//   "@F & !D, N, F"
-//   "@B & !D, N, B",
-//   "~D, DF, @F & !D, LK | ~LK",
-//   "~D, DB, @B & !D, LP | ~LP",
-//   "MP & *F",
-//   "MP & *B",
-// };
-
 CommandScanner::CommandScanner(){};
 CommandScanner::~CommandScanner(){};
 
@@ -64,6 +52,9 @@ std::vector<CommandToken> CommandScanner::scan(const char* inputString) {
         break;
     }
   }
+  if(isAtEnd()){
+    returnVect.push_back(makeToken(CTOKEN_END));
+  }
 
   return returnVect;
 }
@@ -89,6 +80,22 @@ CommandTokenType CommandScanner::getInputType() {
         }
       }
       return CTOKEN_DOWN;
+    case 'L':
+      if (scannerCurrent - scannerStart > 1) {
+        switch (scannerStart[1]) {
+          case 'P': return CTOKEN_LP;
+          case 'K': return CTOKEN_LK;
+        }
+      }
+      return CTOKEN_UP;
+    case 'M':
+      if (scannerCurrent - scannerStart > 1) {
+        switch (scannerStart[1]) {
+          case 'P': return CTOKEN_MP;
+          case 'K': return CTOKEN_MK;
+        }
+      }
+      return CTOKEN_UP;
   }
 }
 

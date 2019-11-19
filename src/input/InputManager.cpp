@@ -45,7 +45,7 @@ void InputManager::update() {
             Input* inputBit = &item->inputBit;
             // is cardinal?
             if (*inputBit <= 8) {
-              printf("isCardinal!\n");
+              // printf("isCardinal!\n");
               bool isXAxis = *inputBit <= 2;
               if (isXAxis) {
                 *inputBit == RIGHT ? controller->xAxis++ : controller->xAxis--;
@@ -69,7 +69,7 @@ void InputManager::update() {
           Input* inputBit = &item->inputBit;
           // is cardinal?
           if (*inputBit <= 8) {
-            printf("isCardinal! clearing\n");
+            // printf("isCardinal! clearing\n");
             bool isXAxis = *inputBit <= 2;
             if (isXAxis) {
               *inputBit == RIGHT ? controller->xAxis-- : controller->xAxis++;

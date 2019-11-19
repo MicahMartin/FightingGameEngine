@@ -43,17 +43,17 @@ void MenuState::resume() {
 
 void MenuState::handleInput() {
   VirtualController* vc = inputManager->getVirtualController(0);
-  if(vc->wasPressed(UP, 0)){
+  if(vc->wasPressed(UP)){
     mainMenu.moveCursorUp();
   }
-  if(vc->wasPressed(DOWN, 0)){
+  if(vc->wasPressed(DOWN)){
     mainMenu.moveCursorDown();
   }
-  if(vc->wasPressed(LEFT, 0)){
+  if(vc->wasPressed(LEFT)){
     // go back to title
     stateManager->popState();
   }
-  if(vc->wasPressed(RIGHT, 0)){
+  if(vc->wasPressed(RIGHT)){
     mainMenu.activate();
   }
 }

@@ -29,10 +29,10 @@ StateDef::StateDef(nlohmann::json::value_type json, Character* player, VirtualMa
     }
   }
 
-  printf("done compiling\n");
-  printf("loading anim\n");
+  // printf("done compiling\n");
+  // printf("loading anim\n");
   loadAnimation(json.at("animation"));
-  printf("loading collisions\n");
+  // printf("loading collisions\n");
   loadCollisionBoxes(json.at("collision_boxes"));
 }
 
