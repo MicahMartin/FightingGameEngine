@@ -41,6 +41,7 @@ std::vector<std::string> CommandCompiler::commandStrings = {
   "@F, N, F",
   "B, N, B",
   "~D, DF, F, LK",
+  "@~D, N, @D, LP",
 };
 
 CommandCompiler::CommandCompiler() { }
