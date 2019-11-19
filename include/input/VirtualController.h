@@ -2,6 +2,7 @@
 #define _VirtualController_h 
 
 #include "observer/Observer.h"
+#include "input/CommandCompiler.h"
 #include <list>
 #include <vector>
 #include <unordered_set>
@@ -44,19 +45,6 @@ typedef enum {
   POSITIVE = 1
 } Axis;
 
-static std::map<Input, const char*> inputToString = {
-  {NOINPUT, "NEUTRAL"},
-  {DOWN, "DOWN"},
-  {RIGHT, "RIGHT"},
-  {LEFT, "LEFT"},
-  {UP, "UP"},
-  {DOWNLEFT, "DOWNLEFT"},
-  {DOWNRIGHT, "DOWNRIGHT"},
-  {UPLEFT, "UPLEFT"},
-  {UPRIGHT, "UPRIGHT"},
-  {LP, "LIGHT_P"},
-};
-
 struct InputEvent {
   uint16_t inputBit;
   bool pressed;
@@ -70,20 +58,18 @@ public:
   VirtualController();
   ~VirtualController();
 
+  void update();
+
+  bool wasPressed(Input input, int index, bool strict = true, bool pressed = true);
+  bool wasReleased(Input input, int index, bool strict = true);
+  bool isPressed(Input input, bool strict = true);
+  bool checkCommand(int commandIndex, bool faceRight);
 
   void setBit(uint16_t bit);
   void clearBit(uint16_t bit);
   void setBitOffset(uint16_t offset);
   void clearBitOffset(uint16_t offset);
   void updateAxis(bool xAxis);
-  static bool isCardinal(Input input);
-
-  bool wasPressed(Input input, int index);
-  bool wasReleased(Input input, int index);
-  bool isPressed(Input input);
-  bool checkCommand(int commandIndex, bool faceRight);
-
-  void update();
 
   uint16_t getState();
   uint8_t getStickState();
@@ -91,20 +77,16 @@ public:
   void onNotify(const char* eventName);
 
 
-  std::vector<std::vector<int>> commandSequences = {
-    {6, 5, 6},
-    {4, 5, 4},
-    {11, 6, 3, 2}
-  };
-
   static std::map<int, Input(*)(bool)> inputMap;
+  static std::map<Input, const char*> inputToString;
+
   bool debugEnabled = false;
   int xAxis = NEUTRAL;
   int yAxis = NEUTRAL;
-  
+  boost::circular_buffer<InputEvent> inputEventList;
+  CommandCompiler commandCompiler;
 private:
   uint16_t currentState = 0;
-  boost::circular_buffer<std::vector<InputEvent>> inputHistory;
-  boost::circular_buffer<std::list<InputEvent>> newInputHistory;
+  boost::circular_buffer<std::list<InputEvent>> inputHistory;
 };
 #endif /* ifndef _virtualController_h */

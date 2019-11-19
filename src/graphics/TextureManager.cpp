@@ -1,8 +1,6 @@
 #include "graphics/TextureManager.h"
 
-void TextureManager::init(){
-
-};
+void TextureManager::init(){};
 
 SDL_Texture* TextureManager::getTexture(const char* path){
   if (textureCache.count(std::string(path)) > 0) {

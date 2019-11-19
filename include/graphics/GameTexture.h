@@ -15,12 +15,14 @@ public:
   bool loadTexture(const char* path);
   void render();
   void render(SDL_Rect dest);
+  void render(SDL_Rect dest, double angle);
   void render(bool flip);
   void setCamera(Camera* camera);
 
   void incTransperancy();
   void decTransperancy();
   void setTransperancy(uint8_t tran);
+  void shake();
   uint8_t getTransperancy();
 
   void setBlendMode(SDL_BlendMode blendmode);

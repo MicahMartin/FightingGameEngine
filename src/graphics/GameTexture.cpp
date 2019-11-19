@@ -22,6 +22,10 @@ void GameTexture::render(SDL_Rect dest) {
   SDL_RenderCopy(renderer, texture, NULL, &dest);
 }
 
+void GameTexture::render(SDL_Rect dest, double angle) {
+  SDL_RenderCopyEx(renderer, texture, NULL, &dest, angle, NULL, SDL_FLIP_NONE);
+}
+
 // TODO: cleaner signature using defaults
 void GameTexture::render(bool faceRight) {
   Camera* cam = graphics->getCamera();
@@ -45,6 +49,9 @@ void GameTexture::decTransperancy(){
 void GameTexture::setTransperancy(uint8_t tran){
   alpha = tran;
   SDL_SetTextureAlphaMod(texture, alpha);
+}
+
+void GameTexture::shake(){
 }
 
 uint8_t GameTexture::getTransperancy(){

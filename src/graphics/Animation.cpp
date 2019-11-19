@@ -59,6 +59,8 @@ void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
       currentAnimElemTimePassed = 0;
       currentAnimElemIndex++;
     }
+  } else {
+    currentText->shake();
   }
 }
 

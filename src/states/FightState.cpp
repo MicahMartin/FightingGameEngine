@@ -78,6 +78,7 @@ void FightState::draw(){
   renderHealthBars();
   barDrawEnd = SDL_GetTicks();
   renderComboCount();
+  renderInputHistory();
   if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
     p2DrawStart = SDL_GetTicks();
     player2->draw();
@@ -285,4 +286,7 @@ void FightState::renderComboCount(){
 }
 
 void FightState::renderInputHistory(){
+  // printf("p1InputEventList size %ld\n", player1->virtualController->inputEventList.size());
+  currentScreen.renderInputHistory(true, player1->virtualController->inputEventList);
+  currentScreen.renderInputHistory(false, player2->virtualController->inputEventList);
 }

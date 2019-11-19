@@ -5,13 +5,24 @@ FightScreen::FightScreen(){
   printf("the address of the screen %p\n", this);
 
   int windowWidth = graphics->getWindowWidth();
-  p1ComboCountPosition = { 150, graphics->getWindowHeight()/3, 100, 150 };
-  p2ComboCountPosition = { graphics->getWindowWidth() - 150, graphics->getWindowHeight()/3, 100, 150 };
-  p1ComboCountPositionSecond = { 250, graphics->getWindowHeight()/3, 100, 150 };
-  p2ComboCountPositionSecond = { graphics->getWindowWidth() - 250, graphics->getWindowHeight()/3, 100, 150 };
+  p2DirectionDrawXPos = graphics->getWindowWidth() - 50;
+  p1ComboCountPosition = { 150, graphics->getWindowHeight()/3, 80, 160 };
+  p2ComboCountPosition = { graphics->getWindowWidth() - 150, graphics->getWindowHeight()/3, 80, 160 };
+  p1ComboCountPositionSecond = { 250, graphics->getWindowHeight()/3, 80, 160 };
+  p2ComboCountPositionSecond = { graphics->getWindowWidth() - 250, graphics->getWindowHeight()/3, 80, 160 };
+
   stage.loadTexture("../data/images/purple_stage.png");
   stage.setDimensions(0, 0, windowWidth*3, graphics->getWindowHeight());
+  addTexture(&stage);
 
+  directions[0].loadTexture("../data/images/font/right.png");
+  directions[1].loadTexture("../data/images/font/left.png");
+  directions[2].loadTexture("../data/images/font/up.png");
+  directions[3].loadTexture("../data/images/font/down.png");
+  buttons[0].loadTexture("../data/images/font/punch.png");
+  buttons[1].loadTexture("../data/images/font/slash.png");
+  buttons[2].loadTexture("../data/images/font/kick.png");
+  buttons[3].loadTexture("../data/images/font/dust.png");
   for (int i = 0; i <= 9; i++) {
     char n = i + '0';
     std::stringstream numPath;
@@ -21,9 +32,8 @@ FightScreen::FightScreen(){
       printf("error loading fucking font %d\n", i);
     }
   }
-
-  addTexture(&stage);
 }
+
 FightScreen::~FightScreen(){}
 
 void FightScreen::init(){}
@@ -61,13 +71,10 @@ void FightScreen::renderHealthBar(int x, int y, int w, int h, float percent, SDL
 }
 
 void FightScreen::renderComboCount(bool p1Side, int count) {
-  printf("wtff\n");
   int tens = (count/10) % 10;
   int ones = (count/1) % 10;
-  printf("wtff %d %d\n", tens, ones);
   if (p1Side) {
     if (count > 9 && count < 100) {
-      printf("count grater than 9\n");
       numbers[tens].render(p1ComboCountPosition);
       numbers[ones].render(p1ComboCountPositionSecond);
     } else {
@@ -83,5 +90,51 @@ void FightScreen::renderComboCount(bool p1Side, int count) {
   }
 }
 
-void FightScreen::renderInputHistory(bool side) {
+void FightScreen::renderInputHistory(bool p1Side, boost::circular_buffer<InputEvent>& events) {
+  for (int i = 0; i < events.size(); ++i) {
+    SDL_Rect drawPosition = inputHistoryPositions[i];
+    if (!p1Side) {
+      drawPosition.x = p2DirectionDrawXPos;
+    }
+    switch ((&events[i])->inputBit) {
+      case RIGHT:
+        directions[0].render(drawPosition);
+        break;
+      case LEFT:
+        directions[1].render(drawPosition);
+        break;
+      case UP:
+        directions[2].render(drawPosition);
+        break;
+      case DOWN:
+        directions[3].render(drawPosition);
+        break;
+      case UPRIGHT:
+        directions[2].render(drawPosition, 45);
+        break;
+      case UPLEFT:
+        directions[2].render(drawPosition, -45);
+        break;
+      case DOWNRIGHT:
+        directions[3].render(drawPosition, -45);
+        break;
+      case DOWNLEFT:
+        directions[3].render(drawPosition, 45);
+        break;
+      case LP:
+        buttons[0].render(drawPosition);
+        break;
+      case LK:
+        buttons[1].render(drawPosition);
+        break;
+      case MP:
+        buttons[2].render(drawPosition);
+        break;
+      case MK:
+        buttons[3].render(drawPosition);
+        break;
+      default:
+        break;
+    }
+  }
 }
