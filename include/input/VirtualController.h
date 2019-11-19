@@ -59,14 +59,17 @@ public:
 
   void update();
 
-  inline bool wasPressedWrapper(Input input, bool strict, int index){
-    return wasPressed(input, strict, index);
+  inline bool wasPressedWrapper(Input input, bool strict, int index, bool faceRight){
+    Input relativeInput = inputEnumMap[input](faceRight);
+    return wasPressed(relativeInput, strict, index);
   };
-  inline bool wasReleasedWrapper(Input input, bool strict, int index){
-    return wasReleased(input, strict, index);
+  inline bool wasReleasedWrapper(Input input, bool strict, int index, bool faceRight){
+    Input relativeInput = inputEnumMap[input](faceRight);
+    return wasReleased(relativeInput, strict, index);
   };
-  inline bool isPressedWrapper(Input input, bool strict, int index){
-    return isPressed(input, strict);
+  inline bool isPressedWrapper(Input input, bool strict, int index, bool faceRight){
+    Input relativeInput = inputEnumMap[input](faceRight);
+    return isPressed(relativeInput, strict);
   };
 
   void initCommandCompiler();
@@ -88,6 +91,7 @@ public:
 
 
   static std::map<int, Input(*)(bool)> inputMap;
+  static std::map<Input, Input(*)(bool)> inputEnumMap;
   static std::map<Input, const char*> inputToString;
 
   bool debugEnabled = false;

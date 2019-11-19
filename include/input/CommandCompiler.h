@@ -12,7 +12,7 @@ typedef struct {
   CommandToken previous;
 } CommandParser;
 
-typedef std::function<bool(int)> CommandFunction;
+typedef std::function<bool(int, bool)> CommandFunction;
 
 class CommandCompiler {
 public:

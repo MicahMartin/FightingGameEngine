@@ -87,7 +87,6 @@ CommandTokenType CommandScanner::getInputType() {
           case 'K': return CTOKEN_LK;
         }
       }
-      return CTOKEN_UP;
     case 'M':
       if (scannerCurrent - scannerStart > 1) {
         switch (scannerStart[1]) {
@@ -95,7 +94,6 @@ CommandTokenType CommandScanner::getInputType() {
           case 'K': return CTOKEN_MK;
         }
       }
-      return CTOKEN_UP;
   }
 }
 
@@ -154,7 +152,3 @@ void CommandScanner::skipWhitespace(){
 bool CommandScanner::isAlpha(char c) {
   return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
 }
-
-CommandTokenType CommandScanner::checkKeyword(int begin, int length, const char* rest, CommandTokenType type){
-}
-

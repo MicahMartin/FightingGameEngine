@@ -20,6 +20,22 @@ std::map<int, Input(*)(bool)> VirtualController::inputMap = {
   {13, [](bool faceRight){return MK;}},
 };
 
+std::map<Input, Input(*)(bool)> VirtualController::inputEnumMap = {
+  {RIGHT, [](bool faceRight){return faceRight ? RIGHT:LEFT;}},
+  {LEFT, [](bool faceRight){return faceRight ? LEFT:RIGHT;}},
+  {DOWNRIGHT, [](bool faceRight){return faceRight ? DOWNRIGHT:DOWNLEFT;}},
+  {DOWNLEFT, [](bool faceRight){return faceRight ? DOWNLEFT:DOWNRIGHT;}},
+  {UPRIGHT, [](bool faceRight){return faceRight ? UPRIGHT:UPLEFT;}},
+  {UPLEFT, [](bool faceRight){return faceRight ? UPLEFT:UPRIGHT;}},
+  {NOINPUT, [](bool faceRight){return NOINPUT;}},
+  {UP, [](bool faceRight){return UP;}},
+  {DOWN, [](bool faceRight){return DOWN;}},
+  {LP, [](bool faceRight){return LP;}},
+  {LK, [](bool faceRight){return LK;}},
+  {MP, [](bool faceRight){return MP;}},
+  {MK, [](bool faceRight){return MK;}},
+};
+
 std::map<Input, const char*> VirtualController::inputToString = {
   {NOINPUT, "NEUTRAL"},
   {DOWN, "DOWN"},
@@ -99,6 +115,7 @@ bool VirtualController::wasReleased(Input input, bool strict, int index) {
 
 bool VirtualController::checkCommand(int commandIndex, bool faceRight) {
   // printf("in checkCommand\n");
+  bool foundPart = false;
   bool foundCommand = false;
   bool breakFlag  = false;
   int searchOffset = 0;
@@ -107,20 +124,28 @@ bool VirtualController::checkCommand(int commandIndex, bool faceRight) {
   if(commandIndex >= commandCompiler->commandFunctionList.size()){
     return false;
   }
-
   std::vector<CommandFunction>* commandFuncs = &commandCompiler->commandFunctionList[commandIndex];
-  // printf("command func 0 size %ld\n", commandFuncs->size());
+
   for (int i = commandFuncs->size() - 1; i >= 0 && !breakFlag; --i) {
     auto func = (*commandFuncs)[i];
-    bool wasFound = (func)(searchOffset);
-    breakFlag = !wasFound;
-    if (wasFound) {
+
+    for (int i = 0; (!foundPart) && (i < bufferLen); ++i) {
+      foundPart = (func)(i+searchOffset, faceRight);
+      if(foundPart){
+        searchOffset += i;
+      }
+    }
+
+    if(foundPart){
+      foundPart = false;
       if(i == 0){
         foundCommand = true;
       }
+    } else {
+      breakFlag = true;
     }
   }
-  printf("did we find it? %d\n", foundCommand);
+
   return foundCommand;
 }
 

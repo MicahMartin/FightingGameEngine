@@ -38,15 +38,9 @@
 //  "~D, DF, @F & !D, LK | ~LK",
 //  "~D, DB, @B & !D, LP | ~LP",
 std::vector<std::string> CommandCompiler::commandStrings = {
-  "F, N, F",
+  "@F, N, F",
   "B, N, B",
-  "@~D, N, @D, LP",
-  "MP & *F",
-  "MP & *B",
-  "@F & !D, N, F"
-  "@B & !D, N, B",
-  "~D, DF, @F & !D, LK | ~LK",
-  "~D, DB, @B & !D, LP | ~LP",
+  "~D, DF, F, LK",
 };
 
 CommandCompiler::CommandCompiler() { }
@@ -89,19 +83,19 @@ CommandFunction CommandCompiler::compileNode(){
   // function pointer is &VirtualController::wasPressed by default
   // bool strictness is true by default
   using namespace std::placeholders;
-  std::function<bool(Input, bool, int)> funcPointer = std::bind(&VirtualController::wasPressedWrapper, controllerPointer, _1, _2, _3);
-  std::function<bool(int)> finalFunc;
+  std::function<bool(Input, bool, int, bool)> funcPointer = std::bind(&VirtualController::wasPressedWrapper, controllerPointer, _1, _2, _3, _4);
+  std::function<bool(int, bool)> finalFunc;
   bool strictness = true;
 
   while(currentToken->type != CTOKEN_DELIM && currentToken->type != CTOKEN_END){
     switch (currentToken->type) {
       case CTOKEN_RELEASED: {
-        funcPointer = std::bind(&VirtualController::wasReleasedWrapper, controllerPointer, _1, _2, _3);
+        funcPointer = std::bind(&VirtualController::wasReleasedWrapper, controllerPointer, _1, _2, _3, _4);
         printf("setting func pointer to wasReleasedWrapper\n");
       }
       break;
       case CTOKEN_HELD: {
-        funcPointer = std::bind(&VirtualController::isPressedWrapper, controllerPointer, _1, _2, _3);
+        funcPointer = std::bind(&VirtualController::isPressedWrapper, controllerPointer, _1, _2, _3, _4);
         printf("setting func pointer to isPressedWrapper\n");
       }
       break;
@@ -111,53 +105,68 @@ CommandFunction CommandCompiler::compileNode(){
       }
       break;
       case CTOKEN_NEUTRAL: {
-       finalFunc = std::bind(funcPointer, NOINPUT, strictness, _1);
+       finalFunc = std::bind(funcPointer, NOINPUT, strictness, _1, _2);
        printf("building neutral\n");
       }
       break;
       case CTOKEN_FORWARD: {
-       finalFunc = std::bind(funcPointer, RIGHT, strictness, _1);
+       finalFunc = std::bind(funcPointer, RIGHT, strictness, _1, _2);
        printf("building forward\n");
       }
       break;
       case CTOKEN_BACK: {
-        finalFunc = std::bind(funcPointer, LEFT, strictness, _1);
+        finalFunc = std::bind(funcPointer, LEFT, strictness, _1, _2);
         printf("building back\n");
       }
       break;
       case CTOKEN_UP: {
-        finalFunc = std::bind(funcPointer, UP, strictness, _1);
+        finalFunc = std::bind(funcPointer, UP, strictness, _1, _2);
         printf("building up\n");
       }
       break;
       case CTOKEN_DOWN: {
-        finalFunc = std::bind(funcPointer, DOWN, strictness, _1);
+        finalFunc = std::bind(funcPointer, DOWN, strictness, _1, _2);
         printf("building down\n");
       }
       break;
       case CTOKEN_UPFORWARD: {
-        finalFunc = std::bind(funcPointer, UPRIGHT, strictness, _1);
+        finalFunc = std::bind(funcPointer, UPRIGHT, strictness, _1, _2);
        printf("building upforward\n");
       }
       break;
       case CTOKEN_UPBACK: {
-        finalFunc = std::bind(funcPointer, UPLEFT, strictness, _1);
+        finalFunc = std::bind(funcPointer, UPLEFT, strictness, _1, _2);
         printf("building upback\n");
       }
       break;
       case CTOKEN_DOWNFORWARD: {
-        finalFunc = std::bind(funcPointer, DOWNRIGHT, strictness, _1);
+        finalFunc = std::bind(funcPointer, DOWNRIGHT, strictness, _1, _2);
         printf("building upforward\n");
       }
       break;
       case CTOKEN_DOWNBACK: {
-        finalFunc = std::bind(funcPointer, DOWNLEFT, strictness, _1);
+        finalFunc = std::bind(funcPointer, DOWNLEFT, strictness, _1, _2);
         printf("building downback\n");
       }
       break;
       case CTOKEN_LP: {
-        finalFunc = std::bind(funcPointer, LP, strictness, _1);
+        finalFunc = std::bind(funcPointer, LP, strictness, _1, _2);
         printf("building lightpunch\n");
+      }
+      break;
+      case CTOKEN_LK: {
+        finalFunc = std::bind(funcPointer, LK, strictness, _1, _2);
+        printf("building lightk\n");
+      }
+      break;
+      case CTOKEN_MP: {
+        finalFunc = std::bind(funcPointer, MP, strictness, _1, _2);
+        printf("building mediumP\n");
+      }
+      break;
+      case CTOKEN_MK: {
+        finalFunc = std::bind(funcPointer, MK, strictness, _1, _2);
+        printf("building mediumKick\n");
       }
       break;
       default:
