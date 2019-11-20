@@ -74,6 +74,7 @@ public:
 
   void initCommandCompiler();
   bool wasPressed(Input input, bool strict = true, int index = 0, bool pressed = true);
+  bool wasPressedBuffer(Input input, bool strict = true, bool pressed = true);
   bool wasReleased(Input input, bool strict = true, int index = 0);
   bool isPressed(Input input, bool strict = true);
   bool checkCommand(int commandIndex, bool faceRight);
@@ -101,6 +102,7 @@ public:
   CommandCompiler* commandCompiler;
 private:
   uint16_t currentState = 0;
+  // CircularBuffer<LinkedList<InputEvent>>
   boost::circular_buffer<std::list<InputEvent>> inputHistory;
 };
 #endif /* ifndef _virtualController_h */

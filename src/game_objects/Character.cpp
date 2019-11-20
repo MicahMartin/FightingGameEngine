@@ -260,7 +260,7 @@ int Character::_getCombo(){
 }
 
 int Character::_wasPressed(int input){
-  return virtualController->wasPressed(VirtualController::inputMap[input](faceRight)) ? 1 : 0;
+  return virtualController->wasPressedBuffer(VirtualController::inputMap[input](faceRight)) ? 1 : 0;
 }
 
 int Character::_getHitStun(){

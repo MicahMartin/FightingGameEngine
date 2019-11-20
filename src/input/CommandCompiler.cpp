@@ -37,12 +37,14 @@
 //  "@B & !D, N, B",
 //  "~D, DF, @F & !D, LK | ~LK",
 //  "~D, DB, @B & !D, LP | ~LP",
+//  TODO: load from file
 std::vector<std::string> CommandCompiler::commandStrings = {
-  "@F, N, F",
-  "B, N, B",
-  "~D, DF, F, LK",
-  "@~D, N, @D, LP",
-  "*LP & *LK",
+  "@F, N, F", // dash
+  "B, N, B", // backdash
+  "~D, DF, F, LK | ~LK", // 236K
+  "~D, DB, B, LP | ~LP", // 214P
+  "@~D, N, @D, LP | ~LP", // 22P
+  "*F & *MP", // lp and mk
 };
 
 CommandCompiler::CommandCompiler() { }
@@ -200,7 +202,7 @@ CommandFunction CommandCompiler::compileNode(){
 
 CommandFunction CommandCompiler::binaryCommand(CommandFunction currentFunc, CommandTokenType type){
   CommandFunction nextStatement = compileNode();
-  CommandFunction returnFunction = [currentFunc, nextStatement, type](int index, bool faceRight){
+  CommandFunction returnFunction = [currentFunc, nextStatement, type](int index, bool faceRight) -> bool {
     if(type == CTOKEN_OR){
       return (currentFunc(index, faceRight) || nextStatement(index, faceRight));
     } else if(type == CTOKEN_AND){

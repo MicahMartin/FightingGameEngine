@@ -21,9 +21,12 @@ public:
   static bool checkAABB(CollisionBox box1, CollisionBox box2);
   static std::map<std::string, CollisionType> collisionTypeMap;
 
-  CollisionBox(CollisionType boxType, int width, int height, int offsetX, int offsetY, int start, int end);
-  CollisionBox(CollisionType boxType, 
-      int width, int height, int offsetX, int offsetY, int start, int end, int hitScript, int damage, int pushback, int hitstop, int hitstun);
+  CollisionBox(CollisionType boxType, int width, int height, int offsetX, 
+      int offsetY, int start, int end);
+
+  CollisionBox(CollisionType boxType, int width, int height, int offsetX, 
+      int offsetY, int start, int end, int damage, int pushback, int hitstop, int hitstun);
+
   ~CollisionBox();
 
   void render();
@@ -43,7 +46,6 @@ public:
   bool disabled = false; 
 
   // i know, poly
-  int hitScript;
   int damage;
   int pushback;
   int hitstop;

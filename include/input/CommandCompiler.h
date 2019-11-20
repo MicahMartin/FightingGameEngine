@@ -7,14 +7,7 @@
 #include "input/VirtualController.h"
 #include <functional>
 
-typedef struct {
-  CommandToken current;
-  CommandToken previous;
-} CommandParser;
-
-
 typedef std::function<bool(int, bool)> CommandFunction;
-
 class CommandCompiler {
 public:
 
@@ -23,10 +16,8 @@ public:
 
   void init();
   void compile(const char* inputString);
-  CommandFunction compileNode();
 
-  void consume(CommandTokenType endType);
-  void match(CommandTokenType matchType);
+  CommandFunction compileNode();
   CommandFunction binaryCommand(CommandFunction currentFunc, CommandTokenType type);
 
   static std::vector<std::string> commandStrings;

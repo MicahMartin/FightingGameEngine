@@ -109,6 +109,38 @@ bool VirtualController::wasPressed(Input input, bool strict, int index, bool pre
   return false;
 }
 
+bool VirtualController::wasPressedBuffer(Input input, bool strict, bool pressed) {
+  int buffLen = 8;
+  bool found = false;
+  int historySize = inputHistory.size();
+  if (buffLen >= historySize) {
+    return false;
+  }
+
+  for (int i = 0; i < buffLen && !found; ++i) {
+    std::list<InputEvent>* eventList = &inputHistory[i];
+
+    if (eventList->size() == 0) {
+      return false;
+    }
+
+    for(InputEvent event : *eventList) {
+      if((pressed && event.pressed) || (!pressed && !event.pressed)){
+        if (input <= 10 && strict) {
+          // printf("checking cardinal direction %s\n", inputToString[input]);
+          found = (input == (event.inputBit & 0x0F));       
+        } else if(event.inputBit & input) {
+          // printf("checking non cardinal direction %d\n", input);
+          // printf("was pressed\n");
+          found = true;
+        }
+      }
+    }
+  }
+
+  return found;
+}
+
 bool VirtualController::wasReleased(Input input, bool strict, int index) {
   return wasPressed(input, strict, index, false);
 }
@@ -215,7 +247,7 @@ uint16_t VirtualController::getState() {
 }
 
 uint8_t VirtualController::getStickState() {
-  return (currentState& 0x0f);
+  return (currentState & 0x0F);
 }
 
 

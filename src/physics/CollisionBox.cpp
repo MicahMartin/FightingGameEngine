@@ -4,12 +4,12 @@
 
 CollisionBox::CollisionBox(CollisionBox::CollisionType boxType, int width, int height, 
   int offsetX, int offsetY, int start, int end) 
-: CollisionBox(boxType, width, height, offsetX, offsetY, start, end, 0, 0,0,0,0) {}
+: CollisionBox(boxType, width, height, offsetX, offsetY, start, end, 0,0,0,0) {}
 
 CollisionBox::CollisionBox(CollisionBox::CollisionType boxType, int width, int height, 
-  int offsetX, int offsetY, int start, int end, int hitScript, int damage, int pushback, int hitstop, int hitstun)
-: boxType(boxType), width(width), height(height), offsetX(offsetX), offsetY(offsetY), start(start), end(end), hitScript(hitScript),
-  damage(damage), pushback(pushback), hitstop(hitstop), hitstun(hitstun) { }
+  int offsetX, int offsetY, int start, int end, int damage, int pushback, int hitstop, int hitstun)
+: boxType(boxType), width(width), height(height), offsetX(offsetX), offsetY(offsetY), start(start), 
+  end(end),damage(damage), pushback(pushback), hitstop(hitstop), hitstun(hitstun) { }
 
 CollisionBox::~CollisionBox(){ }
 
@@ -23,8 +23,8 @@ bool CollisionBox::checkAABB(CollisionBox box1, CollisionBox box2){
   if(box1.positionX < box2.positionX + box2.width &&
      box1.positionX + box1.width > box2.positionX &&
      box1.positionY > box2.positionY - box2.height &&
-     box1.positionY - box1.height < box2.positionY) 
-  {
+     box1.positionY - box1.height < box2.positionY) {
+
      return true;
   }
 
