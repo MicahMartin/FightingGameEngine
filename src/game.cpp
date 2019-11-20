@@ -29,7 +29,7 @@ void Game::update() {
   inputManager->update();
   double inputManagerEnd = SDL_GetTicks();
   inputLength = inputManagerEnd-inputManagerStart;
-  printf("inputLength %f\n", inputLength);
+  // printf("inputLength %f\n", inputLength);
 
   // printf("made it back to update\n");
   GameState* currentState = stateManager->getState();
@@ -48,13 +48,13 @@ void Game::update() {
   double handleInputFrameEnd = SDL_GetTicks();
   handleInputLength = handleInputFrameEnd-handleInputFrameStart;
 
-  printf("handleInputLength %f\n", handleInputLength);
+  // printf("handleInputLength %f\n", handleInputLength);
 
   double stateUpdateStart = SDL_GetTicks();
   currentState->update();
   double stateUpdateEnd = SDL_GetTicks();
   updateLength = stateUpdateEnd-stateUpdateStart;
-  printf("updateLength %f\n", updateLength);
+  // printf("updateLength %f\n", updateLength);
 
   // the current state holds a pointer to the currrent screen
   // screen has a surface pointer with all the pixels that need to be

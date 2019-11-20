@@ -12,6 +12,7 @@ typedef struct {
   CommandToken previous;
 } CommandParser;
 
+
 typedef std::function<bool(int, bool)> CommandFunction;
 
 class CommandCompiler {
@@ -26,7 +27,7 @@ public:
 
   void consume(CommandTokenType endType);
   void match(CommandTokenType matchType);
-  // TODO: Bind?
+  CommandFunction binaryCommand(CommandFunction currentFunc, CommandTokenType type);
 
   static std::vector<std::string> commandStrings;
   std::vector<std::vector<CommandFunction>> commandFunctionList;

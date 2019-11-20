@@ -124,8 +124,8 @@ bool VirtualController::checkCommand(int commandIndex, bool faceRight) {
   if(commandIndex >= commandCompiler->commandFunctionList.size()){
     return false;
   }
-  std::vector<CommandFunction>* commandFuncs = &commandCompiler->commandFunctionList[commandIndex];
 
+  std::vector<CommandFunction>* commandFuncs = &commandCompiler->commandFunctionList[commandIndex];
   for (int i = commandFuncs->size() - 1; i >= 0 && !breakFlag; --i) {
     auto func = (*commandFuncs)[i];
 

@@ -42,6 +42,7 @@ std::vector<std::string> CommandCompiler::commandStrings = {
   "B, N, B",
   "~D, DF, F, LK",
   "@~D, N, @D, LP",
+  "*LP & *LK",
 };
 
 CommandCompiler::CommandCompiler() { }
@@ -85,7 +86,7 @@ CommandFunction CommandCompiler::compileNode(){
   // bool strictness is true by default
   using namespace std::placeholders;
   std::function<bool(Input, bool, int, bool)> funcPointer = std::bind(&VirtualController::wasPressedWrapper, controllerPointer, _1, _2, _3, _4);
-  std::function<bool(int, bool)> finalFunc;
+  CommandFunction finalFunc;
   bool strictness = true;
 
   while(currentToken->type != CTOKEN_DELIM && currentToken->type != CTOKEN_END){
@@ -170,13 +171,44 @@ CommandFunction CommandCompiler::compileNode(){
         printf("building mediumKick\n");
       }
       break;
+      case CTOKEN_OR: {
+        // finalFunc = std::bind(funcPointer, MK, strictness, _1, _2);
+        currentToken++;
+        finalFunc = binaryCommand(finalFunc, CTOKEN_OR);
+        printf("building or\n");
+      }
+      break;
+      case CTOKEN_AND: {
+        // finalFunc = std::bind(funcPointer, MK, strictness, _1, _2);
+        currentToken++;
+        finalFunc = binaryCommand(finalFunc, CTOKEN_AND);
+        printf("building and\n");
+      }
+      break;
       default:
         break;
     }
-    currentToken++;
+    if(currentToken->type != CTOKEN_END){
+      currentToken++;
+    }
   }
   if(currentToken->type != CTOKEN_END){
     currentToken++;
   }
   return finalFunc;
+}
+
+CommandFunction CommandCompiler::binaryCommand(CommandFunction currentFunc, CommandTokenType type){
+  CommandFunction nextStatement = compileNode();
+  CommandFunction returnFunction = [currentFunc, nextStatement, type](int index, bool faceRight){
+    if(type == CTOKEN_OR){
+      return (currentFunc(index, faceRight) || nextStatement(index, faceRight));
+    } else if(type == CTOKEN_AND){
+      return (currentFunc(index, faceRight) && nextStatement(index, faceRight));
+    } else {
+      return false;
+    };
+  };
+
+  return returnFunction;
 }
