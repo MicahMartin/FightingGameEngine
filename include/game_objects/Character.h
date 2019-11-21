@@ -35,13 +35,6 @@ public:
 
   // getters for these guys
 
-  VirtualController* virtualController;
-  StateDef* currentState;
-  // std::vector<HitScript> hitScripts;
-  std::vector<uint8_t> inputByteCode;
-  Script inputScript;
-  VirtualMachine virtualMachine;
-
   int control = 1;
   int comboCounter = 0;
   int playerNum;
@@ -86,7 +79,12 @@ public:
   int _wasPressed(int input);
   int _checkCommand(int commandIndex);
 
-
+  VirtualController* virtualController;
+  StateDef* currentState;
+  // std::vector<HitScript> hitScripts;
+  std::vector<uint8_t> inputByteCode;
+  Script inputScript;
+  VirtualMachine virtualMachine;
 private:
   nlohmann::json stateJson;
   std::vector<StateDef> stateList;

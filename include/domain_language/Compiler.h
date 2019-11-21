@@ -5,12 +5,12 @@
 #include "domain_language/Scanner.h"
 #include "domain_language/Script.h"
 
-typedef struct {
+struct Parser {
   Token current;
   Token previous;
   bool hadError;
   bool panicMode;
-} Parser;
+};
 
 typedef enum {
   PREC_NONE,
@@ -29,11 +29,11 @@ typedef enum {
 class Compiler;
 typedef void (Compiler::*ParseFn)(bool canAssign);
 
-typedef struct {
+struct ParseRule {
   ParseFn prefix;
   ParseFn infix;
   Precedence precedence;
-} ParseRule;
+};
 
 class Compiler {
 public:

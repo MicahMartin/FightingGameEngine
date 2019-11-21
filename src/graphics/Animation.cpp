@@ -26,9 +26,10 @@ void Animation::loadAnimEvents(nlohmann::json json){
 
     GameTexture* text = &element.gameTexture;
     text->cartesian = true;
-    const char* path = i.value().at("file").get<std::string>().c_str();
-    std::pair dimensions = getDimensions(path);
-    text->loadTexture(path);
+    std::string path(i.value().at("file").get<std::string>());
+    const char* pathPointer = path.c_str();
+    std::pair dimensions = getDimensions(pathPointer);
+    text->loadTexture(pathPointer);
     text->setDimensions(0, 0, dimensions.first*3, dimensions.second*3);
 
     animationTime += animTime;

@@ -46,12 +46,12 @@ typedef enum {
 
 } TokenType;
 
-typedef struct {
+struct Token {
   TokenType type;
   const char* start;
   int length;
   int line;
-} Token;
+};
 
 static const std::unordered_map<std::string, TokenType> keywordTypes {
   { "and", TOKEN_AND},

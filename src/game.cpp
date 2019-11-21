@@ -45,6 +45,7 @@ void Game::update() {
   // this method modifies state stack
   double handleInputFrameStart = SDL_GetTicks();
   currentState->handleInput();
+  currentState = stateManager->getState();
   double handleInputFrameEnd = SDL_GetTicks();
   handleInputLength = handleInputFrameEnd-handleInputFrameStart;
 

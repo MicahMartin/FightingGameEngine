@@ -91,10 +91,10 @@ static const std::unordered_map<std::string, OpCode> engineCallMap {
   {"$check_command", OP_CHECK_COMMAND}
 };
 
-typedef struct {
+struct Local {
   Token name;
   int depth;
-} Local;
+};
 
 class Script {
 public:

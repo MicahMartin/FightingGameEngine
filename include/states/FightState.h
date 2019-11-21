@@ -38,9 +38,9 @@ public:
 private:
   Character* player1;
   Character* player2;
-  FightScreen currentScreen;
-  Camera camera;
   CharStateManager* charStateManager = CharStateManager::getInstance();
   Graphics* graphics = Graphics::getInstance();
+  FightScreen currentScreen;
+  Camera camera;
 };
 #endif

@@ -14,8 +14,6 @@ public:
   void update();
   void draw();
 
-  void addTexture(GameTexture* gText);
-  void removeTexture(int index);
 private:
   GameTexture background;
   GameTexture title;

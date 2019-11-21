@@ -18,11 +18,11 @@ typedef enum {
 
 } CommandTokenType;
 
-typedef struct {
+struct CommandToken {
   CommandTokenType type;
   const char* start;
   uint8_t length;
-} CommandToken;
+} ;
 
 class CommandScanner {
 public:

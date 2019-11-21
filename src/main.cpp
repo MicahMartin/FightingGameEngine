@@ -22,16 +22,16 @@ int main() {
         game.running = false;
       }
     }
-     //printf("--- slow tick ---\n");
-     //printf("frameStart  %f\n", frameStart);
-     //printf("frameEnd    %f\n", frameEnd);
-     //printf("input       %f\n", game.inputLength);
-     //printf("handleInput %f\n", game.handleInputLength);
-     //printf("update      %f\n", game.updateLength);
-     //printf("clear       %f\n", game.clearLength);
-     //printf("draw        %f\n", game.stateDrawLength);
-     //printf("present     %f\n", game.drawLength);
-     //printf("-----------------\n");
+    // printf("--- slow tick ---\n");
+    // printf("frameStart  %f\n", frameStart);
+    // printf("frameEnd    %f\n", frameEnd);
+    // printf("input       %f\n", game.inputLength);
+    // printf("handleInput %f\n", game.handleInputLength);
+    // printf("update      %f\n", game.updateLength);
+    // printf("clear       %f\n", game.clearLength);
+    // printf("draw        %f\n", game.stateDrawLength);
+    // printf("present     %f\n", game.drawLength);
+    // printf("-----------------\n");
   }
   return 0;
 }

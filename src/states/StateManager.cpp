@@ -24,7 +24,8 @@ void StateManager::changeState(GameState* newState){
 }
 
 void StateManager::popState(){
-  stateStack.top()->exit();
+  GameState* oldState = stateStack.top();
   stateStack.pop();
+  oldState->exit();
   stateStack.top()->resume();
 }

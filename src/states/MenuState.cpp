@@ -5,11 +5,10 @@
 
 MenuState::MenuState(){
   printf("menuState constructor\n");
-  menuScreen.addTexture(&mainMenu.menuCursor.cursorTexture);
-
+  // TODO: let the menu add its own texture
   MenuItem versus("versus", [this]{
     printf("pushing the fightState \n");
-    stateManager->pushState(new FightState());
+    stateManager->changeState(new FightState());
   });
 
   MenuItem config("config", [this]{
@@ -31,6 +30,7 @@ void MenuState::enter() {
 
 void MenuState::exit() { 
   printf("leaving the menu state! \n");
+  delete this;
 }
 
 void MenuState::pause() {
@@ -49,11 +49,12 @@ void MenuState::handleInput() {
   if(vc->wasPressed(DOWN)){
     mainMenu.moveCursorDown();
   }
-  if(vc->wasPressed(LEFT)){
+  if(vc->wasPressed(MK)){
     // go back to title
     stateManager->popState();
+    // THIS IS GONE AFTER POPSTATE BE CAREFUL NOOB
   }
-  if(vc->wasPressed(RIGHT)){
+  if(vc->wasPressed(LP)){
     mainMenu.activate();
   }
 }
@@ -64,4 +65,5 @@ void MenuState::update(){
 
 void MenuState::draw(){ 
   menuScreen.draw();
+  mainMenu.draw();
 }

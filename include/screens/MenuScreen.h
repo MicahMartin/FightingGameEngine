@@ -14,12 +14,8 @@ public:
   void update();
   void draw();
 
-  void addTexture(GameTexture* gText);
-  void removeTexture(int index);
 private:
   GameTexture menuBackground;
-  GameTexture versus;
-  GameTexture config;
   int screenTime;
 };
 #endif

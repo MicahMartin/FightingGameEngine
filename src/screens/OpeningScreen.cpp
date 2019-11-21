@@ -38,12 +38,3 @@ void OpeningScreen::draw() {
     gameTexture->render();
   }
 }
-
-
-
-void OpeningScreen::addTexture(GameTexture* gText) {
-  Screen::addTexture(gText);
-}
-void OpeningScreen::removeTexture(int index) {
-  Screen::removeTexture(index);
-}

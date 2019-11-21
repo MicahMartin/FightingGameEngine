@@ -11,14 +11,14 @@ typedef enum {
   VAL_STRING
 } ValueType;
 
-typedef struct {
+struct Value {
   ValueType type;
   union {
     bool boolean;
     long number;
     std::string* string;
   } as;
-} Value;
+};
 
 //TODO: Learn templates :(
 
