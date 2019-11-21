@@ -19,6 +19,8 @@ void FightState::enter(){
   player2 = new Character(std::make_pair(2200,0), 2);
   player1->virtualController = inputManager->getVirtualController(0);
   player2->virtualController = inputManager->getVirtualController(1);
+  player1->otherChar = player2;
+  player2->otherChar = player1;
 
   player1->virtualController->initCommandCompiler();
   player2->virtualController->initCommandCompiler();
@@ -188,6 +190,7 @@ void FightState::checkHitCollisions(){
             player2->control = 0;
             player2->health -= p1Hitbox->damage;
             player2->hitstun = p1Hitbox->hitstun;
+            player2->pushTime = p1Hitbox->pushTime;
             player2->_negVelSetX(p1Hitbox->pushback);
             player2->comboCounter++;
             if(p1Hitbox->canTrip){
@@ -251,16 +254,20 @@ void FightState::updateFaceRight(){
     if(!player1->currentState->checkFlag(NO_TURN)){
       player1->faceRight = true;
     }
+    player1->inputFaceRight = true;
     if(!player2->currentState->checkFlag(NO_TURN)){
       player2->faceRight = false;
     }
+    player2->inputFaceRight = true;
   } else {
     if(!player1->currentState->checkFlag(NO_TURN)){
       player1->faceRight = false;
     }
+      player1->inputFaceRight = false;
     if(!player2->currentState->checkFlag(NO_TURN)){
       player2->faceRight = true;
     }
+      player2->inputFaceRight = true;
   }
 }
 

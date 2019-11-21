@@ -30,6 +30,7 @@ public:
   void setXPos(int x);
   void setX(int x);
   void setY(int y);
+  void updateFaceRight();
   void updatePosition();
   void updateCollisionBoxes();
 
@@ -48,6 +49,7 @@ public:
   int noGravityCounter = 0;
   int cancelPointer = 0;
   int hitstun = 0;
+  int pushTime = 0;
   int hasAirAction = 0;
   long frameLastAttackConnected = 0;
 
@@ -81,6 +83,7 @@ public:
 
   VirtualController* virtualController;
   StateDef* currentState;
+  Character* otherChar;
   // std::vector<HitScript> hitScripts;
   std::vector<uint8_t> inputByteCode;
   Script inputScript;

@@ -25,7 +25,7 @@ public:
       int offsetY, int start, int end);
 
   CollisionBox(CollisionType boxType, int width, int height, int offsetX, 
-      int offsetY, int start, int end, int damage, int pushback, int hitstop, int hitstun);
+      int offsetY, int start, int end, int damage, int pushback, int hitstop, int hitstun, int pushTime);
 
   ~CollisionBox();
 
@@ -48,6 +48,7 @@ public:
   // i know, poly
   int damage;
   int pushback;
+  int pushTime;
   int hitstop;
   int hitstun;
   bool canTrip = false;

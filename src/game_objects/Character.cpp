@@ -58,6 +58,12 @@ Character::~Character(){};
 void Character::handleInput(){ 
   if (hitstun > 0) {
     hitstun--;
+    if(pushTime > 0){
+      pushTime--;
+      if(pushTime == 0){
+        velocityX = 0;
+      }
+    }
   }
   if(cancelPointer != 0){
     changeState(cancelPointer);
@@ -72,6 +78,15 @@ void Character::update(){
   currentState->update();
   updatePosition();
   updateCollisionBoxes();
+};
+
+void Character::updateFaceRight(){
+  if(position.first <= otherChar->getPos().first){
+    faceRight = true;
+  } else {
+    faceRight = false;
+  }
+    
 };
 
 void Character::updatePosition(){
@@ -235,7 +250,7 @@ int Character::_getStateTime(){
 }
 
 int Character::_getInput(int input){
-  Input inputType = VirtualController::inputMap[input](faceRight);
+  Input inputType = VirtualController::inputMap[input](inputFaceRight);
   return virtualController->isPressed(inputType) ? 1 : 0;
 }
 
@@ -260,7 +275,7 @@ int Character::_getCombo(){
 }
 
 int Character::_wasPressed(int input){
-  return virtualController->wasPressedBuffer(VirtualController::inputMap[input](faceRight)) ? 1 : 0;
+  return virtualController->wasPressedBuffer(VirtualController::inputMap[input](inputFaceRight)) ? 1 : 0;
 }
 
 int Character::_getHitStun(){
@@ -268,5 +283,5 @@ int Character::_getHitStun(){
 }
 
 int Character::_checkCommand(int commandIndex){
-  return virtualController->checkCommand(commandIndex, faceRight);
+  return virtualController->checkCommand(commandIndex, inputFaceRight);
 }

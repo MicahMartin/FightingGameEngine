@@ -14,9 +14,7 @@
 
 enum FlagBit {
   NO_TURN = 0x01,
-  FOO = 0x02,
-  BAR = 0x04,
-  BAZZ = 0x08,
+  NO_TURN_ON_ENTER  = 0x02,
 };
 
 class StateDef {
@@ -57,9 +55,7 @@ public:
 private:
   std::map<std::string, FlagBit> flagMap = {
     {"NO_TURN", NO_TURN},
-    {"FOO", FOO},
-    {"BAR", BAR},
-    {"BAZZ", BAZZ}
+    {"NO_TURN_ON_ENTER", NO_TURN_ON_ENTER},
   };
 
   uint8_t flagByte = 0;

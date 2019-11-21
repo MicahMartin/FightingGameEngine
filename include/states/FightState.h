@@ -8,6 +8,17 @@
 #include "character_state/CharStateManager.h"
 #include "graphics/Camera.h"
 
+struct FightStateValues {
+  // global values
+  int stateTime;
+  int screenFreeze;
+  // playerValues
+  int healthValues[2];
+  int charStateNum[2];
+  int charXPosition[2];
+  int charYPosition[2];
+  int charComboCount[2];
+};
 class FightState : public GameState {
 public:
   FightState();

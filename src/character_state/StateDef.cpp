@@ -42,6 +42,9 @@ void StateDef::enter(){
   stateTime = 0;
   anim.resetAnimEvents();
   // TODO: move updateCollisionBoxes into here, shouldnt belong to player
+  if(!checkFlag(NO_TURN_ON_ENTER)){
+    player->updateFaceRight();
+  }
   player->updateCollisionBoxes();
 };
 
@@ -108,7 +111,7 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
     if(type == CollisionBox::HIT){
       // TODO: Fix collisionbox loading
       cb = new CollisionBox(type, width, height, offsetX, offsetY, start, end, 
-          i.value().at("damage"), i.value().at("push"), i.value().at("hitstop"), i.value().at("hitstun"));
+          i.value().at("damage"), i.value().at("push"), i.value().at("hitstop"), i.value().at("hitstun"), i.value().at("pushTime"));
       if (i.value().contains("canTrip")) {
         cb->canTrip = true;
       }

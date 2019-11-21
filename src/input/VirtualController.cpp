@@ -110,7 +110,7 @@ bool VirtualController::wasPressed(Input input, bool strict, int index, bool pre
 }
 
 bool VirtualController::wasPressedBuffer(Input input, bool strict, bool pressed) {
-  int buffLen = 12;
+  int buffLen = 18;
   bool found = false;
   int historySize = inputHistory.size();
   if (buffLen >= historySize) {
@@ -189,7 +189,8 @@ void VirtualController::setBit(uint16_t bit) {
 
 void VirtualController::clearBit(uint16_t bit) {
   currentState &= ~bit;
-  inputHistory.front().push_back(InputEvent(currentState, false));
+  inputHistory.front().push_back(InputEvent(bit, false));
+  inputEventList.push_front(InputEvent(bit, false));
 }
 
 void VirtualController::setBitOffset(uint16_t offset) {
