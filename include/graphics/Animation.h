@@ -16,6 +16,7 @@ public:
   void render(int x, int y, bool faceRight, bool screenFreeze);
 
   void setAnimTime(int time);
+  void shake(int duration);
   void setAnimElemIndex(int index);
   void resetAnimEvents();
   int timeRemaining();

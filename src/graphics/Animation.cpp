@@ -60,13 +60,14 @@ void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
       currentAnimElemTimePassed = 0;
       currentAnimElemIndex++;
     }
-  } else {
-    currentText->shake();
-  }
+  } 
 }
 
 void Animation::setAnimTime(int time){
   animationTimePassed = time;
+}
+
+void Animation::shake(int duration){
 }
 
 void Animation::setAnimElemIndex(int index){

@@ -11,6 +11,7 @@ public:
 
   void registerCharacter(Character* character, int playerNum);
   bool screenFrozen = false;
+  int screenFreezeTime = 0;
   Character* getCharPointer(int playerNum);
 
 private:

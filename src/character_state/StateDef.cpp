@@ -40,6 +40,7 @@ StateDef::~StateDef(){ }
 
 void StateDef::enter(){
   stateTime = 0;
+  hitboxesDisabled = false;
   anim.resetAnimEvents();
   // TODO: move updateCollisionBoxes into here, shouldnt belong to player
   if(!checkFlag(NO_TURN_ON_ENTER)){

@@ -64,6 +64,7 @@ void FightState::update(){
     if(--screenFreeze == 0){
       charStateManager->screenFrozen = false;
     }
+    charStateManager->screenFreezeTime = screenFreeze;
     player1->currentState->handleCancels();
     player2->currentState->handleCancels();
   }
@@ -175,36 +176,40 @@ void FightState::checkPushCollisions(){
 }
 
 void FightState::checkHitCollisions(){
-  for (auto p1Hitbox : player1->currentState->hitBoxes) {
-    if(!p1Hitbox->disabled){
-      for (auto p2HurtBox : player2->currentState->hurtBoxes) {
-        if(!p2HurtBox->disabled){
-          if (CollisionBox::checkAABB(*p1Hitbox, *p2HurtBox)) {
-            player1->frameLastAttackConnected = gameTime; 
-            printf("hitbox collision detected\n");
-            // TODO: Run hitscript
-            charStateManager->screenFrozen = true;
-            p1Hitbox->disabled = true;
-            screenFreeze = p1Hitbox->hitstop;
+  if (!player1->currentState->hitboxesDisabled) {
+    for (auto p1Hitbox : player1->currentState->hitBoxes) {
+      if(!p1Hitbox->disabled && !player1->currentState->hitboxesDisabled){
+        for (auto p2HurtBox : player2->currentState->hurtBoxes) {
+          if(!p2HurtBox->disabled){
+            if (CollisionBox::checkAABB(*p1Hitbox, *p2HurtBox)) {
+              player1->frameLastAttackConnected = gameTime; 
+              printf("hitbox collision detected\n");
+              // TODO: Run hitscript
+              charStateManager->screenFrozen = true;
+              screenFreeze = p1Hitbox->hitstop;
+              charStateManager->screenFreezeTime = p1Hitbox->hitstop;
+              player1->currentState->hitboxesDisabled = true;
 
-            player2->control = 0;
-            player2->health -= p1Hitbox->damage;
-            player2->hitstun = p1Hitbox->hitstun;
-            player2->pushTime = p1Hitbox->pushTime;
-            player2->_negVelSetX(p1Hitbox->pushback);
-            player2->comboCounter++;
-            if(p1Hitbox->canTrip){
-              player2->changeState(24);
-            } else {
-              player2->changeState(9);
-            }
-            if(player2->comboCounter > 1){
-              printf("player 2 been combo'd for %d hits\n", player2->comboCounter);
+              player2->control = 0;
+              player2->health -= p1Hitbox->damage;
+              player2->hitstun = p1Hitbox->hitstun;
+              player2->pushTime = p1Hitbox->pushTime;
+              player2->_negVelSetX(p1Hitbox->pushback);
+              player2->comboCounter++;
+              if(p1Hitbox->canTrip){
+                player2->changeState(24);
+              } else {
+                player2->changeState(9);
+              }
+              if(player2->comboCounter > 1){
+                printf("player 2 been combo'd for %d hits\n", player2->comboCounter);
+              }
             }
           }
         }
       }
     }
+    
   }
 }
 

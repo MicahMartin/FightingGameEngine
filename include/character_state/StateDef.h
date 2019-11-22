@@ -51,6 +51,7 @@ public:
   Animation anim;
   int stateNum;
   int stateTime;
+  bool hitboxesDisabled = false;
 
 private:
   std::map<std::string, FlagBit> flagMap = {
