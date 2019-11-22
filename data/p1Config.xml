@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<conf>
+  <!-- down  -->
+  <!-- 1000 -->
+  <button value="1073741905">0x1</button>
+  <!-- right -->
+  <!-- 0100 -->
+  <button value="1073741903">0x2</button>
+  <!-- left -->
+  <!-- 0010 -->
+  <button value="1073741904">0x4</button>
+  <!-- up -->
+  <!-- 0001 -->
+  <button value="1073741906">0x8</button>
+
+  <!-- 1P -->
+  <!-- 1000 -->
+  <button value="97">0x10</button>
+  <!-- 2P -->
+  <button value="115">0x20</button>
+  <!-- 3P -->
+  <button value="100">0x40</button>
+  <!-- 4P -->
+  <button value="102">0x80</button>
+
+  <!-- 1K -->
+  <button value="122">0x100</button>
+  <!-- 2K -->
+  <button value="120">0x200</button>
+  <!-- 3K -->
+  <button value="99">0x400</button>
+  <!-- 4K -->
+  <button value="118">0x800</button>
+
+  <!-- start -->
+  <button value="">0x1000</button>
+  <!-- select -->
+  <button value="">0x2000</button>
+  <!-- misc1 -->
+  <button value="">0x4000</button>
+  <!-- misc2 -->
+  <button value="">0x8000</button>
+</conf>

@@ -6,6 +6,7 @@
     $velset_x 12; 
     $velset_y 0; 
   } 
+
   if($get_state_time == 4){ 
     $set_control 1; 
   } 

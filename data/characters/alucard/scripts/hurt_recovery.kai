@@ -1,0 +1,6 @@
+{ 
+  if($get_hit_stun == 0){ 
+    $set_combo 0;
+    $set_control 1;
+  } 
+} 

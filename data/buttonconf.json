@@ -1,23 +1,23 @@
 {
-  "1073741905": {
-    "user": 1,
-    "input": "0x1",
-    "inputString": "DOWN"
-  },
   "1073741903": {
     "user": 1,
-    "input": "0x2",
+    "input": "0x1",
     "inputString": "RIGHT"
   },
   "1073741904": {
     "user": 1,
-    "input": "0x4",
+    "input": "0x2",
     "inputString": "LEFT"
   },
   "1073741906": {
     "user": 1,
-    "input": "0x8",
+    "input": "0x4",
     "inputString": "UP"
+  },
+  "1073741905": {
+    "user": 1,
+    "input": "0x8",
+    "inputString": "DOWN"
   },
   "97": {
     "user": 1,

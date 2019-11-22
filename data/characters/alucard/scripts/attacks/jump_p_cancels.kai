@@ -1,8 +1,8 @@
 {
-  var aboveMinHeight = ($get_y_pos > 80);
   var jump_p = $was_pressed 10;
   var jump_k = $was_pressed 11;
   var jump_s = $was_pressed 12;
+  var aboveMinHeight = ($get_y_pos > 80);
 
   if(jump_p and aboveMinHeight){
     $cancel_state 18;

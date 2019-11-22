@@ -1,0 +1,5 @@
+{ 
+  if($get_hit_stun == 8){ 
+    $change_state 28;
+  } 
+} 

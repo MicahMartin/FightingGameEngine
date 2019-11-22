@@ -1,9 +1,0 @@
-{ 
-  if($get_hit_stun == 0){ 
-    $set_control 1; 
-    $set_combo 0; 
-  } 
-  if($get_state_time == 11){ 
-    $velset_x 0; 
-  } 
-} 

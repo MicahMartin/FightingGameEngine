@@ -1,10 +1,7 @@
 {
   var qcf_k = $check_command 2;
-
   var kick = $was_pressed 11;
   var slash = $was_pressed 12;
-
-  var neutral = $get_input 5;
 
   var down = $get_input 2; 
   var downback = $get_input 1; 
@@ -16,8 +13,8 @@
   }
 
   if(kick){
-    if (neutral) {
-      $change_state 15;
+    if (!anyDown){
+      $cancel_state 15;
     }
   }
 
