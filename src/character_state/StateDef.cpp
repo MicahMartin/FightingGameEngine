@@ -4,6 +4,10 @@
 #include "game_objects/Character.h"
 #include "physics/CollisionBox.h"
 #include "Util.h"
+ std::map<std::string, FlagBit> StateDef::flagMap = {
+  {"NO_TURN", NO_TURN},
+  {"NO_TURN_ON_ENTER", NO_TURN_ON_ENTER},
+};
 
 StateDef::StateDef(nlohmann::json::value_type json, Character* player, VirtualMachine* charVm) : player(player), charVm(charVm) {
   stateNum = json.at("state_num");
@@ -36,7 +40,24 @@ StateDef::StateDef(nlohmann::json::value_type json, Character* player, VirtualMa
   loadCollisionBoxes(json.at("collision_boxes"));
 }
 
-StateDef::~StateDef(){ }
+StateDef::~StateDef() {
+  printf("stateDef destructor called wtf??\n");
+  for (auto cb : pushBoxes) {
+    if (cb != NULL) {
+      delete cb;
+    }
+  }
+  for (auto cb : hurtBoxes) {
+    if (cb != NULL) {
+      delete cb;
+    }
+  }
+  for (auto cb : hitBoxes) {
+    if (cb != NULL) {
+      delete cb;
+    }
+  }
+}
 
 void StateDef::enter(){
   stateTime = 0;

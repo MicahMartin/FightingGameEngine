@@ -21,6 +21,7 @@ Character::Character(std::pair<int, int> _position) {
 
 void Character::init(){
   virtualMachine.character = this;
+  stateList.reserve(256);
   loadStates();
   changeState(1);
 }
@@ -47,8 +48,7 @@ void Character::loadStates(){
 
   // load states
   for(auto i : stateJson.at("states").items()){
-    StateDef state(i.value(), this, &virtualMachine);
-    stateList.push_back(state);
+    stateList.emplace_back(i.value(), this, &virtualMachine);
   }
   configFile.close();
 }

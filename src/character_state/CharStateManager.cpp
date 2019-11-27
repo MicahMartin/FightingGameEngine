@@ -8,3 +8,8 @@ void CharStateManager::registerCharacter(Character* character, int playerNum){
 Character* CharStateManager::getCharPointer(int playerNum){ 
   return characterPointers[playerNum-1];
 }
+
+void CharStateManager::reset(){ 
+  screenFrozen = false;
+  screenFreezeTime = 0;
+}

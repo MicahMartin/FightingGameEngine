@@ -131,14 +131,12 @@ TokenType Scanner::identifierType() {
     case 'p': return checkKeyword(1, 4, "rint", TOKEN_PRINT);
     case 'r': return checkKeyword(1, 5, "eturn", TOKEN_RETURN);
     case 'v': return checkKeyword(1, 2, "ar", TOKEN_VAR);
-    case 'w': return checkKeyword(1, 4, "hile", TOKEN_WHILE);
     case 't': return checkKeyword(1, 3, "rue", TOKEN_TRUE);
     case 'f':
       if (current - start > 1) {
         switch (start[1]) {
           case 'a': return checkKeyword(2, 3, "lse", TOKEN_FALSE);
-          case 'o': return checkKeyword(2, 1, "r", TOKEN_FOR);
-          case 'u': return checkKeyword(2, 2, "nc", TOKEN_FUNC);
+          // case 'u': return checkKeyword(2, 2, "nc", TOKEN_FUNC);
         }
       }
       break;

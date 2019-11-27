@@ -52,6 +52,7 @@ CommandCompiler::CommandCompiler() { }
 CommandCompiler::~CommandCompiler(){ }
 
 void CommandCompiler::init() {
+  commandFunctionList.clear();
   for (int i = 0; i < commandStrings.size(); ++i) {
     compile(commandStrings[i].c_str());
   }

@@ -41,6 +41,7 @@ public:
   VirtualMachine* charVm;
   Script updateScript;
   Script cancelScript;
+  Animation anim;
 
   // TODO: Polymorph or atleast use a union
   std::vector<CollisionBox*> pushBoxes;
@@ -48,17 +49,12 @@ public:
   std::vector<CollisionBox*> hitBoxes;
 
   // TODO: Methods to talk to anim so this stuff can stay private
-  Animation anim;
   int stateNum;
   int stateTime;
   bool hitboxesDisabled = false;
 
 private:
-  std::map<std::string, FlagBit> flagMap = {
-    {"NO_TURN", NO_TURN},
-    {"NO_TURN_ON_ENTER", NO_TURN_ON_ENTER},
-  };
-
+  static std::map<std::string, FlagBit> flagMap;
   uint8_t flagByte = 0;
   CharStateManager* charStateManager = CharStateManager::getInstance();
 };

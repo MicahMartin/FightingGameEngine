@@ -4,26 +4,30 @@
 #include "game_objects/Stage.h"
 
 FightState::FightState(){ 
+  printf("creating new fightState\n");
   stateName = "FightState";
 }
 
-FightState::~FightState(){ }
+FightState::~FightState(){ 
+  printf("in fightState destructor\n");
+}
 
 
 void FightState::enter(){ 
+  printf("entering fightState\n");
   // init all fields
+  charStateManager->reset();
   graphics->setCamera(&camera);
   camera.update(1700, 2200);
-  
   player1 = new Character(std::make_pair(1700,0), 1);
   player2 = new Character(std::make_pair(2200,0), 2);
   player1->virtualController = inputManager->getVirtualController(0);
+  player1->virtualController->initCommandCompiler();
   player2->virtualController = inputManager->getVirtualController(1);
+  player2->virtualController->initCommandCompiler();
+
   player1->otherChar = player2;
   player2->otherChar = player1;
-
-  player1->virtualController->initCommandCompiler();
-  player2->virtualController->initCommandCompiler();
  
   charStateManager->registerCharacter(player1, 1);
   charStateManager->registerCharacter(player2, 2);
@@ -33,8 +37,10 @@ void FightState::enter(){
 }
 
 void FightState::exit(){ 
+  printf("exiting fight state\n");
   delete player1;
   delete player2;
+  delete this;
 }
 
 void FightState::pause(){ }
@@ -246,11 +252,8 @@ void FightState::checkBounds(){
 }
 
 void FightState::checkHealth(){
-  if (player1->health <= 0) {
-    player1->health = 100;
-  }
-  if (player2->health <= 0) {
-    player2->health = 100;
+  if (player1->health <= 0 || player2->health <= 0) {
+    stateManager->popState();
   }
 }
 

@@ -10,6 +10,8 @@ public:
   };
 
   void registerCharacter(Character* character, int playerNum);
+  void reset();
+
   bool screenFrozen = false;
   int screenFreezeTime = 0;
   Character* getCharPointer(int playerNum);
