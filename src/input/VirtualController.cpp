@@ -82,7 +82,6 @@ bool VirtualController::wasPressed(Input input, bool strict, int index, bool pre
   int historySize = inputHistory.size();
   // printf("the inputHistory size %d, the index %d\n", historySize, index);
   if (index >= historySize) {
-    printf("returning false\n");
     return false;
   }
   // printf("checking eventList\n");
@@ -190,7 +189,7 @@ void VirtualController::setBit(uint16_t bit) {
 void VirtualController::clearBit(uint16_t bit) {
   currentState &= ~bit;
   inputHistory.front().push_back(InputEvent(bit, false));
-  inputEventList.push_front(InputEvent(bit, false));
+  // inputEventList.push_front(InputEvent(bit, false));
 }
 
 void VirtualController::setBitOffset(uint16_t offset) {

@@ -32,6 +32,7 @@ public:
   void setY(int y);
   void updateFaceRight();
   void updatePosition();
+  void updateCollisionBoxPositions();
   void updateCollisionBoxes();
 
   // getters for these guys
@@ -43,6 +44,8 @@ public:
   int velocityY;
   int health;
   int maxHealth;
+  int width = 100;
+  bool inCorner = false;
   bool inputFaceRight;
   bool faceRight;
   bool gravity = true;

@@ -108,6 +108,22 @@ void Character::updatePosition(){
     velocityY = 0;
   }
 }
+void Character::updateCollisionBoxPositions(){
+  for (auto cb : currentState->pushBoxes) {
+    cb->positionX = position.first - (cb->width / 2);
+    cb->positionY = position.second;
+  }
+
+  for (auto cb : currentState->hurtBoxes) {
+    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
+    cb->positionY = position.second - cb->offsetY;
+  }
+
+  for (auto cb : currentState->hitBoxes) {
+    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
+    cb->positionY = position.second - cb->offsetY;
+  }
+}
 
 void Character::updateCollisionBoxes(){
   // TODO: abstract into updateCollisionBoxPos function

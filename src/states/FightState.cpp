@@ -57,24 +57,37 @@ void FightState::handleInput(){
 
 void FightState::update(){ 
   stateTime++;
-  if (stateTime > 120) {
-    everythingCompiled = true;
+  if(player1->getPos().first - player1->width <= 0 || player1->getPos().first + player1->width >= 3840){
+    player1->inCorner = true;
+  } else {
+    player1->inCorner = false;
   }
+
+  if(player2->getPos().first - player2->width <= 0 || player2->getPos().first + player2->width >= 3840){
+    player2->inCorner = true;
+  } else {
+    player2->inCorner = false;
+  }
+
+  checkHitCollisions();
+
+  if(charStateManager->screenFrozen && --screenFreeze == 0){
+    charStateManager->screenFrozen = false;
+  }
+
   if(charStateManager->screenFrozen == false){
-    checkPushCollisions();
-    checkHitCollisions();
-    checkBounds();
     player1->update();
     player2->update();
   } else {
-    if(--screenFreeze == 0){
-      charStateManager->screenFrozen = false;
-    }
     charStateManager->screenFreezeTime = screenFreeze;
     player1->currentState->handleCancels();
     player2->currentState->handleCancels();
   }
+  checkPushCollisions();
+
+  checkBounds();
   camera.update(player1->getPos().first, player2->getPos().first);
+  printf("player1Pos:%d, player2Pos:%d \n", player1->getPos().first, player2->getPos().first);
 }
 
 void FightState::draw(){  
@@ -136,44 +149,48 @@ void FightState::checkPushCollisions(){
       for (auto p2PushBox : player2->currentState->pushBoxes) {
         if(!p2PushBox->disabled){
           if (CollisionBox::checkAABB(*p1PushBox, *p2PushBox)) {
-            // printf("pushbox collision detected\n");
-            // if p1 is in the air and p2 is not
-            if (p1Pos.second < 0 && p2Pos.second >= 0) {
-              // find how deeply intersected they are
-              bool p1Lefter = p1Pos.first < p2Pos.first;
+            // find how deeply intersected they are
+            bool p1Lefter = p1Pos.first < p2Pos.first;
 
-              if(p1Lefter){
-                std::cout << "p1lefter" << std::endl;
-                int p1RightEdge = p1PushBox->positionX + p1PushBox->width;
-                int p2LeftEdge = p2PushBox->positionX;
+            if(p1Lefter){
+              int p1RightEdge = p1PushBox->positionX + p1PushBox->width;
+              int p2LeftEdge = p2PushBox->positionX;
+              int depth = p1RightEdge - p2LeftEdge;
 
-                if(p2LeftEdge < p1RightEdge){
-                  player2->setX(p1RightEdge - p2LeftEdge);
-                }
+              // account for over bound 
+              if ((p2Pos.first+player2->width) + (depth/2) > 3840) {
+                int remainder = 3840 - (p2Pos.first + (depth/2));
+                player2->setXPos(3840);
+                player1->setX(-depth);
+              } else if ((p1Pos.first - player1->width) - (depth/2) < 0){
+                int remainder = p1Pos.first + (depth/2);
+                player1->setXPos(0);
+                player2->setX(depth);
               } else {
-                int p1LeftEdge = p1PushBox->positionX;
-                int p2RightEdge = p2PushBox->positionX + p2PushBox->width;
-
-                if(p2RightEdge > p1LeftEdge){
-                  player2->setX(p1LeftEdge - p2RightEdge);
-                }
+                player2->setX(depth/2);
+                player1->setX(-depth/2);
               }
-            } else if (p2Pos.second < 0 && p1Pos.second >= 0) {
-              printf("p2 in the air annd p1 grounded\n");
             } else {
-              int p1Vel = player1->velocityX;
-              int p2Vel = player2->velocityX;
-              if(p1Pos.first == 0 || p1Pos.first == 3840){
-                player1->setX(p2Vel);
-                player2->setX(-p2Vel);
-              } else if (p2Pos.first == 0 || p2Pos.first == 3840){
-                player1->setX(-p1Vel);
-                player2->setX(p1Vel);
+              int p2RightEdge = p2PushBox->positionX + p2PushBox->width;
+              int p1LeftEdge = p1PushBox->positionX;
+              int depth = p2RightEdge - p1LeftEdge;
+
+              // account for over bound 
+              if ((p1Pos.first+player1->width) + (depth/2) > 3840) {
+                int remainder = 3840 - (p1Pos.first + (depth/2));
+                player1->setXPos(3840);
+                player2->setX(-depth);
+              } else if ((p2Pos.first - player2->width) - (depth/2) < 0){
+                int remainder = p2Pos.first + (depth/2);
+                player2->setXPos(0);
+                player1->setX(depth);
               } else {
-                player1->setX(p2Vel);
-                player2->setX(p1Vel);
+                player2->setX(-depth/2);
+                player1->setX(depth/2);
               }
             }
+            player1->updateCollisionBoxPositions();
+            player2->updateCollisionBoxPositions();
           }
         }
       }
@@ -184,7 +201,7 @@ void FightState::checkPushCollisions(){
 void FightState::checkHitCollisions(){
   if (!player1->currentState->hitboxesDisabled) {
     for (auto p1Hitbox : player1->currentState->hitBoxes) {
-      if(!p1Hitbox->disabled && !player1->currentState->hitboxesDisabled){
+      if(!p1Hitbox->disabled){
         for (auto p2HurtBox : player2->currentState->hurtBoxes) {
           if(!p2HurtBox->disabled){
             if (CollisionBox::checkAABB(*p1Hitbox, *p2HurtBox)) {
@@ -199,8 +216,13 @@ void FightState::checkHitCollisions(){
               player2->control = 0;
               player2->health -= p1Hitbox->damage;
               player2->hitstun = p1Hitbox->hitstun;
-              player2->pushTime = p1Hitbox->pushTime;
-              player2->_negVelSetX(p1Hitbox->pushback);
+              if (player2->inCorner) {
+                player1->pushTime = p1Hitbox->pushTime;
+                player1->_negVelSetX(p1Hitbox->pushback);
+              } else {
+                player2->pushTime = p1Hitbox->pushTime;
+                player2->_negVelSetX(p1Hitbox->pushback);
+              }
               player2->comboCounter++;
               if(p1Hitbox->canTrip){
                 player2->changeState(24);
@@ -215,39 +237,46 @@ void FightState::checkHitCollisions(){
         }
       }
     }
-    
   }
 }
 
 void FightState::checkBounds(){
-  if(player1->getPos().first < 0) {
-    player1->setXPos(0);
+  if(player1->getPos().first - player1->width <= 0) {
+    player1->setXPos(0+player1->width);
+    player1->updateCollisionBoxPositions();
   }
-  if (player1->getPos().first < camera.lowerBound) {
+  if (player1->getPos().first - player1->width < camera.lowerBound) {
     printf("why am I outside the camera on the left?\n");
-    player1->setXPos(camera.lowerBound);
+    player1->setXPos(camera.lowerBound+player1->width);
+    player1->updateCollisionBoxPositions();
   }
 
-  if(player1->getPos().first > 3840) {
-    player1->setXPos(3840);
+  if(player1->getPos().first + player1->width >= 3840) {
+    player1->setXPos(3840 - player1->width);
+    player1->updateCollisionBoxPositions();
   }
-  if (player1->getPos().first > camera.upperBound) {
+  if (player1->getPos().first + player1->width > camera.upperBound) {
     printf("why am I outside the camera on the right?\n");
-    player1->setXPos(camera.upperBound);
+    player1->setXPos(camera.upperBound - player1->width);
+    player1->updateCollisionBoxPositions();
   }
 
-  if(player2->getPos().first < 0) {
-    player2->setXPos(0);
+  if(player2->getPos().first - player2->width <= 0) {
+    player2->setXPos(0 + player2->width);
+    player2->updateCollisionBoxPositions();
   }
-  if (player2->getPos().first < camera.lowerBound) {
-    player2->setXPos(camera.lowerBound);
+  if (player2->getPos().first - player2->width < camera.lowerBound) {
+    player2->setXPos(camera.lowerBound + player2->width);
+    player2->updateCollisionBoxPositions();
   }
 
-  if(player2->getPos().first > 3840) {
-    player2->setXPos(3840);
+  if(player2->getPos().first + player2->width >= 3840) {
+    player2->setXPos(3840 - player2->width);
+    player2->updateCollisionBoxPositions();
   }
-  if (player2->getPos().first > camera.upperBound) {
-    player2->setXPos(camera.upperBound);
+  if (player2->getPos().first + player2->width > camera.upperBound) {
+    player2->setXPos(camera.upperBound - player2->width);
+    player2->updateCollisionBoxPositions();
   }
 }
 

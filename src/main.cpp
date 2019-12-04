@@ -29,8 +29,7 @@ int main() {
     }
     frameCount++;
     float avgFPS = frameCount/ ( (gameStart - SDL_GetTicks()) / 1000.f );
-    if( avgFPS > 2000000 )
-    {
+    if( avgFPS > 2000000 ) {
       avgFPS = 0;
     }
    // printf("--- slow tick ---\n");

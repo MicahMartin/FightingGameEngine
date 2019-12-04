@@ -19,6 +19,7 @@ struct FightStateValues {
   int charYPosition[2];
   int charComboCount[2];
 };
+
 class FightState : public GameState {
 public:
   FightState();
@@ -49,9 +50,9 @@ public:
 private:
   Character* player1;
   Character* player2;
-  CharStateManager* charStateManager = CharStateManager::getInstance();
-  Graphics* graphics = Graphics::getInstance();
   FightScreen currentScreen;
   Camera camera;
+  CharStateManager* charStateManager = CharStateManager::getInstance();
+  Graphics* graphics = Graphics::getInstance();
 };
 #endif
