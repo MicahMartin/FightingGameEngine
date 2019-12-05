@@ -56,27 +56,26 @@ void Character::loadStates(){
 Character::~Character(){};
 
 void Character::handleInput(){ 
+
+  if(pushTime > 0){
+    pushTime--;
+    if(pushTime == 0){
+      velocityX = 0;
+    }
+  }
+
   if (hitstun > 0) {
     hitstun--;
-    if(pushTime > 0){
-      pushTime--;
-      if(pushTime == 0){
-        velocityX = 0;
-      }
-    }
   }
+
   if (blockstun > 0) {
     blockstun--;
-    if(pushTime > 0){
-      pushTime--;
-      if(pushTime == 0){
-        velocityX = 0;
-      }
-    }
   }
+
   if(cancelPointer != 0){
     changeState(cancelPointer);
   }
+
   if(control){
     // TODO: Precompile all scripts
     virtualMachine.execute(&inputScript);

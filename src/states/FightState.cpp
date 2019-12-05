@@ -83,8 +83,8 @@ void FightState::update(){
     player1->currentState->handleCancels();
     player2->currentState->handleCancels();
   }
-  checkPushCollisions();
 
+  checkPushCollisions();
   checkBounds();
   camera.update(player1->getPos().first, player2->getPos().first);
 }
@@ -224,22 +224,26 @@ void FightState::checkHitCollisions(){
               if(checkBlock(p1Hitbox->blockType, player2) && ((player2->currentState->stateNum == 28 || player2->currentState->stateNum == 29) || player2->control)){
                 player2->blockstun = p1Hitbox->blockstun;
                 player2->control = 0;
-                switch (p1Hitbox->blockType) {
-                  case 1:
-                    if (player2->_getInput(1)) {
+                if (player2->_getYPos() > 0) {
+                  player2->changeState(29);
+                } else {
+                  switch (p1Hitbox->blockType) {
+                    case 1:
+                      if (player2->_getInput(1)) {
+                        player2->changeState(29);
+                      } else {
+                        player2->changeState(28);
+                      }
+                      break;
+                    case 2:
                       player2->changeState(29);
-                    } else {
+                      break;
+                    case 3:
                       player2->changeState(28);
-                    }
-                    break;
-                  case 2:
-                    player2->changeState(29);
-                    break;
-                  case 3:
-                    player2->changeState(28);
-                    break;
-                  // should throw error here
-                  default: break;
+                      break;
+                    // should throw error here
+                    default: break;
+                  }
                 }
                 printf("ohh u got the blocksies?\n");
               } else {
@@ -249,7 +253,7 @@ void FightState::checkHitCollisions(){
                 player2->hitstun = p1Hitbox->hitstun;
                 player2->comboCounter++;
 
-                if(p1Hitbox->canTrip){
+                if(p1Hitbox->canTrip || player2->_getYPos() > 0 || player2->currentState->stateNum == 24){
                   player2->changeState(24);
                 } else {
                   player2->changeState(9);
@@ -333,7 +337,8 @@ void FightState::checkBounds(){
 
 void FightState::checkHealth(){
   if (player1->health <= 0 || player2->health <= 0) {
-    stateManager->popState();
+    player2->health = 100;
+    player1->health = 100;
   }
 }
 

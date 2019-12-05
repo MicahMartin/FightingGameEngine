@@ -31,6 +31,10 @@
 
   if (control) {
     if (grounded) {
+      if (qcb_k) {
+        $change_state 30;
+      }
+      
       if(qcf_k){
         $change_state 14; 
       }

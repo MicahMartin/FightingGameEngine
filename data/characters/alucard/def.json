@@ -331,7 +331,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "blocktype": 3, "hitstun":14, "blockstun":10, "hitstop": 12, "damage":2, "push": 8, "pushTime": 8,  "start": 9, "end": 16, "width":100, "height":100, "offsetX":75, "offsetY": 0},
+        {"type": "HIT", "blocktype": 3, "hitstun":14, "blockstun":10, "hitstop": 12, "damage":2, "push": 8, "pushTime": 8,  "start": 9, "end": 16, "width":150, "height":100, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -352,7 +352,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "blocktype": 1, "hitstun":22, "blockstun":20, "hitstop": 12, "damage":3, "push": 8, "pushTime": 8,  "start": 11, "end": 16, "width":360, "height":150, "offsetX":75, "offsetY": 185},
+        {"type": "HIT", "blocktype": 1, "hitstun":22, "blockstun":20, "hitstop": 16, "damage":3, "push": 8, "pushTime": 8,  "start": 11, "end": 16, "width":360, "height":150, "offsetX":75, "offsetY": 185},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":80, "offsetX":75, "offsetY": 185},
         {"type": "HURT", "start": 1, "end": -1, "width":115, "height":185, "offsetX":75, "offsetY": 0}
@@ -425,11 +425,12 @@
       ],
       "update_script": "../data/characters/alucard/scripts/blowback_trip.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/95.png", "time": 6, "offsetX": 0, "offsetY": 50},
-        { "file": "../data/characters/alucard/sprites/94.png", "time": -1, "offsetX": 0, "offsetY": 50}
+        { "file": "../data/characters/alucard/sprites/95.png", "time": 6, "offsetX": 75, "offsetY": 50},
+        { "file": "../data/characters/alucard/sprites/94.png", "time": -1, "offsetX": 75, "offsetY": 50}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
     },
     {
@@ -440,7 +441,7 @@
       ],
       "update_script": "../data/characters/alucard/scripts/knockdown.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/97.png", "time": 20, "offsetX": 0}
+        { "file": "../data/characters/alucard/sprites/97.png", "time": 20, "offsetX": 75}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
@@ -498,6 +499,39 @@
         "NO_TURN"
       ],
       "update_script": "../data/characters/alucard/scripts/block_crouch.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/42.png", "time": -1, "offsetX": 75}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 30,
+      "state_name": "FIREBALL",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/alucard/scripts/attacks/fireball.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/76.png", "time": 18, "offsetX": 0},
+        { "file": "../data/characters/alucard/sprites/77.png", "time": 2, "offsetX": 0},
+        { "file": "../data/characters/alucard/sprites/80.png", "time": 10, "offsetX": 0}
+
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 31,
+      "state_name": "AIR_FIREBALL",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/alucard/scripts/attacks/air_fireball.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/42.png", "time": -1, "offsetX": 75}
       ],
