@@ -388,6 +388,8 @@ void Compiler::statement() {
     engineCallStatement(OP_GET_ANIM_TIME);
   } else if (match(TOKEN_GET_HIT_STUN)) {
     engineCallStatement(OP_GET_HIT_STUN);
+  } else if (match(TOKEN_GET_BLOCK_STUN)) {
+    engineCallStatement(OP_GET_BLOCK_STUN);
   } else if (match(TOKEN_GET_STATE_TIME)) {
     // printf("matching get_state_time statement\n");
     engineCallStatement(OP_GET_STATE_TIME);

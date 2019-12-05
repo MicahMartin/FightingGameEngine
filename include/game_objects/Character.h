@@ -3,7 +3,6 @@
 
 #include <nlohmann/json.hpp>
 #include "character_state/StateDef.h"
-#include "character_state/HitScript.h"
 #include "domain_language/VirtualMachine.h"
 #include "domain_language/Script.h"
 #include "input/VirtualController.h"
@@ -37,24 +36,25 @@ public:
 
   // getters for these guys
 
+  int width = 100;
   int control = 1;
+  int hitstun = 0;
+  int blockstun = 0;
+  int pushTime = 0;
+  int maxHealth = 100;
+  int hasAirAction = 0;
   int comboCounter = 0;
+  int cancelPointer = 0;
+  int noGravityCounter = 0;
+  long frameLastAttackConnected = 0;
+  bool inCorner = false;
+  bool gravity = true;
+  int health;
   int playerNum;
   int velocityX;
   int velocityY;
-  int health;
-  int maxHealth;
-  int width = 100;
-  bool inCorner = false;
-  bool inputFaceRight;
   bool faceRight;
-  bool gravity = true;
-  int noGravityCounter = 0;
-  int cancelPointer = 0;
-  int hitstun = 0;
-  int pushTime = 0;
-  int hasAirAction = 0;
-  long frameLastAttackConnected = 0;
+  bool inputFaceRight;
 
   void _changeState(int stateNum);
   void _cancelState(int stateNum);
@@ -73,6 +73,7 @@ public:
   void _resetAnim();
 
   int _getHitStun();
+  int _getBlockStun();
   int _getAnimTime();
   int _getStateTime();
   int _getYPos();
@@ -87,10 +88,9 @@ public:
   VirtualController* virtualController;
   StateDef* currentState;
   Character* otherChar;
-  // std::vector<HitScript> hitScripts;
-  std::vector<uint8_t> inputByteCode;
   Script inputScript;
   VirtualMachine virtualMachine;
+  std::vector<uint8_t> inputByteCode;
 private:
   nlohmann::json stateJson;
   std::vector<StateDef> stateList;

@@ -4,12 +4,12 @@
 
 CollisionBox::CollisionBox(CollisionBox::CollisionType boxType, int width, int height, 
   int offsetX, int offsetY, int start, int end) 
-: CollisionBox(boxType, width, height, offsetX, offsetY, start, end, 0,0,0,0,0) {}
+: CollisionBox(boxType, width, height, offsetX, offsetY, start, end, 0,0,0,0,0,0,0) {}
 
 CollisionBox::CollisionBox(CollisionBox::CollisionType boxType, int width, int height, 
-  int offsetX, int offsetY, int start, int end, int damage, int pushback, int hitstop, int hitstun, int pushTime)
+  int offsetX, int offsetY, int start, int end, int damage, int pushback, int hitstop, int hitstun, int pushTime, int blockstun, int blockType)
 : boxType(boxType), width(width), height(height), offsetX(offsetX), offsetY(offsetY), start(start), 
-  end(end),damage(damage), pushback(pushback), hitstop(hitstop), hitstun(hitstun), pushTime(pushTime){ }
+  end(end),damage(damage), pushback(pushback), hitstop(hitstop), hitstun(hitstun), pushTime(pushTime), blockstun(blockstun), blockType(blockType){ }
 
 CollisionBox::~CollisionBox(){ }
 

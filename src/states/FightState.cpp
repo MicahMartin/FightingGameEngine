@@ -87,7 +87,6 @@ void FightState::update(){
 
   checkBounds();
   camera.update(player1->getPos().first, player2->getPos().first);
-  printf("player1Pos:%d, player2Pos:%d \n", player1->getPos().first, player2->getPos().first);
 }
 
 void FightState::draw(){  
@@ -160,11 +159,11 @@ void FightState::checkPushCollisions(){
               // account for over bound 
               if ((p2Pos.first+player2->width) + (depth/2) > 3840) {
                 int remainder = 3840 - (p2Pos.first + (depth/2));
-                player2->setXPos(3840);
+                player2->setXPos(3840-player2->width);
                 player1->setX(-depth);
               } else if ((p1Pos.first - player1->width) - (depth/2) < 0){
                 int remainder = p1Pos.first + (depth/2);
-                player1->setXPos(0);
+                player1->setXPos(0+player1->width);
                 player2->setX(depth);
               } else {
                 player2->setX(depth/2);
@@ -178,11 +177,11 @@ void FightState::checkPushCollisions(){
               // account for over bound 
               if ((p1Pos.first+player1->width) + (depth/2) > 3840) {
                 int remainder = 3840 - (p1Pos.first + (depth/2));
-                player1->setXPos(3840);
+                player1->setXPos(3840+player1->width);
                 player2->setX(-depth);
               } else if ((p2Pos.first - player2->width) - (depth/2) < 0){
                 int remainder = p2Pos.first + (depth/2);
-                player2->setXPos(0);
+                player2->setXPos(0+player2->width);
                 player1->setX(depth);
               } else {
                 player2->setX(-depth/2);
@@ -205,17 +204,15 @@ void FightState::checkHitCollisions(){
         for (auto p2HurtBox : player2->currentState->hurtBoxes) {
           if(!p2HurtBox->disabled){
             if (CollisionBox::checkAABB(*p1Hitbox, *p2HurtBox)) {
-              player1->frameLastAttackConnected = gameTime; 
               printf("hitbox collision detected\n");
-              // TODO: Run hitscript
-              charStateManager->screenFrozen = true;
               screenFreeze = p1Hitbox->hitstop;
+              charStateManager->screenFrozen = true;
               charStateManager->screenFreezeTime = p1Hitbox->hitstop;
+
+              player1->frameLastAttackConnected = gameTime; 
+              // TODO: Hitbox group IDs
               player1->currentState->hitboxesDisabled = true;
 
-              player2->control = 0;
-              player2->health -= p1Hitbox->damage;
-              player2->hitstun = p1Hitbox->hitstun;
               if (player2->inCorner) {
                 player1->pushTime = p1Hitbox->pushTime;
                 player1->_negVelSetX(p1Hitbox->pushback);
@@ -223,14 +220,40 @@ void FightState::checkHitCollisions(){
                 player2->pushTime = p1Hitbox->pushTime;
                 player2->_negVelSetX(p1Hitbox->pushback);
               }
-              player2->comboCounter++;
-              if(p1Hitbox->canTrip){
-                player2->changeState(24);
+
+              if(checkBlock(p1Hitbox->blockType, player2) && ((player2->currentState->stateNum == 28 || player2->currentState->stateNum == 29) || player2->control)){
+                player2->blockstun = p1Hitbox->blockstun;
+                player2->control = 0;
+                switch (p1Hitbox->blockType) {
+                  case 1:
+                    if (player2->_getInput(1)) {
+                      player2->changeState(29);
+                    } else {
+                      player2->changeState(28);
+                    }
+                    break;
+                  case 2:
+                    player2->changeState(29);
+                    break;
+                  case 3:
+                    player2->changeState(28);
+                    break;
+                  // should throw error here
+                  default: break;
+                }
+                printf("ohh u got the blocksies?\n");
               } else {
-                player2->changeState(9);
-              }
-              if(player2->comboCounter > 1){
-                printf("player 2 been combo'd for %d hits\n", player2->comboCounter);
+                printf("ya wasnt blockin kid\n");
+                player2->control = 0;
+                player2->health -= p1Hitbox->damage;
+                player2->hitstun = p1Hitbox->hitstun;
+                player2->comboCounter++;
+
+                if(p1Hitbox->canTrip){
+                  player2->changeState(24);
+                } else {
+                  player2->changeState(9);
+                }
               }
             }
           }
@@ -238,6 +261,34 @@ void FightState::checkHitCollisions(){
       }
     }
   }
+}
+
+bool FightState::checkBlock(int blockType, Character* player){
+  bool isHoldingDownBack = player->_getInput(1);
+  bool isHoldingBack = player->_getInput(4);
+  printf("player2 is holding downback? %d, what about back %d\n", isHoldingDownBack, isHoldingBack);
+  // I know, enum
+  switch (blockType) {
+    // mid
+    case 1:
+      if(isHoldingDownBack || isHoldingBack)
+        return true;
+      break;
+    // low
+    case 2:
+      if(isHoldingDownBack)
+        return true;
+      break;
+    case 3:
+      // high
+      if(isHoldingBack)
+        return true;
+      break;
+    default:
+      return true;
+  }
+
+  return false;
 }
 
 void FightState::checkBounds(){
@@ -287,24 +338,26 @@ void FightState::checkHealth(){
 }
 
 void FightState::updateFaceRight(){
-  if(player1->getPos().first <= player2->getPos().first){
+  if(player1->getPos().first < player2->getPos().first){
+    player1->inputFaceRight = true;
+    player2->inputFaceRight = false;
+
     if(!player1->currentState->checkFlag(NO_TURN)){
       player1->faceRight = true;
     }
-    player1->inputFaceRight = true;
     if(!player2->currentState->checkFlag(NO_TURN)){
       player2->faceRight = false;
     }
-    player2->inputFaceRight = true;
   } else {
+    player1->inputFaceRight = false;
+    player2->inputFaceRight = true;
+
     if(!player1->currentState->checkFlag(NO_TURN)){
       player1->faceRight = false;
     }
-      player1->inputFaceRight = false;
     if(!player2->currentState->checkFlag(NO_TURN)){
       player2->faceRight = true;
     }
-      player2->inputFaceRight = true;
   }
 }
 

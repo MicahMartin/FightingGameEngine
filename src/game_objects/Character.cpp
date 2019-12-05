@@ -65,6 +65,15 @@ void Character::handleInput(){
       }
     }
   }
+  if (blockstun > 0) {
+    blockstun--;
+    if(pushTime > 0){
+      pushTime--;
+      if(pushTime == 0){
+        velocityX = 0;
+      }
+    }
+  }
   if(cancelPointer != 0){
     changeState(cancelPointer);
   }
@@ -296,6 +305,10 @@ int Character::_wasPressed(int input){
 
 int Character::_getHitStun(){
   return hitstun;
+}
+
+int Character::_getBlockStun(){
+  return blockstun;
 }
 
 int Character::_checkCommand(int commandIndex){

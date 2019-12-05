@@ -28,6 +28,8 @@ public:
   void setBlendMode(SDL_BlendMode blendmode);
 
   void setCords(int xCord, int yCord);
+  void setXCord(int xCord);
+  void setYCord(int yCord);
   void setDimensions(int xCord, int yCord, int width, int height);
   std::pair<int, int> getDimensions();
   std::pair<int, int> getCords();

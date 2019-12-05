@@ -3,7 +3,8 @@
 #include "character_state/StateDef.h"
 #include "game_objects/Character.h"
 #include "physics/CollisionBox.h"
-#include "Util.h"
+#include "util/Util.h"
+
  std::map<std::string, FlagBit> StateDef::flagMap = {
   {"NO_TURN", NO_TURN},
   {"NO_TURN_ON_ENTER", NO_TURN_ON_ENTER},
@@ -133,7 +134,9 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
     if(type == CollisionBox::HIT){
       // TODO: Fix collisionbox loading
       cb = new CollisionBox(type, width, height, offsetX, offsetY, start, end, 
-          i.value().at("damage"), i.value().at("push"), i.value().at("hitstop"), i.value().at("hitstun"), i.value().at("pushTime"));
+          i.value().at("damage"), i.value().at("push"), i.value().at("hitstop"), 
+          i.value().at("hitstun"), i.value().at("pushTime"), i.value().at("blockstun"), 
+          i.value().at("blocktype"));
       if (i.value().contains("canTrip")) {
         cb->canTrip = true;
       }

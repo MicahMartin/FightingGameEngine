@@ -25,7 +25,7 @@ public:
       int offsetY, int start, int end);
 
   CollisionBox(CollisionType boxType, int width, int height, int offsetX, 
-      int offsetY, int start, int end, int damage, int pushback, int hitstop, int hitstun, int pushTime);
+      int offsetY, int start, int end, int damage, int pushback, int hitstop, int hitstun, int pushTime, int blockstun, int blocktype);
 
   ~CollisionBox();
 
@@ -51,6 +51,8 @@ public:
   int pushTime;
   int hitstop;
   int hitstun;
+  int blockstun;
+  int blockType;
   bool canTrip = false;
 
 private:

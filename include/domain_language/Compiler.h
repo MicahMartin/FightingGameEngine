@@ -145,6 +145,7 @@ private:
     { NULL,     NULL,    PREC_NONE },                             // TOKEN_EOF
     { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_ANIM_TIME, 
     { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_HIT_STUN, 
+    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_BLOCK_STUN, 
     { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_STATE_TIME,
     { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_Y_POS, 
     { &Compiler::engineCallArg, &Compiler::engineCallArg, PREC_NONE },  // TOKEN_GET_INPUT, 

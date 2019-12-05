@@ -34,6 +34,7 @@ public:
   void checkHitCollisions();
   void checkBounds();
   void checkHealth();
+  bool checkBlock(int blockType, Character* player);
   void updateFaceRight();
   void renderHealthBars();
   void renderComboCount();

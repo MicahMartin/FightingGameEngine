@@ -113,6 +113,8 @@ int Script::disassembleInstruction(int offset){
       return simpleInstruction("OP_GET_ANIM_TIME", offset);
     case OP_GET_HIT_STUN: 
       return simpleInstruction("OP_GET_HIT_STUN", offset);
+    case OP_GET_BLOCK_STUN: 
+      return simpleInstruction("OP_GET_BLOCK_STUN", offset);
     case OP_GET_STATE_TIME: 
       return simpleInstruction("OP_GET_STATE_TIME", offset);
     case OP_GET_Y_POS: 

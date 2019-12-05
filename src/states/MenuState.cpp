@@ -6,18 +6,38 @@
 MenuState::MenuState(){
   printf("menuState constructor\n");
   // TODO: let the menu add its own texture
-  MenuItem versus("versus", [this]{
+  mainMenu.addMenuItem("versus", "../data/images/versus.png", 240, 50, [this]{
     printf("pushing the fightState \n");
     stateManager->changeState(new FightState());
   });
 
-  MenuItem config("config", [this]{
-    printf("not yet implemented\n");
-    stateManager->popState();
+  mainMenu.addMenuItem("config", "../data/images/config.png", 240, 50, [this]{
+    activeMenu = &configMenu;
   });
 
-  mainMenu.menuItemArray.push_back(versus);
-  mainMenu.menuItemArray.push_back(config);
+  configMenu.addMenuItem("player1_button_config", "../data/images/config.png", 240, 50, [this]{
+    VirtualController* vc = inputManager->getVirtualController(0);
+    SDL_Event event;
+    printf("waiting...\n");
+    bool done = false;
+    auto waitStart = std::chrono::high_resolution_clock::now();
+    while(!done && SDL_WaitEvent(&event)){
+      if (event.type == SDL_KEYDOWN) {
+        done = true;
+      }
+    }
+    auto waitEnd = std::chrono::high_resolution_clock::now();
+    double delayLength = std::chrono::duration<double, std::ratio<100>>(waitEnd - waitStart).count();
+  });
+
+  configMenu.addMenuItem("player2_button_config", "../data/images/config.png", 240, 50, [this]{
+    printf("not yet implemented\n");
+  });
+
+  mainMenu.vc = inputManager->getVirtualController(0);
+  configMenu.vc = inputManager->getVirtualController(0);
+
+  activeMenu = &mainMenu;
 }
 
 MenuState::~MenuState(){ 
@@ -43,20 +63,11 @@ void MenuState::resume() {
 
 void MenuState::handleInput() {
   VirtualController* vc = inputManager->getVirtualController(0);
-  if(vc->wasPressed(UP)){
-    mainMenu.moveCursorUp();
-  }
-  if(vc->wasPressed(DOWN)){
-    mainMenu.moveCursorDown();
-  }
-  if(vc->wasPressed(MK)){
-    // go back to title
+  if (vc->wasPressed(MK)) {
     stateManager->popState();
-    // THIS IS GONE AFTER POPSTATE BE CAREFUL NOOB
+    return;
   }
-  if(vc->wasPressed(LP)){
-    mainMenu.activate();
-  }
+  activeMenu->handleInput();
 }
 
 void MenuState::update(){
@@ -65,5 +76,5 @@ void MenuState::update(){
 
 void MenuState::draw(){ 
   menuScreen.draw();
-  mainMenu.draw();
+  activeMenu->draw();
 }

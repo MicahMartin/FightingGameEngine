@@ -33,6 +33,7 @@ typedef enum {
   OP_LOOP,
   OP_GET_ANIM_TIME,
   OP_GET_HIT_STUN,
+  OP_GET_BLOCK_STUN,
   OP_GET_STATE_TIME,
   OP_GET_Y_POS,
   OP_GET_INPUT,
@@ -64,6 +65,7 @@ static const std::unordered_map<std::string, OpCode> engineCallMap {
   // modify stack
   {"$get_anim_time", OP_GET_ANIM_TIME},
   {"$get_hit_stun", OP_GET_HIT_STUN},
+  {"$get_block_stun", OP_GET_BLOCK_STUN},
   {"$get_state_time", OP_GET_STATE_TIME},
   {"$get_y_pos", OP_GET_Y_POS},
   {"$get_input", OP_GET_INPUT},

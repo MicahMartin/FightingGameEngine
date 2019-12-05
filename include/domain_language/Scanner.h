@@ -30,7 +30,7 @@ typedef enum {
   TOKEN_EOF,
 
   // engine functions
-  TOKEN_GET_ANIM_TIME, TOKEN_GET_HIT_STUN, TOKEN_GET_STATE_TIME,
+  TOKEN_GET_ANIM_TIME, TOKEN_GET_HIT_STUN, TOKEN_GET_BLOCK_STUN, TOKEN_GET_STATE_TIME,
   TOKEN_GET_Y_POS, TOKEN_GET_INPUT, TOKEN_GET_STATE_NUM,
   TOKEN_GET_COMBO, TOKEN_GET_CONTROL,
 
@@ -93,6 +93,7 @@ static const std::unordered_map<std::string, TokenType> keywordTypes {
   { "$set_air_action",  TOKEN_SET_AIR_ACTION},
   { "$reset_anim",  TOKEN_RESET_ANIM},
   { "$check_command",  TOKEN_CHECK_COMMAND},
+  { "$get_block_stun",  TOKEN_GET_BLOCK_STUN},
 };
 
 class Scanner {

@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <nlohmann/json.hpp>
-#include "character_state/StateController.h"
 #include "character_state/CharStateManager.h"
 #include "input/VirtualController.h"
 #include "graphics/Animation.h"

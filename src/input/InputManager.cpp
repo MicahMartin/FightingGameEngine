@@ -57,6 +57,8 @@ void InputManager::update() {
             } else {
               controller->setBit(*inputBit);
             }
+          } else {
+            printf("the sdl keycode for the thing just pressed: %d\n", event.key.keysym.sym);
           }
         }
         break;
