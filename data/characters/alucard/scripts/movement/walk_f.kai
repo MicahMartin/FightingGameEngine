@@ -1,6 +1,6 @@
 {
   if($get_state_time == 0){
-    $velset_x 6;
+    $velset_x 5;
   } 
   if($get_anim_time == 0) {
     $reset_anim;

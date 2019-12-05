@@ -273,7 +273,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "blocktype": 3, "hitstun":22, "blockstun":18, "hitstop": 16, "damage":3, "push": 8, "pushTime": 8,  "start": 13, "end": 18, "width":150, "height":50, "offsetX":50, "offsetY": 10},
+        {"type": "HIT", "blocktype": 3, "hitstun":22, "blockstun":18, "hitstop": 16, "damage":3, "push": 8, "pushTime": 8,  "start": 13, "end": 18, "width":150, "height":100, "offsetX":50, "offsetY": 10},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -413,7 +413,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "blocktype": 2, "hitstun":13, "blockstun": 10, "hitstop": 18, "damage":3, "push": 6, "pushTime": 14,  "start": 10, "end": 14, "width":250, "height":100, "offsetX":100, "offsetY": 0, "canTrip": true},
+        {"type": "HIT", "blocktype": 2, "hitstun":13, "blockstun": 10, "hitstop": 18, "damage":3, "push": 6, "pushTime": 20,  "start": 10, "end": 14, "width":250, "height":100, "offsetX":100, "offsetY": 0, "canTrip": true},
         {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -425,12 +425,12 @@
       ],
       "update_script": "../data/characters/alucard/scripts/blowback_trip.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/95.png", "time": 6, "offsetX": 75, "offsetY": 50},
-        { "file": "../data/characters/alucard/sprites/94.png", "time": -1, "offsetX": 75, "offsetY": 50}
+        { "file": "../data/characters/alucard/sprites/95.png", "time": 6, "offsetX": 150, "offsetY": 50},
+        { "file": "../data/characters/alucard/sprites/94.png", "time": -1, "offsetX": 150, "offsetY": 50}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+        {"type": "HURT", "start": 1, "end": -1, "width":290, "height":150, "offsetX":-150, "offsetY": 0}
       ]
     },
     {
