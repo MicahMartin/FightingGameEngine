@@ -70,6 +70,8 @@
       ]
     } 
   ],
+  "spawnOffsetX": 150, 
+  "spawnOffsetY": 0, 
   "command_script": "../data/characters/alucard/entities/puppet/input.kai",
   "update_facing": true
 }

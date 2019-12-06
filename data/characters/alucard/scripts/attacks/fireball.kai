@@ -5,7 +5,7 @@
   } 
 
   if($get_state_time == 19){ 
-    $activate_entity 2;
+    $activate_entity 1;
   } 
 
   if($get_anim_time == 1){ 

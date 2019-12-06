@@ -31,13 +31,18 @@
 
   if (control) {
     if (grounded) {
-      if (qcb_p) {
-        $change_state 30;
-      }
-      
       if(qcf_k){
         $change_state 14; 
       }
+
+      if (qcb_p) {
+        $change_state 30;
+      }
+
+      if (down_down_lp) {
+        $change_state 31;
+      }
+      
 
 
       if(slash){

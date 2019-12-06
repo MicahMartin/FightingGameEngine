@@ -33,9 +33,14 @@
         { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_hit_0003.png", "time": 2, "offsetX": 400, "offsetY":0, "width": 130, "height": 130},
         { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_hit_0004.png", "time": 2, "offsetX": 400, "offsetY":0, "width": 130, "height": 130},
         { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_hit_0005.png", "time": 2, "offsetX": 400, "offsetY":0, "width": 130, "height": 130},
-        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_hit_0006.png", "time": 2, "offsetX": 400, "offsetY":0, "width": 130, "height": 130}
+        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_hit_0006.png", "time": 2, "offsetX": 400, "offsetY":0, "width": 130, "height": 130},
+        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_hit_0007.png", "time": 2, "offsetX": 400, "offsetY":0, "width": 130, "height": 130},
+        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_hit_0008.png", "time": 2, "offsetX": 400, "offsetY":0, "width": 130, "height": 130},
+        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_hit_0009.png", "time": 2, "offsetX": 400, "offsetY":0, "width": 130, "height": 130}
       ],
       "collision_boxes": []
     }
-  ]
+  ],
+  "spawnOffsetX": 50, 
+  "spawnOffsetY": 0
 }
