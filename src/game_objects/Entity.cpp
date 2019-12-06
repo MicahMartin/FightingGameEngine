@@ -76,6 +76,9 @@ void Entity::loadStates(){
     }
     hasCommandScript = true;
   }
+  if (stateJson.count("update_facing")) {
+    updateFacing = stateJson.at("update_facing");
+  }
   // load states
   for(auto i : stateJson.at("states").items()){
     stateList.emplace_back(i.value(), &virtualMachine);

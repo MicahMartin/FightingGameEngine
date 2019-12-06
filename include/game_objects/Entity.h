@@ -99,6 +99,7 @@ public:
   Script inputScript;
   VirtualMachine virtualMachine;
   std::vector<uint8_t> inputByteCode;
+  bool updateFacing = false;
 private:
   const char* defPath;
   nlohmann::json stateJson;

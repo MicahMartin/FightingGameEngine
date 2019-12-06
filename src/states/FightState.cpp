@@ -536,6 +536,37 @@ void FightState::updateFaceRight(){
       player2->faceRight = true;
     }
   }
+  for (auto &i : player1->entityList) {
+    if (i.active && i.updateFacing) {
+      if(i.getPos().first < player2->getPos().first){
+        i.inputFaceRight = true;
+        if(!i.currentState->checkFlag(NO_TURN)){
+          i.faceRight = true;
+        }
+      } else {
+        i.inputFaceRight = false;
+        if(!i.currentState->checkFlag(NO_TURN)){
+          i.faceRight = false;
+        }
+      }
+    }
+  }
+  for (auto &i : player2->entityList) {
+    if (i.active && i.updateFacing) {
+      if(i.getPos().first < player1->getPos().first){
+        i.inputFaceRight = true;
+        if(!i.currentState->checkFlag(NO_TURN)){
+          i.faceRight = true;
+        }
+      } else {
+        i.inputFaceRight = false;
+        if(!i.currentState->checkFlag(NO_TURN)){
+          i.faceRight = false;
+        }
+      }
+    }
+    
+  }
 }
 
 void FightState::renderHealthBars(){

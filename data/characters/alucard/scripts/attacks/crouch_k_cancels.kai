@@ -16,17 +16,16 @@
     $cancel_state 30;
   }
 
-  if(kick){
-    if (!anyDown){
-      $cancel_state 15;
-    }
-  }
-
   if(slash){
     if (anyDown) {
       $cancel_state 23;
     } else {
       $cancel_state 20;
+    }
+  }
+  if(kick){
+    if (!anyDown){
+      $cancel_state 15;
     }
   }
 }

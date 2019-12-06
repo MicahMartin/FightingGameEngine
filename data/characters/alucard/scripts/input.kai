@@ -39,21 +39,6 @@
         $change_state 14; 
       }
 
-      if(punch){
-        if(anyDown){
-          $change_state 21; 
-        } else {
-          $change_state 8; 
-        }
-      }
-
-      if(kick){
-        if(anyDown){
-          $change_state 22; 
-        } else {
-          $change_state 15; 
-        }
-      }
 
       if(slash){
         if(anyDown){
@@ -62,6 +47,21 @@
           $change_state 20;
         }
       }
+      if(kick){
+        if(anyDown){
+          $change_state 22; 
+        } else {
+          $change_state 15; 
+        }
+      }
+      if(punch){
+        if(anyDown){
+          $change_state 21; 
+        } else {
+          $change_state 8; 
+        }
+      }
+
       if(dash_f){
         $change_state 10; 
       }
@@ -101,17 +101,17 @@
     }
 
     if (airborne) {
-      if(punch){
-        $change_state 18; 
-      }
-
-      if(kick){
-        $change_state 19; 
-      }
 
       if(slash){
         $change_state 16; 
       }
+      if(kick){
+        $change_state 19; 
+      }
+      if(punch){
+        $change_state 18; 
+      }
+
 
 
       if(aboveMinHeight and hasAirAction and dash_f){

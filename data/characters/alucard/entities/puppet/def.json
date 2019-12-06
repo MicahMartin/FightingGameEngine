@@ -3,51 +3,45 @@
     {
       "state_num": 1,
       "state_name": "PUPPET_IDLE",
-      "flags": [
-        "NO_TURN"
-      ],
+      "flags": [],
       "update_script": "../data/characters/alucard/entities/puppet/scripts/puppet_idle.kai",
       "animation": [
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/0.png", "time": 9, "offsetX": 250, "offsetY":0, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/1.png", "time": 9, "offsetX": 250, "offsetY":0, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/2.png", "time": 9, "offsetX": 250, "offsetY":0, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/3.png", "time": 9, "offsetX": 250, "offsetY":0, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/4.png", "time": 9, "offsetX": 250, "offsetY":0, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/5.png", "time": 9, "offsetX": 250, "offsetY":0, "width": 100, "height": 100}
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/0.png", "time": 9, "offsetX": 125, "offsetY":0, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/1.png", "time": 9, "offsetX": 125, "offsetY":0, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/2.png", "time": 9, "offsetX": 125, "offsetY":0, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/3.png", "time": 9, "offsetX": 125, "offsetY":0, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/4.png", "time": 9, "offsetX": 125, "offsetY":0, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/5.png", "time": 9, "offsetX": 125, "offsetY":0, "width": 100, "height": 100}
       ],
       "collision_boxes": []
     },
     {
       "state_num": 2,
       "state_name": "PUPPET_WALK_F",
-      "flags": [
-        "NO_TURN"
-      ],
+      "flags": [],
       "update_script": "../data/characters/alucard/entities/puppet/scripts/puppet_walk_f.kai",
       "animation": [
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/0.png", "time": 6, "offsetX": 250, "offsetY":0, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/1.png", "time": 6, "offsetX": 250, "offsetY":0, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/2.png", "time": 6, "offsetX": 250, "offsetY":0, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/3.png", "time": 6, "offsetX": 250, "offsetY":0, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/4.png", "time": 6, "offsetX": 250, "offsetY":0, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/5.png", "time": 6, "offsetX": 250, "offsetY":0, "width": 100, "height": 100}
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/0.png", "time": 6, "offsetX": 125, "offsetY":0, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/1.png", "time": 6, "offsetX": 125, "offsetY":0, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/2.png", "time": 6, "offsetX": 125, "offsetY":0, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/3.png", "time": 6, "offsetX": 125, "offsetY":0, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/4.png", "time": 6, "offsetX": 125, "offsetY":0, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/5.png", "time": 6, "offsetX": 125, "offsetY":0, "width": 100, "height": 100}
       ],
       "collision_boxes": []
     },
     {
       "state_num": 3,
       "state_name": "PUPPET_WALK_B",
-      "flags": [
-        "NO_TURN"
-      ],
+      "flags": [],
       "update_script": "../data/characters/alucard/entities/puppet/scripts/puppet_walk_b.kai",
       "animation": [
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/0.png", "time": 6, "offsetX": 250, "offsetY":0, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/1.png", "time": 6, "offsetX": 250, "offsetY":0, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/2.png", "time": 6, "offsetX": 250, "offsetY":0, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/3.png", "time": 6, "offsetX": 250, "offsetY":0, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/4.png", "time": 6, "offsetX": 250, "offsetY":0, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/5.png", "time": 6, "offsetX": 250, "offsetY":0, "width": 100, "height": 100}
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/0.png", "time": 6, "offsetX": 125, "offsetY":0, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/1.png", "time": 6, "offsetX": 125, "offsetY":0, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/2.png", "time": 6, "offsetX": 125, "offsetY":0, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/3.png", "time": 6, "offsetX": 125, "offsetY":0, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/4.png", "time": 6, "offsetX": 125, "offsetY":0, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/idle/5.png", "time": 6, "offsetX": 125, "offsetY":0, "width": 100, "height": 100}
       ],
       "collision_boxes": []
     },
@@ -59,22 +53,23 @@
       ],
       "update_script": "../data/characters/alucard/entities/puppet/scripts/attacks/puppet_p.kai",
       "animation": [
-        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/0.png", "time": 3, "offsetX": 250, "offsetY":-10, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/1.png", "time": 3, "offsetX": 250, "offsetY":-20, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/2.png", "time": 3, "offsetX": 250, "offsetY":-30, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/3.png", "time": 3, "offsetX": 250, "offsetY":-40, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/4.png", "time": 3, "offsetX": 250, "offsetY":-50, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/5.png", "time": 8, "offsetX": 250, "offsetY":-60, "width": 100, "height": 100},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/6.png", "time": 2, "offsetX": 250, "offsetY":-70, "width": 140, "height": 140},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/7.png", "time": 2, "offsetX": 250, "offsetY":-80, "width": 140, "height": 140},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/8.png", "time": 8, "offsetX": 250, "offsetY":-90, "width": 140, "height": 140},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/9.png", "time": 8, "offsetX": 250, "offsetY":-90, "width": 140, "height": 140},
-        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/10.png", "time": 6, "offsetX": 250, "offsetY":-90, "width": 140, "height": 140}
+        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/0.png", "time": 3, "offsetX": 125, "offsetY":-10, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/1.png", "time": 3, "offsetX": 125, "offsetY":-20, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/2.png", "time": 3, "offsetX": 125, "offsetY":-30, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/3.png", "time": 3, "offsetX": 125, "offsetY":-40, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/4.png", "time": 3, "offsetX": 125, "offsetY":-50, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/5.png", "time": 8, "offsetX": 125, "offsetY":-60, "width": 100, "height": 100},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/6.png", "time": 2, "offsetX": 125, "offsetY":-70, "width": 140, "height": 140},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/7.png", "time": 2, "offsetX": 125, "offsetY":-80, "width": 140, "height": 140},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/8.png", "time": 8, "offsetX": 125, "offsetY":-90, "width": 140, "height": 140},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/9.png", "time": 8, "offsetX": 125, "offsetY":-90, "width": 140, "height": 140},
+        { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/10.png", "time": 6, "offsetX": 125, "offsetY":-90, "width": 140, "height": 140}
       ],
       "collision_boxes": [
         {"type": "HIT", "blocktype": 1, "hitstun":14, "blockstun":14, "hitstop": 4, "damage":5, "push": 14, "pushTime": 8,  "start": 24, "end": -1, "width":150, "height":150, "offsetX":100, "offsetY": 75}
       ]
     } 
   ],
-  "command_script": "../data/characters/alucard/entities/puppet/input.kai"
+  "command_script": "../data/characters/alucard/entities/puppet/input.kai",
+  "update_facing": true
 }

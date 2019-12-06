@@ -18,11 +18,11 @@
     $cancel_state 30;
   }
 
-  if(punch){
+  if(slash){
     if (anyDown) {
-      $cancel_state 21;
+      $cancel_state 23;
     } else {
-      $cancel_state 8;
+      $cancel_state 20;
     }
   }
 
@@ -34,11 +34,12 @@
     }
   }
 
-  if(slash){
+  if(punch){
     if (anyDown) {
-      $cancel_state 23;
+      $cancel_state 21;
     } else {
-      $cancel_state 20;
+      $cancel_state 8;
     }
   }
+
 }
