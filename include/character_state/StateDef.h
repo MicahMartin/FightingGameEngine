@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <nlohmann/json.hpp>
-#include "character_state/CharStateManager.h"
+#include "game_objects/GameObject.h"
 #include "input/VirtualController.h"
 #include "graphics/Animation.h"
 #include "physics/CollisionBox.h"
@@ -18,7 +18,7 @@ enum FlagBit {
 
 class StateDef {
 public:
-  StateDef(nlohmann::json::value_type json, Character* player, VirtualMachine* charVm);
+  StateDef(nlohmann::json::value_type json, VirtualMachine* charVm);
   ~StateDef();
 
   // load shit
@@ -31,12 +31,11 @@ public:
   void enter();
   void handleCancels();
   void update();
-  void draw();
+  void draw(std::pair<int,int> position, bool faceRight, bool inHitStop);
 
   void resetAnim();
 
 
-  Character* player;
   VirtualMachine* charVm;
   Script updateScript;
   Script cancelScript;
@@ -55,6 +54,5 @@ public:
 private:
   static std::map<std::string, FlagBit> flagMap;
   uint8_t flagByte = 0;
-  CharStateManager* charStateManager = CharStateManager::getInstance();
 };
 #endif

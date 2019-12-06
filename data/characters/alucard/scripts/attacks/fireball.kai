@@ -4,6 +4,10 @@
     $set_control 0; 
   } 
 
+  if($get_state_time == 19){ 
+    $activate_entity 1;
+  } 
+
   if($get_anim_time == 1){ 
     $set_control 1; 
   } 

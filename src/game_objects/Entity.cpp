@@ -1,115 +1,126 @@
-#include "game_objects/Character.h"
-#include "game_objects/Entity.h"
 #include <fstream>
-#include <iostream>
+#include <utility>
+#include "game_objects/Entity.h"
+#include "game_objects/Character.h"
 
-Character::Character(std::pair<int, int> _position, int _playerNum) {
-  faceRight = playerNum == 1 ? true : false;
-  health = 100;
-  maxHealth = 100;
-  velocityX = 0;
-  velocityY = 0;
-  position = _position;
-  playerNum = _playerNum;
+Entity::Entity(Character* owner, int entityID, const char* defPath) : owner(owner), entityID(entityID), defPath(defPath) {
+  printf("in entity constructor\n");
 }
+Entity::~Entity(){}
 
-Character::Character(std::pair<int, int> _position) { 
-  faceRight = playerNum == 1 ? true : false;
-  health = 100;
-  maxHealth = 100;
-  position = _position;
-}
-
-void Character::init(){
+void Entity::init(){
+  printf("in entity init\n");
   virtualMachine.character = this;
   stateList.reserve(256);
-  entityList.reserve(12);
   loadStates();
   changeState(1);
 }
 
-void Character::changeState(int stateDefNum){
+void Entity::activateEntity(){
+  std::pair<int,int> ownerPos = owner->getPos();
+
+  active = true;
+  hitstun = 0;
+  blockstun = 0;
+  hitStop = 0;
+  pushTime = 0;
+  cancelPointer = 0;
+  noGravityCounter = 0;
+  frameLastAttackConnected = 0;
+  inCorner = false;
+  inHitStop = false;
+  gravity = true;
+  health = 1;
+  velocityX = 0;
+  velocityY = 0;
+  faceRight = owner->faceRight;
+  inputFaceRight = owner->inputFaceRight;
+
+  // TODO: spawnOffset
+  position = {ownerPos.first + spawnOffsetX, ownerPos.second + spawnOffsetY};
+  changeState(1);
+};
+
+void Entity::deactivateEntity(){
+  active = false;
+};
+
+void Entity::changeState(int stateDefNum){
   cancelPointer = 0;
   currentState = &stateList.at(stateDefNum-1);
-  if(!currentState->checkFlag(NO_TURN_ON_ENTER)){
-    updateFaceRight();
-  }
   currentState->enter();
   updateCollisionBoxes();
 };
 
-void Character::cancelState(int stateDefNum){
+void Entity::cancelState(int stateDefNum){
   cancelPointer = stateDefNum;
 };
 
-void Character::loadStates(){
-  printf("%d Loading states\n", playerNum);
-  std::ifstream configFile("../data/characters/alucard/def.json");
+void Entity::loadStates(){
+  printf("entity:%d Loading states\n", entityID);
+  std::ifstream configFile(defPath);
   configFile >> stateJson;
-  // compile inputs
-  if(!virtualMachine.compiler.compile(stateJson.at("command_script").get<std::string>().c_str(), &inputScript, "input script")){
-    inputScript.disassembleScript("input command script");
-    throw std::runtime_error("inputScript failed to compile");
+  if (stateJson.count("spawnOffsetX")) {
+    spawnOffsetX = stateJson.at("spawnOffsetX");
   }
-
+  if (stateJson.count("spawnOffsetY")) {
+    spawnOffsetY = stateJson.at("spawnOffsetX");
+  }
+  // compile inputs
+  if (stateJson.count("command_script")) {
+    if(!virtualMachine.compiler.compile(stateJson.at("command_script").get<std::string>().c_str(), &inputScript, "input script")){
+      inputScript.disassembleScript("input command script");
+      throw std::runtime_error("inputScript failed to compile");
+    }
+    hasCommandScript = true;
+  }
   // load states
   for(auto i : stateJson.at("states").items()){
     stateList.emplace_back(i.value(), &virtualMachine);
   }
-
-  for(auto i : stateJson.at("entities").items()){
-    const char* defPath = i.value().at("defPath").get<std::string>().c_str();
-    entityList.emplace_back(this, i.value().at("entityID"), defPath).init();
-  }
-
   configFile.close();
 }
 
-Character::~Character(){};
+void Entity::handleInput() {
+  if (active) {
+    if(pushTime > 0){
+      pushTime--;
+      if(pushTime == 0){
+        velocityX = 0;
+      }
+    }
 
-void Character::handleInput(){ 
+    if (hitstun > 0) {
+      hitstun--;
+    }
 
-  if(pushTime > 0){
-    pushTime--;
-    if(pushTime == 0){
-      velocityX = 0;
+    if (blockstun > 0) {
+      blockstun--;
+    }
+
+    if(cancelPointer != 0){
+      changeState(cancelPointer);
+    }
+
+    if(hasCommandScript && control){
+      // TODO: Precompile all scripts
+      virtualMachine.execute(&inputScript);
     }
   }
+};
 
-  if (hitstun > 0) {
-    hitstun--;
-  }
-
-  if (blockstun > 0) {
-    blockstun--;
-  }
-
-  if(cancelPointer != 0){
-    changeState(cancelPointer);
-  }
-
-  if(control){
-    // TODO: Precompile all scripts
-    virtualMachine.execute(&inputScript);
+void Entity::update(){
+  if (active) {
+    currentState->update();
+    updatePosition();
+    updateCollisionBoxes();
   }
 };
 
-void Character::update(){ 
-  currentState->update();
-  updatePosition();
-  updateCollisionBoxes();
+void Entity::updateFaceRight(){
 };
 
-void Character::updateFaceRight(){
-  if(position.first <= otherChar->getPos().first){
-    faceRight = true;
-  } else {
-    faceRight = false;
-  }
-    
-};
-
-void Character::updatePosition(){
+void Entity::updatePosition(){
   position.first += velocityX;
   position.second -= velocityY;
 
@@ -128,7 +139,7 @@ void Character::updatePosition(){
     velocityY = 0;
   }
 }
-void Character::updateCollisionBoxPositions(){
+void Entity::updateCollisionBoxPositions(){
   for (auto cb : currentState->pushBoxes) {
     cb->positionX = position.first - (cb->width / 2);
     cb->positionY = position.second;
@@ -145,7 +156,7 @@ void Character::updateCollisionBoxPositions(){
   }
 }
 
-void Character::updateCollisionBoxes(){
+void Entity::updateCollisionBoxes(){
   // TODO: abstract into updateCollisionBoxPos function
   int stateTime = currentState->stateTime;
   for (auto cb : currentState->pushBoxes) {
@@ -192,145 +203,148 @@ void Character::updateCollisionBoxes(){
 
 }
 
-void Character::draw(){
+void Entity::draw(){
   // draw health bars
-  currentState->draw(position, faceRight, inHitStop);
+  printf("trying to draw an entity..\n");
+  if (active) {
+    printf("im active so ima draw!, am I in hitstop tho? %d\n", inHitStop);
+    currentState->draw(position, faceRight, inHitStop);
+  }
 };
 
 
-std::pair<int,int> Character::getPos(){
+std::pair<int,int> Entity::getPos(){
   return position;
 };
 
-void Character::setXPos(int x){
+void Entity::setXPos(int x){
   position.first = x;
 };
 
-void Character::setX(int x){
+void Entity::setX(int x){
   position.first += x;
 };
 
-void Character::setY(int y){
+void Entity::setY(int y){
   position.second -= y;
 };
 
 
-void Character::_changeState(int  stateNum){
+void Entity::_changeState(int  stateNum){
   changeState(stateNum);
 }
 
-void Character::_cancelState(int  stateNum){
+void Entity::_cancelState(int  stateNum){
   cancelState(stateNum);
 }
 
-void Character::_velSetX(int ammount){
+void Entity::_velSetX(int ammount){
  velocityX = faceRight ? ammount : -ammount;
 }
 
-void Character::_negVelSetX(int ammount){
+void Entity::_negVelSetX(int ammount){
  velocityX = faceRight ? -ammount : ammount;
 }
 
-void Character::_velSetY(int ammount){
+void Entity::_velSetY(int ammount){
   velocityY = ammount;
 }
 
-void Character::_moveForward(int ammount){
+void Entity::_moveForward(int ammount){
   faceRight ? setX(ammount) : setX(-ammount);
 }
 
-void Character::_moveBack(int ammount){
+void Entity::_moveBack(int ammount){
   faceRight ? setX(-ammount) : setX(ammount);
 }
 
-void Character::_moveUp(int ammount){
+void Entity::_moveUp(int ammount){
   setY(ammount);
 }
 
-void Character::_moveDown(int ammount){
+void Entity::_moveDown(int ammount){
   setY(-ammount);
 }
 
-void Character::_setControl(int val){
+void Entity::_setControl(int val){
   control = val;
 }
 
-void Character::_setCombo(int val){
+void Entity::_setCombo(int val){
   comboCounter = val;
 }
 
-void Character::_setGravity(int on){
+void Entity::_setGravity(int on){
   gravity = on;
 }
 
-void Character::_setNoGravityCounter(int count){
+void Entity::_setNoGravityCounter(int count){
   noGravityCounter = count;
 }
 
-void Character::_resetAnim(){
+void Entity::_resetAnim(){
   currentState->resetAnim();
 }
 
-void Character::_activateEntity(int entityID){
-  entityList[entityID - 1].activateEntity();
+void Entity::_activateEntity(int entityID){ 
 }
 
-void Character::_deactivateEntity(int entityID){
-  printf("deactivating entity:%d \n", entityID);
-  entityList[entityID - 1].deactivateEntity();
+void Entity::_deactivateEntity(int entityID){
+  active = false;
 }
 
 
-int Character::_getAnimTime(){
+int Entity::_getAnimTime(){
   return currentState->anim.timeRemaining();
 }
 
-int Character::_getYPos(){
+int Entity::_getYPos(){
   int yPos = abs(getPos().second);
   return yPos;
 }
 
-int Character::_getStateTime(){
+int Entity::_getStateTime(){
   return currentState->stateTime;
 }
 
-int Character::_getInput(int input){
+int Entity::_getInput(int input){
   Input inputType = VirtualController::inputMap[input](inputFaceRight);
   return virtualController->isPressed(inputType) ? 1 : 0;
 }
 
-int Character::_getStateNum(){
+int Entity::_getStateNum(){
   return currentState->stateNum;
 }
 
-int Character::_getControl(){
+int Entity::_getControl(){
   return control;
 }
 
-int Character::_getAirActions(){
+int Entity::_getAirActions(){
   return hasAirAction;
 }
 
-void Character::_setAirAction(int operand){
+void Entity::_setAirAction(int operand){
   hasAirAction = operand;
 }
 
-int Character::_getCombo(){
+int Entity::_getCombo(){
   return comboCounter;
 }
 
-int Character::_wasPressed(int input){
+int Entity::_wasPressed(int input){
   return virtualController->wasPressedBuffer(VirtualController::inputMap[input](inputFaceRight)) ? 1 : 0;
 }
 
-int Character::_getHitStun(){
+int Entity::_getHitStun(){
   return hitstun;
 }
 
-int Character::_getBlockStun(){
+int Entity::_getBlockStun(){
   return blockstun;
 }
 
-int Character::_checkCommand(int commandIndex){
+int Entity::_checkCommand(int commandIndex){
   return virtualController->checkCommand(commandIndex, inputFaceRight);
 }
+

@@ -1,0 +1,17 @@
+{
+  if($get_state_time == 0){
+    $velset_x 1;
+  } 
+
+  if($get_state_time == 6){
+    $velset_x 4;
+  } 
+  if($get_state_time == 11){
+    $velset_x 11;
+  } 
+
+
+  if($get_anim_time == 1) {
+    $reset_anim;
+  }
+}

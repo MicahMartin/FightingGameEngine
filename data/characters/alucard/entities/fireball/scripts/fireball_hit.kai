@@ -1,9 +1,9 @@
 {
   if($get_state_time == 0){
-    $neg_velset_x 4;
+    $velset_x 0;
   } 
 
   if($get_anim_time == 0) {
-    $reset_anim;
+    $deactivate_entity 1;
   }
 }

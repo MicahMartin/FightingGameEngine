@@ -517,7 +517,7 @@
       "animation": [
         { "file": "../data/characters/alucard/sprites/76.png", "time": 18, "offsetX": 0},
         { "file": "../data/characters/alucard/sprites/77.png", "time": 2, "offsetX": 0},
-        { "file": "../data/characters/alucard/sprites/80.png", "time": 10, "offsetX": 0}
+        { "file": "../data/characters/alucard/sprites/80.png", "time": 14, "offsetX": 0}
 
       ],
       "collision_boxes": [
@@ -540,6 +540,9 @@
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
     }
+  ],
+  "entities": [
+    {"entityID": 1, "spawnOffsetX": 100, "spawnOffsetY": 0, "defPath": "../data/characters/alucard/entities/fireball/def.json"}
   ],
   "command_script": "../data/characters/alucard/scripts/input.kai"
 }

@@ -439,6 +439,10 @@ void Compiler::statement() {
     engineCallExpressionStatement(OP_SET_AIR_ACTION);
   } else if (match(TOKEN_RESET_ANIM)) {
     engineCallStatement(OP_RESET_ANIM);
+  } else if (match(TOKEN_ACTIVATE_ENTITY)) {
+    engineCallExpressionStatement(OP_ACTIVATE_ENTITY);
+  } else if (match(TOKEN_DEACTIVATE_ENTITY)) {
+    engineCallExpressionStatement(OP_DEACTIVATE_ENTITY);
   } else if (match(TOKEN_CHECK_COMMAND)) {
     engineCallExpressionStatement(OP_CHECK_COMMAND);
   } else if (match(TOKEN_FOR)) {

@@ -32,6 +32,7 @@ public:
   void resume();
   void checkPushCollisions();
   void checkHitCollisions();
+  void checkEntityHitCollisions();
   void checkBounds();
   void checkHealth();
   bool checkBlock(int blockType, Character* player);

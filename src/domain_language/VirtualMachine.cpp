@@ -284,6 +284,17 @@ inline ExecutionCode VirtualMachine::run(){
         character->_resetAnim();
         break;
       }
+      case OP_ACTIVATE_ENTITY: {
+        long operand = AS_NUMBER(stack.pop());
+        character->_activateEntity(operand);
+        break;
+      }
+      case OP_DEACTIVATE_ENTITY: {
+        long operand = AS_NUMBER(stack.pop());
+        printf("in op deactivateEntity\n");
+        character->_deactivateEntity(operand);
+        break;
+      }
       case OP_CHECK_COMMAND: {
         long operand = AS_NUMBER(stack.pop());
         bool commandFound = character->_checkCommand(operand);

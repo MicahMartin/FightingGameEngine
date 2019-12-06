@@ -1,27 +1,27 @@
-#ifndef _Character_h
-#define _Character_h 
+#ifndef _Entity_h
+#define _Entity_h
 
 #include <nlohmann/json.hpp>
-#include "game_objects/GameObject.h"
 #include "character_state/StateDef.h"
+#include "input/VirtualController.h"
 #include "domain_language/VirtualMachine.h"
 #include "domain_language/Script.h"
-#include "input/VirtualController.h"
 
-// TODO: base class for this n entity
-class Entity;
-class Character : public GameObject {
+class Character;
+class Entity : public GameObject {
 public:
-  Character(std::pair<int, int> position, int playerNum);
-  Character(std::pair<int, int> position);
+  Entity(Character* owner, int entityID, const char* defPath);
   void init();
 
-  ~Character();
+  ~Entity();
 
   void compileScript(const char* path, Script* script, const char* scriptTag);
   void loadStates();
   void changeState(int stateDefNum);
   void cancelState(int stateDefNum);
+
+  void activateEntity();
+  void deactivateEntity();
 
   void handleInput();
   void update();
@@ -39,6 +39,8 @@ public:
 
   // getters for these guys
 
+  int entityID;
+  bool active = false;
   int width = 100;
   int control = 1;
   int hitstun = 0;
@@ -54,12 +56,11 @@ public:
   bool inCorner = false;
   bool inHitStop = false;
   bool gravity = true;
-  int health;
-  int playerNum;
-  int velocityX;
-  int velocityY;
-  bool faceRight;
-  bool inputFaceRight;
+  int health = 1;
+  int velocityX = 0;
+  int velocityY = 0;
+  bool faceRight = false;
+  bool inputFaceRight = false;
 
   void _changeState(int stateNum);
   void _cancelState(int stateNum);
@@ -93,16 +94,19 @@ public:
   int _checkCommand(int commandIndex);
 
   VirtualController* virtualController;
+  Character* owner;
   StateDef* currentState;
-  Character* otherChar;
   Script inputScript;
   VirtualMachine virtualMachine;
   std::vector<uint8_t> inputByteCode;
-  std::vector<Entity> entityList;
 private:
+  const char* defPath;
   nlohmann::json stateJson;
   std::vector<StateDef> stateList;
   std::pair<int, int> position;
+  bool hasCommandScript = false;
+  int spawnOffsetX = 0;
+  int spawnOffsetY = 0;
 };
 
 #endif

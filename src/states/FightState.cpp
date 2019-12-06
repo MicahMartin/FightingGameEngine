@@ -2,6 +2,7 @@
 #include "screens/FightScreen.h"
 #include "game_objects/Character.h"
 #include "game_objects/Stage.h"
+#include "game_objects/Entity.h"
 
 FightState::FightState(){ 
   printf("creating new fightState\n");
@@ -16,7 +17,6 @@ FightState::~FightState(){
 void FightState::enter(){ 
   printf("entering fightState\n");
   // init all fields
-  charStateManager->reset();
   graphics->setCamera(&camera);
   camera.update(1700, 2200);
   player1 = new Character(std::make_pair(1700,0), 1);
@@ -49,13 +49,33 @@ void FightState::resume(){ }
 void FightState::handleInput(){ 
   updateFaceRight();
   checkHealth();
-  if (charStateManager->screenFrozen == false) {
+  if (!player1->inHitStop) {
     player1->handleInput();
-    player2->handleInput();
+  } else {
+    printf("p1HitStop:%d\n", player1->hitStop);
   }
+  if (!player2->inHitStop) {
+    player2->handleInput();
+  } else {
+    printf("p2HitStop:%d\n", player2->hitStop);
+  }
+
+  for (auto &i : player1->entityList) {
+    if(!i.inHitStop){
+      i.handleInput();
+    }
+  }
+  printf("p1 entities handled input \n");
+  for (auto &i : player2->entityList) {
+    if(!i.inHitStop){
+      i.handleInput();
+    }
+  }
+  printf("p2 entities handled input \n");
 }
 
 void FightState::update(){ 
+  printf("we made it into update!\n");
   stateTime++;
   if(player1->getPos().first - player1->width <= 0 || player1->getPos().first + player1->width >= 3840){
     player1->inCorner = true;
@@ -69,27 +89,82 @@ void FightState::update(){
     player2->inCorner = false;
   }
 
-  checkHitCollisions();
 
-  if(charStateManager->screenFrozen && --screenFreeze == 0){
-    charStateManager->screenFrozen = false;
+  if(player1->inHitStop && --player1->hitStop == 0){
+    player1->inHitStop = false;
+    printf("p1 came out of hitstop\n");
   }
+  if(player2->inHitStop && --player2->hitStop == 0){
+    player2->inHitStop = false;
+    printf("p2 came out of hitstop\n");
+  }
+  printf("we updated player hitstop!!\n");
+  for (auto &i : player1->entityList) {
+    if(i.inHitStop && --i.hitStop == 0){
+      i.inHitStop = false;
+      printf("player:%d entity:%d came out of hitstop\n", 1, i.entityID);
+    }
+  }
+  printf("we updated player1 entity hitstop!!\n");
+  for (auto &i : player2->entityList) {
+    if(i.inHitStop && --i.hitStop == 0){
+      i.inHitStop = false;
+      printf("player:%d entity:%d came out of hitstop\n", 2, i.entityID);
+    }
+  }
+  printf("we updated player2 entity hitstop!!\n");
 
-  if(charStateManager->screenFrozen == false){
+  checkHitCollisions();
+  printf("got outta check collisions\n");
+
+  if(!player1->inHitStop){
     player1->update();
+  }
+  if(!player2->inHitStop){
     player2->update();
-  } else {
-    charStateManager->screenFreezeTime = screenFreeze;
+  }
+  if(player1->inHitStop){
     player1->currentState->handleCancels();
+  }
+  if(player2->inHitStop){
     player2->currentState->handleCancels();
   }
+  printf("did the hitstop checks\n");
+
+  for (auto &i : player1->entityList) {
+    if(!i.inHitStop){
+      i.update();
+      printf("p1 entity:%d updating\n", i.entityID);
+    }
+  }
+  for (auto &i : player2->entityList) {
+    if(!i.inHitStop){
+      i.update();
+    }
+  }
+  for (auto &i : player1->entityList) {
+    if(i.inHitStop){
+      i.currentState->handleCancels();
+      printf("p1 entity:%d handling cancels\n", i.entityID);
+    }
+  }
+  for (auto &i : player2->entityList) {
+    if(i.inHitStop){
+      i.currentState->handleCancels();
+    }
+  }
+  printf("updated the entities\n");
 
   checkPushCollisions();
+  printf("updated the collisions \n");
   checkBounds();
+  printf("bounsd were checked\n");
   camera.update(player1->getPos().first, player2->getPos().first);
+  printf("update gucci\n");
 }
 
 void FightState::draw(){  
+  printf("made it to draw\n");
   double screenDrawStart, screenDrawEnd,
          barDrawStart, barDrawEnd,
          p1DrawStart, p1DrawEnd,
@@ -103,21 +178,42 @@ void FightState::draw(){
   barDrawEnd = SDL_GetTicks();
   renderComboCount();
   renderInputHistory();
+
   if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
     p2DrawStart = SDL_GetTicks();
     player2->draw();
+    printf("drew p2\n");
+    for (auto &i : player2->entityList) {
+      i.draw();
+    }
+    printf("drew p2  entities\n");
     p2DrawEnd = SDL_GetTicks();
 
     p1DrawStart = SDL_GetTicks();
     player1->draw();
+    printf("drew p1\n");
+    for (auto &i : player1->entityList) {
+      i.draw();
+    }
+    printf("drew p1 entities\n");
     p1DrawEnd = SDL_GetTicks();
   } else {
     p1DrawStart = SDL_GetTicks();
     player1->draw();
+    printf("drew p1\n");
+    for (auto &i : player1->entityList) {
+      i.draw();
+    }
+    printf("drew p1 entities\n");
     p1DrawEnd = SDL_GetTicks();
 
     p2DrawStart = SDL_GetTicks();
     player2->draw();
+    printf("drew p2\n");
+    for (auto &i : player2->entityList) {
+      i.draw();
+    }
+    printf("drew p1 entities\n");
     p2DrawEnd = SDL_GetTicks();
   }
    double screenDraw = screenDrawEnd - screenDrawStart;
@@ -136,6 +232,7 @@ void FightState::draw(){
    if(p2Draw > 0){
      // printf("p2Draw %f\n", p2Draw);
    }
+    printf("good draw?!?!\n");
 }
 
 void FightState::checkPushCollisions(){
@@ -205,9 +302,10 @@ void FightState::checkHitCollisions(){
           if(!p2HurtBox->disabled){
             if (CollisionBox::checkAABB(*p1Hitbox, *p2HurtBox)) {
               printf("hitbox collision detected\n");
-              screenFreeze = p1Hitbox->hitstop;
-              charStateManager->screenFrozen = true;
-              charStateManager->screenFreezeTime = p1Hitbox->hitstop;
+              player1->inHitStop = true;
+              player2->inHitStop = true;
+              player1->hitStop = p1Hitbox->hitstop;
+              player2->hitStop = p1Hitbox->hitstop;
 
               player1->frameLastAttackConnected = gameTime; 
               // TODO: Hitbox group IDs
@@ -257,6 +355,80 @@ void FightState::checkHitCollisions(){
                   player2->changeState(24);
                 } else {
                   player2->changeState(9);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  checkEntityHitCollisions();
+}
+
+void FightState::checkEntityHitCollisions(){
+  for (auto &i : player1->entityList) {
+    if (!i.currentState->hitboxesDisabled) {
+      for (auto p1Hitbox : i.currentState->hitBoxes) {
+        if(!p1Hitbox->disabled){
+          for (auto p2HurtBox : player2->currentState->hurtBoxes) {
+            if(!p2HurtBox->disabled){
+              if (CollisionBox::checkAABB(*p1Hitbox, *p2HurtBox)) {
+                printf("entity hitbox collision detected\n");
+                i.inHitStop = true;
+                i.hitStop = p1Hitbox->hitstop;
+
+                player2->inHitStop = true;
+                player2->hitStop = p1Hitbox->hitstop;
+
+                player1->frameLastAttackConnected = gameTime; 
+                // TODO: Hitbox group IDs
+                i.currentState->hitboxesDisabled = true;
+
+                if (player2->inCorner) {
+                } else {
+                  player2->pushTime = p1Hitbox->pushTime;
+                  player2->_negVelSetX(p1Hitbox->pushback);
+                }
+
+                if(checkBlock(p1Hitbox->blockType, player2) && ((player2->currentState->stateNum == 28 || player2->currentState->stateNum == 29) || player2->control)){
+                  player2->blockstun = p1Hitbox->blockstun;
+                  player2->control = 0;
+                  if (player2->_getYPos() > 0) {
+                    // TODO: air blocking state
+                    player2->changeState(29);
+                  } else {
+                    switch (p1Hitbox->blockType) {
+                      case 1:
+                        if (player2->_getInput(1)) {
+                          player2->changeState(29);
+                        } else {
+                          player2->changeState(28);
+                        }
+                        break;
+                      case 2:
+                        player2->changeState(29);
+                        break;
+                      case 3:
+                        player2->changeState(28);
+                        break;
+                      // should throw error here
+                      default: break;
+                    }
+                  }
+                  printf("ohh u got the blocksies?\n");
+                } else {
+                  printf("ya wasnt blockin kid\n");
+                  player2->control = 0;
+                  player2->health -= p1Hitbox->damage;
+                  player2->hitstun = p1Hitbox->hitstun;
+                  player2->comboCounter++;
+
+                  if(p1Hitbox->canTrip || player2->_getYPos() > 0 || player2->currentState->stateNum == 24){
+                    player2->changeState(24);
+                  } else {
+                    player2->changeState(9);
+                  }
                 }
               }
             }

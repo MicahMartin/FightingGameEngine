@@ -162,6 +162,10 @@ int Script::disassembleInstruction(int offset){
       return simpleInstruction("OP_SET_AIR_ACTION", offset);
     case OP_RESET_ANIM:
       return simpleInstruction("OP_RESET_ANIM", offset);
+    case OP_ACTIVATE_ENTITY:
+      return simpleInstruction("OP_ACTIVATE_ENTITY", offset);
+    case OP_DEACTIVATE_ENTITY:
+      return simpleInstruction("OP_DEACTIVATE_ENTITY", offset);
     case OP_CHECK_COMMAND:
       return simpleInstruction("OP_CHECK_COMMAND", offset);
     case OP_RETURN:

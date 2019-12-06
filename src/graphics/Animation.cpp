@@ -16,6 +16,8 @@ void Animation::loadAnimEvents(nlohmann::json json){
     int animTime = i.value().at("time");
     int offsetX = 0;
     int offsetY = 0;
+    int scale = 3;
+
     if(i.value().count("offsetY")){
       offsetY = i.value().at("offsetY");
     }
@@ -28,9 +30,17 @@ void Animation::loadAnimEvents(nlohmann::json json){
     text->cartesian = true;
     std::string path(i.value().at("file").get<std::string>());
     const char* pathPointer = path.c_str();
-    std::pair dimensions = getDimensions(pathPointer);
+    std::pair realDimensions = getDimensions(pathPointer);
+
+    if(i.value().count("width")){
+      realDimensions.first = i.value().at("width");
+    }
+    if(i.value().count("height")){
+      realDimensions.second = i.value().at("height");
+    }
     text->loadTexture(pathPointer);
-    text->setDimensions(0, 0, dimensions.first*3, dimensions.second*3);
+    // TODO: fix scale
+    text->setDimensions(0, 0, realDimensions.first*scale, realDimensions.second*scale);
 
     animationTime += animTime;
     animationElements.push_back(element);
@@ -44,7 +54,9 @@ void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
   // SDL_RenderDrawLine(graphics->getRenderer(), x - camOffset, graphics->getWindowHeight(), x - camOffset, y);
   // SDL_SetRenderDrawColor(graphics->getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 
+  printf("tryna get the anim elem index.. current animElemIndex:%d\n", currentAnimElemIndex);
   AnimationElement* elem = &animationElements.at(currentAnimElemIndex);
+  printf("we got it..\n");
 
   GameTexture* currentText = &elem->gameTexture;
   int width = currentText->getDimensions().first;
@@ -52,6 +64,7 @@ void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
   int offsetY = elem->offsetY;
   faceRight ? currentText->setCords(x-width+offsetX, ((y - 30) + offsetY)) : currentText->setCords(x-offsetX, ((y - 30) + offsetY));
   currentText->render(faceRight);
+  printf("we even rendered the currentText\n");
 
   if(!screenFreeze){
     currentAnimElemTimePassed++;
@@ -61,6 +74,7 @@ void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
       currentAnimElemIndex++;
     }
   } 
+  printf("so wtf is going on\n");
 }
 
 void Animation::setAnimTime(int time){

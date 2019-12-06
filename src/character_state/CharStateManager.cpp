@@ -5,11 +5,6 @@ void CharStateManager::registerCharacter(Character* character, int playerNum){
   characterPointers[playerNum-1] = character;
 }
 
-Character* CharStateManager::getCharPointer(int playerNum){ 
+Character* CharStateManager::getCharPointer(int playerNum) { 
   return characterPointers[playerNum-1];
-}
-
-void CharStateManager::reset(){ 
-  screenFrozen = false;
-  screenFreezeTime = 0;
 }

@@ -1,7 +1,6 @@
 #include <iostream>
 #include <functional>
 #include "character_state/StateDef.h"
-#include "game_objects/Character.h"
 #include "physics/CollisionBox.h"
 #include "util/Util.h"
 
@@ -10,13 +9,13 @@
   {"NO_TURN_ON_ENTER", NO_TURN_ON_ENTER},
 };
 
-StateDef::StateDef(nlohmann::json::value_type json, Character* player, VirtualMachine* charVm) : player(player), charVm(charVm) {
+StateDef::StateDef(nlohmann::json::value_type json, VirtualMachine* charVm) : charVm(charVm) {
   stateNum = json.at("state_num");
   loadFlags(json.at("flags"));
 
   std::string updateScriptTag = "updateScript:" + std::to_string(stateNum);
   std::string updateScriptError = "updateScript:" + std::to_string(stateNum) + "failed to compile";
-  const char*  updateScriptPath = json.at("update_script").get<std::string>().c_str();
+  const char* updateScriptPath = json.at("update_script").get<std::string>().c_str();
 
   if(!charVm->compiler.compile(updateScriptPath, &updateScript, updateScriptTag.c_str())){
     updateScript.disassembleScript(updateScriptTag.c_str());
@@ -64,11 +63,6 @@ void StateDef::enter(){
   stateTime = 0;
   hitboxesDisabled = false;
   anim.resetAnimEvents();
-  // TODO: move updateCollisionBoxes into here, shouldnt belong to player
-  if(!checkFlag(NO_TURN_ON_ENTER)){
-    player->updateFaceRight();
-  }
-  player->updateCollisionBoxes();
 };
 
 void StateDef::update(){
@@ -82,10 +76,9 @@ void StateDef::handleCancels(){
   }
 }
 
-void StateDef::draw(){
-  std::pair charPos = player->getPos();
-  bool faceRight = player->faceRight;
-  anim.render(charPos.first, charPos.second, faceRight, charStateManager->screenFrozen);
+void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop){
+  anim.render(position.first, position.second, faceRight, inHitStop);
+  printf("we got outa anim render.. how the fuck\n");
 
   // stateTime is 2
   // TODO: Thread this up
@@ -128,8 +121,6 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
     int start = i.value().at("start");
     int end = i.value().at("end");
 
-    std::pair charPos = player->getPos();
-
     CollisionBox* cb;
     if(type == CollisionBox::HIT){
       // TODO: Fix collisionbox loading
@@ -145,8 +136,8 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
       cb = new CollisionBox(type, width, height, offsetX, offsetY, start, end);
     }
 
-    cb->positionX = charPos.first - (width/2);
-    cb->positionY = charPos.second;
+    cb->positionX = 0;
+    cb->positionY = 0;
 
     switch (type) {
       case CollisionBox::POSITION:
