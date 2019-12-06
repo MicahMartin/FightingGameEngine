@@ -1,0 +1,34 @@
+{
+  var control = ($get_control == 1); 
+  var stateNum = $get_state_num; 
+
+  var neutral = $get_input 5; 
+  var forward = $get_input 6; 
+  var back = $get_input 4; 
+  var upback = $get_input 7; 
+  var upforward = $get_input 9; 
+  var downback = $get_input 1; 
+  var downforward = $get_input 3; 
+  var anyForward = (forward or upforward or downforward);
+  var anyBack = (back or upback or downback);
+
+  var lpRelease = $check_command 6;
+  var mpRelease = $check_command 7;
+
+
+  if (control) {
+    if (lpRelease) {
+      $change_state 4;
+    }
+    
+    if(anyForward and stateNum != 2){
+      $change_state 2; 
+    }
+    if(anyBack and stateNum != 3){
+      $change_state 3; 
+    }
+    if(neutral and stateNum != 1){
+      $change_state 1; 
+    }
+  }
+}

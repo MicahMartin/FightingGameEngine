@@ -1,5 +1,6 @@
 {
   var qcf_k = $check_command 2;
+  var qcb_p = $check_command 3;
 
   var punch = $was_pressed 10;
   var kick = $was_pressed 11;
@@ -12,6 +13,9 @@
 
   if(qcf_k){
     $cancel_state 14;
+  }
+  if (qcb_p) {
+    $cancel_state 30;
   }
 
   if(punch){

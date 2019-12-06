@@ -178,6 +178,7 @@ inline ExecutionCode VirtualMachine::run(){
       case OP_GET_INPUT: {
         long operand = AS_NUMBER(stack.pop());
         bool boolean = character->_getInput(operand);
+        printf("was that input there?!?! %d\n", boolean);
         stack.push(BOOL_VAL(boolean));
         break;
       }

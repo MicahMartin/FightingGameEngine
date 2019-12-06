@@ -527,13 +527,15 @@
     },
     {
       "state_num": 31,
-      "state_name": "AIR_FIREBALL",
+      "state_name": "SUMMON_PUPPET",
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "../data/characters/alucard/scripts/attacks/air_fireball.kai",
+      "update_script": "../data/characters/alucard/scripts/attacks/summon_puppet.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/42.png", "time": -1, "offsetX": 75}
+        { "file": "../data/characters/alucard/sprites/76.png", "time": 18, "offsetX": 0},
+        { "file": "../data/characters/alucard/sprites/77.png", "time": 2, "offsetX": 0},
+        { "file": "../data/characters/alucard/sprites/80.png", "time": 14, "offsetX": 0}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -542,7 +544,8 @@
     }
   ],
   "entities": [
-    {"entityID": 1, "spawnOffsetX": 100, "spawnOffsetY": 0, "defPath": "../data/characters/alucard/entities/fireball/def.json"}
+    {"entityID": 1, "spawnOffsetX": 100, "spawnOffsetY": 0, "defPath": "../data/characters/alucard/entities/fireball/def.json"},
+    {"entityID": 2, "spawnOffsetX": 100, "spawnOffsetY": 0, "defPath": "../data/characters/alucard/entities/puppet/def.json"}
   ],
   "command_script": "../data/characters/alucard/scripts/input.kai"
 }

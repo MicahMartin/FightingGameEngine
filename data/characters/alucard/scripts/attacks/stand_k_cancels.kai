@@ -1,5 +1,6 @@
 {
   var qcf_k = $check_command 2;
+  var qcb_p = $check_command 3;
   var slash = $was_pressed 12;
 
   var up = $get_input 8;
@@ -13,6 +14,10 @@
 
   if(qcf_k){
     $cancel_state 14;
+  }
+
+  if (qcb_p) {
+    $cancel_state 30;
   }
 
   if(slash){

@@ -4,6 +4,7 @@
 #include "game_objects/Character.h"
 
 Entity::Entity(Character* owner, int entityID, const char* defPath) : owner(owner), entityID(entityID), defPath(defPath) {
+  virtualController = owner->virtualController;
   printf("in entity constructor\n");
 }
 Entity::~Entity(){}
@@ -20,6 +21,7 @@ void Entity::activateEntity(){
   std::pair<int,int> ownerPos = owner->getPos();
 
   active = true;
+  control = 1;
   hitstun = 0;
   blockstun = 0;
   hitStop = 0;
@@ -308,7 +310,9 @@ int Entity::_getStateTime(){
 }
 
 int Entity::_getInput(int input){
+  printf("in entity getInput\n");
   Input inputType = VirtualController::inputMap[input](inputFaceRight);
+  printf("bruh\n");
   return virtualController->isPressed(inputType) ? 1 : 0;
 }
 

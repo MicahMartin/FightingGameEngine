@@ -82,21 +82,21 @@ void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop)
 
   // stateTime is 2
   // TODO: Thread this up
-  // for (auto cb : pushBoxes) {
-  //   if(cb->end == -1 || ( cb->start >= stateTime && cb->end < stateTime )){
-  //     cb->render();
-  //   }
-  // }
-  // for (auto cb : hurtBoxes) {
-  //   if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
-  //     cb->render();
-  //   }
-  // }
-  // for (auto cb : hitBoxes) {
-  //   if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
-  //     cb->render();
-  //   }
-  // }
+  for (auto cb : pushBoxes) {
+    if(cb->end == -1 || ( cb->start >= stateTime && cb->end < stateTime )){
+      cb->render();
+    }
+  }
+  for (auto cb : hurtBoxes) {
+    if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
+      cb->render();
+    }
+  }
+  for (auto cb : hitBoxes) {
+    if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
+      cb->render();
+    }
+  }
 };
 
 void StateDef::loadFlags(nlohmann::json::value_type json){
