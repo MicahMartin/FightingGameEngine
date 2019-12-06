@@ -545,6 +545,24 @@
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
+    },
+    {
+      "state_num": 32,
+      "state_name": "THROW",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/alucard/scripts/attacks/throw.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/61.png", "time": 10, "offsetX": 100},
+        { "file": "../data/characters/alucard/sprites/64.png", "time": 10, "offsetX": 100},
+        { "file": "../data/characters/alucard/sprites/65.png", "time": 10, "offsetX": 100},
+        { "file": "../data/characters/alucard/sprites/62.png", "time": 10, "offsetX": 100}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ]
     }
   ],
   "entities": [

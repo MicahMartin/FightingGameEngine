@@ -123,7 +123,7 @@ bool VirtualController::wasPressedBuffer(Input input, bool strict, bool pressed)
       return false;
     }
 
-    for(InputEvent event : *eventList) {
+    for(InputEvent& event : *eventList) {
       if((pressed && event.pressed) || (!pressed && !event.pressed)){
         if (input <= 10 && strict) {
           // printf("checking cardinal direction %s\n", inputToString[input]);

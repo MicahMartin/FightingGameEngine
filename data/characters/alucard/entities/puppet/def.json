@@ -66,7 +66,7 @@
         { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/10.png", "time": 6, "offsetX": 125, "offsetY":-90, "width": 140, "height": 140}
       ],
       "collision_boxes": [
-        {"type": "HIT", "blocktype": 1, "hitstun":14, "blockstun":14, "hitstop": 4, "damage":5, "push": 14, "pushTime": 8,  "start": 24, "end": -1, "width":150, "height":150, "offsetX":100, "offsetY": 75}
+        {"type": "HIT", "blocktype": 1, "hitstun":20, "blockstun":16, "hitstop": 2, "damage":5, "push": 10, "pushTime": 6,  "start": 24, "end": 49, "width":225, "height":150, "offsetX":-75, "offsetY": 75}
       ]
     } 
   ],

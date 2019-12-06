@@ -210,9 +210,9 @@ void Entity::updateCollisionBoxes(){
 
 void Entity::draw(){
   // draw health bars
-  printf("trying to draw an entity..\n");
+  // printf("trying to draw an entity..\n");
   if (active) {
-    printf("im active so ima draw!, am I in hitstop tho? %d\n", inHitStop);
+    // printf("im active so ima draw!, am I in hitstop tho? %d\n", inHitStop);
     currentState->draw(position, faceRight, inHitStop);
   }
 };
@@ -313,9 +313,9 @@ int Entity::_getStateTime(){
 }
 
 int Entity::_getInput(int input){
-  printf("in entity getInput\n");
+  // printf("in entity getInput\n");
   Input inputType = VirtualController::inputMap[input](inputFaceRight);
-  printf("bruh\n");
+  // printf("bruh\n");
   return virtualController->isPressed(inputType) ? 1 : 0;
 }
 

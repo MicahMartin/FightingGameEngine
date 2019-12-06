@@ -48,9 +48,11 @@
       if(slash){
         if(anyDown){
           $change_state 23; 
-        } else {
-          $change_state 20;
         }
+        if(forward){
+          $change_state 32; 
+        }
+        $change_state 20;
       }
       if(kick){
         if(anyDown){

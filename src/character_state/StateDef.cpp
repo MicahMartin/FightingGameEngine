@@ -78,25 +78,25 @@ void StateDef::handleCancels(){
 
 void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop){
   anim.render(position.first, position.second, faceRight, inHitStop);
-  printf("we got outa anim render.. how the fuck\n");
+  // printf("we got outa anim render.. how the fuck\n");
 
   // stateTime is 2
   // TODO: Thread this up
-  for (auto cb : pushBoxes) {
-    if(cb->end == -1 || ( cb->start >= stateTime && cb->end < stateTime )){
-      cb->render();
-    }
-  }
-  for (auto cb : hurtBoxes) {
-    if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
-      cb->render();
-    }
-  }
-  for (auto cb : hitBoxes) {
-    if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
-      cb->render();
-    }
-  }
+  // for (auto cb : pushBoxes) {
+  //   if(cb->end == -1 || ( cb->start >= stateTime && cb->end < stateTime )){
+  //     cb->render();
+  //   }
+  // }
+  // for (auto cb : hurtBoxes) {
+  //   if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
+  //     cb->render();
+  //   }
+  // }
+  // for (auto cb : hitBoxes) {
+  //   if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
+  //     cb->render();
+  //   }
+  // }
 };
 
 void StateDef::loadFlags(nlohmann::json::value_type json){

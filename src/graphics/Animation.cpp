@@ -50,13 +50,13 @@ void Animation::loadAnimEvents(nlohmann::json json){
 void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
   // draw a vertical line on the character's position
   int camOffset = graphics->getCamera()->cameraRect.x;
-  SDL_SetRenderDrawColor(graphics->getRenderer(), 255, 0, 0, 0);
-  SDL_RenderDrawLine(graphics->getRenderer(), x - camOffset, graphics->getWindowHeight(), x - camOffset, y);
-  SDL_SetRenderDrawColor(graphics->getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
+  // SDL_SetRenderDrawColor(graphics->getRenderer(), 255, 0, 0, 0);
+  // SDL_RenderDrawLine(graphics->getRenderer(), x - camOffset, graphics->getWindowHeight(), x - camOffset, y);
+  // SDL_SetRenderDrawColor(graphics->getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 
-  printf("tryna get the anim elem index.. current animElemIndex:%d\n", currentAnimElemIndex);
+  // printf("tryna get the anim elem index.. current animElemIndex:%d\n", currentAnimElemIndex);
   AnimationElement* elem = &animationElements.at(currentAnimElemIndex);
-  printf("we got it..\n");
+  // printf("we got it..\n");
 
   GameTexture* currentText = &elem->gameTexture;
   int width = currentText->getDimensions().first;
@@ -64,7 +64,7 @@ void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
   int offsetY = elem->offsetY;
   faceRight ? currentText->setCords(x-width+offsetX, ((y - 30) + offsetY)) : currentText->setCords(x-offsetX, ((y - 30) + offsetY));
   currentText->render(faceRight);
-  printf("we even rendered the currentText\n");
+  // printf("we even rendered the currentText\n");
 
   if(!screenFreeze){
     currentAnimElemTimePassed++;
@@ -74,7 +74,7 @@ void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
       currentAnimElemIndex++;
     }
   } 
-  printf("so wtf is going on\n");
+  // printf("so wtf is going on\n");
 }
 
 void Animation::setAnimTime(int time){

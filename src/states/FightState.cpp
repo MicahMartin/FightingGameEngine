@@ -52,12 +52,12 @@ void FightState::handleInput(){
   if (!player1->inHitStop) {
     player1->handleInput();
   } else {
-    printf("p1HitStop:%d\n", player1->hitStop);
+    // printf("p1HitStop:%d\n", player1->hitStop);
   }
   if (!player2->inHitStop) {
     player2->handleInput();
   } else {
-    printf("p2HitStop:%d\n", player2->hitStop);
+    // printf("p2HitStop:%d\n", player2->hitStop);
   }
 
   for (auto &i : player1->entityList) {
@@ -65,17 +65,17 @@ void FightState::handleInput(){
       i.handleInput();
     }
   }
-  printf("p1 entities handled input \n");
+  // printf("p1 entities handled input \n");
   for (auto &i : player2->entityList) {
     if(!i.inHitStop){
       i.handleInput();
     }
   }
-  printf("p2 entities handled input \n");
+  // printf("p2 entities handled input \n");
 }
 
 void FightState::update(){ 
-  printf("we made it into update!\n");
+  // printf("we made it into update!\n");
   stateTime++;
   if(player1->getPos().first - player1->width <= 0 || player1->getPos().first + player1->width >= 3840){
     player1->inCorner = true;
@@ -92,30 +92,30 @@ void FightState::update(){
 
   if(player1->inHitStop && --player1->hitStop == 0){
     player1->inHitStop = false;
-    printf("p1 came out of hitstop\n");
+    // printf("p1 came out of hitstop\n");
   }
   if(player2->inHitStop && --player2->hitStop == 0){
     player2->inHitStop = false;
-    printf("p2 came out of hitstop\n");
+    // printf("p2 came out of hitstop\n");
   }
-  printf("we updated player hitstop!!\n");
+  // printf("we updated player hitstop!!\n");
   for (auto &i : player1->entityList) {
     if(i.inHitStop && --i.hitStop == 0){
       i.inHitStop = false;
-      printf("player:%d entity:%d came out of hitstop\n", 1, i.entityID);
+      // printf("player:%d entity:%d came out of hitstop\n", 1, i.entityID);
     }
   }
-  printf("we updated player1 entity hitstop!!\n");
+  // printf("we updated player1 entity hitstop!!\n");
   for (auto &i : player2->entityList) {
     if(i.inHitStop && --i.hitStop == 0){
       i.inHitStop = false;
-      printf("player:%d entity:%d came out of hitstop\n", 2, i.entityID);
+      // printf("player:%d entity:%d came out of hitstop\n", 2, i.entityID);
     }
   }
-  printf("we updated player2 entity hitstop!!\n");
+  // printf("we updated player2 entity hitstop!!\n");
 
   checkHitCollisions();
-  printf("got outta check collisions\n");
+  // printf("got outta check collisions\n");
 
   if(!player1->inHitStop){
     player1->update();
@@ -129,12 +129,12 @@ void FightState::update(){
   if(player2->inHitStop){
     player2->currentState->handleCancels();
   }
-  printf("did the hitstop checks\n");
+  // printf("did the hitstop checks\n");
 
   for (auto &i : player1->entityList) {
     if(!i.inHitStop){
       i.update();
-      printf("p1 entity:%d updating\n", i.entityID);
+      // printf("p1 entity:%d updating\n", i.entityID);
     }
   }
   for (auto &i : player2->entityList) {
@@ -145,7 +145,7 @@ void FightState::update(){
   for (auto &i : player1->entityList) {
     if(i.inHitStop){
       i.currentState->handleCancels();
-      printf("p1 entity:%d handling cancels\n", i.entityID);
+      // printf("p1 entity:%d handling cancels\n", i.entityID);
     }
   }
   for (auto &i : player2->entityList) {
@@ -153,18 +153,18 @@ void FightState::update(){
       i.currentState->handleCancels();
     }
   }
-  printf("updated the entities\n");
+  // printf("updated the entities\n");
 
   checkPushCollisions();
-  printf("updated the collisions \n");
+  // printf("updated the collisions \n");
   checkBounds();
-  printf("bounsd were checked\n");
+  // printf("bounsd were checked\n");
   camera.update(player1->getPos().first, player2->getPos().first);
-  printf("update gucci\n");
+  // printf("update gucci\n");
 }
 
 void FightState::draw(){  
-  printf("made it to draw\n");
+  // printf("made it to draw\n");
   double screenDrawStart, screenDrawEnd,
          barDrawStart, barDrawEnd,
          p1DrawStart, p1DrawEnd,
@@ -182,38 +182,38 @@ void FightState::draw(){
   if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
     p2DrawStart = SDL_GetTicks();
     player2->draw();
-    printf("drew p2\n");
+    // printf("drew p2\n");
     for (auto &i : player2->entityList) {
       i.draw();
     }
-    printf("drew p2  entities\n");
+    // printf("drew p2  entities\n");
     p2DrawEnd = SDL_GetTicks();
 
     p1DrawStart = SDL_GetTicks();
     player1->draw();
-    printf("drew p1\n");
+    // printf("drew p1\n");
     for (auto &i : player1->entityList) {
       i.draw();
     }
-    printf("drew p1 entities\n");
+    // printf("drew p1 entities\n");
     p1DrawEnd = SDL_GetTicks();
   } else {
     p1DrawStart = SDL_GetTicks();
     player1->draw();
-    printf("drew p1\n");
+    // printf("drew p1\n");
     for (auto &i : player1->entityList) {
       i.draw();
     }
-    printf("drew p1 entities\n");
+    // printf("drew p1 entities\n");
     p1DrawEnd = SDL_GetTicks();
 
     p2DrawStart = SDL_GetTicks();
     player2->draw();
-    printf("drew p2\n");
+    // printf("drew p2\n");
     for (auto &i : player2->entityList) {
       i.draw();
     }
-    printf("drew p1 entities\n");
+    // printf("drew p1 entities\n");
     p2DrawEnd = SDL_GetTicks();
   }
    double screenDraw = screenDrawEnd - screenDrawStart;
@@ -232,7 +232,7 @@ void FightState::draw(){
    if(p2Draw > 0){
      // printf("p2Draw %f\n", p2Draw);
    }
-    printf("good draw?!?!\n");
+   // printf("good draw?!?!\n");
 }
 
 void FightState::checkPushCollisions(){
@@ -375,6 +375,7 @@ void FightState::checkEntityHitCollisions(){
             if(!p2HurtBox->disabled){
               if (CollisionBox::checkAABB(*p1Hitbox, *p2HurtBox)) {
                 printf("entity hitbox collision detected\n");
+                bool entityFaceRight = i.faceRight;
                 i.inHitStop = true;
                 i.hitStop = p1Hitbox->hitstop;
 
@@ -385,9 +386,10 @@ void FightState::checkEntityHitCollisions(){
                 // TODO: Hitbox group IDs
                 i.currentState->hitboxesDisabled = true;
 
-                if (player2->inCorner) {
+                player2->pushTime = p1Hitbox->pushTime;
+                if(player2->faceRight == entityFaceRight){
+                  player2->_velSetX(p1Hitbox->pushback);
                 } else {
-                  player2->pushTime = p1Hitbox->pushTime;
                   player2->_negVelSetX(p1Hitbox->pushback);
                 }
 

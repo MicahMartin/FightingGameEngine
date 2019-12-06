@@ -5,6 +5,7 @@
   var neutral = $get_input 5; 
   var forward = $get_input 6; 
   var back = $get_input 4; 
+  var down = $get_input 2; 
   var upback = $get_input 7; 
   var upforward = $get_input 9; 
   var downback = $get_input 1; 
@@ -27,8 +28,10 @@
     if(anyBack and stateNum != 3){
       $change_state 3; 
     }
-    if(neutral and stateNum != 1){
-      $change_state 1; 
+    if(neutral or down){
+      if (control and stateNum != 1) {
+        $change_state 1; 
+      }
     }
   }
 }
