@@ -332,6 +332,12 @@ void FightState::checkThrowCollisions(){
 }
 
 void FightState::checkHitCollisions(){
+  bool p1Hit = false;
+  int p1HitState;
+  bool p2Hit = false;
+  int p2HitState;
+
+  // TODO: FUNC
   if (!player1->currentState->hitboxesDisabled) {
     for (auto p1Hitbox : player1->currentState->hitBoxes) {
       if(!p1Hitbox->disabled){
@@ -389,9 +395,84 @@ void FightState::checkHitCollisions(){
                 player2->comboCounter++;
 
                 if(p1Hitbox->canTrip || player2->_getYPos() > 0 || player2->currentState->stateNum == 24 || player2->currentState->stateNum == 35){
-                  player2->changeState(24);
+                  p2Hit = true;
+                  p2HitState = 24;
                 } else {
-                  player2->changeState(9);
+                  p2Hit = true;
+                  p2HitState = 9;
+                }
+              }
+
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  if (!player2->currentState->hitboxesDisabled) {
+    for (auto p2Hitbox : player2->currentState->hitBoxes) {
+      if(!p2Hitbox->disabled){
+        for (auto p1HurtBox : player1->currentState->hurtBoxes) {
+          if(!p1HurtBox->disabled){
+            if (CollisionBox::checkAABB(*p2Hitbox, *p1HurtBox)) {
+              printf("hitbox collision detected\n");
+              player1->inHitStop = true;
+              player2->inHitStop = true;
+              player1->hitStop = p2Hitbox->hitstop;
+              player2->hitStop = p2Hitbox->hitstop;
+
+              player2->frameLastAttackConnected = gameTime; 
+              // TODO: Hitbox group IDs
+              player2->currentState->hitboxesDisabled = true;
+
+              if (player1->inCorner) {
+                player2->pushTime = p2Hitbox->pushTime;
+                player2->_negVelSetX(p2Hitbox->pushback);
+              } else {
+                player1->pushTime = p2Hitbox->pushTime;
+                player1->_negVelSetX(p2Hitbox->pushback);
+              }
+
+              if(checkBlock(p2Hitbox->blockType, player1) && ((player1->currentState->stateNum == 28 || player1->currentState->stateNum == 29) || player1->control)){
+                player1->blockstun = p2Hitbox->blockstun;
+                player1->control = 0;
+                if (player1->_getYPos() > 0) {
+                  player1->changeState(29);
+                } else {
+                  switch (p2Hitbox->blockType) {
+                    case 1:
+                      if (player1->_getInput(1)) {
+                        player1->changeState(29);
+                      } else {
+                        player1->changeState(28);
+                      }
+                      break;
+                    case 2:
+                      player1->changeState(29);
+                      break;
+                    case 3:
+                      player1->changeState(28);
+                      break;
+                    // should throw error here
+                    default: break;
+                  }
+                }
+                printf("ohh u got the blocksies?\n");
+              } else {
+                printf("ya wasnt blockin kid, your yPOS:%d and yor currentState %d\n", player2->_getYPos(), player2->currentState->stateNum);
+                player1->control = 0;
+                player1->health -= p2Hitbox->damage;
+                player1->hitstun = p2Hitbox->hitstun;
+                player1->comboCounter++;
+
+                if(p2Hitbox->canTrip || player1->_getYPos() > 0 || player1->currentState->stateNum == 24 || player1->currentState->stateNum == 35){
+                  p1Hit = true;
+                  p1HitState = 24;
+                } else {
+                  p1Hit = true;
+                  p1HitState = 9;
                 }
               }
             }
@@ -400,6 +481,14 @@ void FightState::checkHitCollisions(){
       }
     }
   }
+
+  if (p1Hit) {
+    player1->changeState(p1HitState);
+  }
+  if (p2Hit) {
+    player2->changeState(p2HitState);
+  }
+
   checkEntityHitCollisions();
 }
 
