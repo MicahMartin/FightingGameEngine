@@ -342,7 +342,7 @@ void FightState::checkHitCollisions(){
     for (auto p1Hitbox : player1->currentState->hitBoxes) {
       if(!p1Hitbox->disabled){
         for (auto p2HurtBox : player2->currentState->hurtBoxes) {
-          if(!p2HurtBox->disabled){
+          if(!p2HurtBox->disabled && !player1->currentState->hitboxesDisabled){
             if (CollisionBox::checkAABB(*p1Hitbox, *p2HurtBox)) {
               printf("hitbox collision detected\n");
               player1->inHitStop = true;
@@ -392,6 +392,8 @@ void FightState::checkHitCollisions(){
                 player2->control = 0;
                 player2->health -= p1Hitbox->damage;
                 player2->hitstun = p1Hitbox->hitstun;
+                printf("player2 previous comboCount: %d\n", player2->comboCounter);
+                
                 player2->comboCounter++;
 
                 if(p1Hitbox->canTrip || player2->_getYPos() > 0 || player2->currentState->stateNum == 24 || player2->currentState->stateNum == 35){
@@ -415,7 +417,7 @@ void FightState::checkHitCollisions(){
     for (auto p2Hitbox : player2->currentState->hitBoxes) {
       if(!p2Hitbox->disabled){
         for (auto p1HurtBox : player1->currentState->hurtBoxes) {
-          if(!p1HurtBox->disabled){
+          if(!p1HurtBox->disabled && !player2->currentState->hitboxesDisabled ){
             if (CollisionBox::checkAABB(*p2Hitbox, *p1HurtBox)) {
               printf("hitbox collision detected\n");
               player1->inHitStop = true;
@@ -465,6 +467,7 @@ void FightState::checkHitCollisions(){
                 player1->control = 0;
                 player1->health -= p2Hitbox->damage;
                 player1->hitstun = p2Hitbox->hitstun;
+                printf("player1 previous comboCount: %d\n", player1->comboCounter);
                 player1->comboCounter++;
 
                 if(p2Hitbox->canTrip || player1->_getYPos() > 0 || player1->currentState->stateNum == 24 || player1->currentState->stateNum == 35){
