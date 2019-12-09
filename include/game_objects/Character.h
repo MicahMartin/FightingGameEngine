@@ -78,6 +78,7 @@ public:
   void _resetAnim();
   void _activateEntity(int entityID);
   void _deactivateEntity(int entityID);
+  void _snapToOpponent(int offset);
 
   int _getHitStun();
   int _getBlockStun();

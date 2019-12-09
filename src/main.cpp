@@ -32,15 +32,15 @@ int main() {
     if( avgFPS > 2000000 ) {
       avgFPS = 0;
     }
-    printf("--- slow tick ---\n");
-    printf("input       %f\n", game.inputLength);
-    printf("handleInput %f\n", game.handleInputLength);
-    printf("update      %f\n", game.updateLength);
-    printf("clear       %f\n", game.clearLength);
-    printf("draw        %f\n", game.stateDrawLength);
-    printf("present     %f\n", game.drawLength);
-    printf("FPS %f\n", avgFPS);
-    printf("-----------------\n");
+    // printf("--- slow tick ---\n");
+    // printf("input       %f\n", game.inputLength);
+    // printf("handleInput %f\n", game.handleInputLength);
+    // printf("update      %f\n", game.updateLength);
+    // printf("clear       %f\n", game.clearLength);
+    // printf("draw        %f\n", game.stateDrawLength);
+    // printf("present     %f\n", game.drawLength);
+    // printf("FPS %f\n", avgFPS);
+    // printf("-----------------\n");
   }
   return 0;
 }

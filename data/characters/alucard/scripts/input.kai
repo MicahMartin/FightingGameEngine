@@ -31,6 +31,11 @@
 
   if (control) {
     if (grounded) {
+
+      if (lp_and_lk) {
+        $change_state 32;
+      }
+
       if(qcf_k){
         $change_state 14; 
       }
@@ -48,11 +53,9 @@
       if(slash){
         if(anyDown){
           $change_state 23; 
+        } else {
+          $change_state 20;
         }
-        if(forward){
-          $change_state 32; 
-        }
-        $change_state 20;
       }
       if(kick){
         if(anyDown){
@@ -108,6 +111,9 @@
     }
 
     if (airborne) {
+      if (lp_and_lk) {
+        $change_state 37;
+      }
 
       if(slash){
         $change_state 16; 

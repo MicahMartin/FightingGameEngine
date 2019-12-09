@@ -59,6 +59,7 @@ typedef enum {
   OP_RESET_ANIM,
   OP_ACTIVATE_ENTITY,
   OP_DEACTIVATE_ENTITY,
+  OP_SNAP_TO_OPPONENT,
   OP_CHECK_COMMAND,
   OP_RETURN
 } OpCode;
@@ -94,6 +95,7 @@ static const std::unordered_map<std::string, OpCode> engineCallMap {
   {"$reset_anim", OP_RESET_ANIM},
   {"$activate_entity", OP_ACTIVATE_ENTITY},
   {"$deactivate_entity", OP_DEACTIVATE_ENTITY},
+  {"$snap_to_opponent", OP_SNAP_TO_OPPONENT},
   {"$check_command", OP_CHECK_COMMAND}
 };
 

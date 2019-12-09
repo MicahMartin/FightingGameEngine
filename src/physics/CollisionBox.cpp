@@ -45,6 +45,9 @@ void CollisionBox::render(){
     case HIT:
       SDL_SetRenderDrawColor(graphics->getRenderer(), 255, 0, 0, 0);
       break;
+    case THROW:
+      SDL_SetRenderDrawColor(graphics->getRenderer(), 255, 0, 255, 0);
+      break;
   }
   SDL_Rect collisionRect;
 
@@ -62,4 +65,5 @@ std::map<std::string, CollisionBox::CollisionType> CollisionBox::collisionTypeMa
   {"POSITION", CollisionBox::POSITION},
   {"HURT", CollisionBox::HURT},
   {"HIT", CollisionBox::HIT},
+  {"THROW", CollisionBox::THROW},
 };

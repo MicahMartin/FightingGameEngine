@@ -45,6 +45,7 @@ public:
   std::vector<CollisionBox*> pushBoxes;
   std::vector<CollisionBox*> hurtBoxes;
   std::vector<CollisionBox*> hitBoxes;
+  std::vector<CollisionBox*> throwHitBoxes;
 
   // TODO: Methods to talk to anim so this stuff can stay private
   int stateNum;

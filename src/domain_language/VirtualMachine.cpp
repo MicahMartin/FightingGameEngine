@@ -295,6 +295,12 @@ inline ExecutionCode VirtualMachine::run(){
         character->_deactivateEntity(operand);
         break;
       }
+      case OP_SNAP_TO_OPPONENT: {
+        long operand = AS_NUMBER(stack.pop());
+        printf("in op_snap_to_opponent\n");
+        character->_snapToOpponent(operand);
+        break;
+      }
       case OP_CHECK_COMMAND: {
         long operand = AS_NUMBER(stack.pop());
         bool commandFound = character->_checkCommand(operand);

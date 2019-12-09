@@ -443,6 +443,8 @@ void Compiler::statement() {
     engineCallExpressionStatement(OP_ACTIVATE_ENTITY);
   } else if (match(TOKEN_DEACTIVATE_ENTITY)) {
     engineCallExpressionStatement(OP_DEACTIVATE_ENTITY);
+  } else if (match(TOKEN_SNAP_TO_OPPONENT)) {
+    engineCallExpressionStatement(OP_SNAP_TO_OPPONENT);
   } else if (match(TOKEN_CHECK_COMMAND)) {
     engineCallExpressionStatement(OP_CHECK_COMMAND);
   } else if (match(TOKEN_FOR)) {

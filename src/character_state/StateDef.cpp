@@ -57,6 +57,11 @@ StateDef::~StateDef() {
       delete cb;
     }
   }
+  for (auto cb : throwHitBoxes) {
+    if (cb != NULL) {
+      delete cb;
+    }
+  }
 }
 
 void StateDef::enter(){
@@ -82,21 +87,26 @@ void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop)
 
   // stateTime is 2
   // TODO: Thread this up
-  // for (auto cb : pushBoxes) {
-  //   if(cb->end == -1 || ( cb->start >= stateTime && cb->end < stateTime )){
-  //     cb->render();
-  //   }
-  // }
-  // for (auto cb : hurtBoxes) {
-  //   if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
-  //     cb->render();
-  //   }
-  // }
-  // for (auto cb : hitBoxes) {
-  //   if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
-  //     cb->render();
-  //   }
-  // }
+   for (auto cb : pushBoxes) {
+     if(cb->end == -1 || ( cb->start >= stateTime && cb->end < stateTime )){
+       cb->render();
+     }
+   }
+   for (auto cb : hurtBoxes) {
+     if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
+       cb->render();
+     }
+   }
+   for (auto cb : hitBoxes) {
+     if(cb->end == -1 || ( stateTime >= cb->start && stateTime <= cb->end )){
+       cb->render();
+     }
+   }
+  for (auto cb : throwHitBoxes) {
+    if(cb->end == -1 || ( stateTime >= cb->start && stateTime <= cb->end )){
+      cb->render();
+    }
+  }
 };
 
 void StateDef::loadFlags(nlohmann::json::value_type json){
@@ -122,12 +132,15 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
     int end = i.value().at("end");
 
     CollisionBox* cb;
-    if(type == CollisionBox::HIT){
+    if(type == CollisionBox::HIT || type == CollisionBox::THROW){
       // TODO: Fix collisionbox loading
       cb = new CollisionBox(type, width, height, offsetX, offsetY, start, end, 
           i.value().at("damage"), i.value().at("push"), i.value().at("hitstop"), 
-          i.value().at("hitstun"), i.value().at("pushTime"), i.value().at("blockstun"), 
-          i.value().at("blocktype"));
+          i.value().at("hitstun"), i.value().at("push_time"), i.value().at("block_stun"), 
+          i.value().at("block_type"));
+      if(type == CollisionBox::THROW){
+        cb->throwType = i.value().at("throw_type");
+      }
       if (i.value().contains("canTrip")) {
         cb->canTrip = true;
       }
@@ -148,6 +161,9 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
         break;
       case CollisionBox::HIT:
         hitBoxes.push_back(cb);
+        break;
+      case CollisionBox::THROW:
+        throwHitBoxes.push_back(cb);
         break;
     }
   }

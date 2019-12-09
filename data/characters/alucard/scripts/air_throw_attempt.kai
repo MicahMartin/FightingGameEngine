@@ -1,0 +1,14 @@
+{ 
+  if($get_state_time == 0){ 
+    $set_control 0; 
+  } 
+
+  if($get_y_pos == 0){ 
+    $set_control 1; 
+  } 
+
+  if($get_anim_time == 1){ 
+    $set_control 1; 
+    $change_state 17; 
+  } 
+} 

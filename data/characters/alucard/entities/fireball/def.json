@@ -17,7 +17,7 @@
         { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_0006.png", "time": 2, "offsetX": 250, "offsetY":0, "width": 130, "height": 130}
       ],
       "collision_boxes": [
-        {"type": "HIT", "blocktype": 1, "hitstun":18, "blockstun":18, "hitstop": 4, "damage":5, "push": 14, "pushTime": 8,  "start": 2, "end": -1, "width":150, "height":150, "offsetX":0, "offsetY": 125}
+        {"type": "HIT", "block_type": 1, "hitstun":22, "block_stun":22, "hitstop": 4, "damage":5, "push": 6, "push_time": 10,  "start": 2, "end": -1, "width":150, "height":150, "offsetX":0, "offsetY": 125}
       ]
     },
     {

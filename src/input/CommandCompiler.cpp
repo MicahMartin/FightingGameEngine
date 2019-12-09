@@ -42,9 +42,9 @@ std::vector<std::string> CommandCompiler::commandStrings = {
   "@F, N, F", // dash
   "B, N, B", // backdash
   "~D, DF, F, LK | ~LK", // 236K
-  "~D, DB, B, LP | ~LP", // 214P
+  "~D, DF, F, LP | ~LP", // 214P
   "@~D, N, @D, LP | ~LP", // 22P
-  "*F & *MP", // lp and mk
+  "LK & LP", // lp and mk
   "~LP", // release of lp
   "~MP", // release of mp
 };

@@ -159,6 +159,10 @@ void Entity::updateCollisionBoxPositions(){
     cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
     cb->positionY = position.second - cb->offsetY;
   }
+  for (auto cb : currentState->throwHitBoxes) {
+    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
+    cb->positionY = position.second - cb->offsetY;
+  }
 }
 
 void Entity::updateCollisionBoxes(){
@@ -193,6 +197,20 @@ void Entity::updateCollisionBoxes(){
   }
 
   for (auto cb : currentState->hitBoxes) {
+    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
+    cb->positionY = position.second - cb->offsetY;
+    if (stateTime < cb->start) {
+      cb->disabled = true;
+    }
+    if (stateTime == cb->start) {
+      cb->disabled = false;
+    }
+    if (stateTime == cb->end) {
+      cb->disabled = true;
+    }
+  }
+
+  for (auto cb : currentState->throwHitBoxes) {
     cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
     cb->positionY = position.second - cb->offsetY;
     if (stateTime < cb->start) {
@@ -296,6 +314,14 @@ void Entity::_activateEntity(int entityID){
 
 void Entity::_deactivateEntity(int entityID){
   active = false;
+}
+
+void Entity::_snapToOpponent(int offset){
+  auto opponentPos = owner->otherChar->getPos();
+  bool opponentFaceRight = owner->otherChar->faceRight;
+
+  position.first = opponentFaceRight ? (opponentPos.first + offset) : (opponentPos.first - offset);
+  position.second = opponentPos.second;
 }
 
 

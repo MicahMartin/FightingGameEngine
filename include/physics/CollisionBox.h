@@ -14,7 +14,8 @@ public:
   enum CollisionType {
     POSITION,
     HURT,
-    HIT
+    HIT,
+    THROW 
   };
 
 
@@ -53,6 +54,7 @@ public:
   int hitstun;
   int blockstun;
   int blockType;
+  int throwType;
   bool canTrip = false;
 
 private:

@@ -23,6 +23,7 @@ public:
   virtual void _resetAnim() = 0;
   virtual void _activateEntity(int entityID) = 0;
   virtual void _deactivateEntity(int entityID) = 0;
+  virtual void _snapToOpponent(int offset) = 0;
 
   virtual int _getHitStun() = 0;
   virtual int _getBlockStun() = 0;

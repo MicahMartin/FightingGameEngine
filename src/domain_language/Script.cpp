@@ -166,6 +166,8 @@ int Script::disassembleInstruction(int offset){
       return simpleInstruction("OP_ACTIVATE_ENTITY", offset);
     case OP_DEACTIVATE_ENTITY:
       return simpleInstruction("OP_DEACTIVATE_ENTITY", offset);
+    case OP_SNAP_TO_OPPONENT:
+      return simpleInstruction("OP_SNAP_TO_OPPONENT", offset);
     case OP_CHECK_COMMAND:
       return simpleInstruction("OP_CHECK_COMMAND", offset);
     case OP_RETURN:

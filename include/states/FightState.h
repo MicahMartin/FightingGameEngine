@@ -31,6 +31,7 @@ public:
   void pause();
   void resume();
   void checkPushCollisions();
+  void checkThrowCollisions();
   void checkHitCollisions();
   void checkEntityHitCollisions();
   void checkBounds();

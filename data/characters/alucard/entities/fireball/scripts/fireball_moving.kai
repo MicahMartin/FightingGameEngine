@@ -1,15 +1,19 @@
 {
   if($get_state_time == 0){
-    $velset_x 2;
+    $velset_x 1;
   } 
 
-  if($get_state_time == 6){
-    $velset_x 6;
-  } 
-  if($get_state_time == 11){
-    $velset_x 11;
+  if($get_state_time == 16){
+    $velset_x 4;
   } 
 
+  if($get_state_time == 24){
+    $velset_x 10;
+  } 
+
+  if($get_state_time == 32){
+    $velset_x 16;
+  } 
 
   if($get_anim_time == 1) {
     $reset_anim;
