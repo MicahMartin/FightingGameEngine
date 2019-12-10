@@ -36,6 +36,7 @@ public:
   void updatePosition();
   void updateCollisionBoxPositions();
   void updateCollisionBoxes();
+  StateDef* getCurrentState();
 
   // getters for these guys
 

@@ -331,168 +331,89 @@ void FightState::checkThrowCollisions(){
   }
 }
 
+int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
+  if (!hitter->currentState->hitboxesDisabled) {
+    for (auto hitBox : hitter->currentState->hitBoxes) {
+      bool groupDisabled = hitter->currentState->hitboxGroupDisabled[hitBox->groupID];
+      if(!hitBox->disabled && !groupDisabled){
+        for (auto hurtBox : hurter->currentState->hurtBoxes) {
+          if(!hurtBox->disabled && !groupDisabled){
+            if (CollisionBox::checkAABB(*hitBox, *hurtBox)) {
+              printf("hitbox collision detected\n");
+              hitter->inHitStop = true;
+              hitter->hitStop = hitBox->hitstop;
+
+              hurter->hitStop = hitBox->hitstop;
+              hurter->inHitStop = true;
+
+              hitter->frameLastAttackConnected = gameTime; 
+              // TODO: Hitbox group IDs
+              hitter->currentState->hitboxGroupDisabled[hitBox->groupID] = true;
+
+              if (hurter->inCorner) {
+                hitter->pushTime = hitBox->pushTime;
+                hitter->_negVelSetX(hitBox->pushback);
+              } else {
+                hurter->pushTime = hitBox->pushTime;
+                hurter->_negVelSetX(hitBox->pushback);
+              }
+
+              if(checkBlock(hitBox->blockType, hurter) && ((hurter->currentState->stateNum == 28 || hurter->currentState->stateNum == 29) || hurter->control)){
+                hurter->blockstun = hitBox->blockstun;
+                hurter->control = 0;
+                if (hurter->_getYPos() > 0) {
+                  hurter->changeState(29);
+                } else {
+                  switch (hitBox->blockType) {
+                    case 1:
+                      if (hurter->_getInput(1)) {
+                        hurter->changeState(29);
+                      } else {
+                        hurter->changeState(28);
+                      }
+                      break;
+                    case 2:
+                      hurter->changeState(29);
+                      break;
+                    case 3:
+                      hurter->changeState(28);
+                      break;
+                    // should throw error here
+                    default: break;
+                  }
+                }
+                printf("ohh u got the blocksies?\n");
+              } else {
+                hurter->control = 0;
+                hurter->health -= hitBox->damage;
+                hurter->hitstun = hitBox->hitstun;
+
+                hurter->comboCounter++;
+
+                if(hitBox->canTrip || hurter->_getYPos() > 0 || hurter->currentState->stateNum == 24 || hurter->currentState->stateNum == 35){
+                  return 24;
+                } else {
+                  return 9;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return 0;
+}
+
 void FightState::checkHitCollisions(){
-  bool p1Hit = false;
-  int p1HitState;
-  bool p2Hit = false;
-  int p2HitState;
+  int p2HitState = checkHitboxAgainstHurtbox(player1, player2);
+  int p1HitState = checkHitboxAgainstHurtbox(player2, player1);
 
-  // TODO: FUNC
-  if (!player1->currentState->hitboxesDisabled) {
-    for (auto p1Hitbox : player1->currentState->hitBoxes) {
-      if(!p1Hitbox->disabled){
-        for (auto p2HurtBox : player2->currentState->hurtBoxes) {
-          if(!p2HurtBox->disabled && !player1->currentState->hitboxesDisabled){
-            if (CollisionBox::checkAABB(*p1Hitbox, *p2HurtBox)) {
-              printf("hitbox collision detected\n");
-              player1->inHitStop = true;
-              player2->inHitStop = true;
-              player1->hitStop = p1Hitbox->hitstop;
-              player2->hitStop = p1Hitbox->hitstop;
-
-              player1->frameLastAttackConnected = gameTime; 
-              // TODO: Hitbox group IDs
-              player1->currentState->hitboxesDisabled = true;
-
-              if (player2->inCorner) {
-                player1->pushTime = p1Hitbox->pushTime;
-                player1->_negVelSetX(p1Hitbox->pushback);
-              } else {
-                player2->pushTime = p1Hitbox->pushTime;
-                player2->_negVelSetX(p1Hitbox->pushback);
-              }
-
-              if(checkBlock(p1Hitbox->blockType, player2) && ((player2->currentState->stateNum == 28 || player2->currentState->stateNum == 29) || player2->control)){
-                player2->blockstun = p1Hitbox->blockstun;
-                player2->control = 0;
-                if (player2->_getYPos() > 0) {
-                  player2->changeState(29);
-                } else {
-                  switch (p1Hitbox->blockType) {
-                    case 1:
-                      if (player2->_getInput(1)) {
-                        player2->changeState(29);
-                      } else {
-                        player2->changeState(28);
-                      }
-                      break;
-                    case 2:
-                      player2->changeState(29);
-                      break;
-                    case 3:
-                      player2->changeState(28);
-                      break;
-                    // should throw error here
-                    default: break;
-                  }
-                }
-                printf("ohh u got the blocksies?\n");
-              } else {
-                printf("ya wasnt blockin kid, your yPOS:%d and yor currentState %d\n", player2->_getYPos(), player2->currentState->stateNum);
-                player2->control = 0;
-                player2->health -= p1Hitbox->damage;
-                player2->hitstun = p1Hitbox->hitstun;
-                printf("player2 previous comboCount: %d\n", player2->comboCounter);
-                
-                player2->comboCounter++;
-
-                if(p1Hitbox->canTrip || player2->_getYPos() > 0 || player2->currentState->stateNum == 24 || player2->currentState->stateNum == 35){
-                  p2Hit = true;
-                  p2HitState = 24;
-                } else {
-                  p2Hit = true;
-                  p2HitState = 9;
-                }
-              }
-
-            }
-          }
-        }
-      }
-    }
-  }
-
-
-  if (!player2->currentState->hitboxesDisabled) {
-    for (auto p2Hitbox : player2->currentState->hitBoxes) {
-      if(!p2Hitbox->disabled){
-        for (auto p1HurtBox : player1->currentState->hurtBoxes) {
-          if(!p1HurtBox->disabled && !player2->currentState->hitboxesDisabled){
-            if (CollisionBox::checkAABB(*p2Hitbox, *p1HurtBox)) {
-              printf("hitbox collision detected\n");
-              player1->inHitStop = true;
-              player2->inHitStop = true;
-              player1->hitStop = p2Hitbox->hitstop;
-              player2->hitStop = p2Hitbox->hitstop;
-
-              player2->frameLastAttackConnected = gameTime; 
-              // TODO: Hitbox group IDs
-              player2->currentState->hitboxesDisabled = true;
-
-              if (player1->inCorner) {
-                player2->pushTime = p2Hitbox->pushTime;
-                player2->_negVelSetX(p2Hitbox->pushback);
-              } else {
-                player1->pushTime = p2Hitbox->pushTime;
-                player1->_negVelSetX(p2Hitbox->pushback);
-              }
-
-              if(checkBlock(p2Hitbox->blockType, player1) && ((player1->currentState->stateNum == 28 || player1->currentState->stateNum == 29) || player1->control)){
-                player1->blockstun = p2Hitbox->blockstun;
-                player1->control = 0;
-                if (player1->_getYPos() > 0) {
-                  player1->changeState(29);
-                } else {
-                  switch (p2Hitbox->blockType) {
-                    case 1:
-                      if (player1->_getInput(1)) {
-                        player1->changeState(29);
-                      } else {
-                        player1->changeState(28);
-                      }
-                      break;
-                    case 2:
-                      player1->changeState(29);
-                      break;
-                    case 3:
-                      player1->changeState(28);
-                      break;
-                    // should throw error here
-                    default: break;
-                  }
-                }
-                printf("ohh u got the blocksies?\n");
-              } else {
-                printf("ya wasnt blockin kid, your yPOS:%d and yor currentState %d\n", player2->_getYPos(), player2->currentState->stateNum);
-                player1->control = 0;
-                player1->health -= p2Hitbox->damage;
-                player1->hitstun = p2Hitbox->hitstun;
-                printf("player1 previous comboCount: %d\n", player1->comboCounter);
-                player1->comboCounter++;
-
-                if(p2Hitbox->canTrip || player1->_getYPos() > 0 || player1->currentState->stateNum == 24 || player1->currentState->stateNum == 35){
-                  p1Hit = true;
-                  p1HitState = 24;
-                } else {
-                  p1Hit = true;
-                  p1HitState = 9;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  if (p1Hit) {
+  if (p1HitState > 0) {
     player1->changeState(p1HitState);
   }
-  if (p2Hit) {
+  if (p2HitState > 0) {
     player2->changeState(p2HitState);
-  }
-  if (p1Hit && p2Hit) {
-    printf("we got a trade\n");
   }
 
   checkEntityHitCollisions();

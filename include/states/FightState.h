@@ -32,7 +32,7 @@ public:
   void resume();
   void checkPushCollisions();
   void checkThrowCollisions();
-  bool checkPlayerHitCollisions(Character* playerHitting, Character* playerBeingHit);
+  int checkHitboxAgainstHurtbox(Character* hitter, Character* hurter);
   void checkHitCollisions();
   void checkEntityHitCollisions();
   void checkBounds();

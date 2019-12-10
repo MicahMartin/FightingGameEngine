@@ -1,10 +1,53 @@
 #ifndef _GameObject_h
 #define _GameObject_h
+
 #include <utility>
 
+class StateDef;
 class GameObject {
 public:
   virtual ~GameObject() {};
+
+  virtual void changeState(int stateDefNum) = 0;
+  virtual void cancelState(int stateDefNum) = 0;
+
+  virtual void handleInput() = 0;
+  virtual void update() = 0;
+  virtual void draw() = 0;
+
+  virtual std::pair<int,int> getPos() = 0;
+  virtual void setXPos(int x) = 0;
+  virtual void setX(int x) = 0;
+  virtual void setY(int y) = 0;
+  virtual void updateFaceRight() = 0;
+  virtual void updatePosition() = 0;
+  virtual void updateCollisionBoxPositions() = 0;
+  virtual void updateCollisionBoxes() = 0;
+  virtual StateDef* getCurrentState() = 0;
+
+  // getters for these guys
+
+  int width = 100;
+  int control = 1;
+  int hitstun = 0;
+  int blockstun = 0;
+  int hitStop = 0;
+  int pushTime = 0;
+  int maxHealth = 100;
+  int hasAirAction = 0;
+  int comboCounter = 0;
+  int cancelPointer = 0;
+  int noGravityCounter = 0;
+  long frameLastAttackConnected = 0;
+  bool inCorner = false;
+  bool inHitStop = false;
+  bool gravity = true;
+  int health = 0;
+  int playerNum = 0;
+  int velocityX = 0;
+  int velocityY = 0;
+  bool faceRight = true;
+  bool inputFaceRight = true;
 
   virtual void _changeState(int stateNum) = 0;
   virtual void _cancelState(int stateNum) = 0;
@@ -38,7 +81,6 @@ public:
   virtual int _wasPressed(int input) = 0;
   virtual int _checkCommand(int commandIndex) = 0;
 protected:
-
 };
 
 #endif /* _GameObject_h */

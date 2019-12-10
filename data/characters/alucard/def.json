@@ -129,7 +129,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":12, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 5, "end": 8, "width":95, "height":60, "offsetX":75, "offsetY": 215},
+        {"type": "HIT", "block_type": 1, "hitstun":12, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 5, "end": 8, "width":95, "height":60, "offsetX":75, "offsetY": 215, "group": 1, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 5, "end": 12, "width":125, "height":50, "offsetX":75, "offsetY": 215}
       ]
@@ -233,7 +233,9 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":28, "block_stun":24, "hitstop": 18, "damage":5, "push": 12, "push_time": 8,  "start": 17, "end": 23, "width":150, "height":150, "offsetX":75, "offsetY": 200},
+        {"type": "HIT", "block_type": 1, "hitstun":28, "block_stun":24, "hitstop": 18, "damage":5, "push": 12, "push_time": 8,  "start": 17, "end": 19, "width":150, "height":150, "offsetX":75, "offsetY": 200, "group": 1},
+        {"type": "HIT", "block_type": 1, "hitstun":28, "block_stun":24, "hitstop": 18, "damage":5, "push": 12, "push_time": 8,  "start": 20, "end": 23, "width":150, "height":150, "offsetX":75, "offsetY": 200, "group": 2},
+        {"type": "HIT", "block_type": 1, "hitstun":28, "block_stun":24, "hitstop": 18, "damage":5, "push": 12, "push_time": 8,  "start": 24, "end": 28, "width":150, "height":150, "offsetX":-50, "offsetY": 250, "group": 3},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -252,7 +254,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":24, "block_stun":18, "hitstop": 16, "damage":2, "push": 10, "push_time": 8,  "start": 5, "end": 8, "width":175, "height":60, "offsetX":75, "offsetY": 190},
+        {"type": "HIT", "block_type": 1, "hitstun":24, "block_stun":18, "hitstop": 16, "damage":2, "push": 10, "push_time": 8,  "start": 5, "end": 8, "width":175, "height":60, "offsetX":75, "offsetY": 190, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 5, "end": 13, "width":200, "height":150, "offsetX":75, "offsetY": 160}
       ]
@@ -273,7 +275,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 3, "hitstun":22, "block_stun":18, "hitstop": 16, "damage":3, "push": 8, "push_time": 8,  "start": 13, "end": 18, "width":150, "height":100, "offsetX":50, "offsetY": 10},
+        {"type": "HIT", "block_type": 3, "hitstun":22, "block_stun":18, "hitstop": 16, "damage":3, "push": 8, "push_time": 8,  "start": 13, "end": 18, "width":150, "height":100, "offsetX":50, "offsetY": 10, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -310,7 +312,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 3, "hitstun":12, "block_stun":8, "hitstop": 12, "damage":1, "push": 8, "push_time": 8,  "start": 5, "end": 10, "width":50, "height":50, "offsetX":75, "offsetY": 115},
+        {"type": "HIT", "block_type": 3, "hitstun":12, "block_stun":8, "hitstop": 12, "damage":1, "push": 8, "push_time": 8,  "start": 5, "end": 10, "width":50, "height":50, "offsetX":75, "offsetY": 115, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -331,7 +333,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 3, "hitstun":14, "block_stun":10, "hitstop": 12, "damage":2, "push": 8, "push_time": 8,  "start": 9, "end": 16, "width":150, "height":100, "offsetX":0, "offsetY": 0},
+        {"type": "HIT", "block_type": 3, "hitstun":14, "block_stun":10, "hitstop": 12, "damage":2, "push": 8, "push_time": 8,  "start": 9, "end": 16, "width":150, "height":100, "offsetX":0, "offsetY": 0, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -352,7 +354,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":22, "block_stun":20, "hitstop": 16, "damage":3, "push": 8, "push_time": 8,  "start": 11, "end": 16, "width":360, "height":150, "offsetX":75, "offsetY": 185},
+        {"type": "HIT", "block_type": 1, "hitstun":22, "block_stun":20, "hitstop": 16, "damage":3, "push": 8, "push_time": 8,  "start": 11, "end": 16, "width":360, "height":150, "offsetX":75, "offsetY": 185, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":80, "offsetX":75, "offsetY": 185},
         {"type": "HURT", "start": 1, "end": -1, "width":115, "height":185, "offsetX":75, "offsetY": 0}
@@ -373,7 +375,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":12, "block_stun":8, "hitstop": 12, "damage":1, "push": 8, "push_time": 8,  "start": 5, "end": 8, "width":95, "height":60, "offsetX":100, "offsetY": 100},
+        {"type": "HIT", "block_type": 1, "hitstun":12, "block_stun":8, "hitstop": 12, "damage":1, "push": 8, "push_time": 8,  "start": 5, "end": 8, "width":95, "height":60, "offsetX":100, "offsetY": 100, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -392,7 +394,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 2, "hitstun":12, "block_stun":8, "hitstop": 12, "damage":2, "push": 8, "push_time": 8,  "start": 7, "end": 9, "width":115, "height":100, "offsetX":100, "offsetY": 0},
+        {"type": "HIT", "block_type": 2, "hitstun":12, "block_stun":8, "hitstop": 12, "damage":2, "push": 8, "push_time": 8,  "start": 7, "end": 9, "width":115, "height":100, "offsetX":100, "offsetY": 0, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -413,7 +415,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 2, "hitstun":13, "block_stun": 10, "hitstop": 18, "damage":3, "push": 6, "push_time": 20,  "start": 10, "end": 14, "width":250, "height":100, "offsetX":100, "offsetY": 0, "canTrip": true},
+        {"type": "HIT", "block_type": 2, "hitstun":13, "block_stun": 10, "hitstop": 18, "damage":3, "push": 6, "push_time": 20,  "start": 10, "end": 14, "width":250, "height":100, "offsetX":100, "offsetY": 0, "canTrip": true, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -426,6 +428,7 @@
       ],
       "update_script": "../data/characters/alucard/scripts/blowback_trip.kai",
       "animation": [
+        { "file": "../data/characters/alucard/sprites/96.png", "time": 6, "offsetX": 150, "offsetY": -25},
         { "file": "../data/characters/alucard/sprites/95.png", "time": 6, "offsetX": 150, "offsetY": -25},
         { "file": "../data/characters/alucard/sprites/94.png", "time": -1, "offsetX": 150, "offsetY": -25}
       ],

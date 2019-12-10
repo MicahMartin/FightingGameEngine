@@ -51,6 +51,7 @@ public:
   int stateNum;
   int stateTime;
   bool hitboxesDisabled = false;
+  std::unordered_map<int, bool> hitboxGroupDisabled;
 
 private:
   static std::map<std::string, FlagBit> flagMap;

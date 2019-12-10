@@ -67,6 +67,9 @@ StateDef::~StateDef() {
 void StateDef::enter(){
   stateTime = 0;
   hitboxesDisabled = false;
+  for (auto& it: hitboxGroupDisabled) {
+    it.second = false;
+  }
   anim.resetAnimEvents();
 };
 
@@ -140,6 +143,10 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
           i.value().at("block_type"));
       if(type == CollisionBox::THROW){
         cb->throwType = i.value().at("throw_type");
+      }
+      if (i.value().count("group")) {
+        cb->groupID = i.value().at("group");
+        hitboxGroupDisabled[cb->groupID] = false;
       }
       if (i.value().contains("canTrip")) {
         cb->canTrip = true;

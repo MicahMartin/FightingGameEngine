@@ -55,6 +55,7 @@ public:
   int blockstun;
   int blockType;
   int throwType;
+  int groupID = 1;
   bool canTrip = false;
 
 private:

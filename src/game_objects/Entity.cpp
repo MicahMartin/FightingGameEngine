@@ -240,6 +240,10 @@ std::pair<int,int> Entity::getPos(){
   return position;
 };
 
+StateDef* Entity::getCurrentState(){
+  return currentState;
+};
+
 void Entity::setXPos(int x){
   position.first = x;
 };

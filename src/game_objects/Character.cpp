@@ -221,6 +221,10 @@ std::pair<int,int> Character::getPos(){
   return position;
 };
 
+StateDef* Character::getCurrentState(){
+  return currentState;
+};
+
 void Character::setXPos(int x){
   position.first = x;
 };
