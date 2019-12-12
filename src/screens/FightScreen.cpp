@@ -20,8 +20,8 @@ FightScreen::FightScreen(){
   directions[2].loadTexture("../data/images/font/up.png");
   directions[3].loadTexture("../data/images/font/down.png");
   buttons[0].loadTexture("../data/images/font/punch.png");
-  buttons[1].loadTexture("../data/images/font/slash.png");
   buttons[2].loadTexture("../data/images/font/kick.png");
+  buttons[1].loadTexture("../data/images/font/slash.png");
   buttons[3].loadTexture("../data/images/font/dust.png");
   for (int i = 0; i <= 9; i++) {
     char n = i + '0';

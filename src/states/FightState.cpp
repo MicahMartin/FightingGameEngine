@@ -150,6 +150,7 @@ void FightState::update(){
       i.currentState->handleCancels();
     }
   }
+  checkBounds();
   // printf("updated the entities\n");
 
   checkThrowCollisions();
@@ -296,7 +297,8 @@ void FightState::checkPushCollisions(){
 }
 
 void FightState::checkThrowCollisions(){
-  if (!player1->currentState->hitboxesDisabled && player2->hitstun == 0 && player2->blockstun == 0) {
+  if (!player1->currentState->hitboxesDisabled && player2->hitstun == 0 && player2->blockstun == 0 && 
+      player2->currentState->stateNum != 24 && player2->currentState->stateNum != 35) {
     for (auto p1ThrowHitbox : player1->currentState->throwHitBoxes) {
       if(!p1ThrowHitbox->disabled){
         printf("checking a throwbox\n");
@@ -352,10 +354,10 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
 
               if (hurter->inCorner) {
                 hitter->pushTime = hitBox->pushTime;
-                hitter->_negVelSetX(hitBox->pushback);
+                hitter->pushBackVelocity = hitBox->pushback;
               } else {
                 hurter->pushTime = hitBox->pushTime;
-                hurter->_negVelSetX(hitBox->pushback);
+                hurter->pushBackVelocity = hitBox->pushback;
               }
 
               if(checkBlock(hitBox->blockType, hurter) && ((hurter->currentState->stateNum == 28 || hurter->currentState->stateNum == 29) || hurter->control)){
@@ -663,25 +665,29 @@ void FightState::checkHealth(){
 }
 
 void FightState::updateFaceRight(){
-  if(player1->getPos().first < player2->getPos().first){
-    player1->inputFaceRight = true;
-    player2->inputFaceRight = false;
-
-    if(!player1->currentState->checkFlag(NO_TURN)){
-      player1->faceRight = true;
-    }
-    if(!player2->currentState->checkFlag(NO_TURN)){
-      player2->faceRight = false;
-    }
+  if (player1->getPos().first == player2->getPos().first) {
+    
   } else {
-    player1->inputFaceRight = false;
-    player2->inputFaceRight = true;
+    if(player1->getPos().first < player2->getPos().first){
+      player1->inputFaceRight = true;
+      player2->inputFaceRight = false;
 
-    if(!player1->currentState->checkFlag(NO_TURN)){
-      player1->faceRight = false;
-    }
-    if(!player2->currentState->checkFlag(NO_TURN)){
-      player2->faceRight = true;
+      if(!player1->currentState->checkFlag(NO_TURN)){
+        player1->faceRight = true;
+      }
+      if(!player2->currentState->checkFlag(NO_TURN)){
+        player2->faceRight = false;
+      }
+    } else {
+      player1->inputFaceRight = false;
+      player2->inputFaceRight = true;
+
+      if(!player1->currentState->checkFlag(NO_TURN)){
+        player1->faceRight = false;
+      }
+      if(!player2->currentState->checkFlag(NO_TURN)){
+        player2->faceRight = true;
+      }
     }
   }
   for (auto &i : player1->entityList) {

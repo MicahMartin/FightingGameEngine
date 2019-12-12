@@ -32,6 +32,7 @@ void Character::changeState(int stateDefNum){
   cancelPointer = 0;
   currentState = &stateList.at(stateDefNum-1);
   if(!currentState->checkFlag(NO_TURN_ON_ENTER)){
+    printf("in changeState\n");
     updateFaceRight();
   }
   currentState->enter();
@@ -72,7 +73,7 @@ void Character::handleInput(){
   if(pushTime > 0){
     pushTime--;
     if(pushTime == 0){
-      velocityX = 0;
+      pushBackVelocity = 0;
     }
   }
 
@@ -101,16 +102,23 @@ void Character::update(){
 };
 
 void Character::updateFaceRight(){
-  if(position.first <= otherChar->getPos().first){
-    faceRight = true;
+  printf("in updateFaceRight!\n");
+  printf("myPos: %d, otherPos:%d \n", position.first, otherChar->getPos().first);
+  if (position.first == otherChar->getPos().first) {
+    printf("in equalPos, wtf?! %d\n", faceRight);
   } else {
-    faceRight = false;
+    if(position.first < otherChar->getPos().first){
+      faceRight = true;
+    } else {
+      faceRight = false;
+    }
   }
-    
 };
 
 void Character::updatePosition(){
-  position.first += velocityX;
+  // _negVelSetX(pushBackVelocity);
+  int velX = faceRight ? velocityX - pushBackVelocity : velocityX + pushBackVelocity;
+  position.first += velX;
   position.second -= velocityY;
 
   if(noGravityCounter > 0){

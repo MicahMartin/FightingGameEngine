@@ -3,6 +3,7 @@
   var qcb_p = $check_command 3;
   var kick = $was_pressed 11;
   var slash = $was_pressed 12;
+  var dust = $was_pressed 13;
 
   var down = $get_input 2; 
   var downback = $get_input 1; 
@@ -16,9 +17,16 @@
     $cancel_state 30;
   }
 
-  if(slash){
+  if(dust){
     if (anyDown) {
       $cancel_state 23;
+    } else {
+    }
+  }
+
+  if(slash){
+    if (anyDown) {
+      $cancel_state 40;
     } else {
       $cancel_state 20;
     }

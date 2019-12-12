@@ -46,6 +46,7 @@ public:
   int blockstun = 0;
   int hitStop = 0;
   int pushTime = 0;
+  int pushBackVelocity = 0;
   int maxHealth = 100;
   int hasAirAction = 0;
   int comboCounter = 0;

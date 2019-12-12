@@ -28,6 +28,7 @@
   var punch = $was_pressed 10;
   var kick = $was_pressed 11;
   var slash = $was_pressed 12;
+  var dust = $was_pressed 13;
 
   if (control) {
     if (grounded) {
@@ -49,10 +50,16 @@
       }
       
 
+      if(dust){
+        if(anyDown){
+          $change_state 23; 
+        } else {
+        }
+      }
 
       if(slash){
         if(anyDown){
-          $change_state 23; 
+          $change_state 40; 
         } else {
           $change_state 20;
         }
@@ -76,11 +83,8 @@
         $change_state 10; 
       }
 
-      if( dash_b){
+      if(dash_b){
         $change_state 11; 
-      }
-      if(upforward){
-        $change_state 6; 
       }
 
       if(upforward){
@@ -127,13 +131,26 @@
 
 
 
-      if(aboveMinHeight and hasAirAction and dash_f){
-        $change_state 12; 
+      if(aboveMinHeight and hasAirAction){
+        if(dash_f){
+          $change_state 12; 
+        }
+        if(dash_b){
+          $change_state 13; 
+        }
+        if(upforward){
+          $change_state 42; 
+        }
+
+        if(upback){
+          $change_state 43; 
+        }
+
+        if(up){
+          $change_state 40; 
+        }
       }
 
-      if(aboveMinHeight and hasAirAction and dash_b){
-        $change_state 13; 
-      }
     }
   }
   

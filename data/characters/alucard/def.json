@@ -233,9 +233,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":28, "block_stun":24, "hitstop": 18, "damage":5, "push": 12, "push_time": 8,  "start": 17, "end": 19, "width":150, "height":150, "offsetX":75, "offsetY": 200, "group": 1},
-        {"type": "HIT", "block_type": 1, "hitstun":28, "block_stun":24, "hitstop": 18, "damage":5, "push": 12, "push_time": 8,  "start": 20, "end": 23, "width":150, "height":150, "offsetX":75, "offsetY": 200, "group": 2},
-        {"type": "HIT", "block_type": 1, "hitstun":28, "block_stun":24, "hitstop": 18, "damage":5, "push": 12, "push_time": 8,  "start": 24, "end": 28, "width":150, "height":150, "offsetX":-50, "offsetY": 250, "group": 3},
+        {"type": "HIT", "block_type": 1, "hitstun":28, "block_stun":24, "hitstop": 18, "damage":5, "push": 10, "push_time": 30,  "start": 17, "end": 23, "width":150, "height":150, "offsetX":75, "offsetY": 200, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -400,12 +398,12 @@
     },
     {
       "state_num": 23,
-      "state_name": "CROUCH_S",
+      "state_name": "CROUCH_D",
       "flags": [
         "NO_TURN"
       ],
-      "cancel_script": "../data/characters/alucard/scripts/attacks/crouch_s_cancels.kai",
-      "update_script": "../data/characters/alucard/scripts/attacks/crouch_s.kai",
+      "cancel_script": "../data/characters/alucard/scripts/attacks/crouch_d_cancels.kai",
+      "update_script": "../data/characters/alucard/scripts/attacks/crouch_d.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/50.png", "time": 3, "offsetX": 310, "offsetY": 20},
         { "file": "../data/characters/alucard/sprites/49.png", "time": 5, "offsetX": 325, "offsetY": 20},
@@ -434,7 +432,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HURT", "start": 1, "end": -1, "width":290, "height":150, "offsetX":-150, "offsetY": 0}
+        {"type": "HURT", "start": 1, "end": -1, "width":275, "height":325, "offsetX":-150, "offsetY": 0}
       ]
     },
     {
@@ -676,6 +674,79 @@
         { "file": "../data/characters/alucard/sprites/throw1.png", "time": 45, "offsetX": 100, "offsetY": 100}
       ],
       "collision_boxes": [ ]
+    },
+    {
+      "state_num": 40,
+      "state_name": "CROUCH_S",
+      "flags": [
+        "NO_TURN"
+      ],
+      "cancel_script": "../data/characters/alucard/scripts/attacks/crouch_s_cancels.kai",
+      "update_script": "../data/characters/alucard/scripts/attacks/crouch_s.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/43.png", "time": 9, "offsetX": 100, "offsetY": 0},
+        { "file": "../data/characters/alucard/sprites/45.png", "time": 2, "offsetX": 350, "offsetY": 0},
+        { "file": "../data/characters/alucard/sprites/47.png", "time": 14, "offsetX": 350, "offsetY": 0},
+        { "file": "../data/characters/alucard/sprites/45.png", "time": 6, "offsetX": 350, "offsetY": 0},
+        { "file": "../data/characters/alucard/sprites/43.png", "time": 9, "offsetX": 100, "offsetY": 0}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HIT", "block_type": 1, "hitstun":13, "block_stun": 10, "hitstop": 16, "damage":3, "push": 6, "push_time": 20,  "start": 10, "end": 12, "width":250, "height":200, "offsetX":100, "offsetY": 0, "canTrip": true, "group": 1},
+        {"type": "HIT", "block_type": 1, "hitstun":13, "block_stun": 10, "hitstop": 16, "damage":3, "push": 6, "push_time": 20,  "start": 13, "end": 18, "width":250, "height":200, "offsetX":100, "offsetY": 200, "canTrip": true, "group": 2},
+        {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 41,
+      "state_name": "DBL_JUMP_N",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/alucard/scripts/movement/dbl_jump_n.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 115 },
+        { "file": "../data/characters/alucard/sprites/6.png", "time": 20, "offsetX": 115 },
+        { "file": "../data/characters/alucard/sprites/7.png", "time": 200, "offsetX": 115 }
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 42,
+      "state_name": "DBL_JUMP_F",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/alucard/scripts/movement/dbl_jump_f.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/9.png", "time": 4, "offsetX": 115 },
+        { "file": "../data/characters/alucard/sprites/8.png", "time": 13, "offsetX": 115 },
+        { "file": "../data/characters/alucard/sprites/54.png", "time": 200, "offsetX": 115 }
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 43,
+      "state_name": "DBL_JUMP_B",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/alucard/scripts/movement/dbl_jump_b.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 115 },
+        { "file": "../data/characters/alucard/sprites/9.png", "time": 20, "offsetX": 115 },
+        { "file": "../data/characters/alucard/sprites/7.png", "time": 200, "offsetX": 115 }
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ]
     }
   ],
   "entities": [

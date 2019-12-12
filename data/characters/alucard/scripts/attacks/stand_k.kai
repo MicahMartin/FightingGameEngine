@@ -6,7 +6,7 @@
     $velset_x 0; 
   } 
 
-  if($get_state_time < 3 and $get_state_time > 0){
+  if($get_state_time < 2 and $get_state_time > 0){
     if (lp_and_lk) {
       $change_state 32;
     }
