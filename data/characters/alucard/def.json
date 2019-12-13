@@ -71,7 +71,7 @@
       "animation": [
         { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 115 },
         { "file": "../data/characters/alucard/sprites/6.png", "time": 20, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/7.png", "time": 200, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/7.png", "time": -1, "offsetX": 115 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -88,7 +88,7 @@
       "animation": [
         { "file": "../data/characters/alucard/sprites/9.png", "time": 4, "offsetX": 115 },
         { "file": "../data/characters/alucard/sprites/8.png", "time": 13, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/54.png", "time": 200, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/54.png", "time": -1, "offsetX": 115 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -105,7 +105,7 @@
       "animation": [
         { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 115 },
         { "file": "../data/characters/alucard/sprites/9.png", "time": 20, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/7.png", "time": 200, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/7.png", "time": -1, "offsetX": 115 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -129,7 +129,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":12, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 5, "end": 8, "width":95, "height":60, "offsetX":75, "offsetY": 215, "group": 1, "group": 1},
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":4, "hitstop": 10, "damage":1, "push": 8, "push_time": 8, "start": 5, "end": 8, "width":95, "height":60, "offsetX":75, "offsetY": 215, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 5, "end": 12, "width":125, "height":50, "offsetX":75, "offsetY": 215}
       ]
@@ -233,7 +233,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":28, "block_stun":24, "hitstop": 18, "damage":5, "push": 10, "push_time": 30,  "start": 17, "end": 23, "width":150, "height":150, "offsetX":75, "offsetY": 200, "group": 1},
+        {"type": "HIT", "block_type": 1, "hitstun":28, "block_stun":24, "hitstop": 18, "damage":5, "push": 10, "push_time": 8,  "start": 17, "end": 23, "width":150, "height":150, "offsetX":75, "offsetY": 200, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -265,6 +265,7 @@
         "NO_TURN_ON_ENTER"
 
       ],
+      "cancel_script": "../data/characters/alucard/scripts/attacks/jump_s_cancels.kai",
       "update_script": "../data/characters/alucard/scripts/attacks/jump_s.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/55.png", "time": 8, "offsetX": 175},
@@ -273,7 +274,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 3, "hitstun":22, "block_stun":18, "hitstop": 16, "damage":3, "push": 8, "push_time": 8,  "start": 13, "end": 18, "width":150, "height":100, "offsetX":50, "offsetY": 10, "group": 1},
+        {"type": "HIT", "block_type": 3, "hitstun":28, "block_stun":18, "hitstop": 16, "damage":3, "push": 8, "push_time": 8,  "start": 13, "end": 23, "width":150, "height":120, "offsetX":50, "offsetY": -10, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -331,7 +332,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 3, "hitstun":14, "block_stun":10, "hitstop": 12, "damage":2, "push": 8, "push_time": 8,  "start": 9, "end": 16, "width":150, "height":100, "offsetX":0, "offsetY": 0, "group": 1},
+        {"type": "HIT", "block_type": 3, "hitstun":19, "block_stun":10, "hitstop": 12, "damage":2, "push": 8, "push_time": 8,  "start": 9, "end": 16, "width":200, "height":100, "offsetX":-50, "offsetY": 0, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -392,7 +393,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 2, "hitstun":12, "block_stun":8, "hitstop": 12, "damage":2, "push": 8, "push_time": 8,  "start": 7, "end": 9, "width":115, "height":100, "offsetX":100, "offsetY": 0, "group": 1},
+        {"type": "HIT", "block_type": 2, "hitstun":8, "block_stun":8, "hitstop": 12, "damage":2, "push": 8, "push_time": 8,  "start": 7, "end": 9, "width":115, "height":100, "offsetX":100, "offsetY": 0, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -405,15 +406,15 @@
       "cancel_script": "../data/characters/alucard/scripts/attacks/crouch_d_cancels.kai",
       "update_script": "../data/characters/alucard/scripts/attacks/crouch_d.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/50.png", "time": 3, "offsetX": 310, "offsetY": 20},
-        { "file": "../data/characters/alucard/sprites/49.png", "time": 5, "offsetX": 325, "offsetY": 20},
+        { "file": "../data/characters/alucard/sprites/50.png", "time": 2, "offsetX": 310, "offsetY": 20},
+        { "file": "../data/characters/alucard/sprites/49.png", "time": 3, "offsetX": 325, "offsetY": 20},
         { "file": "../data/characters/alucard/sprites/51.png", "time": 8, "offsetX": 335, "offsetY": 20},
         { "file": "../data/characters/alucard/sprites/49.png", "time": 6, "offsetX": 325, "offsetY": 20},
         { "file": "../data/characters/alucard/sprites/50.png", "time": 6, "offsetX": 315, "offsetY": 20}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 2, "hitstun":13, "block_stun": 10, "hitstop": 18, "damage":3, "push": 6, "push_time": 20,  "start": 10, "end": 14, "width":250, "height":100, "offsetX":100, "offsetY": 0, "canTrip": true, "group": 1},
+        {"type": "HIT", "block_type": 2, "hitstun":30, "block_stun": 10, "hitstop": 18, "damage":3, "push": 6, "push_time": 24,  "start": 7, "end": 14, "width":250, "height":100, "offsetX":100, "offsetY": 0, "canTrip": true, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -483,7 +484,8 @@
       "state_num": 28,
       "state_name": "BLOCK_STAND",
       "flags": [
-        "NO_TURN"
+        "NO_TURN",
+        "NO_TURN_ON_ENTER"
       ],
       "update_script": "../data/characters/alucard/scripts/block_stand.kai",
       "animation": [
@@ -498,7 +500,9 @@
       "state_num": 29,
       "state_name": "BLOCK_CROUCH",
       "flags": [
-        "NO_TURN"
+        "NO_TURN",
+        "NO_TURN_ON_ENTER"
+
       ],
       "update_script": "../data/characters/alucard/scripts/block_crouch.kai",
       "animation": [
@@ -564,7 +568,7 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
-        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":1, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 1, "end": 2, "width":95, "height":275, "offsetX":75, "offsetY": 0}
+        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 1, "end": 2, "width":95, "height":275, "offsetX":75, "offsetY": 0}
       ]
     },
     {
@@ -686,14 +690,14 @@
       "animation": [
         { "file": "../data/characters/alucard/sprites/43.png", "time": 9, "offsetX": 100, "offsetY": 0},
         { "file": "../data/characters/alucard/sprites/45.png", "time": 2, "offsetX": 350, "offsetY": 0},
-        { "file": "../data/characters/alucard/sprites/47.png", "time": 14, "offsetX": 350, "offsetY": 0},
+        { "file": "../data/characters/alucard/sprites/47.png", "time": 19, "offsetX": 350, "offsetY": 0},
         { "file": "../data/characters/alucard/sprites/45.png", "time": 6, "offsetX": 350, "offsetY": 0},
         { "file": "../data/characters/alucard/sprites/43.png", "time": 9, "offsetX": 100, "offsetY": 0}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HIT", "block_type": 1, "hitstun":13, "block_stun": 10, "hitstop": 16, "damage":3, "push": 6, "push_time": 20,  "start": 10, "end": 12, "width":250, "height":200, "offsetX":100, "offsetY": 0, "canTrip": true, "group": 1},
-        {"type": "HIT", "block_type": 1, "hitstun":13, "block_stun": 10, "hitstop": 16, "damage":3, "push": 6, "push_time": 20,  "start": 13, "end": 18, "width":250, "height":200, "offsetX":100, "offsetY": 200, "canTrip": true, "group": 2},
+        {"type": "HIT", "block_type": 1, "hitstun":20, "block_stun": 10, "hitstop": 16, "damage":3, "push": 6, "push_time": 20,  "start": 13, "end": 18, "width":250, "height":200, "offsetX":100, "offsetY": 200, "canTrip": true, "group": 2},
         {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0}
       ]
     },
@@ -707,7 +711,7 @@
       "animation": [
         { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 115 },
         { "file": "../data/characters/alucard/sprites/6.png", "time": 20, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/7.png", "time": 200, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/7.png", "time": -1, "offsetX": 115 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -724,7 +728,7 @@
       "animation": [
         { "file": "../data/characters/alucard/sprites/9.png", "time": 4, "offsetX": 115 },
         { "file": "../data/characters/alucard/sprites/8.png", "time": 13, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/54.png", "time": 200, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/54.png", "time": -1, "offsetX": 115 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -741,13 +745,28 @@
       "animation": [
         { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 115 },
         { "file": "../data/characters/alucard/sprites/9.png", "time": 20, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/7.png", "time": 200, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/7.png", "time": -1, "offsetX": 115 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
+    },
+    {
+      "state_num": 44,
+      "state_name": "AIR_RECOVERY",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/alucard/scripts/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/5.png", "time": 10, "offsetX": 115 }
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
+      ]
     }
+
   ],
   "entities": [
     {"entityID": 1, "defPath": "../data/characters/alucard/entities/fireball/def.json"},

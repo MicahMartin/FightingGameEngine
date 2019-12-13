@@ -3,8 +3,10 @@
 Camera::Camera(){
   cameraRect.w = graphics->getWindowWidth();
   cameraRect.h = graphics->getWindowHeight();
+  cameraRect.y = 0;
   printf("camera itialized %d %d\n", cameraRect.w, cameraRect.h);
 }
+
 Camera::~Camera(){}
 
 void Camera::update(int p1Xpos, int p2Xpos){

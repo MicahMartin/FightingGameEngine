@@ -138,17 +138,6 @@
         if(dash_b){
           $change_state 13; 
         }
-        if(upforward){
-          $change_state 42; 
-        }
-
-        if(upback){
-          $change_state 43; 
-        }
-
-        if(up){
-          $change_state 40; 
-        }
       }
 
     }

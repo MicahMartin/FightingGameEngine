@@ -31,8 +31,8 @@ void Character::init(){
 void Character::changeState(int stateDefNum){
   cancelPointer = 0;
   currentState = &stateList.at(stateDefNum-1);
+  printf("in changeState\n");
   if(!currentState->checkFlag(NO_TURN_ON_ENTER)){
-    printf("in changeState\n");
     updateFaceRight();
   }
   currentState->enter();
@@ -79,6 +79,9 @@ void Character::handleInput(){
 
   if (hitstun > 0) {
     hitstun--;
+    if (comboCounter == 0) {
+      hitstun = 0;
+    }
   }
 
   if (blockstun > 0) {
@@ -102,15 +105,15 @@ void Character::update(){
 };
 
 void Character::updateFaceRight(){
-  printf("in updateFaceRight!\n");
-  printf("myPos: %d, otherPos:%d \n", position.first, otherChar->getPos().first);
   if (position.first == otherChar->getPos().first) {
     printf("in equalPos, wtf?! %d\n", faceRight);
   } else {
     if(position.first < otherChar->getPos().first){
       faceRight = true;
+      inputFaceRight = true;
     } else {
       faceRight = false;
+      inputFaceRight = false;
     }
   }
 };

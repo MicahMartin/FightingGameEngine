@@ -11,4 +11,21 @@
     $cancel_state 18;
   }
 
+  var up = $get_input 8; 
+  var upforward = $get_input 9; 
+  var upback = $get_input 7; 
+
+  var hasAirAction = $has_air_action;
+
+  if(hasAirAction){
+    if(up){
+      $cancel_state 41;
+    }
+    if(upforward){
+      $cancel_state 42;
+    }
+    if(upback){
+      $cancel_state 43;
+    }
+  }
 }

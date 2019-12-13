@@ -161,8 +161,14 @@ void FightState::update(){
   // printf("updated the collisions \n");
   checkBounds();
   // printf("bounsd were checked\n");
+  int highest = player1->_getYPos() > player2->_getYPos() ? player1->_getYPos() : player2->_getYPos();
   camera.update(player1->getPos().first, player2->getPos().first);
-  // printf("update gucci\n");
+  if(highest > (graphics->getWindowHeight()/2)){
+    camera.cameraRect.y = highest - (graphics->getWindowHeight() / 2);
+  } else {
+    camera.cameraRect.y = 0;
+  }
+
 }
 
 void FightState::draw(){  
@@ -248,7 +254,11 @@ void FightState::checkPushCollisions(){
         if(!p2PushBox->disabled){
           if (CollisionBox::checkAABB(*p1PushBox, *p2PushBox)) {
             // find how deeply intersected they are
+            printf("p1Pos: %d, p2Pos: %d\n", p1Pos.first, p2Pos.first);
             bool p1Lefter = p1Pos.first < p2Pos.first;
+            if (p1Pos.first == p2Pos.first) {
+              p1Lefter = player1->faceRight;
+            }
 
             if(p1Lefter){
               int p1RightEdge = p1PushBox->positionX + p1PushBox->width;
@@ -287,6 +297,7 @@ void FightState::checkPushCollisions(){
                 player1->setX(depth/2);
               }
             }
+
             player1->updateCollisionBoxPositions();
             player2->updateCollisionBoxPositions();
           }
@@ -298,11 +309,11 @@ void FightState::checkPushCollisions(){
 
 void FightState::checkThrowCollisions(){
   if (!player1->currentState->hitboxesDisabled && player2->hitstun == 0 && player2->blockstun == 0 && 
-      player2->currentState->stateNum != 24 && player2->currentState->stateNum != 35) {
+      player2->currentState->stateNum != 24 && player2->currentState->stateNum != 35 && player2->currentState->stateNum != 25 ) {
     for (auto p1ThrowHitbox : player1->currentState->throwHitBoxes) {
       if(!p1ThrowHitbox->disabled){
         printf("checking a throwbox\n");
-        for (auto p2HurtBox : player2->currentState->hurtBoxes) {
+        for (auto p2HurtBox : player2->currentState->pushBoxes) {
           if(!p2HurtBox->disabled){
             if (CollisionBox::checkAABB(*p1ThrowHitbox, *p2HurtBox)) {
               if (p1ThrowHitbox->throwType == 1 && player2->_getYPos() > 0) {
@@ -312,6 +323,7 @@ void FightState::checkThrowCollisions(){
                 player1->currentState->hitboxesDisabled = true;
                 player1->changeState(38); 
 
+                player2->comboCounter++;
                 player2->control = 0;
                 player2->hitstun = p1ThrowHitbox->hitstun;
                 player2->changeState(39);
@@ -321,6 +333,7 @@ void FightState::checkThrowCollisions(){
                 player1->currentState->hitboxesDisabled = true;
                 player1->changeState(36); 
 
+                player2->comboCounter++;
                 player2->control = 0;
                 player2->hitstun = p1ThrowHitbox->hitstun;
                 player2->changeState(34);
@@ -666,7 +679,6 @@ void FightState::checkHealth(){
 
 void FightState::updateFaceRight(){
   if (player1->getPos().first == player2->getPos().first) {
-    
   } else {
     if(player1->getPos().first < player2->getPos().first){
       player1->inputFaceRight = true;
@@ -690,6 +702,7 @@ void FightState::updateFaceRight(){
       }
     }
   }
+  
   for (auto &i : player1->entityList) {
     if (i.active && i.updateFacing) {
       if(i.getPos().first < player2->getPos().first){
