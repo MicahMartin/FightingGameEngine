@@ -76,6 +76,7 @@ void FightState::update(){
   // printf("we made it into update!\n");
   stateTime++;
   checkBounds();
+  updateFaceRight();
   if(player1->getPos().first - player1->width <= 0 || player1->getPos().first + player1->width >= 3840){
     player1->inCorner = true;
   } else {
@@ -114,12 +115,13 @@ void FightState::update(){
   // printf("we updated player2 entity hitstop!!\n");
 
   if(!player1->inHitStop){
-    printf("updating player 1\n");
     player1->update();
   }
+
   if(!player2->inHitStop){
     player2->update();
   }
+
   if(player1->inHitStop){
     player1->currentState->handleCancels();
   }
@@ -152,12 +154,14 @@ void FightState::update(){
   }
 
   checkBounds();
+  updateFaceRight();
+
   checkThrowCollisions();
   checkHitCollisions();
-  // printf("got outta check collisions\n");
-
   checkPushCollisions();
+
   checkBounds();
+  updateFaceRight();
   // printf("updated the collisions \n");
   // printf("bounsd were checked\n");
   int highest = player1->_getYPos() > player2->_getYPos() ? player1->_getYPos() : player2->_getYPos();

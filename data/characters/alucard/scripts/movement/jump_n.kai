@@ -4,10 +4,10 @@
     $set_air_action 1; 
     $velset_x 0; 
   } 
-  if($get_state_time == 2){ 
+  if($get_state_time == 1){ 
     $velset_y 24; 
   } 
-  if($get_state_time == 4){ 
+  if($get_state_time == 5){ 
     $set_control 1; 
   } 
   var can_dbl_jump = false;
