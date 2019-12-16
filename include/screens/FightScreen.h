@@ -21,6 +21,7 @@ public:
   void renderInputHistory(bool side, boost::circular_buffer<InputEvent>& events);
 private:
   GameTexture stage;
+  GameTexture sky;
   GameTexture numbers[10];
   GameTexture directions[4];
   GameTexture buttons[8];

@@ -1,4 +1,3 @@
-
 { 
   if($get_state_time == 0){ 
     $set_control 1; 

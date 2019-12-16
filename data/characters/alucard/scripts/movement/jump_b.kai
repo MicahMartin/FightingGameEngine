@@ -24,13 +24,13 @@
 
   if(hasAirAction and can_dbl_jump){
     if(up){
-      $cancel_state 41;
+      $change_state 41;
     }
     if(upforward){
-      $cancel_state 42;
+      $change_state 42;
     }
     if(upback){
-      $cancel_state 43;
+      $change_state 43;
     }
   }
 } 

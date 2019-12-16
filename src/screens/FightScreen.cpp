@@ -13,6 +13,9 @@ FightScreen::FightScreen(){
 
   stage.loadTexture("../data/images/purple_stage.png");
   stage.setDimensions(0, 0, windowWidth*3, graphics->getWindowHeight());
+  sky.loadTexture("../data/images/sky.png");
+  sky.setDimensions(0, -graphics->getWindowHeight(), windowWidth*3, graphics->getWindowHeight());
+  addTexture(&sky);
   addTexture(&stage);
 
   directions[0].loadTexture("../data/images/font/right.png");
@@ -29,7 +32,7 @@ FightScreen::FightScreen(){
 
     numPath << "../data/images/font/" << n << ".png";
     if (!numbers[i].loadTexture(numPath.str().c_str())) {
-      printf("error loading fucking font %d\n", i);
+      printf("error loading font %d\n", i);
     }
   }
 }

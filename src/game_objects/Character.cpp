@@ -33,7 +33,7 @@ void Character::changeState(int stateDefNum){
   currentState = &stateList.at(stateDefNum-1);
   printf("in changeState\n");
   if(!currentState->checkFlag(NO_TURN_ON_ENTER)){
-    updateFaceRight();
+    // updateFaceRight();
   }
   currentState->enter();
   updateCollisionBoxes();
@@ -106,7 +106,6 @@ void Character::update(){
 
 void Character::updateFaceRight(){
   if (position.first == otherChar->getPos().first) {
-    printf("in equalPos, wtf?! %d\n", faceRight);
   } else {
     if(position.first < otherChar->getPos().first){
       faceRight = true;

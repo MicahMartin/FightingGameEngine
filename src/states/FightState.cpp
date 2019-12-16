@@ -13,27 +13,27 @@ FightState::~FightState(){
   printf("in fightState destructor\n");
 }
 
-
 void FightState::enter(){ 
   printf("entering fightState\n");
-  // init all fields
-  graphics->setCamera(&camera);
-  camera.update(1700, 2200);
+
   player1 = new Character(std::make_pair(1700,0), 1);
-  player2 = new Character(std::make_pair(2200,0), 2);
   player1->virtualController = inputManager->getVirtualController(0);
   player1->virtualController->initCommandCompiler();
+  charStateManager->registerCharacter(player1, 1);
+
+  player2 = new Character(std::make_pair(2200,0), 2);
   player2->virtualController = inputManager->getVirtualController(1);
   player2->virtualController->initCommandCompiler();
-
-  player1->otherChar = player2;
-  player2->otherChar = player1;
- 
-  charStateManager->registerCharacter(player1, 1);
   charStateManager->registerCharacter(player2, 2);
 
+
+  player1->otherChar = player2;
   player1->init();
+  player2->otherChar = player1;
   player2->init();
+
+  graphics->setCamera(&camera);
+  camera.update(1700, 2200);
 }
 
 void FightState::exit(){ 
@@ -47,36 +47,35 @@ void FightState::pause(){ }
 void FightState::resume(){ }
 
 void FightState::handleInput(){ 
-  updateFaceRight();
   checkHealth();
   if (!player1->inHitStop) {
     player1->handleInput();
-  } else {
-    // printf("p1HitStop:%d\n", player1->hitStop);
-  }
+  } else { }
+
   if (!player2->inHitStop) {
     player2->handleInput();
-  } else {
-    // printf("p2HitStop:%d\n", player2->hitStop);
-  }
+  } else { }
 
   for (auto &i : player1->entityList) {
     if(!i.inHitStop){
       i.handleInput();
     }
   }
-  // printf("p1 entities handled input \n");
+
   for (auto &i : player2->entityList) {
     if(!i.inHitStop){
       i.handleInput();
     }
   }
-  // printf("p2 entities handled input \n");
+
+  checkBounds();
+  updateFaceRight();
 }
 
 void FightState::update(){ 
   // printf("we made it into update!\n");
   stateTime++;
+  checkBounds();
   if(player1->getPos().first - player1->width <= 0 || player1->getPos().first + player1->width >= 3840){
     player1->inCorner = true;
   } else {
@@ -115,6 +114,7 @@ void FightState::update(){
   // printf("we updated player2 entity hitstop!!\n");
 
   if(!player1->inHitStop){
+    printf("updating player 1\n");
     player1->update();
   }
   if(!player2->inHitStop){
@@ -150,16 +150,15 @@ void FightState::update(){
       i.currentState->handleCancels();
     }
   }
-  checkBounds();
-  // printf("updated the entities\n");
 
+  checkBounds();
   checkThrowCollisions();
   checkHitCollisions();
   // printf("got outta check collisions\n");
 
   checkPushCollisions();
-  // printf("updated the collisions \n");
   checkBounds();
+  // printf("updated the collisions \n");
   // printf("bounsd were checked\n");
   int highest = player1->_getYPos() > player2->_getYPos() ? player1->_getYPos() : player2->_getYPos();
   camera.update(player1->getPos().first, player2->getPos().first);
@@ -168,7 +167,6 @@ void FightState::update(){
   } else {
     camera.cameraRect.y = 0;
   }
-
 }
 
 void FightState::draw(){  
@@ -254,7 +252,6 @@ void FightState::checkPushCollisions(){
         if(!p2PushBox->disabled){
           if (CollisionBox::checkAABB(*p1PushBox, *p2PushBox)) {
             // find how deeply intersected they are
-            printf("p1Pos: %d, p2Pos: %d\n", p1Pos.first, p2Pos.first);
             bool p1Lefter = p1Pos.first < p2Pos.first;
             if (p1Pos.first == p2Pos.first) {
               p1Lefter = player1->faceRight;
@@ -631,7 +628,7 @@ bool FightState::checkBlock(int blockType, Character* player){
 }
 
 void FightState::checkBounds(){
-  if(player1->getPos().first - player1->width <= 0) {
+  if(player1->getPos().first - player1->width < 0) {
     player1->setXPos(0+player1->width);
     player1->updateCollisionBoxPositions();
   }
@@ -641,7 +638,7 @@ void FightState::checkBounds(){
     player1->updateCollisionBoxPositions();
   }
 
-  if(player1->getPos().first + player1->width >= 3840) {
+  if(player1->getPos().first + player1->width > 3840) {
     player1->setXPos(3840 - player1->width);
     player1->updateCollisionBoxPositions();
   }
@@ -651,7 +648,7 @@ void FightState::checkBounds(){
     player1->updateCollisionBoxPositions();
   }
 
-  if(player2->getPos().first - player2->width <= 0) {
+  if(player2->getPos().first - player2->width < 0) {
     player2->setXPos(0 + player2->width);
     player2->updateCollisionBoxPositions();
   }
@@ -660,7 +657,7 @@ void FightState::checkBounds(){
     player2->updateCollisionBoxPositions();
   }
 
-  if(player2->getPos().first + player2->width >= 3840) {
+  if(player2->getPos().first + player2->width > 3840) {
     player2->setXPos(3840 - player2->width);
     player2->updateCollisionBoxPositions();
   }
@@ -752,10 +749,10 @@ void FightState::renderHealthBars(){
 void FightState::renderComboCount(){
   int p1ComboCount = player1->comboCounter;
   int p2ComboCount = player2->comboCounter;
-  if(p2ComboCount > 0){
+  if(p2ComboCount > 1){
     currentScreen.renderComboCount(true, p2ComboCount);
   }
-  if(p1ComboCount > 0){
+  if(p1ComboCount > 1){
     currentScreen.renderComboCount(false, p1ComboCount);
   }
 }

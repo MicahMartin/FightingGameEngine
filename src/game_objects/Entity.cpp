@@ -11,7 +11,7 @@ Entity::~Entity(){}
 
 void Entity::init(){
   printf("in entity init\n");
-  // virtualMachine.character = this;
+  virtualMachine.character = this;
   stateList.reserve(256);
   loadStates();
   changeState(1);

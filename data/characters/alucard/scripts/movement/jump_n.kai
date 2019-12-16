@@ -10,7 +10,6 @@
   if($get_state_time == 4){ 
     $set_control 1; 
   } 
-
   var can_dbl_jump = false;
   if($get_state_time > 15){ 
     can_dbl_jump = true;
@@ -22,13 +21,13 @@
 
   if(hasAirAction and can_dbl_jump){
     if(up){
-      $cancel_state 41;
+      $change_state 41;
     }
     if(upforward){
-      $cancel_state 42;
+      $change_state 42;
     }
     if(upback){
-      $cancel_state 43;
+      $change_state 43;
     }
   }
 } 

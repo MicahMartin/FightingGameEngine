@@ -14,8 +14,7 @@ typedef enum {
 } ExecutionCode;
 
 
-class Character;
-class Entity;
+class GameObject;
 class VirtualMachine {
 public:
   VirtualMachine();
@@ -25,7 +24,7 @@ public:
   bool debugMode = false;
 
   Compiler compiler;
-  Character* character;
+  GameObject* character;
 private:
   ExecutionCode run();
   void runtimeError(const char* format, ...);
