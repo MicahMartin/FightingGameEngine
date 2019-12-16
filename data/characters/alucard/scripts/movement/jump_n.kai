@@ -14,9 +14,9 @@
   if($get_state_time > 15){ 
     can_dbl_jump = true;
   }
-  var up = $was_pressed 8; 
-  var upforward = $was_pressed 9; 
-  var upback = $was_pressed 7; 
+  var up = $check_command 6;
+  var upforward = $check_command 7;
+  var upback = $check_command 8;
   var hasAirAction = $has_air_action;
 
   if(hasAirAction and can_dbl_jump){

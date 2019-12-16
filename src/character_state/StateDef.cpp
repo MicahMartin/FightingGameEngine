@@ -143,6 +143,8 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
           i.value().at("block_type"));
       if(type == CollisionBox::THROW){
         cb->throwType = i.value().at("throw_type");
+        cb->success = i.value().at("success");
+        cb->opponentState = i.value().at("opponent");
       }
       if (i.value().count("group")) {
         cb->groupID = i.value().at("group");

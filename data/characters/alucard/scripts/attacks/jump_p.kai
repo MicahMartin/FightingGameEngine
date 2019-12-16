@@ -1,8 +1,16 @@
 { 
+  var back = $get_input 4; 
+  var upback = $get_input 7; 
+  var downback = $get_input 1; 
+  var anyBack = (back or upback or downback);
   var lp_and_lk = $check_command 5;
   if($get_state_time < 2 and $get_state_time > 0){
     if (lp_and_lk) {
-      $change_state 37;
+      if(anyBack){
+        $change_state 47;
+      } else {
+        $change_state 37;
+      }
     }
   }
   if($get_state_time == 0){ 

@@ -23,6 +23,7 @@
   var downback = $get_input 1; 
   var downforward = $get_input 3; 
   var anyDown = (down or downforward or downback);
+  var anyBack = (back or upback or downback);
 
   var punch = $was_pressed 10;
   var kick = $was_pressed 11;
@@ -34,7 +35,12 @@
     if (grounded) {
 
       if (lp_and_lk) {
-        $change_state 32;
+        if(anyBack){
+          $change_state 45;
+
+        } else { 
+          $change_state 32;
+        }
       }
 
       if(qcf_k){
@@ -116,7 +122,12 @@
 
     if (airborne) {
       if (lp_and_lk) {
-        $change_state 37;
+        if(anyBack){
+          $change_state 47;
+
+        } else { 
+          $change_state 37;
+        }
       }
 
       if(slash){

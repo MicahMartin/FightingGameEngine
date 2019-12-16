@@ -47,6 +47,9 @@ std::map<Input, const char*> VirtualController::inputToString = {
   {UPLEFT, "UPLEFT"},
   {UPRIGHT, "UPRIGHT"},
   {LP, "LIGHT_P"},
+  {LK, "LIGHT_K"},
+  {MP, "MEDIUM_P"},
+  {MK, "MEDIUM_K"},
 };
 
 VirtualController::VirtualController() { 

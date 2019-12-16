@@ -319,25 +319,29 @@ void FightState::checkThrowCollisions(){
             if (CollisionBox::checkAABB(*p1ThrowHitbox, *p2HurtBox)) {
               if (p1ThrowHitbox->throwType == 1 && player2->_getYPos() > 0) {
                 printf("air throw collision detected, scoops\n");
+                int success = p1ThrowHitbox->success;
+                int opponentState = p1ThrowHitbox->opponentState;
 
                 player1->frameLastAttackConnected = gameTime; 
                 player1->currentState->hitboxesDisabled = true;
-                player1->changeState(38); 
+                player1->changeState(success); 
 
                 player2->comboCounter++;
                 player2->control = 0;
                 player2->hitstun = p1ThrowHitbox->hitstun;
-                player2->changeState(39);
+                player2->changeState(opponentState);
                 
               } else if(p1ThrowHitbox->throwType == 2 && player2->_getYPos() == 0) {
+                int success = p1ThrowHitbox->success;
+                int opponentState = p1ThrowHitbox->opponentState;
                 player1->frameLastAttackConnected = gameTime; 
                 player1->currentState->hitboxesDisabled = true;
-                player1->changeState(36); 
+                player1->changeState(success); 
 
                 player2->comboCounter++;
                 player2->control = 0;
                 player2->hitstun = p1ThrowHitbox->hitstun;
-                player2->changeState(34);
+                player2->changeState(opponentState);
               }
             }
           }
@@ -608,6 +612,11 @@ bool FightState::checkBlock(int blockType, Character* player){
   bool isHoldingBack = player->_getInput(4);
   printf("player2 is holding downback? %d, what about back %d\n", isHoldingDownBack, isHoldingBack);
   // I know, enum
+  if (player->_getYPos() > 0) {
+    if(isHoldingBack || isHoldingDownBack || player->_getInput(7)){
+      return true;
+    }
+  }
   switch (blockType) {
     // mid
     case 1:

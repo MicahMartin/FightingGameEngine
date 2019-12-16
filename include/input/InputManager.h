@@ -9,6 +9,10 @@
 #include "observer/Subject.h"
 #include "input/VirtualController.h"
 
+struct ConfItem {
+  uint8_t user;
+  Input inputBit;
+};
 class InputManager : public Subject {
 
 public:
@@ -19,6 +23,7 @@ public:
   // runnable?
   void init();
   void update();
+  void writeConfig(int* configArray);
 
   void addVirtualController(VirtualController* controller);
   VirtualController* getVirtualController(int index);
@@ -29,6 +34,20 @@ public:
   void notifyAll(const char* eventName);
   void notifyOne(const char* observerName, const char* eventName);
 
+  bool keySelectionMode = false;
+  int configCounter = 0;
+  int configArray[8];
+  int userBeingConfig = 0;
+  int inputTemplate[8] = {
+    0x1,
+    0x2,
+    0x4,
+    0x8,
+    0x10,
+    0x100,
+    0x20,
+    0x200 
+  };
 private:
   InputManager() = default;
   ~InputManager() = default;
@@ -41,10 +60,6 @@ private:
   // button config
   nlohmann::json configJson;
 
-  struct ConfItem {
-    uint8_t user;
-    Input inputBit;
-  };
   std::unordered_map<uint32_t, ConfItem> bConf;
 
   // would need to be careful about observing deleted objects since using pointers

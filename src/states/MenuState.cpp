@@ -16,22 +16,13 @@ MenuState::MenuState(){
   });
 
   configMenu.addMenuItem("player1_button_config", "../data/images/config.png", 240, 50, [this]{
-    VirtualController* vc = inputManager->getVirtualController(0);
-    SDL_Event event;
-    printf("waiting...\n");
-    bool done = false;
-    auto waitStart = std::chrono::high_resolution_clock::now();
-    while(!done && SDL_WaitEvent(&event)){
-      if (event.type == SDL_KEYDOWN) {
-        done = true;
-      }
-    }
-    auto waitEnd = std::chrono::high_resolution_clock::now();
-    double delayLength = std::chrono::duration<double, std::ratio<100>>(waitEnd - waitStart).count();
+    inputManager->userBeingConfig = 1;
+    inputManager->keySelectionMode = true;
   });
 
   configMenu.addMenuItem("player2_button_config", "../data/images/config.png", 240, 50, [this]{
-    printf("not yet implemented\n");
+    inputManager->userBeingConfig = 2;
+    inputManager->keySelectionMode = true;
   });
 
   mainMenu.vc = inputManager->getVirtualController(0);

@@ -2,6 +2,7 @@
 #include "input/VirtualController.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 // input manager is gonna get all input events from SDL for all devices
 // keep a map with input keycodes as the key and tuple of player number actual 'button code' as the value
@@ -9,10 +10,12 @@
 void InputManager::init() {
   // load the config(s)
   std::ifstream configFile("../data/buttonconf.json");
-  configFile >> configJson;
+  nlohmann::json newJson;
+  configFile >> newJson;
 
    bConf.reserve(32);
-   for(auto& item : configJson.items()){
+   bConf.clear();
+   for(auto& item : newJson.items()){
      // TODO: Check for too much configItems
      // the 'value' is gonna be the button value for corresponding device
      // std::cout << item.attribute("value").as_int() << std::endl;
@@ -25,6 +28,7 @@ void InputManager::init() {
      bConf[std::stoi(item.key())] = myItem;
    }
    configFile.close();
+   configJson = newJson;
 }
 
 void InputManager::update() {
@@ -36,80 +40,154 @@ void InputManager::update() {
 
   while(SDL_PollEvent(&event) != 0){
 
-    switch (event.type) {
-      case SDL_KEYDOWN: {
-        if(event.key.repeat == 0){
-          if(bConf.find(event.key.keysym.sym) != bConf.end()){
+    if (!keySelectionMode) {
+      switch (event.type) {
+        case SDL_KEYDOWN: {
+          if(event.key.repeat == 0){
+            if(bConf.find(event.key.keysym.sym) != bConf.end()){
+              ConfItem* item = &bConf.at(event.key.keysym.sym);
+              VirtualController* controller = controllers.at(item->user - 1);
+              Input* inputBit = &item->inputBit;
+              // is cardinal?
+              if (*inputBit <= 8) {
+                // printf("isCardinal!\n");
+                bool isXAxis = *inputBit <= 2;
+                if (isXAxis) {
+                  *inputBit == RIGHT ? controller->xAxis++ : controller->xAxis--;
+                } else {
+                  *inputBit == UP ? controller->yAxis++ : controller->yAxis--;
+                }
+                // this calls setBit
+                controller->updateAxis(isXAxis);
+              } else {
+                controller->setBit(*inputBit);
+              }
+            } else { }
+          }
+          break;
+        }
+
+        case SDL_KEYUP: {
+          if (bConf.find(event.key.keysym.sym) != bConf.end()) {
             ConfItem* item = &bConf.at(event.key.keysym.sym);
             VirtualController* controller = controllers.at(item->user - 1);
             Input* inputBit = &item->inputBit;
             // is cardinal?
             if (*inputBit <= 8) {
-              // printf("isCardinal!\n");
+              // printf("isCardinal! clearing\n");
               bool isXAxis = *inputBit <= 2;
               if (isXAxis) {
-                *inputBit == RIGHT ? controller->xAxis++ : controller->xAxis--;
+                *inputBit == RIGHT ? controller->xAxis-- : controller->xAxis++;
               } else {
-                *inputBit == UP ? controller->yAxis++ : controller->yAxis--;
+                *inputBit == UP ? controller->yAxis-- : controller->yAxis++;
               }
-              // this calls setBit
+              // this calls clearBit
               controller->updateAxis(isXAxis);
             } else {
-              controller->setBit(*inputBit);
-            }
-          } else {
+              controller->clearBit(*inputBit);
+            }  
+          }
+          break;
+        }
+
+        case SDL_JOYBUTTONDOWN: {
+
+          // setBit(bConf[event.jbutton.button]);
+          break;
+        }
+        
+        case SDL_JOYBUTTONUP:
+          // clearBit(bConf[event.jbutton.button]);
+        break;
+
+        // TODO
+        //case SDL_JOYAXISMOTION:
+        //break;
+        //case SDL_JOYHATMOTION:
+        //break;
+
+        case SDL_QUIT:
+          notifyOne("game", "QUIT_REQUEST");
+        break;
+        default:
+        break;
+      }
+    } else {
+      switch (event.type) {
+        case SDL_KEYDOWN: {
+          if(event.key.repeat == 0){
             printf("the sdl keycode for the thing just pressed: %d\n", event.key.keysym.sym);
           }
+          break;
         }
-        break;
-      }
 
-      case SDL_KEYUP: {
-        if (bConf.find(event.key.keysym.sym) != bConf.end()) {
-          ConfItem* item = &bConf.at(event.key.keysym.sym);
-          VirtualController* controller = controllers.at(item->user - 1);
-          Input* inputBit = &item->inputBit;
-          // is cardinal?
-          if (*inputBit <= 8) {
-            // printf("isCardinal! clearing\n");
-            bool isXAxis = *inputBit <= 2;
-            if (isXAxis) {
-              *inputBit == RIGHT ? controller->xAxis-- : controller->xAxis++;
-            } else {
-              *inputBit == UP ? controller->yAxis-- : controller->yAxis++;
-            }
-            // this calls clearBit
-            controller->updateAxis(isXAxis);
-          } else {
-            controller->clearBit(*inputBit);
-          }  
+        case SDL_KEYUP: {
+          printf("configuring item:%d, the sdl keycode for the thing just released : %d\n", configCounter, event.key.keysym.sym);
+          configArray[configCounter] = event.key.keysym.sym;
+          configCounter++;
+          if (configCounter == 8) {
+            configCounter = 0;
+            keySelectionMode = false;
+            writeConfig(configArray);
+          }
+          break;
         }
+
+        case SDL_JOYBUTTONDOWN: {
+        }
+        
+        case SDL_JOYBUTTONUP:
+          // clearBit(bConf[event.jbutton.button]);
+        break;
+        case SDL_QUIT:
+          keySelectionMode = false;
+        break;
+        default:
         break;
       }
 
-      case SDL_JOYBUTTONDOWN: {
+    }
+  }
+}
 
-        // setBit(bConf[event.jbutton.button]);
-        break;
-      }
-      
-      case SDL_JOYBUTTONUP:
-        // clearBit(bConf[event.jbutton.button]);
-      break;
+void InputManager::writeConfig(int* configArray){
+  int itemCounter = 0;
+  std::vector<std::string> removalKeys;
+  for (auto i : configJson.items()) {
+    int user = i.value().at("user");
+    printf("the key:%s the user for this item: %d\n", i.key().c_str(), user);
+    if(user == userBeingConfig){
+      removalKeys.push_back(i.key());
+    }
+  }
+  
+  for (auto i : removalKeys) {
+    configJson.erase(i);
+    printf("removalKey:%s \n", i.c_str());
+  }
+  printf("configJsonNewSize:%d\n", configJson.size());
 
-      // TODO
-      //case SDL_JOYAXISMOTION:
-      //break;
-      //case SDL_JOYHATMOTION:
-      //break;
+  for(auto input : inputTemplate){
+    nlohmann::json obj = nlohmann::json::object();
+    obj["user"] = userBeingConfig;
+    std::stringstream stream;
+    stream << std::hex << input;
+    std::string result( stream.str() );
 
-      case SDL_QUIT:
-        notifyOne("game", "QUIT_REQUEST");
-      break;
-      default:
+    obj["input"] = "0x" + result;
+    printf("the input:%x\n", input);
+    configJson[std::to_string(configArray[itemCounter])] = obj;
+
+    itemCounter++;
+    if(itemCounter == 8){
       break;
     }
   }
+
+  std::ofstream newConfigFile("../data/buttonconf.json");
+  configJson >> newConfigFile;
+  newConfigFile.close();
+  init();
 }
 
 // Subject 

@@ -38,7 +38,7 @@ void Menu::handleInput(){
   if(vc->wasPressed(DOWN)){
     moveCursorDown();
   }
-  if(vc->wasPressed(LP)){
+  if(vc->wasReleased(LP)){
     activateMenuItem();
   }
 }
