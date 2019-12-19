@@ -84,6 +84,7 @@ public:
   void setBitOffset(uint16_t offset);
   void clearBitOffset(uint16_t offset);
   void updateAxis(bool xAxis);
+  void setAxis(Input newState);
 
   uint16_t getState();
   uint8_t getStickState();
@@ -98,11 +99,14 @@ public:
   bool debugEnabled = false;
   int xAxis = NEUTRAL;
   int yAxis = NEUTRAL;
+  int controllerIndex;
   boost::circular_buffer<InputEvent> inputEventList;
   CommandCompiler* commandCompiler;
+
 private:
   uint16_t currentState = 0;
   // CircularBuffer<LinkedList<InputEvent>>
   boost::circular_buffer<std::list<InputEvent>> inputHistory;
+  boost::circular_buffer<std::list<InputEvent>> inputHistoryCopy;
 };
 #endif /* ifndef _virtualController_h */

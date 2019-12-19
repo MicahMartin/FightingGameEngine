@@ -4,7 +4,7 @@
 
 void Graphics::init(){
   // setup window. return -1 on error
-  if( SDL_Init(SDL_INIT_VIDEO) != 0 ){
+  if( SDL_Init(SDL_INIT_VIDEO| SDL_INIT_JOYSTICK) != 0 ){
     throw( std::runtime_error(SDL_GetError()) );
   }
 

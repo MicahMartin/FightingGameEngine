@@ -11,8 +11,13 @@ Game::Game(){
   inputManager->init();
   inputManager->addObserver("game", this);
   // add the initial virtual controller
+  virtualControllers[0].controllerIndex = 1;
+  virtualControllers[1].controllerIndex = 2;
   inputManager->addVirtualController(&virtualControllers[0]);
   inputManager->addVirtualController(&virtualControllers[1]);
+  if (inputManager->sdlController != NULL) {
+    inputManager->stickToVC[inputManager->sdlController] = &virtualControllers[0];
+  }
   // set the state to the title screen
   OpeningState* openingState = new OpeningState();
   stateManager->pushState(openingState);

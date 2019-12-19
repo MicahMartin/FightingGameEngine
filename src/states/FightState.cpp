@@ -375,7 +375,11 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
                 hitter->pushBackVelocity = hitBox->pushback;
               } else {
                 hurter->pushTime = hitBox->pushTime;
-                hurter->pushBackVelocity = hitBox->pushback;
+                if (hitter->faceRight) {
+                  hurter->pushBackVelocity = -hitBox->pushback;
+                } else {
+                  hurter->pushBackVelocity = hitBox->pushback;
+                }
               }
 
               if(checkBlock(hitBox->blockType, hurter) && ((hurter->currentState->stateNum == 28 || hurter->currentState->stateNum == 29) || hurter->control)){

@@ -8,27 +8,44 @@
 // keep a map with input keycodes as the key and tuple of player number actual 'button code' as the value
 // so lets say the map has {key: SDL_CODE, val: {playerNum:1, buttonVal: 0x1}} with the bits on the buttonVal byte corresponding to InputManager::Input
 void InputManager::init() {
+  if( SDL_NumJoysticks() < 1 ) {
+    printf( "Warning: No joysticks connected!\n" );
+  }
+  else {
+    //Load joystick
+    sdlController = SDL_JoystickOpen( 0 );
+    if( sdlController == NULL ) {
+      printf( "Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError() );
+    } else {
+      printf("SDL Controller initialized\n");
+    }
+  }
+  initConfig("../data/buttonconf.json", &bConf, &configJson);
+  initConfig("../data/p1buttonconf.json", &p1bConf, &p1configJson);
+  initConfig("../data/p2buttonconf.json", &p2bConf, &p2configJson);
+}
+
+void InputManager::initConfig(const char* fileName, ConfT* config, nlohmann::json* confJson) {
   // load the config(s)
-  std::ifstream configFile("../data/buttonconf.json");
+  std::ifstream configFile(fileName);
   nlohmann::json newJson;
   configFile >> newJson;
 
-   bConf.reserve(32);
-   bConf.clear();
-   for(auto& item : newJson.items()){
-     // TODO: Check for too much configItems
-     // the 'value' is gonna be the button value for corresponding device
-     // std::cout << item.attribute("value").as_int() << std::endl;
-     // the node text is gonna be the bit for said button
-     // std::cout << std::bitset<16>(item.text().as_int()) << std::endl;
-     ConfItem myItem;
-     myItem.user = item.value()["user"].get<uint8_t>();
-     myItem.inputBit = (Input)std::stoi(item.value()["input"].get<std::string>(), 0 ,16);
-
-     bConf[std::stoi(item.key())] = myItem;
-   }
-   configFile.close();
-   configJson = newJson;
+  config->reserve(32);
+  config->clear();
+  for(auto& item : newJson.items()){
+    // TODO: Check for too much configItems
+    // the 'value' is gonna be the button value for corresponding device
+    // std::cout << item.attribute("value").as_int() << std::endl;
+    // the node text is gonna be the bit for said button
+    // std::cout << std::bitset<16>(item.text().as_int()) << std::endl;
+    ConfItem myItem;
+    myItem.user = item.value()["user"].get<uint8_t>();
+    myItem.inputBit = (Input)std::stoi(item.value()["input"].get<std::string>(), 0 ,16);
+    (*config)[std::stoi(item.key())] = myItem;
+  }
+  configFile.close();
+  *confJson = newJson;
 }
 
 void InputManager::update() {
@@ -91,21 +108,102 @@ void InputManager::update() {
         }
 
         case SDL_JOYBUTTONDOWN: {
+          SDL_JoyHatEvent* jhatEvent = &event.jhat;
+          SDL_Joystick* stick = SDL_JoystickFromInstanceID(jhatEvent->which);
+          VirtualController* controller = stickToVC[stick];
+          ConfT* conf;
+          if(controller->controllerIndex == 1){
+            conf = &p1bConf;
+          } else if(controller->controllerIndex == 2){
+            conf = &p2bConf;
+          }
 
-          // setBit(bConf[event.jbutton.button]);
+          if(conf != NULL && conf->count(event.jbutton.button)){
+            ConfItem* item = &conf->at(event.jbutton.button);
+            Input* inputBit = &item->inputBit;
+            printf("found item from jbutton %d with val: %d\n", event.jbutton.button, *inputBit);
+            controller->setBit(*inputBit);
+          }
           break;
         }
         
-        case SDL_JOYBUTTONUP:
-          // clearBit(bConf[event.jbutton.button]);
+        case SDL_JOYBUTTONUP: {
+          SDL_JoyHatEvent* jhatEvent = &event.jhat;
+          SDL_Joystick* stick = SDL_JoystickFromInstanceID(jhatEvent->which);
+          VirtualController* controller = stickToVC[stick];
+          ConfT* conf;
+          if(controller->controllerIndex == 1){
+            conf = &p1bConf;
+          } else if(controller->controllerIndex == 2){
+            conf = &p2bConf;
+          }
+
+          if(conf != NULL && conf->count(event.jbutton.button)){
+            ConfItem* item = &conf->at(event.jbutton.button);
+            Input* inputBit = &item->inputBit;
+            printf("found item from jbutton %d with val: %d\n", event.jbutton.button, *inputBit);
+            controller->clearBit(*inputBit);
+          }
+          break;
+        }
+        case SDL_JOYHATMOTION: {
+          SDL_JoyHatEvent* jhatEvent = &event.jhat;
+          SDL_Joystick* stick = SDL_JoystickFromInstanceID(jhatEvent->which);
+          VirtualController* controller = stickToVC[stick];
+          if (controller != NULL) {
+            switch (jhatEvent->value) {
+              case SDL_HAT_CENTERED:
+                controller->setAxis(NOINPUT);
+                printf("setting axis to noinput\n");
+                controller->printStickState();
+                break;
+              case SDL_HAT_RIGHT:
+                controller->setAxis(RIGHT);
+                printf("setting axis to right\n");
+                controller->printStickState();
+                break;
+              case SDL_HAT_LEFT:
+                controller->setAxis(LEFT);
+                printf("setting axis to left\n");
+                controller->printStickState();
+                break;
+              case SDL_HAT_UP:
+                controller->setAxis(UP);
+                printf("setting axis to up\n");
+                controller->printStickState();
+                break;
+              case SDL_HAT_DOWN:
+                controller->setAxis(DOWN);
+                printf("setting axis to down\n");
+                controller->printStickState();
+                break;
+              case SDL_HAT_RIGHTDOWN:
+                controller->setAxis(DOWNRIGHT);
+                printf("setting axis to downright\n");
+                controller->printStickState();
+                break;
+              case SDL_HAT_RIGHTUP:
+                controller->setAxis(UPRIGHT);
+                printf("setting axis to rightup\n");
+                controller->printStickState();
+                break;
+              case SDL_HAT_LEFTDOWN:
+                controller->setAxis(DOWNLEFT);
+                printf("setting axis to leftdown\n");
+                controller->printStickState();
+                break;
+              case SDL_HAT_LEFTUP:
+                controller->setAxis(UPLEFT);
+                printf("setting axis to leftup\n");
+                controller->printStickState();
+                break;
+              default:
+                break;
+            }
+            
+          }
         break;
-
-        // TODO
-        //case SDL_JOYAXISMOTION:
-        //break;
-        //case SDL_JOYHATMOTION:
-        //break;
-
+        }
         case SDL_QUIT:
           notifyOne("game", "QUIT_REQUEST");
         break;
@@ -123,21 +221,115 @@ void InputManager::update() {
 
         case SDL_KEYUP: {
           printf("configuring item:%d, the sdl keycode for the thing just released : %d\n", configCounter, event.key.keysym.sym);
-          configArray[configCounter] = event.key.keysym.sym;
-          configCounter++;
-          if (configCounter == 8) {
-            configCounter = 0;
-            keySelectionMode = false;
-            writeConfig(configArray);
+          if (bConf.find(event.key.keysym.sym) != bConf.end()) {
+            ConfItem* item = &bConf.at(event.key.keysym.sym);
+            Input* inputBit = &item->inputBit;
+            if (*inputBit == MK) {
+              keySelectionMode = false;
+            }
           }
           break;
         }
 
         case SDL_JOYBUTTONDOWN: {
+          break;
         }
         
-        case SDL_JOYBUTTONUP:
-          // clearBit(bConf[event.jbutton.button]);
+        case SDL_JOYBUTTONUP: {
+          printf("configuring item:%d, the button keycode for the thing just released : %d\n", configCounter, event.jbutton.button);
+          buttonConfigArray[configCounter] = event.jbutton.button;
+          configCounter++;
+          if (configCounter == 4) {
+            configCounter = 0;
+            printf("writing button config\n");
+            keySelectionMode = false;
+            writeButtonConfig();
+          }
+          break;
+        }
+        case SDL_JOYAXISMOTION: {
+          printf("joy axis motion\n");
+          break;
+        }
+        case SDL_JOYBALLMOTION: {
+          printf("joy ball motion\n");
+        break;
+        }
+        case SDL_JOYHATMOTION: {
+          SDL_JoyHatEvent* jhatEvent = &event.jhat;
+          SDL_Joystick* stick = SDL_JoystickFromInstanceID(jhatEvent->which);
+          VirtualController* controller = stickToVC[stick];
+          switch (jhatEvent->value) {
+            case SDL_HAT_CENTERED:
+              controller->setAxis(NOINPUT);
+              printf("setting axis to noinput\n");
+              controller->printStickState();
+              break;
+            case SDL_HAT_RIGHT:
+              controller->setAxis(RIGHT);
+              printf("setting axis to right\n");
+              controller->printStickState();
+              break;
+            case SDL_HAT_LEFT:
+              controller->setAxis(LEFT);
+              printf("setting axis to left\n");
+              controller->printStickState();
+              break;
+            case SDL_HAT_UP:
+              controller->setAxis(UP);
+              printf("setting axis to up\n");
+              controller->printStickState();
+              break;
+            case SDL_HAT_DOWN:
+              controller->setAxis(DOWN);
+              printf("setting axis to down\n");
+              controller->printStickState();
+              break;
+            case SDL_HAT_RIGHTDOWN:
+              controller->setAxis(DOWNRIGHT);
+              printf("setting axis to downright\n");
+              controller->printStickState();
+              break;
+            case SDL_HAT_RIGHTUP:
+              controller->setAxis(UPRIGHT);
+              printf("setting axis to rightup\n");
+              controller->printStickState();
+              break;
+            case SDL_HAT_LEFTDOWN:
+              controller->setAxis(DOWNLEFT);
+              printf("setting axis to leftdown\n");
+              controller->printStickState();
+              break;
+            case SDL_HAT_LEFTUP:
+              controller->setAxis(UPLEFT);
+              printf("setting axis to leftup\n");
+              controller->printStickState();
+              break;
+            default:
+              break;
+          }
+          // configArray[configCounter] = event.jhat;
+          // configCounter++;
+          // if (configCounter == 8) {
+          //   configCounter = 0;
+          //   keySelectionMode = false;
+          //   writeConfig(configArray);
+          // }
+
+        break;
+        }
+        case SDL_CONTROLLERBUTTONDOWN: {
+          printf("controller button downn\n");
+        break;
+        }
+        case SDL_CONTROLLERBUTTONUP: {
+          printf("controller butotn down\n");
+        break;
+        }
+        case SDL_CONTROLLERAXISMOTION: {
+          printf("controller axis motion\n");
+        break;
+        }
         break;
         case SDL_QUIT:
           keySelectionMode = false;
@@ -150,7 +342,7 @@ void InputManager::update() {
   }
 }
 
-void InputManager::writeConfig(int* configArray){
+void InputManager::writeConfig(){
   int itemCounter = 0;
   std::vector<std::string> removalKeys;
   for (auto i : configJson.items()) {
@@ -165,7 +357,6 @@ void InputManager::writeConfig(int* configArray){
     configJson.erase(i);
     printf("removalKey:%s \n", i.c_str());
   }
-  printf("configJsonNewSize:%d\n", configJson.size());
 
   for(auto input : inputTemplate){
     nlohmann::json obj = nlohmann::json::object();
@@ -186,6 +377,45 @@ void InputManager::writeConfig(int* configArray){
 
   std::ofstream newConfigFile("../data/buttonconf.json");
   configJson >> newConfigFile;
+  newConfigFile.close();
+  init();
+}
+
+void InputManager::writeButtonConfig(){
+  int itemCounter = 0;
+  nlohmann::json* currentConfig = userBeingConfig == 1 ? &p1configJson : &p2configJson;
+  std::vector<std::string> removalKeys;
+  for (auto i : currentConfig->items()) {
+    printf("the key:%s the user for this item: %d\n", i.key().c_str(), userBeingConfig);
+    removalKeys.push_back(i.key());
+  }
+  
+  for (auto i : removalKeys) {
+    currentConfig->erase(i);
+    printf("removalKey:%s \n", i.c_str());
+  }
+
+  for(auto input : buttonTemplate){
+    nlohmann::json obj = nlohmann::json::object();
+    obj["user"] = userBeingConfig;
+    std::stringstream stream;
+    stream << std::hex << input;
+    std::string result( stream.str() );
+
+    obj["input"] = "0x" + result;
+    printf("the input:%x\n", input);
+    (*currentConfig)[std::to_string(buttonConfigArray[itemCounter])] = obj;
+
+    itemCounter++;
+    if(itemCounter == 4){
+      printf("breaking button conf\n");
+      break;
+    }
+  }
+
+  const char* confPath = userBeingConfig == 1 ? "../data/p1buttonconf.json" : "../data/p2buttonconf.json";
+  std::ofstream newConfigFile(confPath);
+  (*currentConfig) >> newConfigFile;
   newConfigFile.close();
   init();
 }

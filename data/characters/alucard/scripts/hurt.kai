@@ -1,4 +1,8 @@
 { 
+  if($get_state_time == 0){ 
+    $velset_x 0;
+    $velset_y 0;
+  } 
   if($get_hit_stun == 8){ 
     $change_state 27;
   } 

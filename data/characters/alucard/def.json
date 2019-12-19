@@ -468,9 +468,7 @@
     {
       "state_num": 27,
       "state_name": "HURT_RECOVERY",
-      "flags": [
-        "NO_TURN"
-      ],
+      "flags": [ ],
       "update_script": "../data/characters/alucard/scripts/hurt_recovery.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/92.png", "time": -1, "offsetX": 75}

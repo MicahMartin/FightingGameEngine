@@ -121,7 +121,7 @@ void Character::updateFaceRight(){
 
 void Character::updatePosition(){
   // _negVelSetX(pushBackVelocity);
-  int velX = faceRight ? velocityX - pushBackVelocity : velocityX + pushBackVelocity;
+  int velX = velocityX - pushBackVelocity;
   position.first += velX;
   position.second -= velocityY;
 

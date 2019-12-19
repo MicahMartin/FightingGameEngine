@@ -112,7 +112,7 @@ bool VirtualController::wasPressed(Input input, bool strict, int index, bool pre
 }
 
 bool VirtualController::wasPressedBuffer(Input input, bool strict, bool pressed) {
-  int buffLen = 2;
+  int buffLen = 4;
   bool found = false;
   int historySize = inputHistory.size();
   if (buffLen >= historySize) {
@@ -122,19 +122,17 @@ bool VirtualController::wasPressedBuffer(Input input, bool strict, bool pressed)
   for (int i = 0; i < buffLen && !found; ++i) {
     std::list<InputEvent>* eventList = &inputHistory[i];
 
-    if (eventList->size() == 0) {
-      return false;
-    }
-
-    for(InputEvent& event : *eventList) {
-      if((pressed && event.pressed) || (!pressed && !event.pressed)){
-        if (input <= 10 && strict) {
-          // printf("checking cardinal direction %s\n", inputToString[input]);
-          found = (input == (event.inputBit & 0x0F));       
-        } else if(event.inputBit & input) {
-          // printf("checking non cardinal direction %d\n", input);
-          // printf("was pressed\n");
-          found = true;
+    if (eventList->size() > 0) {
+      for(InputEvent& event : *eventList) {
+        if((pressed && event.pressed) || (!pressed && !event.pressed)){
+          if (input <= 10 && strict) {
+            // printf("checking cardinal direction %s\n", inputToString[input]);
+            found = (input == (event.inputBit & 0x0F));       
+          } else if(event.inputBit & input) {
+            // printf("checking non cardinal direction %d\n", input);
+            // printf("was pressed\n");
+            found = true;
+          }
         }
       }
     }
@@ -201,6 +199,21 @@ void VirtualController::setBitOffset(uint16_t offset) {
 
 void VirtualController::clearBitOffset(uint16_t offset) {
   currentState &= ~(1 << offset);
+}
+
+void VirtualController::setAxis(Input newState){
+  uint8_t oldStickState = currentState & 0x0F;
+  currentState &= 0xF0;
+  currentState |= (newState & 0x0F);
+
+  uint8_t newStickState = currentState & 0x0F;
+  std::list<InputEvent>& currentList = inputHistory.front();
+
+  currentList.push_back(InputEvent(oldStickState, false));
+  currentList.push_back(InputEvent(newStickState, true));
+  if(newStickState != NOINPUT){
+    inputEventList.push_front(InputEvent(newStickState, true));
+  }
 }
 
 void VirtualController::updateAxis(bool isXAxis) {
