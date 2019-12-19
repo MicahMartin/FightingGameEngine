@@ -8,6 +8,9 @@
 
 
 // TODO: poly this whn you find a break in fun stuff
+struct CollisionRect {
+  int x, y, w, h;
+};
 class CollisionBox {
 public:
 
@@ -20,6 +23,7 @@ public:
 
 
   static bool checkAABB(CollisionBox box1, CollisionBox box2);
+  static CollisionRect getAABBIntersect(CollisionBox box1, CollisionBox box2);
   static std::map<std::string, CollisionType> collisionTypeMap;
 
   CollisionBox(CollisionType boxType, int width, int height, int offsetX, 

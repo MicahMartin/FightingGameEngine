@@ -14,12 +14,14 @@ public:
 
   void loadAnimEvents(nlohmann::json json);
   void render(int x, int y, bool faceRight, bool screenFreeze);
+  void renderHitspark(int x, int y, bool faceRight);
 
   void setAnimTime(int time);
   void shake(int duration);
   void setAnimElemIndex(int index);
   void resetAnimEvents();
   int timeRemaining();
+  void drawRect(SDL_Rect rect);
 
   std::pair<int, int> getDimensions(const char* path);
 

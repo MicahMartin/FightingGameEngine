@@ -14,12 +14,15 @@ Animation::~Animation(){ }
 void Animation::loadAnimEvents(nlohmann::json json){
   for (auto i : json.items()) {
     int animTime = i.value().at("time");
+    int scale = 3;
     int offsetX = 0;
     int offsetY = 0;
-    int scale = 3;
 
     if(i.value().count("offsetY")){
       offsetY = i.value().at("offsetY");
+    }
+    if(i.value().count("scale")){
+      scale = i.value().at("scale");
     }
     if(i.value().count("offsetX")){
       offsetX = i.value().at("offsetX");
@@ -45,6 +48,16 @@ void Animation::loadAnimEvents(nlohmann::json json){
     animationTime += animTime;
     animationElements.push_back(element);
   }
+}
+
+void Animation::drawRect(SDL_Rect rect){
+  Camera* cam = graphics->getCamera();
+  SDL_SetRenderDrawColor(graphics->getRenderer(), 128, 0, 128, 0xFF);
+  rect.x = (rect.x - cam->cameraRect.x);
+  rect.y = (rect.y + (graphics->getWindowHeight() - rect.h) - 30) + cam->cameraRect.y;
+
+  SDL_RenderFillRect(graphics->getRenderer(), &rect);
+  SDL_SetRenderDrawColor(graphics->getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
 }
 
 void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
@@ -74,6 +87,38 @@ void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
       currentAnimElemIndex++;
     }
   } 
+  // printf("so wtf is going on\n");
+}
+
+void Animation::renderHitspark(int x, int y, bool faceRight){
+  // draw a vertical line on the character's position
+  int camOffset = graphics->getCamera()->cameraRect.x;
+  // SDL_SetRenderDrawColor(graphics->getRenderer(), 255, 0, 0, 0);
+  // SDL_RenderDrawLine(graphics->getRenderer(), x - camOffset, graphics->getWindowHeight(), x - camOffset, y);
+  // SDL_SetRenderDrawColor(graphics->getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
+
+  // printf("tryna get the anim elem index.. current animElemIndex:%d\n", currentAnimElemIndex);
+  if (currentAnimElemIndex > animationElements.size()) {
+    currentAnimElemIndex = 0;
+    currentAnimElemTimePassed = 0;
+  }
+  AnimationElement* elem = &animationElements.at(currentAnimElemIndex);
+  // printf("we got it..\n");
+
+  GameTexture* currentText = &elem->gameTexture;
+  int width = currentText->getDimensions().first;
+  int offsetX = elem->offsetX;
+  int offsetY = elem->offsetY;
+  faceRight ? currentText->setCords(x-width+offsetX, ((y - 30) + offsetY)) : currentText->setCords(x-offsetX, ((y - 30) + offsetY));
+  currentText->render(faceRight);
+  // printf("we even rendered the currentText\n");
+
+  currentAnimElemTimePassed++;
+  animationTimePassed++;
+  if(currentAnimElemTimePassed == elem->elemTime){
+    currentAnimElemTimePassed = 0;
+    currentAnimElemIndex++;
+  }
   // printf("so wtf is going on\n");
 }
 

@@ -253,6 +253,19 @@ void VirtualController::updateAxis(bool isXAxis) {
   }
 }
 
+void VirtualController::startCopyMode() {
+  inputHistoryCopy.clear();
+  copyMode = true;
+}
+
+void VirtualController::stopCopyMode() {
+  copyMode = false;
+}
+
+void VirtualController::playInputHistoryCopy(InputHistoryT inputHistoryPointer) {
+
+}
+
 void VirtualController::printStickState(){
   std::bitset<4> stickState(currentState);
   std::cout << stickState << std::endl;

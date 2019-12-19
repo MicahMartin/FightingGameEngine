@@ -13,13 +13,26 @@ CollisionBox::CollisionBox(CollisionBox::CollisionType boxType, int width, int h
 
 CollisionBox::~CollisionBox(){ }
 
+CollisionRect CollisionBox::getAABBIntersect(CollisionBox box1, CollisionBox box2){
+  std::pair<int, int> b1Pos(box1.positionX, box1.positionY);
+  std::pair<int, int> b2Pos(box2.positionX, box2.positionY);
+
+  int highestX = b1Pos.first < b2Pos.first? b2Pos.first: b1Pos.first;
+  int lowestEdge = (b1Pos.first + box1.width) < (b2Pos.first + box2.width) ? (b1Pos.first + box1.width) : (b2Pos.first + box2.width);
+  int highestY = b1Pos.second < b2Pos.second ? box1.positionY : box2.positionY;
+  int lowestTop = (b1Pos.second - box1.height) > (b2Pos.second - box2.height) ? (b1Pos.second - box1.height) : (b2Pos.second - box2.height);
+
+  int newX = highestX;
+  int newW = (lowestEdge) - newX;
+  int newY = highestY;
+  int newH = abs(lowestTop - newY);
+  printf("newY:%d, newH:%d\n", newY, newH);
+  return CollisionRect{newX, newY, newW, newH};
+}
+
 bool CollisionBox::checkAABB(CollisionBox box1, CollisionBox box2){
   std::pair<int, int> b1Pos(box1.positionX, box1.positionY + (720-box1.height));
   std::pair<int, int> b2Pos(box2.positionX, box2.positionY + (720-box2.height));
-  // printf("checking {t: %d, x: %d, y:%d, w:%d, l:%d} against {t: %d, x: %d, y:%d, w:%d, l:%d}\n", box1.boxType,
-  //     box1.positionX, box1.positionY, box1.width, box1.height, box2.boxType, box2.positionX, box2.positionY, box2.width, box2.height);
-
-  // {t: 2, x: 707, y:-125, w:60, l:60} against {t: 1, x: 730, y:0, w:100, l:200}
   if(box1.positionX < box2.positionX + box2.width &&
      box1.positionX + box1.width > box2.positionX &&
      box1.positionY > box2.positionY - box2.height &&

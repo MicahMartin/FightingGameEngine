@@ -45,9 +45,10 @@ std::vector<std::string> CommandCompiler::commandStrings = {
   "~D, DF, F, LP | ~LP", // 214P
   "@~D, N, @D, LP | ~LP", // 22P
   "LK & LP", // lp and mk
-  "~N, U", // release of lp
+  "~N, U",
   "~N, UF",
-  "~N, UB"
+  "~N, UB",
+  "~LP",
 };
 
 CommandCompiler::CommandCompiler() { }

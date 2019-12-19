@@ -836,5 +836,19 @@
     {"entityID": 1, "defPath": "../data/characters/alucard/entities/fireball/def.json"},
     {"entityID": 2, "defPath": "../data/characters/alucard/entities/puppet/def.json"}
   ],
+  "animation_assets": [
+    {
+      "assetID": 1,
+      "animation": [
+        { "file": "../data/images/hitspark/0.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/1.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/2.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/3.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/4.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/5.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/6.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1}
+      ]
+    }
+  ],
   "command_script": "../data/characters/alucard/scripts/input.kai"
 }

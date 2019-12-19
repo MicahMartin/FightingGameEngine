@@ -13,8 +13,7 @@
   var anyForward = (forward or upforward or downforward);
   var anyBack = (back or upback or downback);
 
-  var lpRelease = $check_command 6;
-  var mpRelease = $check_command 7;
+  var lpRelease = $check_command 9;
 
 
   if (control) {

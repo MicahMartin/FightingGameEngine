@@ -365,6 +365,8 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
 
               hurter->hitStop = hitBox->hitstop;
               hurter->inHitStop = true;
+              hitter->hitsparkRectDisabled = false;
+              hitter->hitsparkIntersect = CollisionBox::getAABBIntersect(*hitBox, *hurtBox);
 
               hitter->frameLastAttackConnected = gameTime; 
               // TODO: Hitbox group IDs
@@ -372,7 +374,11 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
 
               if (hurter->inCorner) {
                 hitter->pushTime = hitBox->pushTime;
-                hitter->pushBackVelocity = hitBox->pushback;
+                if (hitter->faceRight) {
+                  hitter->pushBackVelocity = hitBox->pushback;
+                } else {
+                  hitter->pushBackVelocity = -hitBox->pushback;
+                }
               } else {
                 hurter->pushTime = hitBox->pushTime;
                 if (hitter->faceRight) {
@@ -471,9 +477,17 @@ void FightState::checkEntityHitCollisions(){
 
                 player2->pushTime = p1Hitbox->pushTime;
                 if(player2->faceRight == entityFaceRight){
-                  player2->_velSetX(p1Hitbox->pushback);
+                  if (player2->faceRight) {
+                    player2->pushBackVelocity = -p1Hitbox->pushback;
+                  } else {
+                    player2->pushBackVelocity = p1Hitbox->pushback;
+                  }
                 } else {
-                  player2->_negVelSetX(p1Hitbox->pushback);
+                  if (player2->faceRight) {
+                    player2->pushBackVelocity = p1Hitbox->pushback;
+                  } else {
+                    player2->pushBackVelocity = -p1Hitbox->pushback;
+                  }
                 }
 
                 if(checkBlock(p1Hitbox->blockType, player2) && ((player2->currentState->stateNum == 28 || player2->currentState->stateNum == 29) || player2->control)){
@@ -548,9 +562,9 @@ void FightState::checkEntityHitCollisions(){
 
                 player1->pushTime = entityHitbox->pushTime;
                 if(player1->faceRight == entityFaceRight){
-                  player1->_velSetX(entityHitbox->pushback);
+                  player1->pushBackVelocity = -entityHitbox->pushback;
                 } else {
-                  player1->_negVelSetX(entityHitbox->pushback);
+                  player1->pushBackVelocity = -(entityHitbox->pushback);
                 }
 
                 if(checkBlock(entityHitbox->blockType, player1) && ((player1->currentState->stateNum == 28 || player1->currentState->stateNum == 29) || player1->control)){
@@ -752,7 +766,7 @@ void FightState::updateFaceRight(){
 
 void FightState::renderHealthBars(){
   int p1Hp = player1->health;
-  float p1HpPercent = p1Hp / player1->maxHealth;
+  float p1HpPercent = (float)p1Hp / (float)player1->maxHealth;
   int p2Hp = player2->health;
   float p2HpPercent = (float)p2Hp / (float)player2->maxHealth;
 

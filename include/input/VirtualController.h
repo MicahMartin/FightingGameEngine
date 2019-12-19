@@ -50,6 +50,8 @@ struct InputEvent {
   InputEvent(uint16_t inputBit, bool pressed): inputBit(inputBit), pressed(pressed){}
 };
 
+typedef boost::circular_buffer<std::list<InputEvent>>* InputHistoryT;
+
 class CommandCompiler;
 class VirtualController : public Observer {
 public:
@@ -85,6 +87,10 @@ public:
   void clearBitOffset(uint16_t offset);
   void updateAxis(bool xAxis);
   void setAxis(Input newState);
+  void startCopyMode();
+  void stopCopyMode();
+  void playInputHistoryCopy(InputHistoryT inputHistoryPointer);
+  int copyModeFrameCounter = 0;
 
   uint16_t getState();
   uint8_t getStickState();
@@ -97,16 +103,17 @@ public:
   static std::map<Input, const char*> inputToString;
 
   bool debugEnabled = false;
+  bool copyMode = false;
   int xAxis = NEUTRAL;
   int yAxis = NEUTRAL;
   int controllerIndex;
   boost::circular_buffer<InputEvent> inputEventList;
   CommandCompiler* commandCompiler;
 
+  boost::circular_buffer<std::list<InputEvent>> inputHistoryCopy;
+  boost::circular_buffer<std::list<InputEvent>> inputHistory;
 private:
   uint16_t currentState = 0;
   // CircularBuffer<LinkedList<InputEvent>>
-  boost::circular_buffer<std::list<InputEvent>> inputHistory;
-  boost::circular_buffer<std::list<InputEvent>> inputHistoryCopy;
 };
 #endif /* ifndef _virtualController_h */

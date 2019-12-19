@@ -7,6 +7,7 @@
 #include "domain_language/VirtualMachine.h"
 #include "domain_language/Script.h"
 #include "input/VirtualController.h"
+#include "graphics/Animation.h"
 
 // TODO: base class for this n entity
 class Entity;
@@ -62,6 +63,8 @@ public:
   int velocityY;
   bool faceRight;
   bool inputFaceRight;
+  bool hitsparkRectDisabled = true;
+  CollisionRect hitsparkIntersect;
 
   void _changeState(int stateNum);
   void _cancelState(int stateNum);
@@ -102,6 +105,7 @@ public:
   VirtualMachine virtualMachine;
   std::vector<uint8_t> inputByteCode;
   std::vector<Entity> entityList;
+  std::vector<Animation> animList;
 private:
   nlohmann::json stateJson;
   std::vector<StateDef> stateList;

@@ -63,6 +63,10 @@ void Character::loadStates(){
     entityList.emplace_back(this, i.value().at("entityID"), defPath).init();
   }
 
+  for(auto i : stateJson.at("animation_assets").items()){
+    animList.emplace_back().loadAnimEvents(i.value().at("animation"));
+  }
+
   configFile.close();
 }
 
@@ -226,6 +230,15 @@ void Character::updateCollisionBoxes(){
 void Character::draw(){
   // draw health bars
   currentState->draw(position, faceRight, inHitStop);
+  if (!hitsparkRectDisabled) {
+    // TODO: Configure hitspark id position in animList, use assetID map
+    int xEdge = faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
+    animList[0].renderHitspark(xEdge, hitsparkIntersect.y, faceRight);
+    if(animList[0].timeRemaining() == 0){
+      animList[0].resetAnimEvents();
+      hitsparkRectDisabled = true;
+    }
+  }
 };
 
 

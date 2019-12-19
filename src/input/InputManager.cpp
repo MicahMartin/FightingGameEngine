@@ -79,6 +79,9 @@ void InputManager::update() {
               } else {
                 controller->setBit(*inputBit);
               }
+              if(controller->copyMode){
+                controller->inputHistoryCopy.push_front(controller->inputHistory.front());
+              }
             } else { }
           }
           break;
@@ -103,6 +106,9 @@ void InputManager::update() {
             } else {
               controller->clearBit(*inputBit);
             }  
+            if(controller->copyMode){
+              controller->inputHistoryCopy.push_front(controller->inputHistory.front());
+            }
           }
           break;
         }
