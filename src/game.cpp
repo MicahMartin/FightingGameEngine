@@ -6,6 +6,14 @@
 
 Game::Game(){
   // init Graphics
+  if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_JOYSTICK|SDL_INIT_AUDIO) != 0 ){
+    throw( std::runtime_error(SDL_GetError()) );
+  }
+  Mix_Init(MIX_INIT_MP3);
+  if(Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0) {
+    printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+  }
+
   graphics->init();
   // register with input manager so we can catch quit messages
   inputManager->init();

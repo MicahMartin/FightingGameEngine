@@ -5,7 +5,6 @@
 #include "util/Menu.h"
 #include "screens/MenuScreen.h"
 
-
 class MenuState : public GameState {
 public:
   MenuState();

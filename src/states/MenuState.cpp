@@ -41,6 +41,7 @@ void MenuState::enter() {
 
 void MenuState::exit() { 
   printf("leaving the menu state! \n");
+  Mix_PauseMusic();
   delete this;
 }
 

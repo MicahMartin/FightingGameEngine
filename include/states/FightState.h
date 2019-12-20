@@ -50,6 +50,9 @@ public:
 
   int screenFreeze = 0;
   int stateTime = 0;
+  int playHitSound = 0;
+  int playHitSoundID;
+  int playHurtSoundID;
   bool everythingCompiled = false;
 private:
   Character* player1;

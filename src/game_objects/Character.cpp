@@ -55,7 +55,8 @@ void Character::loadStates(){
 
   // load states
   for(auto i : stateJson.at("states").items()){
-    stateList.emplace_back(i.value(), &virtualMachine);
+    StateDef* newStateDef = &stateList.emplace_back(i.value(), &virtualMachine);
+    newStateDef->owner = this;
   }
 
   for(auto i : stateJson.at("entities").items()){
@@ -65,6 +66,18 @@ void Character::loadStates(){
 
   for(auto i : stateJson.at("animation_assets").items()){
     animList.emplace_back().loadAnimEvents(i.value().at("animation"));
+  }
+
+  for(auto i : stateJson.at("audio_assets").items()){
+    std::string path(i.value().at("file").get<std::string>());
+    const char* pathPointer = path.c_str();
+    soundList.emplace_back(Mix_LoadWAV(pathPointer));
+  }
+
+  for(auto i : stateJson.at("hurt_sounds").items()){
+    std::string path(i.value().at("file").get<std::string>());
+    const char* pathPointer = path.c_str();
+    hurtSoundList.emplace_back(Mix_LoadWAV(pathPointer));
   }
 
   configFile.close();

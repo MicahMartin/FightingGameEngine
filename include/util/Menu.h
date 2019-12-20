@@ -4,9 +4,11 @@
 #include <iostream>
 #include <functional>
 #include <vector>
+#include <SDL_mixer.h>
 #include "input/VirtualController.h"
 #include "graphics/GameTexture.h"
 #include "graphics/Graphics.h"
+
 
 struct MenuItem {
   MenuItem(const char* title, const char* texturePath, int textWidth, int textHeight, std::function<void()> callBack): callBack(callBack), title(title){
@@ -49,6 +51,8 @@ public:
   void moveCursorDown();
 
   VirtualController* vc;
+  Mix_Chunk* menuMove = NULL;
+  Mix_Chunk* menuSelect = NULL;
 private:
   int menuWidth;
   int menuHeight;

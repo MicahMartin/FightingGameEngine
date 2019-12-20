@@ -21,6 +21,9 @@ Menu::Menu() {
   menuCursor.cursorTexture.loadTexture("../data/images/cursor.png");
   menuCursor.cursorTexture.setDimensions(0, 0, 25, 25);
   menuItemArray.reserve(8);
+
+  menuMove = Mix_LoadWAV("../data/audio/menumove.wav");
+  menuSelect = Mix_LoadWAV("../data/audio/menuselect.wav");
 }
 
 Menu::~Menu(){};
@@ -33,12 +36,15 @@ menuWidth(width), menuHeight(height), borderColor(borderColor), bodyColor(bodyCo
 
 void Menu::handleInput(){
   if(vc->wasPressed(UP)){
+    Mix_PlayChannel(-1, menuMove, 0);
     moveCursorUp();
   }
   if(vc->wasPressed(DOWN)){
+    Mix_PlayChannel(-1, menuMove, 0);
     moveCursorDown();
   }
   if(vc->wasReleased(LP)){
+    Mix_PlayChannel(-1, menuSelect, 0);
     activateMenuItem();
   }
 }

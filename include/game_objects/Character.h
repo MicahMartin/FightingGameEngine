@@ -2,6 +2,7 @@
 #define _Character_h 
 
 #include <nlohmann/json.hpp>
+#include <SDL_mixer.h>
 #include "game_objects/GameObject.h"
 #include "character_state/StateDef.h"
 #include "domain_language/VirtualMachine.h"
@@ -58,6 +59,7 @@ public:
   bool inHitStop = false;
   bool gravity = true;
   int health;
+  int currentHurtSoundID = 0;
   int playerNum;
   int velocityX;
   int velocityY;
@@ -106,6 +108,8 @@ public:
   std::vector<uint8_t> inputByteCode;
   std::vector<Entity> entityList;
   std::vector<Animation> animList;
+  std::vector<Mix_Chunk*> soundList;
+  std::vector<Mix_Chunk*> hurtSoundList;
 private:
   nlohmann::json stateJson;
   std::vector<StateDef> stateList;

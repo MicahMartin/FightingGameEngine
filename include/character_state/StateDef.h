@@ -16,6 +16,11 @@ enum FlagBit {
   NO_TURN_ON_ENTER  = 0x02,
 };
 
+struct SoundItem {
+  int soundID, start;
+};
+
+class Character;
 class StateDef {
 public:
   StateDef(nlohmann::json::value_type json, VirtualMachine* charVm);
@@ -46,11 +51,12 @@ public:
   std::vector<CollisionBox*> hurtBoxes;
   std::vector<CollisionBox*> hitBoxes;
   std::vector<CollisionBox*> throwHitBoxes;
-
+  std::unordered_map<int, std::vector<int>> soundIndexMap;
   // TODO: Methods to talk to anim so this stuff can stay private
   int stateNum;
   int stateTime;
   bool hitboxesDisabled = false;
+  Character* owner;
   std::unordered_map<int, bool> hitboxGroupDisabled;
 
 private:

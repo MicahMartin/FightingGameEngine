@@ -3,6 +3,7 @@
 #include "character_state/StateDef.h"
 #include "physics/CollisionBox.h"
 #include "util/Util.h"
+#include "game_objects/Character.h"
 
  std::map<std::string, FlagBit> StateDef::flagMap = {
   {"NO_TURN", NO_TURN},
@@ -30,6 +31,14 @@ StateDef::StateDef(nlohmann::json::value_type json, VirtualMachine* charVm) : ch
 
     if(!charVm->compiler.compile(cancelScriptPath, &cancelScript, cancelScriptTag.c_str())){
       throw std::runtime_error(cancelScriptError);
+    }
+  }
+
+  if(json.count("sounds")){
+    for (auto i : json.at("sounds").items()) {
+      int soundID = i.value().at("soundID");
+      int start = i.value().at("start");
+      soundIndexMap[start].push_back(soundID);
     }
   }
 
@@ -86,6 +95,11 @@ void StateDef::handleCancels(){
 
 void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop){
   anim.render(position.first, position.second, faceRight, inHitStop);
+  if (soundIndexMap[stateTime].size() > 0) {
+    for (int soundID : soundIndexMap[stateTime]) {
+      Mix_PlayChannel(-1, owner->soundList[soundID - 1], 0);
+    }
+  }
   // printf("we got outa anim render.. how the fuck\n");
 
   // stateTime is 2
@@ -152,6 +166,9 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
       }
       if (i.value().contains("canTrip")) {
         cb->canTrip = true;
+      }
+      if (i.value().count("hitsound")) {
+        cb->hitSoundID = i.value().at("hitsound");
       }
 
     } else {

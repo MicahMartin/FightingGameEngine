@@ -76,6 +76,9 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 3, "start": 1}
       ]
     },
     {
@@ -93,7 +96,11 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 3, "start": 1}
       ]
+
     },
     {
       "state_num": 7,
@@ -110,7 +117,11 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 3, "start": 1}
       ]
+
     },
     {
       "state_num": 8,
@@ -129,16 +140,18 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":4, "hitstop": 10, "damage":1, "push": 8, "push_time": 8, "start": 5, "end": 8, "width":95, "height":60, "offsetX":75, "offsetY": 215, "group": 1},
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":4, "hitstop": 10, "damage":1, "push": 8, "push_time": 8, "start": 5, "end": 8, "width":95, "height":60, "offsetX":75, "offsetY": 215, "group": 1, "hitsound": 4},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 5, "end": 12, "width":125, "height":50, "offsetX":75, "offsetY": 215}
+      ],
+      "sounds": [
+        {"soundID": 1, "start": 1}
       ]
     },
     {
       "state_num": 9,
       "state_name": "HURT",
-      "flags": [
-        "NO_TURN"
+      "flags": [ "NO_TURN"
       ],
       "update_script": "../data/characters/alucard/scripts/hurt.kai",
       "animation": [
@@ -165,7 +178,11 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 6, "start": 1}
       ]
+
     },
     {
       "state_num": 11,
@@ -181,6 +198,9 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 11, "end": 23, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 7, "start": 1}
       ]
     },
     {
@@ -197,6 +217,9 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 8, "start": 1}
       ]
     },
     {
@@ -214,6 +237,9 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 8, "start": 1}
       ]
     },
     {
@@ -233,8 +259,11 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":28, "block_stun":24, "hitstop": 18, "damage":5, "push": 10, "push_time": 8,  "start": 17, "end": 23, "width":150, "height":150, "offsetX":75, "offsetY": 200, "group": 1},
+        {"type": "HIT", "block_type": 1, "hitstun":28, "block_stun":24, "hitstop": 18, "damage":5, "push": 10, "push_time": 8,  "start": 17, "end": 23, "width":150, "height":150, "offsetX":75, "offsetY": 200, "group": 1, "hitsound": 5},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 11, "start": 1}
       ]
     },
     {
@@ -252,9 +281,12 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":24, "block_stun":18, "hitstop": 16, "damage":2, "push": 10, "push_time": 8,  "start": 5, "end": 8, "width":175, "height":60, "offsetX":75, "offsetY": 190, "group": 1},
+        {"type": "HIT", "block_type": 1, "hitstun":24, "block_stun":18, "hitstop": 16, "damage":2, "push": 10, "push_time": 8,  "start": 5, "end": 8, "width":175, "height":60, "offsetX":75, "offsetY": 190, "group": 1, "hitsound": 4},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 5, "end": 13, "width":200, "height":150, "offsetX":75, "offsetY": 160}
+      ],
+      "sounds": [
+        {"soundID": 9, "start": 1}
       ]
     },
     {
@@ -274,8 +306,11 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 3, "hitstun":28, "block_stun":18, "hitstop": 16, "damage":3, "push": 8, "push_time": 8,  "start": 13, "end": 23, "width":150, "height":120, "offsetX":50, "offsetY": -10, "group": 1},
+        {"type": "HIT", "block_type": 3, "hitstun":28, "block_stun":18, "hitstop": 16, "damage":3, "push": 8, "push_time": 8,  "start": 13, "end": 23, "width":150, "height":120, "offsetX":50, "offsetY": -10, "group": 1, "hitsound": 5},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 2, "start": 1}
       ]
     },
     {
@@ -311,8 +346,11 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 3, "hitstun":12, "block_stun":8, "hitstop": 12, "damage":1, "push": 8, "push_time": 8,  "start": 5, "end": 10, "width":50, "height":50, "offsetX":75, "offsetY": 115, "group": 1},
+        {"type": "HIT", "block_type": 3, "hitstun":12, "block_stun":8, "hitstop": 12, "damage":1, "push": 8, "push_time": 8,  "start": 5, "end": 10, "width":50, "height":50, "offsetX":75, "offsetY": 115, "group": 1, "hitsound": 5},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 1, "start": 1}
       ]
     },
     {
@@ -332,8 +370,11 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 3, "hitstun":19, "block_stun":10, "hitstop": 12, "damage":2, "push": 8, "push_time": 8,  "start": 9, "end": 16, "width":200, "height":100, "offsetX":-50, "offsetY": 0, "group": 1},
+        {"type": "HIT", "block_type": 3, "hitstun":19, "block_stun":10, "hitstop": 12, "damage":2, "push": 8, "push_time": 8,  "start": 9, "end": 16, "width":200, "height":100, "offsetX":-50, "offsetY": 0, "group": 1, "hitsound": 4},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 9, "start": 1}
       ]
     },
     {
@@ -353,10 +394,13 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":22, "block_stun":20, "hitstop": 16, "damage":3, "push": 8, "push_time": 8,  "start": 11, "end": 16, "width":360, "height":150, "offsetX":75, "offsetY": 185, "group": 1},
+        {"type": "HIT", "block_type": 1, "hitstun":22, "block_stun":20, "hitstop": 16, "damage":3, "push": 8, "push_time": 8,  "start": 11, "end": 16, "width":360, "height":150, "offsetX":75, "offsetY": 185, "group": 1, "hitsound": 5},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":80, "offsetX":75, "offsetY": 185},
         {"type": "HURT", "start": 1, "end": -1, "width":115, "height":185, "offsetX":75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 2, "start": 4}
       ]
     },
     {
@@ -374,8 +418,11 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":12, "block_stun":8, "hitstop": 12, "damage":1, "push": 8, "push_time": 8,  "start": 5, "end": 8, "width":95, "height":60, "offsetX":100, "offsetY": 100, "group": 1},
+        {"type": "HIT", "block_type": 1, "hitstun":12, "block_stun":8, "hitstop": 12, "damage":1, "push": 8, "push_time": 8,  "start": 5, "end": 8, "width":95, "height":60, "offsetX":100, "offsetY": 100, "group": 1, "hitsound": 4},
         {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 1, "start": 1}
       ]
     },
     {
@@ -393,8 +440,11 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 2, "hitstun":12, "block_stun":12, "hitstop": 12, "damage":2, "push": 8, "push_time": 8,  "start": 5, "end": 8, "width":115, "height":100, "offsetX":100, "offsetY": 0, "group": 1},
+        {"type": "HIT", "block_type": 2, "hitstun":12, "block_stun":12, "hitstop": 12, "damage":2, "push": 8, "push_time": 8,  "start": 5, "end": 8, "width":115, "height":100, "offsetX":100, "offsetY": 0, "group": 1, "hitsound": 10},
         {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 9, "start": 2}
       ]
     },
     {
@@ -414,8 +464,11 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 2, "hitstun":30, "block_stun": 10, "hitstop": 18, "damage":3, "push": 6, "push_time": 24,  "start": 7, "end": 14, "width":250, "height":100, "offsetX":100, "offsetY": 0, "canTrip": true, "group": 1},
+        {"type": "HIT", "block_type": 2, "hitstun":30, "block_stun": 10, "hitstop": 18, "damage":3, "push": 6, "push_time": 24,  "start": 7, "end": 14, "width":250, "height":100, "offsetX":100, "offsetY": 0, "canTrip": true, "group": 1, "hitsound": 10},
         {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 9, "start": 3}
       ]
     },
     {
@@ -579,7 +632,10 @@
         { "file": "../data/characters/alucard/sprites/66.png", "time": 20, "offsetX": 100},
         { "file": "../data/characters/alucard/sprites/62.png", "time": 4, "offsetX": 100}
       ],
-      "collision_boxes": [ ]
+      "collision_boxes": [ ],
+      "sounds": [
+        {"soundID": 14, "start": 1}
+      ]
     },
     {
       "state_num": 34,
@@ -626,6 +682,9 @@
         { "file": "../data/characters/alucard/sprites/62.png", "time": 4, "offsetX": 100}
       ],
       "collision_boxes": [
+      ],
+      "sounds": [
+        {"soundID": 14, "start": 1}
       ]
     },
     {
@@ -655,7 +714,10 @@
         { "file": "../data/characters/alucard/sprites/43.png", "time": 20, "offsetX": 100},
         { "file": "../data/characters/alucard/sprites/throwaway.png", "time": 20, "offsetX": 100}
       ],
-      "collision_boxes": [ ]
+      "collision_boxes": [ ],
+      "sounds": [
+        {"soundID": 13, "start": 1}
+      ]
     },
     {
       "state_num": 39,
@@ -686,9 +748,12 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":13, "block_stun": 10, "hitstop": 16, "damage":3, "push": 6, "push_time": 20,  "start": 10, "end": 12, "width":250, "height":200, "offsetX":100, "offsetY": 0, "canTrip": true, "group": 1},
-        {"type": "HIT", "block_type": 1, "hitstun":20, "block_stun": 10, "hitstop": 16, "damage":3, "push": 6, "push_time": 20,  "start": 13, "end": 18, "width":250, "height":200, "offsetX":100, "offsetY": 200, "canTrip": true, "group": 2},
+        {"type": "HIT", "block_type": 1, "hitstun":13, "block_stun": 10, "hitstop": 16, "damage":3, "push": 6, "push_time": 20,  "start": 10, "end": 12, "width":250, "height":200, "offsetX":100, "offsetY": 0, "canTrip": true, "group": 1, "hitsound": 12},
+        {"type": "HIT", "block_type": 1, "hitstun":20, "block_stun": 10, "hitstop": 16, "damage":3, "push": 6, "push_time": 20,  "start": 13, "end": 18, "width":250, "height":200, "offsetX":100, "offsetY": 200, "canTrip": true, "group": 2, "hitsound": 12},
         {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 11, "start": 7}
       ]
     },
     {
@@ -706,7 +771,11 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 3, "start": 1}
       ]
+
     },
     {
       "state_num": 42,
@@ -723,7 +792,11 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 3, "start": 1}
       ]
+
     },
     {
       "state_num": 43,
@@ -740,7 +813,11 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 3, "start": 1}
       ]
+
     },
     {
       "state_num": 44,
@@ -754,6 +831,9 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 9, "start": 1}
       ]
     },
     {
@@ -817,7 +897,10 @@
         { "file": "../data/characters/alucard/sprites/43.png", "time": 20, "offsetX": 100},
         { "file": "../data/characters/alucard/sprites/throwawayback.png", "time": 20, "offsetX": 100}
       ],
-      "collision_boxes": [ ]
+      "collision_boxes": [ ],
+      "sounds": [
+        {"soundID": 13, "start": 1}
+      ]
     },
     {
       "state_num": 49,
@@ -849,6 +932,27 @@
         { "file": "../data/images/hitspark/6.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1}
       ]
     }
+  ],
+  "audio_assets": [
+    {"assetID": 1, "file": "../data/characters/alucard/audio/punch.wav"},
+    {"assetID": 2, "file": "../data/characters/alucard/audio/slice.wav"},
+    {"assetID": 3, "file": "../data/characters/alucard/audio/jump.wav"},
+    {"assetID": 4, "file": "../data/characters/alucard/audio/punch_impact.wav"},
+    {"assetID": 5, "file": "../data/characters/alucard/audio/slice_impact.wav"},
+    {"assetID": 6, "file": "../data/characters/alucard/audio/dash.wav"},
+    {"assetID": 7, "file": "../data/characters/alucard/audio/backdash.wav"},
+    {"assetID": 8, "file": "../data/characters/alucard/audio/airdash.wav"},
+    {"assetID": 9, "file": "../data/characters/alucard/audio/kick.wav"},
+    {"assetID": 10, "file": "../data/characters/alucard/audio/kick_impact.wav"},
+    {"assetID": 11, "file": "../data/characters/alucard/audio/heavyslice.wav"},
+    {"assetID": 12, "file": "../data/characters/alucard/audio/heavyslice_impact.wav"},
+    {"assetID": 13, "file": "../data/characters/alucard/audio/grip.wav"},
+    {"assetID": 14, "file": "../data/characters/alucard/audio/grip_quick.wav"}
+  ],
+  "hurt_sounds": [
+    {"assetID": 1, "file": "../data/characters/alucard/audio/hurt1.wav"},
+    {"assetID": 2, "file": "../data/characters/alucard/audio/hurt2.wav"},
+    {"assetID": 3, "file": "../data/characters/alucard/audio/hurt3.wav"}
   ],
   "command_script": "../data/characters/alucard/scripts/input.kai"
 }

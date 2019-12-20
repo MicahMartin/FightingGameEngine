@@ -3,6 +3,7 @@
 
 #include "graphics/Graphics.h"
 #include <utility>
+#include <SDL_mixer.h>
 #include <string>
 #include <map>
 
@@ -62,6 +63,7 @@ public:
   int success;
   int opponentState;
   int groupID = 1;
+  int hitSoundID = 0;
   bool canTrip = false;
 
 private:

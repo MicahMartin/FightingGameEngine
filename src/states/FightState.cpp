@@ -243,6 +243,18 @@ void FightState::draw(){
      // printf("p2Draw %f\n", p2Draw);
    }
    // printf("good draw?!?!\n");
+   if (playHitSound > 0) {
+     if (playHitSound == 1) {
+       Mix_PlayChannel(-1, player1->soundList[playHitSoundID - 1], 0);
+       Mix_PlayChannel(-1, player2->hurtSoundList[playHurtSoundID], 0);
+     } else {
+       Mix_PlayChannel(-1, player2->soundList[playHitSoundID - 1], 0);
+       Mix_PlayChannel(-1, player1->hurtSoundList[playHurtSoundID], 0);
+     }
+     playHitSound = 0;
+     playHitSoundID = 0;
+     playHurtSoundID = 0;
+   }
 }
 
 void FightState::checkPushCollisions(){
@@ -371,6 +383,13 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
               hitter->frameLastAttackConnected = gameTime; 
               // TODO: Hitbox group IDs
               hitter->currentState->hitboxGroupDisabled[hitBox->groupID] = true;
+              playHitSound = hitter->playerNum;
+              playHitSoundID = hitBox->hitSoundID;
+              if (hurter->currentHurtSoundID == hurter->hurtSoundList.size()) {
+                hurter->currentHurtSoundID = 0;
+              }
+              playHurtSoundID = hurter->currentHurtSoundID;
+              hurter->currentHurtSoundID++;
 
               if (hurter->inCorner) {
                 hitter->pushTime = hitBox->pushTime;

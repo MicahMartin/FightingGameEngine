@@ -3,6 +3,7 @@
 
 #include "states/GameState.h"
 #include "screens/OpeningScreen.h"
+#include <SDL_mixer.h>
 
 class OpeningState : public GameState{
 public:
@@ -20,6 +21,9 @@ public:
   void draw();
 
 private:
+  Mix_Music* openingSong = NULL;
+  Mix_Chunk* menuMove = NULL;
+  Mix_Chunk* menuSelect = NULL;
   OpeningScreen openingScreen;
 };
 #endif
