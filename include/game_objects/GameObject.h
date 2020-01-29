@@ -2,6 +2,7 @@
 #define _GameObject_h
 
 #include <utility>
+#include <SDL_mixer.h>
 
 class StateDef;
 class GameObject {
@@ -24,6 +25,7 @@ public:
   virtual void updateCollisionBoxPositions() = 0;
   virtual void updateCollisionBoxes() = 0;
   virtual StateDef* getCurrentState() = 0;
+  virtual Mix_Chunk* getSoundWithId(int id) = 0;
 
   // getters for these guys
 

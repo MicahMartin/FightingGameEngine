@@ -5,7 +5,7 @@
     $velset_x 0; 
   } 
   if($get_state_time == 1){ 
-    $velset_y 24; 
+    $velset_y 28; 
   } 
   if($get_state_time == 5){ 
     $set_control 1; 
@@ -18,6 +18,22 @@
   var upforward = $check_command 7;
   var upback = $check_command 8;
   var hasAirAction = $has_air_action;
+  var can_airdash = false;
+   
+  if($get_state_time > 10){ 
+    can_airdash = true;
+  }
+  var dash_f = $check_command 0;
+  var dash_b = $check_command 1;
+  var aboveMinHeight = ($get_y_pos > 100);
+  if(can_airdash and aboveMinHeight and hasAirAction){
+    if(dash_f){
+      $change_state 12; 
+    }
+    if(dash_b){
+      $change_state 13; 
+    }
+  }
 
   if(hasAirAction and can_dbl_jump){
     if(up){

@@ -71,13 +71,13 @@ void Character::loadStates(){
   for(auto i : stateJson.at("audio_assets").items()){
     std::string path(i.value().at("file").get<std::string>());
     const char* pathPointer = path.c_str();
-    soundList.emplace_back(Mix_LoadWAV(pathPointer));
+    Mix_VolumeChunk(soundList.emplace_back(Mix_LoadWAV(pathPointer)), 16);
   }
 
   for(auto i : stateJson.at("hurt_sounds").items()){
     std::string path(i.value().at("file").get<std::string>());
     const char* pathPointer = path.c_str();
-    hurtSoundList.emplace_back(Mix_LoadWAV(pathPointer));
+    Mix_VolumeChunk(hurtSoundList.emplace_back(Mix_LoadWAV(pathPointer)), 32);
   }
 
   configFile.close();
@@ -246,9 +246,10 @@ void Character::draw(){
   if (!hitsparkRectDisabled) {
     // TODO: Configure hitspark id position in animList, use assetID map
     int xEdge = faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
-    animList[0].renderHitspark(xEdge, hitsparkIntersect.y, faceRight);
-    if(animList[0].timeRemaining() == 0){
-      animList[0].resetAnimEvents();
+    Animation* animToRender = (currentState->stateNum == 28 || currentState->stateNum == 29) ? &animList[1] : &animList[0];
+    animToRender->renderHitspark(xEdge, hitsparkIntersect.y, faceRight);
+    if(animToRender->timeRemaining() == 0){
+      animToRender->resetAnimEvents();
       hitsparkRectDisabled = true;
     }
   }
@@ -261,6 +262,10 @@ std::pair<int,int> Character::getPos(){
 
 StateDef* Character::getCurrentState(){
   return currentState;
+};
+
+Mix_Chunk* Character::getSoundWithId(int id){
+  return soundList[id - 1];
 };
 
 void Character::setXPos(int x){

@@ -51,9 +51,11 @@ public:
   int screenFreeze = 0;
   int stateTime = 0;
   int playHitSound = 0;
+  int playHurtSound = 0;
   int playHitSoundID;
   int playHurtSoundID;
   bool everythingCompiled = false;
+  Mix_Music* bgMusic = NULL;
 private:
   Character* player1;
   Character* player2;

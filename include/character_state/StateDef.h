@@ -20,7 +20,7 @@ struct SoundItem {
   int soundID, start;
 };
 
-class Character;
+class GameObject;
 class StateDef {
 public:
   StateDef(nlohmann::json::value_type json, VirtualMachine* charVm);
@@ -56,7 +56,7 @@ public:
   int stateNum;
   int stateTime;
   bool hitboxesDisabled = false;
-  Character* owner;
+  GameObject* owner;
   std::unordered_map<int, bool> hitboxGroupDisabled;
 
 private:

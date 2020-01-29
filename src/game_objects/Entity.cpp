@@ -81,7 +81,23 @@ void Entity::loadStates(){
   }
   // load states
   for(auto i : stateJson.at("states").items()){
-    stateList.emplace_back(i.value(), &virtualMachine);
+    StateDef* createdState = &stateList.emplace_back(i.value(), &virtualMachine);
+    createdState->owner = this;
+  }
+
+  if (stateJson.count("animation_assets")) {
+    for(auto i : stateJson.at("animation_assets").items()){
+      animList.emplace_back().loadAnimEvents(i.value().at("animation"));
+    }
+  }
+
+  if (stateJson.count("audio_assets")) {
+    for(auto i : stateJson.at("audio_assets").items()){
+      std::string path(i.value().at("file").get<std::string>());
+      const char* pathPointer = path.c_str();
+      printf("entity audio asset path%s\n", pathPointer);
+      Mix_VolumeChunk(soundList.emplace_back(Mix_LoadWAV(pathPointer)), 16);
+    }
   }
   configFile.close();
 }
@@ -242,6 +258,11 @@ std::pair<int,int> Entity::getPos(){
 
 StateDef* Entity::getCurrentState(){
   return currentState;
+};
+
+Mix_Chunk* Entity::getSoundWithId(int id){
+  printf("getting sound item with ID:%d\n", id);
+  return soundList[id - 1];
 };
 
 void Entity::setXPos(int x){

@@ -18,6 +18,9 @@
       ],
       "collision_boxes": [
         {"type": "HIT", "block_type": 1, "hitstun":22, "block_stun":22, "hitstop": 4, "damage":5, "push": 6, "push_time": 10,  "start": 2, "end": -1, "width":150, "height":150, "offsetX":0, "offsetY": 125}
+      ],
+      "sounds": [
+        {"soundID": 1, "start": 1}
       ]
     },
     {
@@ -42,5 +45,22 @@
     }
   ],
   "spawnOffsetX": 50, 
-  "spawnOffsetY": 0
+  "spawnOffsetY": 0,
+  "animation_assets": [
+    {
+      "assetID": 1,
+      "animation": [
+        { "file": "../data/images/hitspark/0.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/1.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/2.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/3.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/4.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/5.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/6.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1}
+      ]
+    }
+  ],
+  "audio_assets": [
+    {"assetID": 1, "file": "../data/characters/alucard/audio/kick_impact.wav"}
+  ]
 }

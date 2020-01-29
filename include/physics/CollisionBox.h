@@ -64,6 +64,7 @@ public:
   int opponentState;
   int groupID = 1;
   int hitSoundID = 0;
+  int guardSoundID = 0;
   bool canTrip = false;
 
 private:

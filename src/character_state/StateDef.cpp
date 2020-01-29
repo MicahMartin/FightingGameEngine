@@ -97,10 +97,10 @@ void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop)
   anim.render(position.first, position.second, faceRight, inHitStop);
   if (soundIndexMap[stateTime].size() > 0) {
     for (int soundID : soundIndexMap[stateTime]) {
-      Mix_PlayChannel(-1, owner->soundList[soundID - 1], 0);
+      printf("trying to play soundID %d\n", soundID);
+      Mix_PlayChannel(-1, owner->getSoundWithId(soundID), 0);
     }
   }
-  // printf("we got outa anim render.. how the fuck\n");
 
   // stateTime is 2
   // TODO: Thread this up
@@ -169,6 +169,9 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
       }
       if (i.value().count("hitsound")) {
         cb->hitSoundID = i.value().at("hitsound");
+      }
+      if (i.value().count("guardsound")) {
+        cb->guardSoundID = i.value().at("guardsound");
       }
 
     } else {

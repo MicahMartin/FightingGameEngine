@@ -39,6 +39,7 @@ public:
   void updateCollisionBoxPositions();
   void updateCollisionBoxes();
   StateDef* getCurrentState();
+  Mix_Chunk* getSoundWithId(int id);
 
   // getters for these guys
 

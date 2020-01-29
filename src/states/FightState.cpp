@@ -7,6 +7,10 @@
 FightState::FightState(){ 
   printf("creating new fightState\n");
   stateName = "FightState";
+  bgMusic = Mix_LoadMUS("../data/audio/fightingTheme.mp3");
+  if(bgMusic == NULL) {
+    printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
+  }
 }
 
 FightState::~FightState(){ 
@@ -34,6 +38,8 @@ void FightState::enter(){
 
   graphics->setCamera(&camera);
   camera.update(1700, 2200);
+  printf("Entered the opening state\n");
+  Mix_PlayMusic(bgMusic, -1);
 }
 
 void FightState::exit(){ 
@@ -48,6 +54,7 @@ void FightState::resume(){ }
 
 void FightState::handleInput(){ 
   checkHealth();
+  updateFaceRight();
   if (!player1->inHitStop) {
     player1->handleInput();
   } else { }
@@ -246,12 +253,17 @@ void FightState::draw(){
    if (playHitSound > 0) {
      if (playHitSound == 1) {
        Mix_PlayChannel(-1, player1->soundList[playHitSoundID - 1], 0);
-       Mix_PlayChannel(-1, player2->hurtSoundList[playHurtSoundID], 0);
+       if (playHurtSound > 0) {
+         Mix_PlayChannel(-1, player2->hurtSoundList[playHurtSoundID], 0);
+       }
      } else {
        Mix_PlayChannel(-1, player2->soundList[playHitSoundID - 1], 0);
-       Mix_PlayChannel(-1, player1->hurtSoundList[playHurtSoundID], 0);
+       if (playHurtSound) {
+         Mix_PlayChannel(-1, player1->hurtSoundList[playHurtSoundID], 0);
+       }
      }
      playHitSound = 0;
+     playHurtSound = 0;
      playHitSoundID = 0;
      playHurtSoundID = 0;
    }
@@ -377,19 +389,9 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
 
               hurter->hitStop = hitBox->hitstop;
               hurter->inHitStop = true;
-              hitter->hitsparkRectDisabled = false;
-              hitter->hitsparkIntersect = CollisionBox::getAABBIntersect(*hitBox, *hurtBox);
-
               hitter->frameLastAttackConnected = gameTime; 
               // TODO: Hitbox group IDs
               hitter->currentState->hitboxGroupDisabled[hitBox->groupID] = true;
-              playHitSound = hitter->playerNum;
-              playHitSoundID = hitBox->hitSoundID;
-              if (hurter->currentHurtSoundID == hurter->hurtSoundList.size()) {
-                hurter->currentHurtSoundID = 0;
-              }
-              playHurtSoundID = hurter->currentHurtSoundID;
-              hurter->currentHurtSoundID++;
 
               if (hurter->inCorner) {
                 hitter->pushTime = hitBox->pushTime;
@@ -432,7 +434,29 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
                   }
                 }
                 printf("ohh u got the blocksies?\n");
+                hurter->hitsparkRectDisabled = false;
+                hurter->hitsparkIntersect = CollisionBox::getAABBIntersect(*hitBox, *hurtBox);
+
+               playHitSound = hitter->playerNum;
+               playHitSoundID = hitBox->guardSoundID;
+               // if (hurter->currentHurtSoundID ==  hurter->hurtSoundList.size()) {
+               //   hurter->currentHurtSoundID = 0;
+               // }
+               // playHurtSoundID = hurter->currentHurtSoundID;
+               // hurter->currentHurtSoundID++;
               } else {
+                hitter->hitsparkRectDisabled = false;
+                hitter->hitsparkIntersect = CollisionBox::getAABBIntersect(*hitBox, *hurtBox);
+
+                playHitSound = hitter->playerNum;
+                playHitSoundID = hitBox->hitSoundID;
+                if (hurter->currentHurtSoundID ==  hurter->hurtSoundList.size()) {
+                  hurter->currentHurtSoundID = 0;
+                }
+                playHurtSoundID = hurter->currentHurtSoundID;
+                hurter->currentHurtSoundID++;
+
+                playHurtSound = hurter->playerNum;
                 hurter->control = 0;
                 hurter->health -= hitBox->damage;
                 hurter->hitstun = hitBox->hitstun;

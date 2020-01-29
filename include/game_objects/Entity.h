@@ -2,10 +2,12 @@
 #define _Entity_h
 
 #include <nlohmann/json.hpp>
+#include <SDL_mixer.h>
 #include "character_state/StateDef.h"
 #include "input/VirtualController.h"
 #include "domain_language/VirtualMachine.h"
 #include "domain_language/Script.h"
+#include "graphics/Animation.h"
 
 class Character;
 class Entity : public GameObject {
@@ -37,6 +39,7 @@ public:
   void updateCollisionBoxPositions();
   void updateCollisionBoxes();
   StateDef* getCurrentState();
+  Mix_Chunk* getSoundWithId(int id);
 
   // getters for these guys
 
@@ -101,6 +104,9 @@ public:
   Script inputScript;
   VirtualMachine virtualMachine;
   std::vector<uint8_t> inputByteCode;
+  std::vector<Animation> animList;
+  std::vector<Mix_Chunk*> soundList;
+  std::vector<Mix_Chunk*> hurtSoundList;
   bool updateFacing = false;
 private:
   const char* defPath;

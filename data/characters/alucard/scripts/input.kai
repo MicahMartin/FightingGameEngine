@@ -139,18 +139,6 @@
       if(punch){
         $change_state 18; 
       }
-
-
-
-      if(aboveMinHeight and hasAirAction){
-        if(dash_f){
-          $change_state 12; 
-        }
-        if(dash_b){
-          $change_state 13; 
-        }
-      }
-
     }
   }
   

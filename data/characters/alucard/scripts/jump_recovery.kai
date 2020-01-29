@@ -11,6 +11,8 @@
   var upforward = $was_pressed 9; 
   var upback = $was_pressed 7; 
   var hasAirAction = $has_air_action;
+  var dash_f = $check_command 0;
+  var dash_b = $check_command 1;
 
   if(hasAirAction and can_dbl_jump){
     if(up){
@@ -21,6 +23,12 @@
     }
     if(upback){
       $cancel_state 43;
+    }
+    if(dash_f){
+      $change_state 12; 
+    }
+    if(dash_b){
+      $change_state 13; 
     }
   }
 }
