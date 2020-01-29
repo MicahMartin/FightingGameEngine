@@ -33,6 +33,7 @@ public:
   void checkPushCollisions();
   void checkThrowCollisions();
   int checkHitboxAgainstHurtbox(Character* hitter, Character* hurter);
+  void checkThrowAgainst(Character* thrower, Character* throwee);
   void checkHitCollisions();
   void checkEntityHitCollisions();
   void checkBounds();
@@ -43,6 +44,11 @@ public:
   void renderComboCount();
   void renderInputHistory();
   void renderHealthBar(int x, int y, int w, int h, float percent, SDL_Color fgColor, SDL_Color bgColor);
+
+  void checkCorner(Character* player);
+  void checkHitstop(Character* player);
+  void checkEntityHitstop(Character* player);
+
 
   void handleInput();
   void update();

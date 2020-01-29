@@ -57,11 +57,11 @@ void FightState::handleInput(){
   updateFaceRight();
   if (!player1->inHitStop) {
     player1->handleInput();
-  } else { }
+  }
 
   if (!player2->inHitStop) {
     player2->handleInput();
-  } else { }
+  }
 
   for (auto &i : player1->entityList) {
     if(!i.inHitStop){
@@ -84,42 +84,15 @@ void FightState::update(){
   stateTime++;
   checkBounds();
   updateFaceRight();
-  if(player1->getPos().first - player1->width <= 0 || player1->getPos().first + player1->width >= 3840){
-    player1->inCorner = true;
-  } else {
-    player1->inCorner = false;
-  }
 
-  if(player2->getPos().first - player2->width <= 0 || player2->getPos().first + player2->width >= 3840){
-    player2->inCorner = true;
-  } else {
-    player2->inCorner = false;
-  }
+  checkCorner(player1);
+  checkCorner(player2);
 
+  checkHitstop(player1);
+  checkHitstop(player2);
 
-  if(player1->inHitStop && --player1->hitStop == 0){
-    player1->inHitStop = false;
-    // printf("p1 came out of hitstop\n");
-  }
-  if(player2->inHitStop && --player2->hitStop == 0){
-    player2->inHitStop = false;
-    // printf("p2 came out of hitstop\n");
-  }
-  // printf("we updated player hitstop!!\n");
-  for (auto &i : player1->entityList) {
-    if(i.inHitStop && --i.hitStop == 0){
-      i.inHitStop = false;
-      // printf("player:%d entity:%d came out of hitstop\n", 1, i.entityID);
-    }
-  }
-  // printf("we updated player1 entity hitstop!!\n");
-  for (auto &i : player2->entityList) {
-    if(i.inHitStop && --i.hitStop == 0){
-      i.inHitStop = false;
-      // printf("player:%d entity:%d came out of hitstop\n", 2, i.entityID);
-    }
-  }
-  // printf("we updated player2 entity hitstop!!\n");
+  checkEntityHitstop(player1);
+  checkEntityHitstop(player2);
 
   if(!player1->inHitStop){
     player1->update();
@@ -135,12 +108,10 @@ void FightState::update(){
   if(player2->inHitStop){
     player2->currentState->handleCancels();
   }
-  // printf("did the hitstop checks\n");
 
   for (auto &i : player1->entityList) {
     if(!i.inHitStop){
       i.update();
-      // printf("p1 entity:%d updating\n", i.entityID);
     }
   }
   for (auto &i : player2->entityList) {
@@ -151,7 +122,6 @@ void FightState::update(){
   for (auto &i : player1->entityList) {
     if(i.inHitStop){
       i.currentState->handleCancels();
-      // printf("p1 entity:%d handling cancels\n", i.entityID);
     }
   }
   for (auto &i : player2->entityList) {
@@ -268,6 +238,28 @@ void FightState::draw(){
      playHurtSoundID = 0;
    }
 }
+void FightState::checkCorner(Character* player){
+  if(player->getPos().first - player->width <= 0 || player->getPos().first + player->width >= 3840){
+    player->inCorner = true;
+  } else {
+    player->inCorner = false;
+  }
+}
+
+void FightState::checkHitstop(Character* player){
+  if(player->inHitStop && --player->hitStop == 0){
+    player->inHitStop = false;
+  }
+}
+
+void FightState::checkEntityHitstop(Character* player){
+  for (auto &i : player->entityList) {
+    if(i.inHitStop && --i.hitStop == 0){
+      i.inHitStop = false;
+    }
+  }
+}
+
 
 void FightState::checkPushCollisions(){
   // get the collision box(s) for the current state
@@ -333,39 +325,44 @@ void FightState::checkPushCollisions(){
 }
 
 void FightState::checkThrowCollisions(){
-  if (!player1->currentState->hitboxesDisabled && player2->hitstun == 0 && player2->blockstun == 0 && 
-      player2->currentState->stateNum != 24 && player2->currentState->stateNum != 35 && player2->currentState->stateNum != 25 ) {
-    for (auto p1ThrowHitbox : player1->currentState->throwHitBoxes) {
+  checkThrowAgainst(player1, player2);
+  checkThrowAgainst(player2, player1);
+}
+
+void FightState::checkThrowAgainst(Character* thrower, Character* throwee){
+  if (!thrower->currentState->hitboxesDisabled && throwee->hitstun == 0 && throwee->blockstun == 0 && 
+      throwee->currentState->stateNum != 24 && throwee->currentState->stateNum != 35 && throwee->currentState->stateNum != 25 ) {
+    for (auto p1ThrowHitbox : thrower->currentState->throwHitBoxes) {
       if(!p1ThrowHitbox->disabled){
         printf("checking a throwbox\n");
-        for (auto p2HurtBox : player2->currentState->pushBoxes) {
+        for (auto p2HurtBox : throwee->currentState->pushBoxes) {
           if(!p2HurtBox->disabled){
             if (CollisionBox::checkAABB(*p1ThrowHitbox, *p2HurtBox)) {
-              if (p1ThrowHitbox->throwType == 1 && player2->_getYPos() > 0) {
+              if (p1ThrowHitbox->throwType == 1 && throwee->_getYPos() > 0) {
                 printf("air throw collision detected, scoops\n");
                 int success = p1ThrowHitbox->success;
                 int opponentState = p1ThrowHitbox->opponentState;
 
-                player1->frameLastAttackConnected = gameTime; 
-                player1->currentState->hitboxesDisabled = true;
-                player1->changeState(success); 
+                thrower->frameLastAttackConnected = gameTime; 
+                thrower->currentState->hitboxesDisabled = true;
+                thrower->changeState(success); 
 
-                player2->comboCounter++;
-                player2->control = 0;
-                player2->hitstun = p1ThrowHitbox->hitstun;
-                player2->changeState(opponentState);
+                throwee->comboCounter++;
+                throwee->control = 0;
+                throwee->hitstun = p1ThrowHitbox->hitstun;
+                throwee->changeState(opponentState);
                 
-              } else if(p1ThrowHitbox->throwType == 2 && player2->_getYPos() == 0) {
+              } else if(p1ThrowHitbox->throwType == 2 && throwee->_getYPos() == 0) {
                 int success = p1ThrowHitbox->success;
                 int opponentState = p1ThrowHitbox->opponentState;
-                player1->frameLastAttackConnected = gameTime; 
-                player1->currentState->hitboxesDisabled = true;
-                player1->changeState(success); 
+                thrower->frameLastAttackConnected = gameTime; 
+                thrower->currentState->hitboxesDisabled = true;
+                thrower->changeState(success); 
 
-                player2->comboCounter++;
-                player2->control = 0;
-                player2->hitstun = p1ThrowHitbox->hitstun;
-                player2->changeState(opponentState);
+                throwee->comboCounter++;
+                throwee->control = 0;
+                throwee->hitstun = p1ThrowHitbox->hitstun;
+                throwee->changeState(opponentState);
               }
             }
           }
