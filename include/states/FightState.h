@@ -32,8 +32,6 @@ public:
   void resume();
   void checkPushCollisions();
   void checkThrowCollisions();
-  int checkHitboxAgainstHurtbox(Character* hitter, Character* hurter);
-  void checkThrowAgainst(Character* thrower, Character* throwee);
   void checkHitCollisions();
   void checkEntityHitCollisions();
   void checkBounds();
@@ -48,6 +46,10 @@ public:
   void checkCorner(Character* player);
   void checkHitstop(Character* player);
   void checkEntityHitstop(Character* player);
+
+  int checkHitboxAgainstHurtbox(Character* hitter, Character* hurter);
+  void checkThrowAgainst(Character* thrower, Character* throwee);
+  int checkEntityHitAgainst(Character* thrower, Character* throwee);
 
 
   void handleInput();
