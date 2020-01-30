@@ -54,10 +54,10 @@ void FightState::resume(){ }
 
 void FightState::handleInput(){ 
   updateFaceRight();
+
   if (!player1->inHitStop) {
     player1->handleInput();
   }
-
   if (!player2->inHitStop) {
     player2->handleInput();
   }
@@ -67,7 +67,6 @@ void FightState::handleInput(){
       i.handleInput();
     }
   }
-
   for (auto &i : player2->entityList) {
     if(!i.inHitStop){
       i.handleInput();
@@ -207,19 +206,7 @@ void FightState::draw(){
    double barDraw = barDrawEnd - barDrawStart;
    double p1Draw = p1DrawEnd - p1DrawStart;
    double p2Draw = p2DrawEnd - p2DrawStart;
-   if (screenDraw > 0) {
-     // printf("screenDraw %f\n", screenDraw);
-   }
-   if (barDraw > 0) {
-     // printf("barDraw %f\n", barDraw);
-   }
-   if(p1Draw > 0) {
-     // printf("p1Draw %f\n", p1Draw);
-   }
-   if(p2Draw > 0){
-     // printf("p2Draw %f\n", p2Draw);
-   }
-   // printf("good draw?!?!\n");
+
    if (playHitSound > 0) {
      if (playHitSound == 1) {
        Mix_PlayChannel(-1, player1->soundList[playHitSoundID - 1], 0);
@@ -406,7 +393,8 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
                 }
               }
 
-              if(checkBlock(hitBox->blockType, hurter) && ((hurter->currentState->stateNum == 28 || hurter->currentState->stateNum == 29) || hurter->control)){
+              int hurterCurrentState = hurter->currentState->stateNum;
+              if((hurterCurrentState == 28 || hurterCurrentState == 29 || hurterCurrentState == 50) || (hurter->control && checkBlock(hitBox->blockType, hurter))){
                 hurter->blockstun = hitBox->blockstun;
                 hurter->control = 0;
                 if (hurter->_getYPos() > 0) {
@@ -434,13 +422,13 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
                 hurter->hitsparkRectDisabled = false;
                 hurter->hitsparkIntersect = CollisionBox::getAABBIntersect(*hitBox, *hurtBox);
 
-               playHitSound = hitter->playerNum;
-               playHitSoundID = hitBox->guardSoundID;
-               // if (hurter->currentHurtSoundID ==  hurter->hurtSoundList.size()) {
-               //   hurter->currentHurtSoundID = 0;
-               // }
-               // playHurtSoundID = hurter->currentHurtSoundID;
-               // hurter->currentHurtSoundID++;
+                playHitSound = hitter->playerNum;
+                playHitSoundID = hitBox->guardSoundID;
+                // if (hurter->currentHurtSoundID ==  hurter->hurtSoundList.size()) {
+                //   hurter->currentHurtSoundID = 0;
+                // }
+                // playHurtSoundID = hurter->currentHurtSoundID;
+                // hurter->currentHurtSoundID++;
               } else {
                 hitter->hitsparkRectDisabled = false;
                 hitter->hitsparkIntersect = CollisionBox::getAABBIntersect(*hitBox, *hurtBox);
@@ -553,6 +541,11 @@ int FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                     }
                   }
                   printf("ohh u got the blocksies?\n");
+                  p2->hitsparkRectDisabled = false;
+                  p2->hitsparkIntersect = CollisionBox::getAABBIntersect(*p1Hitbox, *p2HurtBox);
+
+                  playHitSound = p1->playerNum;
+                  playHitSoundID = p1Hitbox->guardSoundID;
                 } else {
                   printf("ya wasnt blockin kid\n");
                   p2->control = 0;
@@ -594,10 +587,11 @@ void FightState::checkEntityHitCollisions(){
 bool FightState::checkBlock(int blockType, Character* player){
   bool isHoldingDownBack = player->_getInput(1);
   bool isHoldingBack = player->_getInput(4);
+  bool upBackinScrub = player->_getInput(7);
   printf("player2 is holding downback? %d, what about back %d\n", isHoldingDownBack, isHoldingBack);
   // I know, enum
   if (player->_getYPos() > 0) {
-    if(isHoldingBack || isHoldingDownBack || player->_getInput(7)){
+    if(isHoldingBack || isHoldingDownBack || upBackinScrub){
       return true;
     }
   }
