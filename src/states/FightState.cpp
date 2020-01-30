@@ -515,7 +515,8 @@ int FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                   }
                 }
 
-                if(checkBlock(p1Hitbox->blockType, p2) && ((p2->currentState->stateNum == 28 || p2->currentState->stateNum == 29) || p2->control)){
+                int p2StateNum = p2->currentState->stateNum;
+                if((p2StateNum == 28 || p2StateNum == 29 || p2StateNum == 50) || (p2->control && checkBlock(p1Hitbox->blockType, p2))){
                   p2->blockstun = p1Hitbox->blockstun;
                   p2->control = 0;
                   if (p2->_getYPos() > 0) {
