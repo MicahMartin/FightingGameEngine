@@ -66,6 +66,7 @@ void Game::update() {
 
   double stateUpdateStart = SDL_GetTicks();
   currentState->update();
+  currentState = stateManager->getState();
   double stateUpdateEnd = SDL_GetTicks();
   updateLength = stateUpdateEnd-stateUpdateStart;
   // printf("updateLength %f\n", updateLength);

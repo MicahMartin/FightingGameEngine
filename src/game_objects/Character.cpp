@@ -246,7 +246,7 @@ void Character::draw(){
   if (!hitsparkRectDisabled) {
     // TODO: Configure hitspark id position in animList, use assetID map
     int xEdge = faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
-    Animation* animToRender = (currentState->stateNum == 28 || currentState->stateNum == 29) ? &animList[1] : &animList[0];
+    Animation* animToRender = (currentState->stateNum == 28 || currentState->stateNum == 29 || currentState->stateNum == 50) ? &animList[1] : &animList[0];
     animToRender->renderHitspark(xEdge, hitsparkIntersect.y, faceRight);
     if(animToRender->timeRemaining() == 0){
       animToRender->resetAnimEvents();

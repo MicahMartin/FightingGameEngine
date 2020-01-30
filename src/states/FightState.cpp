@@ -53,7 +53,6 @@ void FightState::pause(){ }
 void FightState::resume(){ }
 
 void FightState::handleInput(){ 
-  checkHealth();
   updateFaceRight();
   if (!player1->inHitStop) {
     player1->handleInput();
@@ -148,6 +147,7 @@ void FightState::update(){
   } else {
     camera.cameraRect.y = 0;
   }
+  checkHealth();
 }
 
 void FightState::draw(){  
@@ -410,7 +410,7 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
                 hurter->blockstun = hitBox->blockstun;
                 hurter->control = 0;
                 if (hurter->_getYPos() > 0) {
-                  hurter->changeState(29);
+                  hurter->changeState(50);
                 } else {
                   switch (hitBox->blockType) {
                     case 1:
@@ -532,7 +532,7 @@ int FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                   p2->control = 0;
                   if (p2->_getYPos() > 0) {
                     // TODO: air blocking state
-                    p2->changeState(29);
+                    p2->changeState(50);
                   } else {
                     switch (p1Hitbox->blockType) {
                       case 1:
@@ -562,10 +562,8 @@ int FightState::checkEntityHitAgainst(Character* p1, Character* p2){
 
                   if(p1Hitbox->canTrip || p2->_getYPos() > 0 || p2->currentState->stateNum == 24){
                     p2HitState = 24;
-                    // p2->changeState(24);
                   } else {
                     p2HitState = 9;
-                    // p2->changeState(9);
                   }
                 }
               }
@@ -668,8 +666,10 @@ void FightState::checkBounds(){
 
 void FightState::checkHealth(){
   if (player1->health <= 0 || player2->health <= 0) {
+    // nextRound();?
     player2->health = 100;
     player1->health = 100;
+    stateManager->popState();
   }
 }
 
