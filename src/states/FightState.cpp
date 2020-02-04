@@ -162,6 +162,7 @@ void FightState::draw(){
   renderComboCount();
   renderInputHistory();
 
+  printf("all that shit good\n");
   if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
     p2DrawStart = SDL_GetTicks();
     player2->draw();
@@ -662,6 +663,12 @@ void FightState::checkHealth(){
     player2->health = 100;
     player1->health = 100;
     slowMode = true;
+  }
+  if (slowMode) {
+    if(slowDownCounter++ == 30){
+      slowDownCounter = 0;
+      slowMode = false;
+    }
   }
 }
 

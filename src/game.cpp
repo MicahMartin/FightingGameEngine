@@ -55,26 +55,38 @@ void Game::update() {
   //   }
   // }
   currentState->gameTime = gameTime;
-  // this method modifies state stack
+
   double handleInputFrameStart = SDL_GetTicks();
+
   if (!currentState->paused) {
-    currentState->handleInput();
-    currentState = stateManager->getState();
-    
+    if(!currentState->slowMode){
+      currentState->handleInput();
+      currentState = stateManager->getState();
+    } else if (currentState->slowModeCounter == 1){
+      currentState->handleInput();
+      currentState = stateManager->getState();
+    }
   }
+
   double handleInputFrameEnd = SDL_GetTicks();
   handleInputLength = handleInputFrameEnd-handleInputFrameStart;
 
-  // printf("handleInputLength %f\n", handleInputLength);
-
   double stateUpdateStart = SDL_GetTicks();
   if(!currentState->paused){
-    currentState->update();
-    currentState = stateManager->getState();
+    if (!currentState->slowMode) {
+      currentState->update();
+      currentState = stateManager->getState();
+    } else if (currentState->slowModeCounter == 1){
+      currentState->update();
+      currentState = stateManager->getState();
+    }
   }
   double stateUpdateEnd = SDL_GetTicks();
   updateLength = stateUpdateEnd-stateUpdateStart;
   // printf("updateLength %f\n", updateLength);
+  if (currentState->slowMode && currentState->slowModeCounter++ == 3) {
+    currentState->slowModeCounter = 0;
+  }
 
   // the current state holds a pointer to the currrent screen
   // screen has a surface pointer with all the pixels that need to be
