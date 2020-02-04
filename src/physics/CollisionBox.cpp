@@ -26,7 +26,7 @@ CollisionRect CollisionBox::getAABBIntersect(CollisionBox box1, CollisionBox box
   int newW = (lowestEdge) - newX;
   int newY = highestY;
   int newH = abs(lowestTop - newY);
-  printf("newY:%d, newH:%d\n", newY, newH);
+  // printf("newY:%d, newH:%d\n", newY, newH);
   return CollisionRect{newX, newY, newW, newH};
 }
 

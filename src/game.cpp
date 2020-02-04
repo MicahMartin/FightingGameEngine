@@ -57,16 +57,21 @@ void Game::update() {
   currentState->gameTime = gameTime;
   // this method modifies state stack
   double handleInputFrameStart = SDL_GetTicks();
-  currentState->handleInput();
-  currentState = stateManager->getState();
+  if (!currentState->paused) {
+    currentState->handleInput();
+    currentState = stateManager->getState();
+    
+  }
   double handleInputFrameEnd = SDL_GetTicks();
   handleInputLength = handleInputFrameEnd-handleInputFrameStart;
 
   // printf("handleInputLength %f\n", handleInputLength);
 
   double stateUpdateStart = SDL_GetTicks();
-  currentState->update();
-  currentState = stateManager->getState();
+  if(!currentState->paused){
+    currentState->update();
+    currentState = stateManager->getState();
+  }
   double stateUpdateEnd = SDL_GetTicks();
   updateLength = stateUpdateEnd-stateUpdateStart;
   // printf("updateLength %f\n", updateLength);

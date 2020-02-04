@@ -3,7 +3,7 @@
     $set_air_action 1;
     $set_control 1;
   } 
-  if($get_anim_time == 1){ 
+  if($get_anim_time == 0){ 
     $change_state 17; 
   } 
 }

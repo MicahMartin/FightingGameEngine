@@ -84,6 +84,8 @@ void StateDef::enter(){
 
 void StateDef::update(){
   charVm->execute(&updateScript);
+  anim.currentAnimElemTimePassed++;
+  anim.animationTimePassed++;
   stateTime++;
 }
 
@@ -94,10 +96,10 @@ void StateDef::handleCancels(){
 }
 
 void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop){
-  anim.render(position.first, position.second, faceRight, inHitStop);
+  anim.render(position.first, position.second, faceRight, stateTime, inHitStop);
   if (soundIndexMap[stateTime].size() > 0) {
     for (int soundID : soundIndexMap[stateTime]) {
-      printf("trying to play soundID %d\n", soundID);
+      // printf("trying to play soundID %d\n", soundID);
       Mix_PlayChannel(-1, owner->getSoundWithId(soundID), 0);
     }
   }

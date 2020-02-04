@@ -133,6 +133,8 @@ void Entity::handleInput() {
 void Entity::update(){
   if (active) {
     currentState->update();
+    currentState->anim.currentAnimElemTimePassed++;
+    currentState->anim.animationTimePassed++;
     updatePosition();
     updateCollisionBoxes();
   }

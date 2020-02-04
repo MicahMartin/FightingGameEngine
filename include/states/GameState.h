@@ -19,9 +19,11 @@ public:
   virtual void update() = 0;
   virtual void draw() = 0;
   long gameTime = 0;
+  bool paused = false;
+  bool slowMode = false;
+  int slowModeCounter = 0;
   const char* stateName = "";
 protected:
-  bool paused = false;
   StateManager* stateManager = StateManager::getInstance();
   InputManager* inputManager = InputManager::getInstance();
 };

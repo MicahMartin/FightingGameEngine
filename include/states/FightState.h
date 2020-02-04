@@ -63,6 +63,9 @@ public:
   int playHitSoundID;
   int playHurtSoundID;
   bool everythingCompiled = false;
+  bool inSlowDown = false;
+  bool shouldUpdate = true;
+  int slowDownCounter = 0;
   Mix_Music* bgMusic = NULL;
 private:
   Character* player1;

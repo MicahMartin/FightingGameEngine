@@ -46,6 +46,7 @@ void Animation::loadAnimEvents(nlohmann::json json){
     text->setDimensions(0, 0, realDimensions.first*scale, realDimensions.second*scale);
 
     animationTime += animTime;
+    element.endTime = animationTime;
     animationElements.push_back(element);
   }
 }
@@ -86,6 +87,23 @@ void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
       currentAnimElemTimePassed = 0;
       currentAnimElemIndex++;
     }
+  } 
+  // printf("so wtf is going on\n");
+}
+
+void Animation::render(int x, int y, bool faceRight, int stateTime, bool screenFreeze){
+  int camOffset = graphics->getCamera()->cameraRect.x;
+  AnimationElement* elem = &animationElements.at(currentAnimElemIndex);
+
+  GameTexture* currentText = &elem->gameTexture;
+  int width = currentText->getDimensions().first;
+  int offsetX = elem->offsetX;
+  int offsetY = elem->offsetY;
+  faceRight ? currentText->setCords(x-width+offsetX, ((y - 30) + offsetY)) : currentText->setCords(x-offsetX, ((y - 30) + offsetY));
+  currentText->render(faceRight);
+
+  if(animationTimePassed == elem->endTime){
+    currentAnimElemIndex++;
   } 
   // printf("so wtf is going on\n");
 }

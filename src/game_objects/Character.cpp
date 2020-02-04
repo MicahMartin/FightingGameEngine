@@ -31,7 +31,6 @@ void Character::init(){
 void Character::changeState(int stateDefNum){
   cancelPointer = 0;
   currentState = &stateList.at(stateDefNum-1);
-  printf("in changeState\n");
   if(!currentState->checkFlag(NO_TURN_ON_ENTER)){
     updateFaceRight();
   }
@@ -86,7 +85,6 @@ void Character::loadStates(){
 Character::~Character(){};
 
 void Character::handleInput(){ 
-
   if(pushTime > 0){
     pushTime--;
     if(pushTime == 0){
@@ -105,6 +103,7 @@ void Character::handleInput(){
     blockstun--;
   }
 
+
   if(cancelPointer != 0){
     changeState(cancelPointer);
   }
@@ -117,6 +116,7 @@ void Character::handleInput(){
 
 void Character::update(){ 
   currentState->update();
+
   updatePosition();
   updateCollisionBoxes();
 };

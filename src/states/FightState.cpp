@@ -38,7 +38,6 @@ void FightState::enter(){
 
   graphics->setCamera(&camera);
   camera.update(1700, 2200);
-  printf("Entered the opening state\n");
   Mix_PlayMusic(bgMusic, -1);
 }
 
@@ -54,6 +53,15 @@ void FightState::resume(){ }
 
 void FightState::handleInput(){ 
   updateFaceRight();
+  checkCorner(player1);
+  checkCorner(player2);
+  checkHitstop(player1);
+  checkHitstop(player2);
+
+  checkEntityHitstop(player1);
+  checkEntityHitstop(player2);
+
+
 
   if (!player1->inHitStop) {
     player1->handleInput();
@@ -73,25 +81,21 @@ void FightState::handleInput(){
     }
   }
 
+  // checkBounds();
+  // updateFaceRight();
+
+  checkThrowCollisions();
+  checkHitCollisions();
+  checkPushCollisions();
+
   checkBounds();
   updateFaceRight();
+
 }
 
 void FightState::update(){ 
   // printf("we made it into update!\n");
   stateTime++;
-  checkBounds();
-  updateFaceRight();
-
-  checkCorner(player1);
-  checkCorner(player2);
-
-  checkHitstop(player1);
-  checkHitstop(player2);
-
-  checkEntityHitstop(player1);
-  checkEntityHitstop(player2);
-
   if(!player1->inHitStop){
     player1->update();
   }
@@ -127,13 +131,6 @@ void FightState::update(){
       i.currentState->handleCancels();
     }
   }
-
-  checkBounds();
-  updateFaceRight();
-
-  checkThrowCollisions();
-  checkHitCollisions();
-  checkPushCollisions();
 
   checkBounds();
   updateFaceRight();
@@ -664,7 +661,7 @@ void FightState::checkHealth(){
     // nextRound();?
     player2->health = 100;
     player1->health = 100;
-    stateManager->popState();
+    slowMode = true;
   }
 }
 

@@ -140,7 +140,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":4, "hitstop": 11, "damage":1, "push": 8, "push_time": 8, "start": 5, "end": 8, "width":95, "height":60, "offsetX":75, "offsetY": 215, "group": 1, "hitsound": 4, "guardsound": 16},
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":4, "hitstop": 11, "damage":20, "push": 8, "push_time": 8, "start": 5, "end": 8, "width":95, "height":60, "offsetX":75, "offsetY": 215, "group": 1, "hitsound": 4, "guardsound": 16},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 5, "end": 12, "width":125, "height":50, "offsetX":75, "offsetY": 215}
       ],
@@ -615,7 +615,7 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
-        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 1, "end": 2, "width":95, "height":275, "offsetX":75, "offsetY": 0, "success": 36, "opponent": 34}
+        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 0, "end": 2, "width":95, "height":275, "offsetX":75, "offsetY": 0, "success": 36, "opponent": 34}
       ]
     },
     {
@@ -851,7 +851,7 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
-        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 1, "end": 2, "width":95, "height":275, "offsetX":75, "offsetY": 0, "success": 33, "opponent": 46}
+        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 0, "end": 2, "width":95, "height":275, "offsetX":75, "offsetY": 0, "success": 33, "opponent": 46}
       ]
     },
     {
@@ -882,7 +882,7 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
-        {"type": "THROW", "throw_type": 1, "block_type": 1, "hitstun":1, "block_stun":0, "hitstop": 1, "damage":1, "push": 8, "push_time": 8, "start": 1, "end": 2, "width":200, "height":200, "offsetX":-100, "offsetY": 150, "success": 48, "opponent": 49}
+        {"type": "THROW", "throw_type": 1, "block_type": 1, "hitstun":1, "block_stun":0, "hitstop": 1, "damage":1, "push": 8, "push_time": 8, "start": 0, "end": 2, "width":200, "height":200, "offsetX":-100, "offsetY": 150, "success": 48, "opponent": 49}
       ]
     },
     {

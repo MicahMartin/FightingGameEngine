@@ -14,6 +14,7 @@ public:
 
   void loadAnimEvents(nlohmann::json json);
   void render(int x, int y, bool faceRight, bool screenFreeze);
+  void render(int x, int y, bool faceRight, int stateTime, bool screenFreeze);
   void renderHitspark(int x, int y, bool faceRight);
 
   void setAnimTime(int time);
@@ -29,19 +30,20 @@ public:
     AnimationElement(int elemTime, int offsetX, int offsetY): elemTime(elemTime), offsetX(offsetX), offsetY(offsetY){ }
     GameTexture gameTexture;
     int elemTime;
+    int endTime;
     int offsetX;
     int offsetY;
   };
 
   int center;
-private:
-  /* data */
-  std::vector<AnimationElement> animationElements;
-  Graphics* graphics = Graphics::getInstance();
   int currentAnimElemIndex;
   int currentAnimElemTimePassed;
   int animationTime;
   int animationTimePassed;
+private:
+  /* data */
+  std::vector<AnimationElement> animationElements;
+  Graphics* graphics = Graphics::getInstance();
 };
 
 #endif
