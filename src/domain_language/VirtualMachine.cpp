@@ -191,6 +191,11 @@ inline ExecutionCode VirtualMachine::run(){
         stack.push(NUMBER_VAL(val));
         break;
       }
+      case OP_GET_IS_ALIVE: {
+        bool boolean = character->_getIsAlive();
+        stack.push(BOOL_VAL(boolean));
+        break;
+      }
       case OP_WAS_PRESSED: {
         long operand = AS_NUMBER(stack.pop());
         bool boolean = character->_wasPressed(operand);

@@ -32,7 +32,7 @@ typedef enum {
   // engine functions
   TOKEN_GET_ANIM_TIME, TOKEN_GET_HIT_STUN, TOKEN_GET_BLOCK_STUN, TOKEN_GET_STATE_TIME,
   TOKEN_GET_Y_POS, TOKEN_GET_INPUT, TOKEN_GET_STATE_NUM,
-  TOKEN_GET_COMBO, TOKEN_GET_CONTROL,
+  TOKEN_GET_COMBO, TOKEN_GET_CONTROL, TOKEN_GET_IS_ALIVE,
 
   TOKEN_CHECK_COMMAND, TOKEN_WAS_PRESSED, TOKEN_HAS_AIR_ACTION,
 
@@ -77,6 +77,7 @@ static const std::unordered_map<std::string, TokenType> keywordTypes {
   { "$get_input",  TOKEN_GET_INPUT},
   { "$get_state_num",  TOKEN_GET_STATE_NUM},
   { "$get_control",  TOKEN_GET_CONTROL},
+  { "$get_is_alive",  TOKEN_GET_IS_ALIVE},
   { "$was_pressed",  TOKEN_WAS_PRESSED},
   { "$get_combo",  TOKEN_GET_COMBO},
   { "$has_air_action",  TOKEN_HAS_AIR_ACTION},

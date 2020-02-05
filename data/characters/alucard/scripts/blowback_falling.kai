@@ -10,8 +10,6 @@
 
   if($get_hit_stun == 0){ 
     $set_combo 0;
-    $neg_velset_x 6;
-    $velset_y 14;
     $change_state 44;
   } 
 } 

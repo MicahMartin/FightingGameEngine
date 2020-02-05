@@ -58,29 +58,15 @@ void Game::update() {
 
   double handleInputFrameStart = SDL_GetTicks();
 
-  if (!currentState->paused) {
-    if(!currentState->slowMode){
-      currentState->handleInput();
-      currentState = stateManager->getState();
-    } else if (currentState->slowModeCounter == 1){
-      currentState->handleInput();
-      currentState = stateManager->getState();
-    }
-  }
+  currentState->handleInput();
+  currentState = stateManager->getState();
 
   double handleInputFrameEnd = SDL_GetTicks();
   handleInputLength = handleInputFrameEnd-handleInputFrameStart;
 
   double stateUpdateStart = SDL_GetTicks();
-  if(!currentState->paused){
-    if (!currentState->slowMode) {
-      currentState->update();
-      currentState = stateManager->getState();
-    } else if (currentState->slowModeCounter == 1){
-      currentState->update();
-      currentState = stateManager->getState();
-    }
-  }
+  currentState->update();
+  currentState = stateManager->getState();
   double stateUpdateEnd = SDL_GetTicks();
   updateLength = stateUpdateEnd-stateUpdateStart;
   // printf("updateLength %f\n", updateLength);

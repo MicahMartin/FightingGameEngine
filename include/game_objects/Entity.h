@@ -65,6 +65,7 @@ public:
   int velocityY = 0;
   bool faceRight = false;
   bool inputFaceRight = false;
+  bool isDead = false;
 
   void _changeState(int stateNum);
   void _cancelState(int stateNum);
@@ -93,6 +94,7 @@ public:
   int _getStateNum();
   int _getControl();
   int _getCombo();
+  int _getIsAlive();
   int _getAirActions();
   int _getInput(int input);
   int _wasPressed(int input);

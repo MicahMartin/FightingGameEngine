@@ -102,7 +102,7 @@ public:
   int _getControl();
   int _getCombo();
   int _getAirActions();
-  int _getIsDead();
+  int _getIsAlive();
   int _getInput(int input);
   int _wasPressed(int input);
   int _checkCommand(int commandIndex);

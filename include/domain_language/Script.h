@@ -41,6 +41,7 @@ typedef enum {
   OP_GET_CONTROL,
   OP_WAS_PRESSED,
   OP_GET_COMBO,
+  OP_GET_IS_ALIVE,
   OP_HAS_AIR_ACTION,
   OP_CHANGE_STATE,
   OP_CANCEL_STATE,
@@ -76,6 +77,7 @@ static const std::unordered_map<std::string, OpCode> engineCallMap {
   {"$get_control", OP_GET_CONTROL},
   {"$was_pressed", OP_WAS_PRESSED},
   {"$get_combo", OP_GET_COMBO},
+  {"$get_is_alive", OP_GET_IS_ALIVE},
   {"$has_air_action", OP_HAS_AIR_ACTION},
   // modify game state
   {"$change_state", OP_CHANGE_STATE},

@@ -401,6 +401,8 @@ void Compiler::statement() {
     engineCallStatement(OP_GET_STATE_NUM);
   } else if (match(TOKEN_GET_CONTROL)) {
     engineCallStatement(OP_GET_CONTROL);
+  } else if (match(TOKEN_GET_IS_ALIVE)) {
+    engineCallStatement(OP_GET_IS_ALIVE);
   } else if (match(TOKEN_WAS_PRESSED)) {
     // printf("matching wasPressed\n");
     engineCallExpressionStatement(OP_WAS_PRESSED);

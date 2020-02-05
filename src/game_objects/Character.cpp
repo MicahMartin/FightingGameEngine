@@ -25,11 +25,11 @@ void Character::init(){
   stateList.reserve(256);
   entityList.reserve(12);
   loadStates();
-  changeState(1);
+  changeState(51);
 }
 
 void Character::refresh(){
-  changeState(1);
+  changeState(51);
   health = 100;
   control = 1;
   hitstun = 0;
@@ -117,12 +117,7 @@ void Character::handleInput(){
   }
 
   if (hitstun > 0) {
-    if (!isDead) {
-      hitstun--;
-      if (comboCounter == 0) {
-        hitstun = 0;
-      }
-    }
+    hitstun--;
   }
 
   if (blockstun > 0) {
@@ -434,6 +429,10 @@ int Character::_getHitStun(){
 
 int Character::_getBlockStun(){
   return blockstun;
+}
+
+int Character::_getIsAlive(){
+  return !isDead;
 }
 
 int Character::_checkCommand(int commandIndex){

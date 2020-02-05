@@ -50,7 +50,6 @@ StateDef::StateDef(nlohmann::json::value_type json, VirtualMachine* charVm) : ch
 }
 
 StateDef::~StateDef() {
-  printf("stateDef destructor called wtf??\n");
   for (auto cb : pushBoxes) {
     if (cb != NULL) {
       delete cb;

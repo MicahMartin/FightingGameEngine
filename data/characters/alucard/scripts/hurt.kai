@@ -1,13 +1,22 @@
 { 
+  var alive = $get_is_alive;
   if($get_state_time == 0){ 
     $velset_x 0;
     $velset_y 0;
   } 
   if($get_state_time == 4){ 
-    $change_state 27;
+    if (alive) {
+      $change_state 27;
+    } else {
+      $change_state 52;
+    }
   } 
   if($get_hit_stun == 0){ 
-    $set_combo 0;
-    $set_control 1;
+    if (alive) {
+      $set_combo 0;
+      $set_control 1;
+    } else {
+      $change_state 52;
+    }
   } 
 } 

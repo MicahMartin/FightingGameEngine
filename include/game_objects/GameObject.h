@@ -78,6 +78,7 @@ public:
   virtual int _getStateNum() = 0;
   virtual int _getControl() = 0;
   virtual int _getCombo() = 0;
+  virtual int _getIsAlive() = 0;
   virtual int _getAirActions() = 0;
   virtual int _getInput(int input) = 0;
   virtual int _wasPressed(int input) = 0;

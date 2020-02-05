@@ -129,6 +129,8 @@ int Script::disassembleInstruction(int offset){
       return simpleInstruction("OP_WAS_PRESSED", offset);
     case OP_GET_COMBO: 
       return simpleInstruction("OP_GET_COMBO", offset);
+    case OP_GET_IS_ALIVE: 
+      return simpleInstruction("OP_GET_IS_ALIVE", offset);
     case OP_HAS_AIR_ACTION: 
       return simpleInstruction("OP_HAS_AIR_ACTION", offset);
     case OP_CHANGE_STATE: 

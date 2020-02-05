@@ -2,6 +2,8 @@
   if($get_state_time == 0){ 
     $set_air_action 1;
     $set_control 1;
+    $neg_velset_x 6;
+    $velset_y 14;
   } 
   if($get_anim_time == 0){ 
     $change_state 17; 

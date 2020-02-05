@@ -140,7 +140,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":4, "hitstop": 11, "damage":20, "push": 8, "push_time": 8, "start": 5, "end": 8, "width":95, "height":60, "offsetX":75, "offsetY": 215, "group": 1, "hitsound": 4, "guardsound": 16},
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":4, "hitstop": 11, "damage":3, "push": 8, "push_time": 8, "start": 5, "end": 8, "width":95, "height":60, "offsetX":75, "offsetY": 215, "group": 1, "hitsound": 4, "guardsound": 16},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 5, "end": 12, "width":125, "height":50, "offsetX":75, "offsetY": 215}
       ],
@@ -608,15 +608,15 @@
       ],
       "update_script": "../data/characters/alucard/scripts/attacks/throw.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/61.png", "time": 1, "offsetX": 100},
-        { "file": "../data/characters/alucard/sprites/64.png", "time": 10, "offsetX": 100},
-        { "file": "../data/characters/alucard/sprites/65.png", "time": 10, "offsetX": 100},
-        { "file": "../data/characters/alucard/sprites/62.png", "time": 10, "offsetX": 100}
+        { "file": "../data/characters/alucard/sprites/61.png", "time": 20, "offsetX": 100},
+        { "file": "../data/characters/alucard/sprites/64.png", "time": 4, "offsetX": 100},
+        { "file": "../data/characters/alucard/sprites/65.png", "time": 4, "offsetX": 100},
+        { "file": "../data/characters/alucard/sprites/62.png", "time": 4, "offsetX": 100}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
-        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 0, "end": 2, "width":95, "height":275, "offsetX":75, "offsetY": 0, "success": 36, "opponent": 34}
+        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 0, "end": 4, "width":95, "height":275, "offsetX":75, "offsetY": 0, "success": 36, "opponent": 34}
       ]
     },
     {
@@ -844,15 +844,15 @@
       ],
       "update_script": "../data/characters/alucard/scripts/attacks/throw.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/61.png", "time": 1, "offsetX": 100},
-        { "file": "../data/characters/alucard/sprites/64.png", "time": 10, "offsetX": 100},
-        { "file": "../data/characters/alucard/sprites/65.png", "time": 10, "offsetX": 100},
-        { "file": "../data/characters/alucard/sprites/62.png", "time": 10, "offsetX": 100}
+        { "file": "../data/characters/alucard/sprites/61.png", "time": 20, "offsetX": 100},
+        { "file": "../data/characters/alucard/sprites/64.png", "time": 4, "offsetX": 100},
+        { "file": "../data/characters/alucard/sprites/65.png", "time": 4," offsetX": 100},
+        { "file": "../data/characters/alucard/sprites/62.png", "time": 4, "offsetX": 100}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
-        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 0, "end": 2, "width":95, "height":275, "offsetX":75, "offsetY": 0, "success": 33, "opponent": 46}
+        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 0, "end": 4, "width":95, "height":275, "offsetX":75, "offsetY": 0, "success": 33, "opponent": 46}
       ]
     },
     {
@@ -928,6 +928,61 @@
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
+    },
+    {
+      "state_num": 51,
+      "state_name": "PRE_MATCH",
+      "flags": [ ],
+      "update_script": "../data/characters/alucard/scripts/prematch.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/16.png", "time": 8, "offsetX": 75},
+        { "file": "../data/characters/alucard/sprites/21.png", "time": 4, "offsetX": 75},
+        { "file": "../data/characters/alucard/sprites/22.png", "time": 4, "offsetX": 75},
+        { "file": "../data/characters/alucard/sprites/21.png", "time": 4, "offsetX": 75},
+        { "file": "../data/characters/alucard/sprites/22.png", "time": 4, "offsetX": 75}
+      ],
+      "collision_boxes": [ ]
+    },
+    {
+      "state_num": 52,
+      "state_name": "DEAD_STANDING",
+      "flags": [ ],
+      "update_script": "../data/characters/alucard/scripts/dead_standing.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/96.png", "time": 8, "offsetX": 75},
+        { "file": "../data/characters/alucard/sprites/94.png", "time": 4, "offsetX": 75},
+        { "file": "../data/characters/alucard/sprites/95.png", "time": 4, "offsetX": 75}
+      ],
+      "collision_boxes": [ 
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 53,
+      "state_name": "DEAD_FALLING",
+      "flags": [
+        "NO_TURN",
+        "NO_TURN_ON_ENTER"
+      ],
+      "update_script": "../data/characters/alucard/scripts/dead_falling.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/94.png", "time": -1, "offsetX": 150, "offsetY": -25}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":275, "height":325, "offsetX":-150, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 54,
+      "state_name": "DEAD_KNOCKDOWN",
+      "flags": [ ],
+      "update_script": "../data/characters/alucard/scripts/dead_knockdown.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/97.png", "time": -1, "offsetX": 75}
+      ],
+      "collision_boxes": [ ]
     }
   ],
   "entities": [

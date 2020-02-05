@@ -54,101 +54,112 @@ void FightState::pause(){ }
 void FightState::resume(){ }
 
 void FightState::handleInput(){ 
-  if (roundStartCounter > 0) {
-    printf("roundStarTCounter!:%d\n", roundStartCounter);
-    if (--roundStartCounter == 0) {
-      roundStart = false;
+  if(!slowMode){
+    if (roundStartCounter > 0) {
+      printf("roundStarTCounter!:%d\n", roundStartCounter);
+      if (--roundStartCounter == 0) {
+        roundStart = false;
+      }
     }
-  }
-  updateFaceRight();
-  checkCorner(player1);
-  checkCorner(player2);
-  checkHitstop(player1);
-  checkHitstop(player2);
+    updateFaceRight();
+    checkCorner(player1);
+    checkCorner(player2);
+    checkHitstop(player1);
+    checkHitstop(player2);
 
-  checkEntityHitstop(player1);
-  checkEntityHitstop(player2);
+    checkEntityHitstop(player1);
+    checkEntityHitstop(player2);
 
+    if(!roundStart){
+      if (!player1->inHitStop) {
+        player1->handleInput();
+      }
+      if (!player2->inHitStop) {
+        player2->handleInput();
+      }
 
+      for (auto &i : player1->entityList) {
+        if(!i.inHitStop){
+          i.handleInput();
+        }
+      }
+      for (auto &i : player2->entityList) {
+        if(!i.inHitStop){
+          i.handleInput();
+        }
+      }
 
-  if(!roundStart){
-  if (!player1->inHitStop) {
-    player1->handleInput();
-  }
-  if (!player2->inHitStop) {
-    player2->handleInput();
-  }
+      checkThrowCollisions();
+      checkHitCollisions();
+      checkPushCollisions();
 
-  for (auto &i : player1->entityList) {
-    if(!i.inHitStop){
-      i.handleInput();
+      checkBounds();
+      updateFaceRight();
     }
-  }
-  for (auto &i : player2->entityList) {
-    if(!i.inHitStop){
-      i.handleInput();
-    }
-  }
-
-  checkThrowCollisions();
-  checkHitCollisions();
-  checkPushCollisions();
-
-  checkBounds();
-  updateFaceRight();
   }
 }
 
 void FightState::update(){ 
   // printf("we made it into update!\n");
-  if(!player1->inHitStop){
-    player1->update();
+  if(!slowMode){
+
+    if(!player1->inHitStop){
+      player1->update();
+    }
+
+    if(!player2->inHitStop){
+      player2->update();
+    }
+
+    if(player1->inHitStop){
+      player1->currentState->handleCancels();
+    }
+    if(player2->inHitStop){
+      player2->currentState->handleCancels();
+    }
+
+    for (auto &i : player1->entityList) {
+      if(!i.inHitStop){
+        i.update();
+      }
+    }
+    for (auto &i : player2->entityList) {
+      if(!i.inHitStop){
+        i.update();
+      }
+    }
+    for (auto &i : player1->entityList) {
+      if(i.inHitStop){
+        i.currentState->handleCancels();
+      }
+    }
+    for (auto &i : player2->entityList) {
+      if(i.inHitStop){
+        i.currentState->handleCancels();
+      }
+    }
+
+    checkBounds();
+    updateFaceRight();
+    // printf("updated the collisions \n");
+    // printf("bounsd were checked\n");
+    int highest = player1->_getYPos() > player2->_getYPos() ? player1->_getYPos() : player2->_getYPos();
+    camera.update(player1->getPos().first, player2->getPos().first);
+    if(highest > (graphics->getWindowHeight()/2)){
+      camera.cameraRect.y = highest - (graphics->getWindowHeight() / 2);
+    } else {
+      camera.cameraRect.y = 0;
+    }
+    checkHealth();
   }
 
-  if(!player2->inHitStop){
-    player2->update();
-  }
-
-  if(player1->inHitStop){
-    player1->currentState->handleCancels();
-  }
-  if(player2->inHitStop){
-    player2->currentState->handleCancels();
-  }
-
-  for (auto &i : player1->entityList) {
-    if(!i.inHitStop){
-      i.update();
+  if (slowMode) {
+    if(slowDownCounter++ == 30){
+      slowDownCounter = 0;
+      slowMode = false;
+      roundEnd = true;
     }
   }
-  for (auto &i : player2->entityList) {
-    if(!i.inHitStop){
-      i.update();
-    }
-  }
-  for (auto &i : player1->entityList) {
-    if(i.inHitStop){
-      i.currentState->handleCancels();
-    }
-  }
-  for (auto &i : player2->entityList) {
-    if(i.inHitStop){
-      i.currentState->handleCancels();
-    }
-  }
-
-  checkBounds();
-  updateFaceRight();
-  // printf("updated the collisions \n");
-  // printf("bounsd were checked\n");
-  int highest = player1->_getYPos() > player2->_getYPos() ? player1->_getYPos() : player2->_getYPos();
-  camera.update(player1->getPos().first, player2->getPos().first);
-  if(highest > (graphics->getWindowHeight()/2)){
-    camera.cameraRect.y = highest - (graphics->getWindowHeight() / 2);
-  } else {
-    camera.cameraRect.y = 0;
-  }
-  checkHealth();
 }
 
 void FightState::draw(){  
@@ -450,7 +461,10 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
 
                 hurter->comboCounter++;
 
-                if(hitBox->canTrip || hurter->_getYPos() > 0 || hurter->currentState->stateNum == 24 || hurter->currentState->stateNum == 35){
+                int hurterCurrentState = hurter->currentState->stateNum;
+                if(hitBox->canTrip || hurter->_getYPos() > 0 
+                    || hurterCurrentState  == 24 || hurterCurrentState == 35 
+                    || hurterCurrentState == 52 || hurterCurrentState == 53){
                   return 24;
                 } else {
                   return 9;
@@ -669,20 +683,13 @@ void FightState::checkHealth(){
       p2RoundsWon++;
     }
     if (player2->health <= 0 && player2->hitstun >= 1) {
-      printf("setting p2 hitstun very high\n");
       player2->isDead = true;
       p1RoundsWon++;
+      printf("p1RoundsWon:%d\n", p1RoundsWon);
     }
     player2->health = 100;
     player1->health = 100;
     slowMode = true;
-  }
-  if (slowMode) {
-    if(slowDownCounter++ == 30){
-      slowDownCounter = 0;
-      slowMode = false;
-      roundEnd = true;
-    }
   }
   if (roundEnd) {
     if (slowDownCounter++ == 120) {
@@ -715,6 +722,8 @@ void FightState::restartRound(){
   player2->setXPos(2200);
   player2->setYPos(0);
   camera.update(1700, 2200);
+  roundStartCounter = 60;
+  roundStart = true;
 }
 
 void FightState::updateFaceRight(){

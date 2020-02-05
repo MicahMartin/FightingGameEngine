@@ -133,8 +133,7 @@ void Entity::handleInput() {
 void Entity::update(){
   if (active) {
     currentState->update();
-    currentState->anim.currentAnimElemTimePassed++;
-    currentState->anim.animationTimePassed++;
+
     updatePosition();
     updateCollisionBoxes();
   }
@@ -402,6 +401,10 @@ int Entity::_getHitStun(){
 
 int Entity::_getBlockStun(){
   return blockstun;
+}
+
+int Entity::_getIsAlive(){
+  return !isDead;
 }
 
 int Entity::_checkCommand(int commandIndex){

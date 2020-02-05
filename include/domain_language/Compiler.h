@@ -106,7 +106,7 @@ private:
   void synchronize();
   void markInitialized();
 
-  ParseRule rules[66] = {
+  ParseRule rules[67] = {
     { &Compiler::grouping, NULL,    PREC_NONE },                  // TOKEN_LEFT_PAREN
     { NULL,     NULL,    PREC_NONE },                             // TOKEN_RIGHT_PAREN
     { NULL,     NULL,    PREC_NONE },                             // TOKEN_LEFT_BRACE
@@ -152,6 +152,7 @@ private:
     { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_STATE_NUM,
     { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_COMBO, 
     { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_CONTROL,
+    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_IS_ALIVE,
 
     { &Compiler::engineCallArg, &Compiler::engineCallArg, PREC_NONE },  // TOKEN_CHECK_COMMAND, 
     { &Compiler::engineCallArg, &Compiler::engineCallArg, PREC_NONE },  // TOKEN_WAS_PRESSED, 

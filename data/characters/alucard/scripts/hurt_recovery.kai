@@ -1,6 +1,11 @@
 { 
+  var alive = $get_is_alive;
   if($get_hit_stun == 0){ 
-    $set_combo 0;
-    $set_control 1;
+    if (alive) {
+      $set_combo 0;
+      $set_control 1;
+    } else {
+      $change_state 52;
+    }
   } 
 } 
