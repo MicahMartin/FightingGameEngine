@@ -9,7 +9,7 @@
     $velset_x 0;
   } 
 
-  if($get_anim_time == 1){ 
+  if($get_anim_time == 0){ 
     $change_state 26; 
   } 
 }

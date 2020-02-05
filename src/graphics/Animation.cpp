@@ -93,7 +93,6 @@ void Animation::render(int x, int y, bool faceRight, bool screenFreeze){
 
 void Animation::render(int x, int y, bool faceRight, int stateTime, bool screenFreeze){
   int camOffset = graphics->getCamera()->cameraRect.x;
-  printf("anim elem size:%ld, currentAnimElemIndex:%d \n", animationElements.size(), currentAnimElemIndex);
   AnimationElement* elem = &animationElements.at(currentAnimElemIndex);
 
   GameTexture* currentText = &elem->gameTexture;
@@ -103,7 +102,6 @@ void Animation::render(int x, int y, bool faceRight, int stateTime, bool screenF
   faceRight ? currentText->setCords(x-width+offsetX, ((y - 30) + offsetY)) : currentText->setCords(x-offsetX, ((y - 30) + offsetY));
   currentText->render(faceRight);
 
-  printf("why tho\n");
   if(animationTimePassed == elem->endTime){
     if (currentAnimElemIndex+1 != animationElements.size()) {
       currentAnimElemIndex++;

@@ -22,6 +22,7 @@ public:
 
   void compileScript(const char* path, Script* script, const char* scriptTag);
   void loadStates();
+  void refresh();
   void changeState(int stateDefNum);
   void cancelState(int stateDefNum);
 
@@ -32,6 +33,7 @@ public:
   // position stuff
   std::pair<int,int> getPos();
   void setXPos(int x);
+  void setYPos(int y);
   void setX(int x);
   void setY(int y);
   void updateFaceRight();
@@ -59,14 +61,15 @@ public:
   bool inCorner = false;
   bool inHitStop = false;
   bool gravity = true;
-  int health;
+  bool isDead = false;
+  int velocityX = 0;
+  int velocityY = 0;
+  bool hitsparkRectDisabled = true;
   int currentHurtSoundID = 0;
+  int health;
   int playerNum;
-  int velocityX;
-  int velocityY;
   bool faceRight;
   bool inputFaceRight;
-  bool hitsparkRectDisabled = true;
   CollisionRect hitsparkIntersect;
 
   void _changeState(int stateNum);
@@ -80,6 +83,8 @@ public:
   void _moveDown(int ammount);
   void _setControl(int val);
   void _setCombo(int val);
+  void _setHitstun(int val);
+  void _setBlockstun(int val);
   void _setNoGravityCounter(int count);
   void _setGravity(int set);
   void _setAirAction(int set);
@@ -97,6 +102,7 @@ public:
   int _getControl();
   int _getCombo();
   int _getAirActions();
+  int _getIsDead();
   int _getInput(int input);
   int _wasPressed(int input);
   int _checkCommand(int commandIndex);

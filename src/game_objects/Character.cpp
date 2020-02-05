@@ -28,6 +28,30 @@ void Character::init(){
   changeState(1);
 }
 
+void Character::refresh(){
+  changeState(1);
+  health = 100;
+  control = 1;
+  hitstun = 0;
+  blockstun = 0;
+  hitStop = 0;
+  pushTime = 0;
+  pushBackVelocity = 0;
+  hasAirAction = 0;
+  comboCounter = 0;
+  cancelPointer = 0;
+  noGravityCounter = 0;
+  frameLastAttackConnected = 0;
+  inCorner = false;
+  inHitStop = false;
+  gravity = true;
+  isDead = false;
+  velocityX = 0;
+  velocityY = 0;
+  hitsparkRectDisabled = true;
+  currentHurtSoundID = 0;
+}
+
 void Character::changeState(int stateDefNum){
   cancelPointer = 0;
   currentState = &stateList.at(stateDefNum-1);
@@ -93,9 +117,11 @@ void Character::handleInput(){
   }
 
   if (hitstun > 0) {
-    hitstun--;
-    if (comboCounter == 0) {
-      hitstun = 0;
+    if (!isDead) {
+      hitstun--;
+      if (comboCounter == 0) {
+        hitstun = 0;
+      }
     }
   }
 
@@ -270,6 +296,10 @@ Mix_Chunk* Character::getSoundWithId(int id){
 
 void Character::setXPos(int x){
   position.first = x;
+};
+
+void Character::setYPos(int y){
+  position.second = y;
 };
 
 void Character::setX(int x){

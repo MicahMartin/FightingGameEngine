@@ -39,6 +39,8 @@ void FightState::enter(){
   graphics->setCamera(&camera);
   camera.update(1700, 2200);
   Mix_PlayMusic(bgMusic, -1);
+  roundStartCounter = 120;
+  roundStart = true;
 }
 
 void FightState::exit(){ 
@@ -52,6 +54,12 @@ void FightState::pause(){ }
 void FightState::resume(){ }
 
 void FightState::handleInput(){ 
+  if (roundStartCounter > 0) {
+    printf("roundStarTCounter!:%d\n", roundStartCounter);
+    if (--roundStartCounter == 0) {
+      roundStart = false;
+    }
+  }
   updateFaceRight();
   checkCorner(player1);
   checkCorner(player2);
@@ -63,6 +71,7 @@ void FightState::handleInput(){
 
 
 
+  if(!roundStart){
   if (!player1->inHitStop) {
     player1->handleInput();
   }
@@ -81,21 +90,17 @@ void FightState::handleInput(){
     }
   }
 
-  // checkBounds();
-  // updateFaceRight();
-
   checkThrowCollisions();
   checkHitCollisions();
   checkPushCollisions();
 
   checkBounds();
   updateFaceRight();
-
+  }
 }
 
 void FightState::update(){ 
   // printf("we made it into update!\n");
-  stateTime++;
   if(!player1->inHitStop){
     player1->update();
   }
@@ -162,7 +167,6 @@ void FightState::draw(){
   renderComboCount();
   renderInputHistory();
 
-  printf("all that shit good\n");
   if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
     p2DrawStart = SDL_GetTicks();
     player2->draw();
@@ -660,6 +664,15 @@ void FightState::checkBounds(){
 void FightState::checkHealth(){
   if (player1->health <= 0 || player2->health <= 0) {
     // nextRound();?
+    if (player1->health <= 0 && player1->hitstun >= 1) {
+      player1->isDead = true;
+      p2RoundsWon++;
+    }
+    if (player2->health <= 0 && player2->hitstun >= 1) {
+      printf("setting p2 hitstun very high\n");
+      player2->isDead = true;
+      p1RoundsWon++;
+    }
     player2->health = 100;
     player1->health = 100;
     slowMode = true;
@@ -668,8 +681,40 @@ void FightState::checkHealth(){
     if(slowDownCounter++ == 30){
       slowDownCounter = 0;
       slowMode = false;
+      roundEnd = true;
     }
   }
+  if (roundEnd) {
+    if (slowDownCounter++ == 120) {
+      slowDownCounter = 0;
+      roundEnd = false;
+      if (p2RoundsWon == 2 && p1RoundsWon == 2) {
+        p1RoundsWon = 1;
+        p2RoundsWon = 1;
+      } else if (p1RoundsWon == 2){
+        printf("p1 won\n");
+        stateManager->popState();
+      } else if (p2RoundsWon == 2){
+        printf("p2 won\n");
+        stateManager->popState();
+      } else {
+        restartRound();
+      }
+    }
+    
+  }
+}
+
+void FightState::restartRound(){
+  player1->refresh();
+  player2->refresh();
+
+  player1->setXPos(1700);
+  player1->setYPos(0);
+
+  player2->setXPos(2200);
+  player2->setYPos(0);
+  camera.update(1700, 2200);
 }
 
 void FightState::updateFaceRight(){

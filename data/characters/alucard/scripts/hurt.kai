@@ -3,7 +3,7 @@
     $velset_x 0;
     $velset_y 0;
   } 
-  if($get_state_time == 3){ 
+  if($get_state_time == 4){ 
     $change_state 27;
   } 
   if($get_hit_stun == 0){ 

@@ -396,7 +396,8 @@
         {"type": "HIT", "block_type": 1, "hitstun":22, "block_stun":20, "hitstop": 14, "damage":3, "push": 8, "push_time": 8,  "start": 11, "end": 16, "width":360, "height":150, "offsetX":75, "offsetY": 185, "group": 1, "hitsound": 5, "guardsound": 18},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":80, "offsetX":75, "offsetY": 185},
-        {"type": "HURT", "start": 1, "end": -1, "width":115, "height":185, "offsetX":75, "offsetY": 0}
+        {"type": "HURT", "start": 1, "end": 10, "width":115, "height":185, "offsetX":75, "offsetY": 0},
+        {"type": "HURT", "start": 10, "end": 21, "width":185, "height":185, "offsetX":75, "offsetY": 0}
       ],
       "sounds": [
         {"soundID": 2, "start": 4}
@@ -607,7 +608,7 @@
       ],
       "update_script": "../data/characters/alucard/scripts/attacks/throw.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/61.png", "time": 0, "offsetX": 100},
+        { "file": "../data/characters/alucard/sprites/61.png", "time": 1, "offsetX": 100},
         { "file": "../data/characters/alucard/sprites/64.png", "time": 10, "offsetX": 100},
         { "file": "../data/characters/alucard/sprites/65.png", "time": 10, "offsetX": 100},
         { "file": "../data/characters/alucard/sprites/62.png", "time": 10, "offsetX": 100}
@@ -843,7 +844,7 @@
       ],
       "update_script": "../data/characters/alucard/scripts/attacks/throw.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/61.png", "time": 0, "offsetX": 100},
+        { "file": "../data/characters/alucard/sprites/61.png", "time": 1, "offsetX": 100},
         { "file": "../data/characters/alucard/sprites/64.png", "time": 10, "offsetX": 100},
         { "file": "../data/characters/alucard/sprites/65.png", "time": 10, "offsetX": 100},
         { "file": "../data/characters/alucard/sprites/62.png", "time": 10, "offsetX": 100}

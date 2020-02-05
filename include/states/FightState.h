@@ -11,7 +11,6 @@
 struct FightStateValues {
   // global values
   int stateTime;
-  int screenFreeze;
   // playerValues
   int healthValues[2];
   int charStateNum[2];
@@ -55,9 +54,12 @@ public:
   void handleInput();
   void update();
   void draw();
+  void restartRound();
+  bool roundStart = false;
+  int roundStartCounter = 0;
+  int p1RoundsWon = 0;
+  int p2RoundsWon = 0;
 
-  int screenFreeze = 0;
-  int stateTime = 0;
   int playHitSound = 0;
   int playHurtSound = 0;
   int playHitSoundID;
@@ -65,7 +67,9 @@ public:
   bool everythingCompiled = false;
   bool inSlowDown = false;
   bool shouldUpdate = true;
+  bool roundEnd = false;
   int slowDownCounter = 0;
+
   Mix_Music* bgMusic = NULL;
 private:
   Character* player1;
