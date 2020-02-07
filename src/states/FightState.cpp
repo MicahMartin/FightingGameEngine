@@ -92,14 +92,12 @@ void FightState::handleInput(){
 
       // check for throw techs
       if (player1->currentState->checkFlag(TECHABLE)) {
-        printf("player 1 in techable state\n");
         if (player1->_checkCommand(5)) {
           player1->changeState(player1->currentState->techState);
           player2->changeState(player1->currentState->techState);
         }
       }
       if (player2->currentState->checkFlag(TECHABLE)) {
-        printf("player 2 in techable state\n");
         if (player2->_checkCommand(5)) {
           player1->changeState(player2->currentState->techState);
           player2->changeState(player2->currentState->techState);
