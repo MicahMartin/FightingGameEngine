@@ -78,6 +78,7 @@ public:
   void _moveDown(int ammount);
   void _setControl(int val);
   void _setCombo(int val);
+  void _setHitStun(int set);
   void _setNoGravityCounter(int count);
   void _setGravity(int set);
   void _setAirAction(int set);

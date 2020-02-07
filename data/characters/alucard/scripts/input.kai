@@ -31,117 +31,112 @@
   var slash = $was_pressed 12;
   var dust = $was_pressed 13;
 
-  if (control) {
-    if (grounded) {
+  if (grounded) {
 
-      if (lp_and_lk) {
-        if(anyBack){
-          $change_state 45;
+    if (lp_and_lk) {
+      if(anyBack){
+        $change_state 45;
 
-        } else { 
-          $change_state 32;
-        }
-      }
-
-      if(qcf_k){
-        $change_state 14; 
-      }
-
-      if (qcb_p) {
-        $change_state 30;
-      }
-
-      if (down_down_lp) {
-        $change_state 31;
-      }
-      
-
-      if(dust){
-        if(anyDown){
-          $change_state 23; 
-        } else {
-        }
-      }
-
-      if(slash){
-        if(anyDown){
-          $change_state 40; 
-        } else {
-          $change_state 20;
-        }
-      }
-      if(kick){
-        if(anyDown){
-          $change_state 22; 
-        } else {
-          $change_state 15; 
-        }
-      }
-      if(punch){
-        if(anyDown){
-          $change_state 21; 
-        } else {
-          $change_state 8; 
-        }
-      }
-
-      if(dash_f){
-        $change_state 10; 
-      }
-
-      if(dash_b){
-        $change_state 11; 
-      }
-
-      if(upforward){
-        $change_state 6; 
-      }
-
-      if(upback){
-        $change_state 7; 
-      }
-
-      if(up){
-        $change_state 5; 
-      }
-
-      if(anyDown and stateNum != 4){
-        $change_state 4; 
-      }
-
-      if(forward and stateNum != 2){
-        $change_state 2; 
-      }
-      if(back and stateNum != 3){
-        $change_state 3; 
-      }
-      if(neutral and stateNum != 1){
-        $change_state 1; 
+      } else { 
+        $change_state 32;
       }
     }
 
-    if (airborne) {
-      if (lp_and_lk) {
-        if(anyBack){
-          $change_state 47;
+    if(qcf_k){
+      $change_state 14; 
+    }
 
-        } else { 
-          $change_state 37;
-        }
-      }
+    if (qcb_p) {
+      $change_state 30;
+    }
 
-      if(slash){
-        $change_state 16; 
+    if (down_down_lp) {
+      $change_state 31;
+    }
+    
+
+    if(dust){
+      if(anyDown){
+        $change_state 23; 
+      } else {
       }
-      if(kick){
-        $change_state 19; 
+    }
+
+    if(slash){
+      if(anyDown){
+        $change_state 40; 
+      } else {
+        $change_state 20;
       }
-      if(punch){
-        $change_state 18; 
+    }
+    if(kick){
+      if(anyDown){
+        $change_state 22; 
+      } else {
+        $change_state 15; 
       }
+    }
+    if(punch){
+      if(anyDown){
+        $change_state 21; 
+      } else {
+        $change_state 8; 
+      }
+    }
+
+    if(dash_f){
+      $change_state 10; 
+    }
+
+    if(dash_b){
+      $change_state 11; 
+    }
+
+    if(upforward){
+      $change_state 6; 
+    }
+
+    if(upback){
+      $change_state 7; 
+    }
+
+    if(up){
+      $change_state 5; 
+    }
+
+    if(anyDown and stateNum != 4){
+      $change_state 4; 
+    }
+
+    if(forward and stateNum != 2){
+      $change_state 2; 
+    }
+    if(back and stateNum != 3){
+      $change_state 3; 
+    }
+    if(neutral and stateNum != 1){
+      $change_state 1; 
     }
   }
-  
 
+  if (airborne) {
+    if (lp_and_lk) {
+      if(anyBack){
+        $change_state 47;
 
+      } else { 
+        $change_state 37;
+      }
+    }
+
+    if(slash){
+      $change_state 16; 
+    }
+    if(kick){
+      $change_state 19; 
+    }
+    if(punch){
+      $change_state 18; 
+    }
+  }
 }

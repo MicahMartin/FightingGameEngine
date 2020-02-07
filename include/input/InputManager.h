@@ -59,7 +59,8 @@ public:
     0x20,
     0x200 
   };
-  SDL_Joystick* sdlController = NULL;
+  SDL_Joystick* p1SDLController = NULL;
+  SDL_Joystick* p2SDLController = NULL;
   std::unordered_map<SDL_Joystick*, VirtualController*> stickToVC;
 private:
   InputManager() = default;

@@ -439,6 +439,8 @@ void Compiler::statement() {
     engineCallExpressionStatement(OP_SET_NOGRAV_COUNT);
   } else if (match(TOKEN_SET_AIR_ACTION)) {
     engineCallExpressionStatement(OP_SET_AIR_ACTION);
+  } else if (match(TOKEN_SET_HIT_STUN)) {
+    engineCallExpressionStatement(OP_SET_HIT_STUN);
   } else if (match(TOKEN_RESET_ANIM)) {
     engineCallStatement(OP_RESET_ANIM);
   } else if (match(TOKEN_ACTIVATE_ENTITY)) {

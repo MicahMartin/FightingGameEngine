@@ -323,6 +323,10 @@ void Entity::_setCombo(int val){
   comboCounter = val;
 }
 
+void Entity::_setHitStun(int val){
+  hitstun = val;
+}
+
 void Entity::_setGravity(int on){
   gravity = on;
 }

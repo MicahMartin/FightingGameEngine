@@ -83,7 +83,7 @@ public:
   void _moveDown(int ammount);
   void _setControl(int val);
   void _setCombo(int val);
-  void _setHitstun(int val);
+  void _setHitStun(int val);
   void _setBlockstun(int val);
   void _setNoGravityCounter(int count);
   void _setGravity(int set);

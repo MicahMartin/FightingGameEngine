@@ -285,6 +285,11 @@ inline ExecutionCode VirtualMachine::run(){
         character->_setAirAction(operand);
         break;
       }
+      case OP_SET_HIT_STUN: {
+        long operand = AS_NUMBER(stack.pop());
+        character->_setHitStun(operand);
+        break;
+      }
       case OP_RESET_ANIM: {
         character->_resetAnim();
         break;

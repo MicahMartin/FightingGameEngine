@@ -8,6 +8,7 @@
  std::map<std::string, FlagBit> StateDef::flagMap = {
   {"NO_TURN", NO_TURN},
   {"NO_TURN_ON_ENTER", NO_TURN_ON_ENTER},
+  {"TECHABLE", TECHABLE},
 };
 
 StateDef::StateDef(nlohmann::json::value_type json, VirtualMachine* charVm) : charVm(charVm) {
@@ -40,6 +41,10 @@ StateDef::StateDef(nlohmann::json::value_type json, VirtualMachine* charVm) : ch
       int start = i.value().at("start");
       soundIndexMap[start].push_back(soundID);
     }
+  }
+
+  if(json.count("techState")){
+    techState = json.at("techState");
   }
 
   // printf("done compiling\n");
@@ -156,8 +161,10 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
           i.value().at("block_type"));
       if(type == CollisionBox::THROW){
         cb->throwType = i.value().at("throw_type");
-        cb->success = i.value().at("success");
-        cb->opponentState = i.value().at("opponent");
+        cb->throwSuccess = i.value().at("throwSuccess");
+        cb->opponentThrowSuccess = i.value().at("opponentThrowSuccess");
+        cb->throwAttempt = i.value().at("throwAttempt");
+        cb->techAttempt = i.value().at("techAttempt");
       }
       if (i.value().count("group")) {
         cb->groupID = i.value().at("group");

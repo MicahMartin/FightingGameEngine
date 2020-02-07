@@ -19,6 +19,11 @@ struct FightStateValues {
   int charComboCount[2];
 };
 
+struct ThrowResult {
+  bool thrown;
+  CollisionBox* throwCb;
+};
+
 class FightState : public GameState {
 public:
   FightState();
@@ -47,7 +52,7 @@ public:
   void checkEntityHitstop(Character* player);
 
   int checkHitboxAgainstHurtbox(Character* hitter, Character* hurter);
-  void checkThrowAgainst(Character* thrower, Character* throwee);
+  ThrowResult checkThrowAgainst(Character* thrower, Character* throwee);
   int checkEntityHitAgainst(Character* thrower, Character* throwee);
 
 

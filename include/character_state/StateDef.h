@@ -14,6 +14,7 @@
 enum FlagBit {
   NO_TURN = 0x01,
   NO_TURN_ON_ENTER  = 0x02,
+  TECHABLE = 0x04,
 };
 
 struct SoundItem {
@@ -55,6 +56,7 @@ public:
   // TODO: Methods to talk to anim so this stuff can stay private
   int stateNum;
   int stateTime;
+  int techState;
   bool hitboxesDisabled = false;
   GameObject* owner;
   std::unordered_map<int, bool> hitboxGroupDisabled;

@@ -411,6 +411,10 @@ int Character::_getAirActions(){
   return hasAirAction;
 }
 
+void Character::_setHitStun(int operand){
+  hitstun = operand;
+}
+
 void Character::_setAirAction(int operand){
   hasAirAction = operand;
 }

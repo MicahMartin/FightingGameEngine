@@ -3,6 +3,7 @@
     $set_nograv_count 20;
     $snap_to_opponent 20;
     $set_control 0; 
+    $set_combo 1;
     $velset_x 0; 
     $velset_y 0; 
   } 

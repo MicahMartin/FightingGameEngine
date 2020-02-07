@@ -59,9 +59,13 @@ public:
   int hitstun;
   int blockstun;
   int blockType;
+
   int throwType;
-  int success;
-  int opponentState;
+  int throwSuccess;
+  int throwAttempt;
+  int techAttempt;
+  int opponentThrowSuccess;
+
   int groupID = 1;
   int hitSoundID = 0;
   int guardSoundID = 0;

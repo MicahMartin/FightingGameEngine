@@ -1,5 +1,6 @@
 { 
   if($get_state_time == 0){ 
+    $set_combo 1;
     $set_control 0; 
     $velset_x 0; 
     $velset_y 0; 
@@ -13,6 +14,7 @@
   } 
 
   if($get_anim_time == 1){ 
+    $set_hit_stun 20;
     $change_state 35; 
   } 
 } 

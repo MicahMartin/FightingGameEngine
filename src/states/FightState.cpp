@@ -39,7 +39,7 @@ void FightState::enter(){
   graphics->setCamera(&camera);
   camera.update(1700, 2200);
   Mix_PlayMusic(bgMusic, -1);
-  roundStartCounter = 120;
+  roundStartCounter = 60;
   roundStart = true;
 }
 
@@ -86,6 +86,23 @@ void FightState::handleInput(){
       for (auto &i : player2->entityList) {
         if(!i.inHitStop){
           i.handleInput();
+        }
+      }
+
+
+      // check for throw techs
+      if (player1->currentState->checkFlag(TECHABLE)) {
+        printf("player 1 in techable state\n");
+        if (player1->_checkCommand(5)) {
+          player1->changeState(player1->currentState->techState);
+          player2->changeState(player1->currentState->techState);
+        }
+      }
+      if (player2->currentState->checkFlag(TECHABLE)) {
+        printf("player 2 in techable state\n");
+        if (player2->_checkCommand(5)) {
+          player1->changeState(player2->currentState->techState);
+          player2->changeState(player2->currentState->techState);
         }
       }
 
@@ -325,13 +342,75 @@ void FightState::checkPushCollisions(){
 }
 
 void FightState::checkThrowCollisions(){
-  checkThrowAgainst(player1, player2);
-  checkThrowAgainst(player2, player1);
+  ThrowResult p1ThrowState  = checkThrowAgainst(player2, player1);
+  ThrowResult p2ThrowState  = checkThrowAgainst(player1, player2);
+
+  if(p1ThrowState.thrown && p2ThrowState.thrown) {
+    int p1ThrowType = p1ThrowState.throwCb->throwType;
+    int p2ThrowType = p2ThrowState.throwCb->throwType;
+    
+    player1->velocityX = 0;
+    player1->velocityY = 0;
+    player2->velocityX = 0;
+    player2->velocityY = 0;
+
+    if(p1ThrowType == 2 && p2ThrowType == 2){
+      // grounded throw tech
+      player1->changeState(55);
+      player2->changeState(55);
+    } else if(p1ThrowType == 1 && p2ThrowType == 1){
+      // air throw tech
+      player1->changeState(62);
+      player2->changeState(62);
+    }
+  } else if (p1ThrowState.thrown) {
+    player1->velocityX = 0;
+    player1->velocityY = 0;
+    player2->velocityX = 0;
+    player2->velocityY = 0;
+
+    if (player1->control) {
+      player1->control = 0;
+
+      player1->changeState(p1ThrowState.throwCb->techAttempt);
+      player2->changeState(p1ThrowState.throwCb->throwAttempt);
+    } else {
+      player1->changeState(p1ThrowState.throwCb->opponentThrowSuccess);
+      player2->changeState(p1ThrowState.throwCb->throwSuccess);
+    }
+  } else if (p2ThrowState.thrown){
+    player1->velocityX = 0;
+    player1->velocityY = 0;
+    player2->velocityX = 0;
+    player2->velocityY = 0;
+
+    if (player2->control) {
+      player2->control = 0;
+
+      int throwAttempt = p2ThrowState.throwCb->throwAttempt;
+      int techAttempt = p2ThrowState.throwCb->techAttempt;
+      printf("2 had control");
+      printf("the throwCB throwAttempt: %d, the techAttempt:%d\n",throwAttempt, techAttempt);
+
+      player2->changeState(techAttempt);
+      player1->changeState(throwAttempt);
+    } else {
+      printf("player 2 didnt have control\n");
+      player2->changeState(p2ThrowState.throwCb->opponentThrowSuccess);
+      player1->changeState(p2ThrowState.throwCb->throwSuccess);
+    }
+  }
 }
 
-void FightState::checkThrowAgainst(Character* thrower, Character* throwee){
-  if (!thrower->currentState->hitboxesDisabled && throwee->hitstun == 0 && throwee->blockstun == 0 && 
-      throwee->currentState->stateNum != 24 && throwee->currentState->stateNum != 35 && throwee->currentState->stateNum != 25 ) {
+ThrowResult FightState::checkThrowAgainst(Character* thrower, Character* throwee){
+  ThrowResult result = ThrowResult{false, NULL};
+  bool canThrow = ( !thrower->currentState->hitboxesDisabled 
+      && throwee->hitstun == 0 && throwee->blockstun == 0 
+      && throwee->currentState->stateNum != 24 
+      && throwee->currentState->stateNum != 35 
+      && throwee->currentState->stateNum != 25 );
+
+  if (canThrow) {
     for (auto p1ThrowHitbox : thrower->currentState->throwHitBoxes) {
       if(!p1ThrowHitbox->disabled){
         printf("checking a throwbox\n");
@@ -339,30 +418,31 @@ void FightState::checkThrowAgainst(Character* thrower, Character* throwee){
           if(!p2HurtBox->disabled){
             if (CollisionBox::checkAABB(*p1ThrowHitbox, *p2HurtBox)) {
               if (p1ThrowHitbox->throwType == 1 && throwee->_getYPos() > 0) {
-                printf("air throw collision detected, scoops\n");
-                int success = p1ThrowHitbox->success;
-                int opponentState = p1ThrowHitbox->opponentState;
+                result.thrown = true;
+                result.throwCb = p1ThrowHitbox;
+                // int success = p1ThrowHitbox->success;
+                // int opponentState = p1ThrowHitbox->opponentState;
 
                 thrower->frameLastAttackConnected = gameTime; 
                 thrower->currentState->hitboxesDisabled = true;
-                thrower->changeState(success); 
+                // thrower->changeState(success); 
 
-                throwee->comboCounter++;
-                throwee->control = 0;
-                throwee->hitstun = p1ThrowHitbox->hitstun;
-                throwee->changeState(opponentState);
+                // throwee->comboCounter++;
+                // throwee->hitstun = p1ThrowHitbox->hitstun;
+                // throwee->changeState(opponentState);
                 
               } else if(p1ThrowHitbox->throwType == 2 && throwee->_getYPos() == 0) {
-                int success = p1ThrowHitbox->success;
-                int opponentState = p1ThrowHitbox->opponentState;
+                // int success = p1ThrowHitbox->success;
+                // int opponentState = p1ThrowHitbox->opponentState;
+                result.thrown = true;
+                result.throwCb = p1ThrowHitbox;
                 thrower->frameLastAttackConnected = gameTime; 
                 thrower->currentState->hitboxesDisabled = true;
-                thrower->changeState(success); 
+                // thrower->changeState(success); 
 
-                throwee->comboCounter++;
-                throwee->control = 0;
-                throwee->hitstun = p1ThrowHitbox->hitstun;
-                throwee->changeState(opponentState);
+                // throwee->comboCounter++;
+                // throwee->hitstun = p1ThrowHitbox->hitstun;
+                // throwee->changeState(opponentState);
               }
             }
           }
@@ -370,6 +450,7 @@ void FightState::checkThrowAgainst(Character* thrower, Character* throwee){
       }
     }
   }
+  return result;
 }
 
 int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){

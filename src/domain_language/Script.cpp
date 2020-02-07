@@ -162,6 +162,8 @@ int Script::disassembleInstruction(int offset){
       return simpleInstruction("OP_SET_NOGRAV_COUNT", offset);
     case OP_SET_AIR_ACTION:
       return simpleInstruction("OP_SET_AIR_ACTION", offset);
+    case OP_SET_HIT_STUN:
+      return simpleInstruction("OP_SET_HIT_STUN", offset);
     case OP_RESET_ANIM:
       return simpleInstruction("OP_RESET_ANIM", offset);
     case OP_ACTIVATE_ENTITY:

@@ -13,11 +13,17 @@ void InputManager::init() {
   }
   else {
     //Load joystick
-    sdlController = SDL_JoystickOpen( 0 );
-    if( sdlController == NULL ) {
-      printf( "Warning: Unable to open game controller! SDL Error: %s\n", SDL_GetError() );
+    p1SDLController = SDL_JoystickOpen( 0 );
+    p2SDLController = SDL_JoystickOpen( 1 );
+    if( p1SDLController == NULL ) {
+      printf( "Warning: Unable to open game controller 1! SDL Error: %s\n", SDL_GetError() );
     } else {
-      printf("SDL Controller initialized\n");
+      printf("SDL Controller 1 initialized\n");
+    }
+    if( p2SDLController == NULL ) {
+      printf( "Warning: Unable to open game controller 2! SDL Error: %s\n", SDL_GetError() );
+    } else {
+      printf("SDL Controller 2 initialized\n");
     }
   }
   initConfig("../data/buttonconf.json", &bConf, &configJson);

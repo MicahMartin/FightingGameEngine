@@ -42,7 +42,8 @@ typedef enum {
   TOKEN_MOVE_F, TOKEN_MOVE_B, TOKEN_MOVE_U, TOKEN_MOVE_D,
 
   TOKEN_SET_CONTROL, TOKEN_SET_COMBO, TOKEN_SET_GRAVITY,
-  TOKEN_SET_NOGRAV_COUNT, TOKEN_SET_AIR_ACTION, TOKEN_RESET_ANIM,
+  TOKEN_SET_NOGRAV_COUNT, TOKEN_SET_AIR_ACTION, TOKEN_SET_HIT_STUN,
+  TOKEN_RESET_ANIM,
 
   TOKEN_ACTIVATE_ENTITY, TOKEN_DEACTIVATE_ENTITY,
   TOKEN_SNAP_TO_OPPONENT 
@@ -95,6 +96,7 @@ static const std::unordered_map<std::string, TokenType> keywordTypes {
   { "$set_gravity",  TOKEN_SET_GRAVITY},
   { "$set_nograv_count",  TOKEN_SET_NOGRAV_COUNT},
   { "$set_air_action",  TOKEN_SET_AIR_ACTION},
+  { "$set_hit_stun",  TOKEN_SET_HIT_STUN},
   { "$reset_anim",  TOKEN_RESET_ANIM},
   { "$activate_entity",  TOKEN_ACTIVATE_ENTITY},
   { "$deactivate_entity",  TOKEN_DEACTIVATE_ENTITY},

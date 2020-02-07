@@ -62,6 +62,7 @@ public:
   virtual void _moveDown(int ammount) = 0;
   virtual void _setControl(int val) = 0;
   virtual void _setCombo(int val) = 0;
+  virtual void _setHitStun(int val) = 0;
   virtual void _setNoGravityCounter(int count) = 0;
   virtual void _setGravity(int set) = 0;
   virtual void _setAirAction(int set) = 0;
