@@ -1,6 +1,7 @@
 { 
   if($get_state_time == 0){ 
     $set_combo 0; 
+    $set_hit_stun 0;
     $neg_velset_x 4;
     $velset_y 8;
   } 

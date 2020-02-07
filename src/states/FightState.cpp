@@ -389,7 +389,7 @@ void FightState::checkThrowCollisions(){
 
       int throwAttempt = p2ThrowState.throwCb->throwAttempt;
       int techAttempt = p2ThrowState.throwCb->techAttempt;
-      printf("2 had control");
+      printf("2 had control: %d ", player2->control);
       printf("the throwCB throwAttempt: %d, the techAttempt:%d\n",throwAttempt, techAttempt);
 
       player2->changeState(techAttempt);

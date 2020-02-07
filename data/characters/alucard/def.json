@@ -302,7 +302,7 @@
       "animation": [
         { "file": "../data/characters/alucard/sprites/55.png", "time": 8, "offsetX": 175},
         { "file": "../data/characters/alucard/sprites/58.png", "time": 4, "offsetX": 175},
-        { "file": "../data/characters/alucard/sprites/57.png", "time": 15, "offsetX": 175}
+        { "file": "../data/characters/alucard/sprites/57.png", "time": 35, "offsetX": 175}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},

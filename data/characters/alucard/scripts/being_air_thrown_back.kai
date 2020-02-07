@@ -19,6 +19,7 @@
   } 
 
   if($get_anim_time == 1){ 
+    $set_hit_stun 50;
     $change_state 35; 
   } 
 } 

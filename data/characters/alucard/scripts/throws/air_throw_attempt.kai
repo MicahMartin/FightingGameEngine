@@ -1,5 +1,6 @@
 { 
   if($get_state_time == 0){ 
+    $set_nograv_count 10;
     $set_control 0; 
   } 
 

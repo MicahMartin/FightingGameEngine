@@ -1,8 +1,9 @@
 {
   if($get_state_time == 0){ 
+    $set_nograv_count 10;
     $set_control 0;
   } 
-  if($get_state_time == 20){ 
+  if($get_state_time == 10){ 
     $change_state 39;
   } 
 }
