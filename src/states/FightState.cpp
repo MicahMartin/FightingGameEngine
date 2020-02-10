@@ -106,8 +106,6 @@ void FightState::handleInput(){
 
       checkThrowCollisions();
       checkHitCollisions();
-      checkPushCollisions();
-
       checkBounds();
       updateFaceRight();
     }
@@ -156,8 +154,7 @@ void FightState::update(){
 
     checkBounds();
     updateFaceRight();
-    // printf("updated the collisions \n");
-    // printf("bounsd were checked\n");
+
     int highest = player1->_getYPos() > player2->_getYPos() ? player1->_getYPos() : player2->_getYPos();
     camera.update(player1->getPos().first, player2->getPos().first);
     if(highest > (graphics->getWindowHeight()/2)){
@@ -165,6 +162,7 @@ void FightState::update(){
     } else {
       camera.cameraRect.y = 0;
     }
+    checkPushCollisions();
     checkHealth();
   }
 
@@ -755,6 +753,13 @@ void FightState::checkBounds(){
 }
 
 void FightState::checkHealth(){
+  // TODO: if training mode
+  if (player1->comboCounter == 0) {
+    player1->health = 100;
+  }
+  if (player2->comboCounter == 0) {
+    player2->health = 100;
+  }
   if (player1->health <= 0 || player2->health <= 0) {
     // nextRound();?
     if (player1->health <= 0 && player1->hitstun >= 1) {
@@ -872,7 +877,7 @@ void FightState::renderHealthBars(){
 
   SDL_Color green = {0, 255, 0, 0};
   SDL_Color red = {255, 0, 0, 0};
-  // draw p1 healthbar
+
   currentScreen.renderHealthBar(100, 50, 500, 50, p1HpPercent, green, red);
   currentScreen.renderHealthBar(680, 50, 500, 50, p2HpPercent, green, red);
 }

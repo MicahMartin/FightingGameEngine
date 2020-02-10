@@ -11,7 +11,8 @@
 
 
 struct MenuItem {
-  MenuItem(const char* title, const char* texturePath, int textWidth, int textHeight, std::function<void()> callBack): callBack(callBack), title(title){
+  MenuItem(const char* title, const char* texturePath, int textWidth, int textHeight, std::function<void()> callBack)
+    : callBack(callBack), title(title) {
     itemTexture.loadTexture(texturePath);
     itemTexture.setDimensions(0, 0, textWidth, textHeight);
   };

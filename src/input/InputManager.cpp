@@ -268,67 +268,6 @@ void InputManager::update() {
         break;
         }
         case SDL_JOYHATMOTION: {
-          SDL_JoyHatEvent* jhatEvent = &event.jhat;
-          SDL_Joystick* stick = SDL_JoystickFromInstanceID(jhatEvent->which);
-          VirtualController* controller = stickToVC[stick];
-          switch (jhatEvent->value) {
-            case SDL_HAT_CENTERED:
-              controller->setAxis(NOINPUT);
-              printf("setting axis to noinput\n");
-              controller->printStickState();
-              break;
-            case SDL_HAT_RIGHT:
-              controller->setAxis(RIGHT);
-              printf("setting axis to right\n");
-              controller->printStickState();
-              break;
-            case SDL_HAT_LEFT:
-              controller->setAxis(LEFT);
-              printf("setting axis to left\n");
-              controller->printStickState();
-              break;
-            case SDL_HAT_UP:
-              controller->setAxis(UP);
-              printf("setting axis to up\n");
-              controller->printStickState();
-              break;
-            case SDL_HAT_DOWN:
-              controller->setAxis(DOWN);
-              printf("setting axis to down\n");
-              controller->printStickState();
-              break;
-            case SDL_HAT_RIGHTDOWN:
-              controller->setAxis(DOWNRIGHT);
-              printf("setting axis to downright\n");
-              controller->printStickState();
-              break;
-            case SDL_HAT_RIGHTUP:
-              controller->setAxis(UPRIGHT);
-              printf("setting axis to rightup\n");
-              controller->printStickState();
-              break;
-            case SDL_HAT_LEFTDOWN:
-              controller->setAxis(DOWNLEFT);
-              printf("setting axis to leftdown\n");
-              controller->printStickState();
-              break;
-            case SDL_HAT_LEFTUP:
-              controller->setAxis(UPLEFT);
-              printf("setting axis to leftup\n");
-              controller->printStickState();
-              break;
-            default:
-              break;
-          }
-          // configArray[configCounter] = event.jhat;
-          // configCounter++;
-          // if (configCounter == 8) {
-          //   configCounter = 0;
-          //   keySelectionMode = false;
-          //   writeConfig(configArray);
-          // }
-
-        break;
         }
         case SDL_CONTROLLERBUTTONDOWN: {
           printf("controller button downn\n");

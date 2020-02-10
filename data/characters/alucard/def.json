@@ -693,7 +693,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "../data/characters/alucard/scripts/air_throw_attempt.kai",
+      "update_script": "../data/characters/alucard/scripts/throws/air_throw_attempt.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/44.png", "time": 40, "offsetX": 100}
       ],
@@ -709,7 +709,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "../data/characters/alucard/scripts/air_throw.kai",
+      "update_script": "../data/characters/alucard/scripts/throws/air_throw.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/43.png", "time": 20, "offsetX": 100},
         { "file": "../data/characters/alucard/sprites/throwaway.png", "time": 20, "offsetX": 100}
@@ -876,7 +876,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "../data/characters/alucard/scripts/air_throw_attempt.kai",
+      "update_script": "../data/characters/alucard/scripts/throws/air_throw_attempt.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/44.png", "time": 40, "offsetX": 100}
       ],
@@ -892,7 +892,7 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "../data/characters/alucard/scripts/air_throw.kai",
+      "update_script": "../data/characters/alucard/scripts/throws/air_throw.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/43.png", "time": 20, "offsetX": 100},
         { "file": "../data/characters/alucard/sprites/throwawayback.png", "time": 20, "offsetX": 100}

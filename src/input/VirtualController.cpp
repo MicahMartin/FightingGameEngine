@@ -95,7 +95,7 @@ bool VirtualController::wasPressed(Input input, bool strict, int index, bool pre
     return false;
   }
 
-  for(InputEvent event : *eventList) {
+  for(InputEvent& event : *eventList) {
     if((pressed && event.pressed) || (!pressed && !event.pressed)){
       if (input <= 10 && strict) {
         // printf("checking cardinal direction %s\n", inputToString[input]);
@@ -159,7 +159,7 @@ bool VirtualController::checkCommand(int commandIndex, bool faceRight) {
 
   std::vector<CommandFunction>* commandFuncs = &commandCompiler->commandFunctionList[commandIndex];
   for (int i = commandFuncs->size() - 1; i >= 0 && !breakFlag; --i) {
-    auto func = (*commandFuncs)[i];
+    CommandFunction& func = (*commandFuncs)[i];
 
     for (int i = 0; (!foundPart) && (i < bufferLen); ++i) {
       foundPart = (func)(i+searchOffset, faceRight);
@@ -262,8 +262,7 @@ void VirtualController::stopCopyMode() {
   copyMode = false;
 }
 
-void VirtualController::playInputHistoryCopy(InputHistoryT inputHistoryPointer) {
-
+void VirtualController::playInputHistoryCopy(InputHistoryT* inputHistoryPointer) {
 }
 
 void VirtualController::printStickState(){

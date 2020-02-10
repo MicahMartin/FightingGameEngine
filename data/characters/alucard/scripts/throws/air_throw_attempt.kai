@@ -1,6 +1,5 @@
 { 
   if($get_state_time == 0){ 
-    $set_nograv_count 10;
     $set_control 0; 
   } 
 
@@ -8,7 +7,7 @@
     $set_control 1; 
   } 
 
-  if($get_anim_time == 1){ 
+  if($get_anim_time == 0){ 
     $set_control 1; 
     $change_state 17; 
   } 

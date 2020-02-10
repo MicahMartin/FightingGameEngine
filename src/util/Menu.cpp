@@ -56,8 +56,8 @@ void Menu::addMenuItem(const char* title, const char* texturePath, int textWidth
   int currentCellStart = 0;
   int cellHeight = menuHeight / newMenuItemSize;
   int halfCellHeight = cellHeight / 2;
+
   for (auto &i : menuItemArray) {
-    printf("height:%d currentCellStart:%d, cellHeight:%d, halfCellHeight:%d\n", menuHeight, currentCellStart, cellHeight, halfCellHeight);
     // TODO: Margin
     i.itemTexture.setCords(menuXPos + 100, menuYPos + currentCellStart + 50);
     currentCellStart = currentCellStart + cellHeight;
@@ -65,7 +65,6 @@ void Menu::addMenuItem(const char* title, const char* texturePath, int textWidth
 
   MenuItem* firstItem = &menuItemArray[0];
   std::pair menuItemCoords = firstItem->itemTexture.getCords();
-  printf("cursorTextureX:%d cursorTextureY:%d\n", menuItemCoords.first - (menuCursor.cursorTexture.getDimensions().first + 50), menuItemCoords.second);
   menuCursor.cursorTexture.setCords(menuItemCoords.first - (menuCursor.cursorTexture.getDimensions().first + 50), menuItemCoords.second);
 }
 
