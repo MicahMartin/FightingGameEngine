@@ -262,13 +262,15 @@ void Character::updateCollisionBoxes(){
 }
 
 void Character::draw(){
-  // draw health bars
   currentState->draw(position, faceRight, inHitStop);
+
   if (!hitsparkRectDisabled) {
-    // TODO: Configure hitspark id position in animList, use assetID map
     int xEdge = faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
-    Animation* animToRender = (currentState->stateNum == 28 || currentState->stateNum == 29 || currentState->stateNum == 50) ? &animList[1] : &animList[0];
+    bool inBlockState = (currentState->stateNum == 28 || currentState->stateNum == 29 || currentState->stateNum == 50);
+
+    Animation* animToRender = inBlockState ? &animList[1] : &animList[0];
     animToRender->renderHitspark(xEdge, hitsparkIntersect.y, faceRight);
+
     if(animToRender->timeRemaining() == 0){
       animToRender->resetAnimEvents();
       hitsparkRectDisabled = true;
