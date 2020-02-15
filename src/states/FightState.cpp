@@ -93,14 +93,16 @@ void FightState::handleInput(){
       // check for throw techs
       if (player1->currentState->checkFlag(TECHABLE)) {
         if (player1->_checkCommand(5)) {
-          player1->changeState(player1->currentState->techState);
-          player2->changeState(player1->currentState->techState);
+          int techState = player1->currentState->techState;
+          player1->changeState(techState);
+          player2->changeState(techState);
         }
       }
       if (player2->currentState->checkFlag(TECHABLE)) {
         if (player2->_checkCommand(5)) {
-          player1->changeState(player2->currentState->techState);
-          player2->changeState(player2->currentState->techState);
+          int techState = player2->currentState->techState;
+          player1->changeState(techState);
+          player2->changeState(techState);
         }
       }
 
@@ -181,15 +183,16 @@ void FightState::draw(){
          barDrawStart, barDrawEnd,
          p1DrawStart, p1DrawEnd,
          p2DrawStart, p2DrawEnd;
+
   screenDrawStart = SDL_GetTicks();
   currentScreen.draw();
   screenDrawEnd = SDL_GetTicks();
   // TODO: move renderHP into currentScreen
   barDrawStart = SDL_GetTicks();
-  renderHealthBars();
+  // renderHealthBars();
   barDrawEnd = SDL_GetTicks();
   renderComboCount();
-  renderInputHistory();
+  // renderInputHistory();
 
   if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
     p2DrawStart = SDL_GetTicks();
@@ -228,29 +231,30 @@ void FightState::draw(){
     // printf("drew p1 entities\n");
     p2DrawEnd = SDL_GetTicks();
   }
-   double screenDraw = screenDrawEnd - screenDrawStart;
-   double barDraw = barDrawEnd - barDrawStart;
-   double p1Draw = p1DrawEnd - p1DrawStart;
-   double p2Draw = p2DrawEnd - p2DrawStart;
+  double screenDraw = screenDrawEnd - screenDrawStart;
+  double barDraw = barDrawEnd - barDrawStart;
+  double p1Draw = p1DrawEnd - p1DrawStart;
+  double p2Draw = p2DrawEnd - p2DrawStart;
 
-   if (playHitSound > 0) {
-     if (playHitSound == 1) {
-       Mix_PlayChannel(-1, player1->soundList[playHitSoundID - 1], 0);
-       if (playHurtSound > 0) {
-         Mix_PlayChannel(-1, player2->hurtSoundList[playHurtSoundID], 0);
-       }
-     } else {
-       Mix_PlayChannel(-1, player2->soundList[playHitSoundID - 1], 0);
-       if (playHurtSound) {
-         Mix_PlayChannel(-1, player1->hurtSoundList[playHurtSoundID], 0);
-       }
-     }
-     playHitSound = 0;
-     playHurtSound = 0;
-     playHitSoundID = 0;
-     playHurtSoundID = 0;
-   }
+  if (playHitSound > 0) {
+    if (playHitSound == 1) {
+      Mix_PlayChannel(-1, player1->soundList[playHitSoundID - 1], 0);
+      if (playHurtSound > 0) {
+        Mix_PlayChannel(-1, player2->hurtSoundList[playHurtSoundID], 0);
+      }
+    } else {
+      Mix_PlayChannel(-1, player2->soundList[playHitSoundID - 1], 0);
+      if (playHurtSound) {
+        Mix_PlayChannel(-1, player1->hurtSoundList[playHurtSoundID], 0);
+      }
+    }
+    playHitSound = 0;
+    playHurtSound = 0;
+    playHitSoundID = 0;
+    playHurtSoundID = 0;
+  }
 }
+
 void FightState::checkCorner(Character* player){
   if(player->getPos().first - player->width <= 0 || player->getPos().first + player->width >= 3840){
     player->inCorner = true;
@@ -484,7 +488,11 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
               }
 
               int hurterCurrentState = hurter->currentState->stateNum;
-              if((hurterCurrentState == 28 || hurterCurrentState == 29 || hurterCurrentState == 50) || (hurter->control && checkBlock(hitBox->blockType, hurter))){
+              bool blocking = (hurterCurrentState == 28 || hurterCurrentState == 29 || hurterCurrentState == 50);
+              int blocktype = hitBox->blockType;
+              if((blocking && blocktype == 1) || 
+                  (blocking && checkBlock(blocktype, hurter)) || 
+                  (hurter->control && checkBlock(blocktype, hurter))){
                 hurter->blockstun = hitBox->blockstun;
                 hurter->control = 0;
                 if (hurter->_getYPos() > 0) {

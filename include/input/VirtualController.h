@@ -90,7 +90,6 @@ public:
   void startCopyMode();
   void stopCopyMode();
   void playInputHistoryCopy(InputHistoryT* inputHistoryPointer);
-  int copyModeFrameCounter = 0;
 
   uint16_t getState();
   uint8_t getStickState();
@@ -104,16 +103,19 @@ public:
 
   bool debugEnabled = false;
   bool copyMode = false;
+  bool playbackMode = false;
+  int playbackCounter = 0;
   int xAxis = NEUTRAL;
   int yAxis = NEUTRAL;
   int controllerIndex;
-  CommandCompiler* commandCompiler;
 
   InputHistoryT inputHistory;
-  InputHistoryT inputHistoryCopy;
+  std::vector<std::list<InputEvent>> inputHistoryCopy;
   boost::circular_buffer<InputEvent> inputEventList;
-private:
+  std::vector<uint16_t> inputStateCopy;
+  CommandCompiler* commandCompiler;
   uint16_t currentState = 0;
+private:
   // CircularBuffer<LinkedList<InputEvent>>
 };
 #endif /* ifndef _virtualController_h */

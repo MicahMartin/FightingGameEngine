@@ -58,7 +58,14 @@ void InputManager::update() {
   SDL_Event event;
 
   for (VirtualController* controller : controllers) {
-    controller->update();
+    if (controller->playbackMode) {
+      std::list<InputEvent> currentFrame = controllers[0]->inputHistoryCopy[controller->playbackCounter];
+      controller->inputHistory.push_front(currentFrame);
+      controller->currentState = controllers[0]->inputStateCopy[controller->playbackCounter];
+      controller->playbackCounter++;
+    } else { 
+      controller->update();
+    }
   }
 
   while(SDL_PollEvent(&event) != 0){
@@ -71,49 +78,57 @@ void InputManager::update() {
               ConfItem* item = &bConf.at(event.key.keysym.sym);
               VirtualController* controller = controllers.at(item->user - 1);
               Input* inputBit = &item->inputBit;
-              // is cardinal?
-              if (*inputBit <= 8) {
-                // printf("isCardinal!\n");
-                bool isXAxis = *inputBit <= 2;
-                if (isXAxis) {
-                  *inputBit == RIGHT ? controller->xAxis++ : controller->xAxis--;
+              if (!controller->playbackMode) {
+                // is cardinal?
+                if (*inputBit <= 8) {
+                  // printf("isCardinal!\n");
+                  bool isXAxis = *inputBit <= 2;
+                  if (isXAxis) {
+                    *inputBit == RIGHT ? controller->xAxis++ : controller->xAxis--;
+                  } else {
+                    *inputBit == UP ? controller->yAxis++ : controller->yAxis--;
+                  }
+                  // this calls setBit
+                  controller->updateAxis(isXAxis);
                 } else {
-                  *inputBit == UP ? controller->yAxis++ : controller->yAxis--;
+                  controller->setBit(*inputBit);
                 }
-                // this calls setBit
-                controller->updateAxis(isXAxis);
-              } else {
-                controller->setBit(*inputBit);
               }
-              if(controller->copyMode){
-                controller->inputHistoryCopy.push_front(controller->inputHistory.front());
-              }
-            } else { }
+            } else { 
+              // item not found
+            }
           }
           break;
         }
 
         case SDL_KEYUP: {
+          if (event.key.keysym.sym == SDLK_5) {
+            controllers[0]->copyMode ? controllers[0]->stopCopyMode() : controllers[0]->startCopyMode();
+            printf("copyMode toggled to %d, copySize:%ld\n", controllers[0]->copyMode, controllers[0]->inputHistoryCopy.size());
+          };
+          if (event.key.keysym.sym == SDLK_6) {
+            printf("setting input history to the copy %ld\n", controllers[0]->inputHistoryCopy.size());
+            controllers[1]->playbackMode = true;
+          };
           if (bConf.find(event.key.keysym.sym) != bConf.end()) {
             ConfItem* item = &bConf.at(event.key.keysym.sym);
             VirtualController* controller = controllers.at(item->user - 1);
-            Input* inputBit = &item->inputBit;
-            // is cardinal?
-            if (*inputBit <= 8) {
-              // printf("isCardinal! clearing\n");
-              bool isXAxis = *inputBit <= 2;
-              if (isXAxis) {
-                *inputBit == RIGHT ? controller->xAxis-- : controller->xAxis++;
+            if (!controller->playbackMode) {
+              Input* inputBit = &item->inputBit;
+              // is cardinal?
+              if (*inputBit <= 8) {
+                // printf("isCardinal! clearing\n");
+                bool isXAxis = *inputBit <= 2;
+                if (isXAxis) {
+                  *inputBit == RIGHT ? controller->xAxis-- : controller->xAxis++;
+                } else {
+                  *inputBit == UP ? controller->yAxis-- : controller->yAxis++;
+                }
+                // this calls clearBit
+                controller->updateAxis(isXAxis);
               } else {
-                *inputBit == UP ? controller->yAxis-- : controller->yAxis++;
+                controller->clearBit(*inputBit);
               }
-              // this calls clearBit
-              controller->updateAxis(isXAxis);
-            } else {
-              controller->clearBit(*inputBit);
-            }  
-            if(controller->copyMode){
-              controller->inputHistoryCopy.push_front(controller->inputHistory.front());
             }
           }
           break;
@@ -123,18 +138,20 @@ void InputManager::update() {
           SDL_JoyHatEvent* jhatEvent = &event.jhat;
           SDL_Joystick* stick = SDL_JoystickFromInstanceID(jhatEvent->which);
           VirtualController* controller = stickToVC[stick];
-          ConfT* conf;
-          if(controller->controllerIndex == 1){
-            conf = &p1bConf;
-          } else if(controller->controllerIndex == 2){
-            conf = &p2bConf;
-          }
+          if (!controller->playbackMode) {
+            ConfT* conf;
+            if(controller->controllerIndex == 1){
+              conf = &p1bConf;
+            } else if(controller->controllerIndex == 2){
+              conf = &p2bConf;
+            }
 
-          if(conf != NULL && conf->count(event.jbutton.button)){
-            ConfItem* item = &conf->at(event.jbutton.button);
-            Input* inputBit = &item->inputBit;
-            printf("found item from jbutton %d with val: %d\n", event.jbutton.button, *inputBit);
-            controller->setBit(*inputBit);
+            if(conf != NULL && conf->count(event.jbutton.button)){
+              ConfItem* item = &conf->at(event.jbutton.button);
+              Input* inputBit = &item->inputBit;
+              printf("found item from jbutton %d with val: %d\n", event.jbutton.button, *inputBit);
+              controller->setBit(*inputBit);
+            }
           }
           break;
         }
@@ -143,18 +160,20 @@ void InputManager::update() {
           SDL_JoyHatEvent* jhatEvent = &event.jhat;
           SDL_Joystick* stick = SDL_JoystickFromInstanceID(jhatEvent->which);
           VirtualController* controller = stickToVC[stick];
-          ConfT* conf;
-          if(controller->controllerIndex == 1){
-            conf = &p1bConf;
-          } else if(controller->controllerIndex == 2){
-            conf = &p2bConf;
-          }
+          if (!controller->playbackMode) {
+            ConfT* conf;
+            if(controller->controllerIndex == 1){
+              conf = &p1bConf;
+            } else if(controller->controllerIndex == 2){
+              conf = &p2bConf;
+            }
 
-          if(conf != NULL && conf->count(event.jbutton.button)){
-            ConfItem* item = &conf->at(event.jbutton.button);
-            Input* inputBit = &item->inputBit;
-            printf("found item from jbutton %d with val: %d\n", event.jbutton.button, *inputBit);
-            controller->clearBit(*inputBit);
+            if(conf != NULL && conf->count(event.jbutton.button)){
+              ConfItem* item = &conf->at(event.jbutton.button);
+              Input* inputBit = &item->inputBit;
+              printf("found item from jbutton %d with val: %d\n", event.jbutton.button, *inputBit);
+              controller->clearBit(*inputBit);
+            }
           }
           break;
         }
@@ -162,7 +181,7 @@ void InputManager::update() {
           SDL_JoyHatEvent* jhatEvent = &event.jhat;
           SDL_Joystick* stick = SDL_JoystickFromInstanceID(jhatEvent->which);
           VirtualController* controller = stickToVC[stick];
-          if (controller != NULL) {
+          if (controller != NULL && !controller->playbackMode) {
             switch (jhatEvent->value) {
               case SDL_HAT_CENTERED:
                 controller->setAxis(NOINPUT);
@@ -212,7 +231,6 @@ void InputManager::update() {
               default:
                 break;
             }
-            
           }
         break;
         }
@@ -290,6 +308,17 @@ void InputManager::update() {
       }
 
     }
+  }
+
+  if(controllers[0]->copyMode){
+    printf("pushing input history to inputHistoryCopy\n");
+    controllers[0]->inputHistoryCopy.push_back(controllers[0]->inputHistory.front());
+    controllers[0]->inputStateCopy.push_back(controllers[0]->currentState);
+  }
+  if (controllers[1]->playbackCounter == controllers[0]->inputHistoryCopy.size()) {
+    controllers[1]->playbackCounter = 0;
+    controllers[1]->playbackMode = false;
+    printf("stopping playback mode\n");
   }
 }
 

@@ -53,7 +53,8 @@ std::map<Input, const char*> VirtualController::inputToString = {
 };
 
 VirtualController::VirtualController() { 
-  inputHistory.set_capacity(120);
+  inputHistory.set_capacity(600);
+  inputHistoryCopy.reserve(600);
   inputEventList.set_capacity(10);
   commandCompiler = new CommandCompiler();
   commandCompiler->controllerPointer = this;
@@ -81,17 +82,12 @@ bool VirtualController::isPressed(Input input, bool strict) {
 }
 
 bool VirtualController::wasPressed(Input input, bool strict, int index, bool pressed) {
-  // printf("in the real wasPressed\n");
   int historySize = inputHistory.size();
-  // printf("the inputHistory size %d, the index %d\n", historySize, index);
   if (index >= historySize) {
     return false;
   }
-  // printf("checking eventList\n");
   std::list<InputEvent>* eventList = &inputHistory[index];
-  // printf("eventListSize %ld\n", eventList->size());
   if (eventList->size() == 0) {
-    // printStickState();
     return false;
   }
 
@@ -255,6 +251,7 @@ void VirtualController::updateAxis(bool isXAxis) {
 
 void VirtualController::startCopyMode() {
   inputHistoryCopy.clear();
+  inputStateCopy.clear();
   copyMode = true;
 }
 
