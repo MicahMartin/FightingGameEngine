@@ -3,6 +3,6 @@
     $neg_velset_x 6;
   } 
   if($get_state_time == 36) {
-    $change_state 3;
+    $cancel_state 3;
   }
 }

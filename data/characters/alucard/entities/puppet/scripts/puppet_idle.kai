@@ -5,6 +5,6 @@
   } 
 
   if($get_state_time == 54) {
-    $change_state 1;
+    $cancel_state 1;
   }
 }

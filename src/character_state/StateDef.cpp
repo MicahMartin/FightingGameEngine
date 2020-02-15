@@ -101,7 +101,7 @@ void StateDef::handleCancels(){
 }
 
 void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop){
-  anim.render(position.first, position.second, faceRight, stateTime);
+  anim.render(position.first, position.second, faceRight, animTime);
 
   // TODO: Sound method
   if (soundIndexMap[stateTime].size() > 0) {
