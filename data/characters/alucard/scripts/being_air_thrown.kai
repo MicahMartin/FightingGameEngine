@@ -8,17 +8,17 @@
     $velset_y 0; 
   } 
 
+  if($get_y_pos == 0){ 
+    $cancel_state 25; 
+  } 
+
   if($get_state_time == 20){ 
     $velset_y -1; 
     $neg_velset_x 10; 
   } 
 
-  if($get_y_pos == 0){ 
-    $change_state 25; 
-  } 
-
-  if($get_anim_time == 1){ 
+  if($get_state_time == 40){ 
     $set_hit_stun 50;
-    $change_state 35; 
+    $cancel_state 35; 
   } 
 } 

@@ -1,21 +1,26 @@
 {
-  if($get_state_time == 0){
+  var stateTime = $get_state_time;
+  var quotient = stateTime / 12;
+  var product = quotient * 12;
+  var remainder = stateTime - product;
+
+  if(stateTime == 0){
     $velset_x 1;
   } 
 
-  if($get_state_time == 16){
+  if(stateTime == 16){
     $velset_x 4;
   } 
 
-  if($get_state_time == 24){
+  if(stateTime == 24){
     $velset_x 10;
   } 
 
-  if($get_state_time == 32){
+  if(stateTime == 32){
     $velset_x 16;
   } 
 
-  if($get_anim_time == 1) {
+  if(remainder == 0) {
     $reset_anim;
   }
 }

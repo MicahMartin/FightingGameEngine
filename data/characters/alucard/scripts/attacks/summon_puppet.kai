@@ -8,7 +8,7 @@
     $activate_entity 2;
   } 
 
-  if($get_anim_time == 1){ 
+  if($get_state_time == 31){ 
     $set_control 1; 
   } 
 }

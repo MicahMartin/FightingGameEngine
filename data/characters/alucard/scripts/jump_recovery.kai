@@ -2,9 +2,6 @@
   if($get_state_time == 0){
     $set_control 1;
   }
-  if($get_anim_time == 0){
-    $reset_anim;
-  }
   var can_dbl_jump = true;
 
   var up = $was_pressed 8; 
@@ -25,10 +22,10 @@
       $cancel_state 43;
     }
     if(dash_f){
-      $change_state 12; 
+      $cancel_state 12; 
     }
     if(dash_b){
-      $change_state 13; 
+      $cancel_state 13; 
     }
   }
 }

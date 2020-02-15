@@ -55,6 +55,7 @@ StateDef::StateDef(nlohmann::json::value_type json, VirtualMachine* charVm) : ch
 }
 
 StateDef::~StateDef() {
+  // TODO: DeleteCB method
   for (auto cb : pushBoxes) {
     if (cb != NULL) {
       delete cb;
@@ -79,6 +80,7 @@ StateDef::~StateDef() {
 
 void StateDef::enter(){
   stateTime = 0;
+  animTime = 0;
   hitboxesDisabled = false;
   for (auto& it: hitboxGroupDisabled) {
     it.second = false;
@@ -88,9 +90,8 @@ void StateDef::enter(){
 
 void StateDef::update(){
   charVm->execute(&updateScript);
-  anim.currentAnimElemTimePassed++;
-  anim.animationTimePassed++;
   stateTime++;
+  animTime++;
 }
 
 void StateDef::handleCancels(){
@@ -100,7 +101,9 @@ void StateDef::handleCancels(){
 }
 
 void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop){
-  anim.render(position.first, position.second, faceRight, stateTime, inHitStop);
+  anim.render(position.first, position.second, faceRight, stateTime);
+
+  // TODO: Sound method
   if (soundIndexMap[stateTime].size() > 0) {
     for (int soundID : soundIndexMap[stateTime]) {
       // printf("trying to play soundID %d\n", soundID);
@@ -206,6 +209,7 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
 
 
 void StateDef::resetAnim(){
+  animTime = 0;
   anim.setAnimTime(0);
   anim.resetAnimEvents();
 }

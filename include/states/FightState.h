@@ -32,8 +32,14 @@ public:
   void enter();
   void exit();
 
+  void handleInput();
+  void update();
+  void draw();
+  void restartRound();
+
   void pause();
   void resume();
+
   void checkPushCollisions();
   void checkThrowCollisions();
   void checkHitCollisions();
@@ -52,14 +58,11 @@ public:
   void checkEntityHitstop(Character* player);
 
   int checkHitboxAgainstHurtbox(Character* hitter, Character* hurter);
-  ThrowResult checkThrowAgainst(Character* thrower, Character* throwee);
   int checkEntityHitAgainst(Character* thrower, Character* throwee);
+  ThrowResult checkThrowAgainst(Character* thrower, Character* throwee);
 
 
-  void handleInput();
-  void update();
-  void draw();
-  void restartRound();
+
   bool roundStart = false;
   int roundStartCounter = 0;
   int p1RoundsWon = 0;
@@ -67,8 +70,8 @@ public:
 
   int playHitSound = 0;
   int playHurtSound = 0;
-  int playHitSoundID;
-  int playHurtSoundID;
+  int playHitSoundID = 0;
+  int playHurtSoundID = 0;
   bool everythingCompiled = false;
   bool inSlowDown = false;
   bool shouldUpdate = true;

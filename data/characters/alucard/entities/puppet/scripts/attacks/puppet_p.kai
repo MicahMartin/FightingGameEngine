@@ -8,7 +8,7 @@
     $velset_x 0;
   } 
 
-  if($get_anim_time == 1) {
-    $change_state 1;
+  if($get_state_time == 49) {
+    $set_control 1;
   }
 }

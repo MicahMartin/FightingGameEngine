@@ -15,11 +15,11 @@
   } 
 
   if($get_y_pos == 0){ 
-    $change_state 25; 
+    $cancel_state 25; 
   } 
 
-  if($get_anim_time == 1){ 
+  if($get_state_time == 40){ 
     $set_hit_stun 50;
-    $change_state 35; 
+    $cancel_state 35; 
   } 
 } 

@@ -5,7 +5,7 @@
       $set_combo 0;
       $set_control 1;
     } else {
-      $change_state 52;
+      $cancel_state 52;
     }
   } 
 } 

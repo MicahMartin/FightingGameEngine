@@ -1,5 +1,5 @@
 {
-  if($get_anim_time == 0) {
-    $change_state 1;
+  if($get_state_time == 50) {
+    $cancel_state 1;
   }
 }

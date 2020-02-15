@@ -3,7 +3,7 @@
     $velset_x 0;
   } 
 
-  if($get_anim_time == 0) {
+  if($get_state_time == 18) {
     $deactivate_entity 1;
   }
 }

@@ -5,7 +5,7 @@
     $neg_velset_x 6;
     $velset_y 14;
   } 
-  if($get_anim_time == 0){ 
-    $change_state 17; 
+  if($get_state_time == 10){ 
+    $cancel_state 17; 
   } 
 }

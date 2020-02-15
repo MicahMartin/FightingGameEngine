@@ -13,8 +13,8 @@
     $velset_x 10; 
   } 
 
-  if($get_anim_time == 1){ 
+  if($get_state_time == 40){ 
     $set_hit_stun 20;
-    $change_state 35; 
+    $cancel_state 35; 
   } 
 } 

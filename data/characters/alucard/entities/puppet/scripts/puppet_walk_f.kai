@@ -2,7 +2,7 @@
   if($get_state_time == 0){
     $velset_x 8;
   } 
-  if($get_anim_time == 0) {
-    $reset_anim;
+  if($get_state_time == 36) {
+    $change_state 2;
   }
 }

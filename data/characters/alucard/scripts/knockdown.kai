@@ -10,7 +10,7 @@
     $velset_x 0;
   } 
 
-  if($get_anim_time == 0){ 
-    $change_state 26; 
+  if($get_state_time == 40){ 
+    $cancel_state 26; 
   } 
 }

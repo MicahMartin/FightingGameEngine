@@ -3,7 +3,7 @@
     $set_control 0; 
     $velset_x 0; 
   } 
-  if($get_anim_time == 0){ 
+  if($get_state_time == 32){ 
     $set_control 1; 
   } 
 } 

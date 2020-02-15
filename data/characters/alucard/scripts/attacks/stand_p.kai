@@ -11,10 +11,10 @@
   if($get_state_time < 2){
     if (lp_and_lk) {
       if(anyBack){
-        $change_state 45;
+        $cancel_state 45;
 
       } else { 
-        $change_state 32;
+        $cancel_state 32;
       }
     }
   }

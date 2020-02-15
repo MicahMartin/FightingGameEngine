@@ -6,9 +6,9 @@
   } 
   if($get_state_time == 4){ 
     if (alive) {
-      $change_state 27;
+      $cancel_state 27;
     } else {
-      $change_state 52;
+      $cancel_state 52;
     }
   } 
   if($get_hit_stun == 0){ 
@@ -16,7 +16,7 @@
       $set_combo 0;
       $set_control 1;
     } else {
-      $change_state 52;
+      $cancel_state 52;
     }
   } 
 } 

@@ -4,6 +4,6 @@
     $set_control 0;
   } 
   if($get_state_time == 10){ 
-    $change_state 38;
+    $cancel_state 38;
   } 
 }

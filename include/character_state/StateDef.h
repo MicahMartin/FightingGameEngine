@@ -56,6 +56,7 @@ public:
   // TODO: Methods to talk to anim so this stuff can stay private
   int stateNum;
   int stateTime;
+  int animTime;
   int techState;
   bool hitboxesDisabled = false;
   GameObject* owner;
