@@ -23,7 +23,7 @@ public:
   void addTexture(GameTexture* gText);
   void removeTexture(int index);
 
-  void renderHealthBar(int x, int y, int w, int h, float percent);
+  void renderHealthBar(float percent, bool isPlayerOne);
   void renderComboCount(bool side, int count);
   void renderInputHistory(bool side, boost::circular_buffer<InputEvent>& events);
 private:

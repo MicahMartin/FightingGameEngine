@@ -877,9 +877,9 @@ void FightState::renderHealthBars(){
   int p2Hp = player2->health;
   float p2HpPercent = (float)p2Hp / (float)player2->maxHealth;
 
-  printf("p1HpPercent: %f\n", p1HpPercent);
-  currentScreen.renderHealthBar(100, 50, 500, 50, p1HpPercent);
-  // currentScreen.renderHealthBar(680, 50, 500, 50, p2HpPercent, green, red);
+  printf("p2HpPercent: %f\n", p1HpPercent);
+  currentScreen.renderHealthBar(p1HpPercent, true);
+  currentScreen.renderHealthBar(p2HpPercent, false);
 }
 
 void FightState::renderComboCount(){

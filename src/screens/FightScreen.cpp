@@ -36,9 +36,10 @@ FightScreen::FightScreen(){
   p1HealthBar.health.loadTexture("../data/images/UI/health_bar/p1_health_full_cropped.png");
   p1HealthBar.health.getFileDimensions();
 
-  p2HealthBar.bar.loadTexture("../data/images/UI/health_bar/p2_lifebar_empty.png", 730, 20, 500, 200);
-  p2HealthBar.damage.loadTexture("../data/images/UI/health_bar/p2_damage_full.png", 730, 20, 500, 200);
-  p2HealthBar.health.loadTexture("../data/images/UI/health_bar/p2_health_full.png", 730, 20, 500, 200);
+  p2HealthBar.bar.loadTexture("../data/images/UI/health_bar/p2_lifebar_empty_cropped.png");
+  p2HealthBar.bar.getFileDimensions();
+  p2HealthBar.health.loadTexture("../data/images/UI/health_bar/p2_health_full_cropped.png");
+  p2HealthBar.health.getFileDimensions();
 
   for (int i = 0; i <= 9; i++) {
     char n = i + '0';
@@ -71,53 +72,45 @@ void FightScreen::removeTexture(int index){
   Screen::removeTexture(index);
 }
 
-void FightScreen::renderHealthBar(int x, int y, int w, int h, float percent) {
-  // int barWidth = 500;
-  // int imgWidth = 2175;
-  // int srcStart = percent * imgWidth;
+void FightScreen::renderHealthBar(float percent, bool isPlayerOne) {
+  HealthBar* healthBar = isPlayerOne ? &p1HealthBar : &p2HealthBar;
+  SDL_Rect barDest;
+  SDL_Rect healthDest;
+  SDL_Rect healthSrc;
+  int scale = 4;
+  int barImgWidth = healthBar->bar.imgWidth;
+  int barImgHeight = healthBar->bar.imgHeight;
+  int barWidth = healthBar->bar.imgWidth/scale;
+  int barHeight = healthBar->bar.imgHeight/scale;
 
-  // int barDisplay = percent * barWidth;
-  // int srcStartRemainder = imgWidth - srcStart;
-  // int barDisplayRemainder = barWidth - barDisplay;
-  // int srcOffset = 432;
-  // int xOffset = 150;
+  int healthImgWidth = healthBar->health.imgWidth;
+  int healthImgHeight = healthBar->health.imgHeight;
+  int healthWidth = healthImgWidth/scale;
+  int healthHeight = healthImgHeight/scale;
 
-  // printf("barDisplay: %d, barDisplayRemainder:%d, srcStartRemainder:%d\n", barDisplay, barDisplayRemainder, srcStartRemainder);
-  // SDL_Rect dest = {barDisplayRemainder + srcOffset, 20, barDisplay, 200};
-  // SDL_Rect src = {srcStartRemainder + srcOffset, 0, imgWidth, 477};
-  //
-  // 2014 × 342
-  // 671  114
-  // 1606 × 167
-  // 555 55
-  // 330 300
-  int barImgWidth = p1HealthBar.bar.imgWidth;
-  int barImgHeight = p1HealthBar.bar.imgHeight;
-  int barWidth = p1HealthBar.bar.imgWidth/3;
-  int barHeight = p1HealthBar.bar.imgHeight/3;
+  int barOffsetX = isPlayerOne ? 50 : 1230 - barWidth;
+  int barOffsetY = 20;
 
-  int healthImgWidth = p1HealthBar.health.imgWidth;
-  int healthImgHeight = p1HealthBar.health.imgWidth;
-  int healthWidth = healthImgWidth/3;
-  int healthHeight = healthImgHeight/3;
-
-  int offsetX = 328/3;
-  int offsetY = 130/3;
   int percentOffset = healthImgWidth * percent;
   int widthPercent = healthWidth * percent;
   int remainder = healthWidth - widthPercent;
 
-  SDL_Rect p1BarDest = { 50, 20, barWidth, barHeight };
-  SDL_Rect p1HealthDest = { 50+offsetX+remainder, 20+offsetY, widthPercent, healthHeight };
-  SDL_Rect p1HealthSrc = { healthImgWidth - (percentOffset), 0, healthImgWidth, healthImgHeight };
+  barDest = { barOffsetX, barOffsetY, barWidth, barHeight };
+  if(isPlayerOne){
+    int offsetX = 328/scale;
+    int offsetY = 130/scale;
+    healthDest = { barOffsetX+offsetX+remainder, barOffsetY + offsetY, widthPercent, healthHeight };
+    healthSrc = { healthImgWidth - (percentOffset), 0, healthImgWidth, healthImgHeight };
+  } else {
+    int offsetX = 78/scale;
+    int offsetY = 130/scale;
+    healthDest = { barOffsetX + offsetX, barOffsetY+offsetY, widthPercent, healthHeight };
+    healthSrc = { 0, 0, percentOffset, healthImgHeight };
+  }
+  
 
-  p1HealthBar.bar.render(p1BarDest);
-  // p1HealthBar.damage.render();
-  p1HealthBar.health.render(p1HealthSrc, p1HealthDest);
-
-  // p2HealthBar.bar.render();
-  // p2HealthBar.damage.render();
-  // p2HealthBar.health.render();
+  healthBar->bar.render(barDest);
+  healthBar->health.render(healthSrc, healthDest);
 }
 
 void FightScreen::renderComboCount(bool p1Side, int count) {
