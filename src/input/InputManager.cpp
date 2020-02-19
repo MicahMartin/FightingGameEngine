@@ -315,7 +315,7 @@ void InputManager::update() {
     controllers[0]->inputHistoryCopy.push_back(controllers[0]->inputHistory.front());
     controllers[0]->inputStateCopy.push_back(controllers[0]->currentState);
   }
-  if (controllers[1]->playbackCounter == controllers[0]->inputHistoryCopy.size()) {
+  if (controllers[1]->playbackMode && controllers[1]->playbackCounter == controllers[0]->inputHistoryCopy.size()) {
     controllers[1]->playbackCounter = 0;
     controllers[1]->playbackMode = false;
     printf("stopping playback mode\n");
@@ -327,7 +327,9 @@ void InputManager::writeConfig(){
   std::vector<std::string> removalKeys;
   for (auto i : configJson.items()) {
     int user = i.value().at("user");
-    printf("the key:%s the user for this item: %d\n", i.key().c_str(), user);
+    std::string str = i.key();
+    const char* ptr = str.c_str();
+    printf("the key:%s the user for this item: %d\n", ptr, user);
     if(user == userBeingConfig){
       removalKeys.push_back(i.key());
     }
@@ -366,7 +368,9 @@ void InputManager::writeButtonConfig(){
   nlohmann::json* currentConfig = userBeingConfig == 1 ? &p1configJson : &p2configJson;
   std::vector<std::string> removalKeys;
   for (auto i : currentConfig->items()) {
-    printf("the key:%s the user for this item: %d\n", i.key().c_str(), userBeingConfig);
+    std::string str = i.key();
+    const char* ptr = str.c_str();
+    printf("the key:%s the user for this item: %d\n", ptr, userBeingConfig);
     removalKeys.push_back(i.key());
   }
   

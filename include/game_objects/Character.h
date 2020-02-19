@@ -66,7 +66,7 @@ public:
   int velocityY = 0;
   bool hitsparkRectDisabled = true;
   int currentHurtSoundID = 0;
-  int health;
+  int health = 100;
   int playerNum;
   bool faceRight;
   bool inputFaceRight;

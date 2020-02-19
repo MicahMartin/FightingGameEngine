@@ -59,7 +59,7 @@ void Entity::cancelState(int stateDefNum){
 };
 
 void Entity::loadStates(){
-  printf("entity:%d Loading states\n", entityID);
+  printf("entity:%d Loading states from :%s\n", entityID, defPath);
   std::ifstream configFile(defPath);
   configFile >> stateJson;
   if (stateJson.count("spawnOffsetX")) {
@@ -70,7 +70,9 @@ void Entity::loadStates(){
   }
   // compile inputs
   if (stateJson.count("command_script")) {
-    if(!virtualMachine.compiler.compile(stateJson.at("command_script").get<std::string>().c_str(), &inputScript, "input script")){
+    std::string str = stateJson.at("command_script").get<std::string>();
+    const char* ptr = str.c_str();
+    if(!virtualMachine.compiler.compile(ptr, &inputScript, "input script")){
       inputScript.disassembleScript("input command script");
       throw std::runtime_error("inputScript failed to compile");
     }

@@ -71,7 +71,9 @@ void Character::loadStates(){
   std::ifstream configFile("../data/characters/alucard/def.json");
   configFile >> stateJson;
   // compile inputs
-  if(!virtualMachine.compiler.compile(stateJson.at("command_script").get<std::string>().c_str(), &inputScript, "input script")){
+  std::string str = stateJson.at("command_script").get<std::string>();
+  const char* ptr = str.c_str();
+  if(!virtualMachine.compiler.compile(ptr, &inputScript, "input script")){
     inputScript.disassembleScript("input command script");
     throw std::runtime_error("inputScript failed to compile");
   }
@@ -83,8 +85,9 @@ void Character::loadStates(){
   }
 
   for(auto i : stateJson.at("entities").items()){
-    const char* defPath = i.value().at("defPath").get<std::string>().c_str();
-    entityList.emplace_back(this, i.value().at("entityID"), defPath).init();
+    std::string  defString = i.value().at("defPath");
+    printf("the defPath %s\n", defString.c_str());
+    entityList.emplace_back(this, i.value().at("entityID"), defString.c_str()).init();
   }
 
   for(auto i : stateJson.at("animation_assets").items()){
@@ -157,7 +160,7 @@ void Character::updateFaceRight(){
   }
 };
 
-void Character::updatePosition(){
+void Character::updatePosition() {
   // _negVelSetX(pushBackVelocity);
   int velX = velocityX - pushBackVelocity;
   position.first += velX;
@@ -178,6 +181,7 @@ void Character::updatePosition(){
     velocityY = 0;
   }
 }
+
 void Character::updateCollisionBoxPositions(){
   for (auto cb : currentState->pushBoxes) {
     cb->positionX = position.first - (cb->width / 2);

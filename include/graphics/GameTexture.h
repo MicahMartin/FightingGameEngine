@@ -13,8 +13,10 @@ public:
   ~GameTexture();
 
   bool loadTexture(const char* path);
+  bool loadTexture(const char* path, int xCord, int yCord, int width, int height);
   void render();
   void render(SDL_Rect dest);
+  void render(SDL_Rect src, SDL_Rect dest);
   void render(SDL_Rect dest, double angle);
   void render(bool flip);
   void setCamera(Camera* camera);
@@ -32,11 +34,14 @@ public:
   void setYCord(int yCord);
   void setDimensions(int xCord, int yCord, int width, int height);
   std::pair<int, int> getDimensions();
+  std::pair<int, int> getFileDimensions();
   std::pair<int, int> getCords();
 
   bool cartesian = false;
+  const char* filePath;
   int xCord, yCord, width, height;
   int halfWidth;
+  int imgWidth, imgHeight;
 
 private:
   Graphics* graphics = Graphics::getInstance();

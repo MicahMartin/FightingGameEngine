@@ -2,12 +2,24 @@
 #include <cmath>
 #include <stdexcept>
 #include <iostream>
+#include <fstream>
 
 GameTexture::GameTexture(){ }
 GameTexture::~GameTexture(){ }
 
 bool GameTexture::loadTexture(const char* path) {
+  filePath = path;
   texture = textureManager->getTexture(path);
+  if(texture == NULL){
+    return false;
+  }
+  return true;
+}
+
+bool GameTexture::loadTexture(const char* path, int xCord, int yCord, int width, int height) {
+  filePath = path;
+  texture = textureManager->getTexture(path);
+  setDimensions(xCord, yCord, width, height);
   if(texture == NULL){
     return false;
   }
@@ -20,6 +32,10 @@ void GameTexture::render() {
 
 void GameTexture::render(SDL_Rect dest) {
   SDL_RenderCopy(renderer, texture, NULL, &dest);
+}
+
+void GameTexture::render(SDL_Rect src, SDL_Rect dest) {
+  SDL_RenderCopy(renderer, texture, &src, &dest);
 }
 
 void GameTexture::render(SDL_Rect dest, double angle) {
@@ -88,6 +104,27 @@ void GameTexture::setDimensions(int xCord, int yCord, int width, int height) {
 
 std::pair<int, int> GameTexture::getDimensions() { 
   return std::make_pair(textRect.w, textRect.h);
+}
+
+std::pair<int, int> GameTexture::getFileDimensions() {
+    std::pair<int, int> returnPair;
+    unsigned int width, height;
+
+    std::ifstream img(filePath);
+
+    // width and height are offset by 16 bytes
+    // ty TCP training, everything has a TLV
+    img.seekg(16);
+    img.read((char *)&width, 4);
+    img.read((char *)&height, 4);
+
+    returnPair.first = ntohl(width);
+    returnPair.second = ntohl(height);
+    img.close();
+
+    imgWidth = returnPair.first;
+    imgHeight = returnPair.second;
+    return returnPair;
 }
 
 std::pair<int, int> GameTexture::getCords() { 

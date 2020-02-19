@@ -4,6 +4,13 @@
 #include "screens/Screen.h"
 #include "input/VirtualController.h"
 
+struct HealthBar {
+  int healthValue;
+  GameTexture bar;
+  GameTexture health;
+  GameTexture damage;
+};
+
 class FightScreen : public Screen {
 public:
   FightScreen();
@@ -16,22 +23,23 @@ public:
   void addTexture(GameTexture* gText);
   void removeTexture(int index);
 
-  void renderHealthBar(int x, int y, int w, int h, float percent, SDL_Color fgColor, SDL_Color bgColor);
+  void renderHealthBar(int x, int y, int w, int h, float percent);
   void renderComboCount(bool side, int count);
   void renderInputHistory(bool side, boost::circular_buffer<InputEvent>& events);
 private:
+  int foobar = 0;
+  int barfoo = 2175;
   GameTexture stage;
   GameTexture sky;
   GameTexture numbers[10];
   GameTexture directions[4];
   GameTexture buttons[8];
+
   SDL_Rect p1ComboCountPosition;
   SDL_Rect p2ComboCountPosition;
   SDL_Rect p1ComboCountPositionSecond;
   SDL_Rect p2ComboCountPositionSecond;
   SDL_Rect inputHistoryPositions[10] = {
-    {50, 100, 50, 50},
-    {50, 150, 50, 50},
     {50, 200, 50, 50},
     {50, 250, 50, 50},
     {50, 300, 50, 50},
@@ -40,8 +48,13 @@ private:
     {50, 450, 50, 50},
     {50, 500, 50, 50},
     {50, 550, 50, 50},
+    {50, 600, 50, 50},
+    {50, 650, 50, 50},
   };
   int p2DirectionDrawXPos;
+
+  HealthBar p1HealthBar;
+  HealthBar p2HealthBar;
 };
 
 #endif

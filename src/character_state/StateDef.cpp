@@ -17,7 +17,9 @@ StateDef::StateDef(nlohmann::json::value_type json, VirtualMachine* charVm) : ch
 
   std::string updateScriptTag = "updateScript:" + std::to_string(stateNum);
   std::string updateScriptError = "updateScript:" + std::to_string(stateNum) + "failed to compile";
-  const char* updateScriptPath = json.at("update_script").get<std::string>().c_str();
+  std::string updateScriptStr = json.at("update_script").get<std::string>();
+  const char* updateScriptPath = updateScriptStr.c_str();
+  printf("the updatescript %s\n", updateScriptPath);
 
   if(!charVm->compiler.compile(updateScriptPath, &updateScript, updateScriptTag.c_str())){
     updateScript.disassembleScript(updateScriptTag.c_str());
@@ -28,7 +30,8 @@ StateDef::StateDef(nlohmann::json::value_type json, VirtualMachine* charVm) : ch
   if(json.count("cancel_script")){
     std::string cancelScriptTag = "cancelScript:" + std::to_string(stateNum);
     std::string cancelScriptError = "cancelScript:" + std::to_string(stateNum) + "failed to compile";
-    const char* cancelScriptPath = json.at("cancel_script").get<std::string>().c_str();
+    std::string cancelScriptStr = json.at("cancel_script").get<std::string>();
+    const char* cancelScriptPath = cancelScriptStr.c_str();
 
     if(!charVm->compiler.compile(cancelScriptPath, &cancelScript, cancelScriptTag.c_str())){
       throw std::runtime_error(cancelScriptError);

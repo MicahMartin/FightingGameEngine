@@ -20,6 +20,7 @@ find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(SDL2Mixer REQUIRED)
 find_package(SDL2_ttf REQUIRED)
+find_package(Gperftools REQUIRED COMPONENTS TCMALLOC_AND_PROFILER)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
@@ -28,13 +29,15 @@ include_directories(
     ${SDL2_IMAGE_INCLUDE_DIR}
     ${SDL2Mixer_INCLUDE_DIR}
     ${SDL2_TTF_INCLUDE_DIR}
-    )
+    ${Gperftools_INCLUDE_DIRS}
+)
 
 add_executable(kusoge ${SOURCE} ${HEADER})
 
 target_link_libraries( 
     kusoge 
     PRIVATE nlohmann_json::nlohmann_json
+    ${Gperftools_LIBRARIES}
     ${SDL2_LIBRARY}
     ${SDL2_IMAGE_LIBRARIES}
     ${SDL2Mixer_LIBRARY}

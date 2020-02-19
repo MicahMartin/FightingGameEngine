@@ -7,7 +7,7 @@
 FightState::FightState(){ 
   printf("creating new fightState\n");
   stateName = "FightState";
-  bgMusic = Mix_LoadMUS("../data/audio/fightingTheme.mp3");
+  // bgMusic = Mix_LoadMUS("../data/audio/fightingTheme.mp3");
   if(bgMusic == NULL) {
     printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
   }
@@ -189,10 +189,10 @@ void FightState::draw(){
   screenDrawEnd = SDL_GetTicks();
   // TODO: move renderHP into currentScreen
   barDrawStart = SDL_GetTicks();
-  // renderHealthBars();
+  renderHealthBars();
   barDrawEnd = SDL_GetTicks();
   renderComboCount();
-  // renderInputHistory();
+  renderInputHistory();
 
   if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
     p2DrawStart = SDL_GetTicks();
@@ -762,12 +762,6 @@ void FightState::checkBounds(){
 
 void FightState::checkHealth(){
   // TODO: if training mode
-  if (player1->comboCounter == 0) {
-    player1->health = 100;
-  }
-  if (player2->comboCounter == 0) {
-    player2->health = 100;
-  }
   if (player1->health <= 0 || player2->health <= 0) {
     // nextRound();?
     if (player1->health <= 0 && player1->hitstun >= 1) {
@@ -883,11 +877,9 @@ void FightState::renderHealthBars(){
   int p2Hp = player2->health;
   float p2HpPercent = (float)p2Hp / (float)player2->maxHealth;
 
-  SDL_Color green = {0, 255, 0, 0};
-  SDL_Color red = {255, 0, 0, 0};
-
-  currentScreen.renderHealthBar(100, 50, 500, 50, p1HpPercent, green, red);
-  currentScreen.renderHealthBar(680, 50, 500, 50, p2HpPercent, green, red);
+  printf("p1HpPercent: %f\n", p1HpPercent);
+  currentScreen.renderHealthBar(100, 50, 500, 50, p1HpPercent);
+  // currentScreen.renderHealthBar(680, 50, 500, 50, p2HpPercent, green, red);
 }
 
 void FightState::renderComboCount(){

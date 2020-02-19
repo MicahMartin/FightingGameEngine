@@ -26,6 +26,20 @@ FightScreen::FightScreen(){
   buttons[1].loadTexture("../data/images/font/kick.png");
   buttons[2].loadTexture("../data/images/font/slash.png");
   buttons[3].loadTexture("../data/images/font/dust.png");
+
+  // load health bars
+  // currentScreen.renderHealthBar(100, 50, 500, 50, p1HpPercent, green, red);
+  // currentScreen.renderHealthBar(680, 50, 500, 50, p2HpPercent, green, red);
+  // p1HealthBar.damage.loadTexture("../data/images/UI/health_bar/p1_damage_full.png", 50, 20, 500, 200);
+  p1HealthBar.bar.loadTexture("../data/images/UI/health_bar/p1_lifebar_empty_cropped.png");
+  p1HealthBar.bar.getFileDimensions();
+  p1HealthBar.health.loadTexture("../data/images/UI/health_bar/p1_health_full_cropped.png");
+  p1HealthBar.health.getFileDimensions();
+
+  p2HealthBar.bar.loadTexture("../data/images/UI/health_bar/p2_lifebar_empty.png", 730, 20, 500, 200);
+  p2HealthBar.damage.loadTexture("../data/images/UI/health_bar/p2_damage_full.png", 730, 20, 500, 200);
+  p2HealthBar.health.loadTexture("../data/images/UI/health_bar/p2_health_full.png", 730, 20, 500, 200);
+
   for (int i = 0; i <= 9; i++) {
     char n = i + '0';
     std::stringstream numPath;
@@ -44,7 +58,6 @@ void FightScreen::init(){}
 void FightScreen::update(){}
 
 void FightScreen::draw(){
-
   for (auto gameTexture : textureList) {
     gameTexture->render(true);
   }
@@ -58,19 +71,53 @@ void FightScreen::removeTexture(int index){
   Screen::removeTexture(index);
 }
 
-void FightScreen::renderHealthBar(int x, int y, int w, int h, float percent, SDL_Color fgColor, SDL_Color bgColor) {
-  // TODO: Call this once
-  SDL_Color old;
-  SDL_GetRenderDrawColor(graphics->getRenderer(), &old.r, &old.g, &old.g, &old.a);
-  SDL_Rect bgrect = { x, y, w, h };
-  SDL_SetRenderDrawColor(graphics->getRenderer(), bgColor.r, bgColor.g, bgColor.b, bgColor.a);
-  SDL_RenderFillRect(graphics->getRenderer(), &bgrect);
-  SDL_SetRenderDrawColor(graphics->getRenderer(), fgColor.r, fgColor.g, fgColor.b, fgColor.a);
-  int pw = (int)((float)w * percent);
-  int px = x + (w - pw);
-  SDL_Rect fgrect = { px, y, pw, h };
-  SDL_RenderFillRect(graphics->getRenderer(), &fgrect);
-  SDL_SetRenderDrawColor(graphics->getRenderer(), old.r, old.g, old.b, old.a);
+void FightScreen::renderHealthBar(int x, int y, int w, int h, float percent) {
+  // int barWidth = 500;
+  // int imgWidth = 2175;
+  // int srcStart = percent * imgWidth;
+
+  // int barDisplay = percent * barWidth;
+  // int srcStartRemainder = imgWidth - srcStart;
+  // int barDisplayRemainder = barWidth - barDisplay;
+  // int srcOffset = 432;
+  // int xOffset = 150;
+
+  // printf("barDisplay: %d, barDisplayRemainder:%d, srcStartRemainder:%d\n", barDisplay, barDisplayRemainder, srcStartRemainder);
+  // SDL_Rect dest = {barDisplayRemainder + srcOffset, 20, barDisplay, 200};
+  // SDL_Rect src = {srcStartRemainder + srcOffset, 0, imgWidth, 477};
+  //
+  // 2014 × 342
+  // 671  114
+  // 1606 × 167
+  // 555 55
+  // 330 300
+  int barImgWidth = p1HealthBar.bar.imgWidth;
+  int barImgHeight = p1HealthBar.bar.imgHeight;
+  int barWidth = p1HealthBar.bar.imgWidth/3;
+  int barHeight = p1HealthBar.bar.imgHeight/3;
+
+  int healthImgWidth = p1HealthBar.health.imgWidth;
+  int healthImgHeight = p1HealthBar.health.imgWidth;
+  int healthWidth = healthImgWidth/3;
+  int healthHeight = healthImgHeight/3;
+
+  int offsetX = 328/3;
+  int offsetY = 130/3;
+  int percentOffset = healthImgWidth * percent;
+  int widthPercent = healthWidth * percent;
+  int remainder = healthWidth - widthPercent;
+
+  SDL_Rect p1BarDest = { 50, 20, barWidth, barHeight };
+  SDL_Rect p1HealthDest = { 50+offsetX+remainder, 20+offsetY, widthPercent, healthHeight };
+  SDL_Rect p1HealthSrc = { healthImgWidth - (percentOffset), 0, healthImgWidth, healthImgHeight };
+
+  p1HealthBar.bar.render(p1BarDest);
+  // p1HealthBar.damage.render();
+  p1HealthBar.health.render(p1HealthSrc, p1HealthDest);
+
+  // p2HealthBar.bar.render();
+  // p2HealthBar.damage.render();
+  // p2HealthBar.health.render();
 }
 
 void FightScreen::renderComboCount(bool p1Side, int count) {
