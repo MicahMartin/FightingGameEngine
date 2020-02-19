@@ -33,11 +33,17 @@ FightScreen::FightScreen(){
   // p1HealthBar.damage.loadTexture("../data/images/UI/health_bar/p1_damage_full.png", 50, 20, 500, 200);
   p1HealthBar.bar.loadTexture("../data/images/UI/health_bar/p1_lifebar_empty_cropped.png");
   p1HealthBar.bar.getFileDimensions();
+
+  p1HealthBar.damage.loadTexture("../data/images/UI/health_bar/p1_damage_full_cropped.png");
+  p1HealthBar.damage.getFileDimensions();
+
   p1HealthBar.health.loadTexture("../data/images/UI/health_bar/p1_health_full_cropped.png");
   p1HealthBar.health.getFileDimensions();
 
   p2HealthBar.bar.loadTexture("../data/images/UI/health_bar/p2_lifebar_empty_cropped.png");
   p2HealthBar.bar.getFileDimensions();
+  p2HealthBar.damage.loadTexture("../data/images/UI/health_bar/p2_damage_full_cropped.png");
+  p2HealthBar.damage.getFileDimensions();
   p2HealthBar.health.loadTexture("../data/images/UI/health_bar/p2_health_full_cropped.png");
   p2HealthBar.health.getFileDimensions();
 
@@ -72,44 +78,58 @@ void FightScreen::removeTexture(int index){
   Screen::removeTexture(index);
 }
 
-void FightScreen::renderHealthBar(float percent, bool isPlayerOne) {
+void FightScreen::renderHealthBar(float healthPercent, float damagePercent, bool isPlayerOne) {
   HealthBar* healthBar = isPlayerOne ? &p1HealthBar : &p2HealthBar;
   SDL_Rect barDest;
   SDL_Rect healthDest;
   SDL_Rect healthSrc;
+  SDL_Rect damageDest;
+  SDL_Rect damageSrc;
+
   int scale = 4;
   int barImgWidth = healthBar->bar.imgWidth;
   int barImgHeight = healthBar->bar.imgHeight;
   int barWidth = healthBar->bar.imgWidth/scale;
   int barHeight = healthBar->bar.imgHeight/scale;
+  int barOffsetX = isPlayerOne ? 50 : 1230 - barWidth;
+  int barOffsetY = 20;
+
 
   int healthImgWidth = healthBar->health.imgWidth;
   int healthImgHeight = healthBar->health.imgHeight;
   int healthWidth = healthImgWidth/scale;
   int healthHeight = healthImgHeight/scale;
 
-  int barOffsetX = isPlayerOne ? 50 : 1230 - barWidth;
-  int barOffsetY = 20;
+  int healthPercentOffset = healthImgWidth * healthPercent;
+  int healthWidthPercent = healthWidth * healthPercent;
+  int healthRemainder = healthWidth - healthWidthPercent;
 
-  int percentOffset = healthImgWidth * percent;
-  int widthPercent = healthWidth * percent;
-  int remainder = healthWidth - widthPercent;
+  int damagePercentOffset = healthImgWidth * damagePercent;
+  int damageWidthPercent = healthWidth * damagePercent;
+  int damageRemainder = healthWidth - damageWidthPercent;
 
   barDest = { barOffsetX, barOffsetY, barWidth, barHeight };
   if(isPlayerOne){
     int offsetX = 328/scale;
     int offsetY = 130/scale;
-    healthDest = { barOffsetX+offsetX+remainder, barOffsetY + offsetY, widthPercent, healthHeight };
-    healthSrc = { healthImgWidth - (percentOffset), 0, healthImgWidth, healthImgHeight };
+    healthDest = { barOffsetX+offsetX+healthRemainder, barOffsetY + offsetY, healthWidthPercent, healthHeight };
+    healthSrc = { healthImgWidth - (healthPercentOffset), 0, healthImgWidth, healthImgHeight };
+
+    damageDest = { barOffsetX+offsetX+damageRemainder, barOffsetY + offsetY, damageWidthPercent, healthHeight };
+    damageSrc = { healthImgWidth - (damagePercentOffset), 0, healthImgWidth, healthImgHeight };
   } else {
     int offsetX = 78/scale;
     int offsetY = 130/scale;
-    healthDest = { barOffsetX + offsetX, barOffsetY+offsetY, widthPercent, healthHeight };
-    healthSrc = { 0, 0, percentOffset, healthImgHeight };
+    healthDest = { barOffsetX + offsetX, barOffsetY+offsetY, healthWidthPercent, healthHeight };
+    healthSrc = { 0, 0, healthPercentOffset, healthImgHeight };
+
+    damageDest = { barOffsetX + offsetX, barOffsetY+offsetY, damageWidthPercent, healthHeight };
+    damageSrc = { 0, 0, damagePercentOffset, healthImgHeight };
   }
   
 
   healthBar->bar.render(barDest);
+  healthBar->damage.render(damageSrc, damageDest);
   healthBar->health.render(healthSrc, healthDest);
 }
 

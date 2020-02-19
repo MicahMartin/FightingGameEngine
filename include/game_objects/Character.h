@@ -67,6 +67,8 @@ public:
   bool hitsparkRectDisabled = true;
   int currentHurtSoundID = 0;
   int health = 100;
+  int redHealth = 100;
+  int redHealthCounter = 0;
   int playerNum;
   bool faceRight;
   bool inputFaceRight;

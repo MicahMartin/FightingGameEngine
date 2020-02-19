@@ -777,6 +777,14 @@ void FightState::checkHealth(){
     player1->health = 100;
     slowMode = true;
   }
+
+  if (player1->comboCounter == 0 && player1->health < player1->redHealth) {
+    if (player1->redHealthCounter++ == 3) {
+      player1->redHealthCounter = 0;
+      player1->redHealth--;
+    }
+  }
+
   if (roundEnd) {
     if (slowDownCounter++ == 120) {
       slowDownCounter = 0;
@@ -874,12 +882,14 @@ void FightState::updateFaceRight(){
 void FightState::renderHealthBars(){
   int p1Hp = player1->health;
   float p1HpPercent = (float)p1Hp / (float)player1->maxHealth;
+  float p1RedPercent = (float)player1->redHealth/(float)player1->maxHealth;
+
   int p2Hp = player2->health;
   float p2HpPercent = (float)p2Hp / (float)player2->maxHealth;
-
-  printf("p2HpPercent: %f\n", p1HpPercent);
-  currentScreen.renderHealthBar(p1HpPercent, true);
-  currentScreen.renderHealthBar(p2HpPercent, false);
+  float p2RedPercent = (float)player2->redHealth/(float)player2->maxHealth;
+  printf("the red health percentage: %f\n", p1RedPercent);
+  currentScreen.renderHealthBar(p1HpPercent, p1RedPercent, true);
+  // currentScreen.renderHealthBar(p2HpPercent, p2RedPercent, false);
 }
 
 void FightState::renderComboCount(){
