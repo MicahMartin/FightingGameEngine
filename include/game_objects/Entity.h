@@ -107,7 +107,12 @@ public:
   Script inputScript;
   VirtualMachine virtualMachine;
   std::vector<uint8_t> inputByteCode;
+
   std::vector<Animation> animList;
+  std::unordered_map<int, Animation> hitSparks;
+  std::unordered_map<int, Animation> guardSparks;
+  std::unordered_map<int, Animation> visualEffects;
+
   std::vector<Mix_Chunk*> soundList;
   std::vector<Mix_Chunk*> hurtSoundList;
   bool updateFacing = false;

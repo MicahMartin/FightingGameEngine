@@ -1,0 +1,10 @@
+{
+  "animation": [
+    { "file": "../data/characters/alucard/sprites/98.png", "time": 10, "offsetX": 0},
+    { "file": "../data/characters/alucard/sprites/99.png", "time": 10, "offsetX": 0},
+    { "file": "../data/characters/alucard/sprites/100.png", "time": 10, "offsetX": 0}
+  ],
+  "sounds": [
+    {"file": "", "start": 1}
+  ]
+}

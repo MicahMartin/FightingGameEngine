@@ -31,6 +31,7 @@ void Character::init(){
 void Character::refresh(){
   changeState(51);
   health = 100;
+  redHealth = 100;
   control = 1;
   hitstun = 0;
   blockstun = 0;

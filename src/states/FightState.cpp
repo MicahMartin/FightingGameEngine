@@ -169,6 +169,7 @@ void FightState::update(){
   }
 
   if (slowMode) {
+    printf("the slowModeCounter:%d\n", slowDownCounter);
     if(slowDownCounter++ == 30){
       slowDownCounter = 0;
       slowMode = false;
@@ -193,6 +194,7 @@ void FightState::draw(){
   barDrawEnd = SDL_GetTicks();
   renderComboCount();
   renderInputHistory();
+  // renderUIObjects();
 
   if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
     p2DrawStart = SDL_GetTicks();
@@ -762,19 +764,19 @@ void FightState::checkBounds(){
 
 void FightState::checkHealth(){
   // TODO: if training mode
-  if (player1->health <= 0 || player2->health <= 0) {
+  // TODO: refactor jesus why are you like this
+  if ((player1->health <= 0 || player2->health <= 0) && (!player1->isDead && !player2->isDead)) {
     // nextRound();?
     if (player1->health <= 0 && player1->hitstun >= 1) {
       player1->isDead = true;
       p2RoundsWon++;
+      printf("p2RoundsWon:%d\n", p2RoundsWon);
     }
     if (player2->health <= 0 && player2->hitstun >= 1) {
       player2->isDead = true;
       p1RoundsWon++;
       printf("p1RoundsWon:%d\n", p1RoundsWon);
     }
-    player2->health = 100;
-    player1->health = 100;
     slowMode = true;
   }
 
@@ -782,6 +784,12 @@ void FightState::checkHealth(){
     if (player1->redHealthCounter++ == 3) {
       player1->redHealthCounter = 0;
       player1->redHealth--;
+    }
+  }
+  if (player2->comboCounter == 0 && player2->health < player2->redHealth) {
+    if (player2->redHealthCounter++ == 3) {
+      player2->redHealthCounter = 0;
+      player2->redHealth--;
     }
   }
 
@@ -799,6 +807,7 @@ void FightState::checkHealth(){
         printf("p2 won\n");
         stateManager->popState();
       } else {
+        printf("restarting round\n");
         restartRound();
       }
     }
@@ -887,9 +896,10 @@ void FightState::renderHealthBars(){
   int p2Hp = player2->health;
   float p2HpPercent = (float)p2Hp / (float)player2->maxHealth;
   float p2RedPercent = (float)player2->redHealth/(float)player2->maxHealth;
-  printf("the red health percentage: %f\n", p1RedPercent);
+
+  // printf("the red health percentage: %f\n", p2RedPercent);
   currentScreen.renderHealthBar(p1HpPercent, p1RedPercent, true);
-  // currentScreen.renderHealthBar(p2HpPercent, p2RedPercent, false);
+  currentScreen.renderHealthBar(p2HpPercent, p2RedPercent, false);
 }
 
 void FightState::renderComboCount(){
