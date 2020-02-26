@@ -35,12 +35,34 @@ void FightState::enter(){
   player1->init();
   player2->otherChar = player1;
   player2->init();
+  player1->control = 0;
+  player2->control = 0;
 
   graphics->setCamera(&camera);
   camera.update(1700, 2200);
   Mix_PlayMusic(bgMusic, -1);
-  roundStartCounter = 60;
+  roundStartCounter = 240;
   roundStart = true;
+
+  matchIntroPopup.loadDataFile("../data/images/UI/pop_up/match_intro/data.json");
+  matchIntroPopup.setPlayLength(60);
+  matchIntroPopup.setX(camera.middle);
+
+  round1.loadDataFile("../data/images/UI/pop_up/round_1/data.json");
+  round1.setPlayLength(60);
+  round1.setX(camera.middle);
+
+  round2Popup.loadDataFile("../data/images/UI/pop_up/round_2/data.json");
+  round2Popup.setPlayLength(60);
+  round2Popup.setX(camera.middle);
+
+  finalRoundPopup.loadDataFile("../data/images/UI/pop_up/round_3/data.json");
+  finalRoundPopup.setPlayLength(60);
+  finalRoundPopup.setX(camera.middle);
+
+  fightPopup.loadDataFile("../data/images/UI/pop_up/fight/data.json");
+  fightPopup.setPlayLength(60);
+  fightPopup.setX(camera.middle);
 }
 
 void FightState::exit(){ 
@@ -56,9 +78,38 @@ void FightState::resume(){ }
 void FightState::handleInput(){ 
   if(!slowMode){
     if (roundStartCounter > 0) {
-      printf("roundStarTCounter!:%d\n", roundStartCounter);
+      // printf("roundStarTCounter!:%d\n", roundStartCounter);
       if (--roundStartCounter == 0) {
+        player1->control = 1;
+        player2->control = 1;
         roundStart = false;
+      }
+      if (roundStartCounter == 230) {
+        matchIntroPopup.setStateTime(0);
+        matchIntroPopup.setActive(true);
+      }
+      if (roundStartCounter == 140) {
+        switch (currentRound) {
+          case 0:
+            round1.setStateTime(0);
+            round1.setActive(true);
+          break;
+          case 1:
+            round2Popup.setStateTime(0);
+            round2Popup.setActive(true);
+          break;
+          case 2:
+            finalRoundPopup.setStateTime(0);
+            finalRoundPopup.setActive(true);
+          break;
+          default:
+          break;
+        }
+      }
+
+      if (roundStartCounter == 70) {
+        fightPopup.setStateTime(0);
+        fightPopup.setActive(true);
       }
     }
     updateFaceRight();
@@ -70,47 +121,45 @@ void FightState::handleInput(){
     checkEntityHitstop(player1);
     checkEntityHitstop(player2);
 
-    if(!roundStart){
-      if (!player1->inHitStop) {
-        player1->handleInput();
-      }
-      if (!player2->inHitStop) {
-        player2->handleInput();
-      }
-
-      for (auto &i : player1->entityList) {
-        if(!i.inHitStop){
-          i.handleInput();
-        }
-      }
-      for (auto &i : player2->entityList) {
-        if(!i.inHitStop){
-          i.handleInput();
-        }
-      }
-
-
-      // check for throw techs
-      if (player1->currentState->checkFlag(TECHABLE)) {
-        if (player1->_checkCommand(5)) {
-          int techState = player1->currentState->techState;
-          player1->changeState(techState);
-          player2->changeState(techState);
-        }
-      }
-      if (player2->currentState->checkFlag(TECHABLE)) {
-        if (player2->_checkCommand(5)) {
-          int techState = player2->currentState->techState;
-          player1->changeState(techState);
-          player2->changeState(techState);
-        }
-      }
-
-      checkThrowCollisions();
-      checkHitCollisions();
-      checkBounds();
-      updateFaceRight();
+    if (!player1->inHitStop) {
+      player1->handleInput();
     }
+    if (!player2->inHitStop) {
+      player2->handleInput();
+    }
+
+    for (auto &i : player1->entityList) {
+      if(!i.inHitStop){
+        i.handleInput();
+      }
+    }
+    for (auto &i : player2->entityList) {
+      if(!i.inHitStop){
+        i.handleInput();
+      }
+    }
+
+
+    // check for throw techs
+    if (player1->currentState->checkFlag(TECHABLE)) {
+      if (player1->_checkCommand(5)) {
+        int techState = player1->currentState->techState;
+        player1->changeState(techState);
+        player2->changeState(techState);
+      }
+    }
+    if (player2->currentState->checkFlag(TECHABLE)) {
+      if (player2->_checkCommand(5)) {
+        int techState = player2->currentState->techState;
+        player1->changeState(techState);
+        player2->changeState(techState);
+      }
+    }
+
+    checkThrowCollisions();
+    checkHitCollisions();
+    checkBounds();
+    updateFaceRight();
   }
 }
 
@@ -176,9 +225,24 @@ void FightState::update(){
       roundEnd = true;
     }
   }
+  if (matchIntroPopup.getActive()) {
+    matchIntroPopup.update();
+  }
+  if (round1.getActive()) {
+    round1.update();
+  }
+  if (round2Popup.getActive()) {
+    round2Popup.update();
+  }
+  if (finalRoundPopup.getActive()) {
+    finalRoundPopup.update();
+  }
+  if (fightPopup.getActive()) {
+    fightPopup.update();
+  }
 }
 
-void FightState::draw(){  
+void FightState::draw() {
   // printf("made it to draw\n");
   double screenDrawStart, screenDrawEnd,
          barDrawStart, barDrawEnd,
@@ -230,6 +294,23 @@ void FightState::draw(){
     for (auto &i : player2->entityList) {
       i.draw();
     }
+
+    if (matchIntroPopup.getActive()) {
+      matchIntroPopup.draw();
+    }
+    if (round1.getActive()) {
+      round1.draw();
+    }
+    if (round2Popup.getActive()) {
+      round2Popup.draw();
+    }
+    if (finalRoundPopup.getActive()) {
+      finalRoundPopup.draw();
+    }
+    if (fightPopup.getActive()) {
+      fightPopup.draw();
+    }
+
     // printf("drew p1 entities\n");
     p2DrawEnd = SDL_GetTicks();
   }
@@ -777,6 +858,7 @@ void FightState::checkHealth(){
       p1RoundsWon++;
       printf("p1RoundsWon:%d\n", p1RoundsWon);
     }
+    currentRound++;
     slowMode = true;
   }
 
@@ -818,6 +900,8 @@ void FightState::checkHealth(){
 void FightState::restartRound(){
   player1->refresh();
   player2->refresh();
+  player1->control = 0;
+  player2->control = 0;
 
   player1->setXPos(1700);
   player1->setYPos(0);
@@ -825,7 +909,7 @@ void FightState::restartRound(){
   player2->setXPos(2200);
   player2->setYPos(0);
   camera.update(1700, 2200);
-  roundStartCounter = 60;
+  roundStartCounter = 240;
   roundStart = true;
 }
 
@@ -870,6 +954,7 @@ void FightState::updateFaceRight(){
       }
     }
   }
+
   for (auto &i : player2->entityList) {
     if (i.active && i.updateFacing) {
       if(i.getPos().first < player1->getPos().first){

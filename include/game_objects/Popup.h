@@ -12,6 +12,7 @@ public:
 
   void update();
   void draw();
+  void reset();
 
   void loadDataFile(const char* filePath);
 
@@ -23,6 +24,9 @@ public:
   
   void setActive(bool active);
   bool getActive();
+
+  void setPlayLength(int newPlayLength);
+  int getPlayLength();
 
   void incrementStateTime();
   void setStateTime(int newStateTime);

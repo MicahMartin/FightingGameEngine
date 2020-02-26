@@ -21,6 +21,7 @@ void Camera::update(int p1Xpos, int p2Xpos){
 
   lowerBound = cameraRect.x;
   upperBound = cameraRect.x+cameraRect.w;
+  middle = cameraRect.x + (cameraRect.w/2);
 }
 
 void Camera::render(){

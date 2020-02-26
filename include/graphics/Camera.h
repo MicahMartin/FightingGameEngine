@@ -13,8 +13,9 @@ public:
   void moveCamera();
   SDL_Rect cameraRect;
 
-  int lowerBound;
-  int upperBound;
+  int lowerBound = 0;
+  int upperBound = 0;
+  int middle = 0;
 private:
   Graphics* graphics = Graphics::getInstance();
 };

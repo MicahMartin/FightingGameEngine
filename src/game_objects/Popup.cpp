@@ -7,17 +7,26 @@ Popup::Popup(){}
 Popup::~Popup(){}
 
 void Popup::update(){
-  stateTime++;
   if (stateTime == playLength) {
     isActive = false;
   }
+  stateTime++;
 }
 
 void Popup::draw(){
   anim.render(xPos, yPos, true, stateTime);
 }
 
+void Popup::reset(){
+  isActive = false;
+  stateTime = 0;
+  xPos = 0;
+  yPos = 0;
+  playLength = 0;
+}
+
 void Popup::loadDataFile(const char* filePath){
+  reset();
   std::ifstream dataFile(filePath);
   nlohmann::json dataJson;
   dataFile >> dataJson;
@@ -49,6 +58,14 @@ void Popup::setActive(bool active){
 
 bool Popup::getActive(){
   return isActive;
+}
+
+void Popup::setPlayLength(int newPlayLength){
+  playLength = newPlayLength;
+}
+
+int Popup::getPlayLength(){
+  return playLength;
 }
 
 void Popup::incrementStateTime(){

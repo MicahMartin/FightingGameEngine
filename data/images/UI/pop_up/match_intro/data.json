@@ -1,8 +1,6 @@
 {
   "animation": [
-    { "file": "../data/characters/alucard/sprites/98.png", "time": 10, "offsetX": 0},
-    { "file": "../data/characters/alucard/sprites/99.png", "time": 10, "offsetX": 0},
-    { "file": "../data/characters/alucard/sprites/100.png", "time": 10, "offsetX": 0}
+    { "file": "../data/images/UI/pop_up/match_intro/match_intro_small.png", "time": -1, "offsetX": 300, "offsetY": -200, "scale": 1}
   ],
   "sounds": [
     {"file": "", "start": 1}

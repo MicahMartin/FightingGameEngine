@@ -19,7 +19,7 @@ OpeningState::~OpeningState() {
 void OpeningState::enter() {
   // initialize the menu state & opening screen
   printf("Entered the opening state\n");
-  Mix_PlayMusic(openingSong, -1);
+  // Mix_PlayMusic(openingSong, -1);
 }
 
 void OpeningState::exit() { 

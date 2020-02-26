@@ -3,6 +3,7 @@
 
 #include "states/GameState.h"
 #include "game_objects/Stage.h"
+#include "game_objects/Popup.h"
 #include "game_objects/Character.h"
 #include "screens/FightScreen.h"
 #include "character_state/CharStateManager.h"
@@ -67,6 +68,7 @@ public:
   int roundStartCounter = 0;
   int p1RoundsWon = 0;
   int p2RoundsWon = 0;
+  int currentRound = 0;
 
   int playHitSound = 0;
   int playHurtSound = 0;
@@ -83,6 +85,16 @@ private:
   Character* player1;
   Character* player2;
   FightScreen currentScreen;
+
+  Popup matchIntroPopup;
+  Popup round1;
+  Popup round2Popup;
+  Popup finalRoundPopup;
+  Popup fightPopup;
+  Popup knockoutPopup;
+  Popup p1WinPopup;
+  Popup p2WinPopup;
+
   Camera camera;
   CharStateManager* charStateManager = CharStateManager::getInstance();
   Graphics* graphics = Graphics::getInstance();
