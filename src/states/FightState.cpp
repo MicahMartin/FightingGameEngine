@@ -63,6 +63,15 @@ void FightState::enter(){
   fightPopup.loadDataFile("../data/images/UI/pop_up/fight/data.json");
   fightPopup.setPlayLength(60);
   fightPopup.setX(camera.middle);
+
+  knockoutPopup.loadDataFile("../data/images/UI/pop_up/knockout/data.json");
+  knockoutPopup.setPlayLength(60);
+
+  p1WinPopup.loadDataFile("../data/images/UI/pop_up/player_1_win/data.json");
+  p1WinPopup.setPlayLength(120);
+
+  p2WinPopup.loadDataFile("../data/images/UI/pop_up/player_2_win/data.json");
+  p2WinPopup.setPlayLength(120);
 }
 
 void FightState::exit(){ 
@@ -218,13 +227,25 @@ void FightState::update(){
   }
 
   if (slowMode) {
-    printf("the slowModeCounter:%d\n", slowDownCounter);
-    if(slowDownCounter++ == 30){
+    // printf("the slowModeCounter:%d\n", slowDownCounter);
+    if(slowDownCounter++ == 70){
       slowDownCounter = 0;
       slowMode = false;
       roundEnd = true;
+
+      if (roundWinner == 1) {
+        p1WinPopup.setX(camera.middle);
+        p1WinPopup.setStateTime(0);
+        p1WinPopup.setActive(true);
+      } else if (roundWinner == 2) {
+        p2WinPopup.setX(camera.middle);
+        p2WinPopup.setStateTime(0);
+        p2WinPopup.setActive(true);
+      }
+      roundWinner = 0;
     }
   }
+
   if (matchIntroPopup.getActive()) {
     matchIntroPopup.update();
   }
@@ -239,6 +260,18 @@ void FightState::update(){
   }
   if (fightPopup.getActive()) {
     fightPopup.update();
+  }
+  if (knockoutPopup.getActive()) {
+    knockoutPopup.setX(camera.middle);
+    knockoutPopup.update();
+  }
+  if (p1WinPopup.getActive()) {
+    p1WinPopup.setX(camera.middle);
+    p1WinPopup.update();
+  }
+  if (p2WinPopup.getActive()) {
+    p2WinPopup.setX(camera.middle);
+    p2WinPopup.update();
   }
 }
 
@@ -295,21 +328,6 @@ void FightState::draw() {
       i.draw();
     }
 
-    if (matchIntroPopup.getActive()) {
-      matchIntroPopup.draw();
-    }
-    if (round1.getActive()) {
-      round1.draw();
-    }
-    if (round2Popup.getActive()) {
-      round2Popup.draw();
-    }
-    if (finalRoundPopup.getActive()) {
-      finalRoundPopup.draw();
-    }
-    if (fightPopup.getActive()) {
-      fightPopup.draw();
-    }
 
     // printf("drew p1 entities\n");
     p2DrawEnd = SDL_GetTicks();
@@ -318,6 +336,32 @@ void FightState::draw() {
   double barDraw = barDrawEnd - barDrawStart;
   double p1Draw = p1DrawEnd - p1DrawStart;
   double p2Draw = p2DrawEnd - p2DrawStart;
+
+  // pls refactor
+  if (matchIntroPopup.getActive()) {
+    matchIntroPopup.draw();
+  }
+  if (round1.getActive()) {
+    round1.draw();
+  }
+  if (round2Popup.getActive()) {
+    round2Popup.draw();
+  }
+  if (finalRoundPopup.getActive()) {
+    finalRoundPopup.draw();
+  }
+  if (fightPopup.getActive()) {
+    fightPopup.draw();
+  }
+  if (knockoutPopup.getActive()) {
+    knockoutPopup.draw();
+  }
+  if (p1WinPopup.getActive()) {
+    p1WinPopup.draw();
+  }
+  if (p2WinPopup.getActive()) {
+    p2WinPopup.draw();
+  }
 
   if (playHitSound > 0) {
     if (playHitSound == 1) {
@@ -848,14 +892,19 @@ void FightState::checkHealth(){
   // TODO: refactor jesus why are you like this
   if ((player1->health <= 0 || player2->health <= 0) && (!player1->isDead && !player2->isDead)) {
     // nextRound();?
+    knockoutPopup.setX(camera.middle);
+    knockoutPopup.setStateTime(0);
+    knockoutPopup.setActive(true);
     if (player1->health <= 0 && player1->hitstun >= 1) {
       player1->isDead = true;
       p2RoundsWon++;
       printf("p2RoundsWon:%d\n", p2RoundsWon);
+      roundWinner = 2;
     }
     if (player2->health <= 0 && player2->hitstun >= 1) {
       player2->isDead = true;
       p1RoundsWon++;
+      roundWinner = 1;
       printf("p1RoundsWon:%d\n", p1RoundsWon);
     }
     currentRound++;
@@ -876,7 +925,7 @@ void FightState::checkHealth(){
   }
 
   if (roundEnd) {
-    if (slowDownCounter++ == 120) {
+    if (slowDownCounter++ == 180) {
       slowDownCounter = 0;
       roundEnd = false;
       if (p2RoundsWon == 2 && p1RoundsWon == 2) {

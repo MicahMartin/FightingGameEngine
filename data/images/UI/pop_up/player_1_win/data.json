@@ -1,0 +1,8 @@
+{
+  "animation": [
+    { "file": "../data/images/UI/pop_up/player_1_win/p1win_small.png", "time": -1, "offsetX": 300, "offsetY": -200, "scale": 1}
+  ],
+  "sounds": [
+    {"file": "", "start": 1}
+  ]
+}

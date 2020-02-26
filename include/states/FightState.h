@@ -79,6 +79,7 @@ public:
   bool shouldUpdate = true;
   bool roundEnd = false;
   int slowDownCounter = 0;
+  int roundWinner = 0;
 
   Mix_Music* bgMusic = NULL;
 private:
@@ -90,6 +91,7 @@ private:
   Popup round1;
   Popup round2Popup;
   Popup finalRoundPopup;
+
   Popup fightPopup;
   Popup knockoutPopup;
   Popup p1WinPopup;
