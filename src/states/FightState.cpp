@@ -169,6 +169,8 @@ void FightState::handleInput(){
     checkHitCollisions();
     checkBounds();
     updateFaceRight();
+    checkCorner(player1);
+    checkCorner(player2);
   }
 }
 
@@ -214,6 +216,8 @@ void FightState::update(){
 
     checkBounds();
     updateFaceRight();
+    checkCorner(player1);
+    checkCorner(player2);
 
     int highest = player1->_getYPos() > player2->_getYPos() ? player1->_getYPos() : player2->_getYPos();
     camera.update(player1->getPos().first, player2->getPos().first);
@@ -223,6 +227,7 @@ void FightState::update(){
       camera.cameraRect.y = 0;
     }
     checkPushCollisions();
+    checkBounds();
     checkHealth();
   }
 
