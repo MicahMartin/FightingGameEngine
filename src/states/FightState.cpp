@@ -291,7 +291,7 @@ void FightState::draw() {
   barDrawEnd = SDL_GetTicks();
   renderComboCount();
   renderInputHistory();
-  // renderUIObjects();
+  currentScreen.renderWins(p1RoundsWon, p2RoundsWon);
 
   if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
     p2DrawStart = SDL_GetTicks();

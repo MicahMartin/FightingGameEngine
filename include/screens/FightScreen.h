@@ -26,6 +26,7 @@ public:
   void renderHealthBar(float healthPercent, float damagePercent,  bool isPlayerOne);
   void renderComboCount(bool side, int count);
   void renderInputHistory(bool side, boost::circular_buffer<InputEvent>& events);
+  void renderWins(int p1Wins, int p2Wins);
 private:
   int foobar = 0;
   int barfoo = 2175;
@@ -35,10 +36,14 @@ private:
   GameTexture directions[4];
   GameTexture buttons[8];
 
+  GameTexture roundBoxes[4];
+  GameTexture roundWinBoxes[4];
+
   SDL_Rect p1ComboCountPosition;
   SDL_Rect p2ComboCountPosition;
   SDL_Rect p1ComboCountPositionSecond;
   SDL_Rect p2ComboCountPositionSecond;
+
   SDL_Rect inputHistoryPositions[10] = {
     {50, 200, 50, 50},
     {50, 250, 50, 50},
@@ -50,6 +55,13 @@ private:
     {50, 550, 50, 50},
     {50, 600, 50, 50},
     {50, 650, 50, 50},
+  };
+
+  SDL_Rect roundBoxPositions[4] = {
+    {465, 10, 30, 30},
+    {525, 10, 30, 30},
+    {725, 10, 30, 30},
+    {785, 10, 30, 30},
   };
   int p2DirectionDrawXPos;
 

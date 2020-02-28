@@ -27,6 +27,16 @@ FightScreen::FightScreen(){
   buttons[2].loadTexture("../data/images/font/slash.png");
   buttons[3].loadTexture("../data/images/font/dust.png");
 
+  roundBoxes[0].loadTexture("../data/images/UI/health_bar/round_box.png");
+  roundBoxes[1].loadTexture("../data/images/UI/health_bar/round_box.png");
+  roundBoxes[2].loadTexture("../data/images/UI/health_bar/round_box.png");
+  roundBoxes[3].loadTexture("../data/images/UI/health_bar/round_box.png");
+
+  roundWinBoxes[0].loadTexture("../data/images/UI/health_bar/round_checkmark.png");
+  roundWinBoxes[1].loadTexture("../data/images/UI/health_bar/round_checkmark.png");
+  roundWinBoxes[2].loadTexture("../data/images/UI/health_bar/round_checkmark.png");
+  roundWinBoxes[3].loadTexture("../data/images/UI/health_bar/round_checkmark.png");
+
   // load health bars
   // currentScreen.renderHealthBar(100, 50, 500, 50, p1HpPercent, green, red);
   // currentScreen.renderHealthBar(680, 50, 500, 50, p2HpPercent, green, red);
@@ -67,6 +77,9 @@ void FightScreen::update(){}
 void FightScreen::draw(){
   for (auto gameTexture : textureList) {
     gameTexture->render(true);
+  }
+  for (int i = 0; i < 4; ++i) {
+    roundBoxes[i].render(roundBoxPositions[i]);
   }
 }
 
@@ -200,4 +213,30 @@ void FightScreen::renderInputHistory(bool p1Side, boost::circular_buffer<InputEv
         break;
     }
   }
+}
+
+void FightScreen::renderWins(int p1Wins, int p2Wins){
+  switch (p1Wins) {
+    case 1:
+      roundWinBoxes[0].render(roundBoxPositions[0]);
+    break;
+    case 2:
+      roundWinBoxes[0].render(roundBoxPositions[0]);
+      roundWinBoxes[1].render(roundBoxPositions[1]);
+    break;
+    default:
+    break;
+  }
+  switch (p2Wins) {
+    case 1:
+      roundWinBoxes[2].render(roundBoxPositions[3]);
+    break;
+    case 2:
+      roundWinBoxes[2].render(roundBoxPositions[3]);
+      roundWinBoxes[3].render(roundBoxPositions[2]);
+    break;
+    default:
+    break;
+  }
+
 }
