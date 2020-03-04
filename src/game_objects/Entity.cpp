@@ -182,6 +182,14 @@ void Entity::updateCollisionBoxPositions(){
     cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
     cb->positionY = position.second - cb->offsetY;
   }
+  for (auto cb : currentState->throwHurtBoxes) {
+    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
+    cb->positionY = position.second - cb->offsetY;
+  }
+  for (auto cb : currentState->proximityBoxes) {
+    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
+    cb->positionY = position.second - cb->offsetY;
+  }
 }
 
 void Entity::updateCollisionBoxes(){
@@ -215,6 +223,20 @@ void Entity::updateCollisionBoxes(){
     }
   }
 
+  for (auto cb : currentState->throwHurtBoxes) {
+    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
+    cb->positionY = position.second - cb->offsetY;
+    if (stateTime < cb->start) {
+      cb->disabled = true;
+    }
+    if (cb->end == -1 || stateTime == cb->start) {
+      cb->disabled = false;
+    }
+    if (stateTime == cb->end) {
+      cb->disabled = true;
+    }
+  }
+
   for (auto cb : currentState->hitBoxes) {
     cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
     cb->positionY = position.second - cb->offsetY;
@@ -230,6 +252,20 @@ void Entity::updateCollisionBoxes(){
   }
 
   for (auto cb : currentState->throwHitBoxes) {
+    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
+    cb->positionY = position.second - cb->offsetY;
+    if (stateTime < cb->start) {
+      cb->disabled = true;
+    }
+    if (stateTime == cb->start) {
+      cb->disabled = false;
+    }
+    if (stateTime == cb->end) {
+      cb->disabled = true;
+    }
+  }
+
+  for (auto cb : currentState->proximityBoxes) {
     cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
     cb->positionY = position.second - cb->offsetY;
     if (stateTime < cb->start) {

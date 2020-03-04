@@ -52,6 +52,7 @@ public:
     0x20,
     0x200 
   };
+
   uint32_t buttonConfigArray[4];
   int buttonTemplate[4] = {
     0x10,
@@ -59,6 +60,9 @@ public:
     0x20,
     0x200 
   };
+
+  bool rightTrigger = false;
+  bool leftTrigger = false;
   SDL_Joystick* p1SDLController = NULL;
   SDL_Joystick* p2SDLController = NULL;
   std::unordered_map<SDL_Joystick*, VirtualController*> stickToVC;

@@ -79,6 +79,16 @@ StateDef::~StateDef() {
       delete cb;
     }
   }
+  for (auto cb : throwHurtBoxes) {
+    if (cb != NULL) {
+      delete cb;
+    }
+  }
+  for (auto cb : proximityBoxes) {
+    if (cb != NULL) {
+      delete cb;
+    }
+  }
 }
 
 void StateDef::enter(){
@@ -205,6 +215,12 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
         break;
       case CollisionBox::THROW:
         throwHitBoxes.push_back(cb);
+        break;
+      case CollisionBox::THROW_HURT:
+        throwHurtBoxes.push_back(cb);
+        break;
+      case CollisionBox::PROXIMITY:
+        proximityBoxes.push_back(cb);
         break;
     }
   }

@@ -135,6 +135,7 @@ void InputManager::update() {
         }
 
         case SDL_JOYBUTTONDOWN: {
+                                  printf("joy button down %d\n", event.jbutton.button);
           SDL_JoyHatEvent* jhatEvent = &event.jhat;
           SDL_Joystick* stick = SDL_JoystickFromInstanceID(jhatEvent->which);
           VirtualController* controller = stickToVC[stick];
@@ -151,6 +152,19 @@ void InputManager::update() {
               Input* inputBit = &item->inputBit;
               printf("found item from jbutton %d with val: %d\n", event.jbutton.button, *inputBit);
               controller->setBit(*inputBit);
+            } else if (conf != NULL && (event.jbutton.button >= 11 && event.jbutton.button <= 14)){
+              // UDLR
+              int inputBit = event.jbutton.button - 10;
+              printf("isCardinal! the inputBit:%d\n", inputBit);
+              // printf("isCardinal!\n");
+              bool isXAxis = inputBit >= 3;
+              if (isXAxis) {
+                inputBit == CONTROLLER_RIGHT ? controller->xAxis++ : controller->xAxis--;
+              } else {
+                inputBit == CONTROLLER_UP ? controller->yAxis++ : controller->yAxis--;
+              }
+              // this calls setBit
+              controller->updateAxis(isXAxis);
             }
           }
           break;
@@ -173,11 +187,23 @@ void InputManager::update() {
               Input* inputBit = &item->inputBit;
               printf("found item from jbutton %d with val: %d\n", event.jbutton.button, *inputBit);
               controller->clearBit(*inputBit);
+            } else if (conf != NULL && (event.jbutton.button >= 11 && event.jbutton.button <= 14)){
+              // UDLR
+              int inputBit = event.jbutton.button - 10;
+              bool isXAxis = inputBit >= 3;
+              if (isXAxis) {
+                inputBit == CONTROLLER_RIGHT ? controller->xAxis-- : controller->xAxis++;
+              } else {
+                inputBit == CONTROLLER_UP ? controller->yAxis-- : controller->yAxis++;
+              }
+              // this calls setBit
+              controller->updateAxis(isXAxis);
             }
           }
           break;
         }
         case SDL_JOYHATMOTION: {
+                                 printf("hat motion\n");
           SDL_JoyHatEvent* jhatEvent = &event.jhat;
           SDL_Joystick* stick = SDL_JoystickFromInstanceID(jhatEvent->which);
           VirtualController* controller = stickToVC[stick];
@@ -234,6 +260,37 @@ void InputManager::update() {
           }
         break;
         }
+        case SDL_JOYAXISMOTION: {
+          if (event.jaxis.value < 8000 || event.jaxis.value > 8000) {
+            switch (event.jaxis.axis) {
+              case 4:
+                if (event.jaxis.value > 10000 && !leftTrigger) {
+                  printf("left trigger pressed\n");
+                  leftTrigger = true;
+                } else if (event.jaxis.value < 10000 && leftTrigger) {
+                  printf("left trigger released\n");
+                  leftTrigger = false;
+                }
+              break;
+              case 5:
+                if (event.jaxis.value < 8000 && !rightTrigger) {
+                  printf("right trigger pressed\n");
+                  rightTrigger = true;
+                } else if (event.jaxis.value > 8000 && rightTrigger) {
+                  printf("right trigger released\n");
+                  rightTrigger = false;
+                }
+              break;
+              default:
+              break;
+            }
+          }
+          break;
+        }
+        case SDL_JOYBALLMOTION: {
+          printf("joy ball motion\n");
+          break;
+        }
         case SDL_QUIT:
           notifyOne("game", "QUIT_REQUEST");
         break;
@@ -283,23 +340,11 @@ void InputManager::update() {
         }
         case SDL_JOYBALLMOTION: {
           printf("joy ball motion\n");
-        break;
+          break;
         }
         case SDL_JOYHATMOTION: {
+          break;
         }
-        case SDL_CONTROLLERBUTTONDOWN: {
-          printf("controller button downn\n");
-        break;
-        }
-        case SDL_CONTROLLERBUTTONUP: {
-          printf("controller butotn down\n");
-        break;
-        }
-        case SDL_CONTROLLERAXISMOTION: {
-          printf("controller axis motion\n");
-        break;
-        }
-        break;
         case SDL_QUIT:
           keySelectionMode = false;
         break;

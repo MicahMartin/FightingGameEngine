@@ -3,7 +3,7 @@
     $set_nograv_count 10;
     $set_control 0;
   } 
-  if($get_state_time == 10){ 
+  if($get_state_time == 2){ 
     $cancel_state 48;
   } 
 }

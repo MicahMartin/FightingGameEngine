@@ -19,7 +19,9 @@ public:
     POSITION,
     HURT,
     HIT,
-    THROW 
+    THROW,
+    THROW_HURT,
+    PROXIMITY,
   };
 
 

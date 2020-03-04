@@ -3,7 +3,7 @@
 #include "states/FightState.h"
 #include "input/InputManager.h"
 
-MenuState::MenuState(){
+MenuState::MenuState() {
   printf("menuState constructor\n");
   // TODO: let the menu add its own texture
   mainMenu.addMenuItem("versus", "../data/images/versus.png", 240, 50, [this]{
@@ -31,7 +31,7 @@ MenuState::MenuState(){
   activeMenu = &mainMenu;
 }
 
-MenuState::~MenuState(){ 
+MenuState::~MenuState() {
   printf("menuState destructor\n");
 }
 
@@ -62,11 +62,11 @@ void MenuState::handleInput() {
   activeMenu->handleInput();
 }
 
-void MenuState::update(){
+void MenuState::update() {
   menuScreen.update();
 }
 
-void MenuState::draw(){ 
+void MenuState::draw() {
   menuScreen.draw();
   activeMenu->draw();
 }

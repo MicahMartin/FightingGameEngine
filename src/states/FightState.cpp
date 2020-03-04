@@ -164,14 +164,14 @@ void FightState::handleInput(){
         player2->changeState(techState);
       }
     }
-
-    checkThrowCollisions();
-    checkHitCollisions();
-    checkBounds();
-    updateFaceRight();
-    checkCorner(player1);
-    checkCorner(player2);
   }
+
+  checkThrowCollisions();
+  checkHitCollisions();
+  checkBounds();
+  updateFaceRight();
+  checkCorner(player1);
+  checkCorner(player2);
 }
 
 void FightState::update(){ 
@@ -186,13 +186,6 @@ void FightState::update(){
       player2->update();
     }
 
-    if(player1->inHitStop){
-      player1->currentState->handleCancels();
-    }
-    if(player2->inHitStop){
-      player2->currentState->handleCancels();
-    }
-
     for (auto &i : player1->entityList) {
       if(!i.inHitStop){
         i.update();
@@ -203,36 +196,42 @@ void FightState::update(){
         i.update();
       }
     }
-    for (auto &i : player1->entityList) {
-      if(i.inHitStop){
-        i.currentState->handleCancels();
-      }
-    }
-    for (auto &i : player2->entityList) {
-      if(i.inHitStop){
-        i.currentState->handleCancels();
-      }
-    }
-
-    checkBounds();
-    updateFaceRight();
-    checkCorner(player1);
-    checkCorner(player2);
-
-    int highest = player1->_getYPos() > player2->_getYPos() ? player1->_getYPos() : player2->_getYPos();
-    camera.update(player1->getPos().first, player2->getPos().first);
-    if(highest > (graphics->getWindowHeight()/2)){
-      camera.cameraRect.y = highest - (graphics->getWindowHeight() / 2);
-    } else {
-      camera.cameraRect.y = 0;
-    }
-    checkPushCollisions();
-    checkBounds();
-    checkHealth();
+  }
+  if(player1->inHitStop){
+    player1->currentState->handleCancels();
   }
 
+  if(player2->inHitStop){
+    player2->currentState->handleCancels();
+  }
+  for (auto &i : player1->entityList) {
+    if(i.inHitStop){
+      i.currentState->handleCancels();
+    }
+  }
+  for (auto &i : player2->entityList) {
+    if(i.inHitStop){
+      i.currentState->handleCancels();
+    }
+  }
+
+  checkBounds();
+  updateFaceRight();
+  checkCorner(player1);
+  checkCorner(player2);
+
+  int highest = player1->_getYPos() > player2->_getYPos() ? player1->_getYPos() : player2->_getYPos();
+  camera.update(player1->getPos().first, player2->getPos().first);
+  if(highest > (graphics->getWindowHeight()/2)){
+    camera.cameraRect.y = highest - (graphics->getWindowHeight() / 2);
+  } else {
+    camera.cameraRect.y = 0;
+  }
+  checkPushCollisions();
+  checkBounds();
+  checkHealth();
+
   if (slowMode) {
-    // printf("the slowModeCounter:%d\n", slowDownCounter);
     if(slowDownCounter++ == 70){
       slowDownCounter = 0;
       slowMode = false;

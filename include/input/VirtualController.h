@@ -9,7 +9,7 @@
 #include <nlohmann/json.hpp>
 #include <boost/circular_buffer.hpp>
 
-typedef enum { 
+typedef enum {
   NOINPUT = 0,
 
   RIGHT = 0x1,
@@ -37,6 +37,13 @@ typedef enum {
   UPLEFT = (UP | LEFT),
   UPRIGHT = (UP | RIGHT),
 } Input;
+
+typedef enum {
+  CONTROLLER_UP = 1,
+  CONTROLLER_DOWN = 2,
+  CONTROLLER_LEFT = 3,
+  CONTROLLER_RIGHT = 4
+} ControllerInput;
 
 typedef enum {
   NEGATIVE = -1,

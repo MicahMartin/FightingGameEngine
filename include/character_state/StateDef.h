@@ -52,6 +52,8 @@ public:
   std::vector<CollisionBox*> hurtBoxes;
   std::vector<CollisionBox*> hitBoxes;
   std::vector<CollisionBox*> throwHitBoxes;
+  std::vector<CollisionBox*> throwHurtBoxes;
+  std::vector<CollisionBox*> proximityBoxes;
   std::unordered_map<int, std::vector<int>> soundIndexMap;
   // TODO: Methods to talk to anim so this stuff can stay private
   int stateNum;

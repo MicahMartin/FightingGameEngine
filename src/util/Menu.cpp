@@ -26,7 +26,7 @@ Menu::Menu() {
   menuSelect = Mix_LoadWAV("../data/audio/menuselect.wav");
 }
 
-Menu::~Menu(){};
+Menu::~Menu() {}
 
 Menu::Menu(int width, int height, SDL_Color borderColor, SDL_Color bodyColor, const char* cursorTexturePath) : 
 menuWidth(width), menuHeight(height), borderColor(borderColor), bodyColor(bodyColor) {
@@ -34,7 +34,7 @@ menuWidth(width), menuHeight(height), borderColor(borderColor), bodyColor(bodyCo
   menuCursor.cursorTexture.setDimensions(0, 0, 25, 25);
 }
 
-void Menu::handleInput(){
+void Menu::handleInput() {
   if(vc->wasPressed(UP)){
     Mix_PlayChannel(2, menuMove, 0);
     moveCursorUp();
@@ -82,6 +82,7 @@ void Menu::draw() {
   for (auto i : menuItemArray) {
     i.draw();
   }
+
   menuCursor.cursorTexture.render();
 }
 
@@ -92,6 +93,7 @@ void Menu::moveCursorDown() {
     } else {
       menuCursor.position++;
     }
+
     MenuItem* menuItemPtr = &menuItemArray[menuCursor.position];
     std::pair menuItemCoords = menuItemPtr->itemTexture.getCords();
     menuCursor.cursorTexture.setCords(menuItemCoords.first - (menuCursor.cursorTexture.getDimensions().first + 50), menuItemCoords.second);
@@ -111,4 +113,3 @@ void Menu::moveCursorUp() {
     menuCursor.cursorTexture.setCords(menuItemCoords.first - (menuCursor.cursorTexture.getDimensions().first + 50), menuItemCoords.second );
   }
 }
-
