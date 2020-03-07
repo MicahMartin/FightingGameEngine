@@ -1,15 +1,15 @@
 project(kusoge)
 
 cmake_minimum_required(VERSION 3.9)
+set(CMAKE_BUILD_TYPE RelWithDebInfo)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_EXE_LINKER_FLAGS "-Wl,-no_pie,-export_dynamic")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON) # -std=c++11 instead of -std=gnu++11
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 set(MY_CXX_COMPILE_FEATURES cxx_generic_lambdas cxx_range_for cxx_strong_enums)
 set(JSON_BuildTests OFF CACHE INTERNAL "")
-
-
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
 file(GLOB_RECURSE SOURCE src/*.cpp)
 file(GLOB_RECURSE HEADER include/*.h)

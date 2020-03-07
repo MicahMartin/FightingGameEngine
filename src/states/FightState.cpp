@@ -147,8 +147,6 @@ void FightState::handleInput(){
         i.handleInput();
       }
     }
-
-
     // check for throw techs
     if (player1->currentState->checkFlag(TECHABLE)) {
       if (player1->_checkCommand(5)) {
@@ -165,6 +163,28 @@ void FightState::handleInput(){
       }
     }
   }
+  if(player1->inHitStop){
+    player1->currentState->handleCancels();
+  }
+
+  if(player2->inHitStop){
+    player2->currentState->handleCancels();
+  }
+  for (auto &i : player1->entityList) {
+    if(i.inHitStop){
+      i.currentState->handleCancels();
+    }
+  }
+  for (auto &i : player2->entityList) {
+    if(i.inHitStop){
+      i.currentState->handleCancels();
+    }
+  }
+
+
+
+  checkProximityAgainst(player1, player2);
+  checkProximityAgainst(player2, player1);
 
   checkThrowCollisions();
   checkHitCollisions();
@@ -197,24 +217,6 @@ void FightState::update(){
       }
     }
   }
-  if(player1->inHitStop){
-    player1->currentState->handleCancels();
-  }
-
-  if(player2->inHitStop){
-    player2->currentState->handleCancels();
-  }
-  for (auto &i : player1->entityList) {
-    if(i.inHitStop){
-      i.currentState->handleCancels();
-    }
-  }
-  for (auto &i : player2->entityList) {
-    if(i.inHitStop){
-      i.currentState->handleCancels();
-    }
-  }
-
   checkBounds();
   updateFaceRight();
   checkCorner(player1);
@@ -545,7 +547,7 @@ ThrowResult FightState::checkThrowAgainst(Character* thrower, Character* throwee
     for (auto p1ThrowHitbox : thrower->currentState->throwHitBoxes) {
       if(!p1ThrowHitbox->disabled){
         printf("checking a throwbox\n");
-        for (auto p2HurtBox : throwee->currentState->pushBoxes) {
+        for (auto p2HurtBox : throwee->currentState->throwHurtBoxes) {
           if(!p2HurtBox->disabled){
             if (CollisionBox::checkAABB(*p1ThrowHitbox, *p2HurtBox)) {
               if (p1ThrowHitbox->throwType == 1 && throwee->_getYPos() > 0) {
@@ -685,6 +687,30 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
                 } else {
                   return 9;
                 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return 0;
+}
+
+int FightState::checkProximityAgainst(Character* hitter, Character* hurter){
+  if (!hitter->currentState->hitboxesDisabled) {
+    for (auto hitBox : hitter->currentState->proximityBoxes) {
+      bool groupDisabled = hitter->currentState->hitboxGroupDisabled[hitBox->groupID];
+      if(!hitBox->disabled && !groupDisabled){
+        for (auto hurtBox : hurter->currentState->hurtBoxes) {
+          if(!hurtBox->disabled && !groupDisabled){
+            if (CollisionBox::checkAABB(*hitBox, *hurtBox)) {
+              printf("proximity collision detected\n");
+              if (hurter->currentState->stateNum == 3) {
+                hurter->changeState(28);
+              }
+              if (hurter->currentState->stateNum == 4 && hurter->_getInput(1)) {
+                hurter->changeState(29);
               }
             }
           }

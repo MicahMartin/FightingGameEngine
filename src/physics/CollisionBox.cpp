@@ -50,16 +50,28 @@ void CollisionBox::render(){
   Camera* cam = graphics->getCamera();
   switch (boxType) {
     case POSITION:
+      // red
       SDL_SetRenderDrawColor(graphics->getRenderer(), 0, 0, 255, 0);
       break;
     case HURT:
+      // green
       SDL_SetRenderDrawColor(graphics->getRenderer(), 0, 255, 0, 0);
       break;
     case HIT:
+      // blue
       SDL_SetRenderDrawColor(graphics->getRenderer(), 255, 0, 0, 0);
       break;
     case THROW:
+      // bright purple 
       SDL_SetRenderDrawColor(graphics->getRenderer(), 255, 0, 255, 0);
+      break;
+    case THROW_HURT:
+      // purple
+      SDL_SetRenderDrawColor(graphics->getRenderer(), 128, 0, 128, 0);
+      break;
+    case PROXIMITY:
+      // yellow
+      SDL_SetRenderDrawColor(graphics->getRenderer(), 255, 255, 0, 0);
       break;
   }
   SDL_Rect collisionRect;
@@ -79,4 +91,6 @@ std::map<std::string, CollisionBox::CollisionType> CollisionBox::collisionTypeMa
   {"HURT", CollisionBox::HURT},
   {"HIT", CollisionBox::HIT},
   {"THROW", CollisionBox::THROW},
+  {"THROW_HURT", CollisionBox::THROW_HURT},
+  {"PROXIMITY", CollisionBox::PROXIMITY},
 };

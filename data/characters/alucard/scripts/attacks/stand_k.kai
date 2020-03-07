@@ -1,8 +1,11 @@
 { 
   if($get_state_time == 0){ 
     $set_control 0; 
+    $velset_x 8; 
+  }
+  if($get_state_time == 8){ 
     $velset_x 0; 
-  } 
+  }
 
   var back = $get_input 4; 
   var upback = $get_input 7; 
@@ -20,7 +23,7 @@
     }
   }
 
-  if($get_state_time == 16){ 
+  if($get_state_time == 22){ 
     $set_control 1; 
   } 
 } 

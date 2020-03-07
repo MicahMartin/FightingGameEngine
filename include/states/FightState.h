@@ -44,6 +44,7 @@ public:
   void checkPushCollisions();
   void checkThrowCollisions();
   void checkHitCollisions();
+  void checkProximityCollisions();
   void checkEntityHitCollisions();
   void checkBounds();
   void checkHealth();
@@ -59,7 +60,10 @@ public:
   void checkEntityHitstop(Character* player);
 
   int checkHitboxAgainstHurtbox(Character* hitter, Character* hurter);
+  int checkProximityAgainst(Character* hitter, Character* hurter);
+
   int checkEntityHitAgainst(Character* thrower, Character* throwee);
+  int checkEntityProximityAgainst(Character* hitter, Character* hurter);
   ThrowResult checkThrowAgainst(Character* thrower, Character* throwee);
 
 
