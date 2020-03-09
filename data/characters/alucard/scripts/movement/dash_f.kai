@@ -11,9 +11,11 @@
     $set_control 0; 
     $velset_x 4; 
   } 
+  if($get_state_time == 2){ 
+    $set_whiff_cancel 1;
+  } 
   if($get_state_time == 8){ 
     $velset_x 8; 
-    $set_whiff_cancel 1;
   } 
   if($get_state_time == 16){ 
     $velset_x 12; 

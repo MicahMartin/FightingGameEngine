@@ -433,6 +433,10 @@ int Entity::_getAirActions(){
   return hasAirAction;
 }
 
+void Entity::_setCounter(int operand){
+  currentState->counterHitFlag = operand;
+}
+
 void Entity::_setAirAction(int operand){
   hasAirAction = operand;
 }

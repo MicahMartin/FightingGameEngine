@@ -92,6 +92,7 @@ StateDef::~StateDef() {
 }
 
 void StateDef::enter(){
+  counterHitFlag = false;
   canHitCancel = false;
   canWhiffCancel = false;
   stateTime = 0;

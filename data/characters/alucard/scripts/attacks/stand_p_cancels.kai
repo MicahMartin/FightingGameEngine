@@ -1,9 +1,17 @@
 {
   var canHitCancel = $get_hit_cancel;
-  var inCancelWindow = ($get_state_time >= 5) and ($get_state_time <= 14);
-  if(canHitCancel and ($get_state_time > 14)) {
+  var stateTime = $get_state_time;
+  var inCancelWindow = (stateTime >= 5) and (stateTime <= 14);
+  if(canHitCancel and (stateTime > 14)) {
     $set_hit_cancel 0;
   }
+  if (stateTime == 0) {
+    $set_counter 1;
+  }
+  if (stateTime == 5) {
+    $set_counter 0;
+  }
+  
 
   if(canHitCancel and inCancelWindow){
     var qcf_k = $check_command 2;

@@ -64,6 +64,7 @@ public:
 
   bool canWhiffCancel = false;
   bool canHitCancel = false;
+  bool counterHitFlag = false;
   GameObject* owner;
   std::unordered_map<int, bool> hitboxGroupDisabled;
 

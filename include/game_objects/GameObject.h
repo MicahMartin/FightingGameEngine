@@ -65,6 +65,7 @@ public:
   virtual void _setHitStun(int val) = 0;
   virtual void _setHitCancel(int val) = 0;
   virtual void _setWhiffCancel(int val) = 0;
+  virtual void _setCounter(int val) = 0;
   virtual void _setNoGravityCounter(int count) = 0;
   virtual void _setGravity(int set) = 0;
   virtual void _setAirAction(int set) = 0;

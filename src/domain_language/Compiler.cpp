@@ -459,6 +459,8 @@ void Compiler::statement() {
     engineCallExpressionStatement(OP_SET_HIT_CANCEL);
   } else if (match(TOKEN_SET_WHIFF_CANCEL)) {
     engineCallExpressionStatement(OP_SET_WHIFF_CANCEL);
+  } else if (match(TOKEN_SET_COUNTER)) {
+    engineCallExpressionStatement(OP_SET_COUNTER);
   } else if (match(TOKEN_FOR)) {
     forStatement();
   } else if (match(TOKEN_WHILE)) {     

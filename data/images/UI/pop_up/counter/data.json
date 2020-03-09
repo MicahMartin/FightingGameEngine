@@ -1,0 +1,8 @@
+{
+  "animation": [
+    { "file": "../data/images/UI/pop_up/counter/counter_small.png", "time": -1, "offsetX": 0, "offsetY": -200, "scale": 1}
+  ],
+  "sounds": [
+    {"file": "", "start": 1}
+  ]
+}

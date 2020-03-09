@@ -182,6 +182,8 @@ int Script::disassembleInstruction(int offset){
       return simpleInstruction("OP_SET_HIT_CANCEL", offset);
     case OP_SET_WHIFF_CANCEL:
       return simpleInstruction("OP_SET_WHIFF_CANCEL", offset);
+    case OP_SET_COUNTER:
+      return simpleInstruction("OP_SET_COUNTER", offset);
     case OP_RETURN:
       return simpleInstruction("OP_RETURN", offset);
       break;

@@ -72,6 +72,9 @@ void FightState::enter(){
 
   p2WinPopup.loadDataFile("../data/images/UI/pop_up/player_2_win/data.json");
   p2WinPopup.setPlayLength(120);
+
+  p2CounterHit.loadDataFile("../data/images/UI/pop_up/counter/data.json");
+  p2CounterHit.setPlayLength(30);
 }
 
 void FightState::exit(){ 
@@ -85,14 +88,6 @@ void FightState::pause(){ }
 void FightState::resume(){ }
 
 void FightState::handleInput(){ 
-  player1->currentState->handleCancels();
-  player2->currentState->handleCancels();
-  for (auto &i : player1->entityList) {
-    i.currentState->handleCancels();
-  }
-  for (auto &i : player2->entityList) {
-    i.currentState->handleCancels();
-  }
   if(!slowMode){
     if (roundStartCounter > 0) {
       // printf("roundStarTCounter!:%d\n", roundStartCounter);
@@ -170,6 +165,14 @@ void FightState::handleInput(){
         player2->changeState(techState);
       }
     }
+  }
+  player1->currentState->handleCancels();
+  player2->currentState->handleCancels();
+  for (auto &i : player1->entityList) {
+    i.currentState->handleCancels();
+  }
+  for (auto &i : player2->entityList) {
+    i.currentState->handleCancels();
   }
 
 
@@ -270,6 +273,10 @@ void FightState::update(){
     p2WinPopup.setX(camera.middle);
     p2WinPopup.update();
   }
+  if (p2CounterHit.getActive()) {
+    p2CounterHit.setX(camera.upperBound);
+    p2CounterHit.update();
+  }
 }
 
 void FightState::draw() {
@@ -289,6 +296,9 @@ void FightState::draw() {
   renderComboCount();
   renderInputHistory();
   currentScreen.renderWins(p1RoundsWon, p2RoundsWon);
+  if (p2CounterHit.getActive()) {
+    p2CounterHit.draw();
+  }
 
   if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
     p2DrawStart = SDL_GetTicks();
@@ -359,6 +369,7 @@ void FightState::draw() {
   if (p2WinPopup.getActive()) {
     p2WinPopup.draw();
   }
+
 
   if (playHitSound > 0) {
     if (playHitSound == 1) {
@@ -577,7 +588,7 @@ ThrowResult FightState::checkThrowAgainst(Character* thrower, Character* throwee
   return result;
 }
 
-int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
+HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
   if (!hitter->currentState->hitboxesDisabled) {
     for (auto hitBox : hitter->currentState->hitBoxes) {
       bool groupDisabled = hitter->currentState->hitboxGroupDisabled[hitBox->groupID];
@@ -653,6 +664,9 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
                 // playHurtSoundID = hurter->currentHurtSoundID;
                 // hurter->currentHurtSoundID++;
               } else {
+                bool wasACounter = hurter->currentState->counterHitFlag;
+                printf("is the hurter being couner hit?? time:  %d  counterhit: %d\n", hurter->currentState->stateTime, hurter->currentState->counterHitFlag);
+                hurter->currentState->counterHitFlag = false;
                 hitter->hitsparkRectDisabled = false;
                 hitter->hitsparkIntersect = CollisionBox::getAABBIntersect(*hitBox, *hurtBox);
 
@@ -675,9 +689,9 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
                 if(hitBox->canTrip || hurter->_getYPos() > 0 
                     || hurterCurrentState  == 24 || hurterCurrentState == 35 
                     || hurterCurrentState == 52 || hurterCurrentState == 53){
-                  return 24;
+                  return {true, wasACounter, 24, NULL};
                 } else {
-                  return 9;
+                  return {true, wasACounter, 9, NULL};
                 }
               }
             }
@@ -686,7 +700,7 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
       }
     }
   }
-  return 0;
+  return {false, false, 0, NULL};
 }
 
 int FightState::checkProximityAgainst(Character* hitter, Character* hurter){
@@ -714,22 +728,26 @@ int FightState::checkProximityAgainst(Character* hitter, Character* hurter){
 }
 
 void FightState::checkHitCollisions(){
-  int p2HitState = checkHitboxAgainstHurtbox(player1, player2);
-  int p1HitState = checkHitboxAgainstHurtbox(player2, player1);
+  HitResult p2HitState = checkHitboxAgainstHurtbox(player1, player2);
+  HitResult p1HitState = checkHitboxAgainstHurtbox(player2, player1);
 
-  if (p1HitState > 0) {
-    player1->changeState(p1HitState);
+  if (p1HitState.hit) {
+    player1->changeState(p1HitState.hitState);
   }
-  if (p2HitState > 0) {
-    player2->changeState(p2HitState);
+  if (p2HitState.hit) {
+    player2->changeState(p2HitState.hitState);
+    if (p2HitState.counter) {
+      printf("was a counter!!\n");
+      p2CounterHit.setStateTime(0);
+      p2CounterHit.setActive(true);
+    }
   }
 
   checkEntityHitCollisions();
 }
 
-int FightState::checkEntityHitAgainst(Character* p1, Character* p2){
+HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
   bool p2Hit = false;
-  int p2HitState = 0;
 
   for (auto &i : p1->entityList) {
     if (!i.currentState->hitboxesDisabled) {
@@ -749,6 +767,7 @@ int FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                 p1->frameLastAttackConnected = gameTime; 
                 // TODO: Hitbox group IDs
                 i.currentState->hitboxesDisabled = true;
+                i.currentState->canHitCancel = true;
 
                 p2->pushTime = p1Hitbox->pushTime;
                 if(p2->faceRight == entityFaceRight){
@@ -805,9 +824,9 @@ int FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                   p2->comboCounter++;
 
                   if(p1Hitbox->canTrip || p2->_getYPos() > 0 || p2->currentState->stateNum == 24){
-                    p2HitState = 24;
+                    return {true, false, 24, NULL};
                   } else {
-                    p2HitState = 9;
+                    return {true, false, 9, NULL};
                   }
                 }
               }
@@ -818,19 +837,19 @@ int FightState::checkEntityHitAgainst(Character* p1, Character* p2){
     }
   }
 
-  return p2HitState;
+  return {false, false, 0, NULL};
 }
 
 void FightState::checkEntityHitCollisions(){
   // TODO: func
-  int p2Hit = checkEntityHitAgainst(player1, player2);
-  int p1Hit = checkEntityHitAgainst(player2, player1);
+  HitResult p2Hit = checkEntityHitAgainst(player1, player2);
+  HitResult p1Hit = checkEntityHitAgainst(player2, player1);
 
-  if (p1Hit > 0) {
-    player1->changeState(p1Hit);
+  if (p1Hit.hit) {
+    player1->changeState(p1Hit.hitState);
   }
-  if (p2Hit > 0) {
-    player2->changeState(p2Hit);
+  if (p2Hit.hit) {
+    player2->changeState(p2Hit.hitState);
   }
 
 }

@@ -45,7 +45,7 @@ typedef enum {
 
   TOKEN_SET_CONTROL, TOKEN_SET_COMBO, TOKEN_SET_GRAVITY,
   TOKEN_SET_NOGRAV_COUNT, TOKEN_SET_AIR_ACTION, TOKEN_SET_HIT_STUN,
-  TOKEN_SET_HIT_CANCEL, TOKEN_SET_WHIFF_CANCEL,
+  TOKEN_SET_HIT_CANCEL, TOKEN_SET_WHIFF_CANCEL, TOKEN_SET_COUNTER,
   TOKEN_RESET_ANIM,
 
   TOKEN_ACTIVATE_ENTITY, TOKEN_DEACTIVATE_ENTITY,
@@ -110,6 +110,7 @@ static const std::unordered_map<std::string, TokenType> keywordTypes {
   { "$get_whiff_cancel",  TOKEN_GET_WHIFF_CANCEL},
   { "$set_hit_cancel",  TOKEN_SET_HIT_CANCEL},
   { "$set_whiff_cancel",  TOKEN_SET_WHIFF_CANCEL},
+  { "$set_counter",  TOKEN_SET_COUNTER},
 };
 
 class Scanner {

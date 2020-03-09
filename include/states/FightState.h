@@ -25,6 +25,13 @@ struct ThrowResult {
   CollisionBox* throwCb;
 };
 
+struct HitResult {
+  bool hit;
+  bool counter;
+  int hitState;
+  CollisionBox* hitCb;
+};
+
 class FightState : public GameState {
 public:
   FightState();
@@ -59,10 +66,10 @@ public:
   void checkHitstop(Character* player);
   void checkEntityHitstop(Character* player);
 
-  int checkHitboxAgainstHurtbox(Character* hitter, Character* hurter);
+  HitResult checkHitboxAgainstHurtbox(Character* hitter, Character* hurter);
   int checkProximityAgainst(Character* hitter, Character* hurter);
 
-  int checkEntityHitAgainst(Character* thrower, Character* throwee);
+  HitResult checkEntityHitAgainst(Character* thrower, Character* throwee);
   int checkEntityProximityAgainst(Character* hitter, Character* hurter);
   ThrowResult checkThrowAgainst(Character* thrower, Character* throwee);
 
@@ -100,6 +107,9 @@ private:
   Popup knockoutPopup;
   Popup p1WinPopup;
   Popup p2WinPopup;
+
+  Popup p1CounterHit;
+  Popup p2CounterHit;
 
   Camera camera;
   CharStateManager* charStateManager = CharStateManager::getInstance();

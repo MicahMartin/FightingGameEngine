@@ -62,6 +62,7 @@ typedef enum {
   OP_SET_HIT_STUN,
   OP_SET_HIT_CANCEL,
   OP_SET_WHIFF_CANCEL,
+  OP_SET_COUNTER,
   OP_RESET_ANIM,
   OP_ACTIVATE_ENTITY,
   OP_DEACTIVATE_ENTITY,
@@ -109,6 +110,7 @@ static const std::unordered_map<std::string, OpCode> engineCallMap {
   {"$get_whiff_cancel", OP_GET_WHIFF_CANCEL},
   {"$set_hit_cancel",  OP_SET_HIT_CANCEL},
   {"$set_whiff_cancel", OP_SET_WHIFF_CANCEL},
+  {"$set_counter", OP_SET_COUNTER},
 };
 
 struct Local {

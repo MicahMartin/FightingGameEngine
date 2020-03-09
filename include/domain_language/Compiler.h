@@ -193,6 +193,7 @@ private:
     {TOKEN_GET_WHIFF_CANCEL, engineCallRule},
     {TOKEN_SET_HIT_CANCEL, engineCallArgRule},
     {TOKEN_SET_WHIFF_CANCEL, engineCallArgRule},
+    {TOKEN_SET_COUNTER, engineCallArgRule},
   };
 };
 

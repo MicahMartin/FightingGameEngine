@@ -1,3 +1,6 @@
 {
-  $cancel_state 2;
+  if ($get_hit_cancel) {
+    $cancel_state 2;
+  }
+  
 }

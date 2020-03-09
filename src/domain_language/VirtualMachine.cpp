@@ -310,6 +310,12 @@ inline ExecutionCode VirtualMachine::run(){
         character->_setWhiffCancel(operand);
         break;
       }
+      case OP_SET_COUNTER: {
+                             printf("setting counter!\n");
+        long operand = AS_NUMBER(stack.pop());
+        character->_setCounter(operand);
+        break;
+      }
       case OP_RESET_ANIM: {
         character->_resetAnim();
         break;

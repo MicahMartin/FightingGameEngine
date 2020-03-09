@@ -471,6 +471,10 @@ void Character::_setAirAction(int operand){
   hasAirAction = operand;
 }
 
+void Character::_setCounter(int operand){
+  currentState->counterHitFlag = operand;
+}
+
 int Character::_getCombo(){
   return comboCounter;
 }

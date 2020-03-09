@@ -92,6 +92,7 @@ public:
   void _setNoGravityCounter(int count);
   void _setGravity(int set);
   void _setAirAction(int set);
+  void _setCounter(int val);
   void _resetAnim();
   void _activateEntity(int entityID);
   void _deactivateEntity(int entityID);
