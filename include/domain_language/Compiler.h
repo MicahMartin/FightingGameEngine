@@ -106,78 +106,89 @@ private:
   void synchronize();
   void markInitialized();
 
-  ParseRule rules[68] = {
-    { &Compiler::grouping, NULL,    PREC_NONE },                  // TOKEN_LEFT_PAREN
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_RIGHT_PAREN
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_LEFT_BRACE
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_RIGHT_BRACE
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_COMMA
-    { &Compiler::unary,    &Compiler::binary,  PREC_TERM },       // TOKEN_MINUS
-    { NULL,     &Compiler::binary,  PREC_TERM },                  // TOKEN_PLUS
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_SEMICOLON
-    { NULL,     &Compiler::binary,  PREC_FACTOR },                // TOKEN_SLASH
-    { NULL,     &Compiler::binary,  PREC_FACTOR },                // TOKEN_STAR
-    { &Compiler::unary,     NULL,    PREC_NONE },                             // TOKEN_BANG
-    { NULL,     &Compiler::binary,    PREC_EQUALITY},                             // TOKEN_BANG_EQUAL
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_EQUAL
-    { NULL,     &Compiler::binary,    PREC_EQUALITY },                             // TOKEN_EQUAL_EQUAL
-    { NULL,     &Compiler::binary,    PREC_COMPARISON },                             // TOKEN_GREATER
-    { NULL,     &Compiler::binary,    PREC_COMPARISON },                             // TOKEN_GREATER_EQUAL
-    { NULL,     &Compiler::binary,    PREC_COMPARISON },                             // TOKEN_LESS
-    { NULL,     &Compiler::binary,    PREC_COMPARISON },                             // TOKEN_LESS_EQUAL
-    { &Compiler::variable,     NULL,    PREC_NONE },                             // TOKEN_IDENTIFIER
-    { &Compiler::string,     NULL,    PREC_NONE },                             // TOKEN_STRING
-    { &Compiler::number,   NULL,    PREC_NONE },                  // TOKEN_NUMBER
-    { NULL,     &Compiler::logicalAnd,    PREC_AND},                             // TOKEN_AND
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_ELSE
-    { &Compiler::literal,     NULL,    PREC_NONE },                             // TOKEN_FALSE
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_FOR
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_FUN
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_IF
-    { &Compiler::literal,     NULL,    PREC_NONE },                             // TOKEN_NIL
-    { NULL,     &Compiler::logicalOr,    PREC_OR},                             // TOKEN_OR
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_PRINT
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_RETURN
-    { &Compiler::literal,     NULL,    PREC_NONE },                             // TOKEN_TRUE
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_VAR
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_WHILE
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_ERROR
-    { NULL,     NULL,    PREC_NONE },                             // TOKEN_EOF
-    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_ANIM_TIME, 
-    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_HIT_STUN, 
-    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_BLOCK_STUN, 
-    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_STATE_TIME,
-    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_Y_POS, 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg, PREC_NONE },  // TOKEN_GET_INPUT, 
-    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_STATE_NUM,
-    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_COMBO, 
-    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_CONTROL,
-    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_GET_IS_ALIVE,
+  ParseRule groupRule = { &Compiler::grouping, NULL, PREC_NONE };
+  ParseRule noRule = { NULL, NULL, PREC_NONE };
+  ParseRule negativeThenMinusRule = { &Compiler::unary, &Compiler::binary, PREC_TERM };
+  ParseRule multiplyDivideRule = { NULL, &Compiler::binary,  PREC_FACTOR };
+  ParseRule binaryTermRule = { NULL, &Compiler::binary, PREC_TERM };
+  ParseRule engineRule = { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE };
+  ParseRule unaryRule = { &Compiler::unary, NULL, PREC_NONE };
+  ParseRule binaryEqualityRule = { NULL, &Compiler::binary, PREC_EQUALITY };
+  ParseRule binaryComparisonRule = { NULL, &Compiler::binary, PREC_COMPARISON };
+  ParseRule variableRule = { &Compiler::variable, NULL, PREC_NONE };
+  ParseRule stringRule = { &Compiler::string, NULL, PREC_NONE };
+  ParseRule numberLiteralRule = { &Compiler::number, NULL, PREC_NONE };
+  ParseRule logicalAndRule = { NULL, &Compiler::logicalAnd, PREC_AND };
+  ParseRule valueLiteralRule = { &Compiler::literal, NULL, PREC_NONE };
+  ParseRule logicalOrRule = { NULL, &Compiler::logicalOr, PREC_OR };
+  ParseRule engineCallRule = { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE };
+  ParseRule engineCallArgRule = { &Compiler::engineCallArg, &Compiler::engineCallArg, PREC_NONE };
 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg, PREC_NONE },  // TOKEN_CHECK_COMMAND, 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg, PREC_NONE },  // TOKEN_WAS_PRESSED, 
-    { &Compiler::engineCall, &Compiler::engineCall, PREC_NONE },  // TOKEN_HAS_AIR_ACTION,
-
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_CHANGE_STATE, 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_CANCEL_STATE,
-
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_VELSET_X, 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_NEG_VELSET_X, 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_VELSET_Y,
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_MOVE_F, 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_MOVE_B, 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_MOVE_U, 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_MOVE_D,
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_SET_CONTROL, 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_SET_COMBO, 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_SET_GRAVITY,
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_SET_NOGRAV_COUNT, 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_SET_AIR_ACTION, 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_SET_HIT_STUN, 
-    { NULL, NULL, PREC_NONE },  // TOKEN_RESET_ANIM,
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_ACTIVATE_ENTITY, 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_DEACTIVATE_ENTITY, 
-    { &Compiler::engineCallArg, &Compiler::engineCallArg,  PREC_NONE },  // TOKEN_SNAP_TO_OPPONENT, 
+  std::unordered_map<TokenType, ParseRule> rules = {
+    {TOKEN_RIGHT_PAREN, noRule},
+    {TOKEN_LEFT_BRACE, noRule},
+    {TOKEN_RIGHT_BRACE, noRule},
+    {TOKEN_COMMA, noRule},
+    {TOKEN_SEMICOLON, noRule},
+    {TOKEN_EQUAL, noRule},
+    {TOKEN_IF, noRule},
+    {TOKEN_NIL, noRule},
+    {TOKEN_PRINT, noRule},
+    {TOKEN_RETURN, noRule},
+    {TOKEN_VAR, noRule},
+    {TOKEN_ERROR, noRule},
+    {TOKEN_EOF, noRule},
+    {TOKEN_RESET_ANIM, noRule},
+    {TOKEN_LEFT_PAREN, groupRule},
+    {TOKEN_MINUS, negativeThenMinusRule},
+    {TOKEN_PLUS, binaryTermRule},
+    {TOKEN_SLASH, multiplyDivideRule},
+    {TOKEN_STAR, multiplyDivideRule},
+    {TOKEN_BANG, unaryRule},
+    {TOKEN_BANG_EQUAL, binaryEqualityRule},
+    {TOKEN_EQUAL_EQUAL, binaryEqualityRule},
+    {TOKEN_GREATER, binaryComparisonRule},
+    {TOKEN_GREATER_EQUAL, binaryComparisonRule},
+    {TOKEN_LESS, binaryComparisonRule},
+    {TOKEN_LESS_EQUAL, binaryComparisonRule},
+    {TOKEN_IDENTIFIER, variableRule},
+    {TOKEN_STRING, stringRule},
+    {TOKEN_NUMBER, numberLiteralRule},
+    {TOKEN_FALSE, valueLiteralRule},
+    {TOKEN_TRUE, valueLiteralRule},
+    {TOKEN_AND, logicalAndRule},
+    {TOKEN_OR, logicalOrRule},
+    {TOKEN_GET_ANIM_TIME, engineCallRule},
+    {TOKEN_GET_HIT_STUN, engineCallRule},
+    {TOKEN_GET_BLOCK_STUN, engineCallRule},
+    {TOKEN_GET_STATE_TIME, engineCallRule},
+    {TOKEN_GET_Y_POS, engineCallRule},
+    {TOKEN_GET_INPUT, engineCallArgRule},
+    {TOKEN_GET_STATE_NUM, engineCallRule},
+    {TOKEN_GET_COMBO, engineCallRule},
+    {TOKEN_GET_CONTROL, engineCallRule},
+    {TOKEN_GET_IS_ALIVE, engineCallRule},
+    {TOKEN_CHECK_COMMAND, engineCallArgRule},
+    {TOKEN_WAS_PRESSED, engineCallArgRule},
+    {TOKEN_HAS_AIR_ACTION, engineCallRule},
+    {TOKEN_CHANGE_STATE, engineCallArgRule},
+    {TOKEN_CANCEL_STATE, engineCallArgRule},
+    {TOKEN_VELSET_X, engineCallArgRule},
+    {TOKEN_NEG_VELSET_X, engineCallArgRule},
+    {TOKEN_VELSET_Y, engineCallArgRule},
+    {TOKEN_MOVE_F, engineCallArgRule},
+    {TOKEN_MOVE_B, engineCallArgRule},
+    {TOKEN_MOVE_U, engineCallArgRule},
+    {TOKEN_MOVE_D, engineCallArgRule},
+    {TOKEN_SET_CONTROL, engineCallArgRule},
+    {TOKEN_SET_COMBO, engineCallArgRule},
+    {TOKEN_SET_GRAVITY, engineCallArgRule},
+    {TOKEN_SET_NOGRAV_COUNT, engineCallRule},
+    {TOKEN_SET_AIR_ACTION, engineCallRule},
+    {TOKEN_SET_HIT_STUN, engineCallArgRule},
+    {TOKEN_ACTIVATE_ENTITY, engineCallArgRule},
+    {TOKEN_DEACTIVATE_ENTITY, engineCallArgRule},
+    {TOKEN_SNAP_TO_OPPONENT, engineCallArgRule},
   };
 };
 

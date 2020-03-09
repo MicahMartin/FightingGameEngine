@@ -1,10 +1,27 @@
 { 
+  var downforward = $get_input 3; 
+  var forward = $get_input 6; 
+  var anyForward = (downforward or forward);
+  var stateTime = $get_state_time;
+  var quotient = stateTime / 16;
+  var product = quotient * 16;
+  var remainder = stateTime - product;
+
   if($get_state_time == 0){ 
     $set_control 0; 
+    $velset_x 4; 
+  } 
+  if($get_state_time == 8){ 
     $velset_x 8; 
   } 
-  if($get_state_time == 18){ 
-    $velset_x 0; 
-    $set_control 1; 
+  if($get_state_time == 16){ 
+    $velset_x 12; 
   } 
+  if($get_state_time >= 1 and (!anyForward)){ 
+    $cancel_state 69; 
+  } 
+  if (remainder == 0) {
+    $reset_anim;
+  }
+  
 } 

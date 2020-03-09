@@ -41,7 +41,7 @@ void FightState::enter(){
   graphics->setCamera(&camera);
   camera.update(1700, 2200);
   Mix_PlayMusic(bgMusic, -1);
-  roundStartCounter = 240;
+  roundStartCounter = 210;
   roundStart = true;
 
   matchIntroPopup.loadDataFile("../data/images/UI/pop_up/match_intro/data.json");
@@ -93,11 +93,11 @@ void FightState::handleInput(){
         player2->control = 1;
         roundStart = false;
       }
-      if (roundStartCounter == 230) {
+      if (roundStartCounter == 200) {
         matchIntroPopup.setStateTime(0);
         matchIntroPopup.setActive(true);
       }
-      if (roundStartCounter == 140) {
+      if (roundStartCounter == 130) {
         switch (currentRound) {
           case 0:
             round1.setStateTime(0);
@@ -116,7 +116,7 @@ void FightState::handleInput(){
         }
       }
 
-      if (roundStartCounter == 70) {
+      if (roundStartCounter == 60) {
         fightPopup.setStateTime(0);
         fightPopup.setActive(true);
       }
@@ -129,6 +129,24 @@ void FightState::handleInput(){
 
     checkEntityHitstop(player1);
     checkEntityHitstop(player2);
+
+    if(player1->inHitStop){
+      player1->currentState->handleCancels();
+    }
+
+    if(player2->inHitStop){
+      player2->currentState->handleCancels();
+    }
+    for (auto &i : player1->entityList) {
+      if(i.inHitStop){
+        i.currentState->handleCancels();
+      }
+    }
+    for (auto &i : player2->entityList) {
+      if(i.inHitStop){
+        i.currentState->handleCancels();
+      }
+    }
 
     if (!player1->inHitStop) {
       player1->handleInput();
@@ -161,23 +179,6 @@ void FightState::handleInput(){
         player1->changeState(techState);
         player2->changeState(techState);
       }
-    }
-  }
-  if(player1->inHitStop){
-    player1->currentState->handleCancels();
-  }
-
-  if(player2->inHitStop){
-    player2->currentState->handleCancels();
-  }
-  for (auto &i : player1->entityList) {
-    if(i.inHitStop){
-      i.currentState->handleCancels();
-    }
-  }
-  for (auto &i : player2->entityList) {
-    if(i.inHitStop){
-      i.currentState->handleCancels();
     }
   }
 
@@ -988,7 +989,7 @@ void FightState::restartRound(){
   player2->setXPos(2200);
   player2->setYPos(0);
   camera.update(1700, 2200);
-  roundStartCounter = 240;
+  roundStartCounter = 210;
   roundStart = true;
 }
 

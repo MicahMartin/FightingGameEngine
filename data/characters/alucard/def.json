@@ -80,7 +80,7 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
-        {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+        {"type": "THROW_HURT", "start": 3, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
       "sounds": [
         {"soundID": 3, "start": 1}
@@ -101,7 +101,7 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
-        {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+        {"type": "THROW_HURT", "start": 3, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
       "sounds": [
         {"soundID": 3, "start": 1}
@@ -123,7 +123,7 @@
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
-        {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+        {"type": "THROW_HURT", "start": 3, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
       "sounds": [
         {"soundID": 3, "start": 1}
@@ -179,9 +179,7 @@
       ],
       "update_script": "../data/characters/alucard/scripts/movement/dash_f.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/11.png", "time": 4, "offsetX": 75},
-        { "file": "../data/characters/alucard/sprites/19.png", "time": 8, "offsetX": 75},
-        { "file": "../data/characters/alucard/sprites/12.png", "time": 4, "offsetX": 75},
+        { "file": "../data/characters/alucard/sprites/12.png", "time": 8, "offsetX": 75},
         { "file": "../data/characters/alucard/sprites/19.png", "time": 8, "offsetX": 75}
       ],
       "collision_boxes": [
@@ -653,7 +651,7 @@
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
-        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 0, "end": 4, "width":95, "height":275, "offsetX":75, "offsetY": 0, "throwSuccess": 36, "opponentThrowSuccess": 34, "throwAttempt": 56, "techAttempt": 58}
+        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 0, "end": 2, "width":95, "height":275, "offsetX":75, "offsetY": 0, "throwSuccess": 36, "opponentThrowSuccess": 34, "throwAttempt": 56, "techAttempt": 58}
       ]
     },
     {
@@ -897,7 +895,7 @@
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
-        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 0, "end": 4, "width":95, "height":275, "offsetX":75, "offsetY": 0, "throwSuccess": 33, "opponentThrowSuccess": 46, "throwAttempt": 57, "techAttempt": 59}
+        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 0, "end": 2, "width":95, "height":275, "offsetX":75, "offsetY": 0, "throwSuccess": 33, "opponentThrowSuccess": 46, "throwAttempt": 57, "techAttempt": 59}
       ]
     },
     {
@@ -1240,6 +1238,22 @@
       ],
       "collision_boxes": [ 
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 69,
+      "state_name": "DASH_RECOVERY",
+      "flags": [ 
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/alucard/scripts/movement/dash_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/69.png", "time": -1, "offsetX": 75}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
     }
   ],
