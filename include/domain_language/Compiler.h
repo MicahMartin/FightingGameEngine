@@ -189,6 +189,10 @@ private:
     {TOKEN_ACTIVATE_ENTITY, engineCallArgRule},
     {TOKEN_DEACTIVATE_ENTITY, engineCallArgRule},
     {TOKEN_SNAP_TO_OPPONENT, engineCallArgRule},
+    {TOKEN_GET_HIT_CANCEL, engineCallRule},
+    {TOKEN_GET_WHIFF_CANCEL, engineCallRule},
+    {TOKEN_SET_HIT_CANCEL, engineCallArgRule},
+    {TOKEN_SET_WHIFF_CANCEL, engineCallArgRule},
   };
 };
 

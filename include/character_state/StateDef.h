@@ -61,6 +61,9 @@ public:
   int animTime;
   int techState;
   bool hitboxesDisabled = false;
+
+  bool canWhiffCancel = false;
+  bool canHitCancel = false;
   GameObject* owner;
   std::unordered_map<int, bool> hitboxGroupDisabled;
 

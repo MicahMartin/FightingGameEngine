@@ -380,6 +380,14 @@ void Entity::_resetAnim(){
 void Entity::_activateEntity(int entityID){ 
 }
 
+void Entity::_setHitCancel(int val){
+  currentState->canHitCancel = val;
+}
+
+void Entity::_setWhiffCancel(int val){
+  currentState->canWhiffCancel = val;
+}
+
 void Entity::_deactivateEntity(int entityID){
   active = false;
 }
@@ -439,6 +447,14 @@ int Entity::_wasPressed(int input){
 
 int Entity::_getHitStun(){
   return hitstun;
+}
+
+int Entity::_getHitCancel(){
+  return currentState->canHitCancel;
+}
+
+int Entity::_getWhiffCancel(){
+  return currentState->canWhiffCancel;
 }
 
 int Entity::_getBlockStun(){

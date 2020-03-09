@@ -401,6 +401,10 @@ void Compiler::statement() {
     engineCallStatement(OP_GET_STATE_NUM);
   } else if (match(TOKEN_GET_CONTROL)) {
     engineCallStatement(OP_GET_CONTROL);
+  } else if (match(TOKEN_GET_HIT_CANCEL)) {
+    engineCallStatement(OP_GET_HIT_CANCEL);
+  } else if (match(TOKEN_GET_WHIFF_CANCEL)) {
+    engineCallStatement(OP_GET_WHIFF_CANCEL);
   } else if (match(TOKEN_GET_IS_ALIVE)) {
     engineCallStatement(OP_GET_IS_ALIVE);
   } else if (match(TOKEN_WAS_PRESSED)) {
@@ -451,6 +455,10 @@ void Compiler::statement() {
     engineCallExpressionStatement(OP_SNAP_TO_OPPONENT);
   } else if (match(TOKEN_CHECK_COMMAND)) {
     engineCallExpressionStatement(OP_CHECK_COMMAND);
+  } else if (match(TOKEN_SET_HIT_CANCEL)) {
+    engineCallExpressionStatement(OP_SET_HIT_CANCEL);
+  } else if (match(TOKEN_SET_WHIFF_CANCEL)) {
+    engineCallExpressionStatement(OP_SET_WHIFF_CANCEL);
   } else if (match(TOKEN_FOR)) {
     forStatement();
   } else if (match(TOKEN_WHILE)) {     

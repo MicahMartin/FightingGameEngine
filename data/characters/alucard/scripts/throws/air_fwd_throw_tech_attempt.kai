@@ -4,7 +4,7 @@
     $snap_to_opponent 20;
     $set_control 0;
   } 
-  if($get_state_time == 2){ 
+  if($get_state_time == 6){ 
     $cancel_state 39;
   } 
 }

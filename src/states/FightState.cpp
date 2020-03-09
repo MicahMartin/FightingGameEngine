@@ -85,6 +85,14 @@ void FightState::pause(){ }
 void FightState::resume(){ }
 
 void FightState::handleInput(){ 
+  player1->currentState->handleCancels();
+  player2->currentState->handleCancels();
+  for (auto &i : player1->entityList) {
+    i.currentState->handleCancels();
+  }
+  for (auto &i : player2->entityList) {
+    i.currentState->handleCancels();
+  }
   if(!slowMode){
     if (roundStartCounter > 0) {
       // printf("roundStarTCounter!:%d\n", roundStartCounter);
@@ -129,24 +137,6 @@ void FightState::handleInput(){
 
     checkEntityHitstop(player1);
     checkEntityHitstop(player2);
-
-    if(player1->inHitStop){
-      player1->currentState->handleCancels();
-    }
-
-    if(player2->inHitStop){
-      player2->currentState->handleCancels();
-    }
-    for (auto &i : player1->entityList) {
-      if(i.inHitStop){
-        i.currentState->handleCancels();
-      }
-    }
-    for (auto &i : player2->entityList) {
-      if(i.inHitStop){
-        i.currentState->handleCancels();
-      }
-    }
 
     if (!player1->inHitStop) {
       player1->handleInput();
@@ -604,6 +594,7 @@ int FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
               hitter->frameLastAttackConnected = gameTime; 
               // TODO: Hitbox group IDs
               hitter->currentState->hitboxGroupDisabled[hitBox->groupID] = true;
+              hitter->currentState->canHitCancel = true;
 
               if (hurter->inCorner) {
                 hitter->pushTime = hitBox->pushTime;

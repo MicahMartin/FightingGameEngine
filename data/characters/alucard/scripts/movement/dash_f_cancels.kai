@@ -1,16 +1,8 @@
 {
-  var canHitCancel = $get_hit_cancel;
-  var inCancelWindow = ($get_state_time >= 11) and ($get_state_time <= 24);
-  if(canHitCancel and ($get_state_time > 24)) {
-    $set_hit_cancel 0;
-  }
-
-  if(canHitCancel and inCancelWindow){
+  var canWhiffCancel = $get_whiff_cancel;
+  if(canWhiffCancel){
     var qcf_k = $check_command 2;
     var qcb_p = $check_command 3;
-
-    var slash = $was_pressed 12;
-    var dust = $was_pressed 13;
 
     var up = $get_input 8; 
     var upforward = $get_input 9; 
@@ -21,12 +13,19 @@
     var downforward = $get_input 3; 
     var anyDown = (down or downback or downforward);
 
+    var punch = $was_pressed 10;
+    var kick = $was_pressed 11;
+    var slash = $was_pressed 12;
+    var dust = $was_pressed 13;
+
+
     if(qcf_k){
       $cancel_state 14;
     }
     if (qcb_p) {
       $cancel_state 30;
     }
+
     if(dust){
       if (anyDown) {
         $cancel_state 23;
@@ -37,6 +36,25 @@
     if(slash){
       if (anyDown) {
         $cancel_state 40;
+      } else {
+        $cancel_state 20;
+      }
+    }
+
+
+    if(kick){
+      if (anyDown) {
+        $cancel_state 22;
+      } else {
+        $cancel_state 15;
+      }
+    }
+
+    if(punch){
+      if (anyDown) {
+        $cancel_state 21;
+      } else {
+        $cancel_state 8;
       }
     }
 
@@ -49,5 +67,6 @@
     if(upback){
       $cancel_state 7;
     }
+
   }
 }

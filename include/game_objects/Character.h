@@ -87,6 +87,8 @@ public:
   void _setCombo(int val);
   void _setHitStun(int val);
   void _setBlockstun(int val);
+  void _setHitCancel(int val);
+  void _setWhiffCancel(int val);
   void _setNoGravityCounter(int count);
   void _setGravity(int set);
   void _setAirAction(int set);
@@ -99,6 +101,8 @@ public:
   int _getBlockStun();
   int _getAnimTime();
   int _getStateTime();
+  int _getHitCancel();
+  int _getWhiffCancel();
   int _getYPos();
   int _getStateNum();
   int _getControl();

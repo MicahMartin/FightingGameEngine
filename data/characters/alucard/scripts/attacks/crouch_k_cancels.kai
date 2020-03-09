@@ -1,39 +1,47 @@
 {
-  var qcf_k = $check_command 2;
-  var qcb_p = $check_command 3;
-  var kick = $was_pressed 11;
-  var slash = $was_pressed 12;
-  var dust = $was_pressed 13;
-
-  var down = $get_input 2; 
-  var downback = $get_input 1; 
-  var downforward = $get_input 3; 
-  var anyDown = (down or downback or downforward);
-
-  if(qcf_k){
-    $cancel_state 14;
-  }
-  if (qcb_p) {
-    $cancel_state 30;
+  var canHitCancel = $get_hit_cancel;
+  var inCancelWindow = ($get_state_time >= 5) and ($get_state_time <= 13);
+  if(canHitCancel and ($get_state_time > 13)) {
+    $set_hit_cancel 0;
   }
 
-  if(dust){
-    if (anyDown) {
-      $cancel_state 23;
-    } else {
+  if(canHitCancel and inCancelWindow){
+    var qcf_k = $check_command 2;
+    var qcb_p = $check_command 3;
+    var kick = $was_pressed 11;
+    var slash = $was_pressed 12;
+    var dust = $was_pressed 13;
+
+    var down = $get_input 2; 
+    var downback = $get_input 1; 
+    var downforward = $get_input 3; 
+    var anyDown = (down or downback or downforward);
+
+    if(qcf_k){
+      $cancel_state 14;
     }
-  }
-
-  if(slash){
-    if (anyDown) {
-      $cancel_state 40;
-    } else {
-      $cancel_state 20;
+    if (qcb_p) {
+      $cancel_state 30;
     }
-  }
-  if(kick){
-    if (!anyDown){
-      $cancel_state 15;
+
+    if(dust){
+      if (anyDown) {
+        $cancel_state 23;
+      } else {
+      }
+    }
+
+    if(slash){
+      if (anyDown) {
+        $cancel_state 40;
+      } else {
+        $cancel_state 20;
+      }
+    }
+    if(kick){
+      if (!anyDown){
+        $cancel_state 15;
+      }
     }
   }
 }

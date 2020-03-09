@@ -79,6 +79,8 @@ public:
   void _setControl(int val);
   void _setCombo(int val);
   void _setHitStun(int set);
+  void _setHitCancel(int val);
+  void _setWhiffCancel(int val);
   void _setNoGravityCounter(int count);
   void _setGravity(int set);
   void _setAirAction(int set);
@@ -97,6 +99,8 @@ public:
   int _getCombo();
   int _getIsAlive();
   int _getAirActions();
+  int _getHitCancel();
+  int _getWhiffCancel();
   int _getInput(int input);
   int _wasPressed(int input);
   int _checkCommand(int commandIndex);

@@ -459,6 +459,14 @@ void Character::_setHitStun(int operand){
   hitstun = operand;
 }
 
+void Character::_setHitCancel(int val){
+  currentState->canHitCancel = val;
+}
+
+void Character::_setWhiffCancel(int val){
+  currentState->canWhiffCancel = val;
+}
+
 void Character::_setAirAction(int operand){
   hasAirAction = operand;
 }
@@ -473,6 +481,14 @@ int Character::_wasPressed(int input){
 
 int Character::_getHitStun(){
   return hitstun;
+}
+
+int Character::_getHitCancel(){
+  return currentState->canHitCancel;
+}
+
+int Character::_getWhiffCancel(){
+  return currentState->canWhiffCancel;
 }
 
 int Character::_getBlockStun(){

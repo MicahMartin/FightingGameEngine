@@ -191,6 +191,16 @@ inline ExecutionCode VirtualMachine::run(){
         stack.push(NUMBER_VAL(val));
         break;
       }
+      case OP_GET_HIT_CANCEL: {
+        bool val = character->_getHitCancel();
+        stack.push(BOOL_VAL(val));
+        break;
+      }
+      case OP_GET_WHIFF_CANCEL: {
+        bool val = character->_getWhiffCancel();
+        stack.push(BOOL_VAL(val));
+        break;
+      }
       case OP_GET_IS_ALIVE: {
         bool boolean = character->_getIsAlive();
         stack.push(BOOL_VAL(boolean));
@@ -288,6 +298,16 @@ inline ExecutionCode VirtualMachine::run(){
       case OP_SET_HIT_STUN: {
         long operand = AS_NUMBER(stack.pop());
         character->_setHitStun(operand);
+        break;
+      }
+      case OP_SET_HIT_CANCEL: {
+        long operand = AS_NUMBER(stack.pop());
+        character->_setHitCancel(operand);
+        break;
+      }
+      case OP_SET_WHIFF_CANCEL: {
+        long operand = AS_NUMBER(stack.pop());
+        character->_setWhiffCancel(operand);
         break;
       }
       case OP_RESET_ANIM: {

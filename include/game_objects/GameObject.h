@@ -63,6 +63,8 @@ public:
   virtual void _setControl(int val) = 0;
   virtual void _setCombo(int val) = 0;
   virtual void _setHitStun(int val) = 0;
+  virtual void _setHitCancel(int val) = 0;
+  virtual void _setWhiffCancel(int val) = 0;
   virtual void _setNoGravityCounter(int count) = 0;
   virtual void _setGravity(int set) = 0;
   virtual void _setAirAction(int set) = 0;
@@ -80,6 +82,8 @@ public:
   virtual int _getControl() = 0;
   virtual int _getCombo() = 0;
   virtual int _getIsAlive() = 0;
+  virtual int _getHitCancel() = 0;
+  virtual int _getWhiffCancel() = 0;
   virtual int _getAirActions() = 0;
   virtual int _getInput(int input) = 0;
   virtual int _wasPressed(int input) = 0;

@@ -92,6 +92,8 @@ StateDef::~StateDef() {
 }
 
 void StateDef::enter(){
+  canHitCancel = false;
+  canWhiffCancel = false;
   stateTime = 0;
   animTime = 0;
   hitboxesDisabled = false;

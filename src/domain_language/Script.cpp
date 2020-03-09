@@ -125,6 +125,10 @@ int Script::disassembleInstruction(int offset){
       return simpleInstruction("OP_GET_STATE_NUM", offset);
     case OP_GET_CONTROL: 
       return simpleInstruction("OP_GET_CONTROL", offset);
+    case OP_GET_HIT_CANCEL: 
+      return simpleInstruction("OP_GET_HIT_CANCEL", offset);
+    case OP_GET_WHIFF_CANCEL: 
+      return simpleInstruction("OP_GET_WHIFF_CANCEL", offset);
     case OP_WAS_PRESSED: 
       return simpleInstruction("OP_WAS_PRESSED", offset);
     case OP_GET_COMBO: 
@@ -174,6 +178,10 @@ int Script::disassembleInstruction(int offset){
       return simpleInstruction("OP_SNAP_TO_OPPONENT", offset);
     case OP_CHECK_COMMAND:
       return simpleInstruction("OP_CHECK_COMMAND", offset);
+    case OP_SET_HIT_CANCEL:
+      return simpleInstruction("OP_SET_HIT_CANCEL", offset);
+    case OP_SET_WHIFF_CANCEL:
+      return simpleInstruction("OP_SET_WHIFF_CANCEL", offset);
     case OP_RETURN:
       return simpleInstruction("OP_RETURN", offset);
       break;
