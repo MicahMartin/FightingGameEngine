@@ -49,6 +49,9 @@ public:
   int animationTime = 0;
   int animationTimePassed = 0;
   int animFrame = 0;
+
+  bool hitShake = false;
+  int hitShakeToggler = 0;
 private:
   /* data */
   std::vector<AnimationElement> animationElements;

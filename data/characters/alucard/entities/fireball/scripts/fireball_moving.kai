@@ -13,11 +13,11 @@
   } 
 
   if(stateTime == 24){
-    $velset_x 10;
+    $velset_x 8;
   } 
 
   if(stateTime == 32){
-    $velset_x 16;
+    $velset_x 14;
   } 
 
   if(remainder == 0) {

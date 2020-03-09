@@ -1,0 +1,9 @@
+{
+  var stateTime = $get_state_time;
+  if (stateTime == 0) {
+    $set_counter 1;
+  }
+  if (stateTime == 8) {
+    $set_counter 0;
+  }
+}

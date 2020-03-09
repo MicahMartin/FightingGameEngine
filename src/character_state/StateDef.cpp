@@ -117,6 +117,7 @@ void StateDef::handleCancels(){
 }
 
 void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop){
+  anim.hitShake = inHitStop;
   anim.render(position.first, position.second, faceRight, animTime);
 
   // TODO: Sound method

@@ -16,6 +16,7 @@ public:
   int lowerBound = 0;
   int upperBound = 0;
   int middle = 0;
+  int yPos = 0;
 private:
   Graphics* graphics = Graphics::getInstance();
 };

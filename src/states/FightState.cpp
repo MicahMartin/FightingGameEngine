@@ -73,8 +73,11 @@ void FightState::enter(){
   p2WinPopup.loadDataFile("../data/images/UI/pop_up/player_2_win/data.json");
   p2WinPopup.setPlayLength(120);
 
+  p1CounterHit.loadDataFile("../data/images/UI/pop_up/counter/data.json");
+  p1CounterHit.setPlayLength(30);
   p2CounterHit.loadDataFile("../data/images/UI/pop_up/counter/data.json");
   p2CounterHit.setPlayLength(30);
+
 }
 
 void FightState::exit(){ 
@@ -273,8 +276,14 @@ void FightState::update(){
     p2WinPopup.setX(camera.middle);
     p2WinPopup.update();
   }
+  if (p1CounterHit.getActive()) {
+    p1CounterHit.setX(camera.lowerBound);
+    p1CounterHit.setY(camera.cameraRect.y);
+    p1CounterHit.update();
+  }
   if (p2CounterHit.getActive()) {
-    p2CounterHit.setX(camera.upperBound);
+    p2CounterHit.setX(camera.upperBound - 350);
+    p2CounterHit.setY(camera.cameraRect.y);
     p2CounterHit.update();
   }
 }
@@ -296,6 +305,9 @@ void FightState::draw() {
   renderComboCount();
   renderInputHistory();
   currentScreen.renderWins(p1RoundsWon, p2RoundsWon);
+  if (p1CounterHit.getActive()) {
+    p1CounterHit.draw();
+  }
   if (p2CounterHit.getActive()) {
     p2CounterHit.draw();
   }
@@ -680,8 +692,8 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
 
                 playHurtSound = hurter->playerNum;
                 hurter->control = 0;
-                hurter->health -= hitBox->damage;
-                hurter->hitstun = hitBox->hitstun;
+                hurter->health -= wasACounter ? (hitBox->damage + (hitBox->damage * .2)) : (hitBox->damage);
+                hurter->hitstun = wasACounter ? (hitBox->hitstun + 4) : (hitBox->hitstun);
 
                 hurter->comboCounter++;
 
@@ -733,11 +745,16 @@ void FightState::checkHitCollisions(){
 
   if (p1HitState.hit) {
     player1->changeState(p1HitState.hitState);
+    if (p1HitState.counter) {
+      printf("p1 counterHit!!\n");
+      p1CounterHit.setStateTime(0);
+      p1CounterHit.setActive(true);
+    }
   }
   if (p2HitState.hit) {
     player2->changeState(p2HitState.hitState);
     if (p2HitState.counter) {
-      printf("was a counter!!\n");
+      printf("p2 counterHit!!\n");
       p2CounterHit.setStateTime(0);
       p2CounterHit.setActive(true);
     }

@@ -5,6 +5,12 @@
   if(canHitCancel and (stateTime > 23)) {
     $set_hit_cancel 0;
   }
+  if (stateTime == 0) {
+    $set_counter 1;
+  }
+  if (stateTime == 14) {
+    $set_counter 0;
+  }
 
   if(canHitCancel and inCancelWindow){
     var up = $was_pressed 8; 

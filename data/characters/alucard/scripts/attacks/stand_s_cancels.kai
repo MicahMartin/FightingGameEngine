@@ -9,7 +9,7 @@
     $set_counter 1;
   }
 
-  if (stateTime == 11) {
+  if (stateTime == 12) {
     $set_counter 0;
   }
   

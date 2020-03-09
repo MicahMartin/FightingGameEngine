@@ -118,6 +118,7 @@ public:
 
   InputHistoryT inputHistory;
   std::vector<std::list<InputEvent>> inputHistoryCopy;
+  std::vector<std::list<InputEvent>> inputHistoryCopyTwo;
   boost::circular_buffer<InputEvent> inputEventList;
   std::vector<uint16_t> inputStateCopy;
   CommandCompiler* commandCompiler;

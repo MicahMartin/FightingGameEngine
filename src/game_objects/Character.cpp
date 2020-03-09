@@ -304,7 +304,8 @@ void Character::updateCollisionBoxes(){
 }
 
 void Character::draw(){
-  currentState->draw(position, faceRight, inHitStop);
+  bool fakeHitstop = (inHitStop && (hitstun > 0 || blockstun > 0));
+  currentState->draw(position, faceRight, fakeHitstop);
 
   if (!hitsparkRectDisabled) {
     int xEdge = faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;

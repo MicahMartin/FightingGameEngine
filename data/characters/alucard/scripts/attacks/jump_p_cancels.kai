@@ -6,6 +6,13 @@
     $set_hit_cancel 0;
   }
 
+  if (stateTime == 0) {
+    $set_counter 1;
+  }
+  if (stateTime == 6) {
+    $set_counter 0;
+  }
+
   if(canHitCancel and inCancelWindow){
     var jump_p = $was_pressed 10;
     var jump_k = $was_pressed 11;

@@ -89,6 +89,17 @@ void Animation::render(int x, int y, bool faceRight, int stateTime) {
   int offsetX = elem->offsetX;
   int offsetY = elem->offsetY;
   faceRight ? currentText->setCords(x-width+offsetX, ((y - 30) + offsetY)) : currentText->setCords(x-offsetX, ((y - 30) + offsetY));
+  if (hitShake) {
+    if (hitShakeToggler == 3) {
+    faceRight ? currentText->setCords((x-width+offsetX) + 3, ((y - 30) + offsetY)) : currentText->setCords((x-offsetX) - 3, ((y - 30) + offsetY));
+    } else if (hitShakeToggler == 6) {
+    faceRight ? currentText->setCords((x-width+offsetX) - 3, ((y - 30) + offsetY)) : currentText->setCords((x-offsetX) + 3, ((y - 30) + offsetY));
+    }
+    hitShakeToggler++;
+    if (hitShakeToggler == 7) {
+      hitShakeToggler = 0;
+    }
+  }
 
   currentText->render(faceRight);
 }
