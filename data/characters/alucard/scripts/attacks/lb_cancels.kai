@@ -50,7 +50,6 @@
 
       if(hasAirAction and $get_state_time > 3){
         if(up){
-          print "cancelling to up";
           $cancel_state 41;
         }
         if(upforward){
