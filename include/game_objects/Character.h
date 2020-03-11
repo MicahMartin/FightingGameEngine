@@ -11,6 +11,15 @@
 #include "graphics/Animation.h"
 
 // TODO: base class for this n entity
+struct VisualEffect {
+  bool isActive = false;
+  int stateTime = 0;
+  int playLength = 0;
+  int xPos = 0;
+  int yPos = 0;
+  Animation anim;
+};
+
 class Entity;
 class Character : public GameObject {
 public:
@@ -125,7 +134,7 @@ public:
   std::vector<Animation> animList;
   std::unordered_map<int, Animation> hitSparks;
   std::unordered_map<int, Animation> guardSparks;
-  std::unordered_map<int, Animation> visualEffects;
+  std::unordered_map<int, VisualEffect> visualEffects;
 
   std::vector<Mix_Chunk*> soundList;
   std::vector<Mix_Chunk*> hurtSoundList;

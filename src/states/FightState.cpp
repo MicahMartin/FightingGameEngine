@@ -319,6 +319,12 @@ void FightState::draw() {
     for (auto &i : player2->entityList) {
       i.draw();
     }
+    for (auto &i : player2->visualEffects) {
+      VisualEffect& visFX = i.second;
+      if (visFX.isActive) {
+        visFX.anim.render(visFX.xPos, visFX.yPos, player2->faceRight, visFX.stateTime);
+      }
+    }
     // printf("drew p2  entities\n");
     p2DrawEnd = SDL_GetTicks();
 
@@ -327,6 +333,12 @@ void FightState::draw() {
     // printf("drew p1\n");
     for (auto &i : player1->entityList) {
       i.draw();
+    }
+    for (auto &i : player1->visualEffects) {
+      VisualEffect& visFX = i.second;
+      if (visFX.isActive) {
+        visFX.anim.render(visFX.xPos, visFX.yPos, player1->faceRight, visFX.stateTime);
+      }
     }
     // printf("drew p1 entities\n");
     p1DrawEnd = SDL_GetTicks();
@@ -337,6 +349,12 @@ void FightState::draw() {
     for (auto &i : player1->entityList) {
       i.draw();
     }
+    for (auto &i : player1->visualEffects) {
+      VisualEffect& visFX = i.second;
+      if (visFX.isActive) {
+        visFX.anim.render(visFX.xPos, visFX.yPos, player1->faceRight, visFX.stateTime);
+      }
+    }
     // printf("drew p1 entities\n");
     p1DrawEnd = SDL_GetTicks();
 
@@ -346,7 +364,12 @@ void FightState::draw() {
     for (auto &i : player2->entityList) {
       i.draw();
     }
-
+    for (auto &i : player2->visualEffects) {
+      VisualEffect& visFX = i.second;
+      if (visFX.isActive) {
+        visFX.anim.render(visFX.xPos, visFX.yPos, player2->faceRight, visFX.stateTime);
+      }
+    }
 
     // printf("drew p1 entities\n");
     p2DrawEnd = SDL_GetTicks();

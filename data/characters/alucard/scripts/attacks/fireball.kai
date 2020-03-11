@@ -8,7 +8,7 @@
     $activate_entity 1;
   } 
 
-  if($get_state_time == 34){ 
+  if($get_state_time == 54){ 
     $set_control 1; 
   } 
 }

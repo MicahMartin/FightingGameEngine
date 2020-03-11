@@ -95,6 +95,13 @@ void Character::loadStates(){
     animList.emplace_back().loadAnimEvents(i.value().at("animation"));
   }
 
+  for(auto i : stateJson.at("animation_assets").items()){
+    int visualID = i.value().at("assetID");
+    visualEffects.emplace(visualID, VisualEffect{}).first->second.anim.loadAnimEvents(i.value().at("animation"));
+    visualEffects.at(visualID).playLength = visualEffects.at(visualID).anim.animationTime;
+    printf("loaded visual effect # %d\n", visualID);
+  }
+
   for(auto i : stateJson.at("audio_assets").items()){
     std::string path(i.value().at("file").get<std::string>());
     const char* pathPointer = path.c_str();
@@ -141,9 +148,28 @@ void Character::handleInput(){
 
 void Character::update(){ 
   currentState->update();
+  if (currentState->visualEffectMap.count(currentState->stateTime)) {
+    int visualID = currentState->visualEffectMap.at(currentState->stateTime);
+    VisualEffect& visFX = visualEffects.at(visualID);
+    printf("found visFX for frame %d, the playLEngth %d\n", currentState->stateTime, visFX.playLength);
+    visFX.isActive = true;
+    visFX.stateTime = 0;
+    visFX.xPos = position.first;
+    visFX.yPos = position.second;
+  }
 
   updatePosition();
   updateCollisionBoxes();
+  for (auto &i : visualEffects) {
+    if (i.second.stateTime == i.second.playLength) {
+      i.second.isActive = false;
+      i.second.stateTime = 0;
+    }
+    if (i.second.isActive) {
+      // printf("found active visFX: %d\n", i.second.playLength);
+      i.second.stateTime++;
+    }
+  }
 };
 
 void Character::updateFaceRight(){
@@ -224,7 +250,7 @@ void Character::updateCollisionBoxes(){
     if (stateTime < cb->start) {
       cb->disabled = true;
     }
-    if (cb->end == -1 || stateTime == cb->start) {
+    if ((cb->end == -1 && (stateTime > cb->start)) || stateTime == cb->start) {
       cb->disabled = false;
     }
     if (stateTime == cb->end) {

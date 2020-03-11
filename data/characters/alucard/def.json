@@ -260,6 +260,7 @@
       "flags": [
         "NO_TURN"
       ],
+      "cancel_script": "../data/characters/alucard/scripts/attacks/upslash_cancels.kai",
       "update_script": "../data/characters/alucard/scripts/attacks/upslash.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/68.png", "time": 12, "offsetX": 75},
@@ -600,11 +601,12 @@
       "flags": [
         "NO_TURN"
       ],
+      "cancel_script": "../data/characters/alucard/scripts/attacks/fireball_cancels.kai",
       "update_script": "../data/characters/alucard/scripts/attacks/fireball.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/76.png", "time": 18, "offsetX": 0},
-        { "file": "../data/characters/alucard/sprites/77.png", "time": 2, "offsetX": 0},
-        { "file": "../data/characters/alucard/sprites/80.png", "time": 14, "offsetX": 0}
+        { "file": "../data/characters/alucard/sprites/76.png", "time": 14, "offsetX": 0},
+        { "file": "../data/characters/alucard/sprites/77.png", "time": 6, "offsetX": 0},
+        { "file": "../data/characters/alucard/sprites/80.png", "time": 34, "offsetX": 0}
 
       ],
       "collision_boxes": [
@@ -1261,6 +1263,29 @@
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ]
+    },
+    {
+      "state_num": 70,
+      "state_name": "LIMIT_BREAK",
+      "flags": [ 
+        "NO_TURN"
+      ],
+      "cancel_script": "../data/characters/alucard/scripts/attacks/lb_cancels.kai",
+      "update_script": "../data/characters/alucard/scripts/attacks/lb_update.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/115.png", "time": 8, "offsetX": 75},
+        { "file": "../data/characters/alucard/sprites/117.png", "time": 8, "offsetX": 75},
+        { "file": "../data/characters/alucard/sprites/124.png", "time": 8, "offsetX": 75}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "visual_effects": [
+        {"visualID": 3, "start": 1},
+        {"visualID": 4, "start": 1}
+      ]
     }
   ],
   "custom_states": [
@@ -1347,9 +1372,6 @@
       ]
     }
   ],
-  "visual_effects": [
-
-  ],
   "animation_assets": [
     {
       "assetID": 1,
@@ -1369,6 +1391,25 @@
         { "file": "../data/images/guardspark/1.png", "time": 3, "offsetX": 75, "offsetY": 75, "scale": 1},
         { "file": "../data/images/guardspark/2.png", "time": 3, "offsetX": 75, "offsetY": 75, "scale": 1},
         { "file": "../data/images/guardspark/3.png", "time": 3, "offsetX": 75, "offsetY": 75, "scale": 1}
+      ]
+    },
+    {
+      "assetID": 3,
+      "animation": [
+        { "file": "../data/images/visual_effects/flare_01.png", "time": 3, "offsetX": 125, "offsetY": 75, "scale": 1},
+        { "file": "../data/images/visual_effects/light_01.png", "time": 3, "offsetX": 125, "offsetY": 75, "scale": 1},
+        { "file": "../data/images/visual_effects/light_02.png", "time": 3, "offsetX": 125, "offsetY": 75, "scale": 1},
+        { "file": "../data/images/visual_effects/light_03.png", "time": 3, "offsetX": 125, "offsetY": 75, "scale": 1}
+      ]
+    },
+    {
+      "assetID": 4,
+      "animation": [
+        { "file": "../data/images/visual_effects/circle_01.png", "time": 3, "offsetX": 125, "offsetY": 75, "scale": 1},
+        { "file": "../data/images/visual_effects/circle_02.png", "time": 3, "offsetX": 125, "offsetY": 75, "scale": 1},
+        { "file": "../data/images/visual_effects/circle_03.png", "time": 3, "offsetX": 125, "offsetY": 75, "scale": 1},
+        { "file": "../data/images/visual_effects/circle_04.png", "time": 3, "offsetX": 125, "offsetY": 75, "scale": 1},
+        { "file": "../data/images/visual_effects/circle_05.png", "time": 3, "offsetX": 125, "offsetY": 75, "scale": 1}
       ]
     }
   ],

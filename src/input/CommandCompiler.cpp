@@ -49,6 +49,7 @@ std::vector<std::string> CommandCompiler::commandStrings = {
   "~N, UF",
   "~N, UB",
   "~LP",
+  "MK & MP", // lp and mk
 };
 
 CommandCompiler::CommandCompiler() { }

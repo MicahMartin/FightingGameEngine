@@ -1,0 +1,13 @@
+{
+  var stateTime = $get_state_time;
+  if (stateTime == 0) {
+    $set_counter 1;
+  }
+  if (stateTime == 19) {
+    $set_counter 0;
+  }
+  var cancel = $check_command 10;
+  if (cancel) {
+    $cancel_state 70;
+  }
+}

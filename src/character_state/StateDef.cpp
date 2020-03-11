@@ -55,6 +55,9 @@ StateDef::StateDef(nlohmann::json::value_type json, VirtualMachine* charVm) : ch
   loadAnimation(json.at("animation"));
   // printf("loading collisions\n");
   loadCollisionBoxes(json.at("collision_boxes"));
+  if (json.count("visual_effects")) {
+    loadVisualEffects(json.at("visual_effects"));
+  }
 }
 
 StateDef::~StateDef() {
@@ -129,32 +132,32 @@ void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop)
   }
 
   for(auto cb : pushBoxes) {
-     if(cb->end == -1 || ( cb->start >= stateTime && cb->end < stateTime )){
+     if(!cb->disabled){
        cb->render();
      }
   }
   for(auto cb : hurtBoxes) {
-     if(cb->end == -1 || ( stateTime >= cb->start && stateTime < cb->end )){
+     if(!cb->disabled){
        cb->render();
      }
   }
   for(auto cb : hitBoxes) {
-     if(cb->end == -1 || ( stateTime >= cb->start && stateTime <= cb->end )){
+     if(!cb->disabled){
        cb->render();
      }
   }
   for (auto cb : throwHitBoxes) {
-    if(cb->end == -1 || ( stateTime >= cb->start && stateTime <= cb->end )){
+    if(!cb->disabled){
       cb->render();
     }
   }
   for (auto cb : throwHurtBoxes) {
-    if(cb->end == -1 || ( stateTime >= cb->start && stateTime <= cb->end )){
+    if(!cb->disabled){
       cb->render();
     }
   }
   for (auto cb : proximityBoxes) {
-    if(cb->end == -1 || ( stateTime >= cb->start && stateTime <= cb->end )){
+    if(!cb->disabled){
       cb->render();
     }
   }
@@ -239,6 +242,15 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
     }
   }
 };
+
+void StateDef::loadVisualEffects(nlohmann::json::value_type json){
+  for(auto i : json.items()){
+    int startFrame = i.value().at("start");
+    int visualID = i.value().at("visualID");
+    visualEffectMap.emplace(startFrame, visualID);
+  }
+};
+
 
 
 void StateDef::resetAnim(){

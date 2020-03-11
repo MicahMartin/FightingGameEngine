@@ -31,6 +31,7 @@ public:
   void loadFlags(nlohmann::json::value_type json);
   void loadAnimation(nlohmann::json json);
   void loadCollisionBoxes(nlohmann::json json);
+  void loadVisualEffects(nlohmann::json json);
 
   bool checkFlag(FlagBit bit);
 
@@ -55,6 +56,7 @@ public:
   std::vector<CollisionBox*> throwHurtBoxes;
   std::vector<CollisionBox*> proximityBoxes;
   std::unordered_map<int, std::vector<int>> soundIndexMap;
+  std::unordered_map<int, int> visualEffectMap; // <startFrame, visualID>
   // TODO: Methods to talk to anim so this stuff can stay private
   int stateNum;
   int stateTime;
