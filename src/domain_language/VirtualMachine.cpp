@@ -161,7 +161,6 @@ inline ExecutionCode VirtualMachine::run(){
       }
       case OP_GET_BLOCK_STUN: {
         long val = character->_getBlockStun();
-        printf("the blockstun: %ld\n", val);
         stack.push(NUMBER_VAL(val));
         break;
       }

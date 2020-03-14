@@ -212,7 +212,7 @@ void FightState::handleInput(){
   checkCorner(player2);
 }
 
-void FightState::update(){ 
+void FightState::update(){
   // printf("we made it into update!\n");
   if(!slowMode){
 
@@ -314,24 +314,41 @@ void FightState::update(){
     p2CounterHit.setY(camera.cameraRect.y);
     p2CounterHit.update();
   }
+
+  // TODO: Container of base class pointer to all this shit
   for (auto &i : player1->visualEffects) {
-    if (i.second.stateTime == i.second.playLength) {
-      i.second.isActive = false;
-      i.second.stateTime = 0;
-    }
-    if (i.second.isActive) {
-      // printf("found active visFX: %d\n", i.second.playLength);
-      i.second.stateTime++;
-    }
+    i.second.update();
   }
   for (auto &i : player2->visualEffects) {
-    if (i.second.stateTime == i.second.playLength) {
-      i.second.isActive = false;
-      i.second.stateTime = 0;
+    i.second.update();
+  }
+  for (auto &i : player1->guardSparks) {
+    i.second.update();
+  }
+  for (auto &i : player2->guardSparks) {
+    i.second.update();
+  }
+  for (auto &i : player1->hitSparks) {
+    i.second.update();
+  }
+  for (auto &i : player2->hitSparks) {
+    i.second.update();
+  }
+
+  for (auto &e : player1->entityList) {
+    for (auto &i : e.visualEffects) {
+      i.second.update();
     }
-    if (i.second.isActive) {
-      // printf("found active visFX: %d\n", i.second.playLength);
-      i.second.stateTime++;
+    for (auto &i : e.hitSparks) {
+      i.second.update();
+    }
+  }
+  for (auto &e : player2->entityList) {
+    for (auto &i : e.visualEffects) {
+      i.second.update();
+    }
+    for (auto &i : e.hitSparks) {
+      i.second.update();
     }
   }
 }
@@ -366,11 +383,36 @@ void FightState::draw() {
     // printf("drew p2\n");
     for (auto &i : player2->entityList) {
       i.draw();
+      for (auto &e : i.visualEffects) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
+      for (auto &e : i.hitSparks) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
     }
     for (auto &i : player2->visualEffects) {
       VisualEffect& visFX = i.second;
-      if (visFX.isActive) {
-        visFX.anim.render(visFX.xPos, visFX.yPos, player2->faceRight, visFX.stateTime);
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
+        // visFX.anim.render(visFX.xPos, visFX.yPos, player2->faceRight, visFX.stateTime);
+      }
+    }
+    for (auto &i : player2->guardSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
+        // visFX.anim.render(visFX.xPos, visFX.yPos, player2->faceRight, visFX.stateTime);
+      }
+    }
+    for (auto &i : player2->hitSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
+        // visFX.anim.render(visFX.xPos, visFX.yPos, player2->faceRight, visFX.stateTime);
       }
     }
     // printf("drew p2  entities\n");
@@ -381,11 +423,35 @@ void FightState::draw() {
     // printf("drew p1\n");
     for (auto &i : player1->entityList) {
       i.draw();
+      for (auto &e : i.visualEffects) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
+      for (auto &e : i.hitSparks) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
     }
     for (auto &i : player1->visualEffects) {
       VisualEffect& visFX = i.second;
-      if (visFX.isActive) {
-        visFX.anim.render(visFX.xPos, visFX.yPos, player1->faceRight, visFX.stateTime);
+      if (visFX.getActive()) {
+        visFX.draw(player1->faceRight);
+      }
+    }
+    for (auto &i : player1->guardSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
+        // visFX.anim.render(visFX.xPos, visFX.yPos, player2->faceRight, visFX.stateTime);
+      }
+    }
+    for (auto &i : player1->hitSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
+        // visFX.anim.render(visFX.xPos, visFX.yPos, player2->faceRight, visFX.stateTime);
       }
     }
     // printf("drew p1 entities\n");
@@ -396,11 +462,33 @@ void FightState::draw() {
     // printf("drew p1\n");
     for (auto &i : player1->entityList) {
       i.draw();
+      for (auto &e : i.visualEffects) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
+      for (auto &e : i.hitSparks) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
     }
     for (auto &i : player1->visualEffects) {
       VisualEffect& visFX = i.second;
-      if (visFX.isActive) {
-        visFX.anim.render(visFX.xPos, visFX.yPos, player1->faceRight, visFX.stateTime);
+      if (visFX.getActive()) {
+        visFX.draw(player1->faceRight);
+      }
+    }
+    for (auto &i : player1->guardSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player1->faceRight);
+      }
+    }
+    for (auto &i : player1->hitSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player1->faceRight);
       }
     }
     // printf("drew p1 entities\n");
@@ -411,11 +499,33 @@ void FightState::draw() {
     // printf("drew p2\n");
     for (auto &i : player2->entityList) {
       i.draw();
+      for (auto &e : i.visualEffects) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
+      for (auto &e : i.hitSparks) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
     }
     for (auto &i : player2->visualEffects) {
       VisualEffect& visFX = i.second;
-      if (visFX.isActive) {
-        visFX.anim.render(visFX.xPos, visFX.yPos, player2->faceRight, visFX.stateTime);
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
+      }
+    }
+    for (auto &i : player2->guardSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
+      }
+    }
+    for (auto &i : player2->hitSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
       }
     }
 
@@ -470,6 +580,20 @@ void FightState::draw() {
     playHurtSound = 0;
     playHitSoundID = 0;
     playHurtSoundID = 0;
+
+    for (auto& i : player1->soundObjList) {
+      if (i.active) {
+        Mix_PlayChannel(player1->soundChannel, player1->soundList[i.soundID], 0);
+        i.active = false;
+      }
+    }
+
+    for (auto& i : player2->soundObjList) {
+      if (i.active) {
+        
+        i.active = false;
+      }
+    }
   }
 }
 
@@ -679,6 +803,7 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
         for (auto hurtBox : hurter->currentState->hurtBoxes) {
           if(!hurtBox->disabled && !groupDisabled){
             if (CollisionBox::checkAABB(*hitBox, *hurtBox)) {
+              CollisionRect hitsparkIntersect = CollisionBox::getAABBIntersect(*hitBox, *hurtBox);
               printf("hitbox collision detected\n");
               hitter->inHitStop = true;
               hitter->hitStop = hitBox->hitstop;
@@ -736,8 +861,13 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                   }
                 }
                 printf("ohh u got the blocksies?\n");
-                hurter->hitsparkRectDisabled = false;
-                hurter->hitsparkIntersect = CollisionBox::getAABBIntersect(*hitBox, *hurtBox);
+                int xEdge = hurter->faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
+                int visualID = hitBox->guardsparkID;
+                printf("the visID %d\n", visualID);
+                VisualEffect& visFX = hurter->guardSparks.at(visualID);
+                visFX.reset(xEdge, hitsparkIntersect.y);
+                visFX.setActive(true);
+                printf("found guardSpark for hurter, the playLEngth %d\n", visFX.getPlayLength());
 
                 playHitSound = hitter->playerNum;
                 playHitSoundID = hitBox->guardSoundID;
@@ -753,17 +883,23 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 if (wasACounter) {
                   Mix_PlayChannel(3, countah, 0);
                 }
-                hitter->hitsparkRectDisabled = false;
-                hitter->hitsparkIntersect = CollisionBox::getAABBIntersect(*hitBox, *hurtBox);
+                int xEdge = hitter->faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
+                int visualID = hitBox->hitsparkID;
+                printf("the visID %d\n", visualID);
+                VisualEffect& visFX = hitter->hitSparks.at(visualID);
+                visFX.reset(xEdge, hitsparkIntersect.y);
+                visFX.setActive(true);
+                printf("found hitspark for hitter, the playLEngth %d\n", visFX.getPlayLength());
 
                 playHitSound = hitter->playerNum;
                 playHitSoundID = hitBox->hitSoundID;
+
                 if (hurter->currentHurtSoundID ==  hurter->hurtSoundList.size()) {
                   hurter->currentHurtSoundID = 0;
                 }
+
                 playHurtSoundID = hurter->currentHurtSoundID;
                 hurter->currentHurtSoundID++;
-
                 playHurtSound = hurter->playerNum;
                 hurter->control = 0;
                 int finalHitstun = wasACounter ? (hitBox->hitstun + 4) : (hitBox->hitstun); 
@@ -841,51 +977,52 @@ void FightState::checkHitCollisions(){
 
 HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
   bool p2Hit = false;
-
-  for (auto &i : p1->entityList) {
-    if (!i.currentState->hitboxesDisabled) {
-      for (auto p1Hitbox : i.currentState->hitBoxes) {
-        if(!p1Hitbox->disabled){
+  for (auto &entity : p1->entityList) {
+    if (!entity.currentState->hitboxesDisabled) {
+      for (auto entityHitbox : entity.currentState->hitBoxes) {
+        bool groupDisabled = entity.currentState->hitboxGroupDisabled[entityHitbox->groupID];
+        if(!entityHitbox->disabled && !groupDisabled){
           for (auto p2HurtBox : p2->currentState->hurtBoxes) {
-            if(!p2HurtBox->disabled && !p1Hitbox->disabled){
-              if (CollisionBox::checkAABB(*p1Hitbox, *p2HurtBox)) {
+            if(!p2HurtBox->disabled){
+              if (CollisionBox::checkAABB(*entityHitbox, *p2HurtBox)) {
+                CollisionRect hitsparkIntersect = CollisionBox::getAABBIntersect(*entityHitbox, *p2HurtBox);
                 printf("entity hitbox collision detected\n");
-                bool entityFaceRight = i.faceRight;
-                i.inHitStop = true;
-                i.hitStop = p1Hitbox->hitstop;
+                bool entityFaceRight = entity.faceRight;
+                entity.inHitStop = true;
+                entity.hitStop = entityHitbox->hitstop;
 
                 p2->inHitStop = true;
-                p2->hitStop = p1Hitbox->hitstop;
+                p2->hitStop = entityHitbox->hitstop;
 
                 p1->frameLastAttackConnected = gameTime; 
+                entity.currentState->hitboxGroupDisabled[entityHitbox->groupID] = true;
                 // TODO: Hitbox group IDs
-                i.currentState->hitboxesDisabled = true;
-                i.currentState->canHitCancel = true;
+                entity.currentState->canHitCancel = true;
 
-                p2->pushTime = p1Hitbox->pushTime;
+                p2->pushTime = entityHitbox->pushTime;
                 if(p2->faceRight == entityFaceRight){
                   if (p2->faceRight) {
-                    p2->pushBackVelocity = -p1Hitbox->pushback;
+                    p2->pushBackVelocity = -entityHitbox->pushback;
                   } else {
-                    p2->pushBackVelocity = p1Hitbox->pushback;
+                    p2->pushBackVelocity = entityHitbox->pushback;
                   }
                 } else {
                   if (p2->faceRight) {
-                    p2->pushBackVelocity = p1Hitbox->pushback;
+                    p2->pushBackVelocity = entityHitbox->pushback;
                   } else {
-                    p2->pushBackVelocity = -p1Hitbox->pushback;
+                    p2->pushBackVelocity = -entityHitbox->pushback;
                   }
                 }
 
                 int p2StateNum = p2->currentState->stateNum;
-                if((p2StateNum == 28 || p2StateNum == 29 || p2StateNum == 50) || (p2->control && checkBlock(p1Hitbox->blockType, p2))){
-                  p2->blockstun = p1Hitbox->blockstun;
+                if((p2StateNum == 28 || p2StateNum == 29 || p2StateNum == 50) || (p2->control && checkBlock(entityHitbox->blockType, p2))){
+                  p2->blockstun = entityHitbox->blockstun;
                   p2->control = 0;
                   if (p2->_getYPos() > 0) {
                     // TODO: air blocking state
                     p2->changeState(50);
                   } else {
-                    switch (p1Hitbox->blockType) {
+                    switch (entityHitbox->blockType) {
                       case 1:
                         if (p2->_getInput(1)) {
                           p2->changeState(29);
@@ -904,19 +1041,40 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                     }
                   }
                   printf("ohh u got the blocksies?\n");
-                  p2->hitsparkRectDisabled = false;
-                  p2->hitsparkIntersect = CollisionBox::getAABBIntersect(*p1Hitbox, *p2HurtBox);
+                  int xEdge = p2->faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
+                  int visualID = entityHitbox->guardsparkID;
+                  printf("the visID %d\n", visualID);
+                  VisualEffect& visFX = p2->guardSparks.at(visualID);
+                  visFX.reset(xEdge, hitsparkIntersect.y);
+                  visFX.setActive(true);
+                  printf("found guardSpark for hurter, the playLEngth %d\n", visFX.getPlayLength());
 
                   playHitSound = p1->playerNum;
-                  playHitSoundID = p1Hitbox->guardSoundID;
+                  playHitSoundID = entityHitbox->guardSoundID;
                 } else {
+                  bool wasACounter = p2->currentState->counterHitFlag;
+                  printf("is the hurter being couner hit?? time:  %d  counterhit: %d\n", p2->currentState->stateTime, p2->currentState->counterHitFlag);
+                  p2->currentState->counterHitFlag = false;
+                  if (wasACounter) {
+                    Mix_PlayChannel(3, countah, 0);
+                  }
+
+                  int xEdge = entity.faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
+                  int visualID = entityHitbox->hitsparkID;
+                  printf("the visID %d\n", visualID);
+                  VisualEffect& visFX = entity.hitSparks.at(visualID);
+                  visFX.reset(xEdge, hitsparkIntersect.y);
+                  visFX.setActive(true);
+                  printf("found hitspark for hitter, the playLEngth %d\n", visFX.getPlayLength());
+
+
                   printf("ya wasnt blockin kid\n");
                   p2->control = 0;
-                  p2->health -= p1Hitbox->damage;
-                  p2->hitstun = p1Hitbox->hitstun;
+                  p2->health -= entityHitbox->damage;
+                  p2->hitstun = entityHitbox->hitstun;
                   p2->comboCounter++;
 
-                  if(p1Hitbox->canTrip || p2->_getYPos() > 0 || p2->currentState->stateNum == 24){
+                  if(entityHitbox->canTrip || p2->_getYPos() > 0 || p2->currentState->stateNum == 24){
                     return {true, false, 24, NULL};
                   } else {
                     return {true, false, 9, NULL};

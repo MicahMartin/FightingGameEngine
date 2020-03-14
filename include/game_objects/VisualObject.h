@@ -10,8 +10,6 @@ public:
   virtual void update() = 0;
   virtual void draw() = 0;
 
-  virtual void loadDataFile(const char* filePath) = 0;
-
   virtual std::pair<int,int> getPos() = 0;
   virtual void setX(int x) = 0;
   virtual void setY(int y) = 0;
@@ -24,6 +22,9 @@ public:
   virtual void incrementStateTime() = 0;
   virtual void setStateTime(int stateTime) = 0;
   virtual int getStateTime() = 0;
+
+  virtual void setPlayLength(int newPlayLength) = 0;
+  virtual int getPlayLength() = 0;
   
 private:
 };

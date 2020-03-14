@@ -71,6 +71,8 @@ public:
   int groupID = 1;
   int hitSoundID = 0;
   int guardSoundID = 0;
+  int hitsparkID = 0;
+  int guardsparkID = 0;
   bool canTrip = false;
 
 private:

@@ -66,9 +66,29 @@
         { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/10.png", "time": 6, "offsetX": 125, "offsetY":-90, "width": 140, "height": 140}
       ],
       "collision_boxes": [
-        {"type": "HIT", "block_type": 1, "hitstun":20, "block_stun":16, "hitstop": 2, "damage":5, "push": 10, "push_time": 6,  "start": 24, "end": 49, "width":225, "height":150, "offsetX":-75, "offsetY": 75}
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":16, "hitstop": 8, "damage":5, "push": 10, "push_time": 6,  "start": 25, "end": 29, "width":225, "height":150, "offsetX":-75, "offsetY": 75, "group": 1},
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":16, "hitstop": 8, "damage":5, "push": 10, "push_time": 6,  "start": 30, "end": 34, "width":225, "height":150, "offsetX":-75, "offsetY": 75, "group": 2},
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":16, "hitstop": 8, "damage":5, "push": 10, "push_time": 6,  "start": 35, "end": 39, "width":225, "height":150, "offsetX":-75, "offsetY": 75, "group": 3},
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":16, "hitstop": 8, "damage":5, "push": 10, "push_time": 6,  "start": 40, "end": 44, "width":225, "height":150, "offsetX":-75, "offsetY": 75, "group": 4},
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":16, "hitstop": 8, "damage":5, "push": 10, "push_time": 6,  "start": 45, "end": 49, "width":225, "height":150, "offsetX":-75, "offsetY": 75, "group": 5}
       ]
     } 
+  ],
+  "hit_sparks": [
+    {
+      "assetID": 1,
+      "animation": [
+        { "file": "../data/images/hitspark/0.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/1.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/2.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/3.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/4.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/5.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/hitspark/6.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1}
+      ]
+    }
+  ],
+  "animation_assets": [
   ],
   "spawnOffsetX": 150, 
   "spawnOffsetY": 0, 

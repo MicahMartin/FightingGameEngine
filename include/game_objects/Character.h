@@ -9,15 +9,12 @@
 #include "domain_language/Script.h"
 #include "input/VirtualController.h"
 #include "graphics/Animation.h"
+#include "game_objects/VisualEffect.h"
 
-// TODO: base class for this n entity
-struct VisualEffect {
-  bool isActive = false;
-  int stateTime = 0;
-  int playLength = 0;
-  int xPos = 0;
-  int yPos = 0;
-  Animation anim;
+struct SoundObj {
+  Mix_Chunk* sound;
+  bool active = false;
+  int soundID = 0;
 };
 
 class Entity;
@@ -133,13 +130,15 @@ public:
   std::vector<uint8_t> inputByteCode;
   std::vector<Entity> entityList;
 
-  std::vector<Animation> animList;
-  std::unordered_map<int, Animation> hitSparks;
-  std::unordered_map<int, Animation> guardSparks;
+  std::unordered_map<int, VisualEffect> hitSparks;
+  std::unordered_map<int, VisualEffect> guardSparks;
   std::unordered_map<int, VisualEffect> visualEffects;
 
   std::vector<Mix_Chunk*> soundList;
   std::vector<Mix_Chunk*> hurtSoundList;
+
+  std::unordered_map<int, Mix_Chunk*> soundMap;
+  std::vector<SoundObj> soundObjList;
   int soundChannel = 0;
 private:
   nlohmann::json stateJson;

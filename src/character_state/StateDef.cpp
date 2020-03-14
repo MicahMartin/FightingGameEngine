@@ -131,36 +131,36 @@ void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop)
     }
   }
 
-  for(auto cb : pushBoxes) {
-     if(!cb->disabled){
-       cb->render();
-     }
-  }
-  for(auto cb : hurtBoxes) {
-     if(!cb->disabled){
-       cb->render();
-     }
-  }
-  for(auto cb : hitBoxes) {
-     if(!cb->disabled){
-       cb->render();
-     }
-  }
-  for (auto cb : throwHitBoxes) {
-    if(!cb->disabled){
-      cb->render();
-    }
-  }
-  for (auto cb : throwHurtBoxes) {
-    if(!cb->disabled){
-      cb->render();
-    }
-  }
-  for (auto cb : proximityBoxes) {
-    if(!cb->disabled){
-      cb->render();
-    }
-  }
+  // for(auto cb : pushBoxes) {
+  //    if(!cb->disabled){
+  //      cb->render();
+  //    }
+  // }
+  // for(auto cb : hurtBoxes) {
+  //    if(!cb->disabled){
+  //      cb->render();
+  //    }
+  // }
+  // for(auto cb : hitBoxes) {
+  //    if(!cb->disabled){
+  //      cb->render();
+  //    }
+  // }
+  // for (auto cb : throwHitBoxes) {
+  //   if(!cb->disabled){
+  //     cb->render();
+  //   }
+  // }
+  // for (auto cb : throwHurtBoxes) {
+  //   if(!cb->disabled){
+  //     cb->render();
+  //   }
+  // }
+  // for (auto cb : proximityBoxes) {
+  //   if(!cb->disabled){
+  //     cb->render();
+  //   }
+  // }
 };
 
 void StateDef::loadFlags(nlohmann::json::value_type json){
@@ -198,6 +198,16 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
         cb->opponentThrowSuccess = i.value().at("opponentThrowSuccess");
         cb->throwAttempt = i.value().at("throwAttempt");
         cb->techAttempt = i.value().at("techAttempt");
+      }
+      if(type == CollisionBox::HIT){
+        cb->guardsparkID = 1;
+        cb->hitsparkID = 1;
+        if (i.value().count("guardsparkID")) {
+          cb->guardsparkID = i.value().at("guardsparkID");
+        }
+        if (i.value().count("hitsparkID")) {
+          cb->hitsparkID = i.value().at("hitsparkID");
+        }
       }
       if (i.value().count("group")) {
         cb->groupID = i.value().at("group");
@@ -250,8 +260,6 @@ void StateDef::loadVisualEffects(nlohmann::json::value_type json){
     visualEffectMap.emplace(startFrame, visualID);
   }
 };
-
-
 
 void StateDef::resetAnim(){
   animTime = 0;

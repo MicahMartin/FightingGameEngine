@@ -147,7 +147,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":4, "hitstop": 11, "damage":3, "push": 8, "push_time": 8, "start": 4, "end": 8, "width":95, "height":110, "offsetX":75, "offsetY": 185, "group": 1, "hitsound": 4, "guardsound": 16},
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":4, "hitstop": 11, "damage":3, "push": 8, "push_time": 8, "start": 4, "end": 8, "width":95, "height":110, "offsetX":75, "offsetY": 185, "group": 1, "hitsound": 4, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1},
         {"type": "PROXIMITY", "start": 1, "end": 8, "width":300, "height":80, "offsetX":75, "offsetY": 215, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
@@ -1283,8 +1283,8 @@
         {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
       "visual_effects": [
-        {"visualID": 3, "start": 1},
-        {"visualID": 4, "start": 1}
+        {"visualID": 1, "start": 1},
+        {"visualID": 2, "start": 1}
       ]
     }
   ],
@@ -1366,35 +1366,23 @@
     {
       "assetID": 1,
       "animation": [
-        { "file": "../data/images/guardspark/1.png", "time": 3, "offsetX": 75, "offsetY": 75, "scale": 1},
+        { "file": "../data/images/guardspark/1.png", "time": 2, "offsetX": 75, "offsetY": 75, "scale": 1},
+        { "file": "../data/images/guardspark/2.png", "time": 2, "offsetX": 75, "offsetY": 75, "scale": 1},
+        { "file": "../data/images/guardspark/3.png", "time": 2, "offsetX": 75, "offsetY": 75, "scale": 1}
+      ]
+    },
+    {
+      "assetID": 2,
+      "animation": [
+        { "file": "../data/images/guardspark/1.png", "time": 2, "offsetX": 75, "offsetY": 75, "scale": 1},
         { "file": "../data/images/guardspark/2.png", "time": 3, "offsetX": 75, "offsetY": 75, "scale": 1},
-        { "file": "../data/images/guardspark/3.png", "time": 3, "offsetX": 75, "offsetY": 75, "scale": 1}
+        { "file": "../data/images/guardspark/3.png", "time": 1, "offsetX": 75, "offsetY": 75, "scale": 1}
       ]
     }
   ],
   "animation_assets": [
     {
       "assetID": 1,
-      "animation": [
-        { "file": "../data/images/hitspark/0.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/hitspark/1.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/hitspark/2.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/hitspark/3.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/hitspark/4.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/hitspark/5.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/hitspark/6.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1}
-      ]
-    },
-    {
-      "assetID": 2,
-      "animation": [
-        { "file": "../data/images/guardspark/1.png", "time": 3, "offsetX": 75, "offsetY": 75, "scale": 1},
-        { "file": "../data/images/guardspark/2.png", "time": 3, "offsetX": 75, "offsetY": 75, "scale": 1},
-        { "file": "../data/images/guardspark/3.png", "time": 3, "offsetX": 75, "offsetY": 75, "scale": 1}
-      ]
-    },
-    {
-      "assetID": 3,
       "animation": [
         { "file": "../data/images/visual_effects/flare_01.png", "time": 3, "offsetX": 125, "offsetY": 75, "scale": 1},
         { "file": "../data/images/visual_effects/light_01.png", "time": 3, "offsetX": 125, "offsetY": 75, "scale": 1},
@@ -1403,7 +1391,7 @@
       ]
     },
     {
-      "assetID": 4,
+      "assetID": 2,
       "animation": [
         { "file": "../data/images/visual_effects/circle_01.png", "time": 3, "offsetX": 125, "offsetY": 75, "scale": 1},
         { "file": "../data/images/visual_effects/circle_02.png", "time": 3, "offsetX": 125, "offsetY": 75, "scale": 1},

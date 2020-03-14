@@ -8,6 +8,7 @@
 #include "domain_language/VirtualMachine.h"
 #include "domain_language/Script.h"
 #include "graphics/Animation.h"
+#include "game_objects/VisualEffect.h"
 
 class Character;
 class Entity : public GameObject {
@@ -115,10 +116,8 @@ public:
   VirtualMachine virtualMachine;
   std::vector<uint8_t> inputByteCode;
 
-  std::vector<Animation> animList;
-  std::unordered_map<int, Animation> hitSparks;
-  std::unordered_map<int, Animation> guardSparks;
-  std::unordered_map<int, Animation> visualEffects;
+  std::unordered_map<int, VisualEffect> visualEffects;
+  std::unordered_map<int, VisualEffect> hitSparks;
 
   std::vector<Mix_Chunk*> soundList;
   std::vector<Mix_Chunk*> hurtSoundList;

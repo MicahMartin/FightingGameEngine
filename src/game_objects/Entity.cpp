@@ -89,16 +89,19 @@ void Entity::loadStates(){
 
   if (stateJson.count("animation_assets")) {
     for(auto i : stateJson.at("animation_assets").items()){
-      animList.emplace_back().loadAnimEvents(i.value().at("animation"));
+      int visualID = i.value().at("assetID");
+      visualEffects.emplace(visualID, VisualEffect{}).first->second.anim.loadAnimEvents(i.value().at("animation"));
+      visualEffects.at(visualID).setPlayLength(visualEffects.at(visualID).anim.animationTime);
+      printf("loaded visual effect # %d\n", visualID);
     }
   }
 
-  if (stateJson.count("audio_assets")) {
-    for(auto i : stateJson.at("audio_assets").items()){
-      std::string path(i.value().at("file").get<std::string>());
-      const char* pathPointer = path.c_str();
-      printf("entity audio asset path%s\n", pathPointer);
-      Mix_VolumeChunk(soundList.emplace_back(Mix_LoadWAV(pathPointer)), 10);
+  if (stateJson.count("hit_sparks")) {
+    printf("loading entity hitsparks\n");
+    for(auto i : stateJson.at("hit_sparks").items()){
+      int visualID = i.value().at("assetID");
+      hitSparks.emplace(visualID, VisualEffect{}).first->second.anim.loadAnimEvents(i.value().at("animation"));
+      hitSparks.at(visualID).setPlayLength(hitSparks.at(visualID).anim.animationTime);
     }
   }
   configFile.close();
@@ -135,6 +138,13 @@ void Entity::handleInput() {
 void Entity::update(){
   if (active) {
     currentState->update();
+    if (currentState->visualEffectMap.count(currentState->stateTime)) {
+      int visualID = currentState->visualEffectMap.at(currentState->stateTime);
+      VisualEffect& visFX = visualEffects.at(visualID);
+      printf("found visFX for entities frame %d, the playLEngth %d\n", currentState->stateTime, visFX.getPlayLength());
+      visFX.reset(position.first, position.second);
+      visFX.setActive(true);
+    }
 
     updatePosition();
     updateCollisionBoxes();
@@ -301,7 +311,7 @@ StateDef* Entity::getCurrentState(){
 
 Mix_Chunk* Entity::getSoundWithId(int id){
   printf("getting sound item with ID:%d\n", id);
-  return soundList[id - 1];
+  return owner->soundList[id - 1];
 };
 
 int Entity::getSoundChannel(){

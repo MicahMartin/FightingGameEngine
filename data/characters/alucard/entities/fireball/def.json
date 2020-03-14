@@ -31,7 +31,7 @@
       ],
       "update_script": "../data/characters/alucard/entities/fireball/scripts/fireball_hit.kai",
       "animation": [
-        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_hit__0001.png", "time": 2, "offsetX": 400, "offsetY":0, "width": 130, "height": 130},
+        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_hit_0001.png", "time": 2, "offsetX": 400, "offsetY":0, "width": 130, "height": 130},
         { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_hit_0002.png", "time": 2, "offsetX": 400, "offsetY":0, "width": 130, "height": 130},
         { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_hit_0003.png", "time": 2, "offsetX": 400, "offsetY":0, "width": 130, "height": 130},
         { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_hit_0004.png", "time": 2, "offsetX": 400, "offsetY":0, "width": 130, "height": 130},
@@ -44,9 +44,9 @@
       "collision_boxes": []
     }
   ],
-  "spawnOffsetX": 50, 
-  "spawnOffsetY": 0,
   "animation_assets": [
+  ],
+  "hit_sparks": [
     {
       "assetID": 1,
       "animation": [
@@ -60,9 +60,6 @@
       ]
     }
   ],
-  "audio_assets": [
-    {"assetID": 1, "file": "../data/characters/alucard/audio/kick_impact.wav"},
-    {"assetID": 2, "file": "../data/characters/alucard/audio/heavyslice_guard2.wav"},
-    {"assetID": 3, "file": "../data/characters/alucard/audio/slice.wav"}
-  ]
+  "spawnOffsetX": 50, 
+  "spawnOffsetY": 0
 }

@@ -86,20 +86,31 @@ void Character::loadStates(){
   }
 
   for(auto i : stateJson.at("entities").items()){
-    std::string  defString = i.value().at("defPath");
+    std::string defString = i.value().at("defPath");
     printf("the defPath %s\n", defString.c_str());
     entityList.emplace_back(this, i.value().at("entityID"), defString.c_str()).init();
-  }
-
-  for(auto i : stateJson.at("animation_assets").items()){
-    animList.emplace_back().loadAnimEvents(i.value().at("animation"));
+    printf("done loading entities\n");
   }
 
   for(auto i : stateJson.at("animation_assets").items()){
     int visualID = i.value().at("assetID");
     visualEffects.emplace(visualID, VisualEffect{}).first->second.anim.loadAnimEvents(i.value().at("animation"));
-    visualEffects.at(visualID).playLength = visualEffects.at(visualID).anim.animationTime;
+    visualEffects.at(visualID).setPlayLength(visualEffects.at(visualID).anim.animationTime);
     printf("loaded visual effect # %d\n", visualID);
+  }
+
+  for(auto i : stateJson.at("hit_sparks").items()){
+    int visualID = i.value().at("assetID");
+    hitSparks.emplace(visualID, VisualEffect{}).first->second.anim.loadAnimEvents(i.value().at("animation"));
+    hitSparks.at(visualID).setPlayLength(visualEffects.at(visualID).anim.animationTime);
+    printf("loaded hitspark effect #%d\n", visualID);
+  }
+
+  for(auto i : stateJson.at("guard_sparks").items()){
+    int visualID = i.value().at("assetID");
+    guardSparks.emplace(visualID, VisualEffect{}).first->second.anim.loadAnimEvents(i.value().at("animation"));
+    guardSparks.at(visualID).setPlayLength(visualEffects.at(visualID).anim.animationTime);
+    printf("loaded guardpark effect #%d\n", visualID);
   }
 
   for(auto i : stateJson.at("audio_assets").items()){
@@ -108,12 +119,20 @@ void Character::loadStates(){
     Mix_VolumeChunk(soundList.emplace_back(Mix_LoadWAV(pathPointer)), 12);
   }
 
+  for(auto i : stateJson.at("audio_assets").items()){
+    std::string path(i.value().at("file").get<std::string>());
+    const char* pathPointer = path.c_str();
+    Mix_Chunk* soundPointer = Mix_LoadWAV(pathPointer);
+    Mix_VolumeChunk(soundPointer, 12);
+    int soundID = i.value().at("assetID");
+    soundMap.emplace(soundID, soundPointer);
+  }
+
   for(auto i : stateJson.at("hurt_sounds").items()){
     std::string path(i.value().at("file").get<std::string>());
     const char* pathPointer = path.c_str();
     Mix_VolumeChunk(hurtSoundList.emplace_back(Mix_LoadWAV(pathPointer)), 12);
   }
-
   configFile.close();
 }
 
@@ -151,11 +170,9 @@ void Character::update(){
   if (currentState->visualEffectMap.count(currentState->stateTime)) {
     int visualID = currentState->visualEffectMap.at(currentState->stateTime);
     VisualEffect& visFX = visualEffects.at(visualID);
-    printf("found visFX for frame %d, the playLEngth %d\n", currentState->stateTime, visFX.playLength);
-    visFX.isActive = true;
-    visFX.stateTime = 0;
-    visFX.xPos = position.first;
-    visFX.yPos = position.second;
+    printf("found visFX for frame %d, the playLEngth %d\n", currentState->stateTime, visFX.getPlayLength());
+    visFX.reset(position.first, position.second);
+    visFX.setActive(true);
   }
 
   updatePosition();
@@ -322,19 +339,6 @@ void Character::updateCollisionBoxes(){
 void Character::draw(){
   bool fakeHitstop = (inHitStop && (hitstun > 0 || blockstun > 0));
   currentState->draw(position, faceRight, fakeHitstop);
-
-  if (!hitsparkRectDisabled) {
-    int xEdge = faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
-    bool inBlockState = (currentState->stateNum == 28 || currentState->stateNum == 29 || currentState->stateNum == 50);
-
-    Animation* animToRender = inBlockState ? &animList[1] : &animList[0];
-    animToRender->renderHitspark(xEdge, hitsparkIntersect.y, faceRight);
-
-    if(animToRender->timeRemaining() == 0){
-      animToRender->resetAnimEvents();
-      hitsparkRectDisabled = true;
-    }
-  }
 };
 
 
