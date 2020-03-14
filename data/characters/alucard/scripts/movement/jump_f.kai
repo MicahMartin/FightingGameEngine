@@ -20,7 +20,7 @@
   var can_airdash = false;
 
 
-  if($get_state_time > 6){ 
+  if($get_state_time > 8){ 
     can_airdash = true;
   }
   var dash_f = $check_command 0;

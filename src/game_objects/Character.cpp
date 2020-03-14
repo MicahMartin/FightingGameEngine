@@ -105,13 +105,13 @@ void Character::loadStates(){
   for(auto i : stateJson.at("audio_assets").items()){
     std::string path(i.value().at("file").get<std::string>());
     const char* pathPointer = path.c_str();
-    Mix_VolumeChunk(soundList.emplace_back(Mix_LoadWAV(pathPointer)), 16);
+    Mix_VolumeChunk(soundList.emplace_back(Mix_LoadWAV(pathPointer)), 12);
   }
 
   for(auto i : stateJson.at("hurt_sounds").items()){
     std::string path(i.value().at("file").get<std::string>());
     const char* pathPointer = path.c_str();
-    Mix_VolumeChunk(hurtSoundList.emplace_back(Mix_LoadWAV(pathPointer)), 32);
+    Mix_VolumeChunk(hurtSoundList.emplace_back(Mix_LoadWAV(pathPointer)), 12);
   }
 
   configFile.close();
@@ -160,16 +160,6 @@ void Character::update(){
 
   updatePosition();
   updateCollisionBoxes();
-  for (auto &i : visualEffects) {
-    if (i.second.stateTime == i.second.playLength) {
-      i.second.isActive = false;
-      i.second.stateTime = 0;
-    }
-    if (i.second.isActive) {
-      // printf("found active visFX: %d\n", i.second.playLength);
-      i.second.stateTime++;
-    }
-  }
 };
 
 void Character::updateFaceRight(){
@@ -200,7 +190,7 @@ void Character::updatePosition() {
     }
   };
   if(position.second < 0 && gravity){
-    --velocityY;
+    velocityY -= gravityVal;
   }
 
   if(position.second > 0){
@@ -358,6 +348,10 @@ StateDef* Character::getCurrentState(){
 
 Mix_Chunk* Character::getSoundWithId(int id){
   return soundList[id - 1];
+};
+
+int Character::getSoundChannel(){
+  return soundChannel;
 };
 
 void Character::setXPos(int x){

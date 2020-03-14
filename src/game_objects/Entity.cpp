@@ -98,7 +98,7 @@ void Entity::loadStates(){
       std::string path(i.value().at("file").get<std::string>());
       const char* pathPointer = path.c_str();
       printf("entity audio asset path%s\n", pathPointer);
-      Mix_VolumeChunk(soundList.emplace_back(Mix_LoadWAV(pathPointer)), 16);
+      Mix_VolumeChunk(soundList.emplace_back(Mix_LoadWAV(pathPointer)), 10);
     }
   }
   configFile.close();
@@ -155,7 +155,7 @@ void Entity::updatePosition(){
     }
   };
   if(position.second < 0 && gravity){
-    --velocityY;
+    velocityY -= gravityVal;
   }
 
   if(position.second > 0){
@@ -302,6 +302,10 @@ StateDef* Entity::getCurrentState(){
 Mix_Chunk* Entity::getSoundWithId(int id){
   printf("getting sound item with ID:%d\n", id);
   return soundList[id - 1];
+};
+
+int Entity::getSoundChannel(){
+  return owner->getSoundChannel();
 };
 
 void Entity::setXPos(int x){

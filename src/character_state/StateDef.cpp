@@ -127,7 +127,7 @@ void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop)
   if (soundIndexMap[stateTime].size() > 0) {
     for (int soundID : soundIndexMap[stateTime]) {
       // printf("trying to play soundID %d\n", soundID);
-      Mix_PlayChannel(-1, owner->getSoundWithId(soundID), 0);
+      Mix_PlayChannel(owner->getSoundChannel() + 1, owner->getSoundWithId(soundID), 0);
     }
   }
 

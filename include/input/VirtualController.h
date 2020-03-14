@@ -112,6 +112,7 @@ public:
   bool copyMode = false;
   bool playbackMode = false;
   int playbackCounter = 0;
+  int copyModeSlot = 1;
   int xAxis = NEUTRAL;
   int yAxis = NEUTRAL;
   int controllerIndex;
@@ -121,6 +122,7 @@ public:
   std::vector<std::list<InputEvent>> inputHistoryCopyTwo;
   boost::circular_buffer<InputEvent> inputEventList;
   std::vector<uint16_t> inputStateCopy;
+  std::vector<uint16_t> inputStateCopyTwo;
   CommandCompiler* commandCompiler;
   uint16_t currentState = 0;
 private:

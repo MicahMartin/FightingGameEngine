@@ -1,7 +1,6 @@
 { 
   if($get_state_time == 0){ 
     $set_counter 1;
-    $set_nograv_count 6; 
     $velset_x 0; 
     $velset_y 0; 
   } 

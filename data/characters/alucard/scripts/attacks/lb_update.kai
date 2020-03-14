@@ -1,12 +1,26 @@
 { 
-  if($get_state_time == 0){ 
+  var slash = $get_input 12;
+  var dust = $get_input 13;
+  var limit_break = (slash and dust);
+  var stateTime = $get_state_time;
+  var quotient = stateTime / 24;
+  var product = quotient * 24;
+  var remainder = stateTime - product;
+
+  if(stateTime == 0){ 
     $set_whiff_cancel 1;
     $set_control 0; 
+    
   } 
-  if($get_state_time == 24){ 
-    $set_control 1; 
-    if ($get_y_pos > 0) {
-      $cancel_state 17;
+  if($get_state_time >= 24){ 
+    if (!limit_break) {
+      $set_control 1; 
+      if ($get_y_pos > 0) {
+        $cancel_state 17;
+      }
     }
   } 
+  if (remainder == 0) {
+    $reset_anim;
+  }
 } 

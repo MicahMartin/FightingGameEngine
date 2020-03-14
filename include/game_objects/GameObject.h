@@ -24,6 +24,7 @@ public:
   virtual void updatePosition() = 0;
   virtual void updateCollisionBoxPositions() = 0;
   virtual void updateCollisionBoxes() = 0;
+  virtual int getSoundChannel() = 0;
   virtual StateDef* getCurrentState() = 0;
   virtual Mix_Chunk* getSoundWithId(int id) = 0;
 

@@ -74,10 +74,10 @@ void VirtualController::initCommandCompiler(){
 }
 
 bool VirtualController::isPressed(Input input, bool strict) {
-  if(input <= 10 && strict){
+  if(input < 16 && strict){
     return (input == (currentState & 0x0F));
   } else {
-    return input & currentState;
+    return (currentState & input);
   }
 }
 
@@ -149,13 +149,13 @@ bool VirtualController::checkCommand(int commandIndex, bool faceRight) {
   int searchOffset = 0;
   int bufferLen = 8;
 
-  if(commandIndex >= commandCompiler->commandFunctionList.size()){
+  if(commandIndex >= commandCompiler->commands.size()){
     return false;
   }
 
-  std::vector<CommandFunction>* commandFuncs = &commandCompiler->commandFunctionList[commandIndex];
-  for (int i = commandFuncs->size() - 1; i >= 0 && !breakFlag; --i) {
-    CommandFunction& func = (*commandFuncs)[i];
+  Command* command = &commandCompiler->commands[commandIndex];
+  for (int i = command->size() - 1; i >= 0 && !breakFlag; --i) {
+    CommandFunction& func = (*command)[i];
 
     for (int i = 0; (!foundPart) && (i < bufferLen); ++i) {
       foundPart = (func)(i+searchOffset, faceRight);
@@ -199,7 +199,7 @@ void VirtualController::clearBitOffset(uint16_t offset) {
 
 void VirtualController::setAxis(Input newState){
   uint8_t oldStickState = currentState & 0x0F;
-  currentState &= 0xF0;
+  currentState &= ~0x0F;
   currentState |= (newState & 0x0F);
 
   uint8_t newStickState = currentState & 0x0F;
@@ -239,7 +239,6 @@ void VirtualController::updateAxis(bool isXAxis) {
       printf("howd you get here??\n");
       break;
   }
-  printStickState();
 
   uint8_t newStickState = currentState & 0x0F;
   currentList.push_back(InputEvent(oldStickState, false));
@@ -250,8 +249,13 @@ void VirtualController::updateAxis(bool isXAxis) {
 }
 
 void VirtualController::startCopyMode() {
-  inputHistoryCopy.clear();
-  inputStateCopy.clear();
+  if (copyModeSlot == 1) {
+    inputHistoryCopy.clear();
+    inputStateCopy.clear();
+  } else {
+    inputHistoryCopyTwo.clear();
+    inputStateCopyTwo.clear();
+  }
   copyMode = true;
 }
 
@@ -263,7 +267,7 @@ void VirtualController::playInputHistoryCopy(InputHistoryT* inputHistoryPointer)
 }
 
 void VirtualController::printStickState(){
-  std::bitset<4> stickState(currentState);
+  std::bitset<16> stickState(currentState);
   std::cout << stickState << std::endl;
 }
 

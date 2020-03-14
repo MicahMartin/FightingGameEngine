@@ -57,7 +57,7 @@ CommandCompiler::CommandCompiler() { }
 CommandCompiler::~CommandCompiler(){ }
 
 void CommandCompiler::init() {
-  commandFunctionList.clear();
+  commands.clear();
   for (int i = 0; i < commandStrings.size(); ++i) {
     compile(commandStrings[i].c_str());
   }
@@ -77,16 +77,16 @@ void CommandCompiler::compile(const char* inputString) {
   // set command func's return to the evaluation of function @ function pointer
   // push command func onto commandFuncStack
   std::vector<CommandToken> tokens = commandScanner.scan(inputString);
-  std::vector<CommandFunction> commandFuncs;
+  Command command;
   currentToken = &tokens[0];
   //for (auto i : tokens) {
   //}
   while(currentToken->type != CTOKEN_END){
     printf("TOKEN:%s\n", std::string(currentToken->start, currentToken->length).c_str());
-    commandFuncs.push_back(compileNode());
+    command.push_back(compileNode());
     printf("node compiled\n");
   }
-  commandFunctionList.push_back(commandFuncs);
+  commands.push_back(command);
 }
 
 CommandFunction CommandCompiler::compileNode(){

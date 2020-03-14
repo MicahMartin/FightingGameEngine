@@ -9,15 +9,15 @@
       "update_script": "../data/characters/alucard/entities/fireball/scripts/fireball_moving.kai",
       "cancel_script": "../data/characters/alucard/entities/fireball/scripts/fireball_moving_cancel.kai",
       "animation": [
-        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_0001.png", "time": 2, "offsetX": 250, "offsetY":0, "width": 130, "height": 130},
-        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_0002.png", "time": 2, "offsetX": 250, "offsetY":0, "width": 130, "height": 130},
-        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_0003.png", "time": 2, "offsetX": 250, "offsetY":0, "width": 130, "height": 130},
-        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_0004.png", "time": 2, "offsetX": 250, "offsetY":0, "width": 130, "height": 130},
-        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_0005.png", "time": 2, "offsetX": 250, "offsetY":0, "width": 130, "height": 130},
-        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_0006.png", "time": 2, "offsetX": 250, "offsetY":0, "width": 130, "height": 130}
+        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_0001.png", "time": 2, "offsetX": 250, "offsetY":50, "width": 130, "height": 130},
+        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_0002.png", "time": 2, "offsetX": 250, "offsetY":50, "width": 130, "height": 130},
+        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_0003.png", "time": 2, "offsetX": 250, "offsetY":50, "width": 130, "height": 130},
+        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_0004.png", "time": 2, "offsetX": 250, "offsetY":50, "width": 130, "height": 130},
+        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_0005.png", "time": 2, "offsetX": 250, "offsetY":50, "width": 130, "height": 130},
+        { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_0006.png", "time": 2, "offsetX": 250, "offsetY":50, "width": 130, "height": 130}
       ],
       "collision_boxes": [
-        {"type": "HIT", "block_type": 1, "hitstun":22, "block_stun":22, "hitstop": 4, "damage":5, "push": 6, "push_time": 10,  "start": 2, "end": -1, "width":150, "height":150, "offsetX":0, "offsetY": 125, "hitsound": 1, "guardsound": 2}
+        {"type": "HIT", "block_type": 1, "hitstun":22, "block_stun":22, "hitstop": 4, "damage":5, "push": 6, "push_time": 10,  "start": 2, "end": -1, "width":150, "height":150, "offsetX":0, "offsetY": 75, "hitsound": 1, "guardsound": 2}
       ],
       "sounds": [
         {"soundID": 3, "start": 1}

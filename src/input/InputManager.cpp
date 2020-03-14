@@ -59,16 +59,24 @@ void InputManager::update() {
 
   for (VirtualController* controller : controllers) {
     if (controller->playbackMode) {
-      std::list<InputEvent> currentFrame = controllers[0]->inputHistoryCopy[controller->playbackCounter];
-      controller->inputHistory.push_front(currentFrame);
-      controller->currentState = controllers[0]->inputStateCopy[controller->playbackCounter];
-      controller->playbackCounter++;
+      if (controllers[0]->copyModeSlot == 1) {
+        std::list<InputEvent> currentFrame = controllers[0]->inputHistoryCopy[controller->playbackCounter];
+        controller->inputHistory.push_front(currentFrame);
+        controller->currentState = controllers[0]->inputStateCopy[controller->playbackCounter];
+        controller->playbackCounter++;
+      } else {
+        std::list<InputEvent> currentFrame = controllers[0]->inputHistoryCopyTwo[controller->playbackCounter];
+        controller->inputHistory.push_front(currentFrame);
+        controller->currentState = controllers[0]->inputStateCopyTwo[controller->playbackCounter];
+        controller->playbackCounter++;
+      }
     } else { 
       controller->update();
     }
   }
 
   while(SDL_PollEvent(&event) != 0){
+    printf("something happend\n");
 
     if (!keySelectionMode) {
       switch (event.type) {
@@ -103,11 +111,38 @@ void InputManager::update() {
 
         case SDL_KEYUP: {
           if (event.key.keysym.sym == SDLK_5) {
+            controllers[0]->copyModeSlot = 1;
             controllers[0]->copyMode ? controllers[0]->stopCopyMode() : controllers[0]->startCopyMode();
             printf("copyMode toggled to %d, copySize:%ld\n", controllers[0]->copyMode, controllers[0]->inputHistoryCopy.size());
           };
           if (event.key.keysym.sym == SDLK_6) {
+            controllers[0]->copyModeSlot = 2;
+            controllers[0]->copyMode ? controllers[0]->stopCopyMode() : controllers[0]->startCopyMode();
+            printf("copyMode slot 2 toggled to %d, copySize:%ld\n", controllers[0]->copyMode, controllers[0]->inputHistoryCopyTwo.size());
+          };
+          if (event.key.keysym.sym == SDLK_1) {
+            if (controllers[0]->copyMode) {
+              controllers[0]->stopCopyMode();
+            }
             printf("setting input history to the copy %ld\n", controllers[0]->inputHistoryCopy.size());
+            controllers[0]->copyModeSlot = 1;
+            controllers[1]->playbackMode = true;
+          };
+          if (event.key.keysym.sym == SDLK_2) {
+            if (controllers[0]->copyMode) {
+              controllers[0]->stopCopyMode();
+            }
+            printf("setting input history to the copy %ld\n", controllers[0]->inputHistoryCopy.size());
+            controllers[0]->copyModeSlot = 2;
+            controllers[1]->playbackMode = true;
+          };
+          if (event.key.keysym.sym == SDLK_3) {
+            if (controllers[0]->copyMode) {
+              controllers[0]->stopCopyMode();
+            }
+            srand (time(NULL));
+            controllers[0]->copyModeSlot = rand() % 2 + 1;
+            printf("setting input history to randomly 1 or 2 %d\n", controllers[0]->copyModeSlot);
             controllers[1]->playbackMode = true;
           };
           if (bConf.find(event.key.keysym.sym) != bConf.end()) {
@@ -212,47 +247,38 @@ void InputManager::update() {
               case SDL_HAT_CENTERED:
                 controller->setAxis(NOINPUT);
                 printf("setting axis to noinput\n");
-                controller->printStickState();
                 break;
               case SDL_HAT_RIGHT:
                 controller->setAxis(RIGHT);
                 printf("setting axis to right\n");
-                controller->printStickState();
                 break;
               case SDL_HAT_LEFT:
                 controller->setAxis(LEFT);
                 printf("setting axis to left\n");
-                controller->printStickState();
                 break;
               case SDL_HAT_UP:
                 controller->setAxis(UP);
                 printf("setting axis to up\n");
-                controller->printStickState();
                 break;
               case SDL_HAT_DOWN:
                 controller->setAxis(DOWN);
                 printf("setting axis to down\n");
-                controller->printStickState();
                 break;
               case SDL_HAT_RIGHTDOWN:
                 controller->setAxis(DOWNRIGHT);
                 printf("setting axis to downright\n");
-                controller->printStickState();
                 break;
               case SDL_HAT_RIGHTUP:
                 controller->setAxis(UPRIGHT);
                 printf("setting axis to rightup\n");
-                controller->printStickState();
                 break;
               case SDL_HAT_LEFTDOWN:
                 controller->setAxis(DOWNLEFT);
                 printf("setting axis to leftdown\n");
-                controller->printStickState();
                 break;
               case SDL_HAT_LEFTUP:
                 controller->setAxis(UPLEFT);
                 printf("setting axis to leftup\n");
-                controller->printStickState();
                 break;
               default:
                 break;
@@ -357,13 +383,21 @@ void InputManager::update() {
 
   if(controllers[0]->copyMode){
     printf("pushing input history to inputHistoryCopy\n");
-    controllers[0]->inputHistoryCopy.push_back(controllers[0]->inputHistory.front());
-    controllers[0]->inputStateCopy.push_back(controllers[0]->currentState);
+    if (controllers[0]->copyModeSlot == 1) {
+      controllers[0]->inputHistoryCopy.push_back(controllers[0]->inputHistory.front());
+      controllers[0]->inputStateCopy.push_back(controllers[0]->currentState);
+    } else if(controllers[0]->copyModeSlot == 2){
+      controllers[0]->inputHistoryCopyTwo.push_back(controllers[0]->inputHistory.front());
+      controllers[0]->inputStateCopyTwo.push_back(controllers[0]->currentState);
+    }
   }
-  if (controllers[1]->playbackMode && controllers[1]->playbackCounter == controllers[0]->inputHistoryCopy.size()) {
-    controllers[1]->playbackCounter = 0;
-    controllers[1]->playbackMode = false;
-    printf("stopping playback mode\n");
+  if (controllers[1]->playbackMode) {
+    int correctSize = controllers[0]->copyModeSlot == 1 ? controllers[0]->inputHistoryCopy.size() : controllers[0]->inputHistoryCopyTwo.size();
+    if (controllers[1]->playbackCounter == correctSize) {
+      controllers[1]->playbackCounter = 0;
+      controllers[1]->playbackMode = false;
+      printf("stopping playback mode from slot %d\n", controllers[0]->copyModeSlot);
+    }
   }
 }
 

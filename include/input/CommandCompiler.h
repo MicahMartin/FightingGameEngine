@@ -8,6 +8,12 @@
 #include <functional>
 
 typedef std::function<bool(int, bool)> CommandFunction;
+struct CommandNode {
+  CommandFunction function;
+  int bufferLength;
+};
+typedef std::vector<CommandFunction> Command;
+
 class CommandCompiler {
 public:
 
@@ -21,7 +27,7 @@ public:
   CommandFunction binaryCommand(CommandFunction currentFunc, CommandTokenType type);
 
   static std::vector<std::string> commandStrings;
-  std::vector<std::vector<CommandFunction>> commandFunctionList;
+  std::vector<Command> commands;
   VirtualController* controllerPointer;
 private:
   CommandScanner commandScanner;

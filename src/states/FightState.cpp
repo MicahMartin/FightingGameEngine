@@ -7,7 +7,19 @@
 FightState::FightState(){ 
   printf("creating new fightState\n");
   stateName = "FightState";
-  // bgMusic = Mix_LoadMUS("../data/audio/fightingTheme.mp3");
+  bgMusic = Mix_LoadMUS("../data/audio/fightingTheme.mp3");
+  Mix_VolumeMusic(10);
+  yawl_ready = Mix_LoadWAV("../data/audio/uiSounds/yawl_ready.mp3");
+  round1Sound = Mix_LoadWAV("../data/audio/uiSounds/round_1.mp3");
+  round2Sound = Mix_LoadWAV("../data/audio/uiSounds/round_2.mp3");
+  finalRoundSound = Mix_LoadWAV("../data/audio/uiSounds/final_round.mp3");
+  fightSound = Mix_LoadWAV("../data/audio/uiSounds/fight.mp3");
+  koSound = Mix_LoadWAV("../data/audio/uiSounds/KO.mp3");
+  p1WinSound = Mix_LoadWAV("../data/audio/uiSounds/player_1_wins.mp3");
+  p2WinSound = Mix_LoadWAV("../data/audio/uiSounds/player_2_win.mp3");
+  countah = Mix_LoadWAV("../data/audio/uiSounds/countah.mp3");
+  Mix_Volume(3, 32);
+
   if(bgMusic == NULL) {
     printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
   }
@@ -23,11 +35,15 @@ void FightState::enter(){
   player1 = new Character(std::make_pair(1700,0), 1);
   player1->virtualController = inputManager->getVirtualController(0);
   player1->virtualController->initCommandCompiler();
+  player1->soundChannel = 4;
+  player1->gravityVal = 1;
   charStateManager->registerCharacter(player1, 1);
 
   player2 = new Character(std::make_pair(2200,0), 2);
   player2->virtualController = inputManager->getVirtualController(1);
   player2->virtualController->initCommandCompiler();
+  player2->soundChannel = 6;
+  player2->gravityVal = 1;
   charStateManager->registerCharacter(player2, 2);
 
 
@@ -102,20 +118,24 @@ void FightState::handleInput(){
       if (roundStartCounter == 200) {
         matchIntroPopup.setStateTime(0);
         matchIntroPopup.setActive(true);
+        Mix_PlayChannel(2, yawl_ready, 0);
       }
       if (roundStartCounter == 130) {
         switch (currentRound) {
           case 0:
             round1.setStateTime(0);
             round1.setActive(true);
+            Mix_PlayChannel(2, round1Sound, 0);
           break;
           case 1:
             round2Popup.setStateTime(0);
             round2Popup.setActive(true);
+            Mix_PlayChannel(2, round2Sound, 0);
           break;
           case 2:
             finalRoundPopup.setStateTime(0);
             finalRoundPopup.setActive(true);
+            Mix_PlayChannel(2, finalRoundSound, 0);
           break;
           default:
           break;
@@ -125,6 +145,7 @@ void FightState::handleInput(){
       if (roundStartCounter == 60) {
         fightPopup.setStateTime(0);
         fightPopup.setActive(true);
+        Mix_PlayChannel(2, fightSound, 0);
       }
     }
     updateFaceRight();
@@ -238,12 +259,16 @@ void FightState::update(){
 
       if (roundWinner == 1) {
         p1WinPopup.setX(camera.middle);
+        p1WinPopup.setY(camera.cameraRect.y);
         p1WinPopup.setStateTime(0);
         p1WinPopup.setActive(true);
+        Mix_PlayChannel(2, p1WinSound, 0);
       } else if (roundWinner == 2) {
         p2WinPopup.setX(camera.middle);
+        p2WinPopup.setY(camera.cameraRect.y);
         p2WinPopup.setStateTime(0);
         p2WinPopup.setActive(true);
+        Mix_PlayChannel(2, p2WinSound, 0);
       }
       roundWinner = 0;
     }
@@ -266,14 +291,17 @@ void FightState::update(){
   }
   if (knockoutPopup.getActive()) {
     knockoutPopup.setX(camera.middle);
+    knockoutPopup.setY(camera.cameraRect.y);
     knockoutPopup.update();
   }
   if (p1WinPopup.getActive()) {
     p1WinPopup.setX(camera.middle);
+    p1WinPopup.setY(camera.cameraRect.y);
     p1WinPopup.update();
   }
   if (p2WinPopup.getActive()) {
     p2WinPopup.setX(camera.middle);
+    p2WinPopup.setY(camera.cameraRect.y);
     p2WinPopup.update();
   }
   if (p1CounterHit.getActive()) {
@@ -285,6 +313,26 @@ void FightState::update(){
     p2CounterHit.setX(camera.upperBound - 350);
     p2CounterHit.setY(camera.cameraRect.y);
     p2CounterHit.update();
+  }
+  for (auto &i : player1->visualEffects) {
+    if (i.second.stateTime == i.second.playLength) {
+      i.second.isActive = false;
+      i.second.stateTime = 0;
+    }
+    if (i.second.isActive) {
+      // printf("found active visFX: %d\n", i.second.playLength);
+      i.second.stateTime++;
+    }
+  }
+  for (auto &i : player2->visualEffects) {
+    if (i.second.stateTime == i.second.playLength) {
+      i.second.isActive = false;
+      i.second.stateTime = 0;
+    }
+    if (i.second.isActive) {
+      // printf("found active visFX: %d\n", i.second.playLength);
+      i.second.stateTime++;
+    }
   }
 }
 
@@ -408,14 +456,14 @@ void FightState::draw() {
 
   if (playHitSound > 0) {
     if (playHitSound == 1) {
-      Mix_PlayChannel(-1, player1->soundList[playHitSoundID - 1], 0);
+      Mix_PlayChannel(player1->soundChannel, player1->soundList[playHitSoundID - 1], 0);
       if (playHurtSound > 0) {
-        Mix_PlayChannel(-1, player2->hurtSoundList[playHurtSoundID], 0);
+        Mix_PlayChannel(player2->soundChannel, player2->hurtSoundList[playHurtSoundID], 0);
       }
     } else {
-      Mix_PlayChannel(-1, player2->soundList[playHitSoundID - 1], 0);
+      Mix_PlayChannel(player2->soundChannel, player2->soundList[playHitSoundID - 1], 0);
       if (playHurtSound) {
-        Mix_PlayChannel(-1, player1->hurtSoundList[playHurtSoundID], 0);
+        Mix_PlayChannel(player1->soundChannel, player1->hurtSoundList[playHurtSoundID], 0);
       }
     }
     playHitSound = 0;
@@ -702,6 +750,9 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 bool wasACounter = hurter->currentState->counterHitFlag;
                 printf("is the hurter being couner hit?? time:  %d  counterhit: %d\n", hurter->currentState->stateTime, hurter->currentState->counterHitFlag);
                 hurter->currentState->counterHitFlag = false;
+                if (wasACounter) {
+                  Mix_PlayChannel(3, countah, 0);
+                }
                 hitter->hitsparkRectDisabled = false;
                 hitter->hitsparkIntersect = CollisionBox::getAABBIntersect(*hitBox, *hurtBox);
 
@@ -715,8 +766,10 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
 
                 playHurtSound = hurter->playerNum;
                 hurter->control = 0;
+                int finalHitstun = wasACounter ? (hitBox->hitstun + 4) : (hitBox->hitstun); 
+                finalHitstun += (hurter->_getYPos() > 0) ? 4 : 0;
                 hurter->health -= wasACounter ? (hitBox->damage + (hitBox->damage * .2)) : (hitBox->damage);
-                hurter->hitstun = wasACounter ? (hitBox->hitstun + 4) : (hitBox->hitstun);
+                hurter->hitstun = finalHitstun;
 
                 hurter->comboCounter++;
 
@@ -974,8 +1027,10 @@ void FightState::checkHealth(){
   if ((player1->health <= 0 || player2->health <= 0) && (!player1->isDead && !player2->isDead)) {
     // nextRound();?
     knockoutPopup.setX(camera.middle);
+    knockoutPopup.setY(camera.cameraRect.y);
     knockoutPopup.setStateTime(0);
     knockoutPopup.setActive(true);
+    Mix_PlayChannel(2, koSound, 0);
     if (player1->health <= 0 && player1->hitstun >= 1) {
       player1->isDead = true;
       p2RoundsWon++;

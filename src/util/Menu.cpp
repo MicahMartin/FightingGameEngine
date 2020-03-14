@@ -24,6 +24,7 @@ Menu::Menu() {
 
   menuMove = Mix_LoadWAV("../data/audio/menumove.wav");
   menuSelect = Mix_LoadWAV("../data/audio/menuselect.wav");
+  Mix_Volume(2, 16);
 }
 
 Menu::~Menu() {}

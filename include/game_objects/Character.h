@@ -51,6 +51,7 @@ public:
   void updateCollisionBoxes();
   StateDef* getCurrentState();
   Mix_Chunk* getSoundWithId(int id);
+  int getSoundChannel();
 
   // getters for these guys
 
@@ -70,6 +71,7 @@ public:
   bool inCorner = false;
   bool inHitStop = false;
   bool gravity = true;
+  int gravityVal = 1;
   bool isDead = false;
   int velocityX = 0;
   int velocityY = 0;
@@ -138,6 +140,7 @@ public:
 
   std::vector<Mix_Chunk*> soundList;
   std::vector<Mix_Chunk*> hurtSoundList;
+  int soundChannel = 0;
 private:
   nlohmann::json stateJson;
   std::vector<StateDef> stateList;

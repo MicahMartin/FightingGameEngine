@@ -93,6 +93,15 @@ public:
   int roundWinner = 0;
 
   Mix_Music* bgMusic = NULL;
+  Mix_Chunk* yawl_ready = NULL;
+  Mix_Chunk* countah = NULL;
+  Mix_Chunk* round1Sound = NULL;
+  Mix_Chunk* round2Sound = NULL;
+  Mix_Chunk* finalRoundSound = NULL;
+  Mix_Chunk* fightSound = NULL;
+  Mix_Chunk* koSound = NULL;
+  Mix_Chunk* p1WinSound = NULL;
+  Mix_Chunk* p2WinSound = NULL;
 private:
   Character* player1;
   Character* player2;
