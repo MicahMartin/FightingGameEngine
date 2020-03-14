@@ -122,15 +122,6 @@ void StateDef::handleCancels(){
 void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop){
   anim.hitShake = inHitStop;
   anim.render(position.first, position.second, faceRight, animTime);
-
-  // TODO: Sound method
-  if (soundIndexMap[stateTime].size() > 0) {
-    for (int soundID : soundIndexMap[stateTime]) {
-      // printf("trying to play soundID %d\n", soundID);
-      Mix_PlayChannel(owner->getSoundChannel() + 1, owner->getSoundWithId(soundID), 0);
-    }
-  }
-
   // for(auto cb : pushBoxes) {
   //    if(!cb->disabled){
   //      cb->render();

@@ -17,8 +17,12 @@ enum FlagBit {
   TECHABLE = 0x04,
 };
 
-struct SoundItem {
-  int soundID, start;
+
+struct SoundObj {
+  Mix_Chunk* sound;
+  bool active = false;
+  int soundID = 0;
+  int channel = -1;
 };
 
 class GameObject;

@@ -11,11 +11,6 @@
 #include "graphics/Animation.h"
 #include "game_objects/VisualEffect.h"
 
-struct SoundObj {
-  Mix_Chunk* sound;
-  bool active = false;
-  int soundID = 0;
-};
 
 class Entity;
 class Character : public GameObject {
@@ -72,8 +67,6 @@ public:
   bool isDead = false;
   int velocityX = 0;
   int velocityY = 0;
-  bool hitsparkRectDisabled = true;
-  int currentHurtSoundID = 0;
   int health = 100;
   int redHealth = 100;
   int redHealthCounter = 0;
@@ -134,11 +127,10 @@ public:
   std::unordered_map<int, VisualEffect> guardSparks;
   std::unordered_map<int, VisualEffect> visualEffects;
 
-  std::vector<Mix_Chunk*> soundList;
-  std::vector<Mix_Chunk*> hurtSoundList;
-
-  std::unordered_map<int, Mix_Chunk*> soundMap;
-  std::vector<SoundObj> soundObjList;
+  std::unordered_map<int, SoundObj> soundsEffects;
+  std::unordered_map<int, SoundObj> hurtSoundEffects;
+  int currentHurtSoundID = 1;
+  int hurtSoundMax = 3;
   int soundChannel = 0;
 private:
   nlohmann::json stateJson;

@@ -18,7 +18,6 @@ FightState::FightState(){
   p1WinSound = Mix_LoadWAV("../data/audio/uiSounds/player_1_wins.mp3");
   p2WinSound = Mix_LoadWAV("../data/audio/uiSounds/player_2_win.mp3");
   countah = Mix_LoadWAV("../data/audio/uiSounds/countah.mp3");
-  Mix_Volume(3, 32);
 
   if(bgMusic == NULL) {
     printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
@@ -35,7 +34,7 @@ void FightState::enter(){
   player1 = new Character(std::make_pair(1700,0), 1);
   player1->virtualController = inputManager->getVirtualController(0);
   player1->virtualController->initCommandCompiler();
-  player1->soundChannel = 4;
+  player1->soundChannel = 3;
   player1->gravityVal = 1;
   charStateManager->registerCharacter(player1, 1);
 
@@ -94,6 +93,7 @@ void FightState::enter(){
   p2CounterHit.loadDataFile("../data/images/UI/pop_up/counter/data.json");
   p2CounterHit.setPlayLength(30);
 
+  Mix_Volume(2, 32);
 }
 
 void FightState::exit(){ 
@@ -198,9 +198,7 @@ void FightState::handleInput(){
   for (auto &i : player2->entityList) {
     i.currentState->handleCancels();
   }
-
-
-
+  
   checkProximityAgainst(player1, player2);
   checkProximityAgainst(player2, player1);
 
@@ -354,7 +352,6 @@ void FightState::update(){
 }
 
 void FightState::draw() {
-  // printf("made it to draw\n");
   double screenDrawStart, screenDrawEnd,
          barDrawStart, barDrawEnd,
          p1DrawStart, p1DrawEnd,
@@ -380,7 +377,6 @@ void FightState::draw() {
   if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
     p2DrawStart = SDL_GetTicks();
     player2->draw();
-    // printf("drew p2\n");
     for (auto &i : player2->entityList) {
       i.draw();
       for (auto &e : i.visualEffects) {
@@ -398,29 +394,24 @@ void FightState::draw() {
       VisualEffect& visFX = i.second;
       if (visFX.getActive()) {
         visFX.draw(player2->faceRight);
-        // visFX.anim.render(visFX.xPos, visFX.yPos, player2->faceRight, visFX.stateTime);
       }
     }
     for (auto &i : player2->guardSparks) {
       VisualEffect& visFX = i.second;
       if (visFX.getActive()) {
         visFX.draw(player2->faceRight);
-        // visFX.anim.render(visFX.xPos, visFX.yPos, player2->faceRight, visFX.stateTime);
       }
     }
     for (auto &i : player2->hitSparks) {
       VisualEffect& visFX = i.second;
       if (visFX.getActive()) {
         visFX.draw(player2->faceRight);
-        // visFX.anim.render(visFX.xPos, visFX.yPos, player2->faceRight, visFX.stateTime);
       }
     }
-    // printf("drew p2  entities\n");
     p2DrawEnd = SDL_GetTicks();
 
     p1DrawStart = SDL_GetTicks();
     player1->draw();
-    // printf("drew p1\n");
     for (auto &i : player1->entityList) {
       i.draw();
       for (auto &e : i.visualEffects) {
@@ -444,22 +435,18 @@ void FightState::draw() {
       VisualEffect& visFX = i.second;
       if (visFX.getActive()) {
         visFX.draw(player2->faceRight);
-        // visFX.anim.render(visFX.xPos, visFX.yPos, player2->faceRight, visFX.stateTime);
       }
     }
     for (auto &i : player1->hitSparks) {
       VisualEffect& visFX = i.second;
       if (visFX.getActive()) {
         visFX.draw(player2->faceRight);
-        // visFX.anim.render(visFX.xPos, visFX.yPos, player2->faceRight, visFX.stateTime);
       }
     }
-    // printf("drew p1 entities\n");
     p1DrawEnd = SDL_GetTicks();
   } else {
     p1DrawStart = SDL_GetTicks();
     player1->draw();
-    // printf("drew p1\n");
     for (auto &i : player1->entityList) {
       i.draw();
       for (auto &e : i.visualEffects) {
@@ -563,35 +550,55 @@ void FightState::draw() {
     p2WinPopup.draw();
   }
 
-
-  if (playHitSound > 0) {
-    if (playHitSound == 1) {
-      Mix_PlayChannel(player1->soundChannel, player1->soundList[playHitSoundID - 1], 0);
-      if (playHurtSound > 0) {
-        Mix_PlayChannel(player2->soundChannel, player2->hurtSoundList[playHurtSoundID], 0);
-      }
-    } else {
-      Mix_PlayChannel(player2->soundChannel, player2->soundList[playHitSoundID - 1], 0);
-      if (playHurtSound) {
-        Mix_PlayChannel(player1->soundChannel, player1->hurtSoundList[playHurtSoundID], 0);
+  for (auto& i : player1->soundsEffects) {
+    SoundObj& soundEffect = i.second;
+    if (soundEffect.active) {
+      Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
+      soundEffect.active = false;
+    }
+  }
+  for (auto& i : player1->hurtSoundEffects) {
+    SoundObj& soundEffect = i.second;
+    if (soundEffect.active) {
+      Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
+      soundEffect.active = false;
+    }
+    if (player1->currentHurtSoundID++ == player1->hurtSoundMax) {
+      player1->currentHurtSoundID = 1;
+    }
+  }
+  for (auto& entity : player1->entityList) {
+    for (auto& i : entity.soundsEffects) {
+      SoundObj& soundEffect = i.second;
+      if (soundEffect.active) {
+        Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
+        soundEffect.active = false;
       }
     }
-    playHitSound = 0;
-    playHurtSound = 0;
-    playHitSoundID = 0;
-    playHurtSoundID = 0;
-
-    for (auto& i : player1->soundObjList) {
-      if (i.active) {
-        Mix_PlayChannel(player1->soundChannel, player1->soundList[i.soundID], 0);
-        i.active = false;
-      }
+  }
+  for (auto& i : player2->soundsEffects) {
+    SoundObj& soundEffect = i.second;
+    if (soundEffect.active) {
+      Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
+      soundEffect.active = false;
     }
-
-    for (auto& i : player2->soundObjList) {
-      if (i.active) {
-        
-        i.active = false;
+  }
+  for (auto& i : player2->hurtSoundEffects) {
+    SoundObj& soundEffect = i.second;
+    if (soundEffect.active) {
+      Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
+      soundEffect.active = false;
+    }
+    if (player2->currentHurtSoundID++ == player2->hurtSoundMax) {
+      player2->currentHurtSoundID = 1;
+    }
+  }
+  for (auto& entity : player2->entityList) {
+    for (auto& i : entity.soundsEffects) {
+      SoundObj& soundEffect = i.second;
+      if (soundEffect.active) {
+        Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
+        soundEffect.active = false;
       }
     }
   }
@@ -868,20 +875,15 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 visFX.reset(xEdge, hitsparkIntersect.y);
                 visFX.setActive(true);
                 printf("found guardSpark for hurter, the playLEngth %d\n", visFX.getPlayLength());
+                hitter->soundsEffects.at(hitBox->guardSoundID).active = true;
+                hitter->soundsEffects.at(hitBox->guardSoundID).channel = hitter->soundChannel + 2;
 
-                playHitSound = hitter->playerNum;
-                playHitSoundID = hitBox->guardSoundID;
-                // if (hurter->currentHurtSoundID ==  hurter->hurtSoundList.size()) {
-                //   hurter->currentHurtSoundID = 0;
-                // }
-                // playHurtSoundID = hurter->currentHurtSoundID;
-                // hurter->currentHurtSoundID++;
               } else {
                 bool wasACounter = hurter->currentState->counterHitFlag;
                 printf("is the hurter being couner hit?? time:  %d  counterhit: %d\n", hurter->currentState->stateTime, hurter->currentState->counterHitFlag);
                 hurter->currentState->counterHitFlag = false;
                 if (wasACounter) {
-                  Mix_PlayChannel(3, countah, 0);
+                  Mix_PlayChannel(2, countah, 0);
                 }
                 int xEdge = hitter->faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
                 int visualID = hitBox->hitsparkID;
@@ -891,16 +893,6 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 visFX.setActive(true);
                 printf("found hitspark for hitter, the playLEngth %d\n", visFX.getPlayLength());
 
-                playHitSound = hitter->playerNum;
-                playHitSoundID = hitBox->hitSoundID;
-
-                if (hurter->currentHurtSoundID ==  hurter->hurtSoundList.size()) {
-                  hurter->currentHurtSoundID = 0;
-                }
-
-                playHurtSoundID = hurter->currentHurtSoundID;
-                hurter->currentHurtSoundID++;
-                playHurtSound = hurter->playerNum;
                 hurter->control = 0;
                 int finalHitstun = wasACounter ? (hitBox->hitstun + 4) : (hitBox->hitstun); 
                 finalHitstun += (hurter->_getYPos() > 0) ? 4 : 0;
@@ -908,6 +900,9 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 hurter->hitstun = finalHitstun;
 
                 hurter->comboCounter++;
+                hurter->hurtSoundEffects.at(hurter->currentHurtSoundID).active = true;
+                hitter->soundsEffects.at(hitBox->hitSoundID).active = true;
+                hitter->soundsEffects.at(hitBox->hitSoundID).channel = hitter->soundChannel + 2;
 
                 int hurterCurrentState = hurter->currentState->stateNum;
                 if(hitBox->canTrip || hurter->_getYPos() > 0 
@@ -1049,14 +1044,12 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                   visFX.setActive(true);
                   printf("found guardSpark for hurter, the playLEngth %d\n", visFX.getPlayLength());
 
-                  playHitSound = p1->playerNum;
-                  playHitSoundID = entityHitbox->guardSoundID;
                 } else {
                   bool wasACounter = p2->currentState->counterHitFlag;
                   printf("is the hurter being couner hit?? time:  %d  counterhit: %d\n", p2->currentState->stateTime, p2->currentState->counterHitFlag);
                   p2->currentState->counterHitFlag = false;
                   if (wasACounter) {
-                    Mix_PlayChannel(3, countah, 0);
+                    Mix_PlayChannel(2, countah, 0);
                   }
 
                   int xEdge = entity.faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
@@ -1073,6 +1066,7 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                   p2->health -= entityHitbox->damage;
                   p2->hitstun = entityHitbox->hitstun;
                   p2->comboCounter++;
+                  p2->hurtSoundEffects.at(p2->currentHurtSoundID).active = true;
 
                   if(entityHitbox->canTrip || p2->_getYPos() > 0 || p2->currentState->stateNum == 24){
                     return {true, false, 24, NULL};
@@ -1183,7 +1177,6 @@ void FightState::checkHealth(){
   // TODO: if training mode
   // TODO: refactor jesus why are you like this
   if ((player1->health <= 0 || player2->health <= 0) && (!player1->isDead && !player2->isDead)) {
-    // nextRound();?
     knockoutPopup.setX(camera.middle);
     knockoutPopup.setY(camera.cameraRect.y);
     knockoutPopup.setStateTime(0);
@@ -1236,7 +1229,6 @@ void FightState::checkHealth(){
         restartRound();
       }
     }
-    
   }
 }
 
@@ -1312,7 +1304,6 @@ void FightState::updateFaceRight(){
         }
       }
     }
-    
   }
 }
 

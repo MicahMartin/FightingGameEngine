@@ -81,10 +81,6 @@ public:
   int p2RoundsWon = 0;
   int currentRound = 0;
 
-  int playHitSound = 0;
-  int playHurtSound = 0;
-  int playHitSoundID = 0;
-  int playHurtSoundID = 0;
   bool everythingCompiled = false;
   bool inSlowDown = false;
   bool shouldUpdate = true;

@@ -104,6 +104,19 @@ void Entity::loadStates(){
       hitSparks.at(visualID).setPlayLength(hitSparks.at(visualID).anim.animationTime);
     }
   }
+  if (stateJson.count("audio_assets")) {
+    for(auto i : stateJson.at("audio_assets").items()){
+      int soundID = i.value().at("assetID");
+
+      std::string path(i.value().at("file").get<std::string>());
+      const char* pathPointer = path.c_str();
+
+      Mix_Chunk* soundEffectPointer = Mix_LoadWAV(pathPointer);
+      Mix_VolumeChunk(soundEffectPointer, 12);
+
+      soundsEffects.emplace(soundID, SoundObj{soundEffectPointer, false, 0});
+    }
+  }
   configFile.close();
 }
 
@@ -137,7 +150,6 @@ void Entity::handleInput() {
 
 void Entity::update(){
   if (active) {
-    currentState->update();
     if (currentState->visualEffectMap.count(currentState->stateTime)) {
       int visualID = currentState->visualEffectMap.at(currentState->stateTime);
       VisualEffect& visFX = visualEffects.at(visualID);
@@ -145,7 +157,15 @@ void Entity::update(){
       visFX.reset(position.first, position.second);
       visFX.setActive(true);
     }
+    // TODO: Sound method
+    if (currentState->soundIndexMap[currentState->stateTime].size() > 0) {
+      for (int soundID : currentState->soundIndexMap[currentState->stateTime]) {
+        // printf("trying to play soundID %d\n", soundID);
+        soundsEffects.at(soundID).active = true;
+      }
+    }
 
+    currentState->update();
     updatePosition();
     updateCollisionBoxes();
   }
@@ -311,7 +331,7 @@ StateDef* Entity::getCurrentState(){
 
 Mix_Chunk* Entity::getSoundWithId(int id){
   printf("getting sound item with ID:%d\n", id);
-  return owner->soundList[id - 1];
+  return soundsEffects.at(id).sound;
 };
 
 int Entity::getSoundChannel(){

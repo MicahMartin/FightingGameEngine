@@ -49,8 +49,7 @@ void Character::refresh(){
   isDead = false;
   velocityX = 0;
   velocityY = 0;
-  hitsparkRectDisabled = true;
-  currentHurtSoundID = 0;
+  currentHurtSoundID = 1;
 }
 
 void Character::changeState(int stateDefNum){
@@ -114,25 +113,28 @@ void Character::loadStates(){
   }
 
   for(auto i : stateJson.at("audio_assets").items()){
-    std::string path(i.value().at("file").get<std::string>());
-    const char* pathPointer = path.c_str();
-    Mix_VolumeChunk(soundList.emplace_back(Mix_LoadWAV(pathPointer)), 12);
-  }
-
-  for(auto i : stateJson.at("audio_assets").items()){
-    std::string path(i.value().at("file").get<std::string>());
-    const char* pathPointer = path.c_str();
-    Mix_Chunk* soundPointer = Mix_LoadWAV(pathPointer);
-    Mix_VolumeChunk(soundPointer, 12);
     int soundID = i.value().at("assetID");
-    soundMap.emplace(soundID, soundPointer);
-  }
 
-  for(auto i : stateJson.at("hurt_sounds").items()){
     std::string path(i.value().at("file").get<std::string>());
     const char* pathPointer = path.c_str();
-    Mix_VolumeChunk(hurtSoundList.emplace_back(Mix_LoadWAV(pathPointer)), 12);
+
+    Mix_Chunk* soundEffectPointer = Mix_LoadWAV(pathPointer);
+    Mix_VolumeChunk(soundEffectPointer, 12);
+
+    soundsEffects.emplace(soundID, SoundObj{soundEffectPointer, false, 0});
   }
+  for(auto i : stateJson.at("hurt_sounds").items()){
+    int hurtSoundID = i.value().at("assetID");
+
+    std::string path(i.value().at("file").get<std::string>());
+    const char* pathPointer = path.c_str();
+
+    Mix_Chunk* hurtSoundPointer = Mix_LoadWAV(pathPointer);
+    Mix_VolumeChunk(hurtSoundPointer, 12);
+    
+    hurtSoundEffects.emplace(hurtSoundID, SoundObj{hurtSoundPointer, false, 0, soundChannel + 1});
+  }
+
   configFile.close();
 }
 
@@ -166,7 +168,6 @@ void Character::handleInput(){
 };
 
 void Character::update(){ 
-  currentState->update();
   if (currentState->visualEffectMap.count(currentState->stateTime)) {
     int visualID = currentState->visualEffectMap.at(currentState->stateTime);
     VisualEffect& visFX = visualEffects.at(visualID);
@@ -174,6 +175,13 @@ void Character::update(){
     visFX.reset(position.first, position.second);
     visFX.setActive(true);
   }
+  if (currentState->soundIndexMap[currentState->stateTime].size() > 0) {
+    for (int soundID : currentState->soundIndexMap[currentState->stateTime]) {
+      soundsEffects.at(soundID).active = true;
+      soundsEffects.at(soundID).channel = soundChannel;
+    }
+  }
+  currentState->update();
 
   updatePosition();
   updateCollisionBoxes();
@@ -351,7 +359,7 @@ StateDef* Character::getCurrentState(){
 };
 
 Mix_Chunk* Character::getSoundWithId(int id){
-  return soundList[id - 1];
+  return soundsEffects.at(id).sound;
 };
 
 int Character::getSoundChannel(){

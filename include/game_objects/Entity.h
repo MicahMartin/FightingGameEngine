@@ -118,9 +118,8 @@ public:
 
   std::unordered_map<int, VisualEffect> visualEffects;
   std::unordered_map<int, VisualEffect> hitSparks;
+  std::unordered_map<int, SoundObj> soundsEffects;
 
-  std::vector<Mix_Chunk*> soundList;
-  std::vector<Mix_Chunk*> hurtSoundList;
   bool updateFacing = false;
 private:
   const char* defPath;
