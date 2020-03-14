@@ -8,7 +8,10 @@ FightState::FightState(){
   printf("creating new fightState\n");
   stateName = "FightState";
   bgMusic = Mix_LoadMUS("../data/audio/fightingTheme.mp3");
-  Mix_VolumeMusic(10);
+  Mix_VolumeMusic(32);
+  for (int i = 1; i < 8; ++i) {
+    Mix_Volume(i, 32);
+  }
   yawl_ready = Mix_LoadWAV("../data/audio/uiSounds/yawl_ready.mp3");
   round1Sound = Mix_LoadWAV("../data/audio/uiSounds/round_1.mp3");
   round2Sound = Mix_LoadWAV("../data/audio/uiSounds/round_2.mp3");
@@ -34,14 +37,14 @@ void FightState::enter(){
   player1 = new Character(std::make_pair(1700,0), 1);
   player1->virtualController = inputManager->getVirtualController(0);
   player1->virtualController->initCommandCompiler();
-  player1->soundChannel = 3;
+  player1->soundChannel = 2;
   player1->gravityVal = 1;
   charStateManager->registerCharacter(player1, 1);
 
   player2 = new Character(std::make_pair(2200,0), 2);
   player2->virtualController = inputManager->getVirtualController(1);
   player2->virtualController->initCommandCompiler();
-  player2->soundChannel = 6;
+  player2->soundChannel = 5;
   player2->gravityVal = 1;
   charStateManager->registerCharacter(player2, 2);
 
@@ -93,7 +96,7 @@ void FightState::enter(){
   p2CounterHit.loadDataFile("../data/images/UI/pop_up/counter/data.json");
   p2CounterHit.setPlayLength(30);
 
-  Mix_Volume(2, 32);
+  Mix_Volume(0, 32);
 }
 
 void FightState::exit(){ 
@@ -118,24 +121,24 @@ void FightState::handleInput(){
       if (roundStartCounter == 200) {
         matchIntroPopup.setStateTime(0);
         matchIntroPopup.setActive(true);
-        Mix_PlayChannel(2, yawl_ready, 0);
+        Mix_PlayChannel(0, yawl_ready, 0);
       }
       if (roundStartCounter == 130) {
         switch (currentRound) {
           case 0:
             round1.setStateTime(0);
             round1.setActive(true);
-            Mix_PlayChannel(2, round1Sound, 0);
+            Mix_PlayChannel(0, round1Sound, 0);
           break;
           case 1:
             round2Popup.setStateTime(0);
             round2Popup.setActive(true);
-            Mix_PlayChannel(2, round2Sound, 0);
+            Mix_PlayChannel(0, round2Sound, 0);
           break;
           case 2:
             finalRoundPopup.setStateTime(0);
             finalRoundPopup.setActive(true);
-            Mix_PlayChannel(2, finalRoundSound, 0);
+            Mix_PlayChannel(0, finalRoundSound, 0);
           break;
           default:
           break;
@@ -145,7 +148,7 @@ void FightState::handleInput(){
       if (roundStartCounter == 60) {
         fightPopup.setStateTime(0);
         fightPopup.setActive(true);
-        Mix_PlayChannel(2, fightSound, 0);
+        Mix_PlayChannel(0, fightSound, 0);
       }
     }
     updateFaceRight();
@@ -260,13 +263,13 @@ void FightState::update(){
         p1WinPopup.setY(camera.cameraRect.y);
         p1WinPopup.setStateTime(0);
         p1WinPopup.setActive(true);
-        Mix_PlayChannel(2, p1WinSound, 0);
+        Mix_PlayChannel(0, p1WinSound, 0);
       } else if (roundWinner == 2) {
         p2WinPopup.setX(camera.middle);
         p2WinPopup.setY(camera.cameraRect.y);
         p2WinPopup.setStateTime(0);
         p2WinPopup.setActive(true);
-        Mix_PlayChannel(2, p2WinSound, 0);
+        Mix_PlayChannel(0, p2WinSound, 0);
       }
       roundWinner = 0;
     }
@@ -840,10 +843,9 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
 
               int hurterCurrentState = hurter->currentState->stateNum;
               bool blocking = (hurterCurrentState == 28 || hurterCurrentState == 29 || hurterCurrentState == 50);
+              printf("control? %d, blocking? %d, stateNum:%d\n", hurter->control, blocking, hurterCurrentState);
               int blocktype = hitBox->blockType;
-              if((blocking && blocktype == 1) || 
-                  (blocking && checkBlock(blocktype, hurter)) || 
-                  (hurter->control && checkBlock(blocktype, hurter))){
+              if((blocking && blocktype == 1) || (blocking && checkBlock(blocktype, hurter)) || (hurter->control && checkBlock(blocktype, hurter))){
                 hurter->blockstun = hitBox->blockstun;
                 hurter->control = 0;
                 if (hurter->_getYPos() > 0) {
@@ -875,15 +877,14 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 visFX.reset(xEdge, hitsparkIntersect.y);
                 visFX.setActive(true);
                 printf("found guardSpark for hurter, the playLEngth %d\n", visFX.getPlayLength());
-                hitter->soundsEffects.at(hitBox->guardSoundID).active = true;
-                hitter->soundsEffects.at(hitBox->guardSoundID).channel = hitter->soundChannel + 2;
-
+                hurter->soundsEffects.at(hitBox->guardSoundID).active = true;
+                hurter->soundsEffects.at(hitBox->guardSoundID).channel = hurter->soundChannel + 2;
               } else {
                 bool wasACounter = hurter->currentState->counterHitFlag;
                 printf("is the hurter being couner hit?? time:  %d  counterhit: %d\n", hurter->currentState->stateTime, hurter->currentState->counterHitFlag);
                 hurter->currentState->counterHitFlag = false;
                 if (wasACounter) {
-                  Mix_PlayChannel(2, countah, 0);
+                  Mix_PlayChannel(0, countah, 0);
                 }
                 int xEdge = hitter->faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
                 int visualID = hitBox->hitsparkID;
@@ -923,19 +924,21 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
 }
 
 int FightState::checkProximityAgainst(Character* hitter, Character* hurter){
-  if (!hitter->currentState->hitboxesDisabled) {
-    for (auto hitBox : hitter->currentState->proximityBoxes) {
-      bool groupDisabled = hitter->currentState->hitboxGroupDisabled[hitBox->groupID];
-      if(!hitBox->disabled && !groupDisabled){
-        for (auto hurtBox : hurter->currentState->hurtBoxes) {
-          if(!hurtBox->disabled && !groupDisabled){
-            if (CollisionBox::checkAABB(*hitBox, *hurtBox)) {
-              printf("proximity collision detected\n");
-              if (hurter->currentState->stateNum == 3) {
-                hurter->changeState(28);
-              }
-              if (hurter->currentState->stateNum == 4 && hurter->_getInput(1)) {
-                hurter->changeState(29);
+  if (hurter->getPos().second <= 0) {
+    if (!hitter->currentState->hitboxesDisabled) {
+      for (auto hitBox : hitter->currentState->proximityBoxes) {
+        bool groupDisabled = hitter->currentState->hitboxGroupDisabled[hitBox->groupID];
+        if(!hitBox->disabled && !groupDisabled){
+          for (auto hurtBox : hurter->currentState->hurtBoxes) {
+            if(!hurtBox->disabled && !groupDisabled){
+              if (CollisionBox::checkAABB(*hitBox, *hurtBox)) {
+                printf("proximity collision detected\n");
+                if (hurter->currentState->stateNum == 3) {
+                  hurter->changeState(28);
+                }
+                if (hurter->currentState->stateNum == 4 && hurter->_getInput(1)) {
+                  hurter->changeState(29);
+                }
               }
             }
           }
@@ -1044,12 +1047,14 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                   visFX.setActive(true);
                   printf("found guardSpark for hurter, the playLEngth %d\n", visFX.getPlayLength());
 
+                  p2->soundsEffects.at(entityHitbox->guardSoundID).active = true;
+                  p2->soundsEffects.at(entityHitbox->guardSoundID).channel = p2->soundChannel + 2;
                 } else {
                   bool wasACounter = p2->currentState->counterHitFlag;
                   printf("is the hurter being couner hit?? time:  %d  counterhit: %d\n", p2->currentState->stateTime, p2->currentState->counterHitFlag);
                   p2->currentState->counterHitFlag = false;
                   if (wasACounter) {
-                    Mix_PlayChannel(2, countah, 0);
+                    Mix_PlayChannel(0, countah, 0);
                   }
 
                   int xEdge = entity.faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
@@ -1067,6 +1072,8 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                   p2->hitstun = entityHitbox->hitstun;
                   p2->comboCounter++;
                   p2->hurtSoundEffects.at(p2->currentHurtSoundID).active = true;
+                  entity.soundsEffects.at(entityHitbox->hitSoundID).active = true;
+                  entity.soundsEffects.at(entityHitbox->hitSoundID).channel = p1->soundChannel + 2;
 
                   if(entityHitbox->canTrip || p2->_getYPos() > 0 || p2->currentState->stateNum == 24){
                     return {true, false, 24, NULL};
@@ -1181,7 +1188,7 @@ void FightState::checkHealth(){
     knockoutPopup.setY(camera.cameraRect.y);
     knockoutPopup.setStateTime(0);
     knockoutPopup.setActive(true);
-    Mix_PlayChannel(2, koSound, 0);
+    Mix_PlayChannel(0, koSound, 0);
     if (player1->health <= 0 && player1->hitstun >= 1) {
       player1->isDead = true;
       p2RoundsWon++;

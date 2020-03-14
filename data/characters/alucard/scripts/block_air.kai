@@ -4,6 +4,7 @@
     $velset_y 0;
   } 
   if($get_block_stun == 0){ 
+    $set_control 1;
     $cancel_state 17;
-  } 
+  }
 } 

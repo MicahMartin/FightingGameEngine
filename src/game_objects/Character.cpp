@@ -119,8 +119,6 @@ void Character::loadStates(){
     const char* pathPointer = path.c_str();
 
     Mix_Chunk* soundEffectPointer = Mix_LoadWAV(pathPointer);
-    Mix_VolumeChunk(soundEffectPointer, 12);
-
     soundsEffects.emplace(soundID, SoundObj{soundEffectPointer, false, 0});
   }
   for(auto i : stateJson.at("hurt_sounds").items()){
@@ -130,8 +128,6 @@ void Character::loadStates(){
     const char* pathPointer = path.c_str();
 
     Mix_Chunk* hurtSoundPointer = Mix_LoadWAV(pathPointer);
-    Mix_VolumeChunk(hurtSoundPointer, 12);
-    
     hurtSoundEffects.emplace(hurtSoundID, SoundObj{hurtSoundPointer, false, 0, soundChannel + 1});
   }
 

@@ -509,8 +509,7 @@
       "state_num": 24,
       "state_name": "BLOWBACK_TRIP",
       "flags": [
-        "NO_TURN",
-        "NO_TURN_ON_ENTER"
+        "NO_TURN"
       ],
       "update_script": "../data/characters/alucard/scripts/blowback_trip.kai",
       "animation": [

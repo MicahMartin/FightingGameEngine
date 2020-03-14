@@ -66,11 +66,11 @@
         { "file": "../data/characters/alucard/entities/puppet/sprites/puppet_p/10.png", "time": 6, "offsetX": 125, "offsetY":-90, "width": 140, "height": 140}
       ],
       "collision_boxes": [
-        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":16, "hitstop": 8, "damage":5, "push": 10, "push_time": 6,  "start": 25, "end": 29, "width":225, "height":150, "offsetX":-75, "offsetY": 75, "group": 1},
-        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":16, "hitstop": 8, "damage":5, "push": 10, "push_time": 6,  "start": 30, "end": 34, "width":225, "height":150, "offsetX":-75, "offsetY": 75, "group": 2},
-        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":16, "hitstop": 8, "damage":5, "push": 10, "push_time": 6,  "start": 35, "end": 39, "width":225, "height":150, "offsetX":-75, "offsetY": 75, "group": 3},
-        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":16, "hitstop": 8, "damage":5, "push": 10, "push_time": 6,  "start": 40, "end": 44, "width":225, "height":150, "offsetX":-75, "offsetY": 75, "group": 4},
-        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":16, "hitstop": 8, "damage":5, "push": 10, "push_time": 6,  "start": 45, "end": 49, "width":225, "height":150, "offsetX":-75, "offsetY": 75, "group": 5}
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":16, "hitstop": 8, "damage":5, "push": 10, "push_time": 6,  "start": 25, "end": 29, "width":225, "height":150, "offsetX":-75, "offsetY": 75, "group": 1, "hitsound": 1, "guardsound": 17},
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":16, "hitstop": 8, "damage":5, "push": 10, "push_time": 6,  "start": 30, "end": 34, "width":225, "height":150, "offsetX":-75, "offsetY": 75, "group": 2, "hitsound": 1, "guardsound": 17},
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":16, "hitstop": 8, "damage":5, "push": 10, "push_time": 6,  "start": 35, "end": 39, "width":225, "height":150, "offsetX":-75, "offsetY": 75, "group": 3, "hitsound": 1, "guardsound": 17},
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":16, "hitstop": 8, "damage":5, "push": 10, "push_time": 6,  "start": 40, "end": 44, "width":225, "height":150, "offsetX":-75, "offsetY": 75, "group": 4, "hitsound": 1, "guardsound": 17},
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":16, "hitstop": 8, "damage":5, "push": 10, "push_time": 6,  "start": 45, "end": 49, "width":225, "height":150, "offsetX":-75, "offsetY": 75, "group": 5, "hitsound": 1, "guardsound": 17}
       ]
     } 
   ],
@@ -89,6 +89,9 @@
     }
   ],
   "animation_assets": [
+  ],
+  "audio_assets": [
+    {"assetID": 1, "file": "../data/characters/alucard/audio/kick_impact.wav"}
   ],
   "spawnOffsetX": 150, 
   "spawnOffsetY": 0, 

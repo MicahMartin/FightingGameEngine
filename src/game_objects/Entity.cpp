@@ -112,8 +112,6 @@ void Entity::loadStates(){
       const char* pathPointer = path.c_str();
 
       Mix_Chunk* soundEffectPointer = Mix_LoadWAV(pathPointer);
-      Mix_VolumeChunk(soundEffectPointer, 12);
-
       soundsEffects.emplace(soundID, SoundObj{soundEffectPointer, false, 0});
     }
   }

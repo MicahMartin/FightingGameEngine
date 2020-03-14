@@ -24,7 +24,6 @@ Menu::Menu() {
 
   menuMove = Mix_LoadWAV("../data/audio/menumove.wav");
   menuSelect = Mix_LoadWAV("../data/audio/menuselect.wav");
-  Mix_Volume(2, 16);
 }
 
 Menu::~Menu() {}
@@ -37,15 +36,15 @@ menuWidth(width), menuHeight(height), borderColor(borderColor), bodyColor(bodyCo
 
 void Menu::handleInput() {
   if(vc->wasPressed(UP)){
-    Mix_PlayChannel(2, menuMove, 0);
+    Mix_PlayChannel(0, menuMove, 0);
     moveCursorUp();
   }
   if(vc->wasPressed(DOWN)){
-    Mix_PlayChannel(2, menuMove, 0);
+    Mix_PlayChannel(0, menuMove, 0);
     moveCursorDown();
   }
   if(vc->wasReleased(LP)){
-    Mix_PlayChannel(2, menuSelect, 0);
+    Mix_PlayChannel(0, menuSelect, 0);
     activateMenuItem();
   }
 }
