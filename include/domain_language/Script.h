@@ -68,6 +68,9 @@ typedef enum {
   OP_DEACTIVATE_ENTITY,
   OP_SNAP_TO_OPPONENT,
   OP_CHECK_COMMAND,
+  OP_GET_METER,
+  OP_ADD_METER,
+  OP_SUBTRACT_METER,
   OP_RETURN
 } OpCode;
 
@@ -111,6 +114,9 @@ static const std::unordered_map<std::string, OpCode> engineCallMap {
   {"$set_hit_cancel",  OP_SET_HIT_CANCEL},
   {"$set_whiff_cancel", OP_SET_WHIFF_CANCEL},
   {"$set_counter", OP_SET_COUNTER},
+  {"$get_meter", OP_GET_METER},
+  {"$add_meter", OP_ADD_METER},
+  {"$subtract_meter", OP_SUBTRACT_METER},
 };
 
 struct Local {

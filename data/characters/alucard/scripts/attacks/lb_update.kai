@@ -10,7 +10,6 @@
   if(stateTime == 0){ 
     $set_whiff_cancel 1;
     $set_control 0; 
-    
   } 
   if($get_state_time >= 24){ 
     if (!limit_break) {

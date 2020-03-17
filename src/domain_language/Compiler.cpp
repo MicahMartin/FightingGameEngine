@@ -461,6 +461,12 @@ void Compiler::statement() {
     engineCallExpressionStatement(OP_SET_WHIFF_CANCEL);
   } else if (match(TOKEN_SET_COUNTER)) {
     engineCallExpressionStatement(OP_SET_COUNTER);
+  } else if (match(TOKEN_GET_METER)) {
+    engineCallStatement(OP_GET_METER);
+  } else if (match(TOKEN_ADD_METER)) {
+    engineCallExpressionStatement(OP_ADD_METER);
+  } else if (match(TOKEN_SUBTRACT_METER)) {
+    engineCallExpressionStatement(OP_SUBTRACT_METER);
   } else if (match(TOKEN_FOR)) {
     forStatement();
   } else if (match(TOKEN_WHILE)) {     

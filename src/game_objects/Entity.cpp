@@ -512,6 +512,17 @@ int Entity::_getWhiffCancel(){
 
 int Entity::_getBlockStun(){
   return blockstun;
+
+}
+
+int Entity::_getMeter(){
+  return 0;
+}
+
+void Entity::_addMeter(int i){
+}
+
+void Entity::_subtractMeter(int i){
 }
 
 int Entity::_getIsAlive(){

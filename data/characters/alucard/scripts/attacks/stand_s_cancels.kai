@@ -3,8 +3,9 @@
   var stateTime = $get_state_time;
   var inCancelWindow = (stateTime >= 11) and (stateTime <= 30);
   var cancel = $check_command 10;
-  if (cancel) {
-    $cancel_state 70;
+  var meter = $get_meter;
+  if (cancel and (meter > 50)) {
+    $change_state 70;
   }
   if(canHitCancel and (stateTime > 30)) {
     $set_hit_cancel 0;

@@ -184,6 +184,12 @@ int Script::disassembleInstruction(int offset){
       return simpleInstruction("OP_SET_WHIFF_CANCEL", offset);
     case OP_SET_COUNTER:
       return simpleInstruction("OP_SET_COUNTER", offset);
+    case OP_GET_METER:
+      return simpleInstruction("OP_GET_METER", offset);
+    case OP_ADD_METER:
+      return simpleInstruction("OP_ADD_METER", offset);
+    case OP_SUBTRACT_METER:
+      return simpleInstruction("OP_SUBTRACT_METER", offset);
     case OP_RETURN:
       return simpleInstruction("OP_RETURN", offset);
       break;

@@ -74,6 +74,8 @@ public:
   virtual void _activateEntity(int entityID) = 0;
   virtual void _deactivateEntity(int entityID) = 0;
   virtual void _snapToOpponent(int offset) = 0;
+  virtual void _addMeter(int input) = 0;
+  virtual void _subtractMeter(int input) = 0;
 
   virtual int _getHitStun() = 0;
   virtual int _getBlockStun() = 0;
@@ -90,6 +92,7 @@ public:
   virtual int _getInput(int input) = 0;
   virtual int _wasPressed(int input) = 0;
   virtual int _checkCommand(int commandIndex) = 0;
+  virtual int _getMeter() = 0;
 protected:
 };
 

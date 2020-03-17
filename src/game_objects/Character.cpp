@@ -568,6 +568,19 @@ int Character::_getIsAlive(){
   return !isDead;
 }
 
+int Character::_getMeter(){
+  return meter;
+}
+
+void Character::_addMeter(int i){
+  meter += i;
+  printf("adding meter, meter is now %d\n", meter);
+}
+
+void Character::_subtractMeter(int i){
+  meter -= i;
+}
+
 int Character::_checkCommand(int commandIndex){
   return virtualController->checkCommand(commandIndex, inputFaceRight);
 }

@@ -31,9 +31,10 @@
   var lp_and_lk = (punch and kick);
   var limit_break = (slash and dust);
 
-  
-
-  if (limit_break) {
+  var meter = $get_meter;
+  print "the meter!!";
+  print meter;
+  if (limit_break and (meter > 50)) {
     $change_state 70;
   }
   if (grounded) {

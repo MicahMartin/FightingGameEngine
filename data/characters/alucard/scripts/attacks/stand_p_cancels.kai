@@ -15,6 +15,10 @@
   if (stateTime == 5) {
     $set_counter 0;
   }
+  if ($get_state_time == 0) {
+    $add_meter 10;
+  }
+  
   
 
   if(canHitCancel and inCancelWindow){

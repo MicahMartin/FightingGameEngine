@@ -6,9 +6,9 @@
       "flags": [ ],
       "update_script": "../data/characters/alucard/scripts/movement/idle.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/98.png", "time": 10, "offsetX": 115},
-        { "file": "../data/characters/alucard/sprites/99.png", "time": 10, "offsetX": 115},
-        { "file": "../data/characters/alucard/sprites/100.png", "time": 10, "offsetX": 115}
+        { "file": "../data/characters/alucard/sprites/98.png", "time": 10, "offsetX": 175},
+        { "file": "../data/characters/alucard/sprites/99.png", "time": 10, "offsetX": 175},
+        { "file": "../data/characters/alucard/sprites/100.png", "time": 10, "offsetX": 175}
       ],
       "collision_boxes": [
         {"type": "POSITION", "width":100, "height":150, "offsetX":0, "offsetY": 0, "start": 1, "end": -1},
@@ -22,12 +22,12 @@
       "flags": [ ],
       "update_script": "../data/characters/alucard/scripts/movement/walk_f.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/1.png", "time": 7, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/2.png", "time": 7, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/3.png", "time": 7, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/4.png", "time": 7, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/3.png", "time": 7, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/2.png", "time": 7, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/1.png", "time": 7, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/2.png", "time": 7, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/3.png", "time": 7, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/4.png", "time": 7, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/3.png", "time": 7, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/2.png", "time": 7, "offsetX": 175 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -41,9 +41,9 @@
       "flags": [ ],
       "update_script": "../data/characters/alucard/scripts/movement/walk_b.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/2.png", "time": 14, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/1.png", "time": 14, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/3.png", "time": 14, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/2.png", "time": 14, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/1.png", "time": 14, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/3.png", "time": 14, "offsetX": 175 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -57,7 +57,7 @@
       "flags": [ ],
       "update_script": "../data/characters/alucard/scripts/movement/crouch.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/0.png", "time": -1, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/0.png", "time": -1, "offsetX": 175 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -73,9 +73,9 @@
       ],
       "update_script": "../data/characters/alucard/scripts/movement/jump_n.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/6.png", "time": 20, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/7.png", "time": -1, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/6.png", "time": 20, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/7.png", "time": -1, "offsetX": 175 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -97,9 +97,9 @@
       ],
       "update_script": "../data/characters/alucard/scripts/movement/jump_f.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/9.png", "time": 4, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/8.png", "time": 13, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/54.png", "time": -1, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/9.png", "time": 4, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/8.png", "time": 13, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/54.png", "time": -1, "offsetX": 175 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -121,9 +121,9 @@
       ],
       "update_script": "../data/characters/alucard/scripts/movement/jump_b.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/9.png", "time": 20, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/7.png", "time": -1, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/9.png", "time": 20, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/7.png", "time": -1, "offsetX": 175 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -146,11 +146,11 @@
       "cancel_script": "../data/characters/alucard/scripts/attacks/stand_p_cancels.kai",
       "update_script": "../data/characters/alucard/scripts/attacks/stand_p.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/14.png", "time": 2, "offsetX": 115},
+        { "file": "../data/characters/alucard/sprites/14.png", "time": 2, "offsetX": 175},
         { "file": "../data/characters/alucard/sprites/13.png", "time": 2, "offsetX": 140},
         { "file": "../data/characters/alucard/sprites/23.png", "time": 3, "offsetX": 165},
         { "file": "../data/characters/alucard/sprites/13.png", "time": 4, "offsetX": 140},
-        { "file": "../data/characters/alucard/sprites/14.png", "time": 4, "offsetX": 115}
+        { "file": "../data/characters/alucard/sprites/14.png", "time": 4, "offsetX": 175}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -675,10 +675,8 @@
     {
       "state_num": 33,
       "state_name": "BACK_THROW_SUCCESS",
-      "flags": [
-        "NO_TURN"
-      ],
-      "update_script": "../data/characters/alucard/scripts/throws/throw.kai",
+      "flags": [ ],
+      "update_script": "../data/characters/alucard/scripts/throws/bck_throw_success.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/62.png", "time": 4, "offsetX": 100},
         { "file": "../data/characters/alucard/sprites/63.png", "time": 5, "offsetX": 100},
@@ -823,9 +821,9 @@
       ],
       "update_script": "../data/characters/alucard/scripts/movement/dbl_jump_n.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/6.png", "time": 20, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/7.png", "time": -1, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/6.png", "time": 20, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/7.png", "time": -1, "offsetX": 175 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -845,9 +843,9 @@
       ],
       "update_script": "../data/characters/alucard/scripts/movement/dbl_jump_f.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/9.png", "time": 4, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/8.png", "time": 13, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/54.png", "time": -1, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/9.png", "time": 4, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/8.png", "time": 13, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/54.png", "time": -1, "offsetX": 175 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -867,9 +865,9 @@
       ],
       "update_script": "../data/characters/alucard/scripts/movement/dbl_jump_b.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/9.png", "time": 20, "offsetX": 115 },
-        { "file": "../data/characters/alucard/sprites/7.png", "time": -1, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/5.png", "time": 4, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/9.png", "time": 20, "offsetX": 175 },
+        { "file": "../data/characters/alucard/sprites/7.png", "time": -1, "offsetX": 175 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -889,7 +887,7 @@
       ],
       "update_script": "../data/characters/alucard/scripts/air_recovery.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/5.png", "time": 10, "offsetX": 115 }
+        { "file": "../data/characters/alucard/sprites/5.png", "time": 10, "offsetX": 175 }
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
@@ -905,7 +903,7 @@
         "NO_TURN"
       ],
       "cancel_script": "../data/characters/alucard/scripts/throws/bck_throw_cancels.kai",
-      "update_script": "../data/characters/alucard/scripts/throws/throw.kai",
+      "update_script": "../data/characters/alucard/scripts/throws/back_throw.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/61.png", "time": 20, "offsetX": 100},
         { "file": "../data/characters/alucard/sprites/64.png", "time": 4, "offsetX": 100},

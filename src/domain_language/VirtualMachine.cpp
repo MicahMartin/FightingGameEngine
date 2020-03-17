@@ -216,6 +216,11 @@ inline ExecutionCode VirtualMachine::run(){
         stack.push(NUMBER_VAL(val));
         break;
       }
+      case OP_GET_METER: {
+        long val = character->_getMeter();
+        stack.push(NUMBER_VAL(val));
+        break;
+      }
       case OP_HAS_AIR_ACTION: {
         bool hasAirAction = character->_getAirActions() > 0 ? true : false;
         stack.push(BOOL_VAL(hasAirAction));
@@ -236,6 +241,16 @@ inline ExecutionCode VirtualMachine::run(){
       case OP_VELSET_X: {
         long operand = AS_NUMBER(stack.pop());
         character->_velSetX(operand);
+        break;
+      }
+      case OP_ADD_METER: {
+        long operand = AS_NUMBER(stack.pop());
+        character->_addMeter(operand);
+        break;
+      }
+      case OP_SUBTRACT_METER: {
+        long operand = AS_NUMBER(stack.pop());
+        character->_subtractMeter(operand);
         break;
       }
       // this gets called often enough to justify its own instruction rather than negating the val
@@ -310,7 +325,6 @@ inline ExecutionCode VirtualMachine::run(){
         break;
       }
       case OP_SET_COUNTER: {
-                             printf("setting counter!\n");
         long operand = AS_NUMBER(stack.pop());
         character->_setCounter(operand);
         break;

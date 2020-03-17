@@ -76,6 +76,7 @@ public:
   int hitPushTime = 0;
   int hitPushVelX = 0;
   int hitPushVelY = 0;
+  int meter = 0;
   CollisionRect hitsparkIntersect;
 
   void _changeState(int stateNum);
@@ -101,6 +102,8 @@ public:
   void _activateEntity(int entityID);
   void _deactivateEntity(int entityID);
   void _snapToOpponent(int offset);
+  void _addMeter(int input);
+  void _subtractMeter(int input);
 
   int _getHitStun();
   int _getBlockStun();
@@ -117,6 +120,7 @@ public:
   int _getInput(int input);
   int _wasPressed(int input);
   int _checkCommand(int commandIndex);
+  int _getMeter();
 
   VirtualController* virtualController;
   StateDef* currentState;

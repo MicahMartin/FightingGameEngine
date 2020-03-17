@@ -815,7 +815,7 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
           if(!hurtBox->disabled && !groupDisabled){
             if (CollisionBox::checkAABB(*hitBox, *hurtBox)) {
               CollisionRect hitsparkIntersect = CollisionBox::getAABBIntersect(*hitBox, *hurtBox);
-              printf("hitbox collision detected\n");
+              // printf("hitbox collision detected\n");
               hitter->inHitStop = true;
               hitter->hitStop = hitBox->hitstop;
 
@@ -828,7 +828,7 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
 
               int hurterCurrentState = hurter->currentState->stateNum;
               bool blocking = (hurterCurrentState == 28 || hurterCurrentState == 29 || hurterCurrentState == 50);
-              printf("control? %d, blocking? %d, stateNum:%d\n", hurter->control, blocking, hurterCurrentState);
+              // printf("control? %d, blocking? %d, stateNum:%d\n", hurter->control, blocking, hurterCurrentState);
               int blocktype = hitBox->blockType;
               if((blocking && blocktype == 1) || (blocking && checkBlock(blocktype, hurter)) || (hurter->control && checkBlock(blocktype, hurter))){
                 hurter->blockstun = hitBox->blockstun;
@@ -854,7 +854,7 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                     default: break;
                   }
                 }
-                printf("ohh u got the blocksies?\n");
+                // printf("ohh u got the blocksies?\n");
                 if (hurter->inCorner) {
                   hitter->pushTime = hitBox->pushTime;
                   if (hitter->faceRight) {
@@ -872,11 +872,11 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 }
                 int xEdge = hurter->faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
                 int visualID = hitBox->guardsparkID;
-                printf("the visID %d\n", visualID);
+                // printf("the visID %d\n", visualID);
                 VisualEffect& visFX = hurter->guardSparks.at(visualID);
                 visFX.reset(xEdge, (hitsparkIntersect.y - (hitsparkIntersect.h/2)));
                 visFX.setActive(true);
-                printf("found guardSpark for hurter, the playLEngth %d\n", visFX.getPlayLength());
+                // printf("found guardSpark for hurter, the playLEngth %d\n", visFX.getPlayLength());
                 hurter->soundsEffects.at(hitBox->guardSoundID).active = true;
                 hurter->soundsEffects.at(hitBox->guardSoundID).channel = hurter->soundChannel + 2;
               } else {
@@ -897,18 +897,18 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 }
 
                 bool wasACounter = hurter->currentState->counterHitFlag;
-                printf("is the hurter being couner hit?? time:  %d  counterhit: %d\n", hurter->currentState->stateTime, hurter->currentState->counterHitFlag);
+                // printf("is the hurter being couner hit?? time:  %d  counterhit: %d\n", hurter->currentState->stateTime, hurter->currentState->counterHitFlag);
                 hurter->currentState->counterHitFlag = false;
                 if (wasACounter) {
                   Mix_PlayChannel(0, countah, 0);
                 }
                 int xEdge = hitter->faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
                 int visualID = hitBox->hitsparkID;
-                printf("the visID %d\n", visualID);
+                // printf("the visID %d\n", visualID);
                 VisualEffect& visFX = hitter->hitSparks.at(visualID);
                 visFX.reset(xEdge, (hitsparkIntersect.y - (hitsparkIntersect.h/2)));
                 visFX.setActive(true);
-                printf("found hitspark for hitter, the playLEngth %d\n", visFX.getPlayLength());
+                // printf("found hitspark for hitter, the playLEngth %d\n", visFX.getPlayLength());
 
                 hurter->control = 0;
                 int finalHitstun = wasACounter ? (hitBox->hitstun + 4) : (hitBox->hitstun); 
@@ -969,7 +969,7 @@ int FightState::checkProximityAgainst(Character* hitter, Character* hurter){
           for (auto hurtBox : hurter->currentState->hurtBoxes) {
             if(!hurtBox->disabled && !groupDisabled){
               if (CollisionBox::checkAABB(*hitBox, *hurtBox)) {
-                printf("proximity collision detected\n");
+                // printf("proximity collision detected\n");
                 if (hurter->currentState->stateNum == 3) {
                   hurter->changeState(28);
                 }
@@ -1055,7 +1055,7 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
             if(!p2HurtBox->disabled){
               if (CollisionBox::checkAABB(*entityHitbox, *p2HurtBox)) {
                 CollisionRect hitsparkIntersect = CollisionBox::getAABBIntersect(*entityHitbox, *p2HurtBox);
-                printf("entity hitbox collision detected\n");
+                // printf("entity hitbox collision detected\n");
                 bool entityFaceRight = entity.faceRight;
                 entity.inHitStop = true;
                 entity.hitStop = entityHitbox->hitstop;
@@ -1234,7 +1234,7 @@ void FightState::checkBounds(){
     player1->updateCollisionBoxPositions();
   }
   if (player1->getPos().first - player1->width < camera.lowerBound) {
-    printf("why am I outside the camera on the left?\n");
+    // printf("why am I outside the camera on the left?\n");
     player1->setXPos(camera.lowerBound+player1->width);
     player1->updateCollisionBoxPositions();
   }
@@ -1244,7 +1244,7 @@ void FightState::checkBounds(){
     player1->updateCollisionBoxPositions();
   }
   if (player1->getPos().first + player1->width > camera.upperBound) {
-    printf("why am I outside the camera on the right?\n");
+    // printf("why am I outside the camera on the right?\n");
     player1->setXPos(camera.upperBound - player1->width);
     player1->updateCollisionBoxPositions();
   }

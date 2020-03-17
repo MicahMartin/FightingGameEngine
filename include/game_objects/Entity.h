@@ -92,6 +92,8 @@ public:
   void _activateEntity(int entityID);
   void _deactivateEntity(int entityID);
   void _snapToOpponent(int offset);
+  void _addMeter(int input);
+  void _subtractMeter(int input);
 
   int _getHitStun();
   int _getBlockStun();
@@ -108,6 +110,7 @@ public:
   int _getInput(int input);
   int _wasPressed(int input);
   int _checkCommand(int commandIndex);
+  int _getMeter();
 
   VirtualController* virtualController;
   Character* owner;

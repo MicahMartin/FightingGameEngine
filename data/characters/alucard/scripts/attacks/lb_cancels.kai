@@ -3,6 +3,7 @@
     $set_counter 1;
     $velset_x 0; 
     $velset_y 0; 
+    $subtract_meter 50;
   } 
   if($get_state_time == 4){ 
     $set_counter 0;
