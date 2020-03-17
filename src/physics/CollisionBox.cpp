@@ -73,6 +73,10 @@ void CollisionBox::render(){
       // yellow
       SDL_SetRenderDrawColor(graphics->getRenderer(), 255, 255, 0, 0);
       break;
+    case PROJECTILE:
+      // yellow
+      SDL_SetRenderDrawColor(graphics->getRenderer(), 255, 255, 0, 0);
+      break;
   }
   SDL_Rect collisionRect;
 
@@ -93,4 +97,5 @@ std::map<std::string, CollisionBox::CollisionType> CollisionBox::collisionTypeMa
   {"THROW", CollisionBox::THROW},
   {"THROW_HURT", CollisionBox::THROW_HURT},
   {"PROXIMITY", CollisionBox::PROXIMITY},
+  {"PROJECTILE", CollisionBox::PROJECTILE},
 };

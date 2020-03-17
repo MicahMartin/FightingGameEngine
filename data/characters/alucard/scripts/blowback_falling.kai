@@ -1,15 +1,24 @@
 { 
+  var alive = $get_is_alive;
   if($get_state_time == 0){ 
     $velset_x 0;
     $set_control 0; 
   } 
 
-  if($get_state_time >= 0 and $get_y_pos <= 0){ 
-    $cancel_state 25;
+  if($get_state_time > 0 and $get_y_pos <= 0){ 
+    if(alive){
+      $cancel_state 25;
+    } else {
+      $cancel_state 54;
+    }
   } 
 
   if($get_hit_stun == 0){ 
-    $set_combo 0;
-    $cancel_state 44;
+    if(alive){
+      $set_combo 0;
+      $cancel_state 44;
+    } else {
+      $cancel_state 53;
+    }
   } 
 } 

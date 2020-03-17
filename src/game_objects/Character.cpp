@@ -101,14 +101,14 @@ void Character::loadStates(){
   for(auto i : stateJson.at("hit_sparks").items()){
     int visualID = i.value().at("assetID");
     hitSparks.emplace(visualID, VisualEffect{}).first->second.anim.loadAnimEvents(i.value().at("animation"));
-    hitSparks.at(visualID).setPlayLength(visualEffects.at(visualID).anim.animationTime);
+    hitSparks.at(visualID).setPlayLength(hitSparks.at(visualID).anim.animationTime);
     printf("loaded hitspark effect #%d\n", visualID);
   }
 
   for(auto i : stateJson.at("guard_sparks").items()){
     int visualID = i.value().at("assetID");
     guardSparks.emplace(visualID, VisualEffect{}).first->second.anim.loadAnimEvents(i.value().at("animation"));
-    guardSparks.at(visualID).setPlayLength(visualEffects.at(visualID).anim.animationTime);
+    guardSparks.at(visualID).setPlayLength(guardSparks.at(visualID).anim.animationTime);
     printf("loaded guardpark effect #%d\n", visualID);
   }
 
@@ -137,10 +137,27 @@ void Character::loadStates(){
 Character::~Character(){};
 
 void Character::handleInput(){ 
-  if(pushTime > 0){
+  if(cancelPointer != 0){
+    changeState(cancelPointer);
+  }
+
+  if(control){
+    // TODO: Precompile all scripts
+    virtualMachine.execute(&inputScript);
+  }
+};
+
+void Character::update(){ 
+  if(pushTime > 0) {
     pushTime--;
     if(pushTime == 0){
       pushBackVelocity = 0;
+    }
+  }
+  if(hitPushTime > 0) {
+    hitPushTime--;
+    if(hitPushTime == 0){
+      hitPushVelX = 0;
     }
   }
 
@@ -153,17 +170,6 @@ void Character::handleInput(){
   }
 
 
-  if(cancelPointer != 0){
-    changeState(cancelPointer);
-  }
-
-  if(control){
-    // TODO: Precompile all scripts
-    virtualMachine.execute(&inputScript);
-  }
-};
-
-void Character::update(){ 
   if (currentState->visualEffectMap.count(currentState->stateTime)) {
     int visualID = currentState->visualEffectMap.at(currentState->stateTime);
     VisualEffect& visFX = visualEffects.at(visualID);
@@ -200,7 +206,12 @@ void Character::updateFaceRight(){
 
 void Character::updatePosition() {
   // _negVelSetX(pushBackVelocity);
-  int velX = velocityX - pushBackVelocity;
+  int velX = velocityX;
+  if (hitstun > 0) {
+    velX = velocityX - hitPushVelX;
+  } else {
+    velX = velocityX - pushBackVelocity;
+  }
   position.first += velX;
   position.second -= velocityY;
 
@@ -247,6 +258,10 @@ void Character::updateCollisionBoxPositions(){
   }
 
   for (auto cb : currentState->proximityBoxes) {
+    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
+    cb->positionY = position.second - cb->offsetY;
+  }
+  for (auto cb : currentState->projectileBoxes) {
     cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
     cb->positionY = position.second - cb->offsetY;
   }
@@ -338,11 +353,32 @@ void Character::updateCollisionBoxes(){
       cb->disabled = true;
     }
   }
+  for (auto cb : currentState->projectileBoxes) {
+    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
+    cb->positionY = position.second - cb->offsetY;
+    if (stateTime < cb->start) {
+      cb->disabled = true;
+    }
+    if (stateTime == cb->start) {
+      cb->disabled = false;
+    }
+    if (stateTime == cb->end) {
+      cb->disabled = true;
+    }
+  }
 }
 
 void Character::draw(){
   bool fakeHitstop = (inHitStop && (hitstun > 0 || blockstun > 0));
   currentState->draw(position, faceRight, fakeHitstop);
+
+  SDL_Renderer* renderer = Graphics::getInstance()->getRenderer();
+  int windowHeight = Graphics::getInstance()->getWindowHeight();
+  int camOffset = Graphics::getInstance()->getCamera()->cameraRect.x;
+
+  SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+  SDL_RenderDrawLine(renderer, position.first - camOffset, windowHeight, position.first - camOffset, position.second);
+  SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 };
 
 

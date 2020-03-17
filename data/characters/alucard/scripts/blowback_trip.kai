@@ -2,7 +2,6 @@
   var alive = $get_is_alive;
   if($get_state_time == 0){ 
     $velset_x 0;
-    $velset_y 12;
     $set_control 0; 
   } 
 

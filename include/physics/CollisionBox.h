@@ -12,6 +12,14 @@
 struct CollisionRect {
   int x, y, w, h;
 };
+enum HitType {
+  NULL_HIT_TYPE,
+  NORMAL,
+  LAUNCHER,
+  WALL_BOUNCE,
+  GROUND_BOUNCE
+};
+
 class CollisionBox {
 public:
 
@@ -22,6 +30,7 @@ public:
     THROW,
     THROW_HURT,
     PROXIMITY,
+    PROJECTILE,
   };
 
 
@@ -59,8 +68,15 @@ public:
   int pushTime;
   int hitstop;
   int hitstun;
+  int airHitstun = 0;
   int blockstun;
   int blockType;
+
+  int hitType = NORMAL;
+  int hitVelocityX = 0;
+  int hitVelocityY = 0;
+  int hitPushTime = 0;
+  int airHitVelocityX = 0;
 
   int throwType;
   int throwSuccess;

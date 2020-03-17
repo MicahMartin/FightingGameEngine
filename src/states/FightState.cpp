@@ -151,9 +151,9 @@ void FightState::handleInput(){
         Mix_PlayChannel(0, fightSound, 0);
       }
     }
-    updateFaceRight();
     checkCorner(player1);
     checkCorner(player2);
+    updateFaceRight();
     checkHitstop(player1);
     checkHitstop(player2);
 
@@ -206,6 +206,7 @@ void FightState::handleInput(){
   checkProximityAgainst(player2, player1);
 
   checkThrowCollisions();
+  checkProjectileCollisions(player1, player2);
   checkHitCollisions();
   checkBounds();
   updateFaceRight();
@@ -825,22 +826,6 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
               hitter->currentState->hitboxGroupDisabled[hitBox->groupID] = true;
               hitter->currentState->canHitCancel = true;
 
-              if (hurter->inCorner) {
-                hitter->pushTime = hitBox->pushTime;
-                if (hitter->faceRight) {
-                  hitter->pushBackVelocity = hitBox->pushback;
-                } else {
-                  hitter->pushBackVelocity = -hitBox->pushback;
-                }
-              } else {
-                hurter->pushTime = hitBox->pushTime;
-                if (hitter->faceRight) {
-                  hurter->pushBackVelocity = -hitBox->pushback;
-                } else {
-                  hurter->pushBackVelocity = hitBox->pushback;
-                }
-              }
-
               int hurterCurrentState = hurter->currentState->stateNum;
               bool blocking = (hurterCurrentState == 28 || hurterCurrentState == 29 || hurterCurrentState == 50);
               printf("control? %d, blocking? %d, stateNum:%d\n", hurter->control, blocking, hurterCurrentState);
@@ -870,16 +855,47 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                   }
                 }
                 printf("ohh u got the blocksies?\n");
+                if (hurter->inCorner) {
+                  hitter->pushTime = hitBox->pushTime;
+                  if (hitter->faceRight) {
+                    hitter->pushBackVelocity = hitBox->pushback;
+                  } else {
+                    hitter->pushBackVelocity = -hitBox->pushback;
+                  }
+                } else {
+                  hurter->pushTime = hitBox->pushTime;
+                  if (hitter->faceRight) {
+                    hurter->pushBackVelocity = -hitBox->pushback;
+                  } else {
+                    hurter->pushBackVelocity = hitBox->pushback;
+                  }
+                }
                 int xEdge = hurter->faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
                 int visualID = hitBox->guardsparkID;
                 printf("the visID %d\n", visualID);
                 VisualEffect& visFX = hurter->guardSparks.at(visualID);
-                visFX.reset(xEdge, hitsparkIntersect.y);
+                visFX.reset(xEdge, (hitsparkIntersect.y - (hitsparkIntersect.h/2)));
                 visFX.setActive(true);
                 printf("found guardSpark for hurter, the playLEngth %d\n", visFX.getPlayLength());
                 hurter->soundsEffects.at(hitBox->guardSoundID).active = true;
                 hurter->soundsEffects.at(hitBox->guardSoundID).channel = hurter->soundChannel + 2;
               } else {
+                if (hurter->inCorner) {
+                  hitter->pushTime = hitBox->hitPushTime;
+                  if (hitter->faceRight) {
+                    hitter->pushBackVelocity = hitBox->hitVelocityX;
+                  } else {
+                    hitter->pushBackVelocity = -hitBox->hitVelocityX;
+                  }
+                } else {
+                  hurter->hitPushTime = hitBox->hitPushTime;
+                  if (hitter->faceRight) {
+                    hurter->hitPushVelX = -hitBox->hitVelocityX;
+                  } else {
+                    hurter->hitPushVelX = hitBox->hitVelocityX;
+                  }
+                }
+
                 bool wasACounter = hurter->currentState->counterHitFlag;
                 printf("is the hurter being couner hit?? time:  %d  counterhit: %d\n", hurter->currentState->stateTime, hurter->currentState->counterHitFlag);
                 hurter->currentState->counterHitFlag = false;
@@ -890,7 +906,7 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 int visualID = hitBox->hitsparkID;
                 printf("the visID %d\n", visualID);
                 VisualEffect& visFX = hitter->hitSparks.at(visualID);
-                visFX.reset(xEdge, hitsparkIntersect.y);
+                visFX.reset(xEdge, (hitsparkIntersect.y - (hitsparkIntersect.h/2)));
                 visFX.setActive(true);
                 printf("found hitspark for hitter, the playLEngth %d\n", visFX.getPlayLength());
 
@@ -906,9 +922,30 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 hitter->soundsEffects.at(hitBox->hitSoundID).channel = hitter->soundChannel + 2;
 
                 int hurterCurrentState = hurter->currentState->stateNum;
-                if(hitBox->canTrip || hurter->_getYPos() > 0 
+                if(hitBox->hitType == LAUNCHER || hurter->_getYPos() > 0 
                     || hurterCurrentState  == 24 || hurterCurrentState == 35 
                     || hurterCurrentState == 52 || hurterCurrentState == 53){
+                  if (hitBox->airHitstun > 0) {
+                    hurter->hitstun = hitBox->airHitstun;
+                  }
+                  if (hitBox->airHitVelocityX > 0) {
+                    if (hurter->inCorner) {
+                      hitter->pushTime = hitBox->hitPushTime;
+                      if (hitter->faceRight) {
+                        hitter->pushBackVelocity = hitBox->airHitVelocityX;
+                      } else {
+                        hitter->pushBackVelocity = -hitBox->airHitVelocityX;
+                      }
+                    } else {
+                      hurter->hitPushTime = hitBox->hitPushTime;
+                      if (hitter->faceRight) {
+                        hurter->hitPushVelX = -hitBox->airHitVelocityX;
+                      } else {
+                        hurter->hitPushVelX = hitBox->airHitVelocityX;
+                      }
+                    }
+                  }
+                  hurter->velocityY = hitBox->hitVelocityY;
                   return {true, wasACounter, 24, NULL};
                 } else {
                   return {true, wasACounter, 9, NULL};
@@ -949,6 +986,40 @@ int FightState::checkProximityAgainst(Character* hitter, Character* hurter){
   return 0;
 }
 
+int FightState::checkProjectileCollisions(Character* player1, Character* player2){
+  for (auto &entity : player1->entityList) {
+    if (entity.active && !entity.currentState->hitboxesDisabled) {
+      for (auto entityHitbox : entity.currentState->projectileBoxes) {
+        bool groupDisabled = entity.currentState->hitboxGroupDisabled[entityHitbox->groupID];
+        if(!groupDisabled){
+          for (auto &otherEntity : player2->entityList) {
+            if (otherEntity.active && !otherEntity.currentState->hitboxesDisabled) {
+              for (auto otherEntityHitbox : otherEntity.currentState->projectileBoxes) {
+                bool groupDisabled = otherEntity.currentState->hitboxGroupDisabled[entityHitbox->groupID];
+                if(!groupDisabled){
+                  if (CollisionBox::checkAABB(*entityHitbox, *otherEntityHitbox)){
+                    CollisionRect hitsparkIntersect = CollisionBox::getAABBIntersect(*entityHitbox, *otherEntityHitbox);
+                    entity.inHitStop = true;
+                    entity.hitStop = 6;
+                    otherEntity.inHitStop = true;
+                    otherEntity.hitStop = 6;
+                    entity.currentState->hitboxGroupDisabled[entityHitbox->groupID] = true;
+                    entity.currentState->canHitCancel = true;
+                    otherEntity.currentState->hitboxGroupDisabled[entityHitbox->groupID] = true;
+                    otherEntity.currentState->canHitCancel = true;
+                    printf("entityProjectilesColliding\n");
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return 0;
+}
+
 void FightState::checkHitCollisions(){
   HitResult p2HitState = checkHitboxAgainstHurtbox(player1, player2);
   HitResult p1HitState = checkHitboxAgainstHurtbox(player2, player1);
@@ -976,8 +1047,8 @@ void FightState::checkHitCollisions(){
 HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
   bool p2Hit = false;
   for (auto &entity : p1->entityList) {
-    if (!entity.currentState->hitboxesDisabled) {
-      for (auto entityHitbox : entity.currentState->hitBoxes) {
+    if (entity.active && !entity.currentState->hitboxesDisabled) {
+      for (auto entityHitbox : entity.currentState->projectileBoxes) {
         bool groupDisabled = entity.currentState->hitboxGroupDisabled[entityHitbox->groupID];
         if(!entityHitbox->disabled && !groupDisabled){
           for (auto p2HurtBox : p2->currentState->hurtBoxes) {
@@ -996,21 +1067,6 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                 entity.currentState->hitboxGroupDisabled[entityHitbox->groupID] = true;
                 // TODO: Hitbox group IDs
                 entity.currentState->canHitCancel = true;
-
-                p2->pushTime = entityHitbox->pushTime;
-                if(p2->faceRight == entityFaceRight){
-                  if (p2->faceRight) {
-                    p2->pushBackVelocity = -entityHitbox->pushback;
-                  } else {
-                    p2->pushBackVelocity = entityHitbox->pushback;
-                  }
-                } else {
-                  if (p2->faceRight) {
-                    p2->pushBackVelocity = entityHitbox->pushback;
-                  } else {
-                    p2->pushBackVelocity = -entityHitbox->pushback;
-                  }
-                }
 
                 int p2StateNum = p2->currentState->stateNum;
                 if((p2StateNum == 28 || p2StateNum == 29 || p2StateNum == 50) || (p2->control && checkBlock(entityHitbox->blockType, p2))){
@@ -1038,18 +1094,49 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                       default: break;
                     }
                   }
+
+                  p2->pushTime = entityHitbox->pushTime;
+                  if(p2->faceRight == entityFaceRight){
+                    if (p2->faceRight) {
+                      p2->pushBackVelocity = -entityHitbox->pushback;
+                    } else {
+                      p2->pushBackVelocity = entityHitbox->pushback;
+                    }
+                  } else {
+                    if (p2->faceRight) {
+                      p2->pushBackVelocity = entityHitbox->pushback;
+                    } else {
+                      p2->pushBackVelocity = -entityHitbox->pushback;
+                    }
+                  }
+                   
                   printf("ohh u got the blocksies?\n");
                   int xEdge = p2->faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
                   int visualID = entityHitbox->guardsparkID;
                   printf("the visID %d\n", visualID);
                   VisualEffect& visFX = p2->guardSparks.at(visualID);
-                  visFX.reset(xEdge, hitsparkIntersect.y);
+                  visFX.reset(xEdge, (hitsparkIntersect.y - (hitsparkIntersect.h/2)));
                   visFX.setActive(true);
                   printf("found guardSpark for hurter, the playLEngth %d\n", visFX.getPlayLength());
 
                   p2->soundsEffects.at(entityHitbox->guardSoundID).active = true;
                   p2->soundsEffects.at(entityHitbox->guardSoundID).channel = p2->soundChannel + 2;
                 } else {
+                  p2->hitPushTime = entityHitbox->hitPushTime;
+                  printf("whats the entitie's hit vel? %d\n", entityHitbox->hitVelocityX);
+                  if(p2->faceRight == entityFaceRight){
+                    if (p2->faceRight) {
+                      p2->hitPushVelX = -entityHitbox->hitVelocityX;
+                    } else {
+                      p2->hitPushVelX = entityHitbox->hitVelocityX;
+                    }
+                  } else {
+                    if (p2->faceRight) {
+                      p2->hitPushVelX = entityHitbox->hitVelocityX;
+                    } else {
+                      p2->hitPushVelX = -entityHitbox->hitVelocityX;
+                    }
+                  }
                   bool wasACounter = p2->currentState->counterHitFlag;
                   printf("is the hurter being couner hit?? time:  %d  counterhit: %d\n", p2->currentState->stateTime, p2->currentState->counterHitFlag);
                   p2->currentState->counterHitFlag = false;
@@ -1061,7 +1148,7 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                   int visualID = entityHitbox->hitsparkID;
                   printf("the visID %d\n", visualID);
                   VisualEffect& visFX = entity.hitSparks.at(visualID);
-                  visFX.reset(xEdge, hitsparkIntersect.y);
+                  visFX.reset(xEdge, (hitsparkIntersect.y - (hitsparkIntersect.h/2)));
                   visFX.setActive(true);
                   printf("found hitspark for hitter, the playLEngth %d\n", visFX.getPlayLength());
 
@@ -1075,7 +1162,8 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                   entity.soundsEffects.at(entityHitbox->hitSoundID).active = true;
                   entity.soundsEffects.at(entityHitbox->hitSoundID).channel = p1->soundChannel + 2;
 
-                  if(entityHitbox->canTrip || p2->_getYPos() > 0 || p2->currentState->stateNum == 24){
+                  if(entityHitbox->hitType == LAUNCHER || p2->_getYPos() > 0 || p2->currentState->stateNum == 24){
+                    p2->velocityY = entityHitbox->hitVelocityY;
                     return {true, false, 24, NULL};
                   } else {
                     return {true, false, 9, NULL};

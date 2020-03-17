@@ -17,7 +17,7 @@
         { "file": "../data/characters/alucard/entities/fireball/sprites/fireball_0006.png", "time": 2, "offsetX": 250, "offsetY":50, "width": 130, "height": 130}
       ],
       "collision_boxes": [
-        {"type": "HIT", "block_type": 1, "hitstun":22, "block_stun":22, "hitstop": 4, "damage":5, "push": 6, "push_time": 10,  "start": 2, "end": -1, "width":150, "height":150, "offsetX":0, "offsetY": 75, "hitsound": 2, "guardsound": 16}
+        {"type": "PROJECTILE", "block_type": 1, "hitstun":22, "block_stun":22, "hitstop": 4, "damage":5, "push": 6, "push_time": 10,  "start": 2, "end": -1, "width":150, "height":150, "offsetX":0, "offsetY": 75, "hitsound": 2, "guardsound": 16,"hit_type": 1, "hit_velX": 8, "hit_velY": 8, "hit_push_time": 8}
       ],
       "sounds": [
         {"soundID": 1, "start": 1}
@@ -50,13 +50,13 @@
     {
       "assetID": 1,
       "animation": [
-        { "file": "../data/images/hitspark/0.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/hitspark/1.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/hitspark/2.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/hitspark/3.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/hitspark/4.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/hitspark/5.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/hitspark/6.png", "time": 2, "offsetX": 75, "offsetY": 0, "scale": 1}
+        { "file": "../data/images/hitspark/light/0.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light/1.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light/2.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light/3.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light/4.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light/5.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light/6.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1}
       ]
     }
   ],

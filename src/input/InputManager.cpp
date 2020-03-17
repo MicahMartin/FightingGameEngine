@@ -76,7 +76,6 @@ void InputManager::update() {
   }
 
   while(SDL_PollEvent(&event) != 0){
-    printf("something happend\n");
 
     if (!keySelectionMode) {
       switch (event.type) {

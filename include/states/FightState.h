@@ -70,8 +70,8 @@ public:
   int checkProximityAgainst(Character* hitter, Character* hurter);
 
   HitResult checkEntityHitAgainst(Character* thrower, Character* throwee);
-  int checkEntityProximityAgainst(Character* hitter, Character* hurter);
   ThrowResult checkThrowAgainst(Character* thrower, Character* throwee);
+  int checkProjectileCollisions(Character* player1, Character* player2);
 
 
 

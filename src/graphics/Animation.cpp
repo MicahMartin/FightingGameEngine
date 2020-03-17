@@ -15,7 +15,7 @@ Animation::~Animation(){ }
 void Animation::loadAnimEvents(nlohmann::json json) {
   for (auto i : json.items()) {
     int animTime = i.value().at("time");
-    int scale = 3;
+    int scale = 4;
     int offsetX = 0;
     int offsetY = 0;
 
@@ -49,6 +49,15 @@ void Animation::loadAnimEvents(nlohmann::json json) {
     text->loadTexture(pathPointer);
     // TODO: fix scale
     text->setDimensions(0, 0, realDimensions.first*scale, realDimensions.second*scale);
+    if (offsetX == -1) {
+      element.offsetX = ((realDimensions.first * scale)/2);
+    }
+    if (offsetX == -2) {
+      element.offsetX = -((realDimensions.first * scale)/2);
+    }
+    if (offsetY == -1) {
+      element.offsetY = ((realDimensions.second * scale)/2);
+    }
 
     animationTime += animTime;
     element.endTime = animationTime;

@@ -73,6 +73,9 @@ public:
   int playerNum;
   bool faceRight;
   bool inputFaceRight;
+  int hitPushTime = 0;
+  int hitPushVelX = 0;
+  int hitPushVelY = 0;
   CollisionRect hitsparkIntersect;
 
   void _changeState(int stateNum);

@@ -59,6 +59,7 @@ public:
   std::vector<CollisionBox*> throwHitBoxes;
   std::vector<CollisionBox*> throwHurtBoxes;
   std::vector<CollisionBox*> proximityBoxes;
+  std::vector<CollisionBox*> projectileBoxes;
   std::unordered_map<int, std::vector<int>> soundIndexMap;
   std::unordered_map<int, int> visualEffectMap; // <startFrame, visualID>
   // TODO: Methods to talk to anim so this stuff can stay private
