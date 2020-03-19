@@ -50,6 +50,7 @@ std::vector<std::string> CommandCompiler::commandStrings = {
   "~N, UB",
   "~LP",
   "MK & MP", // lp and mk
+  "~N, @B", // IB back
 };
 
 CommandCompiler::CommandCompiler() { }

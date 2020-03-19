@@ -77,6 +77,7 @@ public:
   int hitVelocityY = 0;
   int hitPushTime = 0;
   int airHitVelocityX = 0;
+  int hitMeterGain = 0;
 
   int throwType;
   int throwSuccess;

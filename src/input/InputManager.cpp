@@ -169,7 +169,6 @@ void InputManager::update() {
         }
 
         case SDL_JOYBUTTONDOWN: {
-                                  printf("joy button down %d\n", event.jbutton.button);
           SDL_JoyHatEvent* jhatEvent = &event.jhat;
           SDL_Joystick* stick = SDL_JoystickFromInstanceID(jhatEvent->which);
           VirtualController* controller = stickToVC[stick];
@@ -219,7 +218,7 @@ void InputManager::update() {
             if(conf != NULL && conf->count(event.jbutton.button)){
               ConfItem* item = &conf->at(event.jbutton.button);
               Input* inputBit = &item->inputBit;
-              printf("found item from jbutton %d with val: %d\n", event.jbutton.button, *inputBit);
+              printf("clearing item from jbutton %d with val: %d\n", event.jbutton.button, *inputBit);
               controller->clearBit(*inputBit);
             } else if (conf != NULL && (event.jbutton.button >= 11 && event.jbutton.button <= 14)){
               // UDLR

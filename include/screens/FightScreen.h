@@ -11,6 +11,14 @@ struct HealthBar {
   GameTexture damage;
 };
 
+struct MeterBar {
+  int meterValue;
+  int burstValue;
+  GameTexture bar;
+  GameTexture meter;
+  GameTexture burst;
+};
+
 class FightScreen : public Screen {
 public:
   FightScreen();
@@ -24,6 +32,8 @@ public:
   void removeTexture(int index);
 
   void renderHealthBar(float healthPercent, float damagePercent,  bool isPlayerOne);
+  void renderMeterBar(float meterPercent, bool isPlayerOne);
+  void renderBurstBar(float burstPercent, bool isPlayerOne);
   void renderComboCount(bool side, int count);
   void renderInputHistory(bool side, boost::circular_buffer<InputEvent>& events);
   void renderWins(int p1Wins, int p2Wins);
@@ -67,6 +77,9 @@ private:
 
   HealthBar p1HealthBar;
   HealthBar p2HealthBar;
+
+  MeterBar p1MeterBar;
+  MeterBar p2MeterBar;
 };
 
 #endif

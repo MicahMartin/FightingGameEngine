@@ -2,10 +2,6 @@
   var canHitCancel = $get_hit_cancel;
   var stateTime = $get_state_time;
   var inCancelWindow = (stateTime >= 4) and (stateTime <= 12);
-  var cancel = $check_command 10;
-  if (cancel) {
-    $cancel_state 70;
-  }
   if(canHitCancel and (stateTime > 12)) {
     $set_hit_cancel 0;
   }
@@ -15,7 +11,7 @@
   if (stateTime == 5) {
     $set_counter 0;
   }
-
+  
   if(canHitCancel and inCancelWindow){
     var qcf_k = $check_command 2;
     var qcb_p = $check_command 3;
@@ -67,6 +63,12 @@
         $cancel_state 8;
       }
     }
-
+  }
+  var slash = $get_input 12;
+  var dust = $get_input 13;
+  var limit_break = (slash and dust);
+  var meter = $get_meter;
+  if (limit_break and (meter > 5000)) {
+    $cancel_state 70;
   }
 }

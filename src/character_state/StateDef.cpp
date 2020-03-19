@@ -132,16 +132,16 @@ void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop)
        cb->render();
      }
   }
-  for(auto cb : hurtBoxes) {
-     if(!cb->disabled){
-       cb->render();
-     }
-  }
-  for(auto cb : hitBoxes) {
-     if(!cb->disabled){
-       cb->render();
-     }
-  }
+  // for(auto cb : hurtBoxes) {
+  //    if(!cb->disabled){
+  //      cb->render();
+  //    }
+  // }
+  // for(auto cb : hitBoxes) {
+  //    if(!cb->disabled){
+  //      cb->render();
+  //    }
+  // }
   for (auto cb : throwHitBoxes) {
     if(!cb->disabled){
       cb->render();
@@ -152,16 +152,16 @@ void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop)
       cb->render();
     }
   }
-  for (auto cb : proximityBoxes) {
-    if(!cb->disabled){
-      cb->render();
-    }
-  }
-  for (auto cb : projectileBoxes) {
-    if(!cb->disabled){
-      cb->render();
-    }
-  }
+  // for (auto cb : proximityBoxes) {
+  //   if(!cb->disabled){
+  //     cb->render();
+  //   }
+  // }
+  // for (auto cb : projectileBoxes) {
+  //   if(!cb->disabled){
+  //     cb->render();
+  //   }
+  // }
 };
 
 void StateDef::loadFlags(nlohmann::json::value_type json){
@@ -203,6 +203,9 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
       if(type == CollisionBox::HIT || type == CollisionBox::PROJECTILE){
         cb->guardsparkID = 1;
         cb->hitsparkID = 1;
+        if (i.value().count("meter")) {
+          cb->hitMeterGain = i.value().at("meter");
+        }
         if (i.value().count("guardsparkID")) {
           cb->guardsparkID = i.value().at("guardsparkID");
         }

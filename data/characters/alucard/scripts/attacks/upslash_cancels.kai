@@ -6,8 +6,11 @@
   if (stateTime == 18) {
     $set_counter 0;
   }
-  var cancel = $check_command 10;
-  if (cancel) {
+  var slash = $get_input 12;
+  var dust = $get_input 13;
+  var limit_break = (slash and dust);
+  var meter = $get_meter;
+  if (limit_break and (meter > 5000)) {
     $cancel_state 70;
   }
 }

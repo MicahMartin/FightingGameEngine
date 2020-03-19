@@ -55,6 +55,7 @@ public:
   int pushTime = 0;
   int pushBackVelocity = 0;
   int maxHealth = 100;
+  int maxMeter = 10000;
   int hasAirAction = 0;
   int comboCounter = 0;
   int cancelPointer = 0;
@@ -77,6 +78,8 @@ public:
   int hitPushVelX = 0;
   int hitPushVelY = 0;
   int meter = 0;
+  int tension = 1;
+  int maxTension = 200;
   CollisionRect hitsparkIntersect;
 
   void _changeState(int stateNum);

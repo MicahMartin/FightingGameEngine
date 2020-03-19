@@ -88,8 +88,8 @@ public:
   bool isPressed(Input input, bool strict = true);
   bool checkCommand(int commandIndex, bool faceRight);
 
-  void setBit(uint16_t bit);
-  void clearBit(uint16_t bit);
+  void setBit(Input bit);
+  void clearBit(Input bit);
   void setBitOffset(uint16_t offset);
   void clearBitOffset(uint16_t offset);
   void updateAxis(bool xAxis);

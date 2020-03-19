@@ -168,6 +168,9 @@ void Character::update(){
   if (blockstun > 0) {
     blockstun--;
   }
+  if (tension-- <= 1) {
+    tension = 1;
+  }
 
 
   if (currentState->visualEffectMap.count(currentState->stateTime)) {
@@ -573,8 +576,10 @@ int Character::_getMeter(){
 }
 
 void Character::_addMeter(int i){
-  meter += i;
-  printf("adding meter, meter is now %d\n", meter);
+  tension += 2;
+  if (i > 1) {
+    meter += (i*(tension));
+  }
 }
 
 void Character::_subtractMeter(int i){

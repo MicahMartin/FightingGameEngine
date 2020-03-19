@@ -91,6 +91,7 @@ public:
   Mix_Music* bgMusic = NULL;
   Mix_Chunk* yawl_ready = NULL;
   Mix_Chunk* countah = NULL;
+  Mix_Chunk* instantBlock = NULL;
   Mix_Chunk* round1Sound = NULL;
   Mix_Chunk* round2Sound = NULL;
   Mix_Chunk* finalRoundSound = NULL;

@@ -10,4 +10,5 @@
   if($get_state_time == 8){ 
     $set_control 1; 
   } 
+  $add_meter 1;
 } 

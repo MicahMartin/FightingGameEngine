@@ -21,6 +21,7 @@ FightState::FightState(){
   p1WinSound = Mix_LoadWAV("../data/audio/uiSounds/player_1_wins.mp3");
   p2WinSound = Mix_LoadWAV("../data/audio/uiSounds/player_2_win.mp3");
   countah = Mix_LoadWAV("../data/audio/uiSounds/countah.mp3");
+  instantBlock = Mix_LoadWAV("../data/audio/uiSounds/instantBlock.mp3");
 
   if(bgMusic == NULL) {
     printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
@@ -825,13 +826,22 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
               // TODO: Hitbox group IDs
               hitter->currentState->hitboxGroupDisabled[hitBox->groupID] = true;
               hitter->currentState->canHitCancel = true;
+              hitter->_addMeter(hitBox->hitMeterGain);
 
               int hurterCurrentState = hurter->currentState->stateNum;
               bool blocking = (hurterCurrentState == 28 || hurterCurrentState == 29 || hurterCurrentState == 50);
               // printf("control? %d, blocking? %d, stateNum:%d\n", hurter->control, blocking, hurterCurrentState);
               int blocktype = hitBox->blockType;
               if((blocking && blocktype == 1) || (blocking && checkBlock(blocktype, hurter)) || (hurter->control && checkBlock(blocktype, hurter))){
-                hurter->blockstun = hitBox->blockstun;
+                bool instantBlocked = hurter->_checkCommand(11);
+                if (instantBlocked) {
+                  Mix_PlayChannel(0, instantBlock, 0);
+                  int realBlockstun = hitBox->blockstun - 4;
+                  realBlockstun = realBlockstun <= 0 ? 1 : realBlockstun;
+                  hurter->blockstun = realBlockstun;
+                } else {
+                  hurter->blockstun = hitBox->blockstun;
+                }
                 hurter->control = 0;
                 if (hurter->_getYPos() > 0) {
                   hurter->changeState(50);
@@ -860,7 +870,7 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                   if (hitter->faceRight) {
                     hitter->pushBackVelocity = hitBox->pushback;
                   } else {
-                    hitter->pushBackVelocity = -hitBox->pushback;
+                    hitter->pushBackVelocity = -(hitBox->pushback/2);
                   }
                 } else {
                   hurter->pushTime = hitBox->pushTime;
@@ -883,9 +893,9 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 if (hurter->inCorner) {
                   hitter->pushTime = hitBox->hitPushTime;
                   if (hitter->faceRight) {
-                    hitter->pushBackVelocity = hitBox->hitVelocityX;
+                    hitter->pushBackVelocity = hitBox->hitVelocityX/2;
                   } else {
-                    hitter->pushBackVelocity = -hitBox->hitVelocityX;
+                    hitter->pushBackVelocity = -(hitBox->hitVelocityX/2);
                   }
                 } else {
                   hurter->hitPushTime = hitBox->hitPushTime;
@@ -932,9 +942,9 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                     if (hurter->inCorner) {
                       hitter->pushTime = hitBox->hitPushTime;
                       if (hitter->faceRight) {
-                        hitter->pushBackVelocity = hitBox->airHitVelocityX;
+                        hitter->pushBackVelocity = hitBox->airHitVelocityX/2;
                       } else {
-                        hitter->pushBackVelocity = -hitBox->airHitVelocityX;
+                        hitter->pushBackVelocity = -(hitBox->airHitVelocityX/2);
                       }
                     } else {
                       hurter->hitPushTime = hitBox->hitPushTime;
@@ -1070,8 +1080,16 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
 
                 int p2StateNum = p2->currentState->stateNum;
                 if((p2StateNum == 28 || p2StateNum == 29 || p2StateNum == 50) || (p2->control && checkBlock(entityHitbox->blockType, p2))){
-                  p2->blockstun = entityHitbox->blockstun;
                   p2->control = 0;
+                  bool instantBlocked = p2->_checkCommand(11);
+                  if (instantBlocked) {
+                    Mix_PlayChannel(0, instantBlock, 0);
+                    int realBlockstun = entityHitbox->blockstun - 4;
+                    realBlockstun = realBlockstun <= 0 ? 1 : realBlockstun;
+                    p2->blockstun = realBlockstun;
+                  } else {
+                    p2->blockstun = entityHitbox->blockstun;
+                  }
                   if (p2->_getYPos() > 0) {
                     // TODO: air blocking state
                     p2->changeState(50);
@@ -1113,11 +1131,10 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                   printf("ohh u got the blocksies?\n");
                   int xEdge = p2->faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
                   int visualID = entityHitbox->guardsparkID;
-                  printf("the visID %d\n", visualID);
                   VisualEffect& visFX = p2->guardSparks.at(visualID);
                   visFX.reset(xEdge, (hitsparkIntersect.y - (hitsparkIntersect.h/2)));
                   visFX.setActive(true);
-                  printf("found guardSpark for hurter, the playLEngth %d\n", visFX.getPlayLength());
+                  // printf("found guardSpark for hurter, the playLEngth %d\n", visFX.getPlayLength());
 
                   p2->soundsEffects.at(entityHitbox->guardSoundID).active = true;
                   p2->soundsEffects.at(entityHitbox->guardSoundID).channel = p2->soundChannel + 2;
@@ -1146,7 +1163,6 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
 
                   int xEdge = entity.faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
                   int visualID = entityHitbox->hitsparkID;
-                  printf("the visID %d\n", visualID);
                   VisualEffect& visFX = entity.hitSparks.at(visualID);
                   visFX.reset(xEdge, (hitsparkIntersect.y - (hitsparkIntersect.h/2)));
                   visFX.setActive(true);
@@ -1271,6 +1287,36 @@ void FightState::checkBounds(){
 void FightState::checkHealth(){
   // TODO: if training mode
   // TODO: refactor jesus why are you like this
+  if (player2->currentState->stateNum == 1 && player2->currentState->stateTime == 20) {
+    player2->health = 100;
+    player2->redHealth = 100;
+    player2->redHealthCounter = 0;
+  }
+  if (player1->currentState->stateNum == 1 && player1->currentState->stateTime == 20) {
+    player1->health = 100;
+    player1->redHealth = 100;
+    player1->redHealthCounter = 0;
+  }
+
+  if (player1->tension > player1->maxTension) {
+    player1->tension = player1->maxTension;
+  }
+  if (player2->tension > player2->maxTension) {
+    player2->tension = player2->maxTension;
+  }
+
+  if (player1->meter >= player1->maxMeter) {
+    player1->meter = player1->maxMeter;
+  }
+  if (player2->meter >= player2->maxMeter) {
+    player2->meter = player2->maxMeter;
+  }
+  if (player1->meter < 0 ) {
+    player1->meter = 0;
+  }
+  if (player2->meter < 0 ) {
+    player2->meter = 0;
+  }
   if ((player1->health <= 0 || player2->health <= 0) && (!player1->isDead && !player2->isDead)) {
     knockoutPopup.setX(camera.middle);
     knockoutPopup.setY(camera.cameraRect.y);
@@ -1414,6 +1460,13 @@ void FightState::renderHealthBars(){
   // printf("the red health percentage: %f\n", p2RedPercent);
   currentScreen.renderHealthBar(p1HpPercent, p1RedPercent, true);
   currentScreen.renderHealthBar(p2HpPercent, p2RedPercent, false);
+  // render meters
+  int p1Meter = player1->meter;
+  float p1MeterPercent = (float)p1Meter / (float)player1->maxMeter;
+  int p2Meter = player2->meter;
+  float p2MeterPercent = (float)p2Meter / (float)player2->maxMeter;
+  currentScreen.renderMeterBar(p1MeterPercent, true);
+  currentScreen.renderMeterBar(p2MeterPercent, false);
 }
 
 void FightState::renderComboCount(){

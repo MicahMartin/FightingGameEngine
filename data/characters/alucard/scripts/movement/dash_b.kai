@@ -2,14 +2,12 @@
   if($get_state_time == 0){ 
     $set_control 0; 
     $neg_velset_x 8; 
-  } 
-  if($get_state_time == 2){ 
-    $velset_y 14; 
+    $velset_y 8; 
   } 
   if($get_state_time == 18){ 
     $velset_x 0; 
   } 
-  if($get_state_time == 22){ 
+  if($get_state_time == 20){ 
     $set_control 1; 
   } 
 } 

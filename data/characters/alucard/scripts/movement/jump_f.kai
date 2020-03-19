@@ -5,7 +5,10 @@
     $velset_x 0; 
   } 
   if($get_state_time == 3){ 
-    $velset_y 27; 
+    $velset_y 100; 
+  } 
+  if($get_state_time == 4){ 
+    $velset_y 25; 
     $velset_x 6; 
     $set_control 1; 
   } 

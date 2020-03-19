@@ -10,6 +10,8 @@
   if(stateTime == 0){ 
     $set_whiff_cancel 1;
     $set_control 0; 
+    $set_counter 1;
+    $subtract_meter 5000;
   } 
   if($get_state_time >= 24){ 
     if (!limit_break) {

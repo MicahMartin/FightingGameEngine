@@ -94,11 +94,11 @@ bool VirtualController::wasPressed(Input input, bool strict, int index, bool pre
   for(InputEvent& event : *eventList) {
     if((pressed && event.pressed) || (!pressed && !event.pressed)){
       if (input <= 10 && strict) {
-        // printf("checking cardinal direction %s\n", inputToString[input]);
+        if (!pressed && !event.pressed && input == NOINPUT) {
+          printf("neutral released brooo\n");
+        }
         return (input == (event.inputBit & 0x0F));       
       } else if(event.inputBit & input) {
-        // printf("checking non cardinal direction %d\n", input);
-        // printf("was pressed\n");
         return true;
       }
     }
@@ -122,7 +122,6 @@ bool VirtualController::wasPressedBuffer(Input input, bool strict, bool pressed)
       for(InputEvent& event : *eventList) {
         if((pressed && event.pressed) || (!pressed && !event.pressed)){
           if (input <= 10 && strict) {
-            // printf("checking cardinal direction %s\n", inputToString[input]);
             found = (input == (event.inputBit & 0x0F));       
           } else if(event.inputBit & input) {
             // printf("checking non cardinal direction %d\n", input);
@@ -177,13 +176,13 @@ bool VirtualController::checkCommand(int commandIndex, bool faceRight) {
   return foundCommand;
 }
 
-void VirtualController::setBit(uint16_t bit) {
+void VirtualController::setBit(Input bit) {
   currentState |= bit;
   inputHistory.front().push_back(InputEvent(currentState, true));
   inputEventList.push_front(InputEvent(bit, true));
 }
 
-void VirtualController::clearBit(uint16_t bit) {
+void VirtualController::clearBit(Input bit) {
   currentState &= ~bit;
   inputHistory.front().push_back(InputEvent(bit, false));
   // inputEventList.push_front(InputEvent(bit, false));
@@ -204,7 +203,6 @@ void VirtualController::setAxis(Input newState){
 
   uint8_t newStickState = currentState & 0x0F;
   std::list<InputEvent>& currentList = inputHistory.front();
-
   currentList.push_back(InputEvent(oldStickState, false));
   currentList.push_back(InputEvent(newStickState, true));
   if(newStickState != NOINPUT){
