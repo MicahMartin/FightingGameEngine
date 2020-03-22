@@ -77,6 +77,7 @@ public:
     return wasReleased(relativeInput, strict, index);
   };
   inline bool isPressedWrapper(Input input, bool strict, int index, bool faceRight){
+    strict = false;
     Input relativeInput = inputEnumMap[input](faceRight);
     return isPressed(relativeInput, strict);
   };
@@ -106,13 +107,14 @@ public:
 
   static std::map<int, Input(*)(bool)> inputMap;
   static std::map<Input, Input(*)(bool)> inputEnumMap;
-  static std::map<Input, const char*> inputToString;
+  static std::map<int, const char*> inputToString;
 
   bool debugEnabled = false;
   bool copyMode = false;
   bool playbackMode = false;
   int playbackCounter = 0;
   int copyModeSlot = 1;
+  int playModeSlot = 1;
   int xAxis = NEUTRAL;
   int yAxis = NEUTRAL;
   int controllerIndex;

@@ -19,6 +19,14 @@ struct MeterBar {
   GameTexture burst;
 };
 
+enum RecordingStatus {
+  RECORDING_NONE,
+  RECORDING_ONE,
+  RECORDING_TWO,
+  PLAYBACK_ONE,
+  PLAYBACK_TWO
+};
+
 class FightScreen : public Screen {
 public:
   FightScreen();
@@ -37,6 +45,7 @@ public:
   void renderComboCount(bool side, int count);
   void renderInputHistory(bool side, boost::circular_buffer<InputEvent>& events);
   void renderWins(int p1Wins, int p2Wins);
+  RecordingStatus recordStatus = RECORDING_NONE;
 private:
   int foobar = 0;
   int barfoo = 2175;
@@ -75,11 +84,23 @@ private:
   };
   int p2DirectionDrawXPos;
 
-  HealthBar p1HealthBar;
-  HealthBar p2HealthBar;
+  HealthBar p1HealthBar,
+            p2HealthBar;
 
-  MeterBar p1MeterBar;
-  MeterBar p2MeterBar;
-};
+  MeterBar p1MeterBar,
+           p2MeterBar;
 
+  GameTexture s1Record,
+              s2Record,
+              p1Record,
+              p2Record,
+              p3Record;
+
+  bool        s1 = false,
+              s2 = false,
+              p1 = false,
+              p2 = false,
+              p3 = false;
+};    
+      
 #endif

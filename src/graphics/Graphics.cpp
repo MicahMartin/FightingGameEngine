@@ -1,4 +1,5 @@
 #include "graphics/Graphics.h"
+#include "SDL_ttf.h"
 #include <cmath>
 #include <stdexcept>
 
@@ -25,8 +26,7 @@ void Graphics::init(){
     throw(std::runtime_error(SDL_GetError()));
   }
 
-  // not sure what this does
-  SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 
   // Initialize format loading
   int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
@@ -37,6 +37,14 @@ void Graphics::init(){
   // We want to show image surfaces inside of the window and in order to do that 
   // we need to get the entire image surface contained by the window
   // windowSurface = SDL_GetWindowSurface(window);
+  if(TTF_Init() == -1) {
+    printf("TTF_Init: %s\n", TTF_GetError());
+  }
+  scpFont = TTF_OpenFont("../data/images/font/SourceCodePro-Black.ttf", 32); //this opens a font style and sets a size
+  if (scpFont == NULL) {
+    printf("TTF_OpenFont: %s\n", TTF_GetError());
+    exit(1);
+  }
 }
 
 void Graphics::update(){ }
@@ -85,3 +93,7 @@ Camera* Graphics::getCamera(){
   return camera;
 }
 
+
+TTF_Font* Graphics::getFont(){
+  return scpFont;
+}

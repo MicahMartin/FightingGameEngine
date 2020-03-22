@@ -41,16 +41,17 @@
 std::vector<std::string> CommandCompiler::commandStrings = {
   "@F, N, F", // dash
   "B, N, B", // backdash
-  "~D, DF, F, LK | ~LK", // 236K
-  "~D, DF, F, LP | ~LP", // 214P
+  "~D, 20DF, 20F, 8LK | 8~LK", // 236K
+  "~D, 20DF, 20F, 8LP | 8~LP", // 214P
   "@~D, N, @D, LP", // 22P
-  "LK & LP", // lp and mk
+  "10LK & LP", // lp and mk
   "~N, U",
   "~N, UF",
   "~N, UB",
   "~LP",
-  "MK & MP", // lp and mk
-  "~N, @B", // IB back
+  "*MP & *MK", // lp and mk
+  "12~N, 12@B", // IB back
+  "LP | LK | MP | MK", // any button held
 };
 
 CommandCompiler::CommandCompiler() { }
@@ -90,13 +91,15 @@ void CommandCompiler::compile(const char* inputString) {
   commands.push_back(command);
 }
 
-CommandFunction CommandCompiler::compileNode(){
+CommandNode CommandCompiler::compileNode(){
   // function pointer is &VirtualController::wasPressed by default
   // bool strictness is true by default
   using namespace std::placeholders;
   std::function<bool(Input, bool, int, bool)> funcPointer = std::bind(&VirtualController::wasPressedWrapper, controllerPointer, _1, _2, _3, _4);
-  CommandFunction finalFunc;
+  CommandNode finalNode;
+  CommandFunction& finalFunc = finalNode.function;
   bool strictness = true;
+  finalNode.bufferLength = 8;
 
   while(currentToken->type != CTOKEN_DELIM && currentToken->type != CTOKEN_END){
     switch (currentToken->type) {
@@ -180,6 +183,11 @@ CommandFunction CommandCompiler::compileNode(){
         printf("building mediumKick\n");
       }
       break;
+      case CTOKEN_NUMBER: {
+        finalNode.bufferLength = strtol(currentToken->start, NULL, 10);
+        printf("we got a number! %d\n", finalNode.bufferLength);
+      }
+      break;
       case CTOKEN_OR: {
         // finalFunc = std::bind(funcPointer, MK, strictness, _1, _2);
         currentToken++;
@@ -204,16 +212,16 @@ CommandFunction CommandCompiler::compileNode(){
   if(currentToken->type != CTOKEN_END){
     currentToken++;
   }
-  return finalFunc;
+  return finalNode;
 }
 
 CommandFunction CommandCompiler::binaryCommand(CommandFunction currentFunc, CommandTokenType type){
-  CommandFunction nextStatement = compileNode();
+  CommandNode nextStatement = compileNode();
   CommandFunction returnFunction = [currentFunc, nextStatement, type](int index, bool faceRight) -> bool {
     if(type == CTOKEN_OR){
-      return (currentFunc(index, faceRight) || nextStatement(index, faceRight));
+      return (currentFunc(index, faceRight) || nextStatement.function(index, faceRight));
     } else if(type == CTOKEN_AND){
-      return (currentFunc(index, faceRight) && nextStatement(index, faceRight));
+      return (currentFunc(index, faceRight) && nextStatement.function(index, faceRight));
     } else {
       return false;
     };

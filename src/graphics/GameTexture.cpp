@@ -26,6 +26,21 @@ bool GameTexture::loadTexture(const char* path, int xCord, int yCord, int width,
   return true;
 }
 
+bool GameTexture::setTexture(SDL_Texture* _texture){
+  texture = _texture;
+  return true;
+}
+
+bool GameTexture::setText(const char* message){
+  SDL_Surface* surfaceMessage = TTF_RenderText_Solid(graphics->getFont(), message, {255,255,255});
+  SDL_Texture* text = SDL_CreateTextureFromSurface(graphics->getRenderer(), surfaceMessage);
+  SDL_FreeSurface(surfaceMessage);
+
+  setTexture(text);
+  setDimensions(100, 100, 400, 100);
+  return true;
+}
+
 void GameTexture::render() {
   SDL_RenderCopy(renderer, texture, NULL, &textRect);
 }
@@ -77,6 +92,10 @@ uint8_t GameTexture::getTransperancy(){
 
 void GameTexture::setBlendMode(SDL_BlendMode mode){
   SDL_SetTextureBlendMode(texture, mode);
+}
+
+void GameTexture::setColor(int r, int g, int b){
+  SDL_SetTextureColorMod(texture, r, g, b);
 }
 
 

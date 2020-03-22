@@ -4,11 +4,6 @@
   var inCancelWindow = (stateTime >= 11) and (stateTime <= 24);
   var meter = $get_meter;
 
-  var cancel = $check_command 10;
-  if (cancel and (meter > 5000)) {
-    $change_state 70;
-  }
-
   if(canHitCancel and (stateTime > 24)) {
     $set_hit_cancel 0;
   }
@@ -22,6 +17,10 @@
   
 
   if(canHitCancel and inCancelWindow){
+    var cancel = $check_command 10;
+    if (cancel and (meter > 500)) {
+      $cancel_state 70;
+    }
     var qcf_k = $check_command 2;
     var qcb_p = $check_command 3;
 

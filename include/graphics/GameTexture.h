@@ -14,6 +14,8 @@ public:
 
   bool loadTexture(const char* path);
   bool loadTexture(const char* path, int xCord, int yCord, int width, int height);
+  bool setTexture(SDL_Texture* texture);
+  bool setText(const char* message);
   void render();
   void render(SDL_Rect dest);
   void render(SDL_Rect src, SDL_Rect dest);
@@ -25,6 +27,7 @@ public:
   void decTransperancy();
   void setTransperancy(uint8_t tran);
   void shake();
+  void setColor(int red, int green, int blue);
   uint8_t getTransperancy();
 
   void setBlendMode(SDL_BlendMode blendmode);

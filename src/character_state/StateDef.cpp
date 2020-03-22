@@ -127,21 +127,24 @@ void StateDef::handleCancels(){
 void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop){
   anim.hitShake = inHitStop;
   anim.render(position.first, position.second, faceRight, animTime);
+};
+
+void StateDef::drawCollisionBoxes(){
   for(auto cb : pushBoxes) {
      if(!cb->disabled){
        cb->render();
      }
   }
-  // for(auto cb : hurtBoxes) {
-  //    if(!cb->disabled){
-  //      cb->render();
-  //    }
-  // }
-  // for(auto cb : hitBoxes) {
-  //    if(!cb->disabled){
-  //      cb->render();
-  //    }
-  // }
+  for(auto cb : hurtBoxes) {
+     if(!cb->disabled){
+       cb->render();
+     }
+  }
+  for(auto cb : hitBoxes) {
+     if(!cb->disabled){
+       cb->render();
+     }
+  }
   for (auto cb : throwHitBoxes) {
     if(!cb->disabled){
       cb->render();
@@ -152,18 +155,18 @@ void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop)
       cb->render();
     }
   }
-  // for (auto cb : proximityBoxes) {
-  //   if(!cb->disabled){
-  //     cb->render();
-  //   }
-  // }
-  // for (auto cb : projectileBoxes) {
-  //   if(!cb->disabled){
-  //     cb->render();
-  //   }
-  // }
-};
+  for (auto cb : proximityBoxes) {
+    if(!cb->disabled){
+      cb->render();
+    }
+  }
+  for (auto cb : projectileBoxes) {
+    if(!cb->disabled){
+      cb->render();
+    }
+  }
 
+}
 void StateDef::loadFlags(nlohmann::json::value_type json){
   for(auto i : json.items()){
     std::string flag(i.value());
@@ -243,6 +246,9 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
       }
       if (i.value().count("air_hitvelX")) {
         cb->airHitVelocityX = i.value().at("air_hitvelX");
+      }
+      if (i.value().count("air_hitpushtime")) {
+        cb->airHitPushTime = i.value().at("air_hitpushtime");
       }
 
     } else {

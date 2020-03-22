@@ -1,0 +1,46 @@
+body { font-family: Arial, Geneva, sans-serif; cursor: default;  }
+.title { font-family: Arial, Sans-Serif; color: #EEA300; text-decoration: none; font-size: 22px; font-weight: bolder; }
+.megatitle { font-family: Arial, Sans-Serif; color: #E5EFFF; text-decoration: none; font-size: 30px; font-weight: bolder; }
+.megatitle2 { font-family: Arial, Sans-Serif; color: #767C84; text-decoration: none; font-size: 28px; font-weight: bolder; }
+.megatitle3 { font-family: Arial, Sans-Serif; color: #464C54; text-decoration: none; font-size: 28px; font-weight: bolder; }
+.maintext { font-family: Verdana, Sans-Serif; color: #E5EFFF; text-decoration: none; font-size: 16px; }
+.arttitle { font-family: Verdana, Sans-Serif; color: #767C84; text-decoration: none; font-size: 14px; }
+.arttitlez { font-family: Verdana, Sans-Serif; color: #767C84; text-decoration: none; font-size: 10px; }
+.even { font-family: Verdana, Sans-Serif; color: #767C84; text-decoration: none; font-size: 10px; }
+.odd { font-family: Verdana, Sans-Serif; color: #767C84; text-decoration: none; font-size: 10px; }
+.error { font-family: Verdana, Sans-Serif; color: #DC3B25; text-decoration: none; font-size: 16px; }
+.copyr { font-family: Arial, Sans-Serif; color: #444B4F; text-decoration: none; font-size: 10px; }
+a { font-family: Verdana, Sans-Serif; color: #39BEFF; text-decoration: none; }
+a:hover { color: #39BEFF; text-decoration: underline; }
+#nav01 a:hover { background-color: #39BEFF; }
+#nav02 a:hover { background-color: #39BEFF; }
+#nav03 a:hover { background-color: #39BEFF; }
+#nav04 a:hover { background-color: #39BEFF; }
+#nav05 a:hover { background-color: #39BEFF; }
+#nav06 a:hover { background-color: #39BEFF; }
+#nav07 a:hover { background-color: #39BEFF; }
+#nav08 a:hover { background-color: #39BEFF; }
+#nav09 a:hover { background-color: #39BEFF; }
+#nav10 a:hover { background-color: #39BEFF; }
+#nav11 a:hover { background-color: #39BEFF; }
+#nav12 a:hover { background-color: #39BEFF; }
+#nav13 a:hover { background-color: #39BEFF; }
+#nav14 a:hover { background-color: #39BEFF; }
+#nav15 a:hover { background-color: #39BEFF; }
+#nav16 a:hover { background-color: #39BEFF; }
+#nav17 a:hover { background-color: #39BEFF; }
+#nav18 a:hover { background-color: #39BEFF; }
+#nav19 a:hover { background-color: #39BEFF; }
+#nav20 a:hover { background-color: #39BEFF; }
+#gas a:hover { font-family: Arial, Sans-Serif; color: #464C54; text-decoration: none; font-size: 28px; font-weight: bolder; }
+#gas a { font-family: Arial, Sans-Serif; color: #464C54; text-decoration: none; font-size: 28px; font-weight: bolder; }
+#arttitle a:hover { font-family: Verdana, Sans-Serif; color: #767C84; text-decoration: none; font-size: 14px; }
+#arttitle a { font-family: Verdana, Sans-Serif; color: #767C84; text-decoration: none; font-size: 14px; }
+#arttitlez a:hover { font-family: Verdana, Sans-Serif; color: #767C84; text-decoration: none; font-size: 10px; }
+#arttitlez a { font-family: Verdana, Sans-Serif; color: #767C84; text-decoration: none; font-size: 10px; }
+#copyr a { font-family: Arial, Sans-Serif; color: #444B4F; text-decoration: none; font-size: 10px; }
+#copyr a:hover { font-family: Arial, Sans-Serif; color: #444B4F; text-decoration: underline; font-size: 10px; }
+.input-form { font: 10pt Courier New, Courier, Arial, Helvetica; color: #707070; }
+.input { color: #E5EFFF; border: 1px #4D555A solid; background-color: #4D555A; }
+.inputed { color: #3a4044; border: 1px #3a4044 solid; background-color: #3a4044; }
+.submit { color: #39BEFF; font-family: Verdana, Sans-Serif; font-size: 1.0em; border: 1px #39BEFF solid; background-color: #3A4044 }

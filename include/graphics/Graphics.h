@@ -2,6 +2,7 @@
 #define _Graphics_h
 
 #include <SDL2_image/SDL_image.h>
+#include "SDL_ttf.h"
 
 // handle SDL init, window stuff, and video buffer swapping at the end of every frame
 class Camera;
@@ -26,6 +27,7 @@ public:
   Camera* getCamera();
   int getWindowWidth();
   int getWindowHeight();
+  TTF_Font* getFont();
 private:
   Graphics() = default;
   ~Graphics(){
@@ -40,6 +42,7 @@ private:
   SDL_Renderer* renderer;
   int width;
   int height;
+  TTF_Font* scpFont;
   // The sdlSurface is a data type with the pixel data 
   // and some other data of an image
   // SDL_Surface* windowSurface;

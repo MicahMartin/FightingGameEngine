@@ -3,7 +3,7 @@
   var upback = $get_input 7; 
   var downback = $get_input 1; 
   var anyBack = (back or upback or downback);
-  var lp_and_lk = $check_command 5;
+  var lp_and_lk = $was_pressed 11;
 
   if($get_state_time < 2 and $get_state_time > 0){
     if (lp_and_lk) {

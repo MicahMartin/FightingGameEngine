@@ -168,15 +168,18 @@ void Character::update(){
   if (blockstun > 0) {
     blockstun--;
   }
-  if (tension-- <= 1) {
-    tension = 1;
+  if (tensionCounter-- == 0) {
+    tensionCounter = 3;
+    if (tension-- <= 1) {
+      tension = 1;
+    }
   }
 
 
   if (currentState->visualEffectMap.count(currentState->stateTime)) {
     int visualID = currentState->visualEffectMap.at(currentState->stateTime);
     VisualEffect& visFX = visualEffects.at(visualID);
-    printf("found visFX for frame %d, the playLEngth %d\n", currentState->stateTime, visFX.getPlayLength());
+    // printf("found visFX for frame %d, the playLEngth %d\n", currentState->stateTime, visFX.getPlayLength());
     visFX.reset(position.first, position.second);
     visFX.setActive(true);
   }
@@ -185,6 +188,12 @@ void Character::update(){
       soundsEffects.at(soundID).active = true;
       soundsEffects.at(soundID).channel = soundChannel;
     }
+  }
+  if (isRed) {
+    isRed = false;
+  }
+  if (isLight) {
+    isLight = false;
   }
   currentState->update();
 
@@ -373,15 +382,17 @@ void Character::updateCollisionBoxes(){
 
 void Character::draw(){
   bool fakeHitstop = (inHitStop && (hitstun > 0 || blockstun > 0));
+  currentState->anim.isRed = isRed;
+  currentState->anim.isLight = isLight;
   currentState->draw(position, faceRight, fakeHitstop);
 
   SDL_Renderer* renderer = Graphics::getInstance()->getRenderer();
   int windowHeight = Graphics::getInstance()->getWindowHeight();
   int camOffset = Graphics::getInstance()->getCamera()->cameraRect.x;
 
-  SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
-  SDL_RenderDrawLine(renderer, position.first - camOffset, windowHeight, position.first - camOffset, position.second);
-  SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  // SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+  // SDL_RenderDrawLine(renderer, position.first - camOffset, windowHeight, position.first - camOffset, position.second);
+  // SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 };
 
 
@@ -578,7 +589,7 @@ int Character::_getMeter(){
 void Character::_addMeter(int i){
   tension += 2;
   if (i > 1) {
-    meter += (i*(tension));
+    meter += i;
   }
 }
 

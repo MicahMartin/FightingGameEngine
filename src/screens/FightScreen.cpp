@@ -1,4 +1,5 @@
 #include "screens/FightScreen.h"
+#include "SDL_ttf.h"
 #include <sstream>
 
 FightScreen::FightScreen(){
@@ -17,6 +18,11 @@ FightScreen::FightScreen(){
   sky.setDimensions(0, -graphics->getWindowHeight(), windowWidth*3, graphics->getWindowHeight()*2);
   addTexture(&sky);
   addTexture(&stage);
+  s1Record.setText("recording to slot 1");
+  s2Record.setText("recording to slot 2");
+  p1Record.setText("playBack to slot 1");
+  p2Record.setText("playBack to slot 2");
+  p3Record.setText("playBack random");
 
   directions[0].loadTexture("../data/images/font/right.png");
   directions[1].loadTexture("../data/images/font/left.png");
@@ -90,6 +96,22 @@ void FightScreen::draw(){
   }
   for (int i = 0; i < 4; ++i) {
     roundBoxes[i].render(roundBoxPositions[i]);
+  }
+  // lord forgive me I will refactor one day I swear im just power typing right now
+  switch (recordStatus) {
+    case RECORDING_ONE:
+      s1Record.render();
+      break;
+    case RECORDING_TWO:
+      s2Record.render();
+      break;
+    case PLAYBACK_ONE:
+      p1Record.render();
+      break;
+    case PLAYBACK_TWO:
+      p2Record.render();
+    default:
+      break;
   }
 }
 

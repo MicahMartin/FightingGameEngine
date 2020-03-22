@@ -68,7 +68,7 @@
   var dust = $get_input 13;
   var limit_break = (slash and dust);
   var meter = $get_meter;
-  if (limit_break and (meter > 5000)) {
+  if (limit_break and (meter > 500)) {
     $cancel_state 70;
   }
 }

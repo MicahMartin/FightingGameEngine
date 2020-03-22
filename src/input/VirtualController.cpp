@@ -36,7 +36,7 @@ std::map<Input, Input(*)(bool)> VirtualController::inputEnumMap = {
   {MK, [](bool faceRight){return MK;}},
 };
 
-std::map<Input, const char*> VirtualController::inputToString = {
+std::map<int, const char*> VirtualController::inputToString = {
   {NOINPUT, "NEUTRAL"},
   {DOWN, "DOWN"},
   {RIGHT, "RIGHT"},
@@ -94,8 +94,7 @@ bool VirtualController::wasPressed(Input input, bool strict, int index, bool pre
   for(InputEvent& event : *eventList) {
     if((pressed && event.pressed) || (!pressed && !event.pressed)){
       if (input <= 10 && strict) {
-        if (!pressed && !event.pressed && input == NOINPUT) {
-          printf("neutral released brooo\n");
+        if (event.inputBit == NOINPUT) {
         }
         return (input == (event.inputBit & 0x0F));       
       } else if(event.inputBit & input) {
@@ -146,7 +145,6 @@ bool VirtualController::checkCommand(int commandIndex, bool faceRight) {
   bool foundCommand = false;
   bool breakFlag  = false;
   int searchOffset = 0;
-  int bufferLen = 8;
 
   if(commandIndex >= commandCompiler->commands.size()){
     return false;
@@ -154,10 +152,11 @@ bool VirtualController::checkCommand(int commandIndex, bool faceRight) {
 
   Command* command = &commandCompiler->commands[commandIndex];
   for (int i = command->size() - 1; i >= 0 && !breakFlag; --i) {
-    CommandFunction& func = (*command)[i];
+    CommandNode& funcNode = (*command)[i];
 
-    for (int i = 0; (!foundPart) && (i < bufferLen); ++i) {
-      foundPart = (func)(i+searchOffset, faceRight);
+    for (int i = 0; (!foundPart) && (i < funcNode.bufferLength); ++i) {
+      printf("the buffLength for this command part:%d\n", funcNode.bufferLength);
+      foundPart = (funcNode.function)(i+searchOffset, faceRight);
       if(foundPart){
         searchOffset += i;
       }
@@ -177,14 +176,18 @@ bool VirtualController::checkCommand(int commandIndex, bool faceRight) {
 }
 
 void VirtualController::setBit(Input bit) {
+  printf("setting bit %s\n", inputToString[bit]);
   currentState |= bit;
-  inputHistory.front().push_back(InputEvent(currentState, true));
+  inputHistory.front().push_back(InputEvent(bit, true));
   inputEventList.push_front(InputEvent(bit, true));
+  printStickState();
 }
 
 void VirtualController::clearBit(Input bit) {
   currentState &= ~bit;
+  printf("clearing old bit clearBit: %s\n", inputToString[bit]);
   inputHistory.front().push_back(InputEvent(bit, false));
+  printStickState();
   // inputEventList.push_front(InputEvent(bit, false));
 }
 
@@ -203,6 +206,7 @@ void VirtualController::setAxis(Input newState){
 
   uint8_t newStickState = currentState & 0x0F;
   std::list<InputEvent>& currentList = inputHistory.front();
+  printf("clearing old stick state setAxis: %s\n", inputToString[oldStickState]);
   currentList.push_back(InputEvent(oldStickState, false));
   currentList.push_back(InputEvent(newStickState, true));
   if(newStickState != NOINPUT){
@@ -239,6 +243,7 @@ void VirtualController::updateAxis(bool isXAxis) {
   }
 
   uint8_t newStickState = currentState & 0x0F;
+  printf("clearing old stick state updateAxis %s\n", inputToString[oldStickState]);
   currentList.push_back(InputEvent(oldStickState, false));
   currentList.push_back(InputEvent(newStickState, true));
   if(newStickState != NOINPUT){

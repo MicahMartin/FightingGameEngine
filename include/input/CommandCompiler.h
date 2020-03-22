@@ -12,7 +12,7 @@ struct CommandNode {
   CommandFunction function;
   int bufferLength;
 };
-typedef std::vector<CommandFunction> Command;
+typedef std::vector<CommandNode> Command;
 
 class CommandCompiler {
 public:
@@ -23,7 +23,7 @@ public:
   void init();
   void compile(const char* inputString);
 
-  CommandFunction compileNode();
+  CommandNode compileNode();
   CommandFunction binaryCommand(CommandFunction currentFunc, CommandTokenType type);
 
   static std::vector<std::string> commandStrings;

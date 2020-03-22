@@ -51,6 +51,8 @@ public:
   int animFrame = 0;
 
   bool hitShake = false;
+  bool isRed = false;
+  bool isLight = false;
   int hitShakeToggler = 0;
 private:
   /* data */

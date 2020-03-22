@@ -55,7 +55,8 @@ public:
   int pushTime = 0;
   int pushBackVelocity = 0;
   int maxHealth = 100;
-  int maxMeter = 10000;
+  int maxMeter = 1000;
+  int tensionCounter = 3;
   int hasAirAction = 0;
   int comboCounter = 0;
   int cancelPointer = 0;
@@ -142,6 +143,8 @@ public:
   int currentHurtSoundID = 1;
   int hurtSoundMax = 3;
   int soundChannel = 0;
+  bool isRed = false;
+  bool isLight = false;
 private:
   nlohmann::json stateJson;
   std::vector<StateDef> stateList;

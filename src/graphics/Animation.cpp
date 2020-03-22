@@ -49,6 +49,7 @@ void Animation::loadAnimEvents(nlohmann::json json) {
     text->loadTexture(pathPointer);
     // TODO: fix scale
     text->setDimensions(0, 0, realDimensions.first*scale, realDimensions.second*scale);
+    // text->setColor(255, 0, 0);
     if (offsetX == -1) {
       element.offsetX = ((realDimensions.first * scale)/2);
     }
@@ -110,7 +111,16 @@ void Animation::render(int x, int y, bool faceRight, int stateTime) {
     }
   }
 
+  if (isRed) {
+    currentText->setColor(255, 0, 0);
+  } 
+  if (isLight) {
+    currentText->setColor(11,11,11);
+  }
   currentText->render(faceRight);
+  if (isRed || isLight) {
+    currentText->setColor(255, 255, 255);
+  }
 }
 
 void Animation::renderHitspark(int x, int y, bool faceRight) {

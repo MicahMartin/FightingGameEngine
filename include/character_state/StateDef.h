@@ -43,6 +43,7 @@ public:
   void handleCancels();
   void update();
   void draw(std::pair<int,int> position, bool faceRight, bool inHitStop);
+  void drawCollisionBoxes();
 
   void resetAnim();
 

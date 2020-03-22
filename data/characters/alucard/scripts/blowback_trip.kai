@@ -1,5 +1,20 @@
 { 
   var alive = $get_is_alive;
+  var lp = $get_input 10;
+  var lk = $get_input 11;
+  var mp = $get_input 12;
+  var mk = $get_input 13;
+  var teching = (lp or lk or mp or mk);
+  var forward = $get_input 6; 
+  var back = $get_input 4; 
+  var up = $get_input 8; 
+  var upback = $get_input 7; 
+  var upforward = $get_input 9; 
+  var down = $get_input 2; 
+  var downback = $get_input 1; 
+  var downforward = $get_input 3; 
+  var anyForward = (forward or downforward or upforward);
+  var anyBack = (back or upback or downback);
   if($get_state_time == 0){ 
     $velset_x 0;
     $set_control 0; 
@@ -15,8 +30,20 @@
 
   if($get_hit_stun == 0){ 
     if(alive){
-      $set_combo 0;
-      $cancel_state 44;
+      if (teching) {
+        $neg_velset_x 6;
+        $velset_y 14;
+        if (anyForward) {
+          $velset_x 10;
+          $velset_y 20;
+        }
+        if (anyBack) {
+          $neg_velset_x 10;
+          $velset_y 20;
+        }
+        
+        $cancel_state 44;
+      }
     } else {
       $cancel_state 53;
     }

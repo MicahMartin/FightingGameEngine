@@ -28,9 +28,9 @@
   var kick = $was_pressed 11;
   var slash = $was_pressed 12;
   var dust = $was_pressed 13;
-  var lp_and_lk = (punch and kick);
+  var lp_and_lk = $check_command 5;
 
-  var limit_break = (slash and dust);
+  var limit_break = ($check_command 10);
   if (limit_break) {
     $change_state 70;
   }

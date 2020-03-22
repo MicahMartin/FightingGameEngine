@@ -6,6 +6,7 @@ typedef enum {
   CTOKEN_NEUTRAL, CTOKEN_FORWARD, CTOKEN_BACK, CTOKEN_UP, CTOKEN_DOWN,
   CTOKEN_UPFORWARD, CTOKEN_UPBACK, CTOKEN_DOWNFORWARD, CTOKEN_DOWNBACK,
   CTOKEN_LP, CTOKEN_LK, CTOKEN_MP, CTOKEN_MK,
+  CTOKEN_NUMBER,
 
   CTOKEN_RELEASED, CTOKEN_HELD,
 
@@ -40,6 +41,7 @@ public:
   bool match(char expected);
   void skipWhitespace();
   bool isAlpha(char c);
+  bool isDigit(char c);
   CommandTokenType checkKeyword(int start, int end, const char* rest, CommandTokenType type);
 
 private:

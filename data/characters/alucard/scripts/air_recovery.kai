@@ -1,9 +1,8 @@
 {
-  if($get_state_time == 0){ 
+  if($get_state_time == 3){ 
+    $set_combo 0;
     $set_air_action 1;
     $set_control 1;
-    $neg_velset_x 6;
-    $velset_y 14;
   } 
   if($get_state_time == 10){ 
     $cancel_state 17; 

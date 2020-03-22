@@ -20,6 +20,13 @@ std::vector<CommandToken> CommandScanner::scan(const char* inputString) {
       returnVect.push_back(makeToken(getInputType()));
       scannerStart = scannerCurrent;
     };
+    if (isDigit(c)){
+      while(isDigit(peek())){
+        advance();
+      }
+      returnVect.push_back(makeToken(CTOKEN_NUMBER));
+      scannerStart = scannerCurrent;
+    };
 
     switch (c) {
       case '~': 
@@ -151,4 +158,8 @@ void CommandScanner::skipWhitespace(){
 
 bool CommandScanner::isAlpha(char c) {
   return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+}
+
+bool CommandScanner::isDigit(char c) {
+  return c >= '0' && c <= '9';
 }

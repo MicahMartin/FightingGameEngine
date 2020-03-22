@@ -8,7 +8,8 @@ FightState::FightState(){
   printf("creating new fightState\n");
   stateName = "FightState";
   bgMusic = Mix_LoadMUS("../data/audio/fightingTheme.mp3");
-  Mix_VolumeMusic(32);
+  Mix_VolumeMusic(25);
+  Mix_Volume(0, 40);
   for (int i = 1; i < 8; ++i) {
     Mix_Volume(i, 32);
   }
@@ -363,6 +364,21 @@ void FightState::draw() {
          p2DrawStart, p2DrawEnd;
 
   screenDrawStart = SDL_GetTicks();
+  if (player1->virtualController->copyMode) {
+    if (player1->virtualController->copyModeSlot == 1) {
+      currentScreen.recordStatus = RECORDING_ONE;
+    } else {
+      currentScreen.recordStatus = RECORDING_TWO;
+    }
+  } else if (player2->virtualController->playbackMode) {
+    if (player1->virtualController->copyModeSlot == 1) {
+      currentScreen.recordStatus = PLAYBACK_ONE;
+    } else {
+      currentScreen.recordStatus = PLAYBACK_TWO;
+    }
+  } else {
+    currentScreen.recordStatus = RECORDING_NONE;
+  }
   currentScreen.draw();
   screenDrawEnd = SDL_GetTicks();
   // TODO: move renderHP into currentScreen
@@ -835,6 +851,8 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
               if((blocking && blocktype == 1) || (blocking && checkBlock(blocktype, hurter)) || (hurter->control && checkBlock(blocktype, hurter))){
                 bool instantBlocked = hurter->_checkCommand(11);
                 if (instantBlocked) {
+                  printf("instantblocked!\n");
+                  hurter->isLight = true;
                   Mix_PlayChannel(0, instantBlock, 0);
                   int realBlockstun = hitBox->blockstun - 4;
                   realBlockstun = realBlockstun <= 0 ? 1 : realBlockstun;
@@ -910,6 +928,8 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 // printf("is the hurter being couner hit?? time:  %d  counterhit: %d\n", hurter->currentState->stateTime, hurter->currentState->counterHitFlag);
                 hurter->currentState->counterHitFlag = false;
                 if (wasACounter) {
+                  printf("hurter counterHit from state %d\n", hurter->currentState->stateNum);
+                  hurter->isRed = true;
                   Mix_PlayChannel(0, countah, 0);
                 }
                 int xEdge = hitter->faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
@@ -947,7 +967,8 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                         hitter->pushBackVelocity = -(hitBox->airHitVelocityX/2);
                       }
                     } else {
-                      hurter->hitPushTime = hitBox->hitPushTime;
+                      printf("the airHitPushTime! :%d\n", hitBox->airHitPushTime);
+                      hurter->hitPushTime = hitBox->airHitPushTime > 0 ? hitBox->airHitPushTime : hitBox->hitPushTime;
                       if (hitter->faceRight) {
                         hurter->hitPushVelX = -hitBox->airHitVelocityX;
                       } else {
@@ -1083,6 +1104,7 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                   p2->control = 0;
                   bool instantBlocked = p2->_checkCommand(11);
                   if (instantBlocked) {
+                    p2->isLight = true;
                     Mix_PlayChannel(0, instantBlock, 0);
                     int realBlockstun = entityHitbox->blockstun - 4;
                     realBlockstun = realBlockstun <= 0 ? 1 : realBlockstun;
@@ -1155,7 +1177,6 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                     }
                   }
                   bool wasACounter = p2->currentState->counterHitFlag;
-                  printf("is the hurter being couner hit?? time:  %d  counterhit: %d\n", p2->currentState->stateTime, p2->currentState->counterHitFlag);
                   p2->currentState->counterHitFlag = false;
                   if (wasACounter) {
                     Mix_PlayChannel(0, countah, 0);
@@ -1291,11 +1312,15 @@ void FightState::checkHealth(){
     player2->health = 100;
     player2->redHealth = 100;
     player2->redHealthCounter = 0;
+
+    player2->meter = player2->maxMeter;
   }
   if (player1->currentState->stateNum == 1 && player1->currentState->stateTime == 20) {
     player1->health = 100;
     player1->redHealth = 100;
     player1->redHealthCounter = 0;
+
+    player1->meter = player1->maxMeter;
   }
 
   if (player1->tension > player1->maxTension) {
