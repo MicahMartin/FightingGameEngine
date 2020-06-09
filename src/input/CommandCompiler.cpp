@@ -38,20 +38,23 @@
 //  "~D, DF, @F & !D, LK | ~LK",
 //  "~D, DB, @B & !D, LP | ~LP",
 //  TODO: load from file
+//   "~D, 20DF, 20F, 8LP | 8~LP", // 214P
 std::vector<std::string> CommandCompiler::commandStrings = {
   "@F, N, F", // dash
   "B, N, B", // backdash
-  "~D, 20DF, 20F, 8LK | 8~LK", // 236K
-  "~D, 20DF, 20F, 8LP | 8~LP", // 214P
+  "*B & MK", // 236K
+  "N & MK",
   "@~D, N, @D, LP", // 22P
-  "10LK & LP", // lp and mk
+  "LK & 2LP", // lp and lk
   "~N, U",
   "~N, UF",
   "~N, UB",
   "~LP",
-  "*MP & *MK", // lp and mk
+  "MP & 2LK", // mp and lk
   "12~N, 12@B", // IB back
   "LP | LK | MP | MK", // any button held
+  "~D, DF, F, D, DF, F, LK | ~LK",
+  "MK & 2MP"
 };
 
 CommandCompiler::CommandCompiler() { }

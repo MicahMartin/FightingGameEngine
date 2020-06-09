@@ -1,0 +1,6 @@
+{
+  var dust = $was_pressed 13;
+  if (dust) {
+    $cancel_state 75;
+  }
+}

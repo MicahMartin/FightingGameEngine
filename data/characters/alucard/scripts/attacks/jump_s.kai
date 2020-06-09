@@ -1,4 +1,18 @@
 { 
+  var meter = $get_meter 1;
+  var back = $get_input 4; 
+  var upback = $get_input 7; 
+  var downback = $get_input 1; 
+  var anyBack = (back or upback or downback);
+  if($get_state_time < 2 and $get_state_time > 0){
+    if (meter >= 1) {
+      var lk = $get_input 11;
+      var mp = $get_input 12;
+      if ((lk and mp) and anyBack) {
+        $cancel_state 79;
+      }
+    }
+  }
   if($get_state_time == 0){ 
     $set_control 0; 
   } 

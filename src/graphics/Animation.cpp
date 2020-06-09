@@ -30,6 +30,9 @@ void Animation::loadAnimEvents(nlohmann::json json) {
     }
 
     AnimationElement element(animTime, offsetX, offsetY);
+    if (i.value().count("color")) {
+      element.isYellow = true;
+    }
 
     GameTexture* text = &element.gameTexture;
     text->cartesian = true;
@@ -78,7 +81,7 @@ void Animation::drawRect(SDL_Rect rect) {
   Camera* cam = graphics->getCamera();
   SDL_SetRenderDrawColor(graphics->getRenderer(), 128, 0, 128, 0xFF);
   rect.x = (rect.x - cam->cameraRect.x);
-  rect.y = (rect.y + (graphics->getWindowHeight() - rect.h) - 30) + cam->cameraRect.y;
+  rect.y = (rect.y + (graphics->getWindowHeight() - rect.h) - 60) + cam->cameraRect.y;
 
   SDL_RenderFillRect(graphics->getRenderer(), &rect);
   SDL_SetRenderDrawColor(graphics->getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
@@ -98,12 +101,12 @@ void Animation::render(int x, int y, bool faceRight, int stateTime) {
   int width = currentText->getDimensions().first;
   int offsetX = elem->offsetX;
   int offsetY = elem->offsetY;
-  faceRight ? currentText->setCords(x-width+offsetX, ((y - 30) + offsetY)) : currentText->setCords(x-offsetX, ((y - 30) + offsetY));
+  faceRight ? currentText->setCords(x-width+offsetX, ((y - 60) + offsetY)) : currentText->setCords(x-offsetX, ((y - 60) + offsetY));
   if (hitShake) {
     if (hitShakeToggler == 3) {
-    faceRight ? currentText->setCords((x-width+offsetX) + 3, ((y - 30) + offsetY)) : currentText->setCords((x-offsetX) - 3, ((y - 30) + offsetY));
+    faceRight ? currentText->setCords((x-width+offsetX) + 3, ((y - 60) + offsetY)) : currentText->setCords((x-offsetX) - 3, ((y - 60) + offsetY));
     } else if (hitShakeToggler == 6) {
-    faceRight ? currentText->setCords((x-width+offsetX) - 3, ((y - 30) + offsetY)) : currentText->setCords((x-offsetX) + 3, ((y - 30) + offsetY));
+    faceRight ? currentText->setCords((x-width+offsetX) - 3, ((y - 60) + offsetY)) : currentText->setCords((x-offsetX) + 3, ((y - 60) + offsetY));
     }
     hitShakeToggler++;
     if (hitShakeToggler == 7) {
@@ -114,11 +117,17 @@ void Animation::render(int x, int y, bool faceRight, int stateTime) {
   if (isRed) {
     currentText->setColor(255, 0, 0);
   } 
+  if (isGreen) {
+    currentText->setColor(0, 128, 0);
+  } 
+  if (elem->isYellow) {
+    currentText->setColor(255, 255, 0);
+  } 
   if (isLight) {
-    currentText->setColor(11,11,11);
+    currentText->setColor(173,216,230);
   }
   currentText->render(faceRight);
-  if (isRed || isLight) {
+  if (isRed || isLight || isGreen || elem->isYellow) {
     currentText->setColor(255, 255, 255);
   }
 }
@@ -132,7 +141,7 @@ void Animation::renderHitspark(int x, int y, bool faceRight) {
   int offsetX = elem->offsetX;
   int offsetY = elem->offsetY;
 
-  faceRight ? currentText->setCords(x-width+offsetX, ((y - 30) + offsetY)) : currentText->setCords(x-offsetX, ((y - 30) + offsetY));
+  faceRight ? currentText->setCords(x-width+offsetX, ((y - 60) + offsetY)) : currentText->setCords(x-offsetX, ((y - 60) + offsetY));
   currentText->render(faceRight);
 
   currentAnimElemTimePassed++;

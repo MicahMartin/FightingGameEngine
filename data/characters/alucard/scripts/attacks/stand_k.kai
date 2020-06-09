@@ -1,4 +1,5 @@
 { 
+  var meter = $get_meter 1;
   if($get_state_time == 0){ 
     $set_control 0; 
     $velset_x 8; 
@@ -12,14 +13,28 @@
   var downback = $get_input 1; 
   var anyBack = (back or upback or downback);
   var lp_and_lk = $was_pressed 10;
+  var lb = $check_command 10;
   if($get_state_time < 2){
+    if (meter >= 1) {
+      var anyBackNotDown = (back or upback);
+      var lk = $get_input 11;
+      var mp = $get_input 12;
+      if ((lk and mp) and anyBackNotDown) {
+        $cancel_state 73;
+      }
+      if ((lk and mp) and downback) {
+        $cancel_state 74;
+      }
+    }
     if (lp_and_lk) {
         if(anyBack){
           $cancel_state 45;
-
         } else { 
           $cancel_state 32;
         }
+    }
+    if (lb) {
+      $cancel_state 70;
     }
   }
 

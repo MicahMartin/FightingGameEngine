@@ -81,7 +81,7 @@ void CollisionBox::render(){
   SDL_Rect collisionRect;
 
   collisionRect.x = (positionX - cam->cameraRect.x);
-  collisionRect.y = (positionY + (graphics->getWindowHeight() - height) - 30) + cam->cameraRect.y;
+  collisionRect.y = (positionY + (graphics->getWindowHeight() - height) - 60) + cam->cameraRect.y;
   collisionRect.w = width;
   collisionRect.h = height;
 

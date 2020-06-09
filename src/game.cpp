@@ -73,9 +73,6 @@ void Game::update() {
   double stateUpdateEnd = SDL_GetTicks();
   updateLength = stateUpdateEnd-stateUpdateStart;
   // printf("updateLength %f\n", updateLength);
-  if (currentState->slowMode && currentState->slowModeCounter++ == 3) {
-    currentState->slowModeCounter = 0;
-  }
 
   // the current state holds a pointer to the currrent screen
   // screen has a surface pointer with all the pixels that need to be

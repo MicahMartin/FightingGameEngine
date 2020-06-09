@@ -12,14 +12,6 @@
     $set_counter 0;
   }
 
-  var slash = $get_input 12;
-  var dust = $get_input 13;
-  var limit_break = (slash and dust);
-  var meter = $get_meter;
-  if (limit_break and (meter > 500)) {
-    $cancel_state 70;
-  }
-
   if(canHitCancel and inCancelWindow){
     var qcf_k = $check_command 2;
     var qcb_p = $check_command 3;
@@ -36,8 +28,13 @@
     var punch = $was_pressed 10;
     var kick = $was_pressed 11;
     var slash = $was_pressed 12;
-    var dust = $was_pressed 13;
 
+    var limit_break = $check_command 10;
+    var meter = $get_meter 1;
+    if (limit_break and (meter > 500)) {
+      $subtract_meter 500;
+      $cancel_state 70;
+    }
 
     if(qcf_k){
       $cancel_state 14;
@@ -46,16 +43,13 @@
       $cancel_state 30;
     }
 
-    if(dust){
-      if (anyDown) {
-        $cancel_state 23;
-      } else {
-      }
-    }
-
     if(slash){
-      if (anyDown) {
-        $cancel_state 40;
+      if(anyDown){
+        if (downforward) {
+          $cancel_state 23; 
+        } else {
+          $cancel_state 40; 
+        }
       } else {
         $cancel_state 20;
       }
@@ -78,15 +72,15 @@
       }
     }
 
-    if(up){
-      $cancel_state 5;
-    }
-    if(upforward){
-      $cancel_state 6;
-    }
-    if(upback){
-      $cancel_state 7;
-    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
   }
 }

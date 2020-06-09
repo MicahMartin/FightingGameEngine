@@ -217,7 +217,16 @@ inline ExecutionCode VirtualMachine::run(){
         break;
       }
       case OP_GET_METER: {
-        long val = character->_getMeter();
+        long operand = AS_NUMBER(stack.pop());
+        long val = 0;
+        switch (operand) {
+          case 2:
+            val = character->_getComebackMeter();
+          break;
+          default:
+            val = character->_getMeter();
+          break;
+        }
         stack.push(NUMBER_VAL(val));
         break;
       }
@@ -251,6 +260,28 @@ inline ExecutionCode VirtualMachine::run(){
       case OP_SUBTRACT_METER: {
         long operand = AS_NUMBER(stack.pop());
         character->_subtractMeter(operand);
+        break;
+      }
+      case OP_GET_ENTITY_STATUS: {
+        long operand = AS_NUMBER(stack.pop());
+        bool val = character->_getEntityStatus(operand);
+        printf("checked entity status for %ld, got %d\n", operand, val);
+        stack.push(BOOL_VAL(val));
+        break;
+      }
+      case OP_SET_BLOCK_STUN: {
+        long operand = AS_NUMBER(stack.pop());
+        character->_setBlockstun(operand);
+        break;
+      }
+      case OP_GET_INSTALL: {
+        bool val = character->_getInstall();
+        stack.push(NUMBER_VAL(val));
+        break;
+      }
+      case OP_SET_INSTALL: {
+        long operand = AS_NUMBER(stack.pop());
+        character->_setInstall(operand);
         break;
       }
       // this gets called often enough to justify its own instruction rather than negating the val

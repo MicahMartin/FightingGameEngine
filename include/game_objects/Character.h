@@ -41,6 +41,7 @@ public:
   void updatePosition();
   void updateCollisionBoxPositions();
   void updateCollisionBoxes();
+  void activateVisFX(int visID);
   StateDef* getCurrentState();
   Mix_Chunk* getSoundWithId(int id);
   int getSoundChannel();
@@ -55,8 +56,7 @@ public:
   int pushTime = 0;
   int pushBackVelocity = 0;
   int maxHealth = 100;
-  int maxMeter = 1000;
-  int tensionCounter = 3;
+  int comebackCounter = 30;
   int hasAirAction = 0;
   int comboCounter = 0;
   int cancelPointer = 0;
@@ -68,6 +68,8 @@ public:
   int gravityVal = 1;
   bool isDead = false;
   int velocityX = 0;
+  int momentum = 0;
+  int mass = 1;
   int velocityY = 0;
   int health = 100;
   int redHealth = 100;
@@ -79,8 +81,10 @@ public:
   int hitPushVelX = 0;
   int hitPushVelY = 0;
   int meter = 0;
-  int tension = 1;
-  int maxTension = 200;
+  int comeback = 0;
+  int maxMeter = 1000;
+  int maxComeback = 1000;
+  int installCounter = 0;
   CollisionRect hitsparkIntersect;
 
   void _changeState(int stateNum);
@@ -108,6 +112,7 @@ public:
   void _snapToOpponent(int offset);
   void _addMeter(int input);
   void _subtractMeter(int input);
+  void _setInstall(int input);
 
   int _getHitStun();
   int _getBlockStun();
@@ -125,6 +130,9 @@ public:
   int _wasPressed(int input);
   int _checkCommand(int commandIndex);
   int _getMeter();
+  int _getComebackMeter();
+  int _getEntityStatus(int entityID);
+  int _getInstall();
 
   VirtualController* virtualController;
   StateDef* currentState;
@@ -143,8 +151,13 @@ public:
   int currentHurtSoundID = 1;
   int hurtSoundMax = 3;
   int soundChannel = 0;
+  int flashCounter = 0;
   bool isRed = false;
+  bool isGreen = false;
   bool isLight = false;
+  bool installMode = false;
+  bool auraActive = false;
+  int auraID = 0;
 private:
   nlohmann::json stateJson;
   std::vector<StateDef> stateList;

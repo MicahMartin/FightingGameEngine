@@ -161,6 +161,7 @@ private:
     {TOKEN_GET_ANIM_TIME, engineCallRule},
     {TOKEN_GET_HIT_STUN, engineCallRule},
     {TOKEN_GET_BLOCK_STUN, engineCallRule},
+    {TOKEN_SET_BLOCK_STUN, engineCallArgRule},
     {TOKEN_GET_STATE_TIME, engineCallRule},
     {TOKEN_GET_Y_POS, engineCallRule},
     {TOKEN_GET_INPUT, engineCallArgRule},
@@ -186,6 +187,7 @@ private:
     {TOKEN_SET_NOGRAV_COUNT, engineCallRule},
     {TOKEN_SET_AIR_ACTION, engineCallRule},
     {TOKEN_SET_HIT_STUN, engineCallArgRule},
+    {TOKEN_GET_ENTITY_STATUS, engineCallArgRule},
     {TOKEN_ACTIVATE_ENTITY, engineCallArgRule},
     {TOKEN_DEACTIVATE_ENTITY, engineCallArgRule},
     {TOKEN_SNAP_TO_OPPONENT, engineCallArgRule},
@@ -194,8 +196,10 @@ private:
     {TOKEN_SET_HIT_CANCEL, engineCallArgRule},
     {TOKEN_SET_WHIFF_CANCEL, engineCallArgRule},
     {TOKEN_SET_COUNTER, engineCallArgRule},
-    {TOKEN_GET_METER, engineCallRule},
+    {TOKEN_GET_METER, engineCallArgRule},
     {TOKEN_ADD_METER, engineCallArgRule},
+    {TOKEN_GET_INSTALL, engineCallRule},
+    {TOKEN_SET_INSTALL, engineCallArgRule},
     {TOKEN_SUBTRACT_METER, engineCallArgRule},
   };
 };

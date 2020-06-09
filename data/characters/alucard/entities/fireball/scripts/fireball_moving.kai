@@ -5,19 +5,7 @@
   var remainder = stateTime - product;
 
   if(stateTime == 0){
-    $velset_x 1;
-  } 
-
-  if(stateTime == 16){
-    $velset_x 4;
-  } 
-
-  if(stateTime == 24){
-    $velset_x 8;
-  } 
-
-  if(stateTime == 32){
-    $velset_x 14;
+    $velset_x 10;
   } 
 
   if(remainder == 0) {

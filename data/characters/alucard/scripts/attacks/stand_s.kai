@@ -1,8 +1,30 @@
 { 
+  var meter = $get_meter 1;
   if($get_state_time == 0){ 
     $set_control 0; 
     $velset_x 0; 
   } 
+
+  var lb = $check_command 10;
+  var back = $get_input 4; 
+  var upback = $get_input 7; 
+  var downback = $get_input 1; 
+  if($get_state_time < 2){
+    if (meter >= 1) {
+      var anyBackNotDown = (back or upback);
+      var lk = $get_input 11;
+      var mp = $get_input 12;
+      if ((lk and mp) and anyBackNotDown) {
+        $cancel_state 73;
+      }
+      if ((lk and mp) and downback) {
+        $cancel_state 74;
+      }
+    }
+    if (lb) {
+      $cancel_state 70;
+    }
+  }
 
   if($get_state_time == 27){ 
     $set_control 1; 

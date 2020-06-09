@@ -155,7 +155,6 @@ bool VirtualController::checkCommand(int commandIndex, bool faceRight) {
     CommandNode& funcNode = (*command)[i];
 
     for (int i = 0; (!foundPart) && (i < funcNode.bufferLength); ++i) {
-      printf("the buffLength for this command part:%d\n", funcNode.bufferLength);
       foundPart = (funcNode.function)(i+searchOffset, faceRight);
       if(foundPart){
         searchOffset += i;

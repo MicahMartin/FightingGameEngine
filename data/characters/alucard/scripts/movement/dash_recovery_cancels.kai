@@ -3,9 +3,11 @@
   if(canWhiffCancel){
     var qcf_k = $check_command 2;
     var qcb_p = $check_command 3;
+    var meter = $get_meter 1;
 
     var up = $get_input 8; 
     var upforward = $get_input 9; 
+    var back = $get_input 4; 
     var upback = $get_input 7; 
 
     var down = $get_input 2; 
@@ -19,6 +21,17 @@
     var dust = $was_pressed 13;
 
 
+    var anyBackNotDown = (back or upback);
+    var pushblocking = (kick and slash) and anyBackNotDown;
+    var crouchPB = (kick and slash) and downback;
+    if (meter > 1) {
+      if (pushblocking) {
+        $cancel_state 73;
+      }
+      if (crouchPB) {
+        $cancel_state 74;
+      }
+    }
     if(qcf_k){
       $cancel_state 14;
     }

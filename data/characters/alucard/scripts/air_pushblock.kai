@@ -1,0 +1,22 @@
+{
+  var kick = $get_input 11;
+  var slash = $get_input 12;
+  var back = $get_input 4;
+  var upback = $get_input 7;
+  var downback = $get_input 1;
+  var anyback = (back or upback or downback);
+  var pushblocking = (kick and slash) and anyback;
+  $subtract_meter 1;
+  if($get_state_time == 0){ 
+    $set_control 0;
+  } 
+  if($get_y_pos == 0){ 
+    $set_control 1; 
+  } 
+  if($get_block_stun == 0){ 
+    if (!pushblocking) {
+      $cancel_state 17;
+      $set_control 1;
+    }
+  } 
+} 

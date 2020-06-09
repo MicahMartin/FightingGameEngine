@@ -16,6 +16,7 @@ struct AnimationElement {
   int endTime;
   int offsetX;
   int offsetY;
+  bool isYellow = false;
 };
 
 struct AnimationFrame {
@@ -52,6 +53,7 @@ public:
 
   bool hitShake = false;
   bool isRed = false;
+  bool isGreen = false;
   bool isLight = false;
   int hitShakeToggler = 0;
 private:

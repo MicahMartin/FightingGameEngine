@@ -40,12 +40,14 @@ public:
   void removeTexture(int index);
 
   void renderHealthBar(float healthPercent, float damagePercent,  bool isPlayerOne);
-  void renderMeterBar(float meterPercent, bool isPlayerOne);
+  void renderMeterBar(float meterPercent, float comebackPercent, bool isPlayerOne);
   void renderBurstBar(float burstPercent, bool isPlayerOne);
   void renderComboCount(bool side, int count);
   void renderInputHistory(bool side, boost::circular_buffer<InputEvent>& events);
   void renderWins(int p1Wins, int p2Wins);
+
   RecordingStatus recordStatus = RECORDING_NONE;
+  bool showGradient = false;
 private:
   int foobar = 0;
   int barfoo = 2175;
@@ -89,6 +91,9 @@ private:
 
   MeterBar p1MeterBar,
            p2MeterBar;
+
+  MeterBar p1BurstBar,
+           p2BurstBar;
 
   GameTexture s1Record,
               s2Record,

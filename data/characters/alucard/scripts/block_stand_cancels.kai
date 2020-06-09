@@ -1,0 +1,38 @@
+{
+  if($get_block_stun > 0){ 
+    var forward = $get_input 6; 
+    var downforward = $get_input 3; 
+    var upforward = $get_input 9; 
+    var punch = $was_pressed 10;
+    var anyForward = (forward or downforward or upforward);
+    var dead_angle = (anyForward and punch);
+    var meter = $get_meter 1;
+    var comebackMeter = $get_meter 2;
+    var kick = $get_input 11;
+    var slash = $get_input 12;
+    var dust = $get_input 13;
+    var back = $get_input 4;
+    var upback = $get_input 7;
+    var downback = $get_input 1;
+    var anyBackNotDown = (back or upback);
+    var pushblocking = (kick and slash) and anyBackNotDown;
+    var crouchPB = (kick and slash) and downback;
+
+    if (meter > 1) {
+      if (pushblocking) {
+        $cancel_state 73;
+      }
+      if (crouchPB) {
+        $cancel_state 74;
+      }
+    }
+    if (dead_angle and meter > 500) {
+      $subtract_meter 500;
+      $cancel_state 72;
+    }
+    var burst = $check_command 14;
+    if (burst and comebackMeter == 1000) {
+      $cancel_state 75;
+    }
+  } 
+}

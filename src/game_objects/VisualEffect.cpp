@@ -7,7 +7,7 @@ VisualEffect::VisualEffect(){}
 VisualEffect::~VisualEffect(){}
 
 void VisualEffect::update(){
-  if (stateTime == playLength) {
+  if ((stateTime == playLength) && !aura) {
     isActive = false;
     stateTime = 0;
   } else if (isActive) {
@@ -16,10 +16,16 @@ void VisualEffect::update(){
 }
 
 void VisualEffect::draw(){
+  if (aura && stateTime == playLength) {
+    stateTime = 0;
+  }
   anim.render(xPos, yPos, true, stateTime);
 }
 
 void VisualEffect::draw(bool faceRight){
+  if (aura && stateTime == playLength) {
+    stateTime = 0;
+  }
   anim.render(xPos, yPos, faceRight, stateTime);
 }
 
@@ -75,3 +81,10 @@ void VisualEffect::setPlayLength(int newPlayLength){
 int VisualEffect::getPlayLength(){
   return playLength;
 }
+
+void VisualEffect::setAura(bool _aura){
+  aura = _aura;
+};
+bool VisualEffect::getAura(){
+  return aura;
+};

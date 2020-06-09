@@ -73,6 +73,12 @@ FightScreen::FightScreen(){
   p2MeterBar.meter.loadTexture("../data/images/UI/meter_bar/meter_value_p2.png");
   p2MeterBar.meter.getFileDimensions();
 
+  p1BurstBar.burst.loadTexture("../data/images/UI/meter_bar/burst.png");
+  p1BurstBar.burst.getFileDimensions();
+
+  p2BurstBar.burst.loadTexture("../data/images/UI/meter_bar/burst.png");
+  p2BurstBar.burst.getFileDimensions();
+
   for (int i = 0; i <= 9; i++) {
     char n = i + '0';
     std::stringstream numPath;
@@ -92,7 +98,13 @@ void FightScreen::update(){}
 
 void FightScreen::draw(){
   for (auto gameTexture : textureList) {
+    if (showGradient) {
+      gameTexture->setColor(100, 100, 100);
+    }
     gameTexture->render(true);
+    if (showGradient) {
+      gameTexture->setColor(255, 255, 255);
+    }
   }
   for (int i = 0; i < 4; ++i) {
     roundBoxes[i].render(roundBoxPositions[i]);
@@ -178,8 +190,10 @@ void FightScreen::renderHealthBar(float healthPercent, float damagePercent, bool
   healthBar->health.render(healthSrc, healthDest);
 }
 
-void FightScreen::renderMeterBar(float meterPercent, bool isPlayerOne) {
+void FightScreen::renderMeterBar(float meterPercent, float comebackPercent, bool isPlayerOne) {
   MeterBar* meterBar = isPlayerOne ? &p1MeterBar : &p2MeterBar;
+  MeterBar* burstBar = isPlayerOne ? &p1BurstBar : &p2BurstBar;
+
   SDL_Rect barDest;
   SDL_Rect meterBarDest;
   SDL_Rect meterBarSrc;
@@ -193,7 +207,7 @@ void FightScreen::renderMeterBar(float meterPercent, bool isPlayerOne) {
   int barWidth = meterBar->bar.imgWidth/scale;
   int barHeight = meterBar->bar.imgHeight/scale;
   int barOffsetX = isPlayerOne ? 50 : windowWidth - 50 - barWidth;
-  int barOffsetY = windowHeight - barHeight;
+  int barOffsetY = (windowHeight - barHeight) + 20;
 
   int meterImgWidth = meterBar->meter.imgWidth;
   int meterImgHeight = meterBar->meter.imgHeight;
@@ -204,15 +218,14 @@ void FightScreen::renderMeterBar(float meterPercent, bool isPlayerOne) {
   int meterWidthPercent = meterWidth * meterPercent;
   int meterRemainder = meterWidth - meterWidthPercent;
 
+    int meterOffsetY = barOffsetY + (barImgHeight*.66)/scale;
   if(isPlayerOne){
     int meterOffsetX = 310/scale;
-    int meterOffsetY = barOffsetY + (barImgHeight*.66)/scale;
 
     meterBarDest = { barOffsetX + meterOffsetX, meterOffsetY, meterWidthPercent, meterHeight};
     meterBarSrc = { 0, 0, meterPercentOffset, meterImgHeight };
   } else {
     int meterOffsetX = 90/scale;
-    int meterOffsetY = barOffsetY + (barImgHeight*.66)/scale;
 
     meterBarDest = { barOffsetX + meterOffsetX + meterRemainder, meterOffsetY, meterWidthPercent, meterHeight};
     meterBarSrc = { meterImgWidth - meterPercentOffset, 0, meterPercentOffset, meterImgHeight };
@@ -222,9 +235,24 @@ void FightScreen::renderMeterBar(float meterPercent, bool isPlayerOne) {
 
   meterBar->bar.render(barDest);
   meterBar->meter.render(meterBarSrc, meterBarDest);
+  
+  int burstWidth = burstBar->burst.imgWidth / scale;
+  int burstHeight = burstBar->burst.imgHeight / scale;
+  int burstOffsetX = isPlayerOne ? barOffsetX + (40/scale) : windowWidth - (340/scale); 
+  int burstOffsetY = meterOffsetY + 20;
+
+  int burstHeightOffset = burstBar->burst.imgHeight * comebackPercent;
+  int burstHeightPercent = burstHeight * comebackPercent;
+
+  SDL_Rect burstSrc = { 0, burstBar->burst.imgHeight - burstHeightOffset, burstBar->burst.imgWidth, burstHeightOffset};
+  SDL_Rect burstDest = { burstOffsetX, burstOffsetY - burstHeightPercent, burstWidth, burstHeightPercent};
+
+  burstBar->burst.render(burstSrc, burstDest);
 }
 
-void FightScreen::renderBurstBar(float meterPercent, bool isPlayerOne) { }
+void FightScreen::renderBurstBar(float meterPercent, bool isPlayerOne) { 
+
+}
 
 void FightScreen::renderComboCount(bool p1Side, int count) {
   int tens = (count/10) % 10;

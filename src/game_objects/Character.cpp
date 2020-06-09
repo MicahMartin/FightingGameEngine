@@ -53,6 +53,10 @@ void Character::refresh(){
 }
 
 void Character::changeState(int stateDefNum){
+  if (auraActive) {
+    visualEffects.at(auraID).setActive(false);
+    auraActive = false;
+  }
   cancelPointer = 0;
   currentState = &stateList.at(stateDefNum-1);
   if(!currentState->checkFlag(NO_TURN_ON_ENTER)){
@@ -95,6 +99,9 @@ void Character::loadStates(){
     int visualID = i.value().at("assetID");
     visualEffects.emplace(visualID, VisualEffect{}).first->second.anim.loadAnimEvents(i.value().at("animation"));
     visualEffects.at(visualID).setPlayLength(visualEffects.at(visualID).anim.animationTime);
+    if (i.value().count("aura")) {
+      visualEffects.at(visualID).setAura(i.value().at("aura"));
+    }
     printf("loaded visual effect # %d\n", visualID);
   }
 
@@ -148,6 +155,12 @@ void Character::handleInput(){
 };
 
 void Character::update(){ 
+  if (installMode) {
+    if (installCounter++ == 1) {
+      installCounter = 0;
+      comeback--;
+    }
+  }
   if(pushTime > 0) {
     pushTime--;
     if(pushTime == 0){
@@ -168,10 +181,11 @@ void Character::update(){
   if (blockstun > 0) {
     blockstun--;
   }
-  if (tensionCounter-- == 0) {
-    tensionCounter = 3;
-    if (tension-- <= 1) {
-      tension = 1;
+
+  if (comebackCounter-- == 0) {
+    comebackCounter = 30;
+    if (comeback++ >= maxComeback) {
+      comeback = maxComeback;
     }
   }
 
@@ -180,8 +194,21 @@ void Character::update(){
     int visualID = currentState->visualEffectMap.at(currentState->stateTime);
     VisualEffect& visFX = visualEffects.at(visualID);
     // printf("found visFX for frame %d, the playLEngth %d\n", currentState->stateTime, visFX.getPlayLength());
-    visFX.reset(position.first, position.second);
-    visFX.setActive(true);
+    if (!visFX.getAura()) {
+      visFX.reset(position.first, position.second);
+      visFX.setActive(true);
+    }
+  }
+  for (auto i : currentState->visualEffectMap) {
+    VisualEffect& visFX = visualEffects.at(i.second);
+    // printf("found visFX for frame %d, the playLEngth %d\n", currentState->stateTime, visFX.getPlayLength());
+    if (visFX.getAura()) {
+      visFX.setX(position.first);
+      visFX.setY(position.second);
+      visFX.setActive(true);
+      auraActive = true;
+      auraID = i.second;
+    }
   }
   if (currentState->soundIndexMap[currentState->stateTime].size() > 0) {
     for (int soundID : currentState->soundIndexMap[currentState->stateTime]) {
@@ -189,12 +216,27 @@ void Character::update(){
       soundsEffects.at(soundID).channel = soundChannel;
     }
   }
+
   if (isRed) {
     isRed = false;
+  }
+  if (isGreen) {
+    isGreen = false;
   }
   if (isLight) {
     isLight = false;
   }
+  if (installMode) {
+    if(flashCounter++ < 8){
+      isRed = true;
+    } else if(flashCounter < 16){
+      isRed = false;
+    }
+    if(flashCounter == 16){
+      flashCounter = 0;
+    }
+  }
+
   currentState->update();
 
   updatePosition();
@@ -216,10 +258,18 @@ void Character::updateFaceRight(){
   }
 };
 
+void Character::activateVisFX(int visID){
+  VisualEffect& visFX = visualEffects.at(visID);
+  visFX.reset(position.first, position.second);
+  visFX.setActive(true);
+}
+
 void Character::updatePosition() {
   // _negVelSetX(pushBackVelocity);
   int velX = velocityX;
-  if (hitstun > 0) {
+  int stateNum = currentState->stateNum;
+  bool inHurtState = stateNum == 9 || stateNum == 24 || stateNum == 35 || stateNum == 77 || stateNum == 78;
+  if (hitstun > 0 || inHurtState) {
     velX = velocityX - hitPushVelX;
   } else {
     velX = velocityX - pushBackVelocity;
@@ -302,7 +352,7 @@ void Character::updateCollisionBoxes(){
     if (stateTime < cb->start) {
       cb->disabled = true;
     }
-    if (cb->end == -1 || stateTime == cb->start) {
+    if ((cb->end == -1) || stateTime == cb->start) {
       cb->disabled = false;
     }
     if (stateTime == cb->end) {
@@ -381,9 +431,10 @@ void Character::updateCollisionBoxes(){
 }
 
 void Character::draw(){
-  bool fakeHitstop = (inHitStop && (hitstun > 0 || blockstun > 0));
+  bool fakeHitstop = (inHitStop && (hitstun > 0 || blockstun > 0 || currentState->stateNum == 55));
   currentState->anim.isRed = isRed;
   currentState->anim.isLight = isLight;
+  currentState->anim.isGreen = isGreen;
   currentState->draw(position, faceRight, fakeHitstop);
 
   SDL_Renderer* renderer = Graphics::getInstance()->getRenderer();
@@ -439,10 +490,12 @@ void Character::_cancelState(int  stateNum){
 
 void Character::_velSetX(int ammount){
  velocityX = faceRight ? ammount : -ammount;
+ momentum = (mass/100) * velocityX;
 }
 
 void Character::_negVelSetX(int ammount){
  velocityX = faceRight ? -ammount : ammount;
+ momentum = (mass/100) * velocityX;
 }
 
 void Character::_velSetY(int ammount){
@@ -450,7 +503,7 @@ void Character::_velSetY(int ammount){
 }
 
 void Character::_moveForward(int ammount){
-  faceRight ? setX(ammount) : setX(-ammount);
+  velocityX += faceRight ? ammount : -ammount;
 }
 
 void Character::_moveBack(int ammount){
@@ -586,17 +639,43 @@ int Character::_getMeter(){
   return meter;
 }
 
+int Character::_getComebackMeter(){
+  return comeback;
+}
+
 void Character::_addMeter(int i){
-  tension += 2;
-  if (i > 1) {
+  if (i > 1000) {
+    comeback += (i - 1000);
+  } else {
     meter += i;
   }
 }
 
 void Character::_subtractMeter(int i){
-  meter -= i;
+  if (i > 1000) {
+    comeback -= (i - 1000);
+  } else {
+    meter -= i;
+  }
 }
 
 int Character::_checkCommand(int commandIndex){
   return virtualController->checkCommand(commandIndex, inputFaceRight);
 }
+
+void Character::_setBlockstun(int input){
+  blockstun = input;
+};
+
+void Character::_setInstall(int input){
+  printf("setting installMode to %d\n", input);
+  installMode = input;
+};
+
+int Character::_getEntityStatus(int entityID){
+  printf("is the entity active? %d, %d\n", entityID, entityList[entityID - 1].active);
+  return entityList.at(entityID - 1).active;
+};
+int Character::_getInstall(){
+  return installMode;
+};

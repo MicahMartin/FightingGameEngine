@@ -65,5 +65,6 @@
     {"assetID": 2, "file": "../data/characters/alucard/audio/kick_impact.wav"}
   ],
   "spawnOffsetX": 50, 
-  "spawnOffsetY": 0
+  "spawnOffsetY": 0,
+  "isFireball": true
 }

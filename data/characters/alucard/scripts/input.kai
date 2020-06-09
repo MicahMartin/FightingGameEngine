@@ -11,66 +11,87 @@
   var qcf_k = $check_command 2;
   var qcb_p = $check_command 3;
   var down_down_lp = $check_command 4;
+  var super = $check_command 13;
 
   var neutral = $get_input 5; 
   var forward = $get_input 6; 
-  var back = $get_input 4; 
   var up = $get_input 8; 
-  var upback = $get_input 7; 
   var upforward = $get_input 9; 
   var down = $get_input 2; 
+  var back = $get_input 4; 
+  var upback = $get_input 7; 
   var downback = $get_input 1; 
+  var anyBack = (back or upback or downback);
   var downforward = $get_input 3; 
   var anyDown = (down or downforward or downback);
-  var anyBack = (back or upback or downback);
+  var meter = $get_meter 1;
+  var install = $get_install == 1;
+  var comebackMeter = $get_meter 2;
+  var installActivate = $check_command 14;
 
   var punch = $was_pressed 10;
   var kick = $was_pressed 11;
   var slash = $was_pressed 12;
-  var dust = $was_pressed 13;
   var lp_and_lk = $check_command 5;
 
-  var limit_break = ($check_command 10);
-  if (limit_break) {
-    $change_state 70;
-  }
   if (grounded) {
-    if (lp_and_lk) {
-      if(anyBack){
-        $change_state 45;
-
-      } else { 
-        $change_state 32;
+    if (install and comebackMeter == 0) {
+      $change_state 76;
+    }
+    if (installActivate) {
+      if (install) {
+        $change_state 76;
+      } else {
+        if (comebackMeter >= 500) {
+          $change_state 76;
+        }
       }
     }
-
+    
+    
+    if (meter >= 1) {
+      var anyBackNotDown = (back or upback);
+      var lk = $get_input 11;
+      var mp = $get_input 12;
+      if ((lk and mp) and anyBackNotDown) {
+        $change_state 73;
+      }
+      if ((lk and mp) and downback) {
+        $change_state 74;
+      }
+    }
+    var limit_break = ($check_command 10);
+    if (limit_break) {
+      $change_state 70;
+    }
+      
+    if (super) {
+      $change_state 70;
+    }
+    
     if(qcf_k){
       $change_state 14; 
     }
 
     if (qcb_p) {
-      $change_state 30;
-    }
-
-    if (down_down_lp) {
-      $change_state 31;
-    }
-    
-
-    if(dust){
-      if(anyDown){
-        $change_state 23; 
-      } else {
+      var fireballActive = $get_entity_status 1;
+      if (!fireballActive) {
+        $change_state 30;
       }
     }
 
     if(slash){
       if(anyDown){
-        $change_state 40; 
+        if (downforward) {
+          $change_state 23; 
+        } else {
+          $change_state 40; 
+        }
       } else {
         $change_state 20;
       }
     }
+
     if(kick){
       if(anyDown){
         $change_state 22; 
@@ -105,6 +126,15 @@
     if(up){
       $change_state 5; 
     }
+    if (lp_and_lk) {
+      if(anyBack){
+        $change_state 45;
+
+      } else { 
+        $change_state 32;
+      }
+    }
+
 
     if(anyDown and stateNum != 4){
       $change_state 4; 
@@ -122,6 +152,13 @@
   }
 
   if (airborne) {
+    if (meter >= 1) {
+      var lk = $get_input 11;
+      var mp = $get_input 12;
+      if ((lk and mp) and anyBack) {
+        $change_state 79;
+      }
+    }
     if (lp_and_lk) {
       if(anyBack){
         $change_state 47;

@@ -9,6 +9,7 @@
   {"NO_TURN", NO_TURN},
   {"NO_TURN_ON_ENTER", NO_TURN_ON_ENTER},
   {"TECHABLE", TECHABLE},
+  {"SUPER_ATTACK", SUPER_ATTACK},
 };
 
 StateDef::StateDef(nlohmann::json::value_type json, VirtualMachine* charVm) : charVm(charVm) {
@@ -38,16 +39,21 @@ StateDef::StateDef(nlohmann::json::value_type json, VirtualMachine* charVm) : ch
     }
   }
 
+  if(json.count("freeze_frame") && json.count("freeze_length")){
+    freezeFrame = json.at("freeze_frame");
+    freezeLength = json.at("freeze_length");
+  }
+
+  if(json.count("techState")){
+    techState = json.at("techState");
+  }
+
   if(json.count("sounds")){
     for (auto i : json.at("sounds").items()) {
       int soundID = i.value().at("soundID");
       int start = i.value().at("start");
       soundIndexMap[start].push_back(soundID);
     }
-  }
-
-  if(json.count("techState")){
-    techState = json.at("techState");
   }
 
   // printf("done compiling\n");
@@ -127,15 +133,11 @@ void StateDef::handleCancels(){
 void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop){
   anim.hitShake = inHitStop;
   anim.render(position.first, position.second, faceRight, animTime);
+  drawCollisionBoxes();
 };
 
 void StateDef::drawCollisionBoxes(){
   for(auto cb : pushBoxes) {
-     if(!cb->disabled){
-       cb->render();
-     }
-  }
-  for(auto cb : hurtBoxes) {
      if(!cb->disabled){
        cb->render();
      }
@@ -165,6 +167,11 @@ void StateDef::drawCollisionBoxes(){
       cb->render();
     }
   }
+  //for(auto cb : hurtBoxes) {
+  //   if(!cb->disabled){
+  //     cb->render();
+  //   }
+  //}
 
 }
 void StateDef::loadFlags(nlohmann::json::value_type json){

@@ -94,6 +94,8 @@ public:
   void _snapToOpponent(int offset);
   void _addMeter(int input);
   void _subtractMeter(int input);
+  void _setInstall(int input);
+  void _setBlockstun(int input);
 
   int _getHitStun();
   int _getBlockStun();
@@ -111,6 +113,9 @@ public:
   int _wasPressed(int input);
   int _checkCommand(int commandIndex);
   int _getMeter();
+  int _getComebackMeter();
+  int _getEntityStatus(int entityID);
+  int _getInstall();
 
   VirtualController* virtualController;
   Character* owner;
@@ -124,6 +129,7 @@ public:
   std::unordered_map<int, SoundObj> soundsEffects;
 
   bool updateFacing = false;
+  bool isFireball = false;
 private:
   const char* defPath;
   nlohmann::json stateJson;

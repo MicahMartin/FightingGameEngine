@@ -61,6 +61,10 @@ public:
   void renderComboCount();
   void renderInputHistory();
   void renderHealthBar(int x, int y, int w, int h, float percent, SDL_Color fgColor, SDL_Color bgColor);
+  void handleRoundStart();
+  void checkThrowTechs();
+  void updateVisuals();
+  void updateCamera();
 
   void checkCorner(Character* player);
   void checkHitstop(Character* player);
@@ -87,11 +91,16 @@ public:
   bool roundEnd = false;
   int slowDownCounter = 0;
   int roundWinner = 0;
+  bool screenFreeze = false;
+  int screenFreezeCounter = 0;
+  int screenFreezeLength = 0;
 
   Mix_Music* bgMusic = NULL;
   Mix_Chunk* yawl_ready = NULL;
   Mix_Chunk* countah = NULL;
   Mix_Chunk* instantBlock = NULL;
+  Mix_Chunk* throwtech = NULL;
+  Mix_Chunk* pushBlock = NULL;
   Mix_Chunk* round1Sound = NULL;
   Mix_Chunk* round2Sound = NULL;
   Mix_Chunk* finalRoundSound = NULL;

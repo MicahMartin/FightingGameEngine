@@ -462,11 +462,19 @@ void Compiler::statement() {
   } else if (match(TOKEN_SET_COUNTER)) {
     engineCallExpressionStatement(OP_SET_COUNTER);
   } else if (match(TOKEN_GET_METER)) {
-    engineCallStatement(OP_GET_METER);
+    engineCallExpressionStatement(OP_GET_METER);
   } else if (match(TOKEN_ADD_METER)) {
     engineCallExpressionStatement(OP_ADD_METER);
   } else if (match(TOKEN_SUBTRACT_METER)) {
     engineCallExpressionStatement(OP_SUBTRACT_METER);
+  } else if (match(TOKEN_GET_INSTALL)) {
+    engineCallStatement(OP_GET_INSTALL);
+  } else if (match(TOKEN_SET_INSTALL)) {
+    engineCallExpressionStatement(OP_SET_INSTALL);
+  } else if (match(TOKEN_SET_BLOCK_STUN)) {
+    engineCallExpressionStatement(OP_SET_BLOCK_STUN);
+  } else if (match(TOKEN_GET_ENTITY_STATUS)) {
+    engineCallExpressionStatement(OP_GET_ENTITY_STATUS);
   } else if (match(TOKEN_FOR)) {
     forStatement();
   } else if (match(TOKEN_WHILE)) {     

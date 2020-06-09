@@ -32,8 +32,12 @@ public:
   void setStateTime(int newStateTime);
   int getStateTime();
 
+  void setAura(bool aura);
+  bool getAura();
+
   Animation anim;
 private:
+  bool aura = false;
   bool isActive = false;
   int stateTime = 0;
   int xPos = 0;

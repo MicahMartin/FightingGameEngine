@@ -64,6 +64,8 @@ public:
   virtual void _setControl(int val) = 0;
   virtual void _setCombo(int val) = 0;
   virtual void _setHitStun(int val) = 0;
+  virtual void _setBlockstun(int val) = 0;
+  virtual void _setInstall(int val) = 0;
   virtual void _setHitCancel(int val) = 0;
   virtual void _setWhiffCancel(int val) = 0;
   virtual void _setCounter(int val) = 0;
@@ -93,6 +95,9 @@ public:
   virtual int _wasPressed(int input) = 0;
   virtual int _checkCommand(int commandIndex) = 0;
   virtual int _getMeter() = 0;
+  virtual int _getComebackMeter() = 0;
+  virtual int _getInstall() = 0;
+  virtual int _getEntityStatus(int entityID) = 0;
 protected:
 };
 

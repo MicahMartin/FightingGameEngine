@@ -1,6 +1,11 @@
 {
   if($get_state_time == 0){
-    $velset_x 5;
+    var install = $get_install == 1;
+    if (install) {
+      $velset_x 11;
+    } else {
+      $velset_x 5;
+    }
   } 
   if($get_state_time == 42) {
     $cancel_state 2;

@@ -34,6 +34,7 @@ typedef enum {
   OP_GET_ANIM_TIME,
   OP_GET_HIT_STUN,
   OP_GET_BLOCK_STUN,
+  OP_SET_BLOCK_STUN,
   OP_GET_STATE_TIME,
   OP_GET_Y_POS,
   OP_GET_INPUT,
@@ -64,6 +65,7 @@ typedef enum {
   OP_SET_WHIFF_CANCEL,
   OP_SET_COUNTER,
   OP_RESET_ANIM,
+  OP_GET_ENTITY_STATUS,
   OP_ACTIVATE_ENTITY,
   OP_DEACTIVATE_ENTITY,
   OP_SNAP_TO_OPPONENT,
@@ -71,6 +73,8 @@ typedef enum {
   OP_GET_METER,
   OP_ADD_METER,
   OP_SUBTRACT_METER,
+  OP_GET_INSTALL,
+  OP_SET_INSTALL,
   OP_RETURN
 } OpCode;
 
@@ -79,6 +83,7 @@ static const std::unordered_map<std::string, OpCode> engineCallMap {
   {"$get_anim_time", OP_GET_ANIM_TIME},
   {"$get_hit_stun", OP_GET_HIT_STUN},
   {"$get_block_stun", OP_GET_BLOCK_STUN},
+  {"$set_block_stun", OP_SET_BLOCK_STUN},
   {"$get_state_time", OP_GET_STATE_TIME},
   {"$get_y_pos", OP_GET_Y_POS},
   {"$get_input", OP_GET_INPUT},
@@ -107,6 +112,7 @@ static const std::unordered_map<std::string, OpCode> engineCallMap {
   {"$reset_anim", OP_RESET_ANIM},
   {"$activate_entity", OP_ACTIVATE_ENTITY},
   {"$deactivate_entity", OP_DEACTIVATE_ENTITY},
+  {"$get_entity_status", OP_GET_ENTITY_STATUS},
   {"$snap_to_opponent", OP_SNAP_TO_OPPONENT},
   {"$check_command", OP_CHECK_COMMAND},
   {"$get_hit_cancel",  OP_GET_HIT_CANCEL},
@@ -116,6 +122,8 @@ static const std::unordered_map<std::string, OpCode> engineCallMap {
   {"$set_counter", OP_SET_COUNTER},
   {"$get_meter", OP_GET_METER},
   {"$add_meter", OP_ADD_METER},
+  {"$get_install", OP_GET_INSTALL},
+  {"$set_install", OP_SET_INSTALL},
   {"$subtract_meter", OP_SUBTRACT_METER},
 };
 

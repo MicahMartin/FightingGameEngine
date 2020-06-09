@@ -9,22 +9,21 @@
 
   if($get_state_time == 0){ 
     $set_control 0; 
-    $velset_x 4; 
+    var install = $get_install == 1;
+    if (install) {
+      $velset_x 18;
+    } else {
+      $velset_x 12;
+    }
   } 
   if($get_state_time == 2){ 
     $set_whiff_cancel 1;
   } 
-  if($get_state_time == 8){ 
-    $velset_x 8; 
-  } 
-  if($get_state_time == 16){ 
-    $velset_x 12; 
-  } 
-  if($get_state_time >= 1 and (!anyForward)){ 
+  if($get_state_time >= 16 and (!anyForward)){ 
     $cancel_state 69; 
   } 
   if (remainder == 0) {
     $reset_anim;
   }
-  $add_meter 1;
+  $add_meter 24;
 } 

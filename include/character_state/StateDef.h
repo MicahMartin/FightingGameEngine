@@ -15,6 +15,7 @@ enum FlagBit {
   NO_TURN = 0x01,
   NO_TURN_ON_ENTER  = 0x02,
   TECHABLE = 0x04,
+  SUPER_ATTACK = 0x08,
 };
 
 
@@ -68,6 +69,9 @@ public:
   int stateTime;
   int animTime;
   int techState;
+  bool isSuper = false;
+  int freezeFrame = 0;
+  int freezeLength = 0;
   bool hitboxesDisabled = false;
 
   bool canWhiffCancel = false;

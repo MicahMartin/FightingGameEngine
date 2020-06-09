@@ -26,6 +26,14 @@
     var downforward = $get_input 3; 
     var anyDown = (down or downback or downforward);
 
+    var limit_break = $check_command 10;
+    var meter = $get_meter 1;
+    if (limit_break and (meter > 500)) {
+      $subtract_meter 500;
+      $cancel_state 70;
+    }
+
+
     if(qcf_k){
       $cancel_state 14;
     }
@@ -33,16 +41,13 @@
       $cancel_state 30;
     }
 
-    if(dust){
-      if (anyDown) {
-        $cancel_state 23;
-      } else {
-      }
-    }
-
     if(slash){
-      if (anyDown) {
-        $cancel_state 40;
+      if(anyDown){
+        if (downforward) {
+          $cancel_state 23; 
+        } else {
+          $cancel_state 40; 
+        }
       } else {
         $cancel_state 20;
       }
@@ -63,12 +68,5 @@
         $cancel_state 8;
       }
     }
-  }
-  var slash = $get_input 12;
-  var dust = $get_input 13;
-  var limit_break = (slash and dust);
-  var meter = $get_meter;
-  if (limit_break and (meter > 500)) {
-    $cancel_state 70;
   }
 }

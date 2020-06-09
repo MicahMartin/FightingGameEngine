@@ -9,11 +9,10 @@
   if (stateTime == 19) {
     $set_counter 0;
   }
-  var slash = $get_input 12;
-  var dust = $get_input 13;
-  var limit_break = (slash and dust);
-  var meter = $get_meter;
+  var limit_break = $check_command 10;
+  var meter = $get_meter 1;
   if (limit_break and (meter > 500)) {
+    $subtract_meter 500;
     $cancel_state 70;
   }
 }

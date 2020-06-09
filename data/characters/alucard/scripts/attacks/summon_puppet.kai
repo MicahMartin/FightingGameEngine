@@ -5,7 +5,13 @@
   } 
 
   if($get_state_time == 29){ 
-    $activate_entity 2;
+    var puppetActive = $get_entity_status 2;
+    if (puppetActive) {
+      $activate_entity 2;
+    } else {
+      $deactivate_entity 2;
+    }
+    
   } 
 
   if($get_state_time == 31){ 

@@ -7,11 +7,11 @@
 FightState::FightState(){ 
   printf("creating new fightState\n");
   stateName = "FightState";
-  bgMusic = Mix_LoadMUS("../data/audio/fightingTheme.mp3");
+  // bgMusic = Mix_LoadMUS("../data/audio/fightingTheme.mp3");
   Mix_VolumeMusic(25);
   Mix_Volume(0, 40);
   for (int i = 1; i < 8; ++i) {
-    Mix_Volume(i, 32);
+    Mix_Volume(i, 16);
   }
   yawl_ready = Mix_LoadWAV("../data/audio/uiSounds/yawl_ready.mp3");
   round1Sound = Mix_LoadWAV("../data/audio/uiSounds/round_1.mp3");
@@ -21,8 +21,10 @@ FightState::FightState(){
   koSound = Mix_LoadWAV("../data/audio/uiSounds/KO.mp3");
   p1WinSound = Mix_LoadWAV("../data/audio/uiSounds/player_1_wins.mp3");
   p2WinSound = Mix_LoadWAV("../data/audio/uiSounds/player_2_win.mp3");
-  countah = Mix_LoadWAV("../data/audio/uiSounds/countah.mp3");
+  countah = Mix_LoadWAV("../data/audio/uiSounds/countah_1.mp3");
   instantBlock = Mix_LoadWAV("../data/audio/uiSounds/instantBlock.mp3");
+  throwtech = Mix_LoadWAV("../data/audio/uiSounds/throwtech.mp3");
+  pushBlock = Mix_LoadWAV("../data/characters/alucard/audio/heavyslice_guard2.wav");
 
   if(bgMusic == NULL) {
     printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
@@ -112,53 +114,13 @@ void FightState::pause(){ }
 void FightState::resume(){ }
 
 void FightState::handleInput(){ 
-  if(!slowMode){
-    if (roundStartCounter > 0) {
-      // printf("roundStarTCounter!:%d\n", roundStartCounter);
-      if (--roundStartCounter == 0) {
-        player1->control = 1;
-        player2->control = 1;
-        roundStart = false;
-      }
-      if (roundStartCounter == 200) {
-        matchIntroPopup.setStateTime(0);
-        matchIntroPopup.setActive(true);
-        Mix_PlayChannel(0, yawl_ready, 0);
-      }
-      if (roundStartCounter == 130) {
-        switch (currentRound) {
-          case 0:
-            round1.setStateTime(0);
-            round1.setActive(true);
-            Mix_PlayChannel(0, round1Sound, 0);
-          break;
-          case 1:
-            round2Popup.setStateTime(0);
-            round2Popup.setActive(true);
-            Mix_PlayChannel(0, round2Sound, 0);
-          break;
-          case 2:
-            finalRoundPopup.setStateTime(0);
-            finalRoundPopup.setActive(true);
-            Mix_PlayChannel(0, finalRoundSound, 0);
-          break;
-          default:
-          break;
-        }
-      }
-
-      if (roundStartCounter == 60) {
-        fightPopup.setStateTime(0);
-        fightPopup.setActive(true);
-        Mix_PlayChannel(0, fightSound, 0);
-      }
-    }
+  if(!slowMode && !screenFreeze){
+    handleRoundStart();
     checkCorner(player1);
     checkCorner(player2);
     updateFaceRight();
     checkHitstop(player1);
     checkHitstop(player2);
-
     checkEntityHitstop(player1);
     checkEntityHitstop(player2);
 
@@ -179,22 +141,9 @@ void FightState::handleInput(){
         i.handleInput();
       }
     }
-    // check for throw techs
-    if (player1->currentState->checkFlag(TECHABLE)) {
-      if (player1->_checkCommand(5)) {
-        int techState = player1->currentState->techState;
-        player1->changeState(techState);
-        player2->changeState(techState);
-      }
-    }
-    if (player2->currentState->checkFlag(TECHABLE)) {
-      if (player2->_checkCommand(5)) {
-        int techState = player2->currentState->techState;
-        player1->changeState(techState);
-        player2->changeState(techState);
-      }
-    }
+    checkThrowTechs();
   }
+
   player1->currentState->handleCancels();
   player2->currentState->handleCancels();
   for (auto &i : player1->entityList) {
@@ -214,12 +163,17 @@ void FightState::handleInput(){
   updateFaceRight();
   checkCorner(player1);
   checkCorner(player2);
+  if (player1->currentState->stateNum == 55) {
+    printf("player1 in techState, stateTime: %d\n", player1->currentState->stateTime);
+  }
+  if (player2->currentState->stateNum == 55) {
+    printf("player2 in techState, stateTime: %d\n", player2->currentState->stateTime);
+  }
 }
 
 void FightState::update(){
   // printf("we made it into update!\n");
-  if(!slowMode){
-
+  if(!slowMode && !screenFreeze){
     if(!player1->inHitStop){
       player1->update();
     }
@@ -238,21 +192,28 @@ void FightState::update(){
         i.update();
       }
     }
+    if (player1->currentState->checkFlag(SUPER_ATTACK) && (player1->currentState->stateTime == player1->currentState->freezeFrame)) {
+      screenFreeze = true;
+      screenFreezeLength = player1->currentState->freezeLength;
+      player1->activateVisFX(1);
+    }
+    if (player2->currentState->checkFlag(SUPER_ATTACK) && (player2->currentState->stateTime == player2->currentState->freezeFrame)) {
+      screenFreeze = true;
+      screenFreezeLength = player2->currentState->freezeLength;
+      player2->activateVisFX(1);
+    }
   }
+
+
   checkBounds();
   updateFaceRight();
   checkCorner(player1);
   checkCorner(player2);
 
-  int highest = player1->_getYPos() > player2->_getYPos() ? player1->_getYPos() : player2->_getYPos();
-  camera.update(player1->getPos().first, player2->getPos().first);
-  if(highest > (graphics->getWindowHeight()/2)){
-    camera.cameraRect.y = highest - (graphics->getWindowHeight() / 2);
-  } else {
-    camera.cameraRect.y = 0;
-  }
   checkPushCollisions();
   checkBounds();
+
+  updateCamera();
   checkHealth();
 
   if (slowMode) {
@@ -278,83 +239,14 @@ void FightState::update(){
     }
   }
 
-  if (matchIntroPopup.getActive()) {
-    matchIntroPopup.update();
-  }
-  if (round1.getActive()) {
-    round1.update();
-  }
-  if (round2Popup.getActive()) {
-    round2Popup.update();
-  }
-  if (finalRoundPopup.getActive()) {
-    finalRoundPopup.update();
-  }
-  if (fightPopup.getActive()) {
-    fightPopup.update();
-  }
-  if (knockoutPopup.getActive()) {
-    knockoutPopup.setX(camera.middle);
-    knockoutPopup.setY(camera.cameraRect.y);
-    knockoutPopup.update();
-  }
-  if (p1WinPopup.getActive()) {
-    p1WinPopup.setX(camera.middle);
-    p1WinPopup.setY(camera.cameraRect.y);
-    p1WinPopup.update();
-  }
-  if (p2WinPopup.getActive()) {
-    p2WinPopup.setX(camera.middle);
-    p2WinPopup.setY(camera.cameraRect.y);
-    p2WinPopup.update();
-  }
-  if (p1CounterHit.getActive()) {
-    p1CounterHit.setX(camera.lowerBound);
-    p1CounterHit.setY(camera.cameraRect.y);
-    p1CounterHit.update();
-  }
-  if (p2CounterHit.getActive()) {
-    p2CounterHit.setX(camera.upperBound - 350);
-    p2CounterHit.setY(camera.cameraRect.y);
-    p2CounterHit.update();
-  }
-
-  // TODO: Container of base class pointer to all this shit
-  for (auto &i : player1->visualEffects) {
-    i.second.update();
-  }
-  for (auto &i : player2->visualEffects) {
-    i.second.update();
-  }
-  for (auto &i : player1->guardSparks) {
-    i.second.update();
-  }
-  for (auto &i : player2->guardSparks) {
-    i.second.update();
-  }
-  for (auto &i : player1->hitSparks) {
-    i.second.update();
-  }
-  for (auto &i : player2->hitSparks) {
-    i.second.update();
-  }
-
-  for (auto &e : player1->entityList) {
-    for (auto &i : e.visualEffects) {
-      i.second.update();
-    }
-    for (auto &i : e.hitSparks) {
-      i.second.update();
+  if (screenFreeze) {
+    if (screenFreezeCounter++ == screenFreezeLength) {
+      screenFreezeCounter = 0;
+      screenFreezeLength = 0;
+      screenFreeze = false;
     }
   }
-  for (auto &e : player2->entityList) {
-    for (auto &i : e.visualEffects) {
-      i.second.update();
-    }
-    for (auto &i : e.hitSparks) {
-      i.second.update();
-    }
-  }
+  updateVisuals();
 }
 
 void FightState::draw() {
@@ -379,14 +271,15 @@ void FightState::draw() {
   } else {
     currentScreen.recordStatus = RECORDING_NONE;
   }
+  if (screenFreeze) {
+    currentScreen.showGradient = true;
+  } else {
+    currentScreen.showGradient = false;
+  }
   currentScreen.draw();
   screenDrawEnd = SDL_GetTicks();
   // TODO: move renderHP into currentScreen
   barDrawStart = SDL_GetTicks();
-  renderHealthBars();
-  barDrawEnd = SDL_GetTicks();
-  renderComboCount();
-  renderInputHistory();
   currentScreen.renderWins(p1RoundsWon, p2RoundsWon);
   if (p1CounterHit.getActive()) {
     p1CounterHit.draw();
@@ -571,6 +464,10 @@ void FightState::draw() {
     p2WinPopup.draw();
   }
 
+  renderHealthBars();
+  barDrawEnd = SDL_GetTicks();
+  renderComboCount();
+  renderInputHistory();
   for (auto& i : player1->soundsEffects) {
     SoundObj& soundEffect = i.second;
     if (soundEffect.active) {
@@ -625,11 +522,173 @@ void FightState::draw() {
   }
 }
 
+void FightState::updateCamera(){
+  int highest = player1->_getYPos() > player2->_getYPos() ? player1->_getYPos() : player2->_getYPos();
+  camera.update(player1->getPos().first, player2->getPos().first);
+  if(highest > (graphics->getWindowHeight()/2)){
+    camera.cameraRect.y = highest - (graphics->getWindowHeight() / 2);
+  } else {
+    camera.cameraRect.y = 0;
+  }
+}
+
+void FightState::updateVisuals(){
+  if (matchIntroPopup.getActive()) {
+    matchIntroPopup.update();
+  }
+  if (round1.getActive()) {
+    round1.update();
+  }
+  if (round2Popup.getActive()) {
+    round2Popup.update();
+  }
+  if (finalRoundPopup.getActive()) {
+    finalRoundPopup.update();
+  }
+  if (fightPopup.getActive()) {
+    fightPopup.update();
+  }
+  if (knockoutPopup.getActive()) {
+    knockoutPopup.setX(camera.middle);
+    knockoutPopup.setY(camera.cameraRect.y);
+    knockoutPopup.update();
+  }
+  if (p1WinPopup.getActive()) {
+    p1WinPopup.setX(camera.middle);
+    p1WinPopup.setY(camera.cameraRect.y);
+    p1WinPopup.update();
+  }
+  if (p2WinPopup.getActive()) {
+    p2WinPopup.setX(camera.middle);
+    p2WinPopup.setY(camera.cameraRect.y);
+    p2WinPopup.update();
+  }
+  if (p1CounterHit.getActive()) {
+    p1CounterHit.setX(camera.lowerBound);
+    p1CounterHit.setY(camera.cameraRect.y);
+    p1CounterHit.update();
+  }
+  if (p2CounterHit.getActive()) {
+    p2CounterHit.setX(camera.upperBound - 350);
+    p2CounterHit.setY(camera.cameraRect.y);
+    p2CounterHit.update();
+  }
+
+  // TODO: Container of base class pointer to all this shit
+  for (auto &i : player1->visualEffects) {
+    i.second.update();
+  }
+  for (auto &i : player2->visualEffects) {
+    i.second.update();
+  }
+  for (auto &i : player1->guardSparks) {
+    i.second.update();
+  }
+  for (auto &i : player2->guardSparks) {
+    i.second.update();
+  }
+  for (auto &i : player1->hitSparks) {
+    i.second.update();
+  }
+  for (auto &i : player2->hitSparks) {
+    i.second.update();
+  }
+
+  for (auto &e : player1->entityList) {
+    for (auto &i : e.visualEffects) {
+      i.second.update();
+    }
+    for (auto &i : e.hitSparks) {
+      i.second.update();
+    }
+  }
+  for (auto &e : player2->entityList) {
+    for (auto &i : e.visualEffects) {
+      i.second.update();
+    }
+    for (auto &i : e.hitSparks) {
+      i.second.update();
+    }
+  }
+}
+
 void FightState::checkCorner(Character* player){
   if(player->getPos().first - player->width <= 0 || player->getPos().first + player->width >= 3840){
     player->inCorner = true;
   } else {
     player->inCorner = false;
+  }
+}
+
+void FightState::handleRoundStart(){
+  if (roundStartCounter > 0) {
+    // printf("roundStarTCounter!:%d\n", roundStartCounter);
+    if (--roundStartCounter == 0) {
+      player1->control = 1;
+      player2->control = 1;
+      roundStart = false;
+    }
+    if (roundStartCounter == 200) {
+      matchIntroPopup.setStateTime(0);
+      matchIntroPopup.setActive(true);
+      Mix_PlayChannel(0, yawl_ready, 0);
+    }
+    if (roundStartCounter == 130) {
+      switch (currentRound) {
+        case 0:
+          round1.setStateTime(0);
+          round1.setActive(true);
+          Mix_PlayChannel(0, round1Sound, 0);
+        break;
+        case 1:
+          round2Popup.setStateTime(0);
+          round2Popup.setActive(true);
+          Mix_PlayChannel(0, round2Sound, 0);
+        break;
+        case 2:
+          finalRoundPopup.setStateTime(0);
+          finalRoundPopup.setActive(true);
+          Mix_PlayChannel(0, finalRoundSound, 0);
+        break;
+        default:
+        break;
+      }
+    }
+
+    if (roundStartCounter == 60) {
+      fightPopup.setStateTime(0);
+      fightPopup.setActive(true);
+      Mix_PlayChannel(0, fightSound, 0);
+    }
+  }
+}
+
+void FightState::checkThrowTechs(){
+  if (player1->currentState->checkFlag(TECHABLE)) {
+    if (player1->_checkCommand(5)) {
+      int techState = player1->currentState->techState;
+      player1->changeState(techState);
+      player2->changeState(techState);
+
+      player1->inHitStop = true;
+      player2->inHitStop = true;
+      player1->hitStop = 20;
+      player2->hitStop = 20;
+      Mix_PlayChannel(0, throwtech, 0);
+    }
+  }
+  if (player2->currentState->checkFlag(TECHABLE)) {
+    if (player2->_checkCommand(5)) {
+      int techState = player2->currentState->techState;
+      player1->changeState(techState);
+      player2->changeState(techState);
+
+      player1->inHitStop = true;
+      player2->inHitStop = true;
+      player1->hitStop = 20;
+      player2->hitStop = 20;
+      Mix_PlayChannel(0, throwtech, 0);
+    }
   }
 }
 
@@ -718,20 +777,29 @@ void FightState::checkThrowCollisions(){
   if(p1ThrowState.thrown && p2ThrowState.thrown) {
     int p1ThrowType = p1ThrowState.throwCb->throwType;
     int p2ThrowType = p2ThrowState.throwCb->throwType;
-    
-    player1->velocityX = 0;
-    player1->velocityY = 0;
-    player2->velocityX = 0;
-    player2->velocityY = 0;
-
     if(p1ThrowType == 2 && p2ThrowType == 2){
+      player1->control = 0;
+      player2->control = 0;
       // grounded throw tech
       player1->changeState(55);
       player2->changeState(55);
+
+      player1->inHitStop = true;
+      player2->inHitStop = true;
+      player1->hitStop = 20;
+      player2->hitStop = 20;
+      Mix_PlayChannel(0, throwtech, 0);
     } else if(p1ThrowType == 1 && p2ThrowType == 1){
       // air throw tech
+      player1->control = 0;
+      player2->control = 0;
       player1->changeState(62);
       player2->changeState(62);
+      player1->inHitStop = true;
+      player2->inHitStop = true;
+      player1->hitStop = 20;
+      player2->hitStop = 20;
+      Mix_PlayChannel(0, throwtech, 0);
     }
   } else if (p1ThrowState.thrown) {
     player1->velocityX = 0;
@@ -845,7 +913,9 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
               hitter->_addMeter(hitBox->hitMeterGain);
 
               int hurterCurrentState = hurter->currentState->stateNum;
-              bool blocking = (hurterCurrentState == 28 || hurterCurrentState == 29 || hurterCurrentState == 50);
+              bool blocking = (hurterCurrentState == 28 || hurterCurrentState == 29 || hurterCurrentState == 50 || hurterCurrentState == 73 
+                  || hurterCurrentState == 74
+                  || hurterCurrentState == 79 );
               // printf("control? %d, blocking? %d, stateNum:%d\n", hurter->control, blocking, hurterCurrentState);
               int blocktype = hitBox->blockType;
               if((blocking && blocktype == 1) || (blocking && checkBlock(blocktype, hurter)) || (hurter->control && checkBlock(blocktype, hurter))){
@@ -860,22 +930,62 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 } else {
                   hurter->blockstun = hitBox->blockstun;
                 }
+                if (hurter->currentState->stateNum == 73 || hurter->currentState->stateNum == 74 ||  hurterCurrentState == 79) {
+                  hurter->isGreen = true;
+                  hurter->blockstun = hitBox->blockstun + 4;
+                }
                 hurter->control = 0;
+                bool holdingButtons = hurter->_getInput(11) && hurter->_getInput(12);
+                bool downBack = hurter->_getInput(1);
+                bool backOrUpback = (hurter->_getInput(4) || hurter->_getInput(7)) && !downBack;
+                bool anyBack = (hurter->_getInput(1) || hurter->_getInput(4) || hurter->_getInput(7));
+
+                bool crouchPB = holdingButtons && downBack;
+                bool standPB = holdingButtons && backOrUpback;
                 if (hurter->_getYPos() > 0) {
-                  hurter->changeState(50);
+                  if(anyBack && holdingButtons) {
+                    Mix_PlayChannel(0, pushBlock, 0);
+                    hurter->changeState(79);
+                    hurter->_subtractMeter(20);
+                  } else {
+                    hurter->changeState(50);
+                  }
                 } else {
                   switch (hitBox->blockType) {
                     case 1:
                       if (hurter->_getInput(1)) {
-                        hurter->changeState(29);
+                        if (crouchPB) {
+                          Mix_PlayChannel(0, pushBlock, 0);
+                          hurter->changeState(74);
+                          hurter->_subtractMeter(20);
+                        } else {
+                          hurter->changeState(29);
+                        }
                       } else {
-                        hurter->changeState(28);
+                        if (standPB) {
+                          hurter->_subtractMeter(20);
+                          Mix_PlayChannel(0, pushBlock, 0);
+                          hurter->changeState(73);
+                        } else {
+                          hurter->changeState(28);
+                        }
                       }
                       break;
                     case 2:
-                      hurter->changeState(29);
+                      if (crouchPB) {
+                        Mix_PlayChannel(0, pushBlock, 0);
+                        hurter->_subtractMeter(20);
+                        hurter->changeState(74);
+                      } else {
+                        hurter->changeState(29);
+                      }
                       break;
                     case 3:
+                      if (standPB) {
+                        Mix_PlayChannel(0, pushBlock, 0);
+                        hurter->_subtractMeter(20);
+                        hurter->changeState(73);
+                      }
                       hurter->changeState(28);
                       break;
                     // should throw error here
@@ -888,16 +998,26 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                   if (hitter->faceRight) {
                     hitter->pushBackVelocity = hitBox->pushback;
                   } else {
-                    hitter->pushBackVelocity = -(hitBox->pushback/2);
+                    hitter->pushBackVelocity = -(hitBox->pushback);
                   }
                 } else {
                   hurter->pushTime = hitBox->pushTime;
+                  int realPushback;
                   if (hitter->faceRight) {
-                    hurter->pushBackVelocity = -hitBox->pushback;
+                    realPushback = -hitBox->pushback;
+                    if (hurter->currentState->stateNum == 73 || hurter->currentState->stateNum == 74) {
+                      realPushback -= 10;
+                    }
+                    hurter->pushBackVelocity = realPushback;
                   } else {
-                    hurter->pushBackVelocity = hitBox->pushback;
+                    realPushback = hitBox->pushback;
+                    if (hurter->currentState->stateNum == 73 || hurter->currentState->stateNum == 74) {
+                    realPushback += 10;
+                    }
+                    hurter->pushBackVelocity = realPushback;
                   }
                 }
+
                 int xEdge = hurter->faceRight ? hitsparkIntersect.x + hitsparkIntersect.w : hitsparkIntersect.x;
                 int visualID = hitBox->guardsparkID;
                 // printf("the visID %d\n", visualID);
@@ -952,9 +1072,33 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 hitter->soundsEffects.at(hitBox->hitSoundID).channel = hitter->soundChannel + 2;
 
                 int hurterCurrentState = hurter->currentState->stateNum;
-                if(hitBox->hitType == LAUNCHER || hurter->_getYPos() > 0 
+                if (hitBox->hitType == GROUND_BOUNCE){
+                   if (hitBox->airHitstun > 0) {
+                    hurter->hitstun = hitBox->airHitstun;
+                  }
+                  if (hitBox->airHitVelocityX > 0) {
+                    if (hurter->inCorner) {
+                      hitter->pushTime = hitBox->hitPushTime;
+                      if (hitter->faceRight) {
+                        hitter->pushBackVelocity = hitBox->airHitVelocityX/2;
+                      } else {
+                        hitter->pushBackVelocity = -(hitBox->airHitVelocityX/2);
+                      }
+                    } else {
+                      printf("the airHitPushTime! :%d\n", hitBox->airHitPushTime);
+                      hurter->hitPushTime = hitBox->airHitPushTime > 0 ? hitBox->airHitPushTime : hitBox->hitPushTime;
+                      if (hitter->faceRight) {
+                        hurter->hitPushVelX = -hitBox->airHitVelocityX;
+                      } else {
+                        hurter->hitPushVelX = hitBox->airHitVelocityX;
+                      }
+                    }
+                  }
+                  hurter->velocityY = hitBox->hitVelocityY;
+                 return {true, wasACounter, 77, NULL};
+                } else if(hitBox->hitType == LAUNCHER || hurter->_getYPos() > 0 
                     || hurterCurrentState  == 24 || hurterCurrentState == 35 
-                    || hurterCurrentState == 52 || hurterCurrentState == 53){
+                    || hurterCurrentState == 52 || hurterCurrentState == 53 || hurterCurrentState == 77 || hurterCurrentState == 78){
                   if (hitBox->airHitstun > 0) {
                     hurter->hitstun = hitBox->airHitstun;
                   }
@@ -1286,6 +1430,23 @@ void FightState::checkBounds(){
     player1->updateCollisionBoxPositions();
   }
 
+  for (auto& entity : player1->entityList) {
+    if (entity.active && entity.isFireball) {
+      int entityX = entity.getPos().first;
+      int entityW = entity.width;
+      printf("the entityX:%d and width:%d \n", entityX, entityW);
+      bool lowerBound = (entityX) < 0;
+      bool lowerCamBound = (entityX) < camera.lowerBound;
+      bool upperBound = (entityX) > 3840;
+      bool upperCamBound = (entityX) > camera.upperBound;
+
+      if (lowerBound || lowerCamBound || upperBound || upperCamBound) {
+        printf("deactitvating entity %d due to bounds\n", entity.entityID);
+        entity.deactivateEntity();
+      }
+    }
+  }
+
   if(player2->getPos().first - player2->width < 0) {
     player2->setXPos(0 + player2->width);
     player2->updateCollisionBoxPositions();
@@ -1303,31 +1464,45 @@ void FightState::checkBounds(){
     player2->setXPos(camera.upperBound - player2->width);
     player2->updateCollisionBoxPositions();
   }
+  for (auto& entity : player2->entityList) {
+    if (entity.active && entity.isFireball) {
+      int entityX = entity.getPos().first;
+      int entityW = entity.width;
+      bool lowerBound = (entityX) < 0;
+      bool lowerCamBound = (entityX) < camera.lowerBound;
+      bool upperBound = (entityX) > 3840;
+      bool upperCamBound = (entityX) > camera.upperBound;
+
+      if (lowerBound || lowerCamBound || upperBound || upperCamBound) {
+        entity.deactivateEntity();
+      }
+    }
+  }
 }
 
 void FightState::checkHealth(){
   // TODO: if training mode
   // TODO: refactor jesus why are you like this
-  if (player2->currentState->stateNum == 1 && player2->currentState->stateTime == 20) {
-    player2->health = 100;
-    player2->redHealth = 100;
-    player2->redHealthCounter = 0;
+  // if (player2->currentState->stateNum == 1 && player2->currentState->stateTime == 20) {
+  //   player2->health = 100;
+  //   player2->redHealth = 100;
+  //   player2->redHealthCounter = 0;
 
-    player2->meter = player2->maxMeter;
-  }
-  if (player1->currentState->stateNum == 1 && player1->currentState->stateTime == 20) {
-    player1->health = 100;
-    player1->redHealth = 100;
-    player1->redHealthCounter = 0;
+  //   player2->meter = player2->maxMeter;
+  // }
+  // if (player1->currentState->stateNum == 1 && player1->currentState->stateTime == 20) {
+  //   player1->health = 100;
+  //   player1->redHealth = 100;
+  //   player1->redHealthCounter = 0;
 
-    player1->meter = player1->maxMeter;
-  }
+  //   player1->meter = player1->maxMeter;
+  // }
 
-  if (player1->tension > player1->maxTension) {
-    player1->tension = player1->maxTension;
+  if (player1->comeback > player1->maxComeback) {
+    player1->comeback = player1->maxComeback;
   }
-  if (player2->tension > player2->maxTension) {
-    player2->tension = player2->maxTension;
+  if (player2->comeback > player2->maxComeback) {
+    player2->comeback = player2->maxComeback;
   }
 
   if (player1->meter >= player1->maxMeter) {
@@ -1342,6 +1517,13 @@ void FightState::checkHealth(){
   if (player2->meter < 0 ) {
     player2->meter = 0;
   }
+  if (player1->comeback < 0 ) {
+    player1->comeback = 0;
+  }
+  if (player2->comeback < 0 ) {
+    player2->comeback = 0;
+  }
+
   if ((player1->health <= 0 || player2->health <= 0) && (!player1->isDead && !player2->isDead)) {
     knockoutPopup.setX(camera.middle);
     knockoutPopup.setY(camera.cameraRect.y);
@@ -1490,8 +1672,12 @@ void FightState::renderHealthBars(){
   float p1MeterPercent = (float)p1Meter / (float)player1->maxMeter;
   int p2Meter = player2->meter;
   float p2MeterPercent = (float)p2Meter / (float)player2->maxMeter;
-  currentScreen.renderMeterBar(p1MeterPercent, true);
-  currentScreen.renderMeterBar(p2MeterPercent, false);
+
+  float p1ComebackPercent = (float)player1->comeback / (float)player1->maxComeback;
+  float p2ComebackPercent = (float)player2->comeback/ (float)player2->maxComeback;
+
+  currentScreen.renderMeterBar(p1MeterPercent, p1ComebackPercent, true);
+  currentScreen.renderMeterBar(p2MeterPercent, p2ComebackPercent, false);
 }
 
 void FightState::renderComboCount(){

@@ -7,8 +7,9 @@
     $set_counter 0;
   }
   var limit_break = $check_command 10;
-  var meter = $get_meter;
+  var meter = $get_meter 1;
   if (limit_break and (meter > 500)) {
+    $subtract_meter 500;
     $cancel_state 70;
   }
 }

@@ -3,10 +3,6 @@
   var stateTime = $get_state_time;
   var inCancelWindow = (stateTime >= 11) and (stateTime <= 23);
   var cancel = $check_command 10;
-  var meter = $get_meter;
-  if (cancel and (meter > 500)) {
-    $cancel_state 70;
-  }
   if(canHitCancel and (stateTime > 23)) {
     $set_hit_cancel 0;
   }
@@ -21,7 +17,8 @@
     var qcf_k = $check_command 2;
     var qcb_p = $check_command 3;
     var slash = $was_pressed 12;
-    var dust = $was_pressed 13;
+
+    var lb = $check_command 10;
 
     var up = $get_input 8;
     var upforward = $get_input 9;
@@ -32,6 +29,18 @@
     var downforward = $get_input 3;
     var anyDown = (down or downback or downforward);
 
+    var limit_break = $check_command 10;
+    var meter = $get_meter 1;
+    if (limit_break and (meter > 500)) {
+      $subtract_meter 500;
+      $cancel_state 70;
+    }
+
+
+    if (lb and (meter >= 500)) {
+      $subtract_meter 500;
+      $cancel_state 70;
+    }
     if(qcf_k){
       $cancel_state 14;
     }
@@ -40,16 +49,13 @@
       $cancel_state 30;
     }
 
-    if(dust){
-      if (anyDown) {
-        $cancel_state 23;
-      } else {
-      }
-    }
-
     if(slash){
-      if (anyDown) {
-        $cancel_state 40;
+      if(anyDown){
+        if (downforward) {
+          $cancel_state 23; 
+        } else {
+          $cancel_state 40; 
+        }
       } else {
         $cancel_state 20;
       }

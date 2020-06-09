@@ -16,8 +16,8 @@ enum HitType {
   NULL_HIT_TYPE,
   NORMAL,
   LAUNCHER,
-  WALL_BOUNCE,
-  GROUND_BOUNCE
+  GROUND_BOUNCE,
+  WALL_BOUNCE
 };
 
 class CollisionBox {

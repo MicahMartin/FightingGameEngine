@@ -78,6 +78,7 @@ void InputManager::update() {
   while(SDL_PollEvent(&event) != 0){
 
     if (!keySelectionMode) {
+      printf("got an event %d\n", event.type);
       switch (event.type) {
         case SDL_KEYDOWN: {
           if(event.key.repeat == 0){
@@ -170,6 +171,7 @@ void InputManager::update() {
 
         case SDL_JOYBUTTONDOWN: {
           SDL_JoyHatEvent* jhatEvent = &event.jhat;
+          printf("joy button down %d\n", &event.jbutton.button);
           SDL_Joystick* stick = SDL_JoystickFromInstanceID(jhatEvent->which);
           VirtualController* controller = stickToVC[stick];
           if (!controller->playbackMode) {

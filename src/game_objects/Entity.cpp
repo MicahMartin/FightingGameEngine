@@ -65,6 +65,9 @@ void Entity::loadStates(){
   if (stateJson.count("spawnOffsetX")) {
     spawnOffsetX = stateJson.at("spawnOffsetX");
   }
+  if (stateJson.count("isFireball")) {
+    isFireball = stateJson.at("isFireball");
+  }
   if (stateJson.count("spawnOffsetY")) {
     spawnOffsetY = stateJson.at("spawnOffsetX");
   }
@@ -519,6 +522,10 @@ int Entity::_getMeter(){
   return 0;
 }
 
+int Entity::_getComebackMeter(){
+  return 0;
+}
+
 void Entity::_addMeter(int i){
 }
 
@@ -533,3 +540,16 @@ int Entity::_checkCommand(int commandIndex){
   return virtualController->checkCommand(commandIndex, inputFaceRight);
 }
 
+void Entity::_setBlockstun(int input){
+  blockstun = input;
+};
+
+void Entity::_setInstall(int input){
+};
+
+int Entity::_getEntityStatus(int entityID){
+  return 0;
+};
+int Entity::_getInstall(){
+  return 0;
+};

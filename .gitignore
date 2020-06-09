@@ -8,6 +8,9 @@ compile_commands.json
 **/data/**/*.png*
 **/data/**/*.jpg*
 **/data/**/*.bmp*
+data/audio/*
 
 **/data/**/*.mp3*
+**/data/**/*.mp4*
 **/data/**/*.wav*
+holy_grail*/
