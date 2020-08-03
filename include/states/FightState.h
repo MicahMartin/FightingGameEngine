@@ -8,17 +8,9 @@
 #include "screens/FightScreen.h"
 #include "character_state/CharStateManager.h"
 #include "graphics/Camera.h"
-
-struct FightStateValues {
-  // global values
-  int stateTime;
-  // playerValues
-  int healthValues[2];
-  int charStateNum[2];
-  int charXPosition[2];
-  int charYPosition[2];
-  int charComboCount[2];
-};
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/serialization/map.hpp>
 
 struct ThrowResult {
   bool thrown;
@@ -45,8 +37,29 @@ struct FightStateObj {
   bool inSlowDown;
   bool roundEnd;
   bool screenFreeze;
+
+  CameraStateObj cameraState;
   CharStateObj char1State;
   CharStateObj char2State;
+  // boost serialize
+  private:
+      friend class boost::serialization::access;
+      template <typename Archive> void serialize(Archive &ar, const unsigned int version) {
+        ar & roundStartCounter;
+        ar & p1RoundsWon;
+        ar & p2RoundsWon;
+        ar & currentRound;
+        ar & slowDownCounter;
+        ar & roundWinner;
+        ar & screenFreezeCounter;
+        ar & screenFreezeLength;
+        ar & roundStart;
+        ar & inSlowDown;
+        ar & roundEnd;
+        ar & screenFreeze;
+        // ar & char1State;
+        // ar & char2State;
+      }
 };
 
 class FightState : public GameState {
@@ -65,8 +78,8 @@ public:
   void pause();
   void resume();
 
-  FightStateObj saveState();
-  void loadState(FightStateObj stateObj);
+  void saveState(unsigned char** buffer, int* length, int frame);
+  void loadState(unsigned char* buffer, int length);
 
   void checkPushCollisions();
   void checkThrowCollisions();
@@ -127,7 +140,10 @@ public:
   Mix_Chunk* koSound = NULL;
   Mix_Chunk* p1WinSound = NULL;
   Mix_Chunk* p2WinSound = NULL;
-  FightStateObj mostRecentState;
+  unsigned char* mostRecentState;
+
+  unsigned char* buffer;
+  int bufferLen;
 
 private:
   Character* player1;

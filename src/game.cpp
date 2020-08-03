@@ -5,10 +5,39 @@
 #include "game.h"
 #include "ggponet.h"
 
+bool beginGame(const char* game){
+  return false;
+}
+
+bool advanceFrame(int flags){
+  return false;
+}
+
+bool loadGameState(unsigned char* buffer, int length){
+  return false;
+}
+
+bool saveGameState(unsigned char** buffer, int* len, int* checksum, int frame){
+  return false;
+}
+
+void freeBuffer(void* buffer){ }
+
+bool onEvent(GGPOEvent* info){ 
+  return false;
+}
+
 Game::Game(){
-  extern GGPOSession ggpo;
+  extern GGPOSession* ggpo;
   GGPOErrorCode result;
   GGPOSessionCallbacks cb;
+  cb.begin_game = &beginGame;
+  cb.advance_frame = &advanceFrame;
+  cb.load_game_state = &loadGameState;
+  cb.save_game_state = &saveGameState;
+  cb.free_buffer = &freeBuffer;
+  cb.on_event = &onEvent;
+
   // init Graphics
   if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_JOYSTICK|SDL_INIT_AUDIO) != 0 ){
     throw( std::runtime_error(SDL_GetError()) );
@@ -122,14 +151,18 @@ void Game::onNotify(const char* eventName) {
   } else if (std::strcmp(eventName, "SAVE_STATE") == 0){
     GameState* currentState = stateManager->getState();
     if(std::strcmp(currentState->stateName, "FIGHT_STATE") == 0){
-      FightState* fightStatePointer = (FightState*)currentState;
-      fightStatePointer->mostRecentState = fightStatePointer->saveState();
+      FightState* statePointer = (FightState*)currentState;
+      statePointer->saveState(&statePointer->buffer, &statePointer->bufferLen, statePointer->gameTime);
     }
   } else if (std::strcmp(eventName, "LOAD_STATE") == 0){
     GameState* currentState = stateManager->getState();
     if(std::strcmp(currentState->stateName, "FIGHT_STATE") == 0){
-      FightState* fightStatePointer = (FightState*)currentState;
-      fightStatePointer->loadState(fightStatePointer->mostRecentState);
+      FightState* statePointer = (FightState*)currentState;
+      statePointer->loadState(statePointer->buffer, statePointer->bufferLen);
     }
   }
 }
+
+bool Game::beginGameCallback(const char* game){
+  printf("ggpo begin game\n");
+};

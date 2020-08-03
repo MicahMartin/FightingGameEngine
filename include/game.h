@@ -17,6 +17,9 @@ public:
 
   // observer
   void onNotify(const char* message);
+  
+  // ggpo callbacks
+  bool beginGameCallback(const char* game);
 
   double inputLength;
   double handleInputLength;
@@ -24,7 +27,7 @@ public:
   double drawLength;
   double clearLength;
   double stateDrawLength;
-  long gameTime = 0;
+  int gameTime = 0;
   bool running = true;
   bool inFightState = false;
 private:

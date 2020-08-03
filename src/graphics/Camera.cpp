@@ -7,6 +7,25 @@ Camera::Camera(){
   printf("camera itialized %d %d\n", cameraRect.w, cameraRect.h);
 }
 
+CameraStateObj Camera::saveState(){
+  CameraStateObj stateObj;
+  stateObj.camRect = cameraRect;
+  stateObj.lowerBound = lowerBound;
+  stateObj.upperBound = upperBound;
+  stateObj.middle = middle;
+  stateObj.yPos = yPos;
+
+  return stateObj;
+}
+
+void Camera::loadState(CameraStateObj stateObj){
+  cameraRect = stateObj.camRect;
+  lowerBound = stateObj.lowerBound;
+  upperBound = stateObj.upperBound;
+  middle = stateObj.middle;
+  yPos = stateObj.yPos;
+}
+
 Camera::~Camera(){}
 
 void Camera::update(int p1Xpos, int p2Xpos){

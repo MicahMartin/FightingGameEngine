@@ -18,7 +18,7 @@ public:
   virtual void handleInput() = 0;
   virtual void update() = 0;
   virtual void draw() = 0;
-  long gameTime = 0;
+  int gameTime = 0;
   bool paused = false;
   bool slowMode = false;
   int slowModeCounter = 0;

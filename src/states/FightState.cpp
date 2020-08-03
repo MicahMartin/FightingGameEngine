@@ -113,9 +113,10 @@ void FightState::exit(){
 void FightState::pause(){ }
 void FightState::resume(){ }
 
-FightStateObj FightState::saveState(){
+void FightState::saveState(unsigned char** buffer, int* length, int frame){
   double saveStateLength = 0;
   double saveStateStart = SDL_GetTicks();
+
   FightStateObj saveObj;
   saveObj.currentRound = currentRound;
   saveObj.inSlowDown = inSlowDown;
@@ -131,15 +132,22 @@ FightStateObj FightState::saveState(){
   saveObj.slowDownCounter = slowDownCounter;
   saveObj.char1State = player1->saveState();
   saveObj.char2State = player2->saveState();
+  saveObj.cameraState = camera.saveState();
+
+  *length = sizeof(saveObj);
+  printf("allocating %d bytes\n", *length);
+  *buffer = (unsigned char*) malloc(*length);
+  memcpy(*buffer, &saveObj, *length);
+
   double saveStateEnd = SDL_GetTicks();
   saveStateLength = saveStateEnd - saveStateStart;
-
   printf("took %f to save state\n", saveStateLength);
-  return saveObj;
 }
 
-void FightState::loadState(FightStateObj saveObj){
-  currentRound = saveObj.currentRound;
+void FightState::loadState(unsigned char* buffer, int length){
+  FightStateObj saveObj;
+  memcpy(&saveObj, buffer, length);
+  printf("ok?\n");
   inSlowDown = saveObj.inSlowDown;
   p1RoundsWon = saveObj.p1RoundsWon;
   p2RoundsWon = saveObj.p2RoundsWon;
@@ -153,6 +161,7 @@ void FightState::loadState(FightStateObj saveObj){
   slowDownCounter = saveObj.slowDownCounter;
   player1->loadState(saveObj.char1State);
   player2->loadState(saveObj.char2State);
+  camera.loadState(saveObj.cameraState);
 }
 
 

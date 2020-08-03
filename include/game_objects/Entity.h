@@ -24,6 +24,8 @@ struct EntityStateObj {
   int health = 1;
   int velocityX = 0;
   int velocityY = 0;
+  int positionX;
+  int positionY;
   long frameLastAttackConnected = 0;
   bool inCorner = false;
   bool active = false;
@@ -33,9 +35,9 @@ struct EntityStateObj {
   bool inputFaceRight = false;
   bool isDead = false;
   bool updateFacing = false;
+
   StateDef* currentState;
   StateDefObj currentStateObj;
-  std::pair<int, int> position;
 };
 
 class Character;

@@ -31,7 +31,8 @@ void Character::init(){
 CharStateObj Character::saveState(){
   CharStateObj stateObj;
 
-  stateObj.position = position;
+  stateObj.positionX = position.first;
+  stateObj.positionY = position.second;
   stateObj.control = control;
   stateObj.hitstun = hitstun;
   stateObj.blockstun = blockstun;
@@ -77,12 +78,13 @@ CharStateObj Character::saveState(){
   for (int i = 0; i < entityList.size(); ++i) {
     stateObj.entityStates[i] = entityList[i].saveState();
   }
-
+  
   return stateObj;
 }
 
 void Character::loadState(CharStateObj stateObj){
-  position = stateObj.position;
+  position.first = stateObj.positionX;
+  position.second = stateObj.positionY;
   control = stateObj.control;
   hitstun = stateObj.hitstun;
   blockstun = stateObj.blockstun;

@@ -28,6 +28,8 @@ struct SoundObj {
   int channel = -1;
 };
 
+const int HITBOX_GROUP_MAX = 8;
+const int COLLISION_BOX_MAX = 16;
 
 struct StateDefObj {
   int stateTime;
@@ -38,8 +40,11 @@ struct StateDefObj {
   bool canWhiffCancel;
   bool canHitCancel;
   bool counterHitFlag;
-  std::unordered_map<int, bool> hitboxGroupDisabled;
-  std::unordered_map<CollisionBox*, CollisionBoxState> collisionBoxStates;
+  bool hitboxGroupDisabled[HITBOX_GROUP_MAX];
+  CollisionBoxState collisionBoxStates[COLLISION_BOX_MAX];
+
+  // std::unordered_map<int, bool> hitboxGroupDisabled;
+  // std::unordered_map<CollisionBox*, CollisionBoxState> collisionBoxStates;
 };
 
 class GameObject;

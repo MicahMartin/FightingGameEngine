@@ -366,13 +366,15 @@ EntityStateObj Entity::saveState(){
   stateObj.updateFacing = updateFacing;
   stateObj.currentState = currentState;
   stateObj.currentStateObj = currentState->saveState();
-  stateObj.position = position;
+  stateObj.positionX = position.first;
+  stateObj.positionY = position.second;
 
   return stateObj;
 }
 
 void Entity::loadState(EntityStateObj stateObj){
-  position = stateObj.position;
+  position.first = stateObj.positionX;
+  position.second = stateObj.positionY;
   control = stateObj.control;
   hitstun =  stateObj.hitstun;
   blockstun = stateObj.blockstun;

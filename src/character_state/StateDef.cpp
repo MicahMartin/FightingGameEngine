@@ -109,10 +109,10 @@ StateDef::~StateDef() {
 
 StateDefObj StateDef::saveState(){
   StateDefObj stateObj;
-  std::unordered_map<CollisionBox*, CollisionBoxState> cbStates;
-  for (auto i : collisionBoxes) {
-    cbStates[i] = i->saveState();
-  }
+  // std::unordered_map<CollisionBox*, CollisionBoxState> cbStates;
+  // for (auto i : collisionBoxes) {
+  //   cbStates[i] = i->saveState();
+  // }
 
   stateObj.stateTime = stateTime;
   stateObj.animTime = animTime;
@@ -122,8 +122,13 @@ StateDefObj StateDef::saveState(){
   stateObj.canWhiffCancel = canWhiffCancel;
   stateObj.canHitCancel = canHitCancel;
   stateObj.counterHitFlag = counterHitFlag;
-  stateObj.hitboxGroupDisabled = hitboxGroupDisabled;
-  stateObj.collisionBoxStates = cbStates;
+  for (int i = 0; i < hitboxGroupDisabled.size(); ++i) {
+    stateObj.hitboxGroupDisabled[i] = hitboxGroupDisabled[i];
+  }
+  for (int i = 0; i < collisionBoxes.size(); ++i) {
+    stateObj.collisionBoxStates[i] = collisionBoxes[i]->saveState();
+  }
+  // stateObj.collisionBoxStates = cbStates;
  
   return stateObj;
 }
@@ -137,9 +142,11 @@ void StateDef::loadState(StateDefObj stateObj){
   canWhiffCancel = stateObj.canWhiffCancel;
   canHitCancel = stateObj.canHitCancel;
   counterHitFlag = stateObj.counterHitFlag;
-  hitboxGroupDisabled = stateObj.hitboxGroupDisabled;
-  for (auto &i : stateObj.collisionBoxStates) {
-    i.first->loadState(i.second);
+  for (int i = 0; i < hitboxGroupDisabled.size(); ++i) {
+    hitboxGroupDisabled[i] = stateObj.hitboxGroupDisabled[i];
+  }
+  for (int i = 0; i < collisionBoxes.size(); ++i) {
+    collisionBoxes[i]->loadState(stateObj.collisionBoxStates[i]);
   }
 }
 

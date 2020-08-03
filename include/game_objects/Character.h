@@ -13,7 +13,6 @@
 
 #include "game_objects/Entity.h"
 struct CharStateObj {
-  std::pair<int, int> position;
   int control;
   int hitstun;
   int blockstun;
@@ -38,6 +37,12 @@ struct CharStateObj {
   int hitPushVelY;
   int meter;
   int comeback;
+  int currentHurtSoundID;
+  int soundChannel;
+  int flashCounter;
+  int auraID;
+  int positionX;
+  int positionY;
   long frameLastAttackConnected;
   bool inCorner;
   bool inHitStop;
@@ -45,18 +50,16 @@ struct CharStateObj {
   bool isDead;
   bool faceRight;
   bool inputFaceRight;
-  int currentHurtSoundID;
-  int soundChannel;
-  int flashCounter;
   bool isRed;
   bool isGreen;
   bool isLight;
   bool installMode;
   bool auraActive;
-  int auraID;
+
   StateDef* currentState;
   StateDefObj stateDefObj;
-  std::unordered_map<int, EntityStateObj> entityStates;
+  EntityStateObj entityStates[3];
+  // std::unordered_map<int, EntityStateObj> entityStates;
 };
 
 class Character : public GameObject {
