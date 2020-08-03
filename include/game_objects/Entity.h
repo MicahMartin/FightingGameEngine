@@ -10,6 +10,34 @@
 #include "graphics/Animation.h"
 #include "game_objects/VisualEffect.h"
 
+struct EntityStateObj {
+  int control = 1;
+  int hitstun = 0;
+  int blockstun = 0;
+  int hitStop = 0;
+  int pushTime = 0;
+  int hasAirAction = 0;
+  int comboCounter = 0;
+  int cancelPointer = 0;
+  int noGravityCounter = 0;
+  int gravityVal = 1;
+  int health = 1;
+  int velocityX = 0;
+  int velocityY = 0;
+  long frameLastAttackConnected = 0;
+  bool inCorner = false;
+  bool active = false;
+  bool inHitStop = false;
+  bool gravity = true;
+  bool faceRight = false;
+  bool inputFaceRight = false;
+  bool isDead = false;
+  bool updateFacing = false;
+  StateDef* currentState;
+  StateDefObj currentStateObj;
+  std::pair<int, int> position;
+};
+
 class Character;
 class Entity : public GameObject {
 public:
@@ -30,6 +58,9 @@ public:
   void update();
   void draw();
 
+  EntityStateObj saveState();
+  void loadState(EntityStateObj stateObj);
+
   // position stuff
   std::pair<int,int> getPos();
   void setXPos(int x);
@@ -46,14 +77,16 @@ public:
   // getters for these guys
 
   int entityID;
-  bool active = false;
   int width = 100;
+  int maxHealth = 100;
+
+  std::pair<int, int> position;
+  bool active = false;
   int control = 1;
   int hitstun = 0;
   int blockstun = 0;
   int hitStop = 0;
   int pushTime = 0;
-  int maxHealth = 100;
   int hasAirAction = 0;
   int comboCounter = 0;
   int cancelPointer = 0;
@@ -134,7 +167,6 @@ private:
   const char* defPath;
   nlohmann::json stateJson;
   std::vector<StateDef> stateList;
-  std::pair<int, int> position;
   bool hasCommandScript = false;
   int spawnOffsetX = 0;
   int spawnOffsetY = 0;

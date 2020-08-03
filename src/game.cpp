@@ -3,8 +3,12 @@
 #include "states/OpeningState.h"
 #include "states/FightState.h"
 #include "game.h"
+#include "ggponet.h"
 
 Game::Game(){
+  extern GGPOSession ggpo;
+  GGPOErrorCode result;
+  GGPOSessionCallbacks cb;
   // init Graphics
   if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_JOYSTICK|SDL_INIT_AUDIO) != 0 ){
     throw( std::runtime_error(SDL_GetError()) );

@@ -339,6 +339,66 @@ void Entity::draw(){
 };
 
 
+EntityStateObj Entity::saveState(){
+  EntityStateObj stateObj;
+
+  stateObj.control = control;
+  stateObj.hitstun = hitstun;
+  stateObj.blockstun = blockstun;
+  stateObj.hitStop = hitStop;
+  stateObj.pushTime = pushTime;
+  stateObj.hasAirAction = hasAirAction;
+  stateObj.comboCounter = comboCounter;
+  stateObj.cancelPointer = cancelPointer;
+  stateObj.noGravityCounter = noGravityCounter;
+  stateObj.gravityVal = gravityVal;
+  stateObj.health = health;
+  stateObj.velocityX = velocityX;
+  stateObj.velocityY = velocityY;
+  stateObj.frameLastAttackConnected = frameLastAttackConnected;
+  stateObj.inCorner = inCorner;
+  stateObj.active = active;
+  stateObj.inHitStop = inHitStop;
+  stateObj.gravity = gravity;
+  stateObj.faceRight = faceRight;
+  stateObj.inputFaceRight = inputFaceRight;
+  stateObj.isDead = isDead;
+  stateObj.updateFacing = updateFacing;
+  stateObj.currentState = currentState;
+  stateObj.currentStateObj = currentState->saveState();
+  stateObj.position = position;
+
+  return stateObj;
+}
+
+void Entity::loadState(EntityStateObj stateObj){
+  position = stateObj.position;
+  control = stateObj.control;
+  hitstun =  stateObj.hitstun;
+  blockstun = stateObj.blockstun;
+  hitStop = stateObj.hitStop;
+  pushTime = stateObj.pushTime;
+  hasAirAction = stateObj.hasAirAction;
+  comboCounter = stateObj.comboCounter;
+  cancelPointer = stateObj.cancelPointer;
+  noGravityCounter = stateObj.noGravityCounter;
+  gravityVal = stateObj.gravityVal;
+  health = stateObj.health;
+  velocityX = stateObj.velocityX;
+  velocityY = stateObj.velocityY;
+  frameLastAttackConnected = stateObj.frameLastAttackConnected;
+  inCorner = stateObj.inCorner;
+  active = stateObj.active;
+  inHitStop = stateObj.inHitStop;
+  gravity = stateObj.gravity;
+  faceRight = stateObj.faceRight;
+  inputFaceRight = stateObj.inputFaceRight;
+  isDead = stateObj.isDead;
+  updateFacing = stateObj.updateFacing;
+  currentState = stateObj.currentState;
+  currentState->loadState(stateObj.currentStateObj);
+}
+
 std::pair<int,int> Entity::getPos(){
   return position;
 };

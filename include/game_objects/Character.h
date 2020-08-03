@@ -11,7 +11,7 @@
 #include "graphics/Animation.h"
 #include "game_objects/VisualEffect.h"
 
-
+#include "game_objects/Entity.h"
 struct CharStateObj {
   std::pair<int, int> position;
   int control;
@@ -56,9 +56,9 @@ struct CharStateObj {
   int auraID;
   StateDef* currentState;
   StateDefObj stateDefObj;
+  std::unordered_map<int, EntityStateObj> entityStates;
 };
 
-class Entity;
 class Character : public GameObject {
 public:
   Character(std::pair<int, int> position, int playerNum);

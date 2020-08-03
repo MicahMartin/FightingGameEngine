@@ -13,6 +13,8 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 file(GLOB_RECURSE SOURCE src/*.cpp)
 file(GLOB_RECURSE HEADER include/*.h)
+file(GLOB LIBRARIES third_party/ggpo/build/src/libGGPO.dylib)
+message("LIBRARIES = ${LIBRARIES}")
 
 find_package(nlohmann_json REQUIRED)
 find_package(PkgConfig REQUIRED)
@@ -25,6 +27,7 @@ find_package(Gperftools REQUIRED COMPONENTS TCMALLOC_AND_PROFILER)
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
     ${PROJECT_SOURCE_DIR}/libs
+    ${PROJECT_SOURCE_DIR}/third_party/ggpo/src/include
     ${SDL2_INCLUDE_DIR}
     ${SDL2_IMAGE_INCLUDE_DIR}
     ${SDL2Mixer_INCLUDE_DIR}
@@ -37,6 +40,7 @@ add_executable(kusoge ${SOURCE} ${HEADER})
 target_link_libraries( 
     kusoge 
     PRIVATE nlohmann_json::nlohmann_json
+    ${LIBRARIES}
     ${Gperftools_LIBRARIES}
     ${SDL2_LIBRARY}
     ${SDL2_IMAGE_LIBRARIES}

@@ -74,6 +74,9 @@ CharStateObj Character::saveState(){
   stateObj.auraID = auraID;
   stateObj.currentState = currentState;
   stateObj.stateDefObj = currentState->saveState();
+  for (int i = 0; i < entityList.size(); ++i) {
+    stateObj.entityStates[i] = entityList[i].saveState();
+  }
 
   return stateObj;
 }
@@ -122,6 +125,9 @@ void Character::loadState(CharStateObj stateObj){
   auraID = stateObj.auraID;
   currentState = stateObj.currentState;
   currentState->loadState(stateObj.stateDefObj);
+  for (int i = 0; i < entityList.size(); ++i) {
+    entityList[i].loadState(stateObj.entityStates[i]);
+  }
 }
 
 void Character::refresh(){
