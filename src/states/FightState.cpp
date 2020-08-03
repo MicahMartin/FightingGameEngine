@@ -6,7 +6,7 @@
 
 FightState::FightState(){ 
   printf("creating new fightState\n");
-  stateName = "FightState";
+  stateName = "FIGHT_STATE";
   // bgMusic = Mix_LoadMUS("../data/audio/fightingTheme.mp3");
   Mix_VolumeMusic(25);
   Mix_Volume(0, 40);
@@ -31,11 +31,11 @@ FightState::FightState(){
   }
 }
 
-FightState::~FightState(){ 
+FightState::~FightState(){
   printf("in fightState destructor\n");
 }
 
-void FightState::enter(){ 
+void FightState::enter(){
   printf("entering fightState\n");
 
   player1 = new Character(std::make_pair(1700,0), 1);
@@ -112,6 +112,49 @@ void FightState::exit(){
 
 void FightState::pause(){ }
 void FightState::resume(){ }
+
+FightStateObj FightState::saveState(){
+  double saveStateLength = 0;
+  double saveStateStart = SDL_GetTicks();
+  FightStateObj saveObj;
+  saveObj.currentRound = currentRound;
+  saveObj.inSlowDown = inSlowDown;
+  saveObj.p1RoundsWon = p1RoundsWon;
+  saveObj.p2RoundsWon = p2RoundsWon;
+  saveObj.roundEnd = roundEnd;
+  saveObj.roundStart = roundStart;
+  saveObj.roundStartCounter = roundStartCounter;
+  saveObj.roundWinner = roundWinner;
+  saveObj.screenFreeze = screenFreeze;
+  saveObj.screenFreezeCounter = screenFreezeCounter;
+  saveObj.screenFreezeLength = screenFreezeLength;
+  saveObj.slowDownCounter = slowDownCounter;
+  saveObj.char1State = player1->saveState();
+  saveObj.char2State = player2->saveState();
+  double saveStateEnd = SDL_GetTicks();
+  saveStateLength = saveStateEnd - saveStateStart;
+
+  printf("took %f to save state\n", saveStateLength);
+  return saveObj;
+}
+
+void FightState::loadState(FightStateObj saveObj){
+  currentRound = saveObj.currentRound;
+  inSlowDown = saveObj.inSlowDown;
+  p1RoundsWon = saveObj.p1RoundsWon;
+  p2RoundsWon = saveObj.p2RoundsWon;
+  roundEnd = saveObj.roundEnd;
+  roundStart = saveObj.roundStart;
+  roundStartCounter = saveObj.roundStartCounter;
+  roundWinner = saveObj.roundWinner;
+  screenFreeze = saveObj.screenFreeze;
+  screenFreezeCounter = saveObj.screenFreezeCounter;
+  screenFreezeLength = saveObj.screenFreezeLength;
+  slowDownCounter = saveObj.slowDownCounter;
+  player1->loadState(saveObj.char1State);
+  player2->loadState(saveObj.char2State);
+}
+
 
 void FightState::handleInput(){ 
   if(!slowMode && !screenFreeze){

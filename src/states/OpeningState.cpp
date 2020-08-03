@@ -5,6 +5,7 @@
 
 OpeningState::OpeningState(){ 
   printf("opening state constructor\n");
+  stateName = "OPENING_STATE";
   //Load music
   openingSong = Mix_LoadMUS("../data/audio/openingTheme.mp3");
   if(openingSong == NULL) {

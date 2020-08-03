@@ -120,6 +120,12 @@ void InputManager::update() {
             controllers[0]->copyMode ? controllers[0]->stopCopyMode() : controllers[0]->startCopyMode();
             printf("copyMode slot 2 toggled to %d, copySize:%ld\n", controllers[0]->copyMode, controllers[0]->inputHistoryCopyTwo.size());
           };
+          if (event.key.keysym.sym == SDLK_2) {
+            notifyOne("game", "SAVE_STATE");
+          };
+          if (event.key.keysym.sym == SDLK_3) {
+            notifyOne("game", "LOAD_STATE");
+          }
           if (event.key.keysym.sym == SDLK_1) {
             if (controllers[0]->copyMode) {
               controllers[0]->stopCopyMode();
@@ -128,23 +134,23 @@ void InputManager::update() {
             controllers[0]->copyModeSlot = 1;
             controllers[1]->playbackMode = true;
           };
-          if (event.key.keysym.sym == SDLK_2) {
-            if (controllers[0]->copyMode) {
-              controllers[0]->stopCopyMode();
-            }
-            printf("setting input history to the copy %ld\n", controllers[0]->inputHistoryCopy.size());
-            controllers[0]->copyModeSlot = 2;
-            controllers[1]->playbackMode = true;
-          };
-          if (event.key.keysym.sym == SDLK_3) {
-            if (controllers[0]->copyMode) {
-              controllers[0]->stopCopyMode();
-            }
-            srand (time(NULL));
-            controllers[0]->copyModeSlot = rand() % 2 + 1;
-            printf("setting input history to randomly 1 or 2 %d\n", controllers[0]->copyModeSlot);
-            controllers[1]->playbackMode = true;
-          };
+          // if (event.key.keysym.sym == SDLK_2) {
+          //   if (controllers[0]->copyMode) {
+          //     controllers[0]->stopCopyMode();
+          //   }
+          //   printf("setting input history to the copy %ld\n", controllers[0]->inputHistoryCopy.size());
+          //   controllers[0]->copyModeSlot = 2;
+          //   controllers[1]->playbackMode = true;
+          // };
+          // if (event.key.keysym.sym == SDLK_3) {
+          //   if (controllers[0]->copyMode) {
+          //     controllers[0]->stopCopyMode();
+          //   }
+          //   srand (time(NULL));
+          //   controllers[0]->copyModeSlot = rand() % 2 + 1;
+          //   printf("setting input history to randomly 1 or 2 %d\n", controllers[0]->copyModeSlot);
+          //   controllers[1]->playbackMode = true;
+          // };
           if (bConf.find(event.key.keysym.sym) != bConf.end()) {
             ConfItem* item = &bConf.at(event.key.keysym.sym);
             VirtualController* controller = controllers.at(item->user - 1);
@@ -165,6 +171,9 @@ void InputManager::update() {
                 controller->clearBit(*inputBit);
               }
             }
+          }
+          if (event.key.keysym.sym == SDLK_ESCAPE) {
+            notifyOne("game", "RESTART_REQUEST");
           }
           break;
         }

@@ -49,7 +49,7 @@ void Game::update() {
 
   // printf("made it back to update\n");
   GameState* currentState = stateManager->getState();
-  // if(strcmp(currentState->stateName, "FightState") == 0){
+  // if(strcmp(currentState->stateName, "FIGHT_STATE") == 0){
   //   FightState* fightState = (FightState*)currentState;
   //   printf("in fight state %s, %d\n", fightState->stateName, fightState->everythingCompiled);
   //   if(fightState->everythingCompiled){
@@ -108,7 +108,24 @@ void Game::onNotify(const char* eventName) {
     exit(EXIT_SUCCESS);
     // printf("Here is the input history size %d\n", inputManager.getInputHistorySize());
 
-  }else{
-    printf("Not quitting\n");
+  }else if (std::strcmp(eventName, "RESTART_REQUEST") == 0){
+    printf("restarting\n");
+    GameState* currentState = stateManager->getState();
+    while(std::strcmp(currentState->stateName, "OPENING_STATE") != 0){
+      stateManager->popState();
+      currentState = stateManager->getState();
+    }
+  } else if (std::strcmp(eventName, "SAVE_STATE") == 0){
+    GameState* currentState = stateManager->getState();
+    if(std::strcmp(currentState->stateName, "FIGHT_STATE") == 0){
+      FightState* fightStatePointer = (FightState*)currentState;
+      fightStatePointer->mostRecentState = fightStatePointer->saveState();
+    }
+  } else if (std::strcmp(eventName, "LOAD_STATE") == 0){
+    GameState* currentState = stateManager->getState();
+    if(std::strcmp(currentState->stateName, "FIGHT_STATE") == 0){
+      FightState* fightStatePointer = (FightState*)currentState;
+      fightStatePointer->loadState(fightStatePointer->mostRecentState);
+    }
   }
 }

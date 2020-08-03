@@ -6,6 +6,7 @@
 #include "input/VirtualController.h"
 #include "states/StateManager.h"
 #include "observer/Observer.h"
+#include "states/FightState.h"
 
 class Game : public Observer {
 public:

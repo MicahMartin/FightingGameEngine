@@ -418,8 +418,8 @@
         "NO_TURN_ON_ENTER"
 
       ],
-      "cancel_script": "../data/characters/alucard/scripts/attacks/jump_k_cancels.kai",
-      "update_script": "../data/characters/alucard/scripts/attacks/jump_k.kai",
+      "cancel_script": "../data/characters/alucard/scripts/attacks/jump_dk_cancels.kai",
+      "update_script": "../data/characters/alucard/scripts/attacks/jump_dk.kai",
       "animation": [
         { "file": "../data/characters/alucard/sprites/54.png", "time": 18, "offsetX": 120},
         { "file": "../data/characters/alucard/sprites/56.png", "time": 8, "offsetX": 120},
@@ -834,7 +834,7 @@
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HIT", "block_type": 1, "hitstun":13, "block_stun": 10, "hitstop": 16, "damage":3, "push": 6, "push_time": 8,  "start": 10, "end": 13, "width":250, "height":200, "offsetX":100, "offsetY": 0, "group": 1, "hitsound": 21, "guardsound": 18, "hitsparkID": 3, "hit_type": 1, "hit_velX": 8, "hit_velY": 8, "hit_push_time": 8, "meter": 10},
         {"type": "HIT", "block_type": 1, "hitstun":13, "block_stun": 10, "hitstop": 16, "damage":3, "push": 6, "push_time": 8,  "start": 10, "end": 13, "width":250, "height":200, "offsetX":100, "offsetY": 150, "group": 1, "hitsound": 21, "guardsound": 18, "hitsparkID": 3, "hit_type": 1, "hit_velX": 8, "hit_velY": 8, "hit_push_time": 8, "meter": 10},
-        {"type": "HIT", "block_type": 1, "hitstun":12, "block_stun": 14, "hitstop": 16, "damage":3, "push": 6, "push_time": 12,  "start": 18, "end": 23, "width":250, "height":200, "offsetX":100, "offsetY": 200, "group": 2, "hitsound": 12, "guardsound": 18, "hitsparkID": 4, "hit_type": 1, "hit_velX": 10, "hit_velY": 24, "hit_push_time": 16, "air_hitstun": 34, "air_hitvelX": 4, "meter": 10},
+        {"type": "HIT", "block_type": 1, "hitstun":30, "block_stun": 14, "hitstop": 16, "damage":3, "push": 6, "push_time": 12,  "start": 18, "end": 23, "width":250, "height":200, "offsetX":100, "offsetY": 200, "group": 2, "hitsound": 12, "guardsound": 18, "hitsparkID": 4, "hit_type": 1, "hit_velX": 10, "hit_velY": 24, "hit_push_time": 16, "air_hitstun": 34, "air_hitvelX": 4, "meter": 10},
         {"type": "PROXIMITY", "start": 1, "end": 12, "width":350, "height":200, "offsetX":100, "offsetY": 0, "group": 1},
         {"type": "PROXIMITY", "start": 13, "end": 18, "width":350, "height":300, "offsetX":100, "offsetY": 200, "group": 2},
         {"type": "HURT", "start": 1, "end": -1, "width":175, "height":200, "offsetX":-75, "offsetY": 0},
@@ -1519,6 +1519,32 @@
       ],
       "visual_effects": [
         {"visualID": 7, "start": 0}
+      ]
+    },
+    {
+      "state_num": 80,
+      "state_name": "JUMP_K",
+      "flags": [
+        "NO_TURN",
+        "NO_TURN_ON_ENTER"
+
+      ],
+      "cancel_script": "../data/characters/alucard/scripts/attacks/jump_k_cancels.kai",
+      "update_script": "../data/characters/alucard/scripts/attacks/jump_k.kai",
+      "animation": [
+        { "file": "../data/characters/alucard/sprites/54.png", "time": 18, "offsetX": 120},
+        { "file": "../data/characters/alucard/sprites/56.png", "time": 8, "offsetX": 120},
+        { "file": "../data/characters/alucard/sprites/54.png", "time": 8, "offsetX": 120}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HIT", "block_type": 3, "hitstun":19, "block_stun":18, "hitstop": 12, "damage":2, "push": 8, "push_time": 8,  "start": 19, "end": 26, "width":200, "height":100, "offsetX":-50, "offsetY": 0, "group": 1, "hitsound": 10, "guardsound": 17, "hitsparkID": 2, "guardsparkID": 1, "hit_type": 3, "hit_velX": 8, "hit_velY": -30, "hit_push_time": 1000, "meter": 10},
+        {"type": "PROXIMITY", "start": 1, "end": 16, "width":350, "height":300, "offsetX":-50, "offsetY": -50, "group": 1},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 9, "start": 1}
       ]
     }
   ],

@@ -12,6 +12,52 @@
 #include "game_objects/VisualEffect.h"
 
 
+struct CharStateObj {
+  std::pair<int, int> position;
+  int control;
+  int hitstun;
+  int blockstun;
+  int hitStop;
+  int pushTime;
+  int pushBackVelocity;
+  int comebackCounter;
+  int hasAirAction;
+  int comboCounter;
+  int cancelPointer;
+  int noGravityCounter;
+  int velocityX;
+  int momentum;
+  int mass;
+  int velocityY;
+  int health;
+  int redHealth;
+  int redHealthCounter;
+  int gravityVal;
+  int hitPushTime;
+  int hitPushVelX;
+  int hitPushVelY;
+  int meter;
+  int comeback;
+  long frameLastAttackConnected;
+  bool inCorner;
+  bool inHitStop;
+  bool gravity;
+  bool isDead;
+  bool faceRight;
+  bool inputFaceRight;
+  int currentHurtSoundID;
+  int soundChannel;
+  int flashCounter;
+  bool isRed;
+  bool isGreen;
+  bool isLight;
+  bool installMode;
+  bool auraActive;
+  int auraID;
+  StateDef* currentState;
+  StateDefObj stateDefObj;
+};
+
 class Entity;
 class Character : public GameObject {
 public:
@@ -31,6 +77,9 @@ public:
   void update();
   void draw();
 
+  CharStateObj saveState();
+  void loadState(CharStateObj stateObj);
+
   // position stuff
   std::pair<int,int> getPos();
   void setXPos(int x);
@@ -49,13 +98,17 @@ public:
   // getters for these guys
 
   int width = 100;
+  int maxHealth = 100;
+  int maxMeter = 1000;
+  int maxComeback = 1000;
+  int hurtSoundMax = 3;
+
   int control = 1;
   int hitstun = 0;
   int blockstun = 0;
   int hitStop = 0;
   int pushTime = 0;
   int pushBackVelocity = 0;
-  int maxHealth = 100;
   int comebackCounter = 30;
   int hasAirAction = 0;
   int comboCounter = 0;
@@ -82,10 +135,17 @@ public:
   int hitPushVelY = 0;
   int meter = 0;
   int comeback = 0;
-  int maxMeter = 1000;
-  int maxComeback = 1000;
   int installCounter = 0;
-  CollisionRect hitsparkIntersect;
+  int currentHurtSoundID = 1;
+  int soundChannel = 0;
+  int flashCounter = 0;
+  bool isRed = false;
+  bool isGreen = false;
+  bool isLight = false;
+  bool installMode = false;
+  bool auraActive = false;
+  int auraID = 0;
+  std::pair<int, int> position;
 
   void _changeState(int stateNum);
   void _cancelState(int stateNum);
@@ -148,20 +208,9 @@ public:
 
   std::unordered_map<int, SoundObj> soundsEffects;
   std::unordered_map<int, SoundObj> hurtSoundEffects;
-  int currentHurtSoundID = 1;
-  int hurtSoundMax = 3;
-  int soundChannel = 0;
-  int flashCounter = 0;
-  bool isRed = false;
-  bool isGreen = false;
-  bool isLight = false;
-  bool installMode = false;
-  bool auraActive = false;
-  int auraID = 0;
 private:
   nlohmann::json stateJson;
   std::vector<StateDef> stateList;
-  std::pair<int, int> position;
 };
 
 #endif

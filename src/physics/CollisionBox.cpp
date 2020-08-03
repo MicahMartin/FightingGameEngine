@@ -46,6 +46,23 @@ bool CollisionBox::checkAABB(CollisionBox box1, CollisionBox box2){
 };
 
 
+CollisionBoxState CollisionBox::saveState(){
+  CollisionBoxState stateObj;
+
+  stateObj.positionX = positionX;
+  stateObj.positionY = positionY;
+  stateObj.disabled = disabled;
+
+  return stateObj;
+}
+
+void CollisionBox::loadState(CollisionBoxState stateObj){
+  positionX = stateObj.positionX;
+  positionY = stateObj.positionY;
+  disabled = stateObj.disabled;
+}
+
+
 void CollisionBox::render(){
   Camera* cam = graphics->getCamera();
   switch (boxType) {

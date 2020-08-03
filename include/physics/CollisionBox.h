@@ -20,6 +20,11 @@ enum HitType {
   WALL_BOUNCE
 };
 
+struct CollisionBoxState {
+  int positionX;
+  int positionY;
+  bool disabled; 
+};
 class CollisionBox {
 public:
 
@@ -47,10 +52,14 @@ public:
   ~CollisionBox();
 
   void render();
+  CollisionBoxState saveState();
+  void loadState(CollisionBoxState stateObj);
   
 
   int positionX;
   int positionY;
+  bool disabled = false; 
+
   int width;
   int height; 
 
@@ -59,8 +68,6 @@ public:
 
   int start;
   int end;
-
-  bool disabled = false; 
 
   // i know, poly
   int damage;

@@ -32,6 +32,23 @@ struct HitResult {
   CollisionBox* hitCb;
 };
 
+struct FightStateObj {
+  int roundStartCounter;
+  int p1RoundsWon;
+  int p2RoundsWon;
+  int currentRound;
+  int slowDownCounter;
+  int roundWinner;
+  int screenFreezeCounter;
+  int screenFreezeLength;
+  bool roundStart;
+  bool inSlowDown;
+  bool roundEnd;
+  bool screenFreeze;
+  CharStateObj char1State;
+  CharStateObj char2State;
+};
+
 class FightState : public GameState {
 public:
   FightState();
@@ -47,6 +64,9 @@ public:
 
   void pause();
   void resume();
+
+  FightStateObj saveState();
+  void loadState(FightStateObj stateObj);
 
   void checkPushCollisions();
   void checkThrowCollisions();
@@ -87,7 +107,6 @@ public:
 
   bool everythingCompiled = false;
   bool inSlowDown = false;
-  bool shouldUpdate = true;
   bool roundEnd = false;
   int slowDownCounter = 0;
   int roundWinner = 0;
@@ -108,6 +127,8 @@ public:
   Mix_Chunk* koSound = NULL;
   Mix_Chunk* p1WinSound = NULL;
   Mix_Chunk* p2WinSound = NULL;
+  FightStateObj mostRecentState;
+
 private:
   Character* player1;
   Character* player2;

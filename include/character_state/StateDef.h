@@ -11,6 +11,8 @@
 #include "domain_language/VirtualMachine.h"
 
 
+typedef std::vector<CollisionBox*> CollisionBoxList;
+
 enum FlagBit {
   NO_TURN = 0x01,
   NO_TURN_ON_ENTER  = 0x02,
@@ -24,6 +26,20 @@ struct SoundObj {
   bool active = false;
   int soundID = 0;
   int channel = -1;
+};
+
+
+struct StateDefObj {
+  int stateTime;
+  int animTime;
+  int freezeFrame;
+  int freezeLength;
+  bool hitboxesDisabled;
+  bool canWhiffCancel;
+  bool canHitCancel;
+  bool counterHitFlag;
+  std::unordered_map<int, bool> hitboxGroupDisabled;
+  std::unordered_map<CollisionBox*, CollisionBoxState> collisionBoxStates;
 };
 
 class GameObject;
@@ -46,30 +62,36 @@ public:
   void draw(std::pair<int,int> position, bool faceRight, bool inHitStop);
   void drawCollisionBoxes();
 
+  StateDefObj saveState();
+  void loadState(StateDefObj stateObj);
+
   void resetAnim();
 
 
+  GameObject* owner;
   VirtualMachine* charVm;
   Script updateScript;
   Script cancelScript;
   Animation anim;
 
   // TODO: Polymorph or atleast use a union
-  std::vector<CollisionBox*> pushBoxes;
-  std::vector<CollisionBox*> hurtBoxes;
-  std::vector<CollisionBox*> hitBoxes;
-  std::vector<CollisionBox*> throwHitBoxes;
-  std::vector<CollisionBox*> throwHurtBoxes;
-  std::vector<CollisionBox*> proximityBoxes;
-  std::vector<CollisionBox*> projectileBoxes;
+  CollisionBoxList pushBoxes;
+  CollisionBoxList hurtBoxes;
+  CollisionBoxList hitBoxes;
+  CollisionBoxList throwHitBoxes;
+  CollisionBoxList throwHurtBoxes;
+  CollisionBoxList proximityBoxes;
+  CollisionBoxList projectileBoxes;
+  std::vector<CollisionBox*> collisionBoxes;
+
   std::unordered_map<int, std::vector<int>> soundIndexMap;
   std::unordered_map<int, int> visualEffectMap; // <startFrame, visualID>
   // TODO: Methods to talk to anim so this stuff can stay private
   int stateNum;
-  int stateTime;
-  int animTime;
   int techState;
-  bool isSuper = false;
+
+  int stateTime = 0;
+  int animTime = 0;
   int freezeFrame = 0;
   int freezeLength = 0;
   bool hitboxesDisabled = false;
@@ -77,7 +99,6 @@ public:
   bool canWhiffCancel = false;
   bool canHitCancel = false;
   bool counterHitFlag = false;
-  GameObject* owner;
   std::unordered_map<int, bool> hitboxGroupDisabled;
 
 private:

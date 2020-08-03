@@ -56,9 +56,6 @@ void Animation::loadAnimEvents(nlohmann::json json) {
     if (offsetX == -1) {
       element.offsetX = ((realDimensions.first * scale)/2);
     }
-    if (offsetX == -2) {
-      element.offsetX = -((realDimensions.first * scale)/2);
-    }
     if (offsetY == -1) {
       element.offsetY = ((realDimensions.second * scale)/2);
     }
@@ -102,6 +99,7 @@ void Animation::render(int x, int y, bool faceRight, int stateTime) {
   int offsetX = elem->offsetX;
   int offsetY = elem->offsetY;
   faceRight ? currentText->setCords(x-width+offsetX, ((y - 60) + offsetY)) : currentText->setCords(x-offsetX, ((y - 60) + offsetY));
+
   if (hitShake) {
     if (hitShakeToggler == 3) {
     faceRight ? currentText->setCords((x-width+offsetX) + 3, ((y - 60) + offsetY)) : currentText->setCords((x-offsetX) - 3, ((y - 60) + offsetY));

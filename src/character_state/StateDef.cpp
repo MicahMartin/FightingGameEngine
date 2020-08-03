@@ -105,6 +105,44 @@ StateDef::~StateDef() {
   }
 }
 
+
+
+StateDefObj StateDef::saveState(){
+  StateDefObj stateObj;
+  std::unordered_map<CollisionBox*, CollisionBoxState> cbStates;
+  for (auto i : collisionBoxes) {
+    cbStates[i] = i->saveState();
+  }
+
+  stateObj.stateTime = stateTime;
+  stateObj.animTime = animTime;
+  stateObj.freezeFrame = freezeFrame;
+  stateObj.freezeLength = freezeLength;
+  stateObj.hitboxesDisabled = hitboxesDisabled;
+  stateObj.canWhiffCancel = canWhiffCancel;
+  stateObj.canHitCancel = canHitCancel;
+  stateObj.counterHitFlag = counterHitFlag;
+  stateObj.hitboxGroupDisabled = hitboxGroupDisabled;
+  stateObj.collisionBoxStates = cbStates;
+ 
+  return stateObj;
+}
+
+void StateDef::loadState(StateDefObj stateObj){
+  stateTime = stateObj.stateTime;
+  animTime = stateObj.animTime;
+  freezeFrame = stateObj.freezeFrame;
+  freezeLength = stateObj.freezeLength;
+  hitboxesDisabled = stateObj.hitboxesDisabled;
+  canWhiffCancel = stateObj.canWhiffCancel;
+  canHitCancel = stateObj.canHitCancel;
+  counterHitFlag = stateObj.counterHitFlag;
+  hitboxGroupDisabled = stateObj.hitboxGroupDisabled;
+  for (auto &i : stateObj.collisionBoxStates) {
+    i.first->loadState(i.second);
+  }
+}
+
 void StateDef::enter(){
   counterHitFlag = false;
   canHitCancel = false;
@@ -167,13 +205,13 @@ void StateDef::drawCollisionBoxes(){
       cb->render();
     }
   }
-  //for(auto cb : hurtBoxes) {
-  //   if(!cb->disabled){
-  //     cb->render();
-  //   }
-  //}
-
+  for(auto cb : hurtBoxes) {
+     if(!cb->disabled){
+       cb->render();
+     }
+  }
 }
+
 void StateDef::loadFlags(nlohmann::json::value_type json){
   for(auto i : json.items()){
     std::string flag(i.value());
@@ -189,10 +227,11 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
   for(auto i : json.items()){
     // TODO: POLYMORPH THIS SHIT
     CollisionBox::CollisionType type = CollisionBox::collisionTypeMap.at(i.value().at("type"));
-    int width = i.value().at("width");
-    int height = i.value().at("height");
-    int offsetX = i.value().at("offsetX");
-    int offsetY = i.value().at("offsetY");
+    int scale = 1;
+    int width = i.value()["width"].get<int>() * scale;
+    int height = i.value()["height"].get<int>() * scale;
+    int offsetX = i.value()["offsetX"].get<int>() * scale;
+    int offsetY = i.value()["offsetY"].get<int>() * scale;
     int start = i.value().at("start");
     int end = i.value().at("end");
 
@@ -288,6 +327,7 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
         projectileBoxes.push_back(cb);
         break;
     }
+    collisionBoxes.push_back(cb);
   }
 };
 

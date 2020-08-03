@@ -8,25 +8,31 @@ void Graphics::init(){
   window = SDL_CreateWindow("Boring Game",
       SDL_WINDOWPOS_UNDEFINED,
       SDL_WINDOWPOS_UNDEFINED,
-      0,
-      0,
-      SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_SHOWN);
+      1280,
+      720,
+      SDL_WINDOW_SHOWN);
 
   if( window == NULL ){
     throw(std::runtime_error(SDL_GetError()));
   }
   SDL_GetWindowSize(window, &width, &height);
+  printf("the window x:%d, y:%d\n", width, height);
 
 
   // create sdl renderer
   //
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  SDL_RenderSetLogicalSize(renderer, width, height);
+  SDL_RenderSetScale(renderer, 1.5, 1.5);
+  SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+ 
 
   if( renderer == NULL ){
     throw(std::runtime_error(SDL_GetError()));
   }
 
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+  // SDL_RenderSetLogicalSize(renderer, 1920, 1080);
 
   // Initialize format loading
   int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;

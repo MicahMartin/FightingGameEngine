@@ -28,6 +28,102 @@ void Character::init(){
   changeState(51);
 }
 
+CharStateObj Character::saveState(){
+  CharStateObj stateObj;
+
+  stateObj.position = position;
+  stateObj.control = control;
+  stateObj.hitstun = hitstun;
+  stateObj.blockstun = blockstun;
+  stateObj.hitStop = hitStop;
+  stateObj.pushTime = pushTime;
+  stateObj.pushBackVelocity = pushBackVelocity;
+  stateObj.comebackCounter = comebackCounter;
+  stateObj.hasAirAction = hasAirAction;
+  stateObj.comboCounter = comboCounter;
+  stateObj.cancelPointer = cancelPointer;
+  stateObj.noGravityCounter = noGravityCounter;
+  stateObj.velocityX = velocityX;
+  stateObj.momentum = momentum;
+  stateObj.mass = mass;
+  stateObj.velocityY = velocityY;
+  stateObj.health = health;
+  stateObj.redHealth = redHealth;
+  stateObj.redHealthCounter = redHealthCounter;
+  stateObj.gravityVal = gravityVal;
+  stateObj.hitPushTime = hitPushTime;
+  stateObj.hitPushVelX = hitPushVelX;
+  stateObj.hitPushVelY = hitPushVelY;
+  stateObj.meter = meter;
+  stateObj.comeback = comeback;
+  stateObj.frameLastAttackConnected = frameLastAttackConnected;
+  stateObj.inCorner = inCorner;
+  stateObj.inHitStop = inHitStop;
+  stateObj.gravity = gravity;
+  stateObj.isDead = isDead;
+  stateObj.faceRight = faceRight;
+  stateObj.inputFaceRight = inputFaceRight;
+  stateObj.currentHurtSoundID = currentHurtSoundID;
+  stateObj.soundChannel = soundChannel;
+  stateObj.flashCounter = flashCounter;
+  stateObj.isRed = isRed;
+  stateObj.isGreen = isGreen;
+  stateObj.isLight = isLight;
+  stateObj.installMode = installMode;
+  stateObj.auraActive = auraActive;
+  stateObj.auraID = auraID;
+  stateObj.currentState = currentState;
+  stateObj.stateDefObj = currentState->saveState();
+
+  return stateObj;
+}
+
+void Character::loadState(CharStateObj stateObj){
+  position = stateObj.position;
+  control = stateObj.control;
+  hitstun = stateObj.hitstun;
+  blockstun = stateObj.blockstun;
+  hitStop = stateObj.hitStop;
+  pushTime = stateObj.pushTime;
+  pushBackVelocity = stateObj.pushBackVelocity;
+  comebackCounter = stateObj.comebackCounter;
+  hasAirAction = stateObj.hasAirAction;
+  comboCounter = stateObj.comboCounter;
+  cancelPointer = stateObj.cancelPointer;
+  noGravityCounter = stateObj.noGravityCounter;
+  velocityX = stateObj.velocityX;
+  momentum = stateObj.momentum;
+  mass = stateObj.mass;
+  velocityY = stateObj.velocityY;
+  health = stateObj.health;
+  redHealth = stateObj.redHealth;
+  redHealthCounter = stateObj.redHealthCounter;
+  gravityVal = stateObj.gravityVal;
+  hitPushTime = stateObj.hitPushTime;
+  hitPushVelX = stateObj.hitPushVelX;
+  hitPushVelY = stateObj.hitPushVelY;
+  meter = stateObj.meter;
+  comeback = stateObj.comeback;
+  frameLastAttackConnected = stateObj.frameLastAttackConnected;
+  inCorner = stateObj.inCorner;
+  inHitStop = stateObj.inHitStop;
+  gravity = stateObj.gravity;
+  isDead = stateObj.isDead;
+  faceRight = stateObj.faceRight;
+  inputFaceRight = stateObj.inputFaceRight;
+  currentHurtSoundID = stateObj.currentHurtSoundID;
+  soundChannel = stateObj.soundChannel;
+  flashCounter = stateObj.flashCounter;
+  isRed = stateObj.isRed;
+  isGreen = stateObj.isGreen;
+  isLight = stateObj.isLight;
+  installMode = stateObj.installMode;
+  auraActive = stateObj.auraActive;
+  auraID = stateObj.auraID;
+  currentState = stateObj.currentState;
+  currentState->loadState(stateObj.stateDefObj);
+}
+
 void Character::refresh(){
   changeState(51);
   health = 100;

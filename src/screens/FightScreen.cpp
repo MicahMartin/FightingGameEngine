@@ -6,7 +6,8 @@ FightScreen::FightScreen(){
   printf("the address of the screen %p\n", this);
 
   int windowWidth = graphics->getWindowWidth();
-  p2DirectionDrawXPos = graphics->getWindowWidth() - 50;
+  int windowMargin = windowWidth * .05;
+  p2DirectionDrawXPos = graphics->getWindowWidth() - windowMargin;
   p1ComboCountPosition = { 150, graphics->getWindowHeight()/3, 80, 160 };
   p2ComboCountPosition = { graphics->getWindowWidth() - 150, graphics->getWindowHeight()/3, 80, 160 };
   p1ComboCountPositionSecond = { 250, graphics->getWindowHeight()/3, 80, 160 };
@@ -143,12 +144,14 @@ void FightScreen::renderHealthBar(float healthPercent, float damagePercent, bool
   SDL_Rect damageDest;
   SDL_Rect damageSrc;
 
+  int windowHeight = graphics->getWindowHeight();
+  int windowWidth = graphics->getWindowWidth();
   int scale = 4;
   int barImgWidth = healthBar->bar.imgWidth;
   int barImgHeight = healthBar->bar.imgHeight;
   int barWidth = healthBar->bar.imgWidth/scale;
   int barHeight = healthBar->bar.imgHeight/scale;
-  int barOffsetX = isPlayerOne ? 50 : 1230 - barWidth;
+  int barOffsetX = isPlayerOne ? 50 : (windowWidth - barWidth) - 50;
   int barOffsetY = 20;
 
 
