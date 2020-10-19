@@ -39,16 +39,13 @@
       $cancel_state 30;
     }
 
-    if(dust){
-      if (anyDown) {
-        $cancel_state 23;
-      } else {
-      }
-    }
-
     if(slash){
       if (anyDown) {
-        $cancel_state 40;
+        if (downforward) {
+          $cancel_state 23;
+        } else {
+          $cancel_state 40;
+        }
       } else {
         $cancel_state 20;
       }

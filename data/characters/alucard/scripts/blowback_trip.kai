@@ -16,6 +16,7 @@
   var anyForward = (forward or downforward or upforward);
   var anyBack = (back or upback or downback);
   if($get_state_time == 0){ 
+    $add_meter 1010;
     $velset_x 0;
     $set_control 0; 
   } 

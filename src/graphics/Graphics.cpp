@@ -24,6 +24,7 @@ void Graphics::init(){
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   SDL_RenderSetLogicalSize(renderer, width, height);
  
+  // SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 
   if( renderer == NULL ){
     throw(std::runtime_error(SDL_GetError()));

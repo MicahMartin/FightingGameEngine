@@ -57,6 +57,7 @@ void FightState::enter(){
   player1->init();
   player2->otherChar = player1;
   player2->init();
+  printf("done loading characters\n");
   player1->control = 0;
   player2->control = 0;
 
@@ -101,6 +102,7 @@ void FightState::enter(){
   p2CounterHit.setPlayLength(30);
 
   Mix_Volume(0, 32);
+  printf("done loading popups\n");
 }
 
 void FightState::exit(){ 

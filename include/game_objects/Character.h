@@ -137,7 +137,7 @@ public:
   int hitPushVelX = 0;
   int hitPushVelY = 0;
   int meter = 0;
-  int comeback = 0;
+  int comeback = 750;
   int installCounter = 0;
   int currentHurtSoundID = 1;
   int soundChannel = 0;

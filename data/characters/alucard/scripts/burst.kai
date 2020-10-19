@@ -7,7 +7,7 @@
     $velset_y 50; 
     $velset_x 0; 
     $set_nograv_count 28;
-    $subtract_meter 2000;
+    $subtract_meter 1000;
   } 
   if($get_state_time == 4){ 
     $velset_y 0; 

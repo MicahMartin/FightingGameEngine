@@ -1,29 +1,104 @@
 #include <bitset>
 #include "states/MenuState.h"
 #include "states/FightState.h"
+#include "states/NetConnectState.h"
 #include "input/InputManager.h"
 
 MenuState::MenuState() {
   printf("menuState constructor\n");
   // TODO: let the menu add its own texture
-  mainMenu.addMenuItem("versus", "../data/images/versus.png", 240, 50, [this]{
+  mainMenu.addMenuItem("versus", "versus", 240, 50, [this]{
     printf("pushing the fightState \n");
-    stateManager->changeState(new FightState());
-  });
+    stateManager->pushState(new FightState());
+    printf("changed the state to the fightState \n");
+  }, [this]{});
 
-  mainMenu.addMenuItem("config", "../data/images/config.png", 240, 50, [this]{
+  mainMenu.addMenuItem("netplay", "netplay", 240, 50, [this]{
+    // stateManager->pushState(new NetConnectState());
+  }, [this]{});
+
+  mainMenu.addMenuItem("config", "config", 240, 50, [this]{
     activeMenu = &configMenu;
-  });
+  }, [this]{});
 
-  configMenu.addMenuItem("player1_button_config", "../data/images/config.png", 240, 50, [this]{
+  configMenu.addDisplayElem("cursor", "../data/images/cursor.png", 25, 25, 900, 100, false);
+  configMenu.addDisplayElem("button_select", "../data/images/buttonSelect.png", 200, 400, 900, 100, false);
+
+  configMenu.addMenuItem("player1_button_config", "config", 240, 50, [this]{
     inputManager->userBeingConfig = 1;
     inputManager->keySelectionMode = true;
-  });
+    DisplayElem* buttonSelect = configMenu.getDisplayElem("button_select");
+    DisplayElem* cursor = configMenu.getDisplayElem("cursor");
+    buttonSelect->display = true;
+    cursor->display = true;
+    }, [this]{
+    DisplayElem* buttonSelect = configMenu.getDisplayElem("button_select");
+    DisplayElem* cursor = configMenu.getDisplayElem("cursor");
+    if (!inputManager->keySelectionMode) {
+      buttonSelect->display = false;
+      cursor->display = false;
+      } else {
+        switch (inputManager->configCounter) {
+          case 0:
+          printf("case 0\n");
+          cursor->elemTexture.setCords(900, 100);
+            break;
+          case 1:
+          printf("case 1\n");
+          cursor->elemTexture.setCords(900, 200);
+            break;
+          case 2:
+          printf("case 2\n");
+          cursor->elemTexture.setCords(900, 300);
+            break;
+          case 3:
+          printf("case 3\n");
+          cursor->elemTexture.setCords(900, 400);
+            break;
+          default:
+            break;
+        }
 
-  configMenu.addMenuItem("player2_button_config", "../data/images/config.png", 240, 50, [this]{
+      }
+    });
+
+  configMenu.addMenuItem("player2_button_config", "config", 240, 50, [this]{
     inputManager->userBeingConfig = 2;
     inputManager->keySelectionMode = true;
-  });
+    DisplayElem* buttonSelect = configMenu.getDisplayElem("button_select");
+    DisplayElem* cursor = configMenu.getDisplayElem("cursor");
+    buttonSelect->display = true;
+    cursor->display = true;
+    }, [this]{
+    DisplayElem* buttonSelect = configMenu.getDisplayElem("button_select");
+    DisplayElem* cursor = configMenu.getDisplayElem("cursor");
+    if (!inputManager->keySelectionMode) {
+      buttonSelect->display = false;
+      cursor->display = false;
+      } else {
+        switch (inputManager->configCounter) {
+          case 0:
+          printf("case 0\n");
+          cursor->elemTexture.setCords(900, 100);
+            break;
+          case 1:
+          printf("case 1\n");
+          cursor->elemTexture.setCords(900, 200);
+            break;
+          case 2:
+          printf("case 2\n");
+          cursor->elemTexture.setCords(900, 300);
+            break;
+          case 3:
+          printf("case 3\n");
+          cursor->elemTexture.setCords(900, 400);
+            break;
+          default:
+            break;
+        }
+
+      }
+    });
 
   mainMenu.vc = inputManager->getVirtualController(0);
   configMenu.vc = inputManager->getVirtualController(0);
@@ -60,6 +135,7 @@ void MenuState::handleInput() {
     return;
   }
   activeMenu->handleInput();
+  printf("how do I get here\n");
 }
 
 void MenuState::update() {

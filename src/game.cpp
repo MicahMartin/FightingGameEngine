@@ -28,7 +28,7 @@ bool onEvent(GGPOEvent* info){
 }
 
 Game::Game(){
-  extern GGPOSession* ggpo;
+  GGPOSession* ggpo;
   GGPOErrorCode result;
   GGPOSessionCallbacks cb;
   cb.begin_game = &beginGame;
@@ -37,6 +37,9 @@ Game::Game(){
   cb.save_game_state = &saveGameState;
   cb.free_buffer = &freeBuffer;
   cb.on_event = &onEvent;
+  result = ggpo_start_session(&ggpo, &cb, "BeatDown", 2, sizeof(int), 8001);
+  ggpo_log(ggpo, "why");
+
 
   // init Graphics
   if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_JOYSTICK|SDL_INIT_AUDIO) != 0 ){
@@ -94,8 +97,10 @@ void Game::update() {
 
   double handleInputFrameStart = SDL_GetTicks();
 
+  // printf("about to handle input\n");
   currentState->handleInput();
   currentState = stateManager->getState();
+  // printf("handled input\n");
 
   double handleInputFrameEnd = SDL_GetTicks();
   handleInputLength = handleInputFrameEnd-handleInputFrameStart;
@@ -107,6 +112,8 @@ void Game::update() {
   updateLength = stateUpdateEnd-stateUpdateStart;
   // printf("updateLength %f\n", updateLength);
 
+}
+void Game::draw(){
   // the current state holds a pointer to the currrent screen
   // screen has a surface pointer with all the pixels that need to be
   // written and swapped this frame
@@ -116,7 +123,7 @@ void Game::update() {
   clearLength = clearEnd - clearStart;
 
   double stateDrawStart = SDL_GetTicks();
-  currentState->draw();
+  stateManager->getState()->draw();
   double stateDrawEnd = SDL_GetTicks();
   stateDrawLength = stateDrawEnd - stateDrawStart;
 

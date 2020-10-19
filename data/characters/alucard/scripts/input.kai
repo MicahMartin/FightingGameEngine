@@ -18,12 +18,12 @@
   var up = $get_input 8; 
   var upforward = $get_input 9; 
   var down = $get_input 2; 
-  var back = $get_input 4; 
-  var upback = $get_input 7; 
   var downback = $get_input 1; 
-  var anyBack = (back or upback or downback);
   var downforward = $get_input 3; 
   var anyDown = (down or downforward or downback);
+  var back = $get_input 4; 
+  var upback = $get_input 7; 
+  var anyBack = (back or upback or downback);
   var meter = $get_meter 1;
   var install = $get_install == 1;
   var comebackMeter = $get_meter 2;
@@ -42,7 +42,7 @@
       if (install) {
         $change_state 76;
       } else {
-        if (comebackMeter >= 500) {
+        if (comebackMeter >= 1000) {
           $change_state 76;
         }
       }
@@ -62,10 +62,6 @@
     }
     var limit_break = ($check_command 10);
     if (limit_break) {
-      $change_state 70;
-    }
-      
-    if (super) {
       $change_state 70;
     }
     
@@ -172,7 +168,11 @@
       $change_state 16; 
     }
     if(kick){
-      $change_state 19; 
+      if (anyDown) {
+        $change_state 19; 
+      } else {
+        $change_state 80;
+      }
     }
     if(punch){
       $change_state 18; 

@@ -24,13 +24,6 @@
   }
   if($get_state_time == 0){ 
     $set_control 0; 
-    $set_nograv_count 10;
-    $velset_y 0;
-    $velset_x 0;
-  } 
-  if($get_state_time == 10){ 
-    $velset_y -10;
-    $velset_x 10;
   } 
   if($get_y_pos == 0){ 
     $set_control 1; 

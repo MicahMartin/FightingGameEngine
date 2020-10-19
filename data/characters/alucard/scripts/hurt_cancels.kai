@@ -1,6 +1,9 @@
 {
+  var comebackMeter = $get_meter 2;
   var dust = $was_pressed 13;
   if (dust) {
-    $cancel_state 75;
+    if (comebackMeter >= 1000) {
+      $cancel_state 75;
+    }
   }
 }

@@ -344,10 +344,12 @@ void InputManager::update() {
         case SDL_KEYUP: {
           printf("configuring item:%d, the sdl keycode for the thing just released : %d\n", configCounter, event.key.keysym.sym);
           if (bConf.find(event.key.keysym.sym) != bConf.end()) {
+            configCounter++;
             ConfItem* item = &bConf.at(event.key.keysym.sym);
             Input* inputBit = &item->inputBit;
             if (*inputBit == MK) {
               keySelectionMode = false;
+              configCounter = 0;
             }
           }
           break;

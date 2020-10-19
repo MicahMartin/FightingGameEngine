@@ -64,7 +64,7 @@
     {"assetID": 1, "file": "../data/characters/alucard/audio/airdash.wav"},
     {"assetID": 2, "file": "../data/characters/alucard/audio/kick_impact.wav"}
   ],
-  "spawnOffsetX": 50, 
+  "spawnOffsetX": 0, 
   "spawnOffsetY": 0,
   "isFireball": true
 }

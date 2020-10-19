@@ -14,3 +14,4 @@ data/audio/*
 **/data/**/*.mp4*
 **/data/**/*.wav*
 holy_grail*/
+third_party*/

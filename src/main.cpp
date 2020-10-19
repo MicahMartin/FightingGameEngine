@@ -15,6 +15,7 @@ int main() {
     auto frameStart = Clock::now();
 
     game.update();
+    game.draw();
     // we want to run the update stuff once every frame (16~ MS)
     // so we check how many MS its taken us to generate the current frame 
     // so if it took 3MS to render this frame, we have 13MS of free time before reading input and rendering again

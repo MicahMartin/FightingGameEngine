@@ -14,6 +14,7 @@ public:
   ~Game();
 
   void update();
+  void draw();
 
   // observer
   void onNotify(const char* message);

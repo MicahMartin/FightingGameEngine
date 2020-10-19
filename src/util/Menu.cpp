@@ -47,10 +47,13 @@ void Menu::handleInput() {
     Mix_PlayChannel(0, menuSelect, 0);
     activateMenuItem();
   }
+  for (auto i : menuItemArray) {
+    i.update();
+  }
 }
 
-void Menu::addMenuItem(const char* title, const char* texturePath, int textWidth, int textHeight, std::function<void()> callBack) {
-  menuItemArray.emplace_back(title, texturePath, textWidth, textHeight, callBack);
+void Menu::addMenuItem(const char* title, const char* message, int textWidth, int textHeight, std::function<void()> callBack, std::function<void()> update) {
+  menuItemArray.emplace_back(title, message, textWidth, textHeight, callBack, update);
 
   int newMenuItemSize = menuItemArray.size();
   int currentCellStart = 0;
@@ -82,6 +85,12 @@ void Menu::draw() {
   for (auto i : menuItemArray) {
     i.draw();
   }
+  for (auto& i : displayElems) {
+    DisplayElem& elem = i.second;
+    if (elem.display) {
+      elem.draw();
+    }
+  }
 
   menuCursor.cursorTexture.render();
 }
@@ -112,4 +121,12 @@ void Menu::moveCursorUp() {
     std::pair menuItemCoords = menuItemPtr->itemTexture.getCords();
     menuCursor.cursorTexture.setCords(menuItemCoords.first - (menuCursor.cursorTexture.getDimensions().first + 50), menuItemCoords.second );
   }
+}
+
+void Menu::addDisplayElem(const char* title, const char* texturePath, int textWidth, int textHeight, int positionX, int positionY, bool display){
+  displayElems.emplace(title, DisplayElem{title, texturePath, textWidth, textHeight, positionX, positionY, display});
+}
+
+DisplayElem* Menu::getDisplayElem(const char* title){
+  return &displayElems[std::string(title)];
 }

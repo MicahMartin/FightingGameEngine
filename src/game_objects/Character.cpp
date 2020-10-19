@@ -262,7 +262,7 @@ void Character::update(){
   if (installMode) {
     if (installCounter++ == 1) {
       installCounter = 0;
-      comeback--;
+      comeback -= 3;
     }
   }
   if(pushTime > 0) {

@@ -11,9 +11,9 @@
 
 
 struct MenuItem {
-  MenuItem(const char* title, const char* texturePath, int textWidth, int textHeight, std::function<void()> callBack)
-    : callBack(callBack), title(title) {
-    itemTexture.loadTexture(texturePath);
+  MenuItem(const char* title, const char* message, int textWidth, int textHeight, std::function<void()> callBack, std::function<void()> update)
+    : callBack(callBack), update(update), title(title) {
+    itemTexture.setText(message);
     itemTexture.setDimensions(0, 0, textWidth, textHeight);
   };
 
@@ -29,11 +29,28 @@ struct MenuItem {
   const char* title;
   GameTexture itemTexture;
   std::function<void()> callBack;
+  std::function<void()> update;
 };
 
 struct MenuCursor {
   int position = 0;
   GameTexture cursorTexture;
+};
+
+struct DisplayElem {
+  DisplayElem(){};
+  DisplayElem(const char* title, const char* texturePath, int textWidth, int textHeight, int positionX, int positionY, bool display) 
+    : title(title), display(display) {
+    elemTexture.loadTexture(texturePath);
+    elemTexture.setDimensions(positionX, positionY, textWidth, textHeight);
+  };
+  void draw(){
+    elemTexture.render();
+  };
+
+  const char* title;
+  bool display = false;
+  GameTexture elemTexture;
 };
 
 class Menu {
@@ -45,15 +62,19 @@ public:
   void handleInput();
   void draw();
 
-  void addMenuItem(const char* title, const char* texturePath, int textWidth, int textHeight, std::function<void()> callBack);
+  void addMenuItem(const char* title, const char* texturePath, int textWidth, int textHeight, std::function<void()> callBack, std::function<void()> update);
   void activateMenuItem();
 
   void moveCursorUp();
   void moveCursorDown();
 
+  void addDisplayElem(const char* title, const char* texturePath, int textWidth, int textHeight, int positionX, int positionY, bool display);
+  DisplayElem* getDisplayElem(const char* title);
+
   VirtualController* vc;
   Mix_Chunk* menuMove = NULL;
   Mix_Chunk* menuSelect = NULL;
+  std::unordered_map<std::string, DisplayElem> displayElems;
 private:
   int menuWidth;
   int menuHeight;
@@ -62,7 +83,6 @@ private:
 
   MenuCursor menuCursor;
   std::vector<MenuItem> menuItemArray;
-
   SDL_Color borderColor;
   SDL_Color bodyColor;
   SDL_Rect menuRect;

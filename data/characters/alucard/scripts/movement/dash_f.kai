@@ -25,5 +25,5 @@
   if (remainder == 0) {
     $reset_anim;
   }
-  $add_meter 24;
+  $add_meter 5;
 } 
