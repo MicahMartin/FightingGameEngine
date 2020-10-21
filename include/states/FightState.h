@@ -11,6 +11,7 @@
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/serialization/map.hpp>
+#include <ggponet.h>
 
 struct ThrowResult {
   bool thrown;
@@ -78,7 +79,10 @@ public:
   void pause();
   void resume();
 
+  //ggpo stuff
+  bool beginGame(const char* name);
   void saveState(unsigned char** buffer, int* length, int frame);
+  void freeBuffer(void* buffer);
   void loadState(unsigned char* buffer, int length);
 
   void checkPushCollisions();
@@ -144,10 +148,20 @@ public:
 
   unsigned char* buffer;
   int bufferLen;
-
-private:
   Character* player1;
   Character* player2;
+
+  // GGPO
+  void ggpoInit();
+  void netPlayHandleInput();
+  GGPOSession* ggpo = NULL;
+  GGPOPlayer p1, p2;
+  GGPOPlayerHandle player_handles[2];
+  GGPOPlayerHandle* local_player_handle;
+  bool shouldUpdate = true;
+  bool doneSync = false;
+  bool netPlayState;
+private:
   FightScreen currentScreen;
 
   Popup matchIntroPopup;
@@ -166,5 +180,6 @@ private:
   Camera camera;
   CharStateManager* charStateManager = CharStateManager::getInstance();
   Graphics* graphics = Graphics::getInstance();
+  int pnum;
 };
 #endif

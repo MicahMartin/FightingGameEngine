@@ -78,7 +78,7 @@ void InputManager::update() {
   while(SDL_PollEvent(&event) != 0){
 
     if (!keySelectionMode) {
-      printf("got an event %d\n", event.type);
+      // printf("got an event %d\n", event.type);
       switch (event.type) {
         case SDL_KEYDOWN: {
           if(event.key.repeat == 0){

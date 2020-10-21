@@ -1,13 +1,20 @@
 #include <SDL2/SDL.h>
 #include <chrono>
 #include "game.h"
+#include "ggponet.h"
 
 typedef std::chrono::high_resolution_clock Clock;
-int main() {
+int main(int argc, char* args[]) {
   static double FPS = 1000/60;
+
 
   // Game.init
   Game game;
+  if (argc >= 1) {
+    game.stateManager->getInstance()->setPnum(std::stoi(args[1]));
+    // port = std::stoi(args[2]);
+    // enemyPort = std::stoi(args[3]);
+  }
 
   double gameStart = SDL_GetTicks();
   int frameCount = 0;
@@ -22,11 +29,25 @@ int main() {
     auto frameEnd = Clock::now();
     double delayLength = FPS - (std::chrono::duration<double, std::ratio<1000>>(frameEnd - frameStart).count());
     if(delayLength > 0){
-      SDL_Delay(delayLength);
-    } else  { 
-      if(game.inFightState){
-        game.running = false;
+      GameState* currentState = game.stateManager->getState();
+      if(std::strcmp(currentState->stateName, "FIGHT_STATE") == 0){
+        FightState* fightState = (FightState*)currentState;
+        if (fightState->netPlayState) {
+          // printf("calling ggpo idle\n");
+          auto idleStart = Clock::now();
+          ggpo_idle(fightState->ggpo, delayLength);
+          auto idleEnd = Clock::now();
+          double newDelay = (std::chrono::duration<double, std::ratio<1000>>(idleEnd - idleStart).count());
+          SDL_Delay(delayLength - newDelay);
+        } else {
+          printf("calling normal delay\n");
+          SDL_Delay(delayLength);
+        }
+      }else {
+        SDL_Delay(delayLength);
       }
+    } else  { 
+      printf("long delay %d: \n", static_cast<int>(delayLength));
     }
     frameCount++;
     float avgFPS = frameCount/ ( (gameStart - SDL_GetTicks()) / 1000.f );
@@ -43,5 +64,6 @@ int main() {
     // printf("FPS %f\n", avgFPS);
     // printf("-----------------\n");
   }
+  printf("exiting game\n");
   return 0;
 }

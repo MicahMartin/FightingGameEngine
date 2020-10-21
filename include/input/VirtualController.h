@@ -100,6 +100,8 @@ public:
   void playInputHistoryCopy(InputHistoryT* inputHistoryPointer);
 
   uint16_t getState();
+  void setState(uint16_t newState);
+
   uint8_t getStickState();
   void printStickState();
   void onNotify(const char* eventName);

@@ -4,6 +4,88 @@
 #include "game_objects/Stage.h"
 #include "game_objects/Entity.h"
 
+FightState* ggpoFightState;
+
+bool fsBeginGame(const char* game){
+  return ggpoFightState->beginGame(game);
+}
+
+bool fsAdvanceFrame(int flags){
+  printf("ggpo advance frame called\n");
+  int inputs[2];
+  int disconnectFlags;
+  VirtualController* p1Vc = ggpoFightState->player1->virtualController;
+  VirtualController* p2Vc = ggpoFightState->player2->virtualController;
+
+  GGPOSession* ggpoObj = ggpoFightState->ggpo;
+  ggpo_synchronize_input(ggpoObj, (void *)inputs, sizeof(int) * 2, &disconnectFlags);
+
+  // simulate a local keypress with input
+  p1Vc->setState(inputs[0]);
+  p1Vc->inputEventList.push_back(InputEvent(inputs[0], true));
+  p1Vc->inputHistory.front().emplace_back(InputEvent(inputs[0], true));
+
+  p2Vc->setState(inputs[1]);
+  p2Vc->inputEventList.push_back(InputEvent(inputs[1], true));
+  p2Vc->inputHistory.front().emplace_back(InputEvent(inputs[1], true));
+  
+  ggpoFightState->shouldUpdate = true;
+  ggpoFightState->handleInput();
+  ggpoFightState->update();
+  return true;
+}
+
+bool fsLoadGameState(unsigned char* buffer, int length){
+  ggpoFightState->loadState(buffer, length);
+  return true;
+}
+
+bool fsSaveGameState(unsigned char** buffer, int* len, int* checksum, int frame){
+  ggpoFightState->saveState(buffer, len, frame);
+  return true;
+}
+
+void fsFreeBuffer(void* buffer){ 
+  free(buffer);
+}
+
+
+bool fsOnEvent(GGPOEvent* info){ 
+  switch (info->code) {
+    case GGPO_EVENTCODE_CONNECTED_TO_PEER:
+      printf("GGPO_EVENT done connecting to peer\n");
+      break;
+    case GGPO_EVENTCODE_SYNCHRONIZING_WITH_PEER:
+      printf("GGPO_EVENT synchronizing with peer...\n");
+      break;
+    case GGPO_EVENTCODE_SYNCHRONIZED_WITH_PEER:
+      printf("GGPO_EVENT done syncing with peer\n");
+      break;
+    case GGPO_EVENTCODE_RUNNING:
+      printf("GGPO_EVENT running\n");
+      ggpoFightState->doneSync = true;
+      break;
+    case GGPO_EVENTCODE_DISCONNECTED_FROM_PEER:
+      printf("GGPO_EVENT disconnected from peer\n");
+      break;
+    case GGPO_EVENTCODE_TIMESYNC:
+      printf("GGPO_EVENT timesync\n");
+      break;
+    case GGPO_EVENTCODE_CONNECTION_INTERRUPTED:
+      printf("GGPO_EVENT connection interrupted\n");
+      break;
+    case GGPO_EVENTCODE_CONNECTION_RESUMED:
+      printf("GGPO_EVENT connection resumed\n");
+      break;
+    default:
+      printf("GGPO_EVENT\n");
+      break;
+  }
+  return true;
+}
+
+
+
 FightState::FightState(){ 
   printf("creating new fightState\n");
   stateName = "FIGHT_STATE";
@@ -37,7 +119,8 @@ FightState::~FightState(){
 
 void FightState::enter(){
   printf("entering fightState\n");
-
+  netPlayState = stateManager->getNetplay();
+  pnum = stateManager->getPnum();
   player1 = new Character(std::make_pair(1700,0), 1);
   player1->virtualController = inputManager->getVirtualController(0);
   player1->virtualController->initCommandCompiler();
@@ -103,10 +186,18 @@ void FightState::enter(){
 
   Mix_Volume(0, 32);
   printf("done loading popups\n");
+
+  if (netPlayState) {
+    printf("starting ggpo init\n");
+    shouldUpdate = false;
+    ggpoInit();
+    printf("end ggpo init\n");
+  }
 }
 
 void FightState::exit(){ 
   printf("exiting fight state\n");
+  ggpo_close_session(ggpo);
   delete player1;
   delete player2;
   delete this;
@@ -137,19 +228,16 @@ void FightState::saveState(unsigned char** buffer, int* length, int frame){
   saveObj.cameraState = camera.saveState();
 
   *length = sizeof(saveObj);
-  printf("allocating %d bytes\n", *length);
   *buffer = (unsigned char*) malloc(*length);
   memcpy(*buffer, &saveObj, *length);
 
   double saveStateEnd = SDL_GetTicks();
   saveStateLength = saveStateEnd - saveStateStart;
-  printf("took %f to save state\n", saveStateLength);
 }
 
 void FightState::loadState(unsigned char* buffer, int length){
   FightStateObj saveObj;
   memcpy(&saveObj, buffer, length);
-  printf("ok?\n");
   inSlowDown = saveObj.inSlowDown;
   p1RoundsWon = saveObj.p1RoundsWon;
   p2RoundsWon = saveObj.p2RoundsWon;
@@ -167,140 +255,151 @@ void FightState::loadState(unsigned char* buffer, int length){
 }
 
 
-void FightState::handleInput(){ 
-  if(!slowMode && !screenFreeze){
-    handleRoundStart();
-    checkCorner(player1);
-    checkCorner(player2);
-    updateFaceRight();
-    checkHitstop(player1);
-    checkHitstop(player2);
-    checkEntityHitstop(player1);
-    checkEntityHitstop(player2);
+void FightState::handleInput(){
+  if (netPlayState && doneSync) {
+    netPlayHandleInput();
+  }
+  if (shouldUpdate) {
+    if(!slowMode && !screenFreeze){
+      handleRoundStart();
+      checkCorner(player1);
+      checkCorner(player2);
+      updateFaceRight();
+      checkHitstop(player1);
+      checkHitstop(player2);
+      checkEntityHitstop(player1);
+      checkEntityHitstop(player2);
 
-    if (!player1->inHitStop) {
-      player1->handleInput();
-    }
-    if (!player2->inHitStop) {
-      player2->handleInput();
-    }
-
-    for (auto &i : player1->entityList) {
-      if(!i.inHitStop){
-        i.handleInput();
+      if (!player1->inHitStop) {
+        player1->handleInput();
       }
+      if (!player2->inHitStop) {
+        player2->handleInput();
+      }
+
+      for (auto &i : player1->entityList) {
+        if(!i.inHitStop){
+          i.handleInput();
+        }
+      }
+      for (auto &i : player2->entityList) {
+        if(!i.inHitStop){
+          i.handleInput();
+        }
+      }
+      checkThrowTechs();
+    }
+
+    player1->currentState->handleCancels();
+    player2->currentState->handleCancels();
+    for (auto &i : player1->entityList) {
+      i.currentState->handleCancels();
     }
     for (auto &i : player2->entityList) {
-      if(!i.inHitStop){
-        i.handleInput();
-      }
+      i.currentState->handleCancels();
     }
-    checkThrowTechs();
-  }
+    
+    checkProximityAgainst(player1, player2);
+    checkProximityAgainst(player2, player1);
 
-  player1->currentState->handleCancels();
-  player2->currentState->handleCancels();
-  for (auto &i : player1->entityList) {
-    i.currentState->handleCancels();
-  }
-  for (auto &i : player2->entityList) {
-    i.currentState->handleCancels();
-  }
-  
-  checkProximityAgainst(player1, player2);
-  checkProximityAgainst(player2, player1);
-
-  checkThrowCollisions();
-  checkProjectileCollisions(player1, player2);
-  checkHitCollisions();
-  checkBounds();
-  updateFaceRight();
-  checkCorner(player1);
-  checkCorner(player2);
-  if (player1->currentState->stateNum == 55) {
-    printf("player1 in techState, stateTime: %d\n", player1->currentState->stateTime);
-  }
-  if (player2->currentState->stateNum == 55) {
-    printf("player2 in techState, stateTime: %d\n", player2->currentState->stateTime);
+    checkThrowCollisions();
+    checkProjectileCollisions(player1, player2);
+    checkHitCollisions();
+    checkBounds();
+    updateFaceRight();
+    checkCorner(player1);
+    checkCorner(player2);
+    if (player1->currentState->stateNum == 55) {
+      printf("player1 in techState, stateTime: %d\n", player1->currentState->stateTime);
+    }
+    if (player2->currentState->stateNum == 55) {
+      printf("player2 in techState, stateTime: %d\n", player2->currentState->stateTime);
+    }
+    
   }
 }
 
 void FightState::update(){
-  // printf("we made it into update!\n");
-  if(!slowMode && !screenFreeze){
-    if(!player1->inHitStop){
-      player1->update();
-    }
+  if (shouldUpdate) {
+    if(!slowMode && !screenFreeze){
+      if(!player1->inHitStop){
+        player1->update();
+      }
 
-    if(!player2->inHitStop){
-      player2->update();
-    }
+      if(!player2->inHitStop){
+        player2->update();
+      }
 
-    for (auto &i : player1->entityList) {
-      if(!i.inHitStop){
-        i.update();
+      for (auto &i : player1->entityList) {
+        if(!i.inHitStop){
+          i.update();
+        }
+      }
+      for (auto &i : player2->entityList) {
+        if(!i.inHitStop){
+          i.update();
+        }
+      }
+      if (player1->currentState->checkFlag(SUPER_ATTACK) && (player1->currentState->stateTime == player1->currentState->freezeFrame)) {
+        screenFreeze = true;
+        screenFreezeLength = player1->currentState->freezeLength;
+        player1->activateVisFX(1);
+      }
+      if (player2->currentState->checkFlag(SUPER_ATTACK) && (player2->currentState->stateTime == player2->currentState->freezeFrame)) {
+        screenFreeze = true;
+        screenFreezeLength = player2->currentState->freezeLength;
+        player2->activateVisFX(1);
       }
     }
-    for (auto &i : player2->entityList) {
-      if(!i.inHitStop){
-        i.update();
+
+
+    checkBounds();
+    updateFaceRight();
+    checkCorner(player1);
+    checkCorner(player2);
+
+    checkPushCollisions();
+    checkBounds();
+
+    updateCamera();
+    checkHealth();
+
+    if (slowMode) {
+      if(slowDownCounter++ == 70){
+        slowDownCounter = 0;
+        slowMode = false;
+        roundEnd = true;
+
+        if (roundWinner == 1) {
+          p1WinPopup.setX(camera.middle);
+          p1WinPopup.setY(camera.cameraRect.y);
+          p1WinPopup.setStateTime(0);
+          p1WinPopup.setActive(true);
+          Mix_PlayChannel(0, p1WinSound, 0);
+        } else if (roundWinner == 2) {
+          p2WinPopup.setX(camera.middle);
+          p2WinPopup.setY(camera.cameraRect.y);
+          p2WinPopup.setStateTime(0);
+          p2WinPopup.setActive(true);
+          Mix_PlayChannel(0, p2WinSound, 0);
+        }
+        roundWinner = 0;
       }
     }
-    if (player1->currentState->checkFlag(SUPER_ATTACK) && (player1->currentState->stateTime == player1->currentState->freezeFrame)) {
-      screenFreeze = true;
-      screenFreezeLength = player1->currentState->freezeLength;
-      player1->activateVisFX(1);
-    }
-    if (player2->currentState->checkFlag(SUPER_ATTACK) && (player2->currentState->stateTime == player2->currentState->freezeFrame)) {
-      screenFreeze = true;
-      screenFreezeLength = player2->currentState->freezeLength;
-      player2->activateVisFX(1);
-    }
-  }
 
-
-  checkBounds();
-  updateFaceRight();
-  checkCorner(player1);
-  checkCorner(player2);
-
-  checkPushCollisions();
-  checkBounds();
-
-  updateCamera();
-  checkHealth();
-
-  if (slowMode) {
-    if(slowDownCounter++ == 70){
-      slowDownCounter = 0;
-      slowMode = false;
-      roundEnd = true;
-
-      if (roundWinner == 1) {
-        p1WinPopup.setX(camera.middle);
-        p1WinPopup.setY(camera.cameraRect.y);
-        p1WinPopup.setStateTime(0);
-        p1WinPopup.setActive(true);
-        Mix_PlayChannel(0, p1WinSound, 0);
-      } else if (roundWinner == 2) {
-        p2WinPopup.setX(camera.middle);
-        p2WinPopup.setY(camera.cameraRect.y);
-        p2WinPopup.setStateTime(0);
-        p2WinPopup.setActive(true);
-        Mix_PlayChannel(0, p2WinSound, 0);
+    if (screenFreeze) {
+      if (screenFreezeCounter++ == screenFreezeLength) {
+        screenFreezeCounter = 0;
+        screenFreezeLength = 0;
+        screenFreeze = false;
       }
-      roundWinner = 0;
+    }
+    updateVisuals();
+    
+    if (netPlayState && doneSync) {
+      ggpo_advance_frame(ggpo);
     }
   }
-
-  if (screenFreeze) {
-    if (screenFreezeCounter++ == screenFreezeLength) {
-      screenFreezeCounter = 0;
-      screenFreezeLength = 0;
-      screenFreeze = false;
-    }
-  }
-  updateVisuals();
 }
 
 void FightState::draw() {
@@ -329,6 +428,11 @@ void FightState::draw() {
     currentScreen.showGradient = true;
   } else {
     currentScreen.showGradient = false;
+  }
+  if (netPlayState && !doneSync) {
+    currentScreen.recordStatus = RecordingStatus::CONNECTING;
+  } else {
+    currentScreen.recordStatus = RecordingStatus::RECORDING_NONE;
   }
   currentScreen.draw();
   screenDrawEnd = SDL_GetTicks();
@@ -1750,3 +1854,96 @@ void FightState::renderInputHistory(){
   currentScreen.renderInputHistory(true, player1->virtualController->inputEventList);
   currentScreen.renderInputHistory(false, player2->virtualController->inputEventList);
 }
+
+bool FightState::beginGame(const char* name){
+  printf("GGPO BEGIN GAME CALLBACK!\n");
+  return true;
+}
+
+void FightState::ggpoInit(){
+  // setup players
+  int pNum = stateManager->getPnum();
+  p1.player_num = 1;
+  p1.size = sizeof(p1);
+
+  p2.player_num = 2;
+  p2.size = sizeof(p2);
+  int localPort;
+  const char* localIp = "192.168.50.122";
+
+  if (pNum == 1) {
+    p1.type = GGPO_PLAYERTYPE_LOCAL;
+    local_player_handle = &player_handles[0];
+    localPort = 7000;
+
+    p2.type = GGPO_PLAYERTYPE_REMOTE;
+    strcpy(p2.u.remote.ip_address, localIp);
+    p2.u.remote.port = 7001;
+  } else {
+    p2.type = GGPO_PLAYERTYPE_LOCAL;
+    local_player_handle = &player_handles[1];
+    localPort = 7001;
+
+    p1.type = GGPO_PLAYERTYPE_REMOTE;
+    strcpy(p1.u.remote.ip_address, localIp);
+    p1.u.remote.port = 7000;
+  }
+
+  // setup GGPO
+
+  ggpoFightState = this;
+  GGPOSessionCallbacks cb;
+  cb.on_event = fsOnEvent;
+  cb.begin_game = fsBeginGame; 
+  cb.advance_frame = fsAdvanceFrame;
+  cb.load_game_state = fsLoadGameState;
+  cb.save_game_state = fsSaveGameState;
+  cb.free_buffer = fsFreeBuffer;
+
+  // Start Session
+  GGPOErrorCode result = ggpo_start_session(&ggpo, &cb, "beatdown", 2, sizeof(int), localPort);
+  ggpo_set_disconnect_timeout(ggpo, 10000);
+  ggpo_set_disconnect_notify_start(ggpo, 10000);
+  printf("player:%d %s:%d the result of starting GGPO SESSION %d\n", pNum, localIp, localPort, result);
+
+  // Add Player 1
+  result = ggpo_add_player(ggpo, &p1, &player_handles[0]);
+  printf("player1 type %d, result of add:%d\n", p1.type, result);
+  result = ggpo_add_player(ggpo, &p2, &player_handles[1]);
+  printf("player2 type %d, result of add:%d\n", p2.type, result);
+}
+
+void FightState::netPlayHandleInput(){
+  shouldUpdate = false;
+  int inputs[2];
+  int currentInput = 0;
+  int disconnectFlags;
+
+  VirtualController* p1Vc = player1->virtualController;
+  VirtualController* p2Vc = player2->virtualController;
+
+  currentInput = p1Vc->getState();
+
+  GGPOErrorCode result = ggpo_add_local_input(ggpo, *local_player_handle, &currentInput, sizeof(currentInput));
+  printf("done adding local input\n");
+  if (GGPO_SUCCEEDED(result)) {
+    ggpo_synchronize_input(ggpo, (void *)inputs, sizeof(inputs), &disconnectFlags);
+    if (GGPO_SUCCEEDED(result)) {
+      shouldUpdate = true;
+      printf("GGPO SYNC SUCCESS\n");
+
+      // simulate a local keypress with input
+      p1Vc->setState(inputs[0]);
+      p1Vc->inputEventList.push_back(InputEvent(inputs[0], true));
+      p1Vc->inputHistory.front().emplace_back(InputEvent(inputs[0], true));
+
+      p2Vc->setState(inputs[1]);
+      p2Vc->inputEventList.push_back(InputEvent(inputs[1], true));
+      p2Vc->inputHistory.front().emplace_back(InputEvent(inputs[1], true));
+
+    }
+  } else {
+    printf("GGPO SYNC FAIL %d\n", result);
+  }
+};
+

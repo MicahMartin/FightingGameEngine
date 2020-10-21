@@ -24,7 +24,8 @@ enum RecordingStatus {
   RECORDING_ONE,
   RECORDING_TWO,
   PLAYBACK_ONE,
-  PLAYBACK_TWO
+  PLAYBACK_TWO,
+  CONNECTING
 };
 
 class FightScreen : public Screen {
@@ -99,7 +100,8 @@ private:
               s2Record,
               p1Record,
               p2Record,
-              p3Record;
+              p3Record,
+              connectStatus;
 
   bool        s1 = false,
               s2 = false,

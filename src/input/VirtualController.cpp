@@ -175,18 +175,18 @@ bool VirtualController::checkCommand(int commandIndex, bool faceRight) {
 }
 
 void VirtualController::setBit(Input bit) {
-  printf("setting bit %s\n", inputToString[bit]);
+  // printf("setting bit %s\n", inputToString[bit]);
   currentState |= bit;
   inputHistory.front().push_back(InputEvent(bit, true));
   inputEventList.push_front(InputEvent(bit, true));
-  printStickState();
+  // printStickState();
 }
 
 void VirtualController::clearBit(Input bit) {
   currentState &= ~bit;
-  printf("clearing old bit clearBit: %s\n", inputToString[bit]);
+  // printf("clearing old bit clearBit: %s\n", inputToString[bit]);
   inputHistory.front().push_back(InputEvent(bit, false));
-  printStickState();
+  // printStickState();
   // inputEventList.push_front(InputEvent(bit, false));
 }
 
@@ -275,6 +275,10 @@ void VirtualController::printStickState(){
 
 uint16_t VirtualController::getState() {
   return currentState;
+}
+
+void VirtualController::setState(uint16_t newState) {
+  currentState = newState;
 }
 
 uint8_t VirtualController::getStickState() {

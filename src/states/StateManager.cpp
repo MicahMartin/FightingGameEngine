@@ -29,3 +29,20 @@ void StateManager::popState(){
   oldState->exit();
   stateStack.top()->resume();
 }
+
+void StateManager::setNetplay(bool _netplaying){
+  netplaying = _netplaying;
+}
+
+bool StateManager::getNetplay(){
+  return netplaying;
+}
+
+void StateManager::setPnum(int pnum){
+  printf("playerNum:%d\n", pnum);
+  pNum = pnum;
+}
+
+int StateManager::getPnum(){
+  return pNum;
+}

@@ -15,6 +15,12 @@ public:
   void changeState(GameState* newState);
   void popState();
 
+  void setNetplay(bool netplaying);
+  bool getNetplay();
+
+  void setPnum(int pNum);
+  int getPnum();
+
 private:
   StateManager() = default;
   ~StateManager() = default;
@@ -24,6 +30,8 @@ private:
   StateManager& operator=(StateManager&&) = delete;
 
   std::stack<GameState*> stateStack;
+  bool netplaying;
+  int pNum;
 };
 
 

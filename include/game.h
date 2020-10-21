@@ -18,9 +18,6 @@ public:
 
   // observer
   void onNotify(const char* message);
-  
-  // ggpo callbacks
-  bool beginGameCallback(const char* game);
 
   double inputLength;
   double handleInputLength;
@@ -31,9 +28,9 @@ public:
   int gameTime = 0;
   bool running = true;
   bool inFightState = false;
+  StateManager* stateManager = StateManager::getInstance();
 private:
   Graphics* graphics = Graphics::getInstance();
-  StateManager* stateManager = StateManager::getInstance();
   InputManager* inputManager = InputManager::getInstance();
   VirtualController virtualControllers[2];
 };

@@ -19,6 +19,7 @@ FightScreen::FightScreen(){
   sky.setDimensions(0, -graphics->getWindowHeight(), windowWidth*3, graphics->getWindowHeight()*2);
   addTexture(&sky);
   addTexture(&stage);
+  connectStatus.setText("CONNECTING");
   s1Record.setText("recording to slot 1");
   s2Record.setText("recording to slot 2");
   p1Record.setText("playBack to slot 1");
@@ -123,6 +124,8 @@ void FightScreen::draw(){
       break;
     case PLAYBACK_TWO:
       p2Record.render();
+    case CONNECTING:
+      connectStatus.render();
     default:
       break;
   }

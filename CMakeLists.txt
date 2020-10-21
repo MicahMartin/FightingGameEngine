@@ -22,8 +22,6 @@ find_package(SDL2Mixer REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 find_package(Gperftools REQUIRED COMPONENTS TCMALLOC_AND_PROFILER)
 
-find_library(GGPO libGGPO)
-
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
     ${PROJECT_SOURCE_DIR}/libs
@@ -40,7 +38,7 @@ add_executable(kusoge ${SOURCE} ${HEADER})
 target_link_libraries( 
     kusoge 
     PRIVATE nlohmann_json::nlohmann_json
-    ${GGPO} 
+    ${PROJECT_SOURCE_DIR}/third_party/ggpo/build/src/libGGPO.dylib
     ${Gperftools_LIBRARIES}
     ${SDL2_LIBRARY}
     ${SDL2_IMAGE_LIBRARIES}

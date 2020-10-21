@@ -14,7 +14,7 @@ MenuState::MenuState() {
   }, [this]{});
 
   mainMenu.addMenuItem("netplay", "netplay", 240, 50, [this]{
-    // stateManager->pushState(new NetConnectState());
+    stateManager->pushState(new NetConnectState());
   }, [this]{});
 
   mainMenu.addMenuItem("config", "config", 240, 50, [this]{
@@ -25,6 +25,7 @@ MenuState::MenuState() {
   configMenu.addDisplayElem("button_select", "../data/images/buttonSelect.png", 200, 400, 900, 100, false);
 
   configMenu.addMenuItem("player1_button_config", "config", 240, 50, [this]{
+    // refactor u vagrant
     inputManager->userBeingConfig = 1;
     inputManager->keySelectionMode = true;
     DisplayElem* buttonSelect = configMenu.getDisplayElem("button_select");
@@ -135,7 +136,6 @@ void MenuState::handleInput() {
     return;
   }
   activeMenu->handleInput();
-  printf("how do I get here\n");
 }
 
 void MenuState::update() {

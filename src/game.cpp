@@ -3,43 +3,10 @@
 #include "states/OpeningState.h"
 #include "states/FightState.h"
 #include "game.h"
-#include "ggponet.h"
+#include <boost/serialization/list.hpp>
 
-bool beginGame(const char* game){
-  return false;
-}
-
-bool advanceFrame(int flags){
-  return false;
-}
-
-bool loadGameState(unsigned char* buffer, int length){
-  return false;
-}
-
-bool saveGameState(unsigned char** buffer, int* len, int* checksum, int frame){
-  return false;
-}
-
-void freeBuffer(void* buffer){ }
-
-bool onEvent(GGPOEvent* info){ 
-  return false;
-}
 
 Game::Game(){
-  GGPOSession* ggpo;
-  GGPOErrorCode result;
-  GGPOSessionCallbacks cb;
-  cb.begin_game = &beginGame;
-  cb.advance_frame = &advanceFrame;
-  cb.load_game_state = &loadGameState;
-  cb.save_game_state = &saveGameState;
-  cb.free_buffer = &freeBuffer;
-  cb.on_event = &onEvent;
-  result = ggpo_start_session(&ggpo, &cb, "BeatDown", 2, sizeof(int), 8001);
-  ggpo_log(ggpo, "why");
-
 
   // init Graphics
   if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_JOYSTICK|SDL_INIT_AUDIO) != 0 ){
@@ -81,20 +48,8 @@ void Game::update() {
   inputManager->update();
   double inputManagerEnd = SDL_GetTicks();
   inputLength = inputManagerEnd-inputManagerStart;
-  // printf("inputLength %f\n", inputLength);
-
-  // printf("made it back to update\n");
   GameState* currentState = stateManager->getState();
-  // if(strcmp(currentState->stateName, "FIGHT_STATE") == 0){
-  //   FightState* fightState = (FightState*)currentState;
-  //   printf("in fight state %s, %d\n", fightState->stateName, fightState->everythingCompiled);
-  //   if(fightState->everythingCompiled){
-  //     printf("everything compiled\n");
-  //     inFightState = true;
-  //   }
-  // }
   currentState->gameTime = gameTime;
-
   double handleInputFrameStart = SDL_GetTicks();
 
   // printf("about to handle input\n");
@@ -110,8 +65,10 @@ void Game::update() {
   currentState = stateManager->getState();
   double stateUpdateEnd = SDL_GetTicks();
   updateLength = stateUpdateEnd-stateUpdateStart;
-  // printf("updateLength %f\n", updateLength);
+    // printf("updateLength %f\n", updateLength);
 
+
+ // }
 }
 void Game::draw(){
   // the current state holds a pointer to the currrent screen
@@ -169,7 +126,3 @@ void Game::onNotify(const char* eventName) {
     }
   }
 }
-
-bool Game::beginGameCallback(const char* game){
-  printf("ggpo begin game\n");
-};
