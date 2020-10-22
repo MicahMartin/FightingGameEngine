@@ -160,6 +160,7 @@ public:
   GGPOPlayerHandle* local_player_handle;
   bool shouldUpdate = true;
   bool doneSync = false;
+  bool inAdvanceState = false;
   bool netPlayState;
 private:
   FightScreen currentScreen;

@@ -40,7 +40,7 @@
 //  TODO: load from file
 //   "~D, 20DF, 20F, 8LP | 8~LP", // 214P
 std::vector<std::string> CommandCompiler::commandStrings = {
-  "@F, N, F", // dash
+  "F, N, F", // dash
   "B, N, B", // backdash
   "~D, DF, F, LK | ~LK",
   "N & MK",

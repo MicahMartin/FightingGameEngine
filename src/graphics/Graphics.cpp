@@ -5,7 +5,7 @@
 
 void Graphics::init(){
   // setup window. return -1 on error
-  window = SDL_CreateWindow("Boring Game",
+  window = SDL_CreateWindow(windowName.c_str(),
       SDL_WINDOWPOS_UNDEFINED,
       SDL_WINDOWPOS_UNDEFINED,
       1280,
@@ -23,6 +23,7 @@ void Graphics::init(){
   //
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   SDL_RenderSetLogicalSize(renderer, width, height);
+  SDL_SetWindowSize(window, 640, 360);
  
   // SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 

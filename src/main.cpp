@@ -12,6 +12,8 @@ int main(int argc, char* args[]) {
   Game game;
   if (argc >= 1) {
     game.stateManager->getInstance()->setPnum(std::stoi(args[1]));
+    std::string realWindowName = game.graphics->windowName + std::to_string(std::stoi(args[1]));
+    SDL_SetWindowTitle(game.graphics->getWindow(), realWindowName.c_str());
     // port = std::stoi(args[2]);
     // enemyPort = std::stoi(args[3]);
   }

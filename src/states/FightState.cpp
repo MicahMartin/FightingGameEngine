@@ -3,9 +3,35 @@
 #include "game_objects/Character.h"
 #include "game_objects/Stage.h"
 #include "game_objects/Entity.h"
+#include <chrono>
+#include <thread>
+
 
 FightState* ggpoFightState;
 
+unsigned createMask(unsigned a, unsigned b)
+{
+   unsigned r = 0;
+   for (unsigned i=a; i<=b; i++)
+       r |= 1 << i;
+
+   return r;
+}
+
+int intFromInput(InputEvent event){
+  int returnInt = 0;
+  returnInt = event.inputBit;
+  if (event.pressed) {
+   returnInt = ((1 << 30) | returnInt); 
+  }
+  return returnInt;
+}
+
+InputEvent intToInputEvent(int input){
+  unsigned mask = createMask(0, 15);
+  uint16_t inputBit = mask & input;
+  return InputEvent(input, (1 == ( (input >> 30) & 1)));
+}
 bool fsBeginGame(const char* game){
   return ggpoFightState->beginGame(game);
 }
@@ -18,7 +44,7 @@ bool fsAdvanceFrame(int flags){
   VirtualController* p2Vc = ggpoFightState->player2->virtualController;
 
   GGPOSession* ggpoObj = ggpoFightState->ggpo;
-  ggpo_synchronize_input(ggpoObj, (void *)inputs, sizeof(int) * 2, &disconnectFlags);
+  ggpo_synchronize_input(ggpoObj, (void *)inputs, sizeof(inputs), &disconnectFlags);
 
   // simulate a local keypress with input
   p1Vc->setState(inputs[0]);
@@ -30,6 +56,7 @@ bool fsAdvanceFrame(int flags){
   p2Vc->inputHistory.front().emplace_back(InputEvent(inputs[1], true));
   
   ggpoFightState->shouldUpdate = true;
+  ggpoFightState->inAdvanceState = true;
   ggpoFightState->handleInput();
   ggpoFightState->update();
   return true;
@@ -70,6 +97,8 @@ bool fsOnEvent(GGPOEvent* info){
       break;
     case GGPO_EVENTCODE_TIMESYNC:
       printf("GGPO_EVENT timesync\n");
+      std::this_thread::sleep_for(std::chrono::milliseconds(1000 * info->u.timesync.frames_ahead / 60));
+
       break;
     case GGPO_EVENTCODE_CONNECTION_INTERRUPTED:
       printf("GGPO_EVENT connection interrupted\n");
@@ -190,6 +219,9 @@ void FightState::enter(){
   if (netPlayState) {
     printf("starting ggpo init\n");
     shouldUpdate = false;
+    if (pnum != 1) {
+      inputManager->stickToVC[inputManager->p1SDLController] = player2->virtualController;
+    }
     ggpoInit();
     printf("end ggpo init\n");
   }
@@ -207,9 +239,6 @@ void FightState::pause(){ }
 void FightState::resume(){ }
 
 void FightState::saveState(unsigned char** buffer, int* length, int frame){
-  double saveStateLength = 0;
-  double saveStateStart = SDL_GetTicks();
-
   FightStateObj saveObj;
   saveObj.currentRound = currentRound;
   saveObj.inSlowDown = inSlowDown;
@@ -230,9 +259,6 @@ void FightState::saveState(unsigned char** buffer, int* length, int frame){
   *length = sizeof(saveObj);
   *buffer = (unsigned char*) malloc(*length);
   memcpy(*buffer, &saveObj, *length);
-
-  double saveStateEnd = SDL_GetTicks();
-  saveStateLength = saveStateEnd - saveStateStart;
 }
 
 void FightState::loadState(unsigned char* buffer, int length){
@@ -257,7 +283,11 @@ void FightState::loadState(unsigned char* buffer, int length){
 
 void FightState::handleInput(){
   if (netPlayState && doneSync) {
-    netPlayHandleInput();
+    if (!inAdvanceState) {
+      netPlayHandleInput();
+    } else {
+      inAdvanceState = false;
+    }
   }
   if (shouldUpdate) {
     if(!slowMode && !screenFreeze){
@@ -397,6 +427,7 @@ void FightState::update(){
     updateVisuals();
     
     if (netPlayState && doneSync) {
+      printf("calling ggpo advance frame\n");
       ggpo_advance_frame(ggpo);
     }
   }
@@ -1922,7 +1953,7 @@ void FightState::netPlayHandleInput(){
   VirtualController* p1Vc = player1->virtualController;
   VirtualController* p2Vc = player2->virtualController;
 
-  currentInput = p1Vc->getState();
+  currentInput = pnum == 1 ? p1Vc->getState() : p2Vc->getState();
 
   GGPOErrorCode result = ggpo_add_local_input(ggpo, *local_player_handle, &currentInput, sizeof(currentInput));
   printf("done adding local input\n");

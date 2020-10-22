@@ -29,9 +29,9 @@ public:
   bool running = true;
   bool inFightState = false;
   StateManager* stateManager = StateManager::getInstance();
-private:
   Graphics* graphics = Graphics::getInstance();
   InputManager* inputManager = InputManager::getInstance();
+private:
   VirtualController virtualControllers[2];
 };
 #endif

@@ -102,6 +102,7 @@ void Game::onNotify(const char* eventName) {
   if(std::strcmp(eventName, "QUIT_REQUEST") == 0){
     printf("Shutting down\n");
     running = false;
+    SDL_CloseAudio();
     exit(EXIT_SUCCESS);
     // printf("Here is the input history size %d\n", inputManager.getInputHistorySize());
 

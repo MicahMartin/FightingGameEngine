@@ -3,6 +3,7 @@
 
 #include <SDL2_image/SDL_image.h>
 #include "SDL_ttf.h"
+#include <string>
 
 // handle SDL init, window stuff, and video buffer swapping at the end of every frame
 class Camera;
@@ -28,6 +29,8 @@ public:
   int getWindowWidth();
   int getWindowHeight();
   TTF_Font* getFont();
+  std::string windowName = "BeatDown ";
+
 private:
   Graphics() = default;
   ~Graphics(){
