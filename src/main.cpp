@@ -14,6 +14,13 @@ int main(int argc, char* args[]) {
     game.stateManager->getInstance()->setPnum(std::stoi(args[1]));
     std::string realWindowName = game.graphics->windowName + std::to_string(std::stoi(args[1]));
     SDL_SetWindowTitle(game.graphics->getWindow(), realWindowName.c_str());
+    if (argc >= 3) {
+      if (std::stoi(args[2]) + std::stoi(args[3]) == 0) {
+        game.graphics->resizeWindow(true);
+      } else {
+        game.graphics->resizeWindow(std::stoi(args[2]), std::stoi(args[3]));
+      }
+    }
     // port = std::stoi(args[2]);
     // enemyPort = std::stoi(args[3]);
   }
@@ -42,7 +49,7 @@ int main(int argc, char* args[]) {
           double newDelay = (std::chrono::duration<double, std::ratio<1000>>(idleEnd - idleStart).count());
           SDL_Delay(delayLength - newDelay);
         } else {
-          printf("calling normal delay\n");
+          // printf("calling normal delay\n");
           SDL_Delay(delayLength);
         }
       }else {
@@ -66,6 +73,7 @@ int main(int argc, char* args[]) {
     // printf("FPS %f\n", avgFPS);
     // printf("-----------------\n");
   }
+  SDL_Quit();
   printf("exiting game\n");
   return 0;
 }

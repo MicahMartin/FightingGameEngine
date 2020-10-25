@@ -2,7 +2,18 @@
 #include "input/CommandCompiler.h"
 #include <bitset>
 #include <iostream>
+#include <fstream>
+#include <boost/asio/streambuf.hpp>
 #include <nlohmann/json.hpp>
+
+// include input and output archivers
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+
+// include this header to serialize vectors
+#include <boost/serialization/vector.hpp>
+#include <boost/serialization/list.hpp>
+#include <boost/serialization/binary_object.hpp>
 
 std::map<int, Input(*)(bool)> VirtualController::inputMap = {
   {1, [](bool faceRight){return faceRight ? DOWNLEFT:DOWNRIGHT;}},
@@ -52,10 +63,11 @@ std::map<int, const char*> VirtualController::inputToString = {
   {MK, "MEDIUM_K"},
 };
 
-VirtualController::VirtualController() { 
-  inputHistory.set_capacity(600);
-  inputHistoryCopy.reserve(600);
+VirtualController::VirtualController() : inputHistorySnapShot(128) { 
+  inputHistory.set_capacity(128);
   inputEventList.set_capacity(10);
+  inputHistoryCopy.reserve(128);
+
   commandCompiler = new CommandCompiler();
   commandCompiler->controllerPointer = this;
 }
@@ -66,7 +78,13 @@ VirtualController::~VirtualController() {
 } 
 
 void VirtualController::update() {
-  inputHistory.push_front(std::list<InputEvent>());
+  if (inputHistory.size() > 0) {
+    for (auto i : inputHistory.front()) {
+      if (i.pressed)
+       inputEventList.push_front(i); 
+    }
+  }
+  inputHistory.push_front(InputFrameT());
 }
 
 void VirtualController::initCommandCompiler(){
@@ -86,7 +104,7 @@ bool VirtualController::wasPressed(Input input, bool strict, int index, bool pre
   if (index >= historySize) {
     return false;
   }
-  std::list<InputEvent>* eventList = &inputHistory[index];
+  InputFrameT* eventList = &inputHistory[index];
   if (eventList->size() == 0) {
     return false;
   }
@@ -115,7 +133,7 @@ bool VirtualController::wasPressedBuffer(Input input, bool strict, bool pressed)
   }
 
   for (int i = 0; i < buffLen && !found; ++i) {
-    std::list<InputEvent>* eventList = &inputHistory[i];
+    InputFrameT* eventList = &inputHistory[i];
 
     if (eventList->size() > 0) {
       for(InputEvent& event : *eventList) {
@@ -178,16 +196,12 @@ void VirtualController::setBit(Input bit) {
   // printf("setting bit %s\n", inputToString[bit]);
   currentState |= bit;
   inputHistory.front().push_back(InputEvent(bit, true));
-  inputEventList.push_front(InputEvent(bit, true));
   // printStickState();
 }
 
 void VirtualController::clearBit(Input bit) {
   currentState &= ~bit;
-  // printf("clearing old bit clearBit: %s\n", inputToString[bit]);
   inputHistory.front().push_back(InputEvent(bit, false));
-  // printStickState();
-  // inputEventList.push_front(InputEvent(bit, false));
 }
 
 void VirtualController::setBitOffset(uint16_t offset) {
@@ -204,20 +218,17 @@ void VirtualController::setAxis(Input newState){
   currentState |= (newState & 0x0F);
 
   uint8_t newStickState = currentState & 0x0F;
-  std::list<InputEvent>& currentList = inputHistory.front();
+  InputFrameT& currentList = inputHistory.front();
   printf("clearing old stick state setAxis: %s\n", inputToString[oldStickState]);
   currentList.push_back(InputEvent(oldStickState, false));
   currentList.push_back(InputEvent(newStickState, true));
-  if(newStickState != NOINPUT){
-    inputEventList.push_front(InputEvent(newStickState, true));
-  }
 }
 
 void VirtualController::updateAxis(bool isXAxis) {
   int axis = isXAxis ? xAxis : yAxis;
   uint8_t offset = isXAxis ? 0 : 2;
   uint8_t oldStickState = currentState & 0x0F;
-  std::list<InputEvent>& currentList = inputHistory.front();
+  InputFrameT& currentList = inputHistory.front();
   // printf("new axis value %d\n", axis);
 
   switch (axis) {
@@ -245,9 +256,6 @@ void VirtualController::updateAxis(bool isXAxis) {
   printf("clearing old stick state updateAxis %s\n", inputToString[oldStickState]);
   currentList.push_back(InputEvent(oldStickState, false));
   currentList.push_back(InputEvent(newStickState, true));
-  if(newStickState != NOINPUT){
-    inputEventList.push_front(InputEvent(newStickState, true));
-  }
 }
 
 void VirtualController::startCopyMode() {
@@ -283,6 +291,45 @@ void VirtualController::setState(uint16_t newState) {
 
 uint8_t VirtualController::getStickState() {
   return (currentState & 0x0F);
+}
+
+void VirtualController::serializeHistory() { 
+  // int historySize = inputHistory.size();
+  // // printf("the input history size %d\n", historySize);
+  // for (int i = 0; i < (historySize - 1); ++i) {
+  //   InputFrameT* currentEventList = &inputHistory[i];
+  //   inputHistorySnapShot[i].clear();
+  //   for (auto &x : *currentEventList) {
+  //     printf("%d %d\n", x.inputBit, x.pressed);
+  //     inputHistorySnapShot[i].push_back(InputEvent(x.inputBit, x.pressed));
+  //   }
+  //   printf("historySnapShot:%d for frame :%d\n", (int)inputHistorySnapShot[i].size(), i);
+  // }
+  // printf("returning this history with size %d\n", inputHistorySnapShot.size());
+  for (int i = 0; (i <= inputHistory.size() - 1); ++i) {
+    std::vector<InputEvent> newInputs{std::begin(inputHistory.at(i)), std::end(inputHistory.at(i))};
+    // for (int x = 0; x <= newInputs.size(); ++x) {
+    //   printf("the x:%d\n", x);
+    //   InputEvent input;
+    //   input.inputBit = 1;
+    //   input.pressed = 1;
+
+    //   newInputs.push_back(input);
+    // }
+    inputHistorySnapShot.at(i) = newInputs;
+  }
+}
+
+void VirtualController::loadHistory(HistoryCopyT historyCopy) { 
+  int historySize = historyCopy.size();
+  for (int i = 0; i <= (inputHistory.size() - 1); ++i) {
+    printf("frame:%d\n", i);
+    InputFrameT currentFrame{std::begin(historyCopy.at(i)), std::end(historyCopy.at(i))};
+    printf("the history copy size %d\n", currentFrame.size());
+    inputHistory.at(i) = currentFrame;
+    printf("input history set for frame %d\n", i);
+  }
+  printf("loadhistory done\n");
 }
 
 

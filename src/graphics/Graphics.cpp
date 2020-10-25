@@ -23,7 +23,7 @@ void Graphics::init(){
   //
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   SDL_RenderSetLogicalSize(renderer, width, height);
-  SDL_SetWindowSize(window, 640, 360);
+  // SDL_SetWindowSize(window, 2560, 1440);
  
   // SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 
@@ -69,7 +69,14 @@ void Graphics::present() {
 }
 
 void Graphics::resizeWindow(int w, int h){
+  SDL_SetWindowSize(window, w, h);
+}
+
+void Graphics::resizeWindow(bool fullScreen){
   // resize the window
+  if (fullScreen) {
+    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+  }
 }
 
 

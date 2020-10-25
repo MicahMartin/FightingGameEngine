@@ -5,12 +5,12 @@
 #include "game_objects/Entity.h"
 #include <chrono>
 #include <thread>
+#include <csignal>
 
 
 FightState* ggpoFightState;
 
-unsigned createMask(unsigned a, unsigned b)
-{
+unsigned createMask(unsigned a, unsigned b){
    unsigned r = 0;
    for (unsigned i=a; i<=b; i++)
        r |= 1 << i;
@@ -46,17 +46,21 @@ bool fsAdvanceFrame(int flags){
   GGPOSession* ggpoObj = ggpoFightState->ggpo;
   ggpo_synchronize_input(ggpoObj, (void *)inputs, sizeof(inputs), &disconnectFlags);
 
+  // InputEvent p1Input = intToInputEvent(inputs[0]);
+  // InputEvent p2Input = intToInputEvent(inputs[1]);
+
   // simulate a local keypress with input
   p1Vc->setState(inputs[0]);
-  p1Vc->inputEventList.push_back(InputEvent(inputs[0], true));
-  p1Vc->inputHistory.front().emplace_back(InputEvent(inputs[0], true));
+  // p1Vc->inputEventList.push_back(InputEvent(inputs[0], true));
+  // p1Vc->inputHistory.front().emplace_back(InputEvent(inputs[0], true));
 
   p2Vc->setState(inputs[1]);
-  p2Vc->inputEventList.push_back(InputEvent(inputs[1], true));
-  p2Vc->inputHistory.front().emplace_back(InputEvent(inputs[1], true));
+  // p2Vc->inputEventList.push_back(InputEvent(inputs[1], true));
+  // p2Vc->inputHistory.front().emplace_back(InputEvent(inputs[1], true));
   
   ggpoFightState->shouldUpdate = true;
   ggpoFightState->inAdvanceState = true;
+
   ggpoFightState->handleInput();
   ggpoFightState->update();
   return true;
@@ -68,6 +72,7 @@ bool fsLoadGameState(unsigned char* buffer, int length){
 }
 
 bool fsSaveGameState(unsigned char** buffer, int* len, int* checksum, int frame){
+  printf("saving game state\n");
   ggpoFightState->saveState(buffer, len, frame);
   return true;
 }
@@ -264,6 +269,7 @@ void FightState::saveState(unsigned char** buffer, int* length, int frame){
 void FightState::loadState(unsigned char* buffer, int length){
   FightStateObj saveObj;
   memcpy(&saveObj, buffer, length);
+
   inSlowDown = saveObj.inSlowDown;
   p1RoundsWon = saveObj.p1RoundsWon;
   p2RoundsWon = saveObj.p2RoundsWon;
@@ -1900,7 +1906,7 @@ void FightState::ggpoInit(){
   p2.player_num = 2;
   p2.size = sizeof(p2);
   int localPort;
-  const char* localIp = "192.168.50.122";
+  const char* localIp = "127.0.0.1";
 
   if (pNum == 1) {
     p1.type = GGPO_PLAYERTYPE_LOCAL;
@@ -1933,8 +1939,8 @@ void FightState::ggpoInit(){
 
   // Start Session
   GGPOErrorCode result = ggpo_start_session(&ggpo, &cb, "beatdown", 2, sizeof(int), localPort);
-  ggpo_set_disconnect_timeout(ggpo, 10000);
-  ggpo_set_disconnect_notify_start(ggpo, 10000);
+  ggpo_set_disconnect_timeout(ggpo, 3000);
+  ggpo_set_disconnect_notify_start(ggpo, 2000);
   printf("player:%d %s:%d the result of starting GGPO SESSION %d\n", pNum, localIp, localPort, result);
 
   // Add Player 1
@@ -1953,8 +1959,9 @@ void FightState::netPlayHandleInput(){
   VirtualController* p1Vc = player1->virtualController;
   VirtualController* p2Vc = player2->virtualController;
 
-  currentInput = pnum == 1 ? p1Vc->getState() : p2Vc->getState();
+  currentInput = pnum == 1 ? p1Vc->getState(): p2Vc->getState();
 
+  printf("adding local input\n");
   GGPOErrorCode result = ggpo_add_local_input(ggpo, *local_player_handle, &currentInput, sizeof(currentInput));
   printf("done adding local input\n");
   if (GGPO_SUCCEEDED(result)) {
@@ -1965,13 +1972,12 @@ void FightState::netPlayHandleInput(){
 
       // simulate a local keypress with input
       p1Vc->setState(inputs[0]);
-      p1Vc->inputEventList.push_back(InputEvent(inputs[0], true));
-      p1Vc->inputHistory.front().emplace_back(InputEvent(inputs[0], true));
+      // p1Vc->inputEventList.push_back(InputEvent(inputs[0], true));
+      // p1Vc->inputHistory.front().emplace_back(InputEvent(inputs[0], true));
 
       p2Vc->setState(inputs[1]);
-      p2Vc->inputEventList.push_back(InputEvent(inputs[1], true));
-      p2Vc->inputHistory.front().emplace_back(InputEvent(inputs[1], true));
-
+      // p2Vc->inputEventList.push_back(InputEvent(inputs[1], true));
+      // p2Vc->inputHistory.front().emplace_back(InputEvent(inputs[1], true));
     }
   } else {
     printf("GGPO SYNC FAIL %d\n", result);

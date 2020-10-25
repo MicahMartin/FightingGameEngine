@@ -36,6 +36,7 @@ struct EntityStateObj {
   bool isDead = false;
   bool updateFacing = false;
 
+  // TODO: Switch to state num
   StateDef* currentState;
   StateDefObj currentStateObj;
 };

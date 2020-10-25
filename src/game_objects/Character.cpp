@@ -1,7 +1,15 @@
 #include "game_objects/Character.h"
 #include "game_objects/Entity.h"
 #include <fstream>
+#include <sstream>
 #include <iostream>
+#include <boost/serialization/vector.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+
 
 Character::Character(std::pair<int, int> _position, int _playerNum) {
   faceRight = playerNum == 1 ? true : false;
@@ -75,14 +83,28 @@ CharStateObj Character::saveState(){
   stateObj.auraID = auraID;
   stateObj.currentState = currentState;
   stateObj.stateDefObj = currentState->saveState();
+
   for (int i = 0; i < entityList.size(); ++i) {
     stateObj.entityStates[i] = entityList[i].saveState();
   }
+
+  virtualController->serializeHistory();
+
+  {
+    std::ofstream oStream("../tmp/out.dat");
+    boost::archive::text_oarchive oArchive(oStream);
+    oArchive & virtualController->inputHistorySnapShot;
+    // stateObj.inputHistoryArc = oStream.str();
+  }
+
+// printf("stateObj.inputHistoryArc:%d\n", stateObj.inputHistoryArc.size());
+  // stateObj.eventList = virtualController->inputEventList;
   
   return stateObj;
 }
 
 void Character::loadState(CharStateObj stateObj){
+  printf("player %d LoadState Begin\n", playerNum);
   position.first = stateObj.positionX;
   position.second = stateObj.positionY;
   control = stateObj.control;
@@ -130,6 +152,19 @@ void Character::loadState(CharStateObj stateObj){
   for (int i = 0; i < entityList.size(); ++i) {
     entityList[i].loadState(stateObj.entityStates[i]);
   }
+  printf("character %d loadStates done\n", playerNum);
+
+  printf("inputHistory string before load:%d\n", stateObj.inputHistoryArc.size());
+  {
+    std::ifstream iStream("../tmp/out.dat");
+    boost::archive::text_iarchive iArchive(iStream);
+    iArchive & virtualController->inputHistorySnapShot;
+    virtualController->loadHistory(virtualController->inputHistorySnapShot);
+  }
+  // Load the data
+  // ar & virtualController->inputHistorySnapShot;
+  // virtualController->loadHistory(stateObj.inputHistory);
+  // virtualController->inputHistorySnapShot = stateObj.inputHistoryState;
 }
 
 void Character::refresh(){

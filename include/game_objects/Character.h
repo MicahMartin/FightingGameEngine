@@ -10,8 +10,8 @@
 #include "input/VirtualController.h"
 #include "graphics/Animation.h"
 #include "game_objects/VisualEffect.h"
-
 #include "game_objects/Entity.h"
+
 struct CharStateObj {
   int control;
   int hitstun;
@@ -59,6 +59,9 @@ struct CharStateObj {
   StateDef* currentState;
   StateDefObj stateDefObj;
   EntityStateObj entityStates[3];
+  HistoryCopyT inputHistory;
+  std::string inputHistoryArc;
+  std::vector<unsigned char> wtf;
   // std::unordered_map<int, EntityStateObj> entityStates;
 };
 

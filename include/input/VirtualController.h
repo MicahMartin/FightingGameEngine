@@ -8,6 +8,7 @@
 #include <SDL2/SDL.h>
 #include <nlohmann/json.hpp>
 #include <boost/circular_buffer.hpp>
+#include <boost/serialization/access.hpp>
 
 typedef enum {
   NOINPUT = 0,
@@ -52,12 +53,26 @@ typedef enum {
 } Axis;
 
 struct InputEvent {
+  InputEvent(uint16_t inputBit, bool pressed): inputBit(inputBit), pressed(pressed){}
+  InputEvent(){}
+  ~InputEvent(){}
+
   uint16_t inputBit;
   bool pressed;
-  InputEvent(uint16_t inputBit, bool pressed): inputBit(inputBit), pressed(pressed){}
+  // serialization
+  private:
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version) {
+    ar & inputBit;
+    ar & pressed;
+  }
 };
 
-typedef boost::circular_buffer<std::list<InputEvent>> InputHistoryT;
+typedef std::list<InputEvent> InputFrameT;
+typedef boost::circular_buffer<InputEvent> EventHistoryT;
+typedef boost::circular_buffer<InputFrameT> InputHistoryT;
+typedef std::vector<std::vector<InputEvent>> HistoryCopyT;
 
 class CommandCompiler;
 class VirtualController : public Observer {
@@ -104,6 +119,9 @@ public:
 
   uint8_t getStickState();
   void printStickState();
+  void serializeHistory();
+  void loadHistory(HistoryCopyT historyCopy);
+
   void onNotify(const char* eventName);
 
 
@@ -122,13 +140,16 @@ public:
   int controllerIndex;
 
   InputHistoryT inputHistory;
+  HistoryCopyT inputHistorySnapShot;
   std::vector<std::list<InputEvent>> inputHistoryCopy;
   std::vector<std::list<InputEvent>> inputHistoryCopyTwo;
-  boost::circular_buffer<InputEvent> inputEventList;
-  std::vector<uint16_t> inputStateCopy;
+  EventHistoryT inputEventList;
+  std::vector<int> inputStateCopy;
   std::vector<uint16_t> inputStateCopyTwo;
   CommandCompiler* commandCompiler;
+  HistoryCopyT wtf;
   uint16_t currentState = 0;
+
 private:
   // CircularBuffer<LinkedList<InputEvent>>
 };

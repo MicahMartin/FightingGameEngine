@@ -21,6 +21,7 @@ public:
   void clear();
   void present();
 
+  void resizeWindow(bool fullScreen);
   void resizeWindow(int w, int h);
 
   SDL_Renderer* getRenderer();

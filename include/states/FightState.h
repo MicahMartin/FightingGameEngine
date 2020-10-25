@@ -58,8 +58,8 @@ struct FightStateObj {
         ar & inSlowDown;
         ar & roundEnd;
         ar & screenFreeze;
-        // ar & char1State;
-        // ar & char2State;
+        ar & char1State;
+        ar & char2State;
       }
 };
 

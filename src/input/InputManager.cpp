@@ -60,12 +60,12 @@ void InputManager::update() {
   for (VirtualController* controller : controllers) {
     if (controller->playbackMode) {
       if (controllers[0]->copyModeSlot == 1) {
-        std::list<InputEvent> currentFrame = controllers[0]->inputHistoryCopy[controller->playbackCounter];
+        InputFrameT currentFrame = controllers[0]->inputHistoryCopy[controller->playbackCounter];
         controller->inputHistory.push_front(currentFrame);
         controller->currentState = controllers[0]->inputStateCopy[controller->playbackCounter];
         controller->playbackCounter++;
       } else {
-        std::list<InputEvent> currentFrame = controllers[0]->inputHistoryCopyTwo[controller->playbackCounter];
+        InputFrameT currentFrame = controllers[0]->inputHistoryCopyTwo[controller->playbackCounter];
         controller->inputHistory.push_front(currentFrame);
         controller->currentState = controllers[0]->inputStateCopyTwo[controller->playbackCounter];
         controller->playbackCounter++;

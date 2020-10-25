@@ -20,6 +20,7 @@ find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(SDL2Mixer REQUIRED)
 find_package(SDL2_ttf REQUIRED)
+find_package(Boost 1.55 REQUIRED system serialization)
 find_package(Gperftools REQUIRED COMPONENTS TCMALLOC_AND_PROFILER)
 
 include_directories(
@@ -30,6 +31,7 @@ include_directories(
     ${SDL2_IMAGE_INCLUDE_DIR}
     ${SDL2Mixer_INCLUDE_DIR}
     ${SDL2_TTF_INCLUDE_DIR}
+    ${Boost_INCLUDE_DIRS}
     ${Gperftools_INCLUDE_DIRS}
 )
 
@@ -42,6 +44,7 @@ target_link_libraries(
     ${Gperftools_LIBRARIES}
     ${SDL2_LIBRARY}
     ${SDL2_IMAGE_LIBRARIES}
+    ${Boost_LIBRARIES}
     ${SDL2Mixer_LIBRARY}
     ${SDL2_TTF_LIBRARIES}
 )
