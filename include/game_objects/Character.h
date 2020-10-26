@@ -59,9 +59,7 @@ struct CharStateObj {
   StateDef* currentState;
   StateDefObj stateDefObj;
   EntityStateObj entityStates[3];
-  HistoryCopyT inputHistory;
-  std::string inputHistoryArc;
-  std::vector<unsigned char> wtf;
+  // std::string inputHistoryArc;
   // std::unordered_map<int, EntityStateObj> entityStates;
 };
 

@@ -9,7 +9,6 @@
 #include <nlohmann/json.hpp>
 #include <boost/circular_buffer.hpp>
 #include <boost/serialization/access.hpp>
-
 typedef enum {
   NOINPUT = 0,
 
