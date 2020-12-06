@@ -4,6 +4,10 @@
 #include <utility>
 #include <SDL_mixer.h>
 
+enum ObjFlag {
+  OF_SHOW_CB = 0x1,
+};
+
 class StateDef;
 class GameObject {
 public:
@@ -27,9 +31,13 @@ public:
   virtual int getSoundChannel() = 0;
   virtual StateDef* getCurrentState() = 0;
   virtual Mix_Chunk* getSoundWithId(int id) = 0;
+  virtual int getAnimScale() = 0;
+
+  virtual void clearFlag(ObjFlag flag) = 0;
+  virtual void setFlag(ObjFlag flag) = 0;
+  virtual bool getFlag(ObjFlag flag) = 0;
 
   // getters for these guys
-
   int width = 100;
   int control = 1;
   int hitstun = 0;
@@ -49,6 +57,7 @@ public:
   int playerNum = 0;
   int velocityX = 0;
   int velocityY = 0;
+  int flags = 0;
   bool faceRight = true;
   bool inputFaceRight = true;
 
@@ -84,6 +93,8 @@ public:
   virtual int _getAnimTime() = 0;
   virtual int _getStateTime() = 0;
   virtual int _getYPos() = 0;
+  virtual int _getVelY() = 0;
+  virtual int _getVelX() = 0;
   virtual int _getStateNum() = 0;
   virtual int _getControl() = 0;
   virtual int _getCombo() = 0;

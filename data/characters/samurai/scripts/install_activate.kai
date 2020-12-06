@@ -1,0 +1,16 @@
+{
+  if($get_state_time == 0){ 
+    $velset_x 0;
+    $velset_y 0; 
+    $set_control 0; 
+    if ($get_install == 1) {
+      $set_install 0;
+    } else {
+      $set_install 1;
+      $subtract_meter 1250;
+    }
+  } 
+  if($get_state_time == 24){ 
+    $set_control 1; 
+  } 
+}

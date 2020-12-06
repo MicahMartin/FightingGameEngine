@@ -34,6 +34,7 @@ typedef enum {
   TOKEN_GET_Y_POS, TOKEN_GET_INPUT, TOKEN_GET_STATE_NUM,
   TOKEN_GET_COMBO, TOKEN_GET_CONTROL, TOKEN_GET_IS_ALIVE,
   TOKEN_GET_HIT_CANCEL, TOKEN_GET_WHIFF_CANCEL, TOKEN_GET_METER, TOKEN_GET_INSTALL,
+  TOKEN_GET_Y_VEL, TOKEN_GET_X_VEL,
 
 
   TOKEN_CHECK_COMMAND, TOKEN_WAS_PRESSED, TOKEN_HAS_AIR_ACTION,
@@ -117,6 +118,8 @@ static const std::unordered_map<std::string, TokenType> keywordTypes {
   { "$add_meter",  TOKEN_ADD_METER},
   { "$get_install",  TOKEN_GET_INSTALL},
   { "$set_install",  TOKEN_SET_INSTALL},
+  { "$get_yvel",  TOKEN_GET_Y_VEL},
+  { "$get_xvel",  TOKEN_GET_X_VEL},
   { "$subtract_meter",  TOKEN_SUBTRACT_METER},
 };
 

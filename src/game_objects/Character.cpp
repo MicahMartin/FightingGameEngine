@@ -3,16 +3,13 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <boost/serialization/vector.hpp>
-#include <boost/archive/binary_oarchive.hpp>
-#include <boost/archive/binary_iarchive.hpp>
-
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
+// #include <boost/serialization/vector.hpp>
+// #include <boost/archive/text_oarchive.hpp>
+// #include <boost/archive/text_iarchive.hpp>
 
 
-std::string p1InputHistory;
-std::string p2InputHistory;
+// std::string p1InputHistory;
+// std::string p2InputHistory;
 
 Character::Character(std::pair<int, int> _position, int _playerNum) {
   faceRight = playerNum == 1 ? true : false;
@@ -31,12 +28,18 @@ Character::Character(std::pair<int, int> _position) {
   position = _position;
 }
 
-void Character::init(){
+void Character::init(const char* path){
   virtualMachine.character = this;
   stateList.reserve(256);
   entityList.reserve(12);
-  loadStates();
-  changeState(51);
+  loadStates(path);
+  printf("stateList size:%ld\n", stateList.size());
+  printf("stateList after custom size:%ld\n", stateList.size());
+  for (auto i : specialStateMap) {
+    printf("SPECIAL STATE MAP %d:%d\n", i.first, i.second);
+    
+  }
+  changeState(specialStateMap[SS_PRE_MATCH]);
 }
 
 CharStateObj Character::saveState(){
@@ -84,22 +87,22 @@ CharStateObj Character::saveState(){
   stateObj.installMode = installMode;
   stateObj.auraActive = auraActive;
   stateObj.auraID = auraID;
-  stateObj.currentState = currentState;
+  stateObj.currentState = currentState->stateNum;
   stateObj.stateDefObj = currentState->saveState();
 
   for (int i = 0; i < entityList.size(); ++i) {
     stateObj.entityStates[i] = entityList[i].saveState();
   }
 
-  {
-    std::ostringstream os;
-    boost::archive::text_oarchive oArchive(os);
+  // {
+  //   std::ostringstream os;
+  //   boost::archive::text_oarchive oArchive(os);
 
-    virtualController->serializeHistory();
-    oArchive << virtualController->inputHistorySnapShot;
+  //   virtualController->serializeHistory();
+  //   oArchive << virtualController->inputHistorySnapShot;
 
-    playerNum == 1 ? p1InputHistory = os.str() : p2InputHistory = os.str();
-  }
+  //   playerNum == 1 ? p1InputHistory = os.str() : p2InputHistory = os.str();
+  // }
 
 // printf("stateObj.inputHistoryArc:%d\n", stateObj.inputHistoryArc.size());
   // stateObj.eventList = virtualController->inputEventList;
@@ -151,23 +154,24 @@ void Character::loadState(CharStateObj stateObj){
   installMode = stateObj.installMode;
   auraActive = stateObj.auraActive;
   auraID = stateObj.auraID;
-  currentState = stateObj.currentState;
+  setCurrentState(stateObj.currentState);
   currentState->loadState(stateObj.stateDefObj);
   for (int i = 0; i < entityList.size(); ++i) {
     entityList[i].loadState(stateObj.entityStates[i]);
   }
-  {
-    std::string* theString = playerNum == 1 ? &p1InputHistory : &p2InputHistory;
-    std::stringstream iStream(*theString);
-    boost::archive::text_iarchive iArchive(iStream);
-    iArchive >> virtualController->inputHistorySnapShot;
-    virtualController->loadHistory(virtualController->inputHistorySnapShot);
-    iStream.clear();
-  }
+
+  // {
+  //   std::string* theString = playerNum == 1 ? &p1InputHistory : &p2InputHistory;
+  //   std::stringstream iStream(*theString);
+  //   boost::archive::text_iarchive iArchive(iStream);
+  //   iArchive >> virtualController->inputHistorySnapShot;
+  //   virtualController->loadHistory(virtualController->inputHistorySnapShot);
+  //   iStream.clear();
+  // }
 }
 
 void Character::refresh(){
-  changeState(51);
+  changeState(specialStateMap[SS_PRE_MATCH]);
   health = 100;
   redHealth = 100;
   control = 1;
@@ -196,7 +200,15 @@ void Character::changeState(int stateDefNum){
     auraActive = false;
   }
   cancelPointer = 0;
-  currentState = &stateList.at(stateDefNum-1);
+  if (stateDefNum <= 5000) {
+    currentState = &stateList.at(stateDefNum-1);
+  } else {
+    int theNum = stateDefNum - 5000;
+    SpecialState theState = (SpecialState)theNum;
+    int specialStateNum = specialStateMap[theState];
+    currentState = &stateList.at(specialStateNum);
+  }
+
   if(!currentState->checkFlag(NO_TURN_ON_ENTER)){
     updateFaceRight();
   }
@@ -204,15 +216,38 @@ void Character::changeState(int stateDefNum){
   updateCollisionBoxes();
 };
 
+void Character::setCurrentState(int stateDefNum){
+  currentState = &stateList.at(stateDefNum-1);
+}
+
 void Character::cancelState(int stateDefNum){
-  cancelPointer = stateDefNum;
+  // printf("oh yeah cancel that bitch %d\n", stateDefNum);
+  if (stateDefNum <= 5000) {
+    cancelPointer = stateDefNum;
+  } else {
+    int theNum = stateDefNum - 5000;
+    SpecialState theState = (SpecialState)theNum;
+    int specialStateNum = specialStateMap[theState];
+    printf("the num:%d, the specialStateNum %d\n", theNum, specialStateNum);
+    cancelPointer = specialStateNum;
+  }
 };
 
-void Character::loadStates(){
+void Character::loadStates(const char* path){
   printf("%d Loading states\n", playerNum);
-  std::ifstream configFile("../data/characters/alucard/def.json");
+  std::ifstream configFile(path);
   configFile >> stateJson;
   // compile inputs
+  if (stateJson.count("anim_scale")) {
+    std::string animScaleStr = stateJson.at("anim_scale");
+    printf("the animScale %s\n", animScaleStr.c_str());
+    animScale = std::stod(animScaleStr);
+  }
+  if (stateJson.count("gravity")) {
+    std::string grav = stateJson.at("gravity");
+    printf("the grav %s\n", grav.c_str());
+    gravityVal = std::stod(grav);
+  }
   std::string str = stateJson.at("command_script").get<std::string>();
   const char* ptr = str.c_str();
   if(!virtualMachine.compiler.compile(ptr, &inputScript, "input script")){
@@ -221,16 +256,23 @@ void Character::loadStates(){
   }
 
   // load states
+  printf("loading states\n");
   for(auto i : stateJson.at("states").items()){
-    StateDef* newStateDef = &stateList.emplace_back(i.value(), &virtualMachine);
+    StateDef* newStateDef = &stateList.emplace_back();
     newStateDef->owner = this;
+    newStateDef->charName = charName;
+    newStateDef->init(i.value(), &virtualMachine, animScale);
   }
 
+  printf("loading entities\n");
+  entityList.reserve(12);
   for(auto i : stateJson.at("entities").items()){
-    std::string defString = i.value().at("defPath");
-    printf("the defPath %s\n", defString.c_str());
-    entityList.emplace_back(this, i.value().at("entityID"), defString.c_str()).init();
-    printf("done loading entities\n");
+    if (i.value().count("defPath")) {
+      std::string defString = i.value().at("defPath");
+      printf("the defPath %s\n", defString.c_str());
+      entityList.emplace_back(this, i.value().at("entityID"), defString.c_str()).init();
+      printf("done loading entities\n");
+    }
   }
 
   for(auto i : stateJson.at("animation_assets").items()){
@@ -275,8 +317,64 @@ void Character::loadStates(){
     Mix_Chunk* hurtSoundPointer = Mix_LoadWAV(pathPointer);
     hurtSoundEffects.emplace(hurtSoundID, SoundObj{hurtSoundPointer, false, 0, soundChannel + 1});
   }
+  // loadSpecialStates
+  {
+    auto i = stateJson.at("special_state_nums");
+    specialStateMap[SS_IDLE] = i.at("SS_IDLE");
+    specialStateMap[SS_WALK_F] = i.at("SS_WALK_F");
+    specialStateMap[SS_WALK_B] = i.at("SS_WALK_B");
+    specialStateMap[SS_CROUCH] = i.at("SS_CROUCH");
+    specialStateMap[SS_JUMP_N] = i.at("SS_JUMP_N");
+    specialStateMap[SS_JUMP_F] = i.at("SS_JUMP_F");
+    specialStateMap[SS_JUMP_B] = i.at("SS_JUMP_B");
+    specialStateMap[SS_HURT] = i.at("SS_HURT");
+    specialStateMap[SS_HURT_RECOVERY] = i.at("SS_HURT_RECOVERY");
+    specialStateMap[SS_AIR_HURT] = i.at("SS_AIR_HURT");
+    specialStateMap[SS_AIR_HURT_RECOVERY] = i.at("SS_AIR_HURT_RECOVERY");
+    specialStateMap[SS_KNOCKDOWN] = i.at("SS_KNOCKDOWN");
+    specialStateMap[SS_BLOCK_STAND] = i.at("SS_BLOCK_STAND");
+    specialStateMap[SS_BLOCK_CROUCH] = i.at("SS_BLOCK_CROUCH");
+    specialStateMap[SS_BLOWBACK_FALLING] = i.at("SS_BLOWBACK_FALLING");
+    specialStateMap[SS_AIR_BLOCK] = i.at("SS_AIR_BLOCK");
+    specialStateMap[SS_PRE_MATCH] = i.at("SS_PRE_MATCH");
+    specialStateMap[SS_DEAD_STANDING] = i.at("SS_DEAD_STANDING");
+    specialStateMap[SS_DEAD_KNOCKDOWN] = i.at("SS_DEAD_KNOCKDOWN");
+    specialStateMap[SS_KNOCKDOWN] = i.at("SS_KNOCKDOWN");
+    specialStateMap[SS_THROW_TECH] = i.at("SS_THROW_TECH");
+    specialStateMap[SS_AIR_THROW_TECH] = i.at("SS_AIR_THROW_TECH");
+    specialStateMap[SS_PUSH_BLOCK] = i.at("SS_PUSH_BLOCK");
+    specialStateMap[SS_CROUCH_PUSH_BLOCK] = i.at("SS_CROUCH_PUSH_BLOCK");
+    specialStateMap[SS_GROUNDBOUNCE_FLING] = i.at("SS_GROUNDBOUNCE_FLING");
+    specialStateMap[SS_GROUNDBOUNCE_IMPACT] = i.at("SS_GROUNDBOUNCE_IMPACT");
+    specialStateMap[SS_JUMP_R] = i.at("SS_JUMP_R");
+    specialStateMap[SS_AIR_TECH] = i.at("SS_AIR_TECH");
+    specialStateMap[SS_DEAD_FALLING] = i.at("SS_DEAD_FALLING");
+  }
+
 
   configFile.close();
+  stateCount = stateList.size();
+}
+
+void Character::loadCustomStates(const char* path){
+  stateJson.clear();
+  std::ifstream configFile(path);
+  configFile >> stateJson;
+  // load states
+  printf("loading custom states\n");
+  int counter = 0;
+
+  for(auto i : stateJson.at("custom_states").items()){
+    StateDef* newStateDef = &stateList.emplace_back();
+    newStateDef->owner = this;
+    newStateDef->charName = charName;
+    newStateDef->init(i.value(), &virtualMachine, animScale);
+    ++counter;
+  }
+  printf("custom state count value:%d\n", counter);
+
+  configFile.close();
+  stateJson.clear();
 }
 
 Character::~Character(){};
@@ -383,8 +481,6 @@ void Character::update(){
 
 void Character::updateFaceRight(){
   if (position.first == otherChar->getPos().first) {
-  }else if (inCorner){
-
   } else {
     if(position.first < otherChar->getPos().first){
       faceRight = true;
@@ -406,7 +502,11 @@ void Character::updatePosition() {
   // _negVelSetX(pushBackVelocity);
   int velX = velocityX;
   int stateNum = currentState->stateNum;
-  bool inHurtState = stateNum == 9 || stateNum == 24 || stateNum == 35 || stateNum == 77 || stateNum == 78;
+  bool inHurtState = stateNum == specialStateMap[SS_HURT]
+    || stateNum == specialStateMap[SS_AIR_HURT]
+    || stateNum == specialStateMap[SS_BLOWBACK_FALLING]
+    || stateNum == specialStateMap[SS_GROUNDBOUNCE_FLING]
+    || stateNum == specialStateMap[SS_GROUNDBOUNCE_IMPACT];
   if (hitstun > 0 || inHurtState) {
     velX = velocityX - hitPushVelX;
   } else {
@@ -433,8 +533,8 @@ void Character::updatePosition() {
 
 void Character::updateCollisionBoxPositions(){
   for (auto cb : currentState->pushBoxes) {
-    cb->positionX = position.first - (cb->width / 2);
-    cb->positionY = position.second;
+    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
+    cb->positionY = position.second - cb->offsetY;
   }
 
   for (auto cb : currentState->hurtBoxes) {
@@ -469,7 +569,7 @@ void Character::updateCollisionBoxPositions(){
 
 void Character::updateCollisionBoxes(){
   // TODO: abstract into updateCollisionBoxPos function
-  int stateTime = currentState->stateTime;
+  int stateTime = currentState->stateTime + 1;
   for (auto cb : currentState->pushBoxes) {
     cb->positionX = position.first - (cb->width / 2);
     cb->positionY = position.second;
@@ -490,7 +590,7 @@ void Character::updateCollisionBoxes(){
     if (stateTime < cb->start) {
       cb->disabled = true;
     }
-    if ((cb->end == -1) || stateTime == cb->start) {
+    if ((cb->end == -1 && (stateTime > cb->start)) || stateTime == cb->start) {
       cb->disabled = false;
     }
     if (stateTime == cb->end) {
@@ -569,7 +669,7 @@ void Character::updateCollisionBoxes(){
 }
 
 void Character::draw(){
-  bool fakeHitstop = (inHitStop && (hitstun > 0 || blockstun > 0 || currentState->stateNum == 55));
+  bool fakeHitstop = (inHitStop && (hitstun > 0 || blockstun > 0 || currentState->stateNum == specialStateMap[SS_THROW_TECH]));
   currentState->anim.isRed = isRed;
   currentState->anim.isLight = isLight;
   currentState->anim.isGreen = isGreen;
@@ -579,9 +679,9 @@ void Character::draw(){
   int windowHeight = Graphics::getInstance()->getWindowHeight();
   int camOffset = Graphics::getInstance()->getCamera()->cameraRect.x;
 
-  // SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
-  // SDL_RenderDrawLine(renderer, position.first - camOffset, windowHeight, position.first - camOffset, position.second);
-  // SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+  SDL_RenderDrawLine(renderer, position.first - camOffset, windowHeight, position.first - camOffset, position.second);
+  SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 };
 
 
@@ -601,6 +701,10 @@ int Character::getSoundChannel(){
   return soundChannel;
 };
 
+int Character::getAnimScale(){
+  return animScale;
+};
+
 void Character::setXPos(int x){
   position.first = x;
 };
@@ -616,6 +720,44 @@ void Character::setX(int x){
 void Character::setY(int y){
   position.second -= y;
 };
+
+bool Character::blockState(int state){
+return ( state == specialStateMap[SS_BLOCK_STAND]
+          || state == specialStateMap[SS_BLOCK_CROUCH]
+          || state == specialStateMap[SS_AIR_BLOCK]
+          || state == specialStateMap[SS_PUSH_BLOCK]
+          || state == specialStateMap[SS_CROUCH_PUSH_BLOCK]
+          || state == specialStateMap[SS_AIR_PUSH_BLOCK]
+      );
+}  
+
+bool Character::hurtState(int state){
+  return (
+      state == specialStateMap[SS_HURT]
+      || state == specialStateMap[SS_HURT_RECOVERY]
+      || state == specialStateMap[SS_AIR_HURT]
+      || state == specialStateMap[SS_AIR_HURT_RECOVERY]
+      || state == specialStateMap[SS_BLOWBACK_FALLING]
+      || state == specialStateMap[SS_DEAD_STANDING]
+      || state == specialStateMap[SS_DEAD_KNOCKDOWN]
+      || state == specialStateMap[SS_GROUNDBOUNCE_FLING]
+      || state == specialStateMap[SS_GROUNDBOUNCE_IMPACT]);
+}
+
+void Character::setFlag(ObjFlag flag){
+
+  flags |= flag;
+}
+
+void Character::clearFlag(ObjFlag flag){
+
+  flags &= (~flag);
+}
+
+bool Character::getFlag(ObjFlag flag){
+
+  return (( flags & flag ) == flag);
+}
 
 
 void Character::_changeState(int  stateNum){
@@ -814,6 +956,15 @@ int Character::_getEntityStatus(int entityID){
   printf("is the entity active? %d, %d\n", entityID, entityList[entityID - 1].active);
   return entityList.at(entityID - 1).active;
 };
+
 int Character::_getInstall(){
   return installMode;
+};
+
+int Character::_getVelY(){
+  return velocityY;
+};
+
+int Character::_getVelX(){
+  return velocityX;
 };

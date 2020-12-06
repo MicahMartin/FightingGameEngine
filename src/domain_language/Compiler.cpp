@@ -475,6 +475,10 @@ void Compiler::statement() {
     engineCallExpressionStatement(OP_SET_BLOCK_STUN);
   } else if (match(TOKEN_GET_ENTITY_STATUS)) {
     engineCallExpressionStatement(OP_GET_ENTITY_STATUS);
+  } else if (match(TOKEN_GET_Y_VEL)) {
+    engineCallStatement(OP_GET_Y_VEL);
+  } else if (match(TOKEN_GET_X_VEL)) {
+    engineCallStatement(OP_GET_X_VEL);
   } else if (match(TOKEN_FOR)) {
     forStatement();
   } else if (match(TOKEN_WHILE)) {     

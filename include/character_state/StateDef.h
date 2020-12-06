@@ -50,10 +50,11 @@ struct StateDefObj {
 class GameObject;
 class StateDef {
 public:
-  StateDef(nlohmann::json::value_type json, VirtualMachine* charVm);
+  StateDef();
   ~StateDef();
 
   // load shit
+  void init(nlohmann::json::value_type json, VirtualMachine* charVm, float _animScale);
   void loadFlags(nlohmann::json::value_type json);
   void loadAnimation(nlohmann::json json);
   void loadCollisionBoxes(nlohmann::json json);
@@ -99,12 +100,14 @@ public:
   int animTime = 0;
   int freezeFrame = 0;
   int freezeLength = 0;
+  float animScale = 1;
   bool hitboxesDisabled = false;
 
   bool canWhiffCancel = false;
   bool canHitCancel = false;
   bool counterHitFlag = false;
   std::unordered_map<int, bool> hitboxGroupDisabled;
+  std::string charName = "";
 
 private:
   static std::map<std::string, FlagBit> flagMap;

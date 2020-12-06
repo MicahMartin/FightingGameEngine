@@ -14,6 +14,7 @@ void Entity::init(){
   virtualMachine.character = this;
   stateList.reserve(256);
   loadStates();
+  printf("changing state to idle\n");
   changeState(1);
 }
 
@@ -62,6 +63,12 @@ void Entity::loadStates(){
   printf("entity:%d Loading states from :%s\n", entityID, defPath);
   std::ifstream configFile(defPath);
   configFile >> stateJson;
+
+  if (stateJson.count("anim_scale")) {
+    std::string animScaleStr = stateJson.at("anim_scale");
+    animScale = std::stod(animScaleStr);
+    printf("the animScale %f\n", animScale);
+  }
   if (stateJson.count("spawnOffsetX")) {
     spawnOffsetX = stateJson.at("spawnOffsetX");
   }
@@ -86,7 +93,8 @@ void Entity::loadStates(){
   }
   // load states
   for(auto i : stateJson.at("states").items()){
-    StateDef* createdState = &stateList.emplace_back(i.value(), &virtualMachine);
+    StateDef* createdState = &stateList.emplace_back();
+    createdState->init(i.value(), &virtualMachine, animScale);
     createdState->owner = this;
   }
 
@@ -118,6 +126,7 @@ void Entity::loadStates(){
       soundsEffects.emplace(soundID, SoundObj{soundEffectPointer, false, 0});
     }
   }
+  printf("done loading entity\n");
   configFile.close();
 }
 
@@ -364,7 +373,7 @@ EntityStateObj Entity::saveState(){
   stateObj.inputFaceRight = inputFaceRight;
   stateObj.isDead = isDead;
   stateObj.updateFacing = updateFacing;
-  stateObj.currentState = currentState;
+  stateObj.currentStateNum = currentState->stateNum;
   stateObj.currentStateObj = currentState->saveState();
   stateObj.positionX = position.first;
   stateObj.positionY = position.second;
@@ -397,8 +406,12 @@ void Entity::loadState(EntityStateObj stateObj){
   inputFaceRight = stateObj.inputFaceRight;
   isDead = stateObj.isDead;
   updateFacing = stateObj.updateFacing;
-  currentState = stateObj.currentState;
+  setCurrentState(stateObj.currentStateNum);
   currentState->loadState(stateObj.currentStateObj);
+}
+
+void Entity::setCurrentState(int stateDefNum){
+  currentState = &stateList.at(stateDefNum-1);
 }
 
 std::pair<int,int> Entity::getPos(){
@@ -429,6 +442,21 @@ void Entity::setX(int x){
 void Entity::setY(int y){
   position.second -= y;
 };
+
+void Entity::setFlag(ObjFlag flag){
+
+  flags |= flag;
+}
+
+void Entity::clearFlag(ObjFlag flag){
+
+  flags &= (~flag);
+}
+
+bool Entity::getFlag(ObjFlag flag){
+
+  return (( flags & flag ) == flag);
+}
 
 
 void Entity::_changeState(int  stateNum){
@@ -614,4 +642,16 @@ int Entity::_getEntityStatus(int entityID){
 };
 int Entity::_getInstall(){
   return 0;
+};
+
+int Entity::getAnimScale(){
+  return animScale;
+};
+
+int Entity::_getVelY(){
+  return velocityY;
+};
+
+int Entity::_getVelX(){
+  return velocityX;
 };

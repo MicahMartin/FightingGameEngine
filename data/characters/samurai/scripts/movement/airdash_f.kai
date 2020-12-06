@@ -1,0 +1,17 @@
+{ 
+  $add_meter 1;
+  if($get_state_time == 0){ 
+    $set_control 0; 
+    $set_air_action 0; 
+    $set_nograv_count 10; 
+    $velset_x 14; 
+    $velset_y 0; 
+  } 
+
+  if($get_state_time == 6){ 
+    $set_control 1; 
+  } 
+  if($get_state_time > 20 and $get_yvel < 1){ 
+    $cancel_state 27; 
+  } 
+} 

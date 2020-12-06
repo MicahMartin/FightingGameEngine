@@ -1,0 +1,87 @@
+{
+  var canWhiffCancel = $get_whiff_cancel;
+  if(canWhiffCancel){
+    var qcf_k = $check_command 2;
+    var qcb_p = $check_command 3;
+    var meter = $get_meter 1;
+
+    var up = $get_input 8; 
+    var upforward = $get_input 9; 
+    var back = $get_input 4; 
+    var upback = $get_input 7; 
+    var forward = $get_input 6; 
+
+    var down = $get_input 2; 
+    var downback = $get_input 1; 
+    var downforward = $get_input 3; 
+    var anyDown = (down or downback or downforward);
+
+    var punch = $was_pressed 10;
+    var kick = $was_pressed 11;
+    var slash = $was_pressed 12;
+    var dust = $was_pressed 13;
+
+
+    var anyBackNotDown = (back or upback);
+    var pushblocking = (kick and slash) and anyBackNotDown;
+    var crouchPB = (kick and slash) and downback;
+    if (meter > 1) {
+      if (pushblocking) {
+        $cancel_state 22;
+      }
+      if (crouchPB) {
+        $cancel_state 23;
+      }
+    }
+    if(qcf_k){
+      $cancel_state 14;
+    }
+    if (qcb_p) {
+      $cancel_state 30;
+    }
+
+    if(slash){
+      if(anyDown){
+        if (downforward) {
+          $cancel_state 45; 
+        } else {
+          $cancel_state 44; 
+        }
+      } else {
+        $cancel_state 39;
+      }
+    }
+
+
+    if(kick){
+      if (anyDown) {
+        $cancel_state 42;
+      } else {
+        if (forward) {
+          $cancel_state 38;
+        } else {
+          $cancel_state 37;
+        }
+      }
+    }
+
+    if(punch){
+      if (anyDown) {
+        $cancel_state 41;
+      } else {
+        $cancel_state 36;
+      }
+    }
+
+    if(up){
+      $cancel_state 6;
+    }
+    if(upforward){
+      $cancel_state 7;
+    }
+    if(upback){
+      $cancel_state 8;
+    }
+
+  }
+}

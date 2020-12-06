@@ -49,6 +49,8 @@ public:
 
   RecordingStatus recordStatus = RECORDING_NONE;
   bool showGradient = false;
+  int checksumValue = 0;
+  int fps = 0;
 private:
   int foobar = 0;
   int barfoo = 2175;
@@ -101,7 +103,9 @@ private:
               p1Record,
               p2Record,
               p3Record,
-              connectStatus;
+              connectStatus,
+              checksumText,
+              fpsText;
 
   bool        s1 = false,
               s2 = false,

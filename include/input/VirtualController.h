@@ -118,8 +118,10 @@ public:
 
   uint8_t getStickState();
   void printStickState();
+
   void serializeHistory();
   void loadHistory(HistoryCopyT historyCopy);
+  void addNetInput();
 
   void onNotify(const char* eventName);
 
@@ -148,6 +150,7 @@ public:
   CommandCompiler* commandCompiler;
   HistoryCopyT wtf;
   uint16_t currentState = 0;
+  uint16_t prevState = 0;
 
 private:
   // CircularBuffer<LinkedList<InputEvent>>

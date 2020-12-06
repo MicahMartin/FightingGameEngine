@@ -1,0 +1,6 @@
+{
+  if($get_state_time == 54) {
+    $change_state 2;
+  }
+}
+

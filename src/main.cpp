@@ -1,15 +1,27 @@
 #include <SDL2/SDL.h>
+#include <thread>
 #include <chrono>
 #include "game.h"
 #include "ggponet.h"
 
-typedef std::chrono::high_resolution_clock Clock;
+void ggpoUpdate(Game* game){
+  GameState* currentState = game->stateManager->getState();
+  if(std::strcmp(currentState->stateName, "FIGHT_STATE") == 0){
+    FightState* fightState = (FightState*)currentState;
+    if (fightState->netPlayState) {
+      // ggpo_idle(fightState->ggpo, foobar);
+    }
+  }
+}
+
 int main(int argc, char* args[]) {
-  static double FPS = 1000/60;
 
 
   // Game.init
   Game game;
+  std::string p1Char = "samurai";
+  std::string p2Char = "alucard";
+
   if (argc >= 1) {
     game.stateManager->getInstance()->setPnum(std::stoi(args[1]));
     std::string realWindowName = game.graphics->windowName + std::to_string(std::stoi(args[1]));
@@ -21,59 +33,48 @@ int main(int argc, char* args[]) {
         game.graphics->resizeWindow(std::stoi(args[2]), std::stoi(args[3]));
       }
     }
-    // port = std::stoi(args[2]);
-    // enemyPort = std::stoi(args[3]);
+    if (argc >= 4) {
+      const char* p1CharArg = args[4];
+      const char* p2CharArg = args[5];
+      printf("chars %s %s\n", p1CharArg, p2CharArg);
+
+      p1Char = p1CharArg;
+      p2Char = p2CharArg;
+
+    }
   }
+  game.stateManager->getInstance()->setCharName(1, p1Char);
+  game.stateManager->getInstance()->setCharName(2, p2Char);
 
-  double gameStart = SDL_GetTicks();
-  int frameCount = 0;
-  while(game.running){
-    auto frameStart = Clock::now();
+  //mainloop
+  {
+    using namespace std::chrono;
+    using FPS = duration<int, std::ratio<1, 60>>;
+    auto nextFrame = system_clock::now() + FPS{1};
+    auto prevSec = time_point_cast<seconds>(system_clock::now());
+    int fpsCounter = 0;
 
-    game.update();
-    game.draw();
-    // we want to run the update stuff once every frame (16~ MS)
-    // so we check how many MS its taken us to generate the current frame 
-    // so if it took 3MS to render this frame, we have 13MS of free time before reading input and rendering again
-    auto frameEnd = Clock::now();
-    double delayLength = FPS - (std::chrono::duration<double, std::ratio<1000>>(frameEnd - frameStart).count());
-    if(delayLength > 0){
-      GameState* currentState = game.stateManager->getState();
-      if(std::strcmp(currentState->stateName, "FIGHT_STATE") == 0){
-        FightState* fightState = (FightState*)currentState;
-        if (fightState->netPlayState) {
-          // printf("calling ggpo idle\n");
-          auto idleStart = Clock::now();
-          ggpo_idle(fightState->ggpo, delayLength);
-          auto idleEnd = Clock::now();
-          double newDelay = (std::chrono::duration<double, std::ratio<1000>>(idleEnd - idleStart).count());
-          SDL_Delay(delayLength - newDelay);
-        } else {
-          // printf("calling normal delay\n");
-          SDL_Delay(delayLength);
-        }
-      }else {
-        SDL_Delay(delayLength);
+    while(game.running) {
+      game.update();
+      ggpoUpdate(&game);
+      game.draw();
+
+      ++fpsCounter;
+      auto currentSec = time_point_cast<seconds>(system_clock::now());
+      if (currentSec > prevSec) {
+        game.graphics->setFPS(fpsCounter);
+        fpsCounter = 0;
+        prevSec = currentSec;
       }
-    } else  { 
-      printf("long delay %d: \n", static_cast<int>(delayLength));
+
+      while(nextFrame >= system_clock::now()){
+        //busyloop
+      }
+      nextFrame = system_clock::now() + FPS{1};
     }
-    frameCount++;
-    float avgFPS = frameCount/ ( (gameStart - SDL_GetTicks()) / 1000.f );
-    if( avgFPS > 2000000 ) {
-      avgFPS = 0;
-    }
-    // printf("--- slow tick ---\n");
-    // printf("input       %f\n", game.inputLength);
-    // printf("handleInput %f\n", game.handleInputLength);
-    // printf("update      %f\n", game.updateLength);
-    // printf("clear       %f\n", game.clearLength);
-    // printf("draw        %f\n", game.stateDrawLength);
-    // printf("present     %f\n", game.drawLength);
-    // printf("FPS %f\n", avgFPS);
-    // printf("-----------------\n");
   }
-  SDL_Quit();
+
   printf("exiting game\n");
+  SDL_Quit();
   return 0;
 }

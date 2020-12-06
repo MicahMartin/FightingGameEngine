@@ -199,6 +199,8 @@ private:
     {TOKEN_GET_METER, engineCallArgRule},
     {TOKEN_ADD_METER, engineCallArgRule},
     {TOKEN_GET_INSTALL, engineCallRule},
+    {TOKEN_GET_Y_VEL, engineCallRule},
+    {TOKEN_GET_X_VEL, engineCallRule},
     {TOKEN_SET_INSTALL, engineCallArgRule},
     {TOKEN_SUBTRACT_METER, engineCallArgRule},
   };

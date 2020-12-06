@@ -1,0 +1,13 @@
+{
+  if($get_state_time == 0){ 
+    $set_control 0; 
+    $velset_x 5; 
+    $velset_y 7; 
+    $set_nograv_count 15;
+  }
+
+  if($get_state_time == 28){ 
+    $set_air_action 1;
+    $cancel_state 27; 
+  }
+}

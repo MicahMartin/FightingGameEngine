@@ -37,7 +37,7 @@ struct EntityStateObj {
   bool updateFacing = false;
 
   // TODO: Switch to state num
-  StateDef* currentState;
+  int currentStateNum;
   StateDefObj currentStateObj;
 };
 
@@ -63,6 +63,7 @@ public:
 
   EntityStateObj saveState();
   void loadState(EntityStateObj stateObj);
+  void setCurrentState(int stateDefNum);
 
   // position stuff
   std::pair<int,int> getPos();
@@ -76,6 +77,11 @@ public:
   StateDef* getCurrentState();
   Mix_Chunk* getSoundWithId(int id);
   int getSoundChannel();
+  int getAnimScale();
+
+  void clearFlag(ObjFlag flag);
+  void setFlag(ObjFlag flag);
+  bool getFlag(ObjFlag flag);
 
   // getters for these guys
 
@@ -138,6 +144,8 @@ public:
   int _getAnimTime();
   int _getStateTime();
   int _getYPos();
+  int _getVelY();
+  int _getVelX();
   int _getStateNum();
   int _getControl();
   int _getCombo();
@@ -166,6 +174,7 @@ public:
 
   bool updateFacing = false;
   bool isFireball = false;
+  float animScale = 2;
 private:
   const char* defPath;
   nlohmann::json stateJson;

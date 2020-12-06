@@ -16,15 +16,11 @@
   var upforward = $check_command 7;
   var upback = $check_command 8;
   var hasAirAction = $has_air_action;
-  var can_airdash = false;
-   
-  if($get_state_time > 8){ 
-    can_airdash = true;
-  }
+
   var dash_f = $check_command 0;
   var dash_b = $check_command 1;
   var aboveMinHeight = ($get_y_pos > 100);
-  if(can_airdash and aboveMinHeight and hasAirAction){
+  if(aboveMinHeight and hasAirAction){
     if(dash_f){
       $cancel_state 12; 
     }

@@ -12,7 +12,51 @@
   {"SUPER_ATTACK", SUPER_ATTACK},
 };
 
-StateDef::StateDef(nlohmann::json::value_type json, VirtualMachine* charVm) : charVm(charVm) {
+StateDef::StateDef(){}
+
+StateDef::~StateDef() {
+  // TODO: DeleteCB method
+  for (auto cb : pushBoxes) {
+    if (cb != NULL) {
+      delete cb;
+    }
+  }
+  for (auto cb : hurtBoxes) {
+    if (cb != NULL) {
+      delete cb;
+    }
+  }
+  for (auto cb : hitBoxes) {
+    if (cb != NULL) {
+      delete cb;
+    }
+  }
+  for (auto cb : throwHitBoxes) {
+    if (cb != NULL) {
+      delete cb;
+    }
+  }
+  for (auto cb : throwHurtBoxes) {
+    if (cb != NULL) {
+      delete cb;
+    }
+  }
+  for (auto cb : proximityBoxes) {
+    if (cb != NULL) {
+      delete cb;
+    }
+  }
+  for (auto cb : projectileBoxes) {
+    if (cb != NULL) {
+      delete cb;
+    }
+  }
+}
+
+void StateDef::init(nlohmann::json::value_type json, VirtualMachine* _charVm, float _animScale){
+  charVm = _charVm;
+  animScale = _animScale;
+
   stateNum = json.at("state_num");
   loadFlags(json.at("flags"));
 
@@ -57,52 +101,16 @@ StateDef::StateDef(nlohmann::json::value_type json, VirtualMachine* charVm) : ch
   }
 
   // printf("done compiling\n");
-  // printf("loading anim\n");
+  printf("loading anim\n");
+  anim.charName = charName;
   loadAnimation(json.at("animation"));
-  // printf("loading collisions\n");
+  printf("loading collisions\n");
   loadCollisionBoxes(json.at("collision_boxes"));
+  printf("loading visual effects\n");
   if (json.count("visual_effects")) {
     loadVisualEffects(json.at("visual_effects"));
   }
-}
-
-StateDef::~StateDef() {
-  // TODO: DeleteCB method
-  for (auto cb : pushBoxes) {
-    if (cb != NULL) {
-      delete cb;
-    }
-  }
-  for (auto cb : hurtBoxes) {
-    if (cb != NULL) {
-      delete cb;
-    }
-  }
-  for (auto cb : hitBoxes) {
-    if (cb != NULL) {
-      delete cb;
-    }
-  }
-  for (auto cb : throwHitBoxes) {
-    if (cb != NULL) {
-      delete cb;
-    }
-  }
-  for (auto cb : throwHurtBoxes) {
-    if (cb != NULL) {
-      delete cb;
-    }
-  }
-  for (auto cb : proximityBoxes) {
-    if (cb != NULL) {
-      delete cb;
-    }
-  }
-  for (auto cb : projectileBoxes) {
-    if (cb != NULL) {
-      delete cb;
-    }
-  }
+  printf("done loading stateDef\n");
 }
 
 
@@ -178,7 +186,10 @@ void StateDef::handleCancels(){
 void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop){
   anim.hitShake = inHitStop;
   anim.render(position.first, position.second, faceRight, animTime);
-  drawCollisionBoxes();
+
+  if (Graphics::getInstance()->getFlag(GF_SHOW_CB)) {
+    drawCollisionBoxes();
+  }
 };
 
 void StateDef::drawCollisionBoxes(){
@@ -227,7 +238,7 @@ void StateDef::loadFlags(nlohmann::json::value_type json){
 };
 
 void StateDef::loadAnimation(nlohmann::json json){
-  anim.loadAnimEvents(json);
+  anim.loadAnimEvents(animScale, json);
 };
 
 void StateDef::loadCollisionBoxes(nlohmann::json json){

@@ -16,6 +16,7 @@ public:
   Camera();
   ~Camera();
 
+  void init(int width, int height, int screenWidth);
   void update(int p1Xpos, int p2Xpos);
   void render();
   void moveCamera();
@@ -24,6 +25,7 @@ public:
   void loadState(CameraStateObj stateObj);
 
   SDL_Rect cameraRect;
+  int screenWidth = 0;
   int lowerBound = 0;
   int upperBound = 0;
   int middle = 0;

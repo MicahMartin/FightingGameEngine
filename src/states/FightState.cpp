@@ -6,9 +6,39 @@
 #include <chrono>
 #include <thread>
 #include <csignal>
+#include <boost/format.hpp>
+// #define SYNC_TEST    // test: turn on synctest
+
 
 
 FightState* ggpoFightState;
+Character* characters[2];
+int checksum = 0;
+int worldWidth = 3840;
+int p1StartPos = 1700;
+int p2StartPos = 2200;
+
+
+bool blockState(int playerNum, int state){
+return ( state == characters[playerNum]->specialStateMap[SS_BLOCK_STAND]
+          || state == characters[playerNum]->specialStateMap[SS_BLOCK_CROUCH]
+          || state == characters[playerNum]->specialStateMap[SS_AIR_BLOCK]
+          || state == characters[playerNum]->specialStateMap[SS_PUSH_BLOCK]
+          || state == characters[playerNum]->specialStateMap[SS_CROUCH_PUSH_BLOCK]
+          || state == characters[playerNum]->specialStateMap[SS_AIR_PUSH_BLOCK]
+      );
+}  
+
+bool airHurtState(int playerNum, int state){
+  return (
+      state == characters[playerNum]->specialStateMap[SS_AIR_HURT]
+      || state == characters[playerNum]->specialStateMap[SS_AIR_HURT_RECOVERY]
+      || state == characters[playerNum]->specialStateMap[SS_BLOWBACK_FALLING]
+      || state == characters[playerNum]->specialStateMap[SS_DEAD_STANDING]
+      || state == characters[playerNum]->specialStateMap[SS_DEAD_KNOCKDOWN]
+      || state == characters[playerNum]->specialStateMap[SS_GROUNDBOUNCE_FLING]
+      || state == characters[playerNum]->specialStateMap[SS_GROUNDBOUNCE_IMPACT]);
+}
 
 unsigned createMask(unsigned a, unsigned b){
    unsigned r = 0;
@@ -32,31 +62,56 @@ InputEvent intToInputEvent(int input){
   uint16_t inputBit = mask & input;
   return InputEvent(input, (1 == ( (input >> 30) & 1)));
 }
+
+/*
+ * Simple checksum function stolen from wikipedia:
+ *
+ *   http://en.wikipedia.org/wiki/Fletcher%27s_checksum
+ */
+
+int fletcher32_checksum(short *data, size_t len) {
+  int sum1 = 0xffff, sum2 = 0xffff;
+
+  while (len) {
+    unsigned tlen = len > 360 ? 360 : len;
+    len -= tlen;
+    do {
+       sum1 += *data++;
+       sum2 += sum1;
+    } while (--tlen);
+    sum1 = (sum1 & 0xffff) + (sum1 >> 16);
+    sum2 = (sum2 & 0xffff) + (sum2 >> 16);
+  }
+
+  /* Second reduction step to reduce sums to 16 bits */
+  sum1 = (sum1 & 0xffff) + (sum1 >> 16);
+  sum2 = (sum2 & 0xffff) + (sum2 >> 16);
+  return sum2 << 16 | sum1;
+}
+
+
 bool fsBeginGame(const char* game){
   return ggpoFightState->beginGame(game);
 }
 
 bool fsAdvanceFrame(int flags){
   printf("ggpo advance frame called\n");
-  int inputs[2];
+  int inputs[2] = {0};
   int disconnectFlags;
   VirtualController* p1Vc = ggpoFightState->player1->virtualController;
   VirtualController* p2Vc = ggpoFightState->player2->virtualController;
 
   GGPOSession* ggpoObj = ggpoFightState->ggpo;
-  ggpo_synchronize_input(ggpoObj, (void *)inputs, sizeof(inputs), &disconnectFlags);
-
-  // InputEvent p1Input = intToInputEvent(inputs[0]);
-  // InputEvent p2Input = intToInputEvent(inputs[1]);
+  ggpo_synchronize_input(ggpoObj, (void *)inputs, sizeof(int)*2, &disconnectFlags);
+  p1Vc->inputHistory.front().clear();
+  p2Vc->inputHistory.front().clear();
 
   // simulate a local keypress with input
   p1Vc->setState(inputs[0]);
-  // p1Vc->inputEventList.push_back(InputEvent(inputs[0], true));
-  // p1Vc->inputHistory.front().emplace_back(InputEvent(inputs[0], true));
+  p1Vc->addNetInput();
 
   p2Vc->setState(inputs[1]);
-  // p2Vc->inputEventList.push_back(InputEvent(inputs[1], true));
-  // p2Vc->inputHistory.front().emplace_back(InputEvent(inputs[1], true));
+  p2Vc->addNetInput();
   
   ggpoFightState->shouldUpdate = true;
   ggpoFightState->inAdvanceState = true;
@@ -103,7 +158,6 @@ bool fsOnEvent(GGPOEvent* info){
     case GGPO_EVENTCODE_TIMESYNC:
       printf("GGPO_EVENT timesync\n");
       std::this_thread::sleep_for(std::chrono::milliseconds(1000 * info->u.timesync.frames_ahead / 60));
-
       break;
     case GGPO_EVENTCODE_CONNECTION_INTERRUPTED:
       printf("GGPO_EVENT connection interrupted\n");
@@ -126,9 +180,11 @@ FightState::FightState(){
   // bgMusic = Mix_LoadMUS("../data/audio/fightingTheme.mp3");
   Mix_VolumeMusic(25);
   Mix_Volume(0, 40);
+
   for (int i = 1; i < 8; ++i) {
     Mix_Volume(i, 16);
   }
+
   yawl_ready = Mix_LoadWAV("../data/audio/uiSounds/yawl_ready.mp3");
   round1Sound = Mix_LoadWAV("../data/audio/uiSounds/round_1.mp3");
   round2Sound = Mix_LoadWAV("../data/audio/uiSounds/round_2.mp3");
@@ -140,7 +196,7 @@ FightState::FightState(){
   countah = Mix_LoadWAV("../data/audio/uiSounds/countah_1.mp3");
   instantBlock = Mix_LoadWAV("../data/audio/uiSounds/instantBlock.mp3");
   throwtech = Mix_LoadWAV("../data/audio/uiSounds/throwtech.mp3");
-  pushBlock = Mix_LoadWAV("../data/characters/alucard/audio/heavyslice_guard2.wav");
+  pushBlock = Mix_LoadWAV("../data/characters/audio/heavyslice_guard2.wav");
 
   if(bgMusic == NULL) {
     printf( "Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError() );
@@ -155,31 +211,43 @@ void FightState::enter(){
   printf("entering fightState\n");
   netPlayState = stateManager->getNetplay();
   pnum = stateManager->getPnum();
-  player1 = new Character(std::make_pair(1700,0), 1);
+  player1 = new Character(std::make_pair(p1StartPos,0), 1);
   player1->virtualController = inputManager->getVirtualController(0);
   player1->virtualController->initCommandCompiler();
   player1->soundChannel = 2;
   player1->gravityVal = 1;
   charStateManager->registerCharacter(player1, 1);
 
-  player2 = new Character(std::make_pair(2200,0), 2);
+  player2 = new Character(std::make_pair(p2StartPos,0), 2);
   player2->virtualController = inputManager->getVirtualController(1);
   player2->virtualController->initCommandCompiler();
   player2->soundChannel = 5;
   player2->gravityVal = 1;
   charStateManager->registerCharacter(player2, 2);
+  characters[0] = player1;
+  characters[1] = player2;
 
 
   player1->otherChar = player2;
-  player1->init();
   player2->otherChar = player1;
-  player2->init();
-  printf("done loading characters\n");
   player1->control = 0;
   player2->control = 0;
 
+  std::string p1DefPath = "../data/characters/" + stateManager->getCharName(1) + "/def.json";
+  std::string p2DefPath = "../data/characters/" + stateManager->getCharName(2) + "/def.json";
+  printf("player1 defpath %s\n", p1DefPath.c_str());
+  player1->charName = stateManager->getCharName(1);
+  player2->charName = stateManager->getCharName(2);
+  player1->init(p1DefPath.c_str());
+  player1->loadCustomStates(p2DefPath.c_str());
+  player2->init(p2DefPath.c_str());
+  player2->loadCustomStates(p1DefPath.c_str());
+
+  printf("done loading characters\n");
+
   graphics->setCamera(&camera);
-  camera.update(1700, 2200);
+  camera.init(1280, 720, worldWidth);
+  camera.update(p1StartPos, p2StartPos);
   Mix_PlayMusic(bgMusic, -1);
   roundStartCounter = 210;
   roundStart = true;
@@ -235,6 +303,7 @@ void FightState::enter(){
 void FightState::exit(){ 
   printf("exiting fight state\n");
   ggpo_close_session(ggpo);
+  stateManager->setNetplay(false);
   delete player1;
   delete player2;
   delete this;
@@ -245,6 +314,7 @@ void FightState::resume(){ }
 
 void FightState::saveState(unsigned char** buffer, int* length, int frame){
   FightStateObj saveObj;
+
   saveObj.currentRound = currentRound;
   saveObj.inSlowDown = inSlowDown;
   saveObj.p1RoundsWon = p1RoundsWon;
@@ -257,6 +327,8 @@ void FightState::saveState(unsigned char** buffer, int* length, int frame){
   saveObj.screenFreezeCounter = screenFreezeCounter;
   saveObj.screenFreezeLength = screenFreezeLength;
   saveObj.slowDownCounter = slowDownCounter;
+  saveObj.shouldUpdate = shouldUpdate;
+
   saveObj.char1State = player1->saveState();
   saveObj.char2State = player2->saveState();
   saveObj.cameraState = camera.saveState();
@@ -264,23 +336,28 @@ void FightState::saveState(unsigned char** buffer, int* length, int frame){
   *length = sizeof(saveObj);
   *buffer = (unsigned char*) malloc(*length);
   memcpy(*buffer, &saveObj, *length);
+  checksum = fletcher32_checksum((short *)*buffer, *length / 2);
 }
 
 void FightState::loadState(unsigned char* buffer, int length){
   FightStateObj saveObj;
   memcpy(&saveObj, buffer, length);
 
-  inSlowDown = saveObj.inSlowDown;
+  currentRound = saveObj.currentRound;
+  slowDownCounter = saveObj.slowDownCounter;
   p1RoundsWon = saveObj.p1RoundsWon;
   p2RoundsWon = saveObj.p2RoundsWon;
   roundEnd = saveObj.roundEnd;
+
   roundStart = saveObj.roundStart;
+  inSlowDown = saveObj.inSlowDown;
   roundStartCounter = saveObj.roundStartCounter;
   roundWinner = saveObj.roundWinner;
   screenFreeze = saveObj.screenFreeze;
   screenFreezeCounter = saveObj.screenFreezeCounter;
   screenFreezeLength = saveObj.screenFreezeLength;
-  slowDownCounter = saveObj.slowDownCounter;
+  shouldUpdate = saveObj.shouldUpdate;
+
   player1->loadState(saveObj.char1State);
   player2->loadState(saveObj.char2State);
   camera.loadState(saveObj.cameraState);
@@ -337,19 +414,19 @@ void FightState::handleInput(){
     
     checkProximityAgainst(player1, player2);
     checkProximityAgainst(player2, player1);
-
     checkThrowCollisions();
     checkProjectileCollisions(player1, player2);
     checkHitCollisions();
-    checkBounds();
-    updateFaceRight();
     checkCorner(player1);
     checkCorner(player2);
-    if (player1->currentState->stateNum == 55) {
+    checkBounds();
+    updateFaceRight();
+
+    if (player1->currentState->stateNum == characters[0]->specialStateMap[SS_THROW_TECH]) {
       printf("player1 in techState, stateTime: %d\n", player1->currentState->stateTime);
     }
-    if (player2->currentState->stateNum == 55) {
-      printf("player2 in techState, stateTime: %d\n", player2->currentState->stateTime);
+    if (player2->currentState->stateNum == characters[1]->specialStateMap[SS_BLOCK_STAND]) {
+      printf("player2 in blockState, stateTime: %d\n", player2->currentState->stateTime);
     }
     
   }
@@ -435,8 +512,12 @@ void FightState::update(){
     if (netPlayState && doneSync) {
       printf("calling ggpo advance frame\n");
       ggpo_advance_frame(ggpo);
+    } else if(!netPlayState){
+      saveState(&buffer, &bufferLen, gameTime);
     }
   }
+  frameCount++;
+  printf("player1Pos:%d, player2Pos:%d\n", player1->position.first, player2->position.first);
 }
 
 void FightState::draw() {
@@ -471,6 +552,8 @@ void FightState::draw() {
   } else {
     currentScreen.recordStatus = RecordingStatus::RECORDING_NONE;
   }
+  currentScreen.checksumValue = checksum;
+  currentScreen.fps = graphics->getFPS();
   currentScreen.draw();
   screenDrawEnd = SDL_GetTicks();
   // TODO: move renderHP into currentScreen
@@ -808,7 +891,7 @@ void FightState::updateVisuals(){
 }
 
 void FightState::checkCorner(Character* player){
-  if(player->getPos().first - player->width <= 0 || player->getPos().first + player->width >= 3840){
+  if(player->getPos().first - player->width <= 0 || player->getPos().first + player->width >= worldWidth){
     player->inCorner = true;
   } else {
     player->inCorner = false;
@@ -924,9 +1007,9 @@ void FightState::checkPushCollisions(){
               int depth = p1RightEdge - p2LeftEdge;
 
               // account for over bound 
-              if ((p2Pos.first+player2->width) + (depth/2) > 3840) {
-                int remainder = 3840 - (p2Pos.first + (depth/2));
-                player2->setXPos(3840-player2->width);
+              if ((p2Pos.first+player2->width) + (depth/2) > worldWidth) {
+                int remainder = worldWidth - (p2Pos.first + (depth/2));
+                player2->setXPos(worldWidth-player2->width);
                 player1->setX(-depth);
               } else if ((p1Pos.first - player1->width) - (depth/2) < 0){
                 int remainder = p1Pos.first + (depth/2);
@@ -942,9 +1025,9 @@ void FightState::checkPushCollisions(){
               int depth = p2RightEdge - p1LeftEdge;
 
               // account for over bound 
-              if ((p1Pos.first+player1->width) + (depth/2) > 3840) {
-                int remainder = 3840 - (p1Pos.first + (depth/2));
-                player1->setXPos(3840+player1->width);
+              if ((p1Pos.first+player1->width) + (depth/2) > worldWidth) {
+                int remainder = worldWidth - (p1Pos.first + (depth/2));
+                player1->setXPos(worldWidth+player1->width);
                 player2->setX(-depth);
               } else if ((p2Pos.first - player2->width) - (depth/2) < 0){
                 int remainder = p2Pos.first + (depth/2);
@@ -965,38 +1048,31 @@ void FightState::checkPushCollisions(){
   }
 }
 
+void FightState::handleSameFrameThrowTech(SpecialState techState){
+  player1->control = 0;
+  player2->control = 0;
+  player1->changeState(characters[0]->specialStateMap[techState]);
+  player2->changeState(characters[1]->specialStateMap[techState]);
+  player1->inHitStop = true;
+  player2->inHitStop = true;
+  player1->hitStop = 20;
+  player2->hitStop = 20;
+  Mix_PlayChannel(0, throwtech, 0);
+}
+
 void FightState::checkThrowCollisions(){
-  ThrowResult p1ThrowState  = checkThrowAgainst(player2, player1);
-  ThrowResult p2ThrowState  = checkThrowAgainst(player1, player2);
+  ThrowResult p1ThrownState  = checkThrowAgainst(player2, player1);
+  ThrowResult p2ThrownState  = checkThrowAgainst(player1, player2);
 
-  if(p1ThrowState.thrown && p2ThrowState.thrown) {
-    int p1ThrowType = p1ThrowState.throwCb->throwType;
-    int p2ThrowType = p2ThrowState.throwCb->throwType;
+  if(p1ThrownState.thrown && p2ThrownState.thrown) {
+    int p1ThrowType = p1ThrownState.throwCb->throwType;
+    int p2ThrowType = p2ThrownState.throwCb->throwType;
     if(p1ThrowType == 2 && p2ThrowType == 2){
-      player1->control = 0;
-      player2->control = 0;
-      // grounded throw tech
-      player1->changeState(55);
-      player2->changeState(55);
-
-      player1->inHitStop = true;
-      player2->inHitStop = true;
-      player1->hitStop = 20;
-      player2->hitStop = 20;
-      Mix_PlayChannel(0, throwtech, 0);
+      handleSameFrameThrowTech(SS_AIR_THROW_TECH);
     } else if(p1ThrowType == 1 && p2ThrowType == 1){
-      // air throw tech
-      player1->control = 0;
-      player2->control = 0;
-      player1->changeState(62);
-      player2->changeState(62);
-      player1->inHitStop = true;
-      player2->inHitStop = true;
-      player1->hitStop = 20;
-      player2->hitStop = 20;
-      Mix_PlayChannel(0, throwtech, 0);
+      handleSameFrameThrowTech(SS_THROW_TECH);
     }
-  } else if (p1ThrowState.thrown) {
+  } else if (p1ThrownState.thrown) {
     player1->velocityX = 0;
     player1->velocityY = 0;
     player2->velocityX = 0;
@@ -1004,14 +1080,24 @@ void FightState::checkThrowCollisions(){
 
     if (player1->control) {
       player1->control = 0;
+      // you were thrown
+      // TODO: opponentThrowSuccess is a confusing name
+      // FIXME: CUSTOMSTATE
+      int customStateOffset = player1->stateCount + p1ThrownState.throwCb->opponentThrowSuccess;
+      printf("THE CUSTOM STATE OFFSET %D\n", customStateOffset);
+      player1->changeState(customStateOffset);
 
-      player1->changeState(p1ThrowState.throwCb->techAttempt);
-      player2->changeState(p1ThrowState.throwCb->throwAttempt);
+      player2->changeState(p1ThrownState.throwCb->throwSuccess);
     } else {
-      player1->changeState(p1ThrowState.throwCb->opponentThrowSuccess);
-      player2->changeState(p1ThrowState.throwCb->throwSuccess);
+      // you were thrown
+      // TODO: opponentThrowSuccess is a confusing name
+      // FIXME: CUSTOMSTATE
+      int customStateOffset = player1->stateCount + p1ThrownState.throwCb->opponentThrowSuccess;
+      player1->changeState(customStateOffset);
+
+      player2->changeState(p1ThrownState.throwCb->throwSuccess);
     }
-  } else if (p2ThrowState.thrown){
+  } else if (p2ThrownState.thrown){
     player1->velocityX = 0;
     player1->velocityY = 0;
     player2->velocityX = 0;
@@ -1020,17 +1106,21 @@ void FightState::checkThrowCollisions(){
     if (player2->control) {
       player2->control = 0;
 
-      int throwAttempt = p2ThrowState.throwCb->throwAttempt;
-      int techAttempt = p2ThrowState.throwCb->techAttempt;
+      int throwAttempt = p2ThrownState.throwCb->throwAttempt;
+      int techAttempt = p2ThrownState.throwCb->techAttempt;
       printf("2 had control: %d ", player2->control);
       printf("the throwCB throwAttempt: %d, the techAttempt:%d\n",throwAttempt, techAttempt);
 
+      // FIXME: CUSTOMSTATE
       player2->changeState(techAttempt);
+
       player1->changeState(throwAttempt);
     } else {
       printf("player 2 didnt have control\n");
-      player2->changeState(p2ThrowState.throwCb->opponentThrowSuccess);
-      player1->changeState(p2ThrowState.throwCb->throwSuccess);
+      // FIXME: CUSTOMSTATE
+      player2->changeState(p2ThrownState.throwCb->opponentThrowSuccess);
+
+      player1->changeState(p2ThrownState.throwCb->throwSuccess);
     }
   }
 }
@@ -1039,9 +1129,7 @@ ThrowResult FightState::checkThrowAgainst(Character* thrower, Character* throwee
   ThrowResult result = ThrowResult{false, NULL};
   bool canThrow = ( !thrower->currentState->hitboxesDisabled 
       && throwee->hitstun == 0 && throwee->blockstun == 0 
-      && throwee->currentState->stateNum != 24 
-      && throwee->currentState->stateNum != 35 
-      && throwee->currentState->stateNum != 25 );
+      && !throwee->hurtState(throwee->currentState->stateNum) );
 
   if (canThrow) {
     for (auto p1ThrowHitbox : thrower->currentState->throwHitBoxes) {
@@ -1053,29 +1141,14 @@ ThrowResult FightState::checkThrowAgainst(Character* thrower, Character* throwee
               if (p1ThrowHitbox->throwType == 1 && throwee->_getYPos() > 0) {
                 result.thrown = true;
                 result.throwCb = p1ThrowHitbox;
-                // int success = p1ThrowHitbox->success;
-                // int opponentState = p1ThrowHitbox->opponentState;
-
                 thrower->frameLastAttackConnected = gameTime; 
                 thrower->currentState->hitboxesDisabled = true;
-                // thrower->changeState(success); 
-
-                // throwee->comboCounter++;
-                // throwee->hitstun = p1ThrowHitbox->hitstun;
-                // throwee->changeState(opponentState);
                 
               } else if(p1ThrowHitbox->throwType == 2 && throwee->_getYPos() == 0) {
-                // int success = p1ThrowHitbox->success;
-                // int opponentState = p1ThrowHitbox->opponentState;
                 result.thrown = true;
                 result.throwCb = p1ThrowHitbox;
                 thrower->frameLastAttackConnected = gameTime; 
                 thrower->currentState->hitboxesDisabled = true;
-                // thrower->changeState(success); 
-
-                // throwee->comboCounter++;
-                // throwee->hitstun = p1ThrowHitbox->hitstun;
-                // throwee->changeState(opponentState);
               }
             }
           }
@@ -1108,12 +1181,12 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
               hitter->_addMeter(hitBox->hitMeterGain);
 
               int hurterCurrentState = hurter->currentState->stateNum;
-              bool blocking = (hurterCurrentState == 28 || hurterCurrentState == 29 || hurterCurrentState == 50 || hurterCurrentState == 73 
-                  || hurterCurrentState == 74
-                  || hurterCurrentState == 79 );
-              // printf("control? %d, blocking? %d, stateNum:%d\n", hurter->control, blocking, hurterCurrentState);
+              bool blocking = blockState(hurter->playerNum - 1, hurterCurrentState);
+              printf("control? %d, blocking? %d, stateNum:%d\n", hurter->control, blocking, hurterCurrentState);
               int blocktype = hitBox->blockType;
-              if((blocking && blocktype == 1) || (blocking && checkBlock(blocktype, hurter)) || (hurter->control && checkBlock(blocktype, hurter))){
+              if((blocking && blocktype == 1) 
+                  || (blocking && checkBlock(blocktype, hurter)) 
+                  || (hurter->control && checkBlock(blocktype, hurter))){
                 bool instantBlocked = hurter->_checkCommand(11);
                 if (instantBlocked) {
                   printf("instantblocked!\n");
@@ -1125,7 +1198,9 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 } else {
                   hurter->blockstun = hitBox->blockstun;
                 }
-                if (hurter->currentState->stateNum == 73 || hurter->currentState->stateNum == 74 ||  hurterCurrentState == 79) {
+                if (hurterCurrentState == hurter->specialStateMap[SS_PUSH_BLOCK] 
+                    || hurterCurrentState == hurter->specialStateMap[SS_CROUCH_PUSH_BLOCK] 
+                    ||  hurterCurrentState == hurter->specialStateMap[SS_AIR_PUSH_BLOCK]) {
                   hurter->isGreen = true;
                   hurter->blockstun = hitBox->blockstun + 4;
                 }
@@ -1140,10 +1215,10 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 if (hurter->_getYPos() > 0) {
                   if(anyBack && holdingButtons) {
                     Mix_PlayChannel(0, pushBlock, 0);
-                    hurter->changeState(79);
+                    hurter->changeState(hurter->specialStateMap[SS_AIR_PUSH_BLOCK]);
                     hurter->_subtractMeter(20);
                   } else {
-                    hurter->changeState(50);
+                    hurter->changeState(hurter->specialStateMap[SS_AIR_BLOCK]);
                   }
                 } else {
                   switch (hitBox->blockType) {
@@ -1151,18 +1226,18 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                       if (hurter->_getInput(1)) {
                         if (crouchPB) {
                           Mix_PlayChannel(0, pushBlock, 0);
-                          hurter->changeState(74);
+                          hurter->changeState(hurter->specialStateMap[SS_CROUCH_PUSH_BLOCK]);
                           hurter->_subtractMeter(20);
                         } else {
-                          hurter->changeState(29);
+                          hurter->changeState(hurter->specialStateMap[SS_BLOCK_CROUCH]);
                         }
                       } else {
                         if (standPB) {
                           hurter->_subtractMeter(20);
                           Mix_PlayChannel(0, pushBlock, 0);
-                          hurter->changeState(73);
+                          hurter->changeState(hurter->specialStateMap[SS_PUSH_BLOCK]);
                         } else {
-                          hurter->changeState(28);
+                          hurter->changeState(hurter->specialStateMap[SS_BLOCK_STAND]);
                         }
                       }
                       break;
@@ -1170,18 +1245,18 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                       if (crouchPB) {
                         Mix_PlayChannel(0, pushBlock, 0);
                         hurter->_subtractMeter(20);
-                        hurter->changeState(74);
+                        hurter->changeState(hurter->specialStateMap[SS_CROUCH_PUSH_BLOCK]);
                       } else {
-                        hurter->changeState(29);
+                        hurter->changeState(hurter->specialStateMap[SS_BLOCK_CROUCH]);
                       }
                       break;
                     case 3:
                       if (standPB) {
                         Mix_PlayChannel(0, pushBlock, 0);
                         hurter->_subtractMeter(20);
-                        hurter->changeState(73);
+                        hurter->changeState(hurter->specialStateMap[SS_PUSH_BLOCK]);
                       }
-                      hurter->changeState(28);
+                      hurter->changeState(hurter->specialStateMap[SS_BLOCK_STAND]);
                       break;
                     // should throw error here
                     default: break;
@@ -1200,13 +1275,15 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                   int realPushback;
                   if (hitter->faceRight) {
                     realPushback = -hitBox->pushback;
-                    if (hurter->currentState->stateNum == 73 || hurter->currentState->stateNum == 74) {
+                    if (hurter->currentState->stateNum == hurter->specialStateMap[SS_PUSH_BLOCK] 
+                        || hurter->currentState->stateNum == hurter->specialStateMap[SS_CROUCH_PUSH_BLOCK] ) {
                       realPushback -= 10;
                     }
                     hurter->pushBackVelocity = realPushback;
                   } else {
                     realPushback = hitBox->pushback;
-                    if (hurter->currentState->stateNum == 73 || hurter->currentState->stateNum == 74) {
+                    if (hurter->currentState->stateNum == hurter->specialStateMap[SS_PUSH_BLOCK] 
+                        || hurter->currentState->stateNum == hurter->specialStateMap[SS_CROUCH_PUSH_BLOCK]) {
                     realPushback += 10;
                     }
                     hurter->pushBackVelocity = realPushback;
@@ -1223,6 +1300,7 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 hurter->soundsEffects.at(hitBox->guardSoundID).active = true;
                 hurter->soundsEffects.at(hitBox->guardSoundID).channel = hurter->soundChannel + 2;
               } else {
+                printf("hurter did not block!\n");
                 if (hurter->inCorner) {
                   hitter->pushTime = hitBox->hitPushTime;
                   if (hitter->faceRight) {
@@ -1290,10 +1368,10 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                     }
                   }
                   hurter->velocityY = hitBox->hitVelocityY;
-                 return {true, wasACounter, 77, NULL};
+                 return {true, wasACounter, hurter->specialStateMap[SS_GROUNDBOUNCE_FLING], NULL};
                 } else if(hitBox->hitType == LAUNCHER || hurter->_getYPos() > 0 
-                    || hurterCurrentState  == 24 || hurterCurrentState == 35 
-                    || hurterCurrentState == 52 || hurterCurrentState == 53 || hurterCurrentState == 77 || hurterCurrentState == 78){
+                    || airHurtState(hurter->playerNum - 1, hurterCurrentState)){
+                  printf("launch hit\n");
                   if (hitBox->airHitstun > 0) {
                     hurter->hitstun = hitBox->airHitstun;
                   }
@@ -1316,9 +1394,10 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                     }
                   }
                   hurter->velocityY = hitBox->hitVelocityY;
-                  return {true, wasACounter, 24, NULL};
+                  return {true, wasACounter, hurter->specialStateMap[SS_AIR_HURT], NULL};
                 } else {
-                  return {true, wasACounter, 9, NULL};
+                  printf("ground hit\n");
+                  return {true, wasACounter, hurter->specialStateMap[SS_HURT], NULL};
                 }
               }
             }
@@ -1339,12 +1418,12 @@ int FightState::checkProximityAgainst(Character* hitter, Character* hurter){
           for (auto hurtBox : hurter->currentState->hurtBoxes) {
             if(!hurtBox->disabled && !groupDisabled){
               if (CollisionBox::checkAABB(*hitBox, *hurtBox)) {
-                // printf("proximity collision detected\n");
-                if (hurter->currentState->stateNum == 3) {
-                  hurter->changeState(28);
+                // printf("proximity collision detected against %d\n", hurter->playerNum);
+                if (hurter->currentState->stateNum == hurter->specialStateMap[SS_WALK_B]) {
+                  hurter->changeState(hurter->specialStateMap[SS_BLOCK_STAND]);
                 }
-                if (hurter->currentState->stateNum == 4 && hurter->_getInput(1)) {
-                  hurter->changeState(29);
+                if (hurter->currentState->stateNum == hurter->specialStateMap[SS_CROUCH] && hurter->_getInput(1)) {
+                  hurter->changeState(hurter->specialStateMap[SS_BLOCK_CROUCH]);
                 }
               }
             }
@@ -1395,6 +1474,7 @@ void FightState::checkHitCollisions(){
   HitResult p1HitState = checkHitboxAgainstHurtbox(player2, player1);
 
   if (p1HitState.hit) {
+    printf("Changing state to the hitState!\n");
     player1->changeState(p1HitState.hitState);
     if (p1HitState.counter) {
       printf("p1 counterHit!!\n");
@@ -1439,7 +1519,7 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                 entity.currentState->canHitCancel = true;
 
                 int p2StateNum = p2->currentState->stateNum;
-                if((p2StateNum == 28 || p2StateNum == 29 || p2StateNum == 50) || (p2->control && checkBlock(entityHitbox->blockType, p2))){
+                if((blockState(1, p2StateNum)) || (p2->control && checkBlock(entityHitbox->blockType, p2))){
                   p2->control = 0;
                   bool instantBlocked = p2->_checkCommand(11);
                   if (instantBlocked) {
@@ -1453,21 +1533,21 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                   }
                   if (p2->_getYPos() > 0) {
                     // TODO: air blocking state
-                    p2->changeState(50);
+                    p2->changeState(p2->specialStateMap[SS_BLOCK_STAND]);
                   } else {
                     switch (entityHitbox->blockType) {
                       case 1:
                         if (p2->_getInput(1)) {
-                          p2->changeState(29);
+                          p2->changeState(p2->specialStateMap[SS_BLOCK_CROUCH]);
                         } else {
-                          p2->changeState(28);
+                          p2->changeState(p2->specialStateMap[SS_BLOCK_STAND]);
                         }
                         break;
                       case 2:
-                        p2->changeState(29);
+                        p2->changeState(p2->specialStateMap[SS_BLOCK_CROUCH]);
                         break;
                       case 3:
-                        p2->changeState(28);
+                        p2->changeState(p2->specialStateMap[SS_BLOCK_STAND]);
                         break;
                       // should throw error here
                       default: break;
@@ -1538,11 +1618,13 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                   entity.soundsEffects.at(entityHitbox->hitSoundID).active = true;
                   entity.soundsEffects.at(entityHitbox->hitSoundID).channel = p1->soundChannel + 2;
 
-                  if(entityHitbox->hitType == LAUNCHER || p2->_getYPos() > 0 || p2->currentState->stateNum == 24){
+                  if(entityHitbox->hitType == LAUNCHER 
+                      || p2->_getYPos() > 0 
+                      || p2->currentState->stateNum == p2->specialStateMap[SS_AIR_HURT]){
                     p2->velocityY = entityHitbox->hitVelocityY;
-                    return {true, false, 24, NULL};
+                    return {true, false, p2->specialStateMap[SS_AIR_HURT], NULL};
                   } else {
-                    return {true, false, 9, NULL};
+                    return {true, false, p2->specialStateMap[SS_HURT], NULL};
                   }
                 }
               }
@@ -1615,8 +1697,8 @@ void FightState::checkBounds(){
     player1->updateCollisionBoxPositions();
   }
 
-  if(player1->getPos().first + player1->width > 3840) {
-    player1->setXPos(3840 - player1->width);
+  if(player1->getPos().first + player1->width > worldWidth) {
+    player1->setXPos(worldWidth - player1->width);
     player1->updateCollisionBoxPositions();
   }
   if (player1->getPos().first + player1->width > camera.upperBound) {
@@ -1632,7 +1714,7 @@ void FightState::checkBounds(){
       printf("the entityX:%d and width:%d \n", entityX, entityW);
       bool lowerBound = (entityX) < 0;
       bool lowerCamBound = (entityX) < camera.lowerBound;
-      bool upperBound = (entityX) > 3840;
+      bool upperBound = (entityX) > worldWidth;
       bool upperCamBound = (entityX) > camera.upperBound;
 
       if (lowerBound || lowerCamBound || upperBound || upperCamBound) {
@@ -1651,8 +1733,8 @@ void FightState::checkBounds(){
     player2->updateCollisionBoxPositions();
   }
 
-  if(player2->getPos().first + player2->width > 3840) {
-    player2->setXPos(3840 - player2->width);
+  if(player2->getPos().first + player2->width > worldWidth) {
+    player2->setXPos(worldWidth - player2->width);
     player2->updateCollisionBoxPositions();
   }
   if (player2->getPos().first + player2->width > camera.upperBound) {
@@ -1665,7 +1747,7 @@ void FightState::checkBounds(){
       int entityW = entity.width;
       bool lowerBound = (entityX) < 0;
       bool lowerCamBound = (entityX) < camera.lowerBound;
-      bool upperBound = (entityX) > 3840;
+      bool upperBound = (entityX) > worldWidth;
       bool upperCamBound = (entityX) > camera.upperBound;
 
       if (lowerBound || lowerCamBound || upperBound || upperCamBound) {
@@ -1676,22 +1758,6 @@ void FightState::checkBounds(){
 }
 
 void FightState::checkHealth(){
-  // TODO: if training mode
-  // TODO: refactor jesus why are you like this
-  // if (player2->currentState->stateNum == 1 && player2->currentState->stateTime == 20) {
-  //   player2->health = 100;
-  //   player2->redHealth = 100;
-  //   player2->redHealthCounter = 0;
-
-  //   player2->meter = player2->maxMeter;
-  // }
-  // if (player1->currentState->stateNum == 1 && player1->currentState->stateTime == 20) {
-  //   player1->health = 100;
-  //   player1->redHealth = 100;
-  //   player1->redHealthCounter = 0;
-
-  //   player1->meter = player1->maxMeter;
-  // }
 
   if (player1->comeback > player1->maxComeback) {
     player1->comeback = player1->maxComeback;
@@ -1763,10 +1829,14 @@ void FightState::checkHealth(){
         p2RoundsWon = 1;
       } else if (p1RoundsWon == 2){
         printf("p1 won\n");
-        stateManager->popState();
+        p1RoundsWon = 0;
+        p2RoundsWon = 0;
+        restartRound();
       } else if (p2RoundsWon == 2){
         printf("p2 won\n");
-        stateManager->popState();
+        p1RoundsWon = 0;
+        p2RoundsWon = 0;
+        restartRound();
       } else {
         printf("restarting round\n");
         restartRound();
@@ -1781,12 +1851,12 @@ void FightState::restartRound(){
   player1->control = 0;
   player2->control = 0;
 
-  player1->setXPos(1700);
+  player1->setXPos(p1StartPos);
   player1->setYPos(0);
 
-  player2->setXPos(2200);
+  player2->setXPos(p2StartPos);
   player2->setYPos(0);
-  camera.update(1700, 2200);
+  camera.update(p1StartPos, p2StartPos);
   roundStartCounter = 210;
   roundStart = true;
 }
@@ -1938,7 +2008,12 @@ void FightState::ggpoInit(){
   cb.free_buffer = fsFreeBuffer;
 
   // Start Session
-  GGPOErrorCode result = ggpo_start_session(&ggpo, &cb, "beatdown", 2, sizeof(int), localPort);
+   GGPOErrorCode result = GGPO_OK;
+#if defined(SYNC_TEST)
+   result = ggpo_start_synctest(&ggpo, &cb, "beatdown", 2, sizeof(int), 1);
+#else
+  result = ggpo_start_session(&ggpo, &cb, "beatdown", 2, sizeof(int), localPort);
+#endif
   ggpo_set_disconnect_timeout(ggpo, 3000);
   ggpo_set_disconnect_notify_start(ggpo, 2000);
   printf("player:%d %s:%d the result of starting GGPO SESSION %d\n", pNum, localIp, localPort, result);
@@ -1948,39 +2023,48 @@ void FightState::ggpoInit(){
   printf("player1 type %d, result of add:%d\n", p1.type, result);
   result = ggpo_add_player(ggpo, &p2, &player_handles[1]);
   printf("player2 type %d, result of add:%d\n", p2.type, result);
+  // result = ggpo_set_frame_delay(ggpo, *local_player_handle, 3);
+  printf("result of add delay:%d\n", result);
 }
 
 void FightState::netPlayHandleInput(){
   shouldUpdate = false;
-  int inputs[2];
+  int inputs[2] = { 0 };
   int currentInput = 0;
   int disconnectFlags;
 
   VirtualController* p1Vc = player1->virtualController;
   VirtualController* p2Vc = player2->virtualController;
+  VirtualController* currentVc = pnum == 1 ? p1Vc : p2Vc;
 
-  currentInput = pnum == 1 ? p1Vc->getState(): p2Vc->getState();
+  currentInput = currentVc->getState();
 
   printf("adding local input\n");
-  GGPOErrorCode result = ggpo_add_local_input(ggpo, *local_player_handle, &currentInput, sizeof(currentInput));
-  printf("done adding local input\n");
-  if (GGPO_SUCCEEDED(result)) {
-    ggpo_synchronize_input(ggpo, (void *)inputs, sizeof(inputs), &disconnectFlags);
-    if (GGPO_SUCCEEDED(result)) {
-      shouldUpdate = true;
-      printf("GGPO SYNC SUCCESS\n");
 
+#if defined(SYNC_TEST)
+     currentInput = rand(); // test: use random inputs to demonstrate sync testing
+#endif
+
+  GGPOErrorCode result = ggpo_add_local_input(ggpo, *local_player_handle, &currentInput, sizeof(currentInput));
+  inputs[0] = currentInput;
+  if (GGPO_SUCCEEDED(result)) {
+    ggpo_synchronize_input(ggpo, (void *)inputs, sizeof(int)*2, &disconnectFlags);
+    if (GGPO_SUCCEEDED(result)) {
+      printf("GGPO SYNC SUCCESS\n");
+      currentVc->inputHistory.front().clear();
       // simulate a local keypress with input
       p1Vc->setState(inputs[0]);
-      // p1Vc->inputEventList.push_back(InputEvent(inputs[0], true));
+      p1Vc->addNetInput();
       // p1Vc->inputHistory.front().emplace_back(InputEvent(inputs[0], true));
+      // p1Vc->inputEventList.push_back(InputEvent(inputs[0], true));
 
       p2Vc->setState(inputs[1]);
+      p2Vc->addNetInput();
       // p2Vc->inputEventList.push_back(InputEvent(inputs[1], true));
       // p2Vc->inputHistory.front().emplace_back(InputEvent(inputs[1], true));
+      shouldUpdate = true;
     }
   } else {
     printf("GGPO SYNC FAIL %d\n", result);
   }
 };
-

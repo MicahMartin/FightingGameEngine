@@ -46,3 +46,16 @@ void StateManager::setPnum(int pnum){
 int StateManager::getPnum(){
   return pNum;
 }
+
+void StateManager::setCharName(int playerNum, std::string name){
+  if (playerNum == 1) {
+    p1CharName = name;
+  } else {
+    p2CharName = name;
+  }
+}
+
+std::string StateManager::getCharName(int playerNum){
+  std::string charName = (playerNum == 1) ? p1CharName : p2CharName;
+  return charName;
+}

@@ -14,8 +14,8 @@ struct AnimationElement {
   int elemTime;
   bool infiniteFrame = false;
   int endTime;
-  int offsetX;
-  int offsetY;
+  float offsetX;
+  float offsetY;
   bool isYellow = false;
 };
 
@@ -30,6 +30,7 @@ public:
   ~Animation();
 
   void loadAnimEvents(nlohmann::json json);
+  void loadAnimEvents(float defaultScale, nlohmann::json json);
   // void render(int x, int y, bool faceRight, bool screenFreeze);
   // void render(int x, int y, bool faceRight, int stateTime, bool screenFreeze);
   void render(int x, int y, bool faceRight, int stateTime);
@@ -56,6 +57,7 @@ public:
   bool isGreen = false;
   bool isLight = false;
   int hitShakeToggler = 0;
+  std::string charName = "";
 private:
   /* data */
   std::vector<AnimationElement> animationElements;

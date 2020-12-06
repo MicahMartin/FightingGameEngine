@@ -55,27 +55,61 @@ struct CharStateObj {
   bool isLight;
   bool installMode;
   bool auraActive;
+  int currentState;
 
-  StateDef* currentState;
   StateDefObj stateDefObj;
   EntityStateObj entityStates[3];
   // std::string inputHistoryArc;
   // std::unordered_map<int, EntityStateObj> entityStates;
 };
 
+typedef enum {
+  SS_IDLE = 1,
+  SS_WALK_F,
+  SS_WALK_B,
+  SS_CROUCH,
+  SS_JUMP_N = 5,
+  SS_JUMP_F,
+  SS_JUMP_B,
+  SS_HURT,
+  SS_HURT_RECOVERY ,
+  SS_AIR_HURT = 10,
+  SS_AIR_HURT_RECOVERY,
+  SS_KNOCKDOWN,
+  SS_BLOCK_STAND,
+  SS_BLOCK_CROUCH,
+  SS_BLOWBACK_FALLING = 15,
+  SS_AIR_BLOCK,
+  SS_PRE_MATCH,
+  SS_DEAD_STANDING,
+  SS_DEAD_KNOCKDOWN,
+  SS_THROW_TECH = 20,
+  SS_AIR_THROW_TECH,
+  SS_PUSH_BLOCK,
+  SS_CROUCH_PUSH_BLOCK,
+  SS_GROUNDBOUNCE_FLING,
+  SS_GROUNDBOUNCE_IMPACT = 25,
+  SS_AIR_PUSH_BLOCK,
+  SS_JUMP_R,
+  SS_AIR_TECH,
+  SS_DEAD_FALLING,
+} SpecialState;
+
 class Character : public GameObject {
 public:
   Character(std::pair<int, int> position, int playerNum);
   Character(std::pair<int, int> position);
-  void init();
+  void init(const char* defPath);
 
   ~Character();
 
   void compileScript(const char* path, Script* script, const char* scriptTag);
-  void loadStates();
+  void loadStates(const char* path);
+  void loadCustomStates(const char* path);
   void refresh();
   void changeState(int stateDefNum);
   void cancelState(int stateDefNum);
+  void setCurrentState(int stateDefNum);
 
   void handleInput();
   void update();
@@ -83,6 +117,7 @@ public:
 
   CharStateObj saveState();
   void loadState(CharStateObj stateObj);
+  int stateCount = 0;
 
   // position stuff
   std::pair<int,int> getPos();
@@ -95,12 +130,18 @@ public:
   void updateCollisionBoxPositions();
   void updateCollisionBoxes();
   void activateVisFX(int visID);
+  int getSoundChannel();
+  int getAnimScale();
+  bool hurtState(int state);
+  bool blockState(int state);
   StateDef* getCurrentState();
   Mix_Chunk* getSoundWithId(int id);
-  int getSoundChannel();
+
+  void clearFlag(ObjFlag flag);
+  void setFlag(ObjFlag flag);
+  bool getFlag(ObjFlag flag);
 
   // getters for these guys
-
   int width = 100;
   int maxHealth = 100;
   int maxMeter = 1000;
@@ -143,12 +184,14 @@ public:
   int currentHurtSoundID = 1;
   int soundChannel = 0;
   int flashCounter = 0;
+  float animScale = 4;
   bool isRed = false;
   bool isGreen = false;
   bool isLight = false;
   bool installMode = false;
   bool auraActive = false;
   int auraID = 0;
+  std::string charName = "";
   std::pair<int, int> position;
 
   void _changeState(int stateNum);
@@ -185,6 +228,8 @@ public:
   int _getHitCancel();
   int _getWhiffCancel();
   int _getYPos();
+  int _getVelY();
+  int _getVelX();
   int _getStateNum();
   int _getControl();
   int _getCombo();
@@ -212,6 +257,7 @@ public:
 
   std::unordered_map<int, SoundObj> soundsEffects;
   std::unordered_map<int, SoundObj> hurtSoundEffects;
+  std::unordered_map<SpecialState, int> specialStateMap;
 private:
   nlohmann::json stateJson;
   std::vector<StateDef> stateList;

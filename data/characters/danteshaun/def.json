@@ -1,0 +1,896 @@
+{
+  "states": [
+    {
+      "state_num": 1,
+      "state_name": "PRE_MATCH",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/prematch.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_0-0.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_0-1.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_0-2.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_0-3.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_0-4.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-0.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-1.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-2.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-3.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-4.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-5.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-6.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-7.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-8.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-9.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-10.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-11.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-12.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-13.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-14.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-15.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-16.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-17.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-18.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-19.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-20.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_191-21.png","time":2,"offsetX":-1}
+      ],
+      "collision_boxes":[]
+    },
+    {
+      "state_num": 2,
+      "state_name": "IDLE",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/movement/idle.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_0-0.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_0-1.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_0-2.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_0-3.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_0-4.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_0-5.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_0-6.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_0-7.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_0-8.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_0-9.png","time":5,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 3,
+      "state_name": "WALK_F",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/movement/walk_f.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_20-0.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_20-1.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_20-2.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_20-3.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_20-4.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_20-5.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_20-6.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_20-7.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_20-8.png","time":7,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 4,
+      "state_name": "WALK_B",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/movement/walk_b.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_21-4.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_21-5.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_21-6.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_21-7.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_21-8.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_21-9.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_21-0.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_21-1.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_21-2.png","time":7,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_21-3.png","time":7,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 5,
+      "state_name": "CROUCH",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/movement/crouch.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_11-0.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 6,
+      "state_name": "JUMP_N",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/movement/jump_n.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-0.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-1.png","time":8,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-2.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-3.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-4.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-5.png","time":6,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-6.png","time":6,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-4.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-7.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-8.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 7,
+      "state_name": "JUMP_F",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/movement/jump_f.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-0.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-1.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-2.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-3.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-4.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-5.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-6.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-7.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-8.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 8,
+      "state_name": "JUMP_B",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/movement/jump_b.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-0.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-1.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-2.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-3.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-4.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-5.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-6.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-7.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 9,
+      "state_name": "JUMP_R",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/movement/jump_recovery.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_3020-4.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_3020-5.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_3020-6.png","time":3,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 10,
+      "state_name": "HURT",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/standing.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5000-0.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5000-10.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5000-20.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 11,
+      "state_name": "HURT_RECOVERY",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/standing_recovery.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5000-20.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5000-3.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5000-4.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5010-30.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5010-40.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 12,
+      "state_name": "AIR_HURT",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5030-0.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5030-10.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 13,
+      "state_name": "AIR_HURT_RECOVERY",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5030-40.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 14,
+      "state_name": "KNOCKDOWN",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/knockdown.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5031-10.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5040-10.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 15,
+      "state_name": "WAKE_UP",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/wakeup.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5100-1.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5100-2.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5100-3.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5100-4.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5100-5.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5100-6.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5100-7.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5100-8.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5100-9.png","time":2,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5100-10.png","time":2,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 16,
+      "state_name": "BLOCK_STAND",
+      "flags":[],
+      "cancel_script": "../data/characters/danteshaun/scripts/block/ground_cancels.kai",
+      "update_script": "../data/characters/danteshaun/scripts/block/ground_update.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_120-0.png","time":1,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_120-1.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 17,
+      "state_name": "BLOCK_CROUCH",
+      "flags":[],
+      "cancel_script": "../data/characters/danteshaun/scripts/block/ground_cancels.kai",
+      "update_script": "../data/characters/danteshaun/scripts/block/ground_update.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_121-0.png","time":1,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_121-0.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 18,
+      "state_name": "BLOCK_AIR",
+      "flags":[],
+      "cancel_script": "../data/characters/danteshaun/scripts/block/air_cancels.kai",
+     "update_script": "../data/characters/danteshaun/scripts/block/air_update.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_122-0.png","time":1,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_122-0.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 19,
+      "state_name": "PUSH_BLOCK",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/block/push_stand.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_120-0.png","time":1,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_120-1.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 20,
+      "state_name": "PUSH_BLOCK_CROUCH",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/block/push_crouch.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_120-0.png","time":1,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_120-1.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 21,
+      "state_name": "PUSH_BLOCK_AIR",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/block/push_air.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_122-0.png","time":1,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_122-0.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[]
+    },
+    {
+      "state_num": 22,
+      "state_name": "AIR_TECH",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_tech.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_3020-4.png","time":1,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_3020-5.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[]
+    },
+    {
+      "state_num": 23,
+      "state_name": "DEAD_FALLING",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/dead_falling.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5030-40.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5060-10.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[]
+    },
+    {
+      "state_num": 24,
+      "state_name": "DEAD_STANDING",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/dead_standing.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5000-3.png","time":1,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5010-10.png","time":1,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5010-20.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[]
+    },
+    {
+      "state_num": 25,
+      "state_name": "DEAD_KNOCKDOWN",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/dead_knockdown.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5031-10.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_5040-10.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 26,
+      "state_name": "DBL_JUMP_N",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/movement/dbl_jump_n.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-0.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-1.png","time":8,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-2.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-3.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-4.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-5.png","time":6,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-6.png","time":6,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-4.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-7.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-8.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 27,
+      "state_name": "DBL_JUMP_F",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/movement/dbl_jump_f.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-0.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-1.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-2.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-3.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-4.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-5.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-6.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-7.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-8.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 28,
+      "state_name": "DBL_JUMP_B",
+      "flags":[],
+      "update_script": "../data/characters/danteshaun/scripts/movement/dbl_jump_b.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-0.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-1.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-2.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-3.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-4.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-5.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-6.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-7.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 29,
+      "state_name": "AIR_DASH_F",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/movement/airdash_f.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-0.png", "time": 2, "offsetX": 126},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-1.png", "time": 2, "offsetX": 122},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-2.png", "time": 2, "offsetX": 133},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-3.png", "time": 2, "offsetX": 133},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-4.png", "time": 2, "offsetX": 128},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-5.png", "time": 2, "offsetX": 138},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-6.png", "time": 2, "offsetX": 128},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-7.png", "time": 2, "offsetX": 127},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-8.png", "time": 2, "offsetX": 157},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-9.png", "time": 2, "offsetX": 167}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 8, "start": 1}
+      ],
+      "visual_effects": [
+        {"visualID": 6, "start": 1}
+      ]
+    },
+    {
+      "state_num": 30,
+      "state_name": "AIR_DASH_B",
+      "flags": [
+        "NO_TURN"
+
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/movement/airdash_b.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3010-0.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3010-1.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3010-2.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3010-3.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3010-4.png", "time": 2, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 8, "start": 1}
+      ],
+      "visual_effects": [
+        {"visualID": 6, "start": 1}
+      ]
+    },
+    {
+      "state_num": 31,
+      "state_name": "DASH_F",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/movement/dash_f.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_100-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_100-1.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_100-2.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_100-3.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_100-4.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_100-5.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_100-6.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_100-7.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_100-8.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_100-9.png", "time": 4, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 8, "start": 1}
+      ],
+      "visual_effects": [
+        {"visualID": 6, "start": 1}
+      ]
+    },
+    {
+      "state_num": 32,
+      "state_name": "DASH_B",
+      "flags": [
+        "NO_TURN"
+
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/movement/dash_b.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_43-0.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_43-1.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_43-2.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_43-3.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5100-3.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5100-4.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5100-5.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5100-6.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5100-7.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5100-8.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5100-9.png", "time": 2, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 6, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    }
+  ],
+  "custom_states":[
+
+  ],
+  "hit_sparks":[
+    {
+      "assetID": 1,
+      "animation": [
+        { "file": "../data/images/hitspark/light/0.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light/1.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light/2.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light/3.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light/4.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light/5.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light/6.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1}
+      ]
+    },
+    {
+      "assetID": 2,
+      "animation": [
+        { "file": "../data/images/hitspark/light/0.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/light/1.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/light/2.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/light/3.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/light/4.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/light/5.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/light/6.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 2}
+      ]
+    },
+    {
+      "assetID": 3,
+      "animation": [
+        { "file": "../data/images/hitspark/light_slash/0.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/1.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/2.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/3.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/4.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/5.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/6.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/7.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/8.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/9.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/10.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/11.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/12.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/13.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/14.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/15.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/16.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
+        { "file": "../data/images/hitspark/light_slash/17.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1}
+      ]
+    },
+    {
+      "assetID": 4,
+      "animation": [
+        { "file": "../data/images/hitspark/medium_slash/0.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/1.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/2.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/3.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/4.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/5.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/6.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/7.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/8.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/9.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/10.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/11.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/12.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/13.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/14.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/15.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/16.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
+        { "file": "../data/images/hitspark/medium_slash/17.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2}
+      ]
+    }
+  ],
+  "guard_sparks":[
+    {
+      "assetID": 1,
+      "animation": [
+        { "file": "../data/images/guardspark/1.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
+        { "file": "../data/images/guardspark/2.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
+        { "file": "../data/images/guardspark/3.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
+        { "file": "../data/images/guardspark/4.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
+        { "file": "../data/images/guardspark/5.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
+        { "file": "../data/images/guardspark/6.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
+        { "file": "../data/images/guardspark/7.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
+        { "file": "../data/images/guardspark/8.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
+        { "file": "../data/images/guardspark/9.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3}
+      ]
+    },
+    {
+      "assetID": 2,
+      "animation": [
+        { "file": "../data/images/guardspark/1.png", "time": 2, "offsetX": 75, "offsetY": 75, "scale": 1},
+        { "file": "../data/images/guardspark/2.png", "time": 3, "offsetX": 75, "offsetY": 75, "scale": 1},
+        { "file": "../data/images/guardspark/3.png", "time": 1, "offsetX": 75, "offsetY": 75, "scale": 1}
+      ]
+    }
+  ],
+  "animation_assets":[
+    {
+      "assetID": 1,
+      "animation": [
+        { "file": "../data/images/visual_effects/flash/flare_01.png", "time": 2, "offsetX":-1, "offsetY":50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/light_01.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/light_02.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/light_03.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/circle_01.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/circle_02.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/circle_03.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/circle_04.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/circle_05.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/circle_06.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/circle_07.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1}
+      ]
+    },
+    {
+      "assetID": 2,
+      "animation": [
+        { "file": "../data/images/visual_effects/floor_impact/0.png", "time": 3, "offsetX":-1 , "offsetY":0, "scale": 2},
+        { "file": "../data/images/visual_effects/floor_impact/1.png", "time": 3, "offsetX":-1 , "offsetY":0, "scale": 2},
+        { "file": "../data/images/visual_effects/floor_impact/2.png", "time": 3, "offsetX":-1, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/floor_impact/3.png", "time": 3, "offsetX":-1, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/floor_impact/4.png", "time": 3, "offsetX":-1, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/floor_impact/5.png", "time":3, "offsetX":-1, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/floor_impact/6.png", "time":3, "offsetX":-1, "offsetY": 0, "scale": 2}
+      ]
+    },
+    {
+      "assetID": 3,
+      "animation": [
+        { "file": "../data/images/visual_effects/floor_impact/0.png", "time":2, "offsetX":-1 , "offsetY":0, "scale": 1},
+        { "file": "../data/images/visual_effects/floor_impact/1.png", "time":2, "offsetX":-1 , "offsetY":0, "scale": 1},
+        { "file": "../data/images/visual_effects/floor_impact/2.png", "time":2, "offsetX":-1, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/visual_effects/floor_impact/3.png", "time":2, "offsetX":-1, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/visual_effects/floor_impact/4.png", "time":2, "offsetX":-1, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/visual_effects/floor_impact/5.png", "time":2, "offsetX":-1, "offsetY": 0, "scale": 1},
+        { "file": "../data/images/visual_effects/floor_impact/6.png", "time":2, "offsetX":-1, "offsetY": 0, "scale": 1}
+      ]
+    },
+    {
+      "assetID": 4,
+      "animation": [
+        { "file": "../data/images/visual_effects/dust/0.png", "time":2, "offsetX":0 , "offsetY":0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust/1.png", "time":2, "offsetX":0 , "offsetY":0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust/2.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust/3.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust/4.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust/5.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust/6.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust/7.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust/8.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust/9.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust/10.png", "time":3, "offsetX":0, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust/11.png", "time":3, "offsetX":0, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust/12.png", "time":3, "offsetX":0, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust/13.png", "time":3, "offsetX":0, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust/14.png", "time":3, "offsetX":0, "offsetY": 0, "scale": 2}
+      ]
+    },
+    {
+      "assetID": 5,
+      "animation": [
+        { "file": "../data/images/visual_effects/dust_straight/0.png", "time":2, "offsetX":-2 , "offsetY":0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust_straight/1.png", "time":2, "offsetX":-2 , "offsetY":0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust_straight/2.png", "time":2, "offsetX":-2, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust_straight/3.png", "time":2, "offsetX":-2, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust_straight/4.png", "time":2, "offsetX":-2, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust_straight/5.png", "time":2, "offsetX":-2, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust_straight/6.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust_straight/7.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust_straight/8.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust_straight/9.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust_straight/10.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust_straight/11.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust_straight/12.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2},
+        { "file": "../data/images/visual_effects/dust_straight/13.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2}
+      ]
+    },
+    {
+      "assetID": 6,
+      "animation": [
+        { "file": "../data/images/visual_effects/pooty_tang_01/0.png", "time":2, "offsetX":100, "offsetY":0, "scale": 3},
+        { "file": "../data/images/visual_effects/pooty_tang_01/1.png", "time":2, "offsetX":100, "offsetY":0, "scale": 3},
+        { "file": "../data/images/visual_effects/pooty_tang_01/2.png", "time":2, "offsetX":100, "offsetY": 0, "scale": 3}
+      ]
+    },
+    {
+      "assetID": 7,
+      "aura": true,
+      "animation": [
+        { "file": "../data/images/visual_effects/flash/flare_01.png", "time": 2, "offsetX":-1, "offsetY":50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/light_01.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/light_02.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/light_03.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/circle_01.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/circle_02.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/circle_03.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/circle_04.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/circle_05.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/circle_06.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
+        { "file": "../data/images/visual_effects/flash/circle_07.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1}
+      ]
+    }
+  ],
+  "audio_assets":[
+    {"assetID": 1, "file": "../data/audio/char_audio/punch.wav"},
+    {"assetID": 2, "file": "../data/audio/char_audio/slice.wav"},
+    {"assetID": 3, "file": "../data/audio/char_audio/jump.wav"},
+    {"assetID": 4, "file": "../data/audio/char_audio/punch_impact.wav"},
+    {"assetID": 5, "file": "../data/audio/char_audio/slice_impact.wav"},
+    {"assetID": 6, "file": "../data/audio/char_audio/dash.wav"},
+    {"assetID": 7, "file": "../data/audio/char_audio/backdash.wav"},
+    {"assetID": 8, "file": "../data/audio/char_audio/airdash.wav"},
+    {"assetID": 9, "file": "../data/audio/char_audio/kick.wav"},
+    {"assetID": 10, "file": "../data/audio/char_audio/kick_impact.wav"},
+    {"assetID": 11, "file": "../data/audio/char_audio/heavyslice.wav"},
+    {"assetID": 12, "file": "../data/audio/char_audio/heavyslice_impact.wav"},
+    {"assetID": 13, "file": "../data/audio/char_audio/grip.wav"},
+    {"assetID": 14, "file": "../data/audio/char_audio/grip_quick.wav"},
+    {"assetID": 15, "file": "../data/audio/char_audio/airtech.wav"},
+    {"assetID": 16, "file": "../data/audio/char_audio/punch_guard.wav"},
+    {"assetID": 17, "file": "../data/audio/char_audio/kick_guard.wav"},
+    {"assetID": 18, "file": "../data/audio/char_audio/slice_guard.wav"},
+    {"assetID": 19, "file": "../data/audio/char_audio/heavyslice_guard.wav"},
+    {"assetID": 20, "file": "../data/audio/char_audio/heavyslice_guard2.wav"},
+    {"assetID": 21, "file": "../data/audio/char_audio/slice_impact2.wav"},
+    {"assetID": 22, "file": "../data/audio/char_audio/kick_impact2.wav"},
+    {"assetID": 23, "file": "../data/audio/char_audio/super_sound.wav"},
+    {"assetID": 24, "file": "../data/audio/char_audio/lightHit.wav"}
+  ],
+  "hurt_sounds":[
+    {"assetID": 1, "file": "../data/audio/char_audio/hurt1.wav"},
+    {"assetID": 2, "file": "../data/audio/char_audio/hurt2.wav"},
+    {"assetID": 3, "file": "../data/audio/char_audio/hurt3.wav"}
+  ],
+  "entities":[
+
+  ],
+  "special_state_nums":{
+    "SS_PRE_MATCH":1,
+    "SS_IDLE":2,
+    "SS_WALK_F":3,
+    "SS_WALK_B":4,
+    "SS_CROUCH":5,
+    "SS_JUMP_N":6,
+    "SS_JUMP_F":7,
+    "SS_JUMP_B":8,
+    "SS_JUMP_R": 9,
+    "SS_HURT":10,
+    "SS_HURT_RECOVERY": 11,
+    "SS_AIR_HURT":12,
+    "SS_AIR_HURT_RECOVERY": 13,
+    "SS_KNOCKDOWN":14,
+    "SS_BLOCK_STAND":16,
+    "SS_BLOCK_CROUCH":17,
+    "SS_AIR_BLOCK":18,
+    "SS_PUSH_BLOCK":19,
+    "SS_CROUCH_PUSH_BLOCK":20,
+    "SS_AIR_PUSH_BLOCK":21,
+    "SS_AIR_TECH":22,
+    "SS_DEAD_KNOCKDOWN":25,
+    "SS_THROW_TECH":24,
+    "SS_AIR_THROW_TECH":25,
+    "SS_GROUNDBOUNCE_FLING":26,
+    "SS_GROUNDBOUNCE_IMPACT":27,
+    "SS_DEAD_STANDING":24,
+    "SS_BLOWBACK_FALLING":29,
+    "SS_DEAD_FALLING":23
+  },
+  "anim_scale": "1.5",
+  "gravity": "2",
+  "command_script": "../data/characters/danteshaun/scripts/input.kai"
+}

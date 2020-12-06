@@ -61,8 +61,8 @@
     }
   ],
   "audio_assets": [
-    {"assetID": 1, "file": "../data/characters/alucard/audio/airdash.wav"},
-    {"assetID": 2, "file": "../data/characters/alucard/audio/kick_impact.wav"}
+    {"assetID": 1, "file": "../data/audio/char_audio/airdash.wav"},
+    {"assetID": 2, "file": "../data/audio/char_audio/kick_impact.wav"}
   ],
   "spawnOffsetX": 0, 
   "spawnOffsetY": 0,

@@ -35,7 +35,7 @@ public:
   void setCords(int xCord, int yCord);
   void setXCord(int xCord);
   void setYCord(int yCord);
-  void setDimensions(int xCord, int yCord, int width, int height);
+  void setDimensions(int xCord, int yCord, float width, float height);
   std::pair<int, int> getDimensions();
   std::pair<int, int> getFileDimensions();
   std::pair<int, int> getCords();
@@ -53,7 +53,7 @@ private:
   Camera* camera;
 
   SDL_Texture* texture;
-  SDL_Rect textRect;
+  SDL_FRect textRect;
   uint8_t alpha = 255;
   /* data */
 };

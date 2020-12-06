@@ -112,8 +112,6 @@ bool VirtualController::wasPressed(Input input, bool strict, int index, bool pre
   for(InputEvent& event : *eventList) {
     if((pressed && event.pressed) || (!pressed && !event.pressed)){
       if (input <= 10 && strict) {
-        if (event.inputBit == NOINPUT) {
-        }
         return (input == (event.inputBit & 0x0F));       
       } else if(event.inputBit & input) {
         return true;
@@ -125,7 +123,7 @@ bool VirtualController::wasPressed(Input input, bool strict, int index, bool pre
 }
 
 bool VirtualController::wasPressedBuffer(Input input, bool strict, bool pressed) {
-  int buffLen = 4;
+  int buffLen = 3;
   bool found = false;
   int historySize = inputHistory.size();
   if (buffLen >= historySize) {
@@ -219,7 +217,7 @@ void VirtualController::setAxis(Input newState){
 
   uint8_t newStickState = currentState & 0x0F;
   InputFrameT& currentList = inputHistory.front();
-  printf("clearing old stick state setAxis: %s\n", inputToString[oldStickState]);
+  // printf("clearing old stick state setAxis: %s\n", inputToString[oldStickState]);
   currentList.push_back(InputEvent(oldStickState, false));
   currentList.push_back(InputEvent(newStickState, true));
 }
@@ -253,7 +251,7 @@ void VirtualController::updateAxis(bool isXAxis) {
   }
 
   uint8_t newStickState = currentState & 0x0F;
-  printf("clearing old stick state updateAxis %s\n", inputToString[oldStickState]);
+  // printf("clearing old stick state updateAxis %s\n", inputToString[oldStickState]);
   currentList.push_back(InputEvent(oldStickState, false));
   currentList.push_back(InputEvent(newStickState, true));
 }
@@ -330,6 +328,38 @@ void VirtualController::loadHistory(HistoryCopyT historyCopy) {
     printf("input history set for frame %d\n", i);
   }
   printf("loadhistory done\n");
+}
+
+void VirtualController::addNetInput() {
+  // loop through bits in currentState
+  // for each bit in current state,
+  // if set..
+  //  and not set before, send wasPressed event
+  // if not set..
+  //  and was set before, send wasReleased event
+  std::bitset<16> stickState(currentState);
+  std::cout << "currentState:" << stickState << std::endl;
+  std::bitset<16> prevStickState(prevState);
+  std::cout << "prevState:" << prevStickState << std::endl;
+  uint8_t oldStickState = prevState & 0x0F;
+  uint8_t newStickState = currentState & 0x0F;
+  if (oldStickState != newStickState) {
+    // printf("clearing:%s setting:%s\n", inputToString[oldStickState], inputToString[newStickState]);
+    inputHistory.front().emplace_back(InputEvent(oldStickState, false));
+    inputHistory.front().emplace_back(InputEvent(newStickState, true));
+  }
+  for (int i = 4; i < 16; ++i) {
+    uint16_t temp = 0;
+    temp |= (1 << i);
+    if (stickState.test(i) && !prevStickState.test(i)) {
+      printf("detected button press for %s\n", inputToString[temp]);
+      inputHistory.front().emplace_back(InputEvent(temp, true));
+    } else if(!stickState.test(i) && prevStickState.test(i)){
+      printf("detected button release for %s\n", inputToString[temp]);
+      inputHistory.front().emplace_back(InputEvent(temp, false));
+    }
+  }
+  prevState = currentState;
 }
 
 

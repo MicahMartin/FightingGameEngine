@@ -1,0 +1,52 @@
+{ 
+  if($get_state_time == 0){ 
+    $set_control 0; 
+    $set_air_action 1; 
+    $velset_x 0; 
+  } 
+  if($get_state_time == 3){ 
+    $velset_y 46; 
+    $neg_velset_x 6; 
+    $set_control 1; 
+  } 
+  var can_dbl_jump = false;
+  if($get_state_time > 15){ 
+    can_dbl_jump = true;
+  }
+  var up = $check_command 6;
+  var upforward = $check_command 7;
+  var upback = $check_command 8;
+  var hasAirAction = $has_air_action;
+  var can_airdash = false;
+
+  if($get_state_time > 8){ 
+    can_airdash = true;
+  }
+  var dash_f = $check_command 0;
+  var dash_b = $check_command 1;
+  var aboveMinHeight = ($get_y_pos > 100);
+
+  if(can_airdash and aboveMinHeight and hasAirAction){
+    if(dash_f){
+      $cancel_state 29; 
+    }
+    if(dash_b){
+      $cancel_state 30; 
+    }
+  }
+
+  if(hasAirAction and can_dbl_jump){
+    if(up){
+      $cancel_state 26;
+    }
+    if(upforward){
+      $cancel_state 27;
+    }
+    if(upback){
+      $cancel_state 28;
+    }
+  }
+  if($get_state_time > 35 and $get_yvel < 1){
+    $cancel_state 5027;
+  }
+} 

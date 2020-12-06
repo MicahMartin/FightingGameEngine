@@ -1,8 +1,11 @@
 #include "graphics/Camera.h"
 
-Camera::Camera(){
-  cameraRect.w = graphics->getWindowWidth();
-  cameraRect.h = graphics->getWindowHeight();
+Camera::Camera(){ }
+
+void Camera::init(int width, int height, int _screenWidth){
+  screenWidth = _screenWidth;
+  cameraRect.w = width;
+  cameraRect.h = height;
   cameraRect.y = 0;
   printf("camera itialized %d %d\n", cameraRect.w, cameraRect.h);
 }
@@ -34,8 +37,8 @@ void Camera::update(int p1Xpos, int p2Xpos){
   if(cameraRect.x < 0){
     cameraRect.x = 0;
   }
-  if(cameraRect.x + cameraRect.w > 3840){
-    cameraRect.x = 3840 - cameraRect.w;
+  if(cameraRect.x + cameraRect.w > screenWidth){
+    cameraRect.x = screenWidth - cameraRect.w;
   }
 
   lowerBound = cameraRect.x;

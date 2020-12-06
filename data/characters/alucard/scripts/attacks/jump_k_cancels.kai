@@ -2,6 +2,11 @@
   var canHitCancel = $get_hit_cancel;
   var stateTime = $get_state_time;
   var inCancelWindow = (stateTime >= 9) and (stateTime <= 16);
+  var down = $get_input 2; 
+  var downback = $get_input 1; 
+  var downforward = $get_input 3; 
+  var anyDown = (down or downforward or downback);
+
   if(canHitCancel and (stateTime > 16)) {
     $set_hit_cancel 0;
   }
@@ -13,7 +18,7 @@
   }
 
   if(canHitCancel and inCancelWindow){
-    var jump_p = $was_pressed 10;
+    var jump_dk = ($was_pressed 11) and (anyDown);
     var jump_s = $was_pressed 12;
     var aboveMinHeight = ($get_y_pos > 80);
 
@@ -21,8 +26,8 @@
       $cancel_state 16;
     }
 
-    if(jump_p and aboveMinHeight){
-      $cancel_state 18;
+    if(jump_dk and aboveMinHeight){
+      $cancel_state 19;
     }
 
     var up = $was_pressed 8; 

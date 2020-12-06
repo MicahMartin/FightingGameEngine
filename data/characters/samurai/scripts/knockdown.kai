@@ -1,0 +1,16 @@
+{ 
+  if($get_state_time == 0){ 
+    $set_combo 0; 
+    $set_hit_stun 0;
+    $neg_velset_x 4;
+    $velset_y 8;
+  } 
+
+  if($get_state_time > 0 and $get_y_pos == 0){ 
+    $velset_x 0;
+  } 
+
+  if($get_state_time == 30){ 
+    $cancel_state 13; 
+  } 
+}

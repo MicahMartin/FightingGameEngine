@@ -13,9 +13,13 @@ Animation::Animation(){
 Animation::~Animation(){ }
 
 void Animation::loadAnimEvents(nlohmann::json json) {
+  loadAnimEvents(4, json);
+}
+
+void Animation::loadAnimEvents(float defaultScale, nlohmann::json json) {
   for (auto i : json.items()) {
     int animTime = i.value().at("time");
-    int scale = 4;
+    float scale = defaultScale;
     int offsetX = 0;
     int offsetY = 0;
 
@@ -24,12 +28,13 @@ void Animation::loadAnimEvents(nlohmann::json json) {
     }
     if(i.value().count("scale")){
       scale = i.value().at("scale");
+      printf("the scale %f\n", scale);
     }
     if(i.value().count("offsetX")){
       offsetX = i.value().at("offsetX");
     }
 
-    AnimationElement element(animTime, offsetX, offsetY);
+    AnimationElement element(animTime, offsetX*scale, offsetY);
     if (i.value().count("color")) {
       element.isYellow = true;
     }
@@ -37,6 +42,12 @@ void Animation::loadAnimEvents(nlohmann::json json) {
     GameTexture* text = &element.gameTexture;
     text->cartesian = true;
     std::string path(i.value().at("file").get<std::string>());
+    size_t found = path.find("\%CHARNAME\%");
+    if (found != std::string::npos) {
+      path = path.replace(found, 10, charName);
+      printf("path:%s\n", path.c_str());
+    }
+
     const char* pathPointer = path.c_str();
     std::pair realDimensions = getDimensions(pathPointer);
 
@@ -55,6 +66,12 @@ void Animation::loadAnimEvents(nlohmann::json json) {
     // text->setColor(255, 0, 0);
     if (offsetX == -1) {
       element.offsetX = ((realDimensions.first * scale)/2);
+    }
+    if (offsetX == -2) {
+      element.offsetX = ((realDimensions.first * scale));
+    }
+    if (offsetX == -3) {
+      element.offsetX = ((realDimensions.first * scale));
     }
     if (offsetY == -1) {
       element.offsetY = ((realDimensions.second * scale)/2);
@@ -98,13 +115,13 @@ void Animation::render(int x, int y, bool faceRight, int stateTime) {
   int width = currentText->getDimensions().first;
   int offsetX = elem->offsetX;
   int offsetY = elem->offsetY;
-  faceRight ? currentText->setCords(x-width+offsetX, ((y - 60) + offsetY)) : currentText->setCords(x-offsetX, ((y - 60) + offsetY));
+  faceRight ? currentText->setCords(x-offsetX, ((y - 60) + offsetY)) : currentText->setCords((x+offsetX)-width, ((y - 60) + offsetY));
 
   if (hitShake) {
     if (hitShakeToggler == 3) {
-    faceRight ? currentText->setCords((x-width+offsetX) + 3, ((y - 60) + offsetY)) : currentText->setCords((x-offsetX) - 3, ((y - 60) + offsetY));
+    faceRight ? currentText->setCords((x-offsetX) + 3, ((y - 60) + offsetY)) : currentText->setCords(((x+offsetX)-width) - 3, ((y - 60) + offsetY));
     } else if (hitShakeToggler == 6) {
-    faceRight ? currentText->setCords((x-width+offsetX) - 3, ((y - 60) + offsetY)) : currentText->setCords((x-offsetX) + 3, ((y - 60) + offsetY));
+    faceRight ? currentText->setCords((x-offsetX) - 3, ((y - 60) + offsetY)) : currentText->setCords(((x+offsetX)-width) + 3, ((y - 60) + offsetY));
     }
     hitShakeToggler++;
     if (hitShakeToggler == 7) {
@@ -139,7 +156,7 @@ void Animation::renderHitspark(int x, int y, bool faceRight) {
   int offsetX = elem->offsetX;
   int offsetY = elem->offsetY;
 
-  faceRight ? currentText->setCords(x-width+offsetX, ((y - 60) + offsetY)) : currentText->setCords(x-offsetX, ((y - 60) + offsetY));
+  faceRight ? currentText->setCords(x+offsetX, ((y - 60) + offsetY)) : currentText->setCords(x-offsetX, ((y - 60) + offsetY));
   currentText->render(faceRight);
 
   currentAnimElemTimePassed++;

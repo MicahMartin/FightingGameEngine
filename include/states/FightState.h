@@ -26,18 +26,20 @@ struct HitResult {
 };
 
 struct FightStateObj {
-  int roundStartCounter;
   int p1RoundsWon;
   int p2RoundsWon;
   int currentRound;
-  int slowDownCounter;
   int roundWinner;
+  int slowDownCounter;
+  int roundStartCounter;
   int screenFreezeCounter;
   int screenFreezeLength;
+
   bool roundStart;
   bool inSlowDown;
   bool roundEnd;
   bool screenFreeze;
+  bool shouldUpdate;
 
   CameraStateObj cameraState;
   CharStateObj char1State;
@@ -54,10 +56,13 @@ struct FightStateObj {
         ar & roundWinner;
         ar & screenFreezeCounter;
         ar & screenFreezeLength;
+
         ar & roundStart;
         ar & inSlowDown;
         ar & roundEnd;
         ar & screenFreeze;
+
+        ar & cameraState;
         ar & char1State;
         ar & char2State;
       }
@@ -112,6 +117,7 @@ public:
 
   HitResult checkEntityHitAgainst(Character* thrower, Character* throwee);
   ThrowResult checkThrowAgainst(Character* thrower, Character* throwee);
+  void handleSameFrameThrowTech(SpecialState techState);
   int checkProjectileCollisions(Character* player1, Character* player2);
 
 
@@ -130,6 +136,7 @@ public:
   bool screenFreeze = false;
   int screenFreezeCounter = 0;
   int screenFreezeLength = 0;
+  int frameCount = 0;
 
   Mix_Music* bgMusic = NULL;
   Mix_Chunk* yawl_ready = NULL;

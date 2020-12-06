@@ -10,7 +10,7 @@ void Graphics::init(){
       SDL_WINDOWPOS_UNDEFINED,
       1280,
       720,
-      SDL_WINDOW_SHOWN);
+      SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 
   if( window == NULL ){
     throw(std::runtime_error(SDL_GetError()));
@@ -109,4 +109,26 @@ Camera* Graphics::getCamera(){
 
 TTF_Font* Graphics::getFont(){
   return scpFont;
+}
+
+void Graphics::clearFlag(GraphicsFlag flag){
+
+  flags &= (~flag);
+}
+
+void Graphics::setFlag(GraphicsFlag flag){
+
+  flags |= flag;
+}
+
+bool Graphics::getFlag(GraphicsFlag flag){
+
+  return (( flags & flag ) == flag);
+}
+
+void Graphics::setFPS(int _fps){
+fps = _fps;
+}
+int Graphics::getFPS(){
+  return fps;
 }

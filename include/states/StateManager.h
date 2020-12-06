@@ -2,6 +2,7 @@
 #define _StateManager_h 
 
 #include <stack>
+#include <string>
 
 class GameState;
 class StateManager final {
@@ -18,6 +19,9 @@ public:
   void setNetplay(bool netplaying);
   bool getNetplay();
 
+  void setCharName(int playerNum, std::string name);
+  std::string getCharName(int playerNum);
+
   void setPnum(int pNum);
   int getPnum();
 
@@ -32,6 +36,8 @@ private:
   std::stack<GameState*> stateStack;
   bool netplaying;
   int pNum;
+  std::string p1CharName;
+  std::string p2CharName;
 };
 
 

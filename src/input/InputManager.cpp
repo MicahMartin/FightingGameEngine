@@ -175,6 +175,15 @@ void InputManager::update() {
           if (event.key.keysym.sym == SDLK_ESCAPE) {
             notifyOne("game", "RESTART_REQUEST");
           }
+          if (event.key.keysym.sym == SDLK_v) {
+            notifyOne("game", "VOLUME_DOWN_REQUEST");
+          }
+          if (event.key.keysym.sym == SDLK_b) {
+            notifyOne("game", "VOLUME_UP_REQUEST");
+          }
+          if (event.key.keysym.sym == SDLK_c) {
+            notifyOne("game", "VIEW_CBOXES_TOGGLE");
+          }
           break;
         }
 
@@ -229,7 +238,7 @@ void InputManager::update() {
             if(conf != NULL && conf->count(event.jbutton.button)){
               ConfItem* item = &conf->at(event.jbutton.button);
               Input* inputBit = &item->inputBit;
-              printf("clearing item from jbutton %d with val: %d\n", event.jbutton.button, *inputBit);
+              // printf("clearing item from jbutton %d with val: %d\n", event.jbutton.button, *inputBit);
               controller->clearBit(*inputBit);
             } else if (conf != NULL && (event.jbutton.button >= 11 && event.jbutton.button <= 14)){
               // UDLR
@@ -393,7 +402,7 @@ void InputManager::update() {
   }
 
   if(controllers[0]->copyMode){
-    printf("pushing input history to inputHistoryCopy\n");
+    // printf("pushing input history to inputHistoryCopy\n");
     if (controllers[0]->copyModeSlot == 1) {
       controllers[0]->inputHistoryCopy.push_back(controllers[0]->inputHistory.front());
       controllers[0]->inputStateCopy.push_back(controllers[0]->currentState);

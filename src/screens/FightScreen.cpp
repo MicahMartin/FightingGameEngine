@@ -19,12 +19,28 @@ FightScreen::FightScreen(){
   sky.setDimensions(0, -graphics->getWindowHeight(), windowWidth*3, graphics->getWindowHeight()*2);
   addTexture(&sky);
   addTexture(&stage);
+
   connectStatus.setText("CONNECTING");
+  connectStatus.setDimensions(100, 100, 400, 50);
+
   s1Record.setText("recording to slot 1");
+  s1Record.setDimensions(100, 100, 400, 50);
+
   s2Record.setText("recording to slot 2");
+  s2Record.setDimensions(100, 100, 400, 50);
+
   p1Record.setText("playBack to slot 1");
+  p1Record.setDimensions(100, 100, 400, 50);
+
   p2Record.setText("playBack to slot 2");
+  p2Record.setDimensions(100, 100, 400, 50);
+
   p3Record.setText("playBack random");
+  p3Record.setDimensions(100, 100, 400, 50);
+
+  checksumText.setText(std::to_string(checksumValue).c_str());
+  checksumText.setDimensions(100, 150, 400, 50);
+  fpsText.setDimensions(100, 200, 400, 50);
 
   directions[0].loadTexture("../data/images/font/right.png");
   directions[1].loadTexture("../data/images/font/left.png");
@@ -129,6 +145,11 @@ void FightScreen::draw(){
     default:
       break;
   }
+  checksumText.setText(std::to_string(checksumValue).c_str());
+  checksumText.render();
+
+  fpsText.setText(std::to_string(fps).c_str());
+  fpsText.render();
 }
 
 void FightScreen::addTexture(GameTexture* gText){

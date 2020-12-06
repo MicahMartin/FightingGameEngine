@@ -279,6 +279,16 @@ inline ExecutionCode VirtualMachine::run(){
         stack.push(NUMBER_VAL(val));
         break;
       }
+      case OP_GET_Y_VEL: {
+        bool val = character->_getInstall();
+        stack.push(NUMBER_VAL(val));
+        break;
+      }
+      case OP_GET_X_VEL: {
+        bool val = character->_getInstall();
+        stack.push(NUMBER_VAL(val));
+        break;
+      }
       case OP_SET_INSTALL: {
         long operand = AS_NUMBER(stack.pop());
         character->_setInstall(operand);

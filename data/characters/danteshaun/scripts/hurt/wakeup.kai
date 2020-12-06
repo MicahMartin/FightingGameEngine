@@ -1,0 +1,6 @@
+{
+  if($get_state_time == 10){
+    $set_control 1;
+  }
+}
+

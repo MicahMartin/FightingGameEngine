@@ -1,0 +1,40 @@
+{
+  var stateTime = $get_state_time;
+  var quotient = stateTime / 9;
+  var product = quotient * 9;
+  var remainder = stateTime - product;
+
+  if(stateTime  == 0){
+    $set_control 1;
+  }
+  var up = $was_pressed 8; 
+  var upforward = $was_pressed 9; 
+  var upback = $was_pressed 7; 
+  var hasAirAction = $has_air_action;
+  var dash_f = $check_command 0;
+  var dash_b = $check_command 1;
+  var aboveMinHeight = ($get_y_pos > 100);
+  if(aboveMinHeight and hasAirAction){
+    if(dash_f){
+      $cancel_state 29; 
+    }
+    if(dash_b){
+      $cancel_state 30; 
+    }
+  }
+  if(hasAirAction){
+    if(up){
+      $cancel_state 26;
+    }
+    if(upforward){
+      $cancel_state 27;
+    }
+    if(upback){
+      $cancel_state 28;
+    }
+  }
+  if (remainder == 0) {
+    $reset_anim;
+  }
+}
+

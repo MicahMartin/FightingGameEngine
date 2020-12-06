@@ -1,0 +1,9 @@
+{
+  if($get_state_time == 0){ 
+    $velset_x 0;
+    $velset_y 0;
+  } 
+  if($get_block_stun == 0){ 
+    $set_control 1;
+  } 
+} 

@@ -37,12 +37,11 @@ bool GameTexture::setText(const char* message){
   SDL_FreeSurface(surfaceMessage);
 
   setTexture(text);
-  setDimensions(100, 100, 400, 100);
   return true;
 }
 
 void GameTexture::render() {
-  SDL_RenderCopy(renderer, texture, NULL, &textRect);
+  SDL_RenderCopyF(renderer, texture, NULL, &textRect);
 }
 
 void GameTexture::render(SDL_Rect dest) {
@@ -60,11 +59,11 @@ void GameTexture::render(SDL_Rect dest, double angle) {
 // TODO: cleaner signature using defaults
 void GameTexture::render(bool faceRight) {
   Camera* cam = graphics->getCamera();
-  SDL_Rect srcRect = textRect;
+  SDL_FRect srcRect = textRect;
   srcRect.x -= cam->cameraRect.x;
   srcRect.y += cam->cameraRect.y;
   SDL_RendererFlip flipFlag = faceRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
-  SDL_RenderCopyEx(renderer, texture, NULL, &srcRect, 0, NULL, flipFlag);
+  SDL_RenderCopyExF(renderer, texture, NULL, &srcRect, 0, NULL, flipFlag);
 }
 
 void GameTexture::incTransperancy(){
@@ -113,7 +112,7 @@ void GameTexture::setYCord(int yCord) {
   cartesian ? textRect.y = yCord + (graphics->getWindowHeight() - textRect.h) : textRect.y = yCord;
 }
 
-void GameTexture::setDimensions(int xCord, int yCord, int width, int height) { 
+void GameTexture::setDimensions(int xCord, int yCord, float width, float height) { 
   textRect.x = xCord;
   cartesian ? textRect.y = yCord + (graphics->getWindowHeight() - height) : textRect.y = yCord;
   textRect.w = width;

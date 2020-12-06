@@ -75,6 +75,8 @@ typedef enum {
   OP_SUBTRACT_METER,
   OP_GET_INSTALL,
   OP_SET_INSTALL,
+  OP_GET_Y_VEL,
+  OP_GET_X_VEL,
   OP_RETURN
 } OpCode;
 
@@ -124,6 +126,8 @@ static const std::unordered_map<std::string, OpCode> engineCallMap {
   {"$add_meter", OP_ADD_METER},
   {"$get_install", OP_GET_INSTALL},
   {"$set_install", OP_SET_INSTALL},
+  {"$get_yvel", OP_GET_Y_VEL},
+  {"$get_xvel", OP_GET_X_VEL},
   {"$subtract_meter", OP_SUBTRACT_METER},
 };
 

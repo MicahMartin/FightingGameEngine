@@ -1,0 +1,47 @@
+{
+  var canHitCancel = $get_hit_cancel;
+  var stateTime = $get_state_time;
+  var inCancelWindow = ((stateTime >= 10) and (stateTime <= 15));
+  if(canHitCancel and (stateTime == 18)) {
+    $set_hit_cancel 0;
+  }
+  if (stateTime == 0) {
+    $set_counter 1;
+  }
+  if (stateTime == 15) {
+    $set_counter 0;
+  }
+
+  if(canHitCancel and inCancelWindow){
+    var qcf_k = $check_command 2;
+    var qcb_p = $check_command 3;
+
+    var up = $get_input 8; 
+    var upforward = $get_input 9; 
+    var upback = $get_input 7; 
+
+    var limit_break = $check_command 10;
+    var meter = $get_meter 1;
+    if (limit_break and (meter > 500)) {
+      $subtract_meter 500;
+      $cancel_state 70;
+    }
+
+    if(qcf_k){
+      $cancel_state 14;
+    }
+    if (qcb_p) {
+      $cancel_state 30;
+    }
+
+    if(up){
+      $cancel_state 6;
+    }
+    if(upforward){
+      $cancel_state 7;
+    }
+    if(upback){
+      $cancel_state 8;
+    }
+  }
+}

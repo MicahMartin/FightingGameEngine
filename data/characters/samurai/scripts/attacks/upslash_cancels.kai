@@ -1,0 +1,15 @@
+{
+  var stateTime = $get_state_time;
+  if (stateTime == 0) {
+    $set_counter 1;
+  }
+  if (stateTime == 18) {
+    $set_counter 0;
+  }
+  var limit_break = $check_command 10;
+  var meter = $get_meter 1;
+  if (limit_break and (meter > 500)) {
+    $subtract_meter 500;
+    $cancel_state 70;
+  }
+}

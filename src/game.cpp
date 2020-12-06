@@ -6,6 +6,7 @@
 #include <boost/serialization/list.hpp>
 
 
+int volume = 100;
 Game::Game(){
 
   // init Graphics
@@ -125,5 +126,11 @@ void Game::onNotify(const char* eventName) {
       FightState* statePointer = (FightState*)currentState;
       statePointer->loadState(statePointer->buffer, statePointer->bufferLen);
     }
+  } else if (std::strcmp(eventName, "VOLUME_UP_REQUEST") == 0){
+    Mix_Volume(-1, 64);
+  } else if (std::strcmp(eventName, "VOLUME_DOWN_REQUEST") == 0){
+    Mix_Volume(-1, 0);
+  } else if (std::strcmp(eventName, "VIEW_CBOXES_TOGGLE") == 0){
+    graphics->getFlag(GF_SHOW_CB) ? graphics->clearFlag(GF_SHOW_CB) : graphics->setFlag(GF_SHOW_CB);
   }
 }

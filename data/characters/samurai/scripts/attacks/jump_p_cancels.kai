@@ -1,0 +1,57 @@
+{
+  var down = $get_input 2; 
+  var downback = $get_input 1; 
+  var downforward = $get_input 3; 
+  var anyDown = (down or downforward or downback);
+  var canHitCancel = $get_hit_cancel;
+  var stateTime = $get_state_time;
+  var inCancelWindow = (stateTime >= 5) and (stateTime <= 7);
+  if(canHitCancel and (stateTime > 10)) {
+    $set_hit_cancel 0;
+  }
+
+  if (stateTime == 0) {
+    $set_counter 1;
+  }
+  if (stateTime == 6) {
+    $set_counter 0;
+  }
+
+  if(canHitCancel and inCancelWindow){
+    var jump_p = $was_pressed 10;
+    var jump_k = $was_pressed 11;
+    var jump_s = $was_pressed 12;
+
+    var aboveMinHeight = ($get_y_pos > 80);
+
+    if(jump_s and aboveMinHeight){
+      $cancel_state 49;
+    }
+
+    if(jump_k and aboveMinHeight){
+      $cancel_state 48;
+    }
+
+    if(jump_p and aboveMinHeight){
+      $cancel_state 47;
+    }
+
+    var up = $was_pressed 8; 
+    var upforward = $was_pressed 9; 
+    var upback = $was_pressed 7; 
+
+    var hasAirAction = $has_air_action;
+
+    if(hasAirAction){
+      if(up){
+        $cancel_state 28;
+      }
+      if(upforward){
+        $cancel_state 29;
+      }
+      if(upback){
+        $cancel_state 30;
+      }
+    }
+  }
+}

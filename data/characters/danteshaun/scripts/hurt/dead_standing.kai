@@ -1,0 +1,6 @@
+{
+  if($get_state_time == 24) {
+    $cancel_state 5019; 
+  } 
+}
+

@@ -1,0 +1,15 @@
+{
+  if($get_state_time == 0){
+    $set_control 0;
+    $velset_x 0;
+  }
+  if($get_state_time == 16){
+    $velset_x 41;
+  }
+  if($get_state_time == 22){
+    $velset_x 0;
+  }
+  if($get_state_time == 33){
+    $set_control 1;
+  }
+}
