@@ -668,7 +668,7 @@ void Character::draw(){
   int camOffset = Graphics::getInstance()->getCamera()->cameraRect.x;
 
   SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
-  SDL_RenderDrawLine(renderer, (position.first/10) - camOffset, windowHeight, (position.first/10) - camOffset, (position.second/10));
+  SDL_RenderDrawLine(renderer, (position.first/100) - camOffset, windowHeight, (position.first/100) - camOffset, (position.second/100));
   SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 };
 

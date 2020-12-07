@@ -14,7 +14,8 @@ void Popup::update(){
 }
 
 void Popup::draw(){
-  anim.render(xPos/10, yPos/10, true, stateTime);
+  //TODO::COORDINATE_SCALE
+  anim.render(xPos/100, yPos/100, true, stateTime);
 }
 
 void Popup::reset(){

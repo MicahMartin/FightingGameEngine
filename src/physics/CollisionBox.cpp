@@ -97,10 +97,10 @@ void CollisionBox::render(){
   }
   SDL_Rect collisionRect;
 
-  collisionRect.x = (positionX/10 - cam->cameraRect.x);
-  collisionRect.y = (positionY/10 + (graphics->getWindowHeight() - (height/10)) - 60) + cam->cameraRect.y;
-  collisionRect.w = width/10;
-  collisionRect.h = height/10;
+  collisionRect.x = (positionX/100 - cam->cameraRect.x);
+  collisionRect.y = (positionY/100 + (graphics->getWindowHeight() - (height/100)) - 60) + cam->cameraRect.y;
+  collisionRect.w = width/100;
+  collisionRect.h = height/100;
 
   SDL_RenderDrawRect(graphics->getRenderer(), &collisionRect);
   SDL_SetRenderDrawColor(graphics->getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);

@@ -14,9 +14,10 @@
 FightState* ggpoFightState;
 Character* characters[2];
 int checksum = 0;
-int worldWidth = 3840*10;
-int p1StartPos = 1700*10;
-int p2StartPos = 2200*10;
+//TODO:: COORDINATE_SCALE
+int worldWidth = 3840*100;
+int p1StartPos = 1700*100;
+int p2StartPos = 2200*100;
 
 
 bool blockState(int playerNum, int state){

@@ -8,8 +8,8 @@ void Camera::init(int width, int height, int _screenWidth){
   positionObj.h = height;
   positionObj.y = 0;
 
-  cameraRect.w = width/10;
-  cameraRect.h = height/10;
+  cameraRect.w = width/100;
+  cameraRect.h = height/100;
   cameraRect.y = 0;
 }
 
@@ -53,8 +53,9 @@ void Camera::update(std::pair<int,int> p1Pos, std::pair<int,int> p2Pos){
     positionObj.y = 0;
   }
   
-  cameraRect.x = positionObj.x/10;
-  cameraRect.y = positionObj.y/10;
+  //TODO: COORDINATE_SCALE
+  cameraRect.x = positionObj.x/100;
+  cameraRect.y = positionObj.y/100;
 }
 
 void Camera::render(){
