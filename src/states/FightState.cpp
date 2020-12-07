@@ -18,6 +18,8 @@ int checksum = 0;
 int worldWidth = 3840*100;
 int p1StartPos = 1700*100;
 int p2StartPos = 2200*100;
+int camWidth = 1280*100;
+int camHeight = 720*100;
 
 
 bool blockState(int playerNum, int state){
@@ -247,7 +249,7 @@ void FightState::enter(){
   printf("done loading characters\n");
 
   graphics->setCamera(&camera);
-  camera.init(12800, 7200, worldWidth);
+  camera.init(camWidth, camHeight, worldWidth);
   updateCamera();
   Mix_PlayMusic(bgMusic, -1);
   roundStartCounter = 210;
