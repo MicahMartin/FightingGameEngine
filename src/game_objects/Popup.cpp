@@ -14,7 +14,7 @@ void Popup::update(){
 }
 
 void Popup::draw(){
-  anim.render(xPos, yPos, true, stateTime);
+  anim.render(xPos/10, yPos/10, true, stateTime);
 }
 
 void Popup::reset(){

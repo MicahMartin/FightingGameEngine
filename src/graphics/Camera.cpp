@@ -4,10 +4,13 @@ Camera::Camera(){ }
 
 void Camera::init(int width, int height, int _screenWidth){
   screenWidth = _screenWidth;
-  cameraRect.w = width;
-  cameraRect.h = height;
+  positionObj.w = width;
+  positionObj.h = height;
+  positionObj.y = 0;
+
+  cameraRect.w = width/10;
+  cameraRect.h = height/10;
   cameraRect.y = 0;
-  printf("camera itialized %d %d\n", cameraRect.w, cameraRect.h);
 }
 
 CameraStateObj Camera::saveState(){
@@ -16,7 +19,6 @@ CameraStateObj Camera::saveState(){
   stateObj.lowerBound = lowerBound;
   stateObj.upperBound = upperBound;
   stateObj.middle = middle;
-  stateObj.yPos = yPos;
 
   return stateObj;
 }
@@ -26,24 +28,33 @@ void Camera::loadState(CameraStateObj stateObj){
   lowerBound = stateObj.lowerBound;
   upperBound = stateObj.upperBound;
   middle = stateObj.middle;
-  yPos = stateObj.yPos;
 }
 
 Camera::~Camera(){}
 
-void Camera::update(int p1Xpos, int p2Xpos){
-  int midPoint = (p1Xpos + p2Xpos) / 2;
-  cameraRect.x = (midPoint - (cameraRect.w/2));
-  if(cameraRect.x < 0){
-    cameraRect.x = 0;
+void Camera::update(std::pair<int,int> p1Pos, std::pair<int,int> p2Pos){
+  int midPoint = (p1Pos.first + p2Pos.first) / 2;
+  positionObj.x = (midPoint - (positionObj.w/2));
+  if(positionObj.x < 0){
+    positionObj.x = 0;
   }
-  if(cameraRect.x + cameraRect.w > screenWidth){
-    cameraRect.x = screenWidth - cameraRect.w;
+  if(positionObj.x + positionObj.w > screenWidth){
+    positionObj.x = screenWidth - positionObj.w;
   }
 
-  lowerBound = cameraRect.x;
-  upperBound = cameraRect.x+cameraRect.w;
-  middle = cameraRect.x + (cameraRect.w/2);
+  lowerBound = positionObj.x;
+  upperBound = positionObj.x+positionObj.w;
+  middle = positionObj.x + (positionObj.w/2);
+
+  int highest = p1Pos.second > p2Pos.second ? p1Pos.second : p2Pos.second;
+  if(highest > (graphics->getWindowHeight()/2)){
+    positionObj.y = highest - (graphics->getWindowHeight() / 2);
+  } else {
+    positionObj.y = 0;
+  }
+  
+  cameraRect.x = positionObj.x/10;
+  cameraRect.y = positionObj.y/10;
 }
 
 void Camera::render(){

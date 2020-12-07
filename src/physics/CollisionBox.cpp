@@ -31,8 +31,8 @@ CollisionRect CollisionBox::getAABBIntersect(CollisionBox box1, CollisionBox box
 }
 
 bool CollisionBox::checkAABB(CollisionBox box1, CollisionBox box2){
-  std::pair<int, int> b1Pos(box1.positionX, box1.positionY + (720-box1.height));
-  std::pair<int, int> b2Pos(box2.positionX, box2.positionY + (720-box2.height));
+  std::pair<int, int> b1Pos(box1.positionX, box1.positionY);
+  std::pair<int, int> b2Pos(box2.positionX, box2.positionY);
   if(box1.positionX < box2.positionX + box2.width &&
      box1.positionX + box1.width > box2.positionX &&
      box1.positionY > box2.positionY - box2.height &&
@@ -97,10 +97,10 @@ void CollisionBox::render(){
   }
   SDL_Rect collisionRect;
 
-  collisionRect.x = (positionX - cam->cameraRect.x);
-  collisionRect.y = (positionY + (graphics->getWindowHeight() - height) - 60) + cam->cameraRect.y;
-  collisionRect.w = width;
-  collisionRect.h = height;
+  collisionRect.x = (positionX/10 - cam->cameraRect.x);
+  collisionRect.y = (positionY/10 + (graphics->getWindowHeight() - (height/10)) - 60) + cam->cameraRect.y;
+  collisionRect.w = width/10;
+  collisionRect.h = height/10;
 
   SDL_RenderDrawRect(graphics->getRenderer(), &collisionRect);
   SDL_SetRenderDrawColor(graphics->getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);

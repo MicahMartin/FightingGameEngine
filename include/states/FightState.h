@@ -99,10 +99,10 @@ public:
   void checkHealth();
   bool checkBlock(int blockType, Character* player);
   void updateFaceRight();
-  void renderHealthBars();
-  void renderComboCount();
-  void renderInputHistory();
-  void renderHealthBar(int x, int y, int w, int h, float percent, SDL_Color fgColor, SDL_Color bgColor);
+  void drawHealthBars();
+  void drawComboCount();
+  void drawInputHistory();
+  void drawHealthBar(int x, int y, int w, int h, float percent, SDL_Color fgColor, SDL_Color bgColor);
   void handleRoundStart();
   void checkThrowTechs();
   void updateVisuals();
@@ -119,6 +119,12 @@ public:
   ThrowResult checkThrowAgainst(Character* thrower, Character* throwee);
   void handleSameFrameThrowTech(SpecialState techState);
   int checkProjectileCollisions(Character* player1, Character* player2);
+
+  void drawText();
+  void drawCounterHit();
+  void drawUIEffects();
+  void drawPlayers();
+  void handleSoundEffects();
 
 
 

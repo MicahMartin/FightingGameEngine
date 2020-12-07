@@ -3,11 +3,20 @@
 
 #include "Graphics.h"
 
-struct CameraStateObj{
+struct CamPosition {
+  int x,
+      y,
+      w,
+      h,
+      upperBound,
+      lowerBound,
+      middle;
+};
+
+struct CameraStateObj {
   int lowerBound = 0;
   int upperBound = 0;
   int middle = 0;
-  int yPos = 0;
   SDL_Rect camRect;
 };
 
@@ -17,7 +26,7 @@ public:
   ~Camera();
 
   void init(int width, int height, int screenWidth);
-  void update(int p1Xpos, int p2Xpos);
+  void update(std::pair<int,int> p1Pos, std::pair<int,int> p2Pos);
   void render();
   void moveCamera();
 
@@ -29,7 +38,7 @@ public:
   int lowerBound = 0;
   int upperBound = 0;
   int middle = 0;
-  int yPos = 0;
+  CamPosition positionObj;
 private:
   Graphics* graphics = Graphics::getInstance();
 };

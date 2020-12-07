@@ -213,6 +213,7 @@ void Character::changeState(int stateDefNum){
     updateFaceRight();
   }
   currentState->enter();
+  updateCollisionBoxPositions();
   updateCollisionBoxes();
 };
 
@@ -476,6 +477,7 @@ void Character::update(){
   currentState->update();
 
   updatePosition();
+  updateCollisionBoxPositions();
   updateCollisionBoxes();
 };
 
@@ -533,7 +535,7 @@ void Character::updatePosition() {
 
 void Character::updateCollisionBoxPositions(){
   for (auto cb : currentState->pushBoxes) {
-    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
+    cb->positionX = position.first - (cb->width/2);
     cb->positionY = position.second - cb->offsetY;
   }
 
@@ -571,8 +573,6 @@ void Character::updateCollisionBoxes(){
   // TODO: abstract into updateCollisionBoxPos function
   int stateTime = currentState->stateTime + 1;
   for (auto cb : currentState->pushBoxes) {
-    cb->positionX = position.first - (cb->width / 2);
-    cb->positionY = position.second;
     if (stateTime < cb->start) {
       cb->disabled = true;
     }
@@ -585,8 +585,6 @@ void Character::updateCollisionBoxes(){
   }
 
   for (auto cb : currentState->hurtBoxes) {
-    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
-    cb->positionY = position.second - cb->offsetY;
     if (stateTime < cb->start) {
       cb->disabled = true;
     }
@@ -599,8 +597,6 @@ void Character::updateCollisionBoxes(){
   }
 
   for (auto cb : currentState->throwHurtBoxes) {
-    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
-    cb->positionY = position.second - cb->offsetY;
     if (stateTime < cb->start) {
       cb->disabled = true;
     }
@@ -613,8 +609,6 @@ void Character::updateCollisionBoxes(){
   }
 
   for (auto cb : currentState->hitBoxes) {
-    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
-    cb->positionY = position.second - cb->offsetY;
     if (stateTime < cb->start) {
       cb->disabled = true;
     }
@@ -627,8 +621,6 @@ void Character::updateCollisionBoxes(){
   }
 
   for (auto cb : currentState->throwHitBoxes) {
-    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
-    cb->positionY = position.second - cb->offsetY;
     if (stateTime < cb->start) {
       cb->disabled = true;
     }
@@ -641,8 +633,6 @@ void Character::updateCollisionBoxes(){
   }
 
   for (auto cb : currentState->proximityBoxes) {
-    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
-    cb->positionY = position.second - cb->offsetY;
     if (stateTime < cb->start) {
       cb->disabled = true;
     }
@@ -654,8 +644,6 @@ void Character::updateCollisionBoxes(){
     }
   }
   for (auto cb : currentState->projectileBoxes) {
-    cb->positionX = position.first + (faceRight ? cb->offsetX : - (cb->offsetX + cb->width));
-    cb->positionY = position.second - cb->offsetY;
     if (stateTime < cb->start) {
       cb->disabled = true;
     }
@@ -680,7 +668,7 @@ void Character::draw(){
   int camOffset = Graphics::getInstance()->getCamera()->cameraRect.x;
 
   SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
-  SDL_RenderDrawLine(renderer, position.first - camOffset, windowHeight, position.first - camOffset, position.second);
+  SDL_RenderDrawLine(renderer, (position.first/10) - camOffset, windowHeight, (position.first/10) - camOffset, (position.second/10));
   SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 };
 

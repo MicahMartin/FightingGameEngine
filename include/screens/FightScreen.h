@@ -40,12 +40,12 @@ public:
   void addTexture(GameTexture* gText);
   void removeTexture(int index);
 
-  void renderHealthBar(float healthPercent, float damagePercent,  bool isPlayerOne);
-  void renderMeterBar(float meterPercent, float comebackPercent, bool isPlayerOne);
-  void renderBurstBar(float burstPercent, bool isPlayerOne);
-  void renderComboCount(bool side, int count);
-  void renderInputHistory(bool side, boost::circular_buffer<InputEvent>& events);
-  void renderWins(int p1Wins, int p2Wins);
+  void drawHealthBar(float healthPercent, float damagePercent,  bool isPlayerOne);
+  void drawMeterBar(float meterPercent, float comebackPercent, bool isPlayerOne);
+  void drawBurstBar(float burstPercent, bool isPlayerOne);
+  void drawComboCount(bool side, int count);
+  void drawInputHistory(bool side, boost::circular_buffer<InputEvent>& events);
+  void drawWins(int p1Wins, int p2Wins);
 
   RecordingStatus recordStatus = RECORDING_NONE;
   bool showGradient = false;

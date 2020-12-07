@@ -160,7 +160,7 @@ void FightScreen::removeTexture(int index){
   Screen::removeTexture(index);
 }
 
-void FightScreen::renderHealthBar(float healthPercent, float damagePercent, bool isPlayerOne) {
+void FightScreen::drawHealthBar(float healthPercent, float damagePercent, bool isPlayerOne) {
   HealthBar* healthBar = isPlayerOne ? &p1HealthBar : &p2HealthBar;
   SDL_Rect barDest;
   SDL_Rect healthDest;
@@ -217,7 +217,7 @@ void FightScreen::renderHealthBar(float healthPercent, float damagePercent, bool
   healthBar->health.render(healthSrc, healthDest);
 }
 
-void FightScreen::renderMeterBar(float meterPercent, float comebackPercent, bool isPlayerOne) {
+void FightScreen::drawMeterBar(float meterPercent, float comebackPercent, bool isPlayerOne) {
   MeterBar* meterBar = isPlayerOne ? &p1MeterBar : &p2MeterBar;
   MeterBar* burstBar = isPlayerOne ? &p1BurstBar : &p2BurstBar;
 
@@ -277,11 +277,11 @@ void FightScreen::renderMeterBar(float meterPercent, float comebackPercent, bool
   burstBar->burst.render(burstSrc, burstDest);
 }
 
-void FightScreen::renderBurstBar(float meterPercent, bool isPlayerOne) { 
+void FightScreen::drawBurstBar(float meterPercent, bool isPlayerOne) { 
 
 }
 
-void FightScreen::renderComboCount(bool p1Side, int count) {
+void FightScreen::drawComboCount(bool p1Side, int count) {
   int tens = (count/10) % 10;
   int ones = (count/1) % 10;
   if (p1Side) {
@@ -301,7 +301,7 @@ void FightScreen::renderComboCount(bool p1Side, int count) {
   }
 }
 
-void FightScreen::renderInputHistory(bool p1Side, boost::circular_buffer<InputEvent>& events) {
+void FightScreen::drawInputHistory(bool p1Side, boost::circular_buffer<InputEvent>& events) {
   for (int i = 0; i < events.size(); ++i) {
     SDL_Rect drawPosition = inputHistoryPositions[i];
     if (!p1Side) {
@@ -350,7 +350,7 @@ void FightScreen::renderInputHistory(bool p1Side, boost::circular_buffer<InputEv
   }
 }
 
-void FightScreen::renderWins(int p1Wins, int p2Wins){
+void FightScreen::drawWins(int p1Wins, int p2Wins){
   switch (p1Wins) {
     case 1:
       roundWinBoxes[0].render(roundBoxPositions[0]);

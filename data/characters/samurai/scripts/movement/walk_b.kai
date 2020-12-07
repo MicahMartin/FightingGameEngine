@@ -2,9 +2,9 @@
   if($get_state_time == 0){
     var install = $get_install == 1;
     if (install) {
-      $neg_velset_x 10;
+      $neg_velset_x 100;
     } else {
-      $neg_velset_x 4;
+      $neg_velset_x 40;
     }
   } 
 
