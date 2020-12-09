@@ -1,4 +1,5 @@
 #include "graphics/Camera.h"
+#include "util/Util.h"
 
 Camera::Camera(){ }
 
@@ -8,9 +9,10 @@ void Camera::init(int width, int height, int _screenWidth){
   positionObj.h = height;
   positionObj.y = 0;
 
-  cameraRect.w = width/100;
-  cameraRect.h = height/100;
+  cameraRect.w = width/COORDINATE_SCALE;
+  cameraRect.h = height/COORDINATE_SCALE;
   cameraRect.y = 0;
+  shaking = false;
 }
 
 CameraStateObj Camera::saveState(){
@@ -46,20 +48,35 @@ void Camera::update(std::pair<int,int> p1Pos, std::pair<int,int> p2Pos){
   upperBound = positionObj.x+positionObj.w;
   middle = positionObj.x + (positionObj.w/2);
 
-  int highest = p1Pos.second > p2Pos.second ? p1Pos.second : p2Pos.second;
-  if(highest > (graphics->getWindowHeight()/2)){
-    positionObj.y = highest - (graphics->getWindowHeight() / 2);
+  int highest = p1Pos.second < p2Pos.second ? p1Pos.second : p2Pos.second;
+  if(abs(highest) > (positionObj.h/2)){
+    positionObj.y = abs(highest) - (positionObj.h/2);
   } else {
     positionObj.y = 0;
   }
   
-  //TODO: COORDINATE_SCALE
-  cameraRect.x = positionObj.x/100;
-  cameraRect.y = positionObj.y/100;
+  cameraRect.x = positionObj.x/COORDINATE_SCALE;
+  cameraRect.y = positionObj.y/COORDINATE_SCALE;
+}
+
+void Camera::startShake(float _radius){
+  shaking = true;
+  viewportCentreX = cameraRect.x/2;
+  viewportCentreY = cameraRect.y/2;
+  radius = _radius;
+  randomAngle = rand()%360;
 }
 
 void Camera::render(){
-  SDL_SetRenderDrawColor(graphics->getRenderer(), 255, 0, 0, 0);
-  SDL_RenderDrawRect(graphics->getRenderer(), &cameraRect);
-  SDL_SetRenderDrawColor(graphics->getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);
+  if (shaking) {
+    offsetX = sin(randomAngle) * radius;
+    offsetY = cos(randomAngle) * radius;
+    cameraRect.x = (viewportCentreX+offsetX)*2;
+    cameraRect.y = (viewportCentreY+offsetY)*2;
+    radius *= .9;
+    randomAngle += (150 + rand()%60);
+    if (radius <= 2) {
+      shaking = false;
+    }
+  }
 }

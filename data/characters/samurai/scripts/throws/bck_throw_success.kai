@@ -1,10 +1,10 @@
 {
   if($get_state_time == 0){ 
     $set_control 0; 
-    $velset_x 0; 
+    $velset_x 0000; 
   } 
   if($get_state_time == 1){ 
-    $velset_x 0; 
+    $velset_x 0000; 
   } 
   if($get_state_time == 32){ 
     $set_control 1; 

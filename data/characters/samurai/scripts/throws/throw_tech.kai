@@ -1,9 +1,9 @@
 {
   if ($get_state_time == 0) {
-    $neg_velset_x 20;
+    $neg_velset_x 20000;
   }
   if ($get_state_time == 9) {
-    $velset_x 0;
+    $velset_x 0000;
   }
   if ($get_state_time == 10) {
     $set_control 1;

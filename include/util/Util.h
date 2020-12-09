@@ -3,6 +3,14 @@
 
 #include <string>
 #include <vector>
+#include <chrono>
+
+const int COORDINATE_SCALE=1000;
+const int LIGHT_HITSTOP=12;
+const int MEDIUM_HITSTOP=16;
+const int HEAVY_HITSTOP=20;
+
+using FPS = std::chrono::duration<int, std::ratio<1, 60>>;
 
 class Util {
 public:

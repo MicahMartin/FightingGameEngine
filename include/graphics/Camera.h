@@ -27,20 +27,29 @@ public:
 
   void init(int width, int height, int screenWidth);
   void update(std::pair<int,int> p1Pos, std::pair<int,int> p2Pos);
+
+  void startShake(float radius);
   void render();
-  void moveCamera();
 
   CameraStateObj saveState();
   void loadState(CameraStateObj stateObj);
 
+  CamPosition positionObj;
   SDL_Rect cameraRect;
   int screenWidth = 0;
   int lowerBound = 0;
   int upperBound = 0;
   int middle = 0;
-  CamPosition positionObj;
+  int shakeCount = 0;
+  bool shaking = false;
 private:
   Graphics* graphics = Graphics::getInstance();
+  int viewportCentreX;
+  int viewportCentreY;
+  int radius;
+  int randomAngle;
+  int offsetX;
+  int offsetY;
 };
 
 #endif /* _Camera_h */

@@ -2,8 +2,8 @@
   var alive = $get_is_alive;
   if($get_state_time == 0){ 
     $add_meter 1010;
-    $velset_x 0;
-    $velset_y 0;
+    $velset_x 0000;
+    $velset_y 0000;
   } 
   if($get_hit_stun < 5){ 
     if (alive) {

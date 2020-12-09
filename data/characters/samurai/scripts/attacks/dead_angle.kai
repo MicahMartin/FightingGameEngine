@@ -2,7 +2,7 @@
   if($get_state_time == 0){ 
     $set_control 0; 
     $set_block_stun 0;
-    $velset_x 0; 
+    $velset_x 0000; 
   } 
   if($get_state_time == 34){ 
     $set_control 1; 

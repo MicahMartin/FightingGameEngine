@@ -618,11 +618,94 @@
       ],
       "visual_effects": [
       ]
+    },
+    {
+      "state_num": 33,
+      "state_name": "FLOAT_HURT",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/float.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-0.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 34,
+      "state_name": "FLOAT_HURT_RECOVERY",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
     }
   ],
   "custom_states":[
 
   ],
+  "entities":[
+
+  ],
+  "special_state_nums":{
+    "SS_PRE_MATCH":1,
+    "SS_IDLE":2,
+    "SS_WALK_F":3,
+    "SS_WALK_B":4,
+    "SS_CROUCH":5,
+    "SS_JUMP_N":6,
+    "SS_JUMP_F":7,
+    "SS_JUMP_B":8,
+    "SS_JUMP_R": 9,
+    "SS_HURT":10,
+    "SS_HURT_RECOVERY": 11,
+    "SS_AIR_HURT":12,
+    "SS_AIR_HURT_RECOVERY": 13,
+    "SS_KNOCKDOWN":14,
+    "SS_BLOCK_STAND":16,
+    "SS_BLOCK_CROUCH":17,
+    "SS_AIR_BLOCK":18,
+    "SS_PUSH_BLOCK":19,
+    "SS_CROUCH_PUSH_BLOCK":20,
+    "SS_AIR_PUSH_BLOCK":21,
+    "SS_AIR_TECH":22,
+    "SS_DEAD_KNOCKDOWN":25,
+    "SS_THROW_TECH":24,
+    "SS_AIR_THROW_TECH":25,
+    "SS_GROUNDBOUNCE_FLING":26,
+    "SS_GROUNDBOUNCE_IMPACT":27,
+    "SS_DEAD_STANDING":24,
+    "SS_BLOWBACK_FALLING":29,
+    "SS_DEAD_FALLING":23,
+    "SS_FLOAT_HURT": 33,
+    "SS_FLOAT_HURT_RECOVERY": 34
+  },
+  "anim_scale": "1.5",
+  "gravity": "2000",
+  "command_script": "../data/characters/danteshaun/scripts/input.kai",
+  "assets": "../data/characters/danteshaun/assets.json",
   "hit_sparks":[
     {
       "assetID": 1,
@@ -855,42 +938,5 @@
     {"assetID": 1, "file": "../data/audio/char_audio/hurt1.wav"},
     {"assetID": 2, "file": "../data/audio/char_audio/hurt2.wav"},
     {"assetID": 3, "file": "../data/audio/char_audio/hurt3.wav"}
-  ],
-  "entities":[
-
-  ],
-  "special_state_nums":{
-    "SS_PRE_MATCH":1,
-    "SS_IDLE":2,
-    "SS_WALK_F":3,
-    "SS_WALK_B":4,
-    "SS_CROUCH":5,
-    "SS_JUMP_N":6,
-    "SS_JUMP_F":7,
-    "SS_JUMP_B":8,
-    "SS_JUMP_R": 9,
-    "SS_HURT":10,
-    "SS_HURT_RECOVERY": 11,
-    "SS_AIR_HURT":12,
-    "SS_AIR_HURT_RECOVERY": 13,
-    "SS_KNOCKDOWN":14,
-    "SS_BLOCK_STAND":16,
-    "SS_BLOCK_CROUCH":17,
-    "SS_AIR_BLOCK":18,
-    "SS_PUSH_BLOCK":19,
-    "SS_CROUCH_PUSH_BLOCK":20,
-    "SS_AIR_PUSH_BLOCK":21,
-    "SS_AIR_TECH":22,
-    "SS_DEAD_KNOCKDOWN":25,
-    "SS_THROW_TECH":24,
-    "SS_AIR_THROW_TECH":25,
-    "SS_GROUNDBOUNCE_FLING":26,
-    "SS_GROUNDBOUNCE_IMPACT":27,
-    "SS_DEAD_STANDING":24,
-    "SS_BLOWBACK_FALLING":29,
-    "SS_DEAD_FALLING":23
-  },
-  "anim_scale": "1.5",
-  "gravity": "2",
-  "command_script": "../data/characters/danteshaun/scripts/input.kai"
+  ]
 }

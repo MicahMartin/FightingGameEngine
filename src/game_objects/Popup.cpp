@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include "game_objects/Popup.h"
+#include "util/Util.h"
 
 Popup::Popup(){}
 Popup::~Popup(){}
@@ -14,8 +15,7 @@ void Popup::update(){
 }
 
 void Popup::draw(){
-  //TODO::COORDINATE_SCALE
-  anim.render(xPos/100, yPos/100, true, stateTime);
+  anim.render(xPos/COORDINATE_SCALE, yPos/COORDINATE_SCALE, true, stateTime);
 }
 
 void Popup::reset(){

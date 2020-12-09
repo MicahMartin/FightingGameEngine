@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include "game_objects/VisualEffect.h"
+#include "util/Util.h"
 
 VisualEffect::VisualEffect(){}
 VisualEffect::~VisualEffect(){}
@@ -19,14 +20,14 @@ void VisualEffect::draw(){
   if (aura && stateTime == playLength) {
     stateTime = 0;
   }
-  anim.render(xPos, yPos, true, stateTime);
+  anim.render(xPos/COORDINATE_SCALE, yPos/COORDINATE_SCALE, true, stateTime);
 }
 
 void VisualEffect::draw(bool faceRight){
   if (aura && stateTime == playLength) {
     stateTime = 0;
   }
-  anim.render(xPos, yPos, faceRight, stateTime);
+  anim.render(xPos/COORDINATE_SCALE, yPos/COORDINATE_SCALE, faceRight, stateTime);
 }
 
 void VisualEffect::reset(int _xPos, int _yPos){

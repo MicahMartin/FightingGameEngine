@@ -280,12 +280,12 @@ inline ExecutionCode VirtualMachine::run(){
         break;
       }
       case OP_GET_Y_VEL: {
-        bool val = character->_getInstall();
+        long val = character->_getVelY();
         stack.push(NUMBER_VAL(val));
         break;
       }
       case OP_GET_X_VEL: {
-        bool val = character->_getInstall();
+        long val = character->_getVelX();
         stack.push(NUMBER_VAL(val));
         break;
       }

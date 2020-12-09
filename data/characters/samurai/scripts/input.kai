@@ -49,7 +49,9 @@
 
     if (lp_and_lk) {
       if(anyBack){
+        $change_state 5035;
       } else { 
+        $change_state 5032;
       }
     }
 

@@ -19,6 +19,12 @@ public:
   void setNetplay(bool netplaying);
   bool getNetplay();
 
+  void setIP(std::string _IP);
+  std::string getIP();
+
+  void setPort(int _port);
+  int getPort();
+
   void setCharName(int playerNum, std::string name);
   std::string getCharName(int playerNum);
 
@@ -38,6 +44,8 @@ private:
   int pNum;
   std::string p1CharName;
   std::string p2CharName;
+  std::string IP;
+  int port;
 };
 
 

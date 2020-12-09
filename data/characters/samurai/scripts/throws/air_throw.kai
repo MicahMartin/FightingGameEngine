@@ -2,8 +2,8 @@
   if($get_state_time == 0){ 
     $set_nograv_count 20;
     $set_control 0; 
-    $velset_x 0; 
-    $velset_y 0; 
+    $velset_x 0000; 
+    $velset_y 0000; 
   } 
 
   if($get_y_pos == 0){ 

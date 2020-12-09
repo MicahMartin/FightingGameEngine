@@ -11,9 +11,9 @@
     $set_control 0; 
     var install = $get_install == 1;
     if (install) {
-      $velset_x 18;
+      $velset_x 18000;
     } else {
-      $velset_x 12;
+      $velset_x 12000;
     }
   } 
   if($get_state_time == 2){ 

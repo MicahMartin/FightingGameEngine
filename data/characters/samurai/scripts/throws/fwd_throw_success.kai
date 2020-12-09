@@ -1,1 +1,5 @@
-{}
+{ 
+  if($get_state_time == 32){ 
+    $set_control 1; 
+  } 
+} 

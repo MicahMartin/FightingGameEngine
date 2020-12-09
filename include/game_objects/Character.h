@@ -59,7 +59,7 @@ struct CharStateObj {
 
   StateDefObj stateDefObj;
   EntityStateObj entityStates[3];
-  // std::string inputHistoryArc;
+  std::string inputHistoryArc;
   // std::unordered_map<int, EntityStateObj> entityStates;
 };
 
@@ -72,7 +72,7 @@ typedef enum {
   SS_JUMP_F,
   SS_JUMP_B,
   SS_HURT,
-  SS_HURT_RECOVERY ,
+  SS_HURT_RECOVERY,
   SS_AIR_HURT = 10,
   SS_AIR_HURT_RECOVERY,
   SS_KNOCKDOWN,
@@ -93,6 +93,11 @@ typedef enum {
   SS_JUMP_R,
   SS_AIR_TECH,
   SS_DEAD_FALLING,
+  SS_FLOAT_HURT = 30,
+  SS_FLOAT_HURT_RECOVERY,
+  SS_FORWARD_THROW,
+  SS_FORWARD_THROW_ATTEMPT,
+  SS_FORWARD_THROW_SUCCESS
 } SpecialState;
 
 class Character : public GameObject {
@@ -142,7 +147,7 @@ public:
   bool getFlag(ObjFlag flag);
 
   // getters for these guys
-  int width = 100;
+  int width = 10000;
   int maxHealth = 100;
   int maxMeter = 1000;
   int maxComeback = 1000;
@@ -169,6 +174,10 @@ public:
   int momentum = 0;
   int mass = 1;
   int velocityY = 0;
+  int velocityMinimumY = 0;
+  int velocityMaximumY = 0;
+  int velocityMinimumX = 0;
+  int velocityMaximumX = 0;
   int health = 100;
   int redHealth = 100;
   int redHealthCounter = 0;

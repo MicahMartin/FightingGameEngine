@@ -185,8 +185,7 @@ void StateDef::handleCancels(){
 
 void StateDef::draw(std::pair<int,int> position, bool faceRight, bool inHitStop){
   anim.hitShake = inHitStop;
-  //TODO: COORDINATE_SCALE
-  anim.render(position.first/100, position.second/100, faceRight, animTime);
+  anim.render(position.first/COORDINATE_SCALE, position.second/COORDINATE_SCALE, faceRight, animTime);
 
   if (Graphics::getInstance()->getFlag(GF_SHOW_CB)) {
     drawCollisionBoxes();
@@ -246,8 +245,7 @@ void StateDef::loadCollisionBoxes(nlohmann::json json){
   for(auto i : json.items()){
     // TODO: POLYMORPH THIS SHIT
     CollisionBox::CollisionType type = CollisionBox::collisionTypeMap.at(i.value().at("type"));
-    //TODO:COORDINATE_SCALE
-    int scale = 100;
+    int scale = COORDINATE_SCALE;
     int width = i.value()["width"].get<int>() * scale;
     int height = i.value()["height"].get<int>() * scale;
     int offsetX = i.value()["offsetX"].get<int>() * scale;

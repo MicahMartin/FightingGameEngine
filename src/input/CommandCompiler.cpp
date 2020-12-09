@@ -51,7 +51,7 @@ std::vector<std::string> CommandCompiler::commandStrings = {
   "~N, UB",
   "~LP",
   "MP & 2LK", // mp and lk
-  "12~N, 12@B", // IB back
+  "8~N, 8@B", // IB back
   "LP | LK | MP | MK", // any button held
   "~D, DF, F, D, DF, F, LK | ~LK",
   "MK & 2MP",

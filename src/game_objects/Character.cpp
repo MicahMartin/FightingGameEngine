@@ -1,15 +1,16 @@
 #include "game_objects/Character.h"
 #include "game_objects/Entity.h"
+#include "util/Util.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
-// #include <boost/serialization/vector.hpp>
-// #include <boost/archive/text_oarchive.hpp>
-// #include <boost/archive/text_iarchive.hpp>
+#include <boost/serialization/vector.hpp>
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
 
 
-// std::string p1InputHistory;
-// std::string p2InputHistory;
+std::string p1InputHistory;
+std::string p2InputHistory;
 
 Character::Character(std::pair<int, int> _position, int _playerNum) {
   faceRight = playerNum == 1 ? true : false;
@@ -94,19 +95,15 @@ CharStateObj Character::saveState(){
     stateObj.entityStates[i] = entityList[i].saveState();
   }
 
-  // {
-  //   std::ostringstream os;
-  //   boost::archive::text_oarchive oArchive(os);
+  {
+    std::ostringstream os;
+    boost::archive::text_oarchive oArchive(os);
 
-  //   virtualController->serializeHistory();
-  //   oArchive << virtualController->inputHistorySnapShot;
+    virtualController->serializeHistory();
+    oArchive << virtualController->inputHistorySnapShot;
 
-  //   playerNum == 1 ? p1InputHistory = os.str() : p2InputHistory = os.str();
-  // }
-
-// printf("stateObj.inputHistoryArc:%d\n", stateObj.inputHistoryArc.size());
-  // stateObj.eventList = virtualController->inputEventList;
-  
+    playerNum == 1 ? p1InputHistory = os.str() : p2InputHistory = os.str();
+  }
   return stateObj;
 }
 
@@ -160,14 +157,14 @@ void Character::loadState(CharStateObj stateObj){
     entityList[i].loadState(stateObj.entityStates[i]);
   }
 
-  // {
-  //   std::string* theString = playerNum == 1 ? &p1InputHistory : &p2InputHistory;
-  //   std::stringstream iStream(*theString);
-  //   boost::archive::text_iarchive iArchive(iStream);
-  //   iArchive >> virtualController->inputHistorySnapShot;
-  //   virtualController->loadHistory(virtualController->inputHistorySnapShot);
-  //   iStream.clear();
-  // }
+  {
+    std::string* theString = playerNum == 1 ? &p1InputHistory : &p2InputHistory;
+    std::stringstream iStream(*theString);
+    boost::archive::text_iarchive iArchive(iStream);
+    iArchive >> virtualController->inputHistorySnapShot;
+    virtualController->loadHistory(virtualController->inputHistorySnapShot);
+    iStream.clear();
+  }
 }
 
 void Character::refresh(){
@@ -200,13 +197,17 @@ void Character::changeState(int stateDefNum){
     auraActive = false;
   }
   cancelPointer = 0;
-  if (stateDefNum <= 5000) {
-    currentState = &stateList.at(stateDefNum-1);
-  } else {
+  if(stateDefNum >= 6000){
+    int theNum = stateDefNum - 6000;
+    int customStateNum = stateCount + theNum;
+    currentState = &stateList.at(customStateNum);
+  } else if (stateDefNum >= 5000) {
     int theNum = stateDefNum - 5000;
     SpecialState theState = (SpecialState)theNum;
     int specialStateNum = specialStateMap[theState];
     currentState = &stateList.at(specialStateNum);
+  } else {
+    currentState = &stateList.at(stateDefNum-1);
   }
 
   if(!currentState->checkFlag(NO_TURN_ON_ENTER)){
@@ -223,14 +224,17 @@ void Character::setCurrentState(int stateDefNum){
 
 void Character::cancelState(int stateDefNum){
   // printf("oh yeah cancel that bitch %d\n", stateDefNum);
-  if (stateDefNum <= 5000) {
-    cancelPointer = stateDefNum;
-  } else {
+  if (stateDefNum >= 6000) {
+    int theNum = stateDefNum - 6000;
+    int customState = stateCount + theNum;
+    cancelPointer = customState;
+  } else if (stateDefNum >= 5000) {
     int theNum = stateDefNum - 5000;
     SpecialState theState = (SpecialState)theNum;
     int specialStateNum = specialStateMap[theState];
-    printf("the num:%d, the specialStateNum %d\n", theNum, specialStateNum);
     cancelPointer = specialStateNum;
+  } else {
+    cancelPointer = stateDefNum;
   }
 };
 
@@ -249,6 +253,16 @@ void Character::loadStates(const char* path){
     printf("the grav %s\n", grav.c_str());
     gravityVal = std::stod(grav);
   }
+  if (stateJson.count("velocityMaximumX")) {
+  }
+  if (stateJson.count("velocityMinimumX")) {
+  }
+  if (stateJson.count("velocityMaximumY")) {
+  }
+  if (stateJson.count("velocityMinimumY")) {
+    velocityMinimumY = stateJson.at("velocityMinimumY");
+  }
+
   std::string str = stateJson.at("command_script").get<std::string>();
   const char* ptr = str.c_str();
   if(!virtualMachine.compiler.compile(ptr, &inputScript, "input script")){
@@ -350,6 +364,11 @@ void Character::loadStates(const char* path){
     specialStateMap[SS_JUMP_R] = i.at("SS_JUMP_R");
     specialStateMap[SS_AIR_TECH] = i.at("SS_AIR_TECH");
     specialStateMap[SS_DEAD_FALLING] = i.at("SS_DEAD_FALLING");
+    specialStateMap[SS_FLOAT_HURT] = i.at("SS_FLOAT_HURT");
+    specialStateMap[SS_FLOAT_HURT_RECOVERY] = i.at("SS_FLOAT_HURT_RECOVERY");
+    specialStateMap[SS_FORWARD_THROW] = i.at("SS_FORWARD_THROW");
+    specialStateMap[SS_FORWARD_THROW_ATTEMPT] = i.at("SS_FORWARD_THROW_ATTEMPT");
+    specialStateMap[SS_FORWARD_THROW_SUCCESS] = i.at("SS_FORWARD_THROW_SUCCESS");
   }
 
 
@@ -522,9 +541,13 @@ void Character::updatePosition() {
     if(--noGravityCounter == 0){
       gravity = true;
     }
-  };
+  }
+
   if(position.second < 0 && gravity){
     velocityY -= gravityVal;
+    if ((velocityMinimumY != 0) && velocityY < velocityMinimumY) {
+      velocityY = velocityMinimumY;
+    }
   }
 
   if(position.second > 0){
@@ -663,13 +686,13 @@ void Character::draw(){
   currentState->anim.isGreen = isGreen;
   currentState->draw(position, faceRight, fakeHitstop);
 
-  SDL_Renderer* renderer = Graphics::getInstance()->getRenderer();
-  int windowHeight = Graphics::getInstance()->getWindowHeight();
-  int camOffset = Graphics::getInstance()->getCamera()->cameraRect.x;
+  // SDL_Renderer* renderer = Graphics::getInstance()->getRenderer();
+  // int windowHeight = Graphics::getInstance()->getWindowHeight();
+  // int camOffset = Graphics::getInstance()->getCamera()->cameraRect.x;
 
-  SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
-  SDL_RenderDrawLine(renderer, (position.first/100) - camOffset, windowHeight, (position.first/100) - camOffset, (position.second/100));
-  SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  // SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+  // SDL_RenderDrawLine(renderer, (position.first/COORDINATE_SCALE) - camOffset, windowHeight, (position.first/COORDINATE_SCALE) - camOffset, (position.second/COORDINATE_SCALE));
+  // SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 };
 
 
@@ -799,7 +822,7 @@ void Character::_setGravity(int on){
 }
 
 void Character::_setNoGravityCounter(int count){
-  noGravityCounter = count;
+  noGravityCounter += count;
 }
 
 void Character::_resetAnim(){

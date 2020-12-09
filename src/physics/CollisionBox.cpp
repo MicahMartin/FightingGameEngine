@@ -1,5 +1,6 @@
 #include "physics/CollisionBox.h"
 #include "graphics/Camera.h"
+#include "util/Util.h"
 // TODO: STOP BEING LAZY AND POLY THIS
 
 CollisionBox::CollisionBox(CollisionBox::CollisionType boxType, int width, int height, 
@@ -65,6 +66,7 @@ void CollisionBox::loadState(CollisionBoxState stateObj){
 
 void CollisionBox::render(){
   Camera* cam = graphics->getCamera();
+  int windowHeight = graphics->getWindowHeight();
   switch (boxType) {
     case POSITION:
       // red
@@ -97,10 +99,10 @@ void CollisionBox::render(){
   }
   SDL_Rect collisionRect;
 
-  collisionRect.x = (positionX/100 - cam->cameraRect.x);
-  collisionRect.y = (positionY/100 + (graphics->getWindowHeight() - (height/100)) - 60) + cam->cameraRect.y;
-  collisionRect.w = width/100;
-  collisionRect.h = height/100;
+  collisionRect.x = ((positionX/COORDINATE_SCALE) - cam->cameraRect.x);
+  collisionRect.y = ((positionY/COORDINATE_SCALE) + (windowHeight - (height/COORDINATE_SCALE)) - 60) + cam->cameraRect.y;
+  collisionRect.w = width/COORDINATE_SCALE;
+  collisionRect.h = height/COORDINATE_SCALE;
 
   SDL_RenderDrawRect(graphics->getRenderer(), &collisionRect);
   SDL_SetRenderDrawColor(graphics->getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF);

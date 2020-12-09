@@ -1,10 +1,27 @@
 {
   if($get_state_time == 0){ 
     $set_control 0; 
-    $velset_x 5; 
-    $velset_y 7; 
+  }
+  var back = $get_input 4; 
+  var upback = $get_input 7; 
+  var downback = $get_input 1; 
+  var anyBack = (back or upback or downback);
+  var lp_and_lk = $was_pressed 11;
+  if($get_state_time < 2){
+    if (lp_and_lk) {
+      if(anyBack){
+        $cancel_state 5035;
+      } else { 
+        $cancel_state 5032;
+      }
+    }
+  }
+  if ($get_state_time == 3) {
+    $velset_x 5000; 
+    $velset_y 7000; 
     $set_nograv_count 15;
   }
+  
 
   if($get_state_time == 28){ 
     $set_air_action 1;

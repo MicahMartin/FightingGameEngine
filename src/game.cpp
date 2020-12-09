@@ -41,35 +41,23 @@ Game::Game(){
 Game::~Game(){}
 
 void Game::update() {
- //  For more precise ticks use SDL_GetPerformanceFrequency & SDL_GetPerformanceCounter so you can get a milisecond value, 
- //  but as a more precise double
   ++gameTime;
-  // read input event stack for this frame and send to virtual controller(s)
-  double inputManagerStart = SDL_GetTicks();
   inputManager->update();
-  double inputManagerEnd = SDL_GetTicks();
-  inputLength = inputManagerEnd-inputManagerStart;
+
   GameState* currentState = stateManager->getState();
   currentState->gameTime = gameTime;
-  double handleInputFrameStart = SDL_GetTicks();
 
-  // printf("about to handle input\n");
+  if(std::strcmp(currentState->stateName, "FIGHT_STATE") == 0){
+    FightState* fightState = (FightState*)currentState;
+    if (fightState->netPlayState && fightState->doneSync) {
+      fightState->netPlayHandleInput();
+    }
+  }
   currentState->handleInput();
   currentState = stateManager->getState();
-  // printf("handled input\n");
-
-  double handleInputFrameEnd = SDL_GetTicks();
-  handleInputLength = handleInputFrameEnd-handleInputFrameStart;
-
-  double stateUpdateStart = SDL_GetTicks();
   currentState->update();
   currentState = stateManager->getState();
-  double stateUpdateEnd = SDL_GetTicks();
-  updateLength = stateUpdateEnd-stateUpdateStart;
-    // printf("updateLength %f\n", updateLength);
-
-
- // }
+  
 }
 void Game::draw(){
   // the current state holds a pointer to the currrent screen

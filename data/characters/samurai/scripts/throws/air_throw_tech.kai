@@ -1,7 +1,7 @@
 {
   if ($get_state_time == 0) {
     $set_nograv_count 10;
-    $neg_velset_x 4;
+    $neg_velset_x 4000;
   }
   if ($get_state_time == 10) {
     $set_control 1;

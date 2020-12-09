@@ -6,7 +6,9 @@ FightScreen::FightScreen(){
   printf("the address of the screen %p\n", this);
 
   int windowWidth = graphics->getWindowWidth();
+  int windowHeight = graphics->getWindowHeight();
   int windowMargin = windowWidth * .05;
+  int windowMarginY = windowHeight * .10;
   p2DirectionDrawXPos = graphics->getWindowWidth() - windowMargin;
   p1ComboCountPosition = { 150, graphics->getWindowHeight()/3, 80, 160 };
   p2ComboCountPosition = { graphics->getWindowWidth() - 150, graphics->getWindowHeight()/3, 80, 160 };
@@ -14,7 +16,7 @@ FightScreen::FightScreen(){
   p2ComboCountPositionSecond = { graphics->getWindowWidth() - 250, graphics->getWindowHeight()/3, 80, 160 };
 
   stage.loadTexture("../data/images/purple_stage.png");
-  stage.setDimensions(0, 0, windowWidth*3, graphics->getWindowHeight());
+  stage.setDimensions(0, windowMarginY, windowWidth*3, graphics->getWindowHeight());
   sky.loadTexture("../data/images/sky.png");
   sky.setDimensions(0, -graphics->getWindowHeight(), windowWidth*3, graphics->getWindowHeight()*2);
   addTexture(&sky);

@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <thread>
 #include <chrono>
+#include "util/Util.h"
 #include "game.h"
 #include "ggponet.h"
 
@@ -9,7 +10,7 @@ void ggpoUpdate(Game* game){
   if(std::strcmp(currentState->stateName, "FIGHT_STATE") == 0){
     FightState* fightState = (FightState*)currentState;
     if (fightState->netPlayState) {
-      // ggpo_idle(fightState->ggpo, foobar);
+      ggpo_idle(fightState->ggpo, 1);
     }
   }
 }
@@ -34,13 +35,14 @@ int main(int argc, char* args[]) {
       }
     }
     if (argc >= 4) {
-      const char* p1CharArg = args[4];
-      const char* p2CharArg = args[5];
-      printf("chars %s %s\n", p1CharArg, p2CharArg);
+      p1Char = args[4];
+      p2Char = args[5];
 
-      p1Char = p1CharArg;
-      p2Char = p2CharArg;
+    }
 
+    if (argc >= 6) {
+      game.stateManager->getInstance()->setIP(args[6]);
+      game.stateManager->getInstance()->setPort(std::stoi(args[7]));
     }
   }
   game.stateManager->getInstance()->setCharName(1, p1Char);
@@ -49,7 +51,6 @@ int main(int argc, char* args[]) {
   //mainloop
   {
     using namespace std::chrono;
-    using FPS = duration<int, std::ratio<1, 60>>;
     auto nextFrame = system_clock::now() + FPS{1};
     auto prevSec = time_point_cast<seconds>(system_clock::now());
     int fpsCounter = 0;
@@ -66,10 +67,8 @@ int main(int argc, char* args[]) {
         fpsCounter = 0;
         prevSec = currentSec;
       }
-
-      while(nextFrame >= system_clock::now()){
-        //busyloop
-      }
+      while(nextFrame > system_clock::now())
+      ;
       nextFrame = system_clock::now() + FPS{1};
     }
   }

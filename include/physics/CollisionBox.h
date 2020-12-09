@@ -17,7 +17,8 @@ enum HitType {
   NORMAL,
   LAUNCHER,
   GROUND_BOUNCE,
-  WALL_BOUNCE
+  WALL_BOUNCE,
+  FLOATER
 };
 
 struct CollisionBoxState {

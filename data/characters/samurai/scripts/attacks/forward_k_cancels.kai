@@ -32,11 +32,6 @@
     var downforward = $get_input 3; 
     var anyDown = (down or downback or downforward);
 
-    if (lb and (meter > 500)) {
-      $subtract_meter 500;
-      $cancel_state 70;
-    }
-    
     if(qcf_k){
       $cancel_state 14;
     }

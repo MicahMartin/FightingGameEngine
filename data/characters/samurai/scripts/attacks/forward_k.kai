@@ -2,7 +2,7 @@
   var meter = $get_meter 1;
   if($get_state_time == 0){ 
     $set_control 0; 
-    $velset_x 0; 
+    $velset_x 0000; 
   } 
 
   var lb = $check_command 10;
@@ -20,9 +20,6 @@
       if ((lk and mp) and downback) {
         $cancel_state 74;
       }
-    }
-    if (lb) {
-      $cancel_state 70;
     }
   }
 

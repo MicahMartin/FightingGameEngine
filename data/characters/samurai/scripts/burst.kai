@@ -4,13 +4,13 @@
     $set_block_stun 0;
     $set_combo 0;
     $set_control 0; 
-    $velset_y 50; 
-    $velset_x 0; 
+    $velset_y 50000; 
+    $velset_x 0000; 
     $set_nograv_count 28;
     $subtract_meter 1000;
   } 
   if($get_state_time == 4){ 
-    $velset_y 0; 
+    $velset_y 0000; 
   } 
   if($get_state_time == 40){ 
     $set_control 1; 

@@ -119,9 +119,9 @@ void Animation::render(int x, int y, bool faceRight, int stateTime) {
 
   if (hitShake) {
     if (hitShakeToggler == 3) {
-    faceRight ? currentText->setCords((x-offsetX) + 3, ((y - 60) + offsetY)) : currentText->setCords(((x+offsetX)-width) - 3, ((y - 60) + offsetY));
+    faceRight ? currentText->setCords((x-offsetX) + 10, ((y - 60) + offsetY)) : currentText->setCords(((x+offsetX)-width) - 10, ((y - 60) + offsetY));
     } else if (hitShakeToggler == 6) {
-    faceRight ? currentText->setCords((x-offsetX) - 3, ((y - 60) + offsetY)) : currentText->setCords(((x+offsetX)-width) + 3, ((y - 60) + offsetY));
+    faceRight ? currentText->setCords((x-offsetX) - 10, ((y - 60) + offsetY)) : currentText->setCords(((x+offsetX)-width) + 10, ((y - 60) + offsetY));
     }
     hitShakeToggler++;
     if (hitShakeToggler == 7) {

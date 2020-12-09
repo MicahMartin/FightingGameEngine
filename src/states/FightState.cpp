@@ -3,6 +3,7 @@
 #include "game_objects/Character.h"
 #include "game_objects/Stage.h"
 #include "game_objects/Entity.h"
+#include "util/Util.h"
 #include <chrono>
 #include <thread>
 #include <csignal>
@@ -14,12 +15,11 @@
 FightState* ggpoFightState;
 Character* characters[2];
 int checksum = 0;
-//TODO:: COORDINATE_SCALE
-int worldWidth = 3840*100;
-int p1StartPos = 1700*100;
-int p2StartPos = 2200*100;
-int camWidth = 1280*100;
-int camHeight = 720*100;
+int worldWidth = 3840*COORDINATE_SCALE;
+int p1StartPos = 1700*COORDINATE_SCALE;
+int p2StartPos = 2200*COORDINATE_SCALE;
+int camWidth = 1280*COORDINATE_SCALE;
+int camHeight = 720*COORDINATE_SCALE;
 
 
 bool blockState(int playerNum, int state){
@@ -40,7 +40,9 @@ bool airHurtState(int playerNum, int state){
       || state == characters[playerNum]->specialStateMap[SS_DEAD_STANDING]
       || state == characters[playerNum]->specialStateMap[SS_DEAD_KNOCKDOWN]
       || state == characters[playerNum]->specialStateMap[SS_GROUNDBOUNCE_FLING]
-      || state == characters[playerNum]->specialStateMap[SS_GROUNDBOUNCE_IMPACT]);
+      || state == characters[playerNum]->specialStateMap[SS_GROUNDBOUNCE_IMPACT]
+      || state == characters[playerNum]->specialStateMap[SS_FLOAT_HURT]
+      || state == characters[playerNum]->specialStateMap[SS_FLOAT_HURT_RECOVERY]);
 }
 
 unsigned createMask(unsigned a, unsigned b){
@@ -101,13 +103,11 @@ bool fsAdvanceFrame(int flags){
   printf("ggpo advance frame called\n");
   int inputs[2] = {0};
   int disconnectFlags;
+  GGPOSession* ggpoObj = ggpoFightState->ggpo;
+  ggpo_synchronize_input(ggpoObj, (void *)inputs, sizeof(int) * 2, &disconnectFlags);
+
   VirtualController* p1Vc = ggpoFightState->player1->virtualController;
   VirtualController* p2Vc = ggpoFightState->player2->virtualController;
-
-  GGPOSession* ggpoObj = ggpoFightState->ggpo;
-  ggpo_synchronize_input(ggpoObj, (void *)inputs, sizeof(int)*2, &disconnectFlags);
-  p1Vc->inputHistory.front().clear();
-  p2Vc->inputHistory.front().clear();
 
   // simulate a local keypress with input
   p1Vc->setState(inputs[0]);
@@ -116,11 +116,11 @@ bool fsAdvanceFrame(int flags){
   p2Vc->setState(inputs[1]);
   p2Vc->addNetInput();
   
+  bool prevUpdate = ggpoFightState->shouldUpdate;
   ggpoFightState->shouldUpdate = true;
-  ggpoFightState->inAdvanceState = true;
-
   ggpoFightState->handleInput();
   ggpoFightState->update();
+  ggpoFightState->shouldUpdate = prevUpdate;
   return true;
 }
 
@@ -368,13 +368,6 @@ void FightState::loadState(unsigned char* buffer, int length){
 
 
 void FightState::handleInput(){
-  if (netPlayState && doneSync) {
-    if (!inAdvanceState) {
-      netPlayHandleInput();
-    } else {
-      inAdvanceState = false;
-    }
-  }
   if (shouldUpdate) {
     if(!slowMode && !screenFreeze){
       handleRoundStart();
@@ -508,10 +501,9 @@ void FightState::update(){
       printf("calling ggpo advance frame\n");
       ggpo_advance_frame(ggpo);
     } else if(!netPlayState){
-      saveState(&buffer, &bufferLen, gameTime);
+      // saveState(&buffer, &bufferLen, gameTime);
     }
   }
-  frameCount++;
   // printf("camera: x%d|y%d|UpperBound%d|LowerBound%d\n", camera.positionObj.x, camera.positionObj.y, camera.upperBound, camera.lowerBound);
   // printf("player1: x%d|y%d\n", player1->position.first, player1->position.second);
   // printf("player2: x%d|y%d\n", player2->position.first, player2->position.second);
@@ -778,6 +770,7 @@ void FightState::handleSoundEffects(){
 }
 
 void FightState::draw() {
+  camera.render();
   drawText();
   currentScreen.draw();
   currentScreen.drawWins(p1RoundsWon, p2RoundsWon);
@@ -1067,16 +1060,16 @@ void FightState::checkThrowCollisions(){
       // you were thrown
       // TODO: opponentThrowSuccess is a confusing name
       // FIXME: CUSTOMSTATE
-      int customStateOffset = player1->stateCount + p1ThrownState.throwCb->opponentThrowSuccess;
-      player1->changeState(customStateOffset);
+      int customState = p1ThrownState.throwCb->techAttempt;
+      player1->changeState(customState);
 
-      player2->changeState(p1ThrownState.throwCb->throwSuccess);
+      player2->changeState(p1ThrownState.throwCb->throwAttempt);
     } else {
       // you were thrown
       // TODO: opponentThrowSuccess is a confusing name
       // FIXME: CUSTOMSTATE
-      int customStateOffset = player1->stateCount + p1ThrownState.throwCb->opponentThrowSuccess;
-      player1->changeState(customStateOffset);
+      int customState = p1ThrownState.throwCb->opponentThrowSuccess;
+      player1->changeState(customState);
 
       player2->changeState(p1ThrownState.throwCb->throwSuccess);
     }
@@ -1137,6 +1130,20 @@ ThrowResult FightState::checkThrowAgainst(Character* thrower, Character* throwee
   return result;
 }
 
+void shakeCamera(int hitstop, Camera* camera){
+  float shakeRadius = 0;
+  if (hitstop > LIGHT_HITSTOP) {
+    shakeRadius = 6;
+  } else if (hitstop >= MEDIUM_HITSTOP){
+    shakeRadius = 9;
+  } else if(hitstop >= HEAVY_HITSTOP){
+    shakeRadius = 12;
+  }
+  if(shakeRadius > 0){
+    camera->startShake(shakeRadius);
+  }
+}
+
 HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hurter){
   if (!hitter->currentState->hitboxesDisabled) {
     for (auto hitBox : hitter->currentState->hitBoxes) {
@@ -1145,6 +1152,8 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
         for (auto hurtBox : hurter->currentState->hurtBoxes) {
           if(!hurtBox->disabled && !groupDisabled){
             if (CollisionBox::checkAABB(*hitBox, *hurtBox)) {
+              //TODO: SHAKING SCRIPT
+              shakeCamera(hitBox->hitstop, &camera);
               CollisionRect hitsparkIntersect = CollisionBox::getAABBIntersect(*hitBox, *hurtBox);
               hitter->inHitStop = true;
               hitter->hitStop = hitBox->hitstop;
@@ -1312,30 +1321,10 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 hitter->soundsEffects.at(hitBox->hitSoundID).channel = hitter->soundChannel + 2;
 
                 int hurterCurrentState = hurter->currentState->stateNum;
-                if (hitBox->hitType == GROUND_BOUNCE){
-                   if (hitBox->airHitstun > 0) {
-                    hurter->hitstun = hitBox->airHitstun;
-                  }
-                  if (hitBox->airHitVelocityX > 0) {
-                    if (hurter->inCorner) {
-                      hitter->pushTime = hitBox->hitPushTime;
-                      if (hitter->faceRight) {
-                        hitter->pushBackVelocity = hitBox->airHitVelocityX/2;
-                      } else {
-                        hitter->pushBackVelocity = -(hitBox->airHitVelocityX/2);
-                      }
-                    } else {
-                      hurter->hitPushTime = hitBox->airHitPushTime > 0 ? hitBox->airHitPushTime : hitBox->hitPushTime;
-                      if (hitter->faceRight) {
-                        hurter->hitPushVelX = -hitBox->airHitVelocityX;
-                      } else {
-                        hurter->hitPushVelX = hitBox->airHitVelocityX;
-                      }
-                    }
-                  }
-                  hurter->velocityY = hitBox->hitVelocityY;
-                 return {true, wasACounter, hurter->specialStateMap[SS_GROUNDBOUNCE_FLING], NULL};
-                } else if(hitBox->hitType == LAUNCHER || hurter->_getYPos() > 0 
+                if((hitBox->hitType == LAUNCHER) 
+                    || hitBox->hitType == FLOATER
+                    || hitBox->hitType == GROUND_BOUNCE 
+                    || hurter->_getYPos() > 0 
                     || airHurtState(hurter->playerNum - 1, hurterCurrentState)){
                   if (hitBox->airHitstun > 0) {
                     hurter->hitstun = hitBox->airHitstun;
@@ -1357,8 +1346,24 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                       }
                     }
                   }
+
                   hurter->velocityY = hitBox->hitVelocityY;
-                  return {true, wasACounter, hurter->specialStateMap[SS_AIR_HURT], NULL};
+                  SpecialState hurtState;
+                  switch (hitBox->hitType) {
+                    case LAUNCHER:
+                      hurtState = SS_AIR_HURT;
+                      break;
+                    case FLOATER:
+                      hurtState = SS_FLOAT_HURT;
+                      break;
+                    case GROUND_BOUNCE:
+                      hurtState = SS_GROUNDBOUNCE_FLING;
+                      break;
+                    default:
+                      hurtState = SS_AIR_HURT;
+                      break;
+                  }
+                  return {true, wasACounter, hurter->specialStateMap[hurtState], NULL};
                 } else {
                   return {true, wasACounter, hurter->specialStateMap[SS_HURT], NULL};
                 }
@@ -1915,25 +1920,30 @@ void FightState::ggpoInit(){
 
   p2.player_num = 2;
   p2.size = sizeof(p2);
-  int localPort;
-  const char* localIp = "127.0.0.1";
+
+  int localPort = stateManager->getPort();
+  std::string clipboardText = SDL_GetClipboardText();
+  int i = clipboardText.find(":");
+
+  std::string remoteIp = clipboardText.substr(0, i);
+  int remotePort = std::stoi(clipboardText.substr(i+1));
+  printf("clipboardText:%s\n", clipboardText.c_str());
+  printf("remoteIP:%s, remotePort:%d\n", remoteIp.c_str(), remotePort);
 
   if (pNum == 1) {
     p1.type = GGPO_PLAYERTYPE_LOCAL;
     local_player_handle = &player_handles[0];
-    localPort = 7000;
 
     p2.type = GGPO_PLAYERTYPE_REMOTE;
-    strcpy(p2.u.remote.ip_address, localIp);
-    p2.u.remote.port = 7001;
+    strcpy(p2.u.remote.ip_address, remoteIp.c_str());
+    p2.u.remote.port = remotePort;
   } else {
     p2.type = GGPO_PLAYERTYPE_LOCAL;
     local_player_handle = &player_handles[1];
-    localPort = 7001;
 
     p1.type = GGPO_PLAYERTYPE_REMOTE;
-    strcpy(p1.u.remote.ip_address, localIp);
-    p1.u.remote.port = 7000;
+    strcpy(p1.u.remote.ip_address, remoteIp.c_str());
+    p1.u.remote.port = remotePort;
   }
 
   // setup GGPO
@@ -1956,14 +1966,14 @@ void FightState::ggpoInit(){
 #endif
   ggpo_set_disconnect_timeout(ggpo, 3000);
   ggpo_set_disconnect_notify_start(ggpo, 2000);
-  printf("player:%d %s:%d the result of starting GGPO SESSION %d\n", pNum, localIp, localPort, result);
+  printf("player:%d %s:%d the result of starting GGPO SESSION %d\n", pNum, remoteIp.c_str(), localPort, result);
 
   // Add Player 1
   result = ggpo_add_player(ggpo, &p1, &player_handles[0]);
   printf("player1 type %d, result of add:%d\n", p1.type, result);
   result = ggpo_add_player(ggpo, &p2, &player_handles[1]);
   printf("player2 type %d, result of add:%d\n", p2.type, result);
-  // result = ggpo_set_frame_delay(ggpo, *local_player_handle, 3);
+  // result = ggpo_set_frame_delay(ggpo, *local_player_handle, 1);
   printf("result of add delay:%d\n", result);
 }
 
@@ -1975,12 +1985,13 @@ void FightState::netPlayHandleInput(){
 
   VirtualController* p1Vc = player1->virtualController;
   VirtualController* p2Vc = player2->virtualController;
-  VirtualController* currentVc = pnum == 1 ? p1Vc : p2Vc;
 
+  VirtualController* currentVc = pnum == 1 ? p1Vc : p2Vc;
   currentInput = currentVc->getState();
+  currentVc->setState(0);
+  currentVc->inputHistory.front().clear();
 
   printf("adding local input\n");
-
 #if defined(SYNC_TEST)
      currentInput = rand(); // test: use random inputs to demonstrate sync testing
 #endif
@@ -1991,17 +2002,12 @@ void FightState::netPlayHandleInput(){
     ggpo_synchronize_input(ggpo, (void *)inputs, sizeof(int)*2, &disconnectFlags);
     if (GGPO_SUCCEEDED(result)) {
       printf("GGPO SYNC SUCCESS\n");
-      currentVc->inputHistory.front().clear();
       // simulate a local keypress with input
       p1Vc->setState(inputs[0]);
       p1Vc->addNetInput();
-      // p1Vc->inputHistory.front().emplace_back(InputEvent(inputs[0], true));
-      // p1Vc->inputEventList.push_back(InputEvent(inputs[0], true));
 
       p2Vc->setState(inputs[1]);
       p2Vc->addNetInput();
-      // p2Vc->inputEventList.push_back(InputEvent(inputs[1], true));
-      // p2Vc->inputHistory.front().emplace_back(InputEvent(inputs[1], true));
       shouldUpdate = true;
     }
   } else {

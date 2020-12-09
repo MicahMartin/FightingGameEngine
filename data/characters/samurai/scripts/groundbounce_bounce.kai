@@ -16,7 +16,7 @@
   var anyForward = (forward or downforward or upforward);
   var anyBack = (back or upback or downback);
   if($get_state_time == 0){ 
-    $velset_y 25;
+    $velset_y 25000;
     $set_control 0; 
   } 
 
@@ -39,15 +39,15 @@
   if($get_hit_stun == 0){ 
     if(alive){
       if (teching) {
-        $neg_velset_x 6;
-        $velset_y 14;
+        $neg_velset_x 6000;
+        $velset_y 14000;
         if (anyForward) {
-          $velset_x 10;
-          $velset_y 20;
+          $velset_x 10000;
+          $velset_y 20000;
         }
         if (anyBack) {
-          $neg_velset_x 10;
-          $velset_y 20;
+          $neg_velset_x 10000;
+          $velset_y 20000;
         }
         
         $cancel_state 44;

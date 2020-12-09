@@ -1,6 +1,6 @@
 { 
   if($get_state_time == 4){ 
-    $velset_x 0;
+    $velset_x 0000;
     $set_counter 0;
   } 
   if ($get_whiff_cancel) {

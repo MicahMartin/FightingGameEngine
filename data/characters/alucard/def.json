@@ -698,7 +698,7 @@
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
-        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 1, "end": 2, "width":125, "height":275, "offsetX":0, "offsetY": 0, "throwSuccess": 36, "opponentThrowSuccess": 1, "throwAttempt": 56, "techAttempt": 5}
+        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 1, "end": 2, "width":125, "height":275, "offsetX":0, "offsetY": 0, "throwSuccess": 36, "opponentThrowSuccess": 6001, "throwAttempt": 56, "techAttempt": 6005}
       ]
     },
     {
@@ -1888,5 +1888,6 @@
       "SS_DEAD_FALLING": 53,
       "SS_JUMP_R": 13
   },
+  "gravity": "150",
   "command_script": "../data/characters/alucard/scripts/input.kai"
 }

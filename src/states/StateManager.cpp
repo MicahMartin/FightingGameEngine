@@ -59,3 +59,19 @@ std::string StateManager::getCharName(int playerNum){
   std::string charName = (playerNum == 1) ? p1CharName : p2CharName;
   return charName;
 }
+
+void StateManager::setIP(std::string _IP){
+  IP = _IP;
+}
+
+std::string StateManager::getIP(){
+  return IP;
+}
+
+void StateManager::setPort(int _port){
+  port = _port;
+}
+
+int StateManager::getPort(){
+  return port;
+}
