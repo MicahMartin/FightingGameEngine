@@ -123,7 +123,7 @@ bool VirtualController::wasPressed(Input input, bool strict, int index, bool pre
 }
 
 bool VirtualController::wasPressedBuffer(Input input, bool strict, bool pressed) {
-  int buffLen = 3;
+  int buffLen = 1;
   bool found = false;
   int historySize = inputHistory.size();
   if (buffLen >= historySize) {

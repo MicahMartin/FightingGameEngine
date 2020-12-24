@@ -1180,10 +1180,10 @@
       "cancel_script": "../data/characters/samurai/scripts/throws/fwd_throw_cancels.kai",
       "update_script": "../data/characters/samurai/scripts/throws/throw.kai",
       "animation": [
-        { "file": "../data/characters/samurai/sprites/61.png", "time": 20, "offsetX": -1},
-        { "file": "../data/characters/samurai/sprites/64.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/samurai/sprites/65.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/samurai/sprites/62.png", "time": 4, "offsetX": -1}
+        { "file": "../data/characters/samurai/sprites/samurai_5910-3.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_5910-4.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_5910-5.png", "time": 16, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_5910-6.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -1200,7 +1200,7 @@
       ],
       "update_script": "../data/characters/samurai/scripts/throws/fwd_throw_attempt.kai",
       "animation": [
-        { "file": "../data/characters/samurai/sprites/61.png", "time": -1, "offsetX": -1}
+        { "file": "../data/characters/samurai/sprites/samurai_5910-4.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
@@ -1209,21 +1209,88 @@
     {
       "state_num": 52,
       "state_name": "FORWARD_THROW_SUCCESS",
-      "flags": [
-        "NO_TURN"
-      ],
+      "flags": [ ],
       "update_script": "../data/characters/samurai/scripts/throws/fwd_throw_success.kai",
       "animation": [
-        { "file": "../data/characters/samurai/sprites/61.png", "time": 20, "offsetX": -1},
-        { "file": "../data/characters/samurai/sprites/64.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/samurai/sprites/65.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/samurai/sprites/62.png", "time": 4, "offsetX": -1}
+        { "file": "../data/characters/samurai/sprites/samurai_181-0.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-1.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-2.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-3.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-4.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-5.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-6.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-7.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-8.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-9.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-10.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-11.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-12.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-13.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-14.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-15.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-16.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-17.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_181-18.png", "time": 2, "offsetX": -1},
+
+        { "file": "../data/characters/samurai/sprites/samurai_290-0.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_290-1.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_290-2.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_290-3.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_290-4.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_290-3.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_290-4.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_290-3.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_290-4.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_290-5.png", "time": 2, "offsetX": 50},
+
+        { "file": "../data/characters/samurai/sprites/samurai_290-6.png", "time": 6, "offsetX": 75},
+
+        { "file": "../data/characters/samurai/sprites/samurai_290-7.png", "time": 3, "offsetX": 100},
+        { "file": "../data/characters/samurai/sprites/samurai_290-8.png", "time": 3, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_290-9.png", "time": 3, "offsetX": -1}
       ],
       "collision_boxes": [
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":4, "hitstop": 24, "damage":3, "push": 11000, "push_time": 8, "start": 59, "end": 60, "width":125, "height":100, "offsetX":75, "offsetY": 235, "group": 1, "hitsound": 24, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 2, "hit_velX": 15000, "hit_velY": 15000, "hit_push_time": 8, "meter": 10},
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
       ],
       "sounds": [
         {"soundID": 14, "start": 1}
+      ]
+    },
+    {
+      "state_num": 53,
+      "state_name": "GROUND_THROW_TECH",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/samurai/scripts/throws/throw_tech.kai",
+      "animation": [
+        { "file": "../data/characters/samurai/sprites/samurai_5910-1.png", "time": 5, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_5910-2.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 54,
+      "state_name": "BACK_THROW",
+      "flags": [
+        "NO_TURN"
+      ],
+      "cancel_script": "../data/characters/samurai/scripts/throws/fwd_throw_cancels.kai",
+      "update_script": "../data/characters/samurai/scripts/throws/throw.kai",
+      "animation": [
+        { "file": "../data/characters/samurai/sprites/samurai_5910-3.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_5910-4.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_5910-5.png", "time": 16, "offsetX": -1},
+        { "file": "../data/characters/samurai/sprites/samurai_5910-6.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "THROW", "throw_type": 2, "block_type": 1, "hitstun":60, "block_stun":60, "hitstop": 12, "damage":1, "push": 8, "push_time": 8, "start": 1, "end": 2, "width":125, "height":275, "offsetX":0, "offsetY": 0, "throwAttempt": 51, "throwSuccess": 52, "opponentThrowSuccess": 6003, "techAttempt": 6004}
       ]
     }
   ],
@@ -1234,39 +1301,70 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "../data/characters/samurai/scripts/being_thrown.kai",
+      "update_script": "../data/characters/samurai/scripts/throws/being_thrown_fwd.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/93.png", "time": 10, "offsetX": -1},
-        { "file": "../data/characters/alucard/sprites/throw1.png", "time": 10, "offsetX": -1},
-        { "file": "../data/characters/alucard/sprites/94.png", "time": 10, "offsetX": -1},
-        { "file": "../data/characters/alucard/sprites/94.png", "time": 10, "offsetX": -1}
+        { "file": "../data/characters/%CHARNAME%/sprites/hurt0_0.png", "time": -1, "offsetX": -1}
       ],
-      "collision_boxes": [ ]
+      "collision_boxes": [ 
+        {"type": "HURT", "start": 59, "end": 60, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
+      ]
     },
     {
       "state_num": 2,
-      "state_name": "BEING_THROWN_BACK",
+      "state_name": "FWD_THROW_TECH_ATTEMPT",
       "flags": [
-        "NO_TURN"
+        "NO_TURN",
+        "TECHABLE"
       ],
-      "update_script": "../data/characters/samurai/scripts/being_back_thrown.kai",
+      "techState": 5035,
+      "update_script": "../data/characters/samurai/scripts/throws/fwd_throw_tech_attempt.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/93.png", "time": 10, "offsetX": -1},
-        { "file": "../data/characters/alucard/sprites/throw1.png", "time": 10, "offsetX": -1},
-        { "file": "../data/characters/alucard/sprites/94.png", "time": 10, "offsetX": -1},
-        { "file": "../data/characters/alucard/sprites/94.png", "time": 10, "offsetX": -1}
+        { "file": "../data/characters/%CHARNAME%/sprites/tech_attempt.png", "time": 10, "offsetX": -1}
       ],
-      "collision_boxes": [ ]
+      "collision_boxes": [ 
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
+      ]
     },
     {
       "state_num": 3,
+      "state_name": "BEING_THROWN_BCK",
+      "flags": [
+      ],
+      "update_script": "../data/characters/samurai/scripts/throws/being_thrown_bck.kai",
+      "animation": [
+        { "file": "../data/characters/%CHARNAME%/sprites/hurt0_0.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [ 
+        {"type": "HURT", "start": 59, "end": 60, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 4,
+      "state_name": "BCK_THROW_TECH_ATTEMPT",
+      "flags": [
+        "NO_TURN",
+        "TECHABLE"
+      ],
+      "techState": 5035,
+      "update_script": "../data/characters/samurai/scripts/throws/bck_throw_tech_attempt.kai",
+      "animation": [
+        { "file": "../data/characters/%CHARNAME%/sprites/tech_attempt.png", "time": 10, "offsetX": -1}
+      ],
+      "collision_boxes": [ 
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
+      ]
+    },
+    {
+      "state_num": 5,
       "state_name": "BEING_AIR_THROWN_FWD",
       "flags": [
         "NO_TURN"
       ],
       "update_script": "../data/characters/samurai/scripts/being_air_thrown.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/throw1.png", "time": -1, "offsetX": -1, "offsetY": 100}
+        { "file": "../data/characters/%CHARNAME%/sprites/throw1.png", "time": -1, "offsetX": -1, "offsetY": 100}
       ],
       "collision_boxes": [ ]
     },
@@ -1278,7 +1376,7 @@
       ],
       "update_script": "../data/characters/samurai/scripts/being_air_thrown_back.kai",
       "animation": [
-        { "file": "../data/characters/alucard/sprites/throw1.png", "time": -1, "offsetX": -1, "offsetY": 100}
+        { "file": "../data/characters/%CHARNAME%/sprites/throw1.png", "time": -1, "offsetX": -1, "offsetY": 100}
       ],
       "collision_boxes": [ ]
     }
@@ -1546,10 +1644,17 @@
     "SS_AIR_HURT_RECOVERY": 40,
     "SS_HURT_RECOVERY": 10,
     "SS_JUMP_R": 27,
-    "SS_AIR_TECH": 59,
-    "SS_DEAD_FALLING": 59,
+    "SS_FORWARD_THROW": 50,
+    "SS_FORWARD_THROW_ATTEMPT": 51,
+    "SS_FORWARD_THROW_SUCCESS": 52,
+    "SS_BACK_THROW": 54,
+    "SS_BACK_THROW_ATTEMPT": 51,
+    "SS_BACK_THROW_SUCCESS": 52,
+    "SS_GROUND_THROW_TECH": 53,
+    "SS_AIR_TECH": 60,
+    "SS_DEAD_FALLING": 60,
     "SS_FLOAT_HURT": 60,
-    "SS_FLOAT_HURT_RECOVERY": 60
+    "SS_FLOAT_HURT_RECOVERY": 60 
   },
   "anim_scale": "1.5",
   "gravity": "2250",

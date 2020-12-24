@@ -3,7 +3,7 @@
     $set_control 0; 
     $velset_x 0000; 
   } 
-  if($get_state_time == 32){ 
+  if($get_state_time == 62){ 
     $set_control 1; 
   } 
 } 

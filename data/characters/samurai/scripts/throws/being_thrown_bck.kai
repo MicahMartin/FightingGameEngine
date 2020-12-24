@@ -1,0 +1,6 @@
+{ 
+  if($get_state_time == 0){ 
+    $set_control 0;
+    $snap_to_opponent -175000; 
+  } 
+} 

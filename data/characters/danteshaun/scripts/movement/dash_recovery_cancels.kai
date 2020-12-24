@@ -26,10 +26,10 @@
     var crouchPB = (kick and slash) and downback;
     if (meter > 1) {
       if (pushblocking) {
-        $cancel_state 23;
+        $cancel_state 5022;
       }
       if (crouchPB) {
-        $cancel_state 24;
+        $cancel_state 5023;
       }
     }
     if(qcf_k){

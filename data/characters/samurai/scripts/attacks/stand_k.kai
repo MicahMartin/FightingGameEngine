@@ -9,7 +9,6 @@
   var downback = $get_input 1; 
   var anyBack = (back or upback or downback);
   var lp_and_lk = $was_pressed 10;
-  var lb = $check_command 10;
 
   if($get_state_time < 2){
     if (meter >= 1) {
@@ -17,15 +16,15 @@
       var lk = $get_input 11;
       var mp = $get_input 12;
       if ((lk and mp) and anyBackNotDown) {
-        $cancel_state 22;
+        $cancel_state 5022;
       }
       if ((lk and mp) and downback) {
-        $cancel_state 23;
+        $cancel_state 5023;
       }
     }
     if (lp_and_lk) {
       if(anyBack){
-        $cancel_state 5035;
+        $change_state 5036;
       } else { 
         $cancel_state 5032;
       }

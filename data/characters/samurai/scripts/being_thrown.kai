@@ -7,7 +7,7 @@
     $snap_to_opponent 50; 
   } 
 
-  if($get_state_time == 10){ 
+  if($get_state_time == 50){ 
     $set_nograv_count 10;
     $velset_y 14000; 
     $neg_velset_x 3000; 

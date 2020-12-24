@@ -15,10 +15,10 @@
       var lk = $get_input 11;
       var mp = $get_input 12;
       if ((lk and mp) and anyBackNotDown) {
-        $cancel_state 22;
+        $cancel_state 5022;
       }
       if ((lk and mp) and downback) {
-        $cancel_state 23;
+        $cancel_state 5023;
       }
     }
   }

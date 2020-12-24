@@ -45,7 +45,7 @@ std::vector<std::string> CommandCompiler::commandStrings = {
   "~D, DF, F, LK | ~LK",
   "N & MK",
   "@~D, N, @D, LP", // 22P
-  "LK & 2LP", // lp and lk
+  "2LK & 2LP", // lp and lk
   "~N, U",
   "~N, UF",
   "~N, UB",
@@ -55,11 +55,11 @@ std::vector<std::string> CommandCompiler::commandStrings = {
   "LP | LK | MP | MK", // any button held
   "~D, DF, F, D, DF, F, LK | ~LK",
   "MK & 2MP",
-  "8LP",
-  "8LK",
-  "8MP",
-  "8MK",
-  "4LP",
+  "3LP",
+  "3LK",
+  "3MP",
+  "3MK",
+  "3LP",
 };
 
 CommandCompiler::CommandCompiler() { }

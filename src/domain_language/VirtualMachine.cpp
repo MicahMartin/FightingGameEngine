@@ -387,7 +387,7 @@ inline ExecutionCode VirtualMachine::run(){
       }
       case OP_SNAP_TO_OPPONENT: {
         long operand = AS_NUMBER(stack.pop());
-        printf("in op_snap_to_opponent\n");
+        printf("in op_snap_to_opponent%d\n", operand);
         character->_snapToOpponent(operand);
         break;
       }

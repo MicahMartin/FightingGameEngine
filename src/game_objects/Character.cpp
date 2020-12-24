@@ -200,12 +200,14 @@ void Character::changeState(int stateDefNum){
   if(stateDefNum >= 6000){
     int theNum = stateDefNum - 6000;
     int customStateNum = stateCount + theNum;
-    currentState = &stateList.at(customStateNum);
+    printf("the num:%d, the customStateNum%d\n", theNum, customStateNum);
+    currentState = &stateList.at(customStateNum-1);
   } else if (stateDefNum >= 5000) {
     int theNum = stateDefNum - 5000;
     SpecialState theState = (SpecialState)theNum;
     int specialStateNum = specialStateMap[theState];
-    currentState = &stateList.at(specialStateNum);
+    printf("the num:%d, the specialStateNum %d\n", theNum, specialStateNum);
+    currentState = &stateList.at(specialStateNum-1);
   } else {
     currentState = &stateList.at(stateDefNum-1);
   }
@@ -227,6 +229,7 @@ void Character::cancelState(int stateDefNum){
   if (stateDefNum >= 6000) {
     int theNum = stateDefNum - 6000;
     int customState = stateCount + theNum;
+    printf("the num:%d, the customState%d\n", theNum, customState);
     cancelPointer = customState;
   } else if (stateDefNum >= 5000) {
     int theNum = stateDefNum - 5000;
@@ -369,6 +372,10 @@ void Character::loadStates(const char* path){
     specialStateMap[SS_FORWARD_THROW] = i.at("SS_FORWARD_THROW");
     specialStateMap[SS_FORWARD_THROW_ATTEMPT] = i.at("SS_FORWARD_THROW_ATTEMPT");
     specialStateMap[SS_FORWARD_THROW_SUCCESS] = i.at("SS_FORWARD_THROW_SUCCESS");
+    specialStateMap[SS_GROUND_THROW_TECH] = i.at("SS_GROUND_THROW_TECH");
+    specialStateMap[SS_BACK_THROW] = i.at("SS_BACK_THROW");
+    specialStateMap[SS_BACK_THROW_ATTEMPT] = i.at("SS_BACK_THROW_ATTEMPT");
+    specialStateMap[SS_BACK_THROW_SUCCESS] = i.at("SS_BACK_THROW_SUCCESS");
   }
 
 
@@ -839,12 +846,12 @@ void Character::_deactivateEntity(int entityID){
 }
 
 void Character::_snapToOpponent(int offset){
-  printf("snapping to opponent\n");
   auto opponentPos = otherChar->getPos();
   bool opponentFaceRight = otherChar->faceRight;
 
   position.first = opponentFaceRight ? (opponentPos.first + offset) : (opponentPos.first - offset);
   position.second = opponentPos.second;
+  printf("snapping to opponentPos:%d:%d, newPos:%d:%d\n", opponentPos.first, opponentPos.second, position.first, position.second);
 }
 
 

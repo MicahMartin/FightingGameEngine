@@ -3,7 +3,7 @@
     $set_control 0;
   } 
 
-  if($get_state_time == 8){ 
-    $cancel_state 36;
+  if($get_state_time == 4){ 
+    $cancel_state 5034;
   } 
 }

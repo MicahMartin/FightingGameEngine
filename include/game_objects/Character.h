@@ -64,6 +64,7 @@ struct CharStateObj {
 };
 
 typedef enum {
+  SS_NULL = 0,
   SS_IDLE = 1,
   SS_WALK_F,
   SS_WALK_B,
@@ -97,7 +98,11 @@ typedef enum {
   SS_FLOAT_HURT_RECOVERY,
   SS_FORWARD_THROW,
   SS_FORWARD_THROW_ATTEMPT,
-  SS_FORWARD_THROW_SUCCESS
+  SS_FORWARD_THROW_SUCCESS,
+  SS_GROUND_THROW_TECH = 35,
+  SS_BACK_THROW,
+  SS_BACK_THROW_ATTEMPT,
+  SS_BACK_THROW_SUCCESS,
 } SpecialState;
 
 class Character : public GameObject {
