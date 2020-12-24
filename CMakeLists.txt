@@ -40,7 +40,7 @@ add_executable(kusoge ${SOURCE} ${HEADER})
 target_link_libraries( 
     kusoge 
     PRIVATE nlohmann_json::nlohmann_json
-    ${PROJECT_SOURCE_DIR}/third_party/ggpo/build/src/libGGPO.dylib
+    ${PROJECT_SOURCE_DIR}/third_party/ggpo/build/src/libGGPO.a
     ${Gperftools_LIBRARIES}
     ${SDL2_LIBRARY}
     ${SDL2_IMAGE_LIBRARIES}
