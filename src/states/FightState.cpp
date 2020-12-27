@@ -108,6 +108,8 @@ bool fsAdvanceFrame(int flags){
 
   VirtualController* p1Vc = ggpoFightState->player1->virtualController;
   VirtualController* p2Vc = ggpoFightState->player2->virtualController;
+  p1Vc->inputHistory.front().clear();
+  p2Vc->inputHistory.front().clear();
 
   // simulate a local keypress with input
   p1Vc->setState(inputs[0]);
@@ -1988,8 +1990,10 @@ void FightState::netPlayHandleInput(){
 
   VirtualController* currentVc = pnum == 1 ? p1Vc : p2Vc;
   currentInput = currentVc->getState();
-  currentVc->setState(0);
-  currentVc->inputHistory.front().clear();
+  // p1Vc->setState(0);
+  p1Vc->inputHistory.front().clear();
+  p2Vc->inputHistory.front().clear();
+  // p2Vc->setState(0);
 
   printf("adding local input\n");
 #if defined(SYNC_TEST)

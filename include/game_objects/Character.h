@@ -56,10 +56,10 @@ struct CharStateObj {
   bool installMode;
   bool auraActive;
   int currentState;
+  int inputState;
 
   StateDefObj stateDefObj;
   EntityStateObj entityStates[3];
-  std::string inputHistoryArc;
   // std::unordered_map<int, EntityStateObj> entityStates;
 };
 

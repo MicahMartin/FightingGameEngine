@@ -88,6 +88,8 @@ CharStateObj Character::saveState(){
   stateObj.installMode = installMode;
   stateObj.auraActive = auraActive;
   stateObj.auraID = auraID;
+  stateObj.inputState = virtualController->currentState;
+
   stateObj.currentState = currentState->stateNum;
   stateObj.stateDefObj = currentState->saveState();
 
@@ -95,15 +97,15 @@ CharStateObj Character::saveState(){
     stateObj.entityStates[i] = entityList[i].saveState();
   }
 
-  {
-    std::ostringstream os;
-    boost::archive::text_oarchive oArchive(os);
+  // {
+  //   std::ostringstream os;
+  //   boost::archive::text_oarchive oArchive(os);
 
-    virtualController->serializeHistory();
-    oArchive << virtualController->inputHistorySnapShot;
+  //   virtualController->serializeHistory();
+  //   oArchive << virtualController->inputHistorySnapShot;
 
-    playerNum == 1 ? p1InputHistory = os.str() : p2InputHistory = os.str();
-  }
+  //   playerNum == 1 ? p1InputHistory = os.str() : p2InputHistory = os.str();
+  // }
   return stateObj;
 }
 
@@ -151,20 +153,22 @@ void Character::loadState(CharStateObj stateObj){
   installMode = stateObj.installMode;
   auraActive = stateObj.auraActive;
   auraID = stateObj.auraID;
+  virtualController->setState(stateObj.inputState);
+
   setCurrentState(stateObj.currentState);
   currentState->loadState(stateObj.stateDefObj);
   for (int i = 0; i < entityList.size(); ++i) {
     entityList[i].loadState(stateObj.entityStates[i]);
   }
 
-  {
-    std::string* theString = playerNum == 1 ? &p1InputHistory : &p2InputHistory;
-    std::stringstream iStream(*theString);
-    boost::archive::text_iarchive iArchive(iStream);
-    iArchive >> virtualController->inputHistorySnapShot;
-    virtualController->loadHistory(virtualController->inputHistorySnapShot);
-    iStream.clear();
-  }
+  //{
+  //  std::string* theString = playerNum == 1 ? &p1InputHistory : &p2InputHistory;
+  //  std::stringstream iStream(*theString);
+  //  boost::archive::text_iarchive iArchive(iStream);
+  //  iArchive >> virtualController->inputHistorySnapShot;
+  //  virtualController->loadHistory(virtualController->inputHistorySnapShot);
+  //  iStream.clear();
+  //}
 }
 
 void Character::refresh(){

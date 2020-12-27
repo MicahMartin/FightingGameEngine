@@ -331,35 +331,36 @@ void VirtualController::loadHistory(HistoryCopyT historyCopy) {
 }
 
 void VirtualController::addNetInput() {
+  inputHistory.front().emplace_back(InputEvent(currentState, true));
   // loop through bits in currentState
   // for each bit in current state,
   // if set..
   //  and not set before, send wasPressed event
   // if not set..
   //  and was set before, send wasReleased event
-  std::bitset<16> stickState(currentState);
-  std::cout << "currentState:" << stickState << std::endl;
-  std::bitset<16> prevStickState(prevState);
-  std::cout << "prevState:" << prevStickState << std::endl;
-  uint8_t oldStickState = prevState & 0x0F;
-  uint8_t newStickState = currentState & 0x0F;
-  if (oldStickState != newStickState) {
-    // printf("clearing:%s setting:%s\n", inputToString[oldStickState], inputToString[newStickState]);
-    inputHistory.front().emplace_back(InputEvent(oldStickState, false));
-    inputHistory.front().emplace_back(InputEvent(newStickState, true));
-  }
-  for (int i = 4; i < 16; ++i) {
-    uint16_t temp = 0;
-    temp |= (1 << i);
-    if (stickState.test(i) && !prevStickState.test(i)) {
-      printf("detected button press for %s\n", inputToString[temp]);
-      inputHistory.front().emplace_back(InputEvent(temp, true));
-    } else if(!stickState.test(i) && prevStickState.test(i)){
-      printf("detected button release for %s\n", inputToString[temp]);
-      inputHistory.front().emplace_back(InputEvent(temp, false));
-    }
-  }
-  prevState = currentState;
+  // std::bitset<16> stickState(currentState);
+  // std::cout << "currentState:" << stickState << std::endl;
+  // std::bitset<16> prevStickState(prevState);
+  // std::cout << "prevState:" << prevStickState << std::endl;
+  // uint8_t oldStickState = prevState & 0x0F;
+  // uint8_t newStickState = currentState & 0x0F;
+  // if (oldStickState != newStickState) {
+  //   // printf("clearing:%s setting:%s\n", inputToString[oldStickState], inputToString[newStickState]);
+  //   inputHistory.front().emplace_back(InputEvent(oldStickState, false));
+  //   inputHistory.front().emplace_back(InputEvent(newStickState, true));
+  // }
+  // for (int i = 4; i < 16; ++i) {
+  //   uint16_t temp = 0;
+  //   temp |= (1 << i);
+  //   if (stickState.test(i) && !prevStickState.test(i)) {
+  //     printf("detected button press for %s\n", inputToString[temp]);
+  //     inputHistory.front().emplace_back(InputEvent(temp, true));
+  //   } else if(!stickState.test(i) && prevStickState.test(i)){
+  //     printf("detected button release for %s\n", inputToString[temp]);
+  //     inputHistory.front().emplace_back(InputEvent(temp, false));
+  //   }
+  // }
+  // prevState = currentState;
 }
 
 
