@@ -8,7 +8,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON) # -std=c++11 instead of -std=gnu++11
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
-SET(CMAKE_INSTALL_RPATH "${PROJECT_SOURCE_DIR}/third_party")
 set(MY_CXX_COMPILE_FEATURES cxx_generic_lambdas cxx_range_for cxx_strong_enums)
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
@@ -36,6 +35,11 @@ include_directories(
 )
 
 add_executable(kusoge ${SOURCE} ${HEADER})
+
+add_custom_command(TARGET kusoge
+    POST_BUILD COMMAND
+    ${CMAKE_INSTALL_NAME_TOOL} -add_rpath "@executable_path/../third_party/"
+    $<TARGET_FILE:kusoge>)
 
 target_link_libraries( 
     kusoge 
