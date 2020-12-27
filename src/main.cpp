@@ -1,4 +1,4 @@
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <thread>
 #include <chrono>
 #include "util/Util.h"
@@ -20,13 +20,9 @@ int main(int argc, char* args[]) {
 
   // Game.init
   Game game;
-  std::string p1Char = "samurai";
-  std::string p2Char = "alucard";
-
-  if (argc >= 1) {
+  printf("checking args defaults\n");
+  if (argc >= 2) {
     game.stateManager->getInstance()->setPnum(std::stoi(args[1]));
-    std::string realWindowName = game.graphics->windowName + std::to_string(std::stoi(args[1]));
-    SDL_SetWindowTitle(game.graphics->getWindow(), realWindowName.c_str());
     if (argc >= 3) {
       if (std::stoi(args[2]) + std::stoi(args[3]) == 0) {
         game.graphics->resizeWindow(true);
@@ -35,18 +31,24 @@ int main(int argc, char* args[]) {
       }
     }
     if (argc >= 4) {
-      p1Char = args[4];
-      p2Char = args[5];
-
+      game.stateManager->getInstance()->setCharName(1, args[4]);
+      game.stateManager->getInstance()->setCharName(2, args[5]);
     }
 
     if (argc >= 6) {
       game.stateManager->getInstance()->setIP(args[6]);
       game.stateManager->getInstance()->setPort(std::stoi(args[7]));
     }
+  } else {
+    // defaults
+    printf("calling defaults\n");
+    game.stateManager->getInstance()->setPnum(1);
+    game.graphics->resizeWindow(true);
+    game.stateManager->getInstance()->setCharName(1, "samurai");
+    game.stateManager->getInstance()->setCharName(2, "samurai");
+    game.stateManager->getInstance()->setIP("127.0.0.1");
+    game.stateManager->getInstance()->setPort(7000);
   }
-  game.stateManager->getInstance()->setCharName(1, p1Char);
-  game.stateManager->getInstance()->setCharName(2, p2Char);
 
   //mainloop
   {

@@ -1,6 +1,6 @@
 #ifndef _GameTexture_h
 #define _GameTexture_h 
-#include <SDL2_image/SDL_image.h>
+#include <SDL_image.h>
 #include "Graphics.h"
 #include "TextureManager.h"
 #include "Camera.h"

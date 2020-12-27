@@ -1,5 +1,5 @@
 #include "screens/FightScreen.h"
-#include "SDL_ttf.h"
+#include <SDL_ttf.h>
 #include <sstream>
 
 FightScreen::FightScreen(){

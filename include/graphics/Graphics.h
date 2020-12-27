@@ -1,8 +1,8 @@
 #ifndef _Graphics_h
 #define _Graphics_h
 
-#include <SDL2_image/SDL_image.h>
-#include "SDL_ttf.h"
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <string>
 
 // handle SDL init, window stuff, and video buffer swapping at the end of every frame

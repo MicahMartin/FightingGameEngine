@@ -2,7 +2,7 @@
 #define _Screen_h 
 
 #include <vector>
-#include <SDL2_image/SDL_image.h>
+#include <SDL_image.h>
 #include "graphics/GameTexture.h"
 #include "graphics/Graphics.h"
 

@@ -1,6 +1,6 @@
 #include "screens/MenuScreen.h"
 #include "graphics/GameTexture.h"
-#include <SDL2_image/SDL_image.h>
+#include <SDL_image.h>
 
 MenuScreen::MenuScreen(){
   printf("menu screen constructor\n");

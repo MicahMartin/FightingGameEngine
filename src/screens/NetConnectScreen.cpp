@@ -1,6 +1,6 @@
 #include "screens/NetConnectScreen.h"
 #include "graphics/GameTexture.h"
-#include <SDL2_image/SDL_image.h>
+#include <SDL_image.h>
 
 NetConnectScreen::NetConnectScreen(){
   printf("menu screen constructor\n");

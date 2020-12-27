@@ -1,6 +1,6 @@
 #include "screens/OpeningScreen.h"
 #include "graphics/GameTexture.h"
-#include <SDL2_image/SDL_image.h>
+#include <SDL_image.h>
 
 OpeningScreen::OpeningScreen() {
   printf("init opening screen \n");

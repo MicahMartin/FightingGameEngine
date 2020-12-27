@@ -1,5 +1,5 @@
 #include "graphics/Graphics.h"
-#include "SDL_ttf.h"
+#include <SDL_ttf.h>
 #include <cmath>
 #include <stdexcept>
 
