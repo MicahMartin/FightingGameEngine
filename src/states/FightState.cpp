@@ -396,6 +396,7 @@ void FightState::loadState(){
   player1->loadState(saveObj.char1State);
   player2->loadState(saveObj.char2State);
   camera.loadState(saveObj.cameraState);
+  printf("DONE LOAD STATE\n");
 }
 
 void FightState::loadState(unsigned char* buffer, int length){
@@ -491,10 +492,10 @@ void FightState::handleInput(){
 }
 
 void FightState::update(){
-  if (!shouldUpdate) {
-    return;
-  }
-    if(!slowMode && !screenFreeze){
+if (!shouldUpdate) {
+  return;
+}
+  if(!slowMode && !screenFreeze){
     if(!player1->inHitStop){
       player1->update();
     }
@@ -523,57 +524,58 @@ void FightState::update(){
       screenFreezeLength = player2->currentState->freezeLength;
       player2->activateVisFX(1);
     }
+  }
 
 
-    checkBounds();
-    updateFaceRight();
-    checkCorner(player1);
-    checkCorner(player2);
+  checkBounds();
+  updateFaceRight();
+  checkCorner(player1);
+  checkCorner(player2);
 
-    checkPushCollisions();
-    checkBounds();
+  checkPushCollisions();
+  checkBounds();
 
-    updateCamera();
-    checkHealth();
+  updateCamera();
+  checkHealth();
 
-    if (slowMode) {
-      if(slowDownCounter++ == 70){
-        slowDownCounter = 0;
-        slowMode = false;
-        roundEnd = true;
+  if (slowMode) {
+    printf("in slowMode! slowDownCounter:%d\n", slowDownCounter);
+    if(slowDownCounter++ == 70){
+      slowDownCounter = 0;
+      slowMode = false;
+      roundEnd = true;
 
-        if (roundWinner == 1) {
-          p1WinPopup.setX(camera.middle);
-          p1WinPopup.setY(camera.cameraRect.y);
-          p1WinPopup.setStateTime(0);
-          p1WinPopup.setActive(true);
-          Mix_PlayChannel(0, p1WinSound, 0);
-        } else if (roundWinner == 2) {
-          p2WinPopup.setX(camera.middle);
-          p2WinPopup.setY(camera.cameraRect.y);
-          p2WinPopup.setStateTime(0);
-          p2WinPopup.setActive(true);
-          Mix_PlayChannel(0, p2WinSound, 0);
-        }
-        roundWinner = 0;
+      if (roundWinner == 1) {
+        p1WinPopup.setX(camera.middle);
+        p1WinPopup.setY(camera.cameraRect.y);
+        p1WinPopup.setStateTime(0);
+        p1WinPopup.setActive(true);
+        Mix_PlayChannel(0, p1WinSound, 0);
+      } else if (roundWinner == 2) {
+        p2WinPopup.setX(camera.middle);
+        p2WinPopup.setY(camera.cameraRect.y);
+        p2WinPopup.setStateTime(0);
+        p2WinPopup.setActive(true);
+        Mix_PlayChannel(0, p2WinSound, 0);
       }
+      roundWinner = 0;
     }
+  }
 
-    if (screenFreeze) {
-      if (screenFreezeCounter++ == screenFreezeLength) {
-        screenFreezeCounter = 0;
-        screenFreezeLength = 0;
-        screenFreeze = false;
-      }
+  if (screenFreeze) {
+    if (screenFreezeCounter++ == screenFreezeLength) {
+      screenFreezeCounter = 0;
+      screenFreezeLength = 0;
+      screenFreeze = false;
     }
-    updateVisuals();
-    
-    if (netPlayState && doneSync) {
-      // printf("calling ggpo advance frame\n");
-      ggpo_advance_frame(ggpo);
-    } else if(!netPlayState){
-      // saveState(&buffer, &bufferLen, gameTime);
-    }
+  }
+  updateVisuals();
+  
+  if (netPlayState && doneSync) {
+    // printf("calling ggpo advance frame\n");
+    ggpo_advance_frame(ggpo);
+  } else if(!netPlayState){
+    // saveState(&buffer, &bufferLen, gameTime);
   }
   // printf("camera: x%d|y%d|UpperBound%d|LowerBound%d\n", camera.positionObj.x, camera.positionObj.y, camera.upperBound, camera.lowerBound);
   // printf("player1: x%d|y%d\n", player1->position.first, player1->position.second);
@@ -1544,11 +1546,13 @@ void FightState::checkHealth(){
     if (player1->health <= 0 && player1->hitstun >= 1) {
       player1->isDead = true;
       p2RoundsWon++;
+      printf("niggas died\n");
       roundWinner = 2;
     }
     if (player2->health <= 0 && player2->hitstun >= 1) {
       player2->isDead = true;
       p1RoundsWon++;
+      printf("niggas died\n");
       roundWinner = 1;
     }
     currentRound++;
