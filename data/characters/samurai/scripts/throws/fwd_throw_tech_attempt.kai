@@ -3,7 +3,7 @@
     $set_control 0;
     $snap_to_opponent 175000; 
   } 
-  if($get_state_time == 4){ 
+  if($get_state_time == 8){ 
     $cancel_state 6001;
   } 
 }

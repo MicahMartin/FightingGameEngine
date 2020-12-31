@@ -130,6 +130,10 @@ StateDefObj StateDef::saveState(){
   stateObj.canWhiffCancel = canWhiffCancel;
   stateObj.canHitCancel = canHitCancel;
   stateObj.counterHitFlag = counterHitFlag;
+  stateObj.animFrame = anim.animFrame;
+  stateObj.animationTimePassed = anim.animationTimePassed;
+  stateObj.currentAnimElemIndex = anim.currentAnimElemIndex;
+  stateObj.currentAnimElemTimePassed = anim.currentAnimElemTimePassed;
   for (int i = 0; i < hitboxGroupDisabled.size(); ++i) {
     stateObj.hitboxGroupDisabled[i] = hitboxGroupDisabled[i];
   }
@@ -150,6 +154,10 @@ void StateDef::loadState(StateDefObj stateObj){
   canWhiffCancel = stateObj.canWhiffCancel;
   canHitCancel = stateObj.canHitCancel;
   counterHitFlag = stateObj.counterHitFlag;
+  anim.animFrame = stateObj.animFrame;
+  anim.animationTimePassed = stateObj.animationTimePassed;
+  anim.currentAnimElemIndex = stateObj.currentAnimElemIndex;
+  anim.currentAnimElemTimePassed = stateObj.currentAnimElemTimePassed;
   for (int i = 0; i < hitboxGroupDisabled.size(); ++i) {
     hitboxGroupDisabled[i] = stateObj.hitboxGroupDisabled[i];
   }

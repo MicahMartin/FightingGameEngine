@@ -1296,7 +1296,7 @@
   ],
   "custom_states": [
     {
-      "state_num": 1,
+      "state_num": 6001,
       "state_name": "BEING_THROWN_FWD",
       "flags": [
         "NO_TURN"
@@ -1311,7 +1311,7 @@
       ]
     },
     {
-      "state_num": 2,
+      "state_num": 6002,
       "state_name": "FWD_THROW_TECH_ATTEMPT",
       "flags": [
         "NO_TURN",
@@ -1327,7 +1327,7 @@
       ]
     },
     {
-      "state_num": 3,
+      "state_num": 6003,
       "state_name": "BEING_THROWN_BCK",
       "flags": [
       ],
@@ -1341,7 +1341,7 @@
       ]
     },
     {
-      "state_num": 4,
+      "state_num": 6004,
       "state_name": "BCK_THROW_TECH_ATTEMPT",
       "flags": [
         "NO_TURN",
@@ -1357,7 +1357,7 @@
       ]
     },
     {
-      "state_num": 5,
+      "state_num": 6005,
       "state_name": "BEING_AIR_THROWN_FWD",
       "flags": [
         "NO_TURN"
@@ -1369,7 +1369,7 @@
       "collision_boxes": [ ]
     },
     {
-      "state_num": 4,
+      "state_num": 6004,
       "state_name": "BEING_AIR_THROW_BACK",
       "flags": [
         "NO_TURN"

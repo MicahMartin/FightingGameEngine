@@ -14,6 +14,8 @@
 
 FightState* ggpoFightState;
 Character* characters[2];
+FightStateObj saveObj;
+
 int checksum = 0;
 int worldWidth = 3840*COORDINATE_SCALE;
 int p1StartPos = 1700*COORDINATE_SCALE;
@@ -96,11 +98,12 @@ int fletcher32_checksum(short *data, size_t len) {
 
 
 bool fsBeginGame(const char* game){
-  return ggpoFightState->beginGame(game);
+  printf("GGPO BEGIN GAME CALLBACK!\n");
+  return true;
 }
 
 bool fsAdvanceFrame(int flags){
-  printf("ggpo advance frame called\n");
+  printf("GGPO ADVANCE FRAME START\n");
   int inputs[2] = {0};
   int disconnectFlags;
   GGPOSession* ggpoObj = ggpoFightState->ggpo;
@@ -117,24 +120,31 @@ bool fsAdvanceFrame(int flags){
 
   p2Vc->setState(inputs[1]);
   p2Vc->addNetInput();
-  
-  bool prevUpdate = ggpoFightState->shouldUpdate;
+
+  bool prevShouldUpdate = ggpoFightState->shouldUpdate;
   ggpoFightState->shouldUpdate = true;
-  ggpoFightState->handleInput();
-  ggpoFightState->update();
-  ggpoFightState->shouldUpdate = prevUpdate;
+  ggpoFightState->advanceFrame();
+  ggpoFightState->shouldUpdate = prevShouldUpdate;
+  printf("GGPO ADVANCE FRAME END\n");
   return true;
 }
 
 bool fsLoadGameState(unsigned char* buffer, int length){
-  ggpoFightState->loadState(buffer, length);
+  memcpy(&saveObj, buffer, length);
+  ggpoFightState->loadState();
   return true;
 }
 
 bool fsSaveGameState(unsigned char** buffer, int* len, int* checksum, int frame){
-  printf("saving game state\n");
-  ggpoFightState->saveState(buffer, len, frame);
-  return true;
+   ggpoFightState->saveState();
+   *len = sizeof(saveObj);
+   *buffer = (unsigned char *)malloc(*len);
+   if (!*buffer) {
+      return false;
+   }
+   memcpy(*buffer, &saveObj, *len);
+   *checksum = fletcher32_checksum((short *)*buffer, *len / 2);
+   return true;
 }
 
 void fsFreeBuffer(void* buffer){ 
@@ -162,7 +172,7 @@ bool fsOnEvent(GGPOEvent* info){
       break;
     case GGPO_EVENTCODE_TIMESYNC:
       printf("GGPO_EVENT timesync\n");
-      std::this_thread::sleep_for(std::chrono::milliseconds(1000 * info->u.timesync.frames_ahead / 60));
+      std::this_thread::sleep_for(FPS{info->u.timesync.frames_ahead});
       break;
     case GGPO_EVENTCODE_CONNECTION_INTERRUPTED:
       printf("GGPO_EVENT connection interrupted\n");
@@ -176,8 +186,6 @@ bool fsOnEvent(GGPOEvent* info){
   }
   return true;
 }
-
-
 
 FightState::FightState(){ 
   printf("creating new fightState\n");
@@ -295,13 +303,11 @@ void FightState::enter(){
   printf("done loading popups\n");
 
   if (netPlayState) {
-    printf("starting ggpo init\n");
     shouldUpdate = false;
     if (pnum != 1) {
       inputManager->stickToVC[inputManager->p1SDLController] = player2->virtualController;
     }
     ggpoInit();
-    printf("end ggpo init\n");
   }
 }
 
@@ -314,12 +320,10 @@ void FightState::exit(){
   delete this;
 }
 
-void FightState::pause(){ }
-void FightState::resume(){ }
+void FightState::pause(){ shouldUpdate = false;}
+void FightState::resume(){ shouldUpdate = true;}
 
-void FightState::saveState(unsigned char** buffer, int* length, int frame){
-  FightStateObj saveObj;
-
+void FightState::saveState(){
   saveObj.currentRound = currentRound;
   saveObj.inSlowDown = inSlowDown;
   saveObj.p1RoundsWon = p1RoundsWon;
@@ -332,11 +336,33 @@ void FightState::saveState(unsigned char** buffer, int* length, int frame){
   saveObj.screenFreezeCounter = screenFreezeCounter;
   saveObj.screenFreezeLength = screenFreezeLength;
   saveObj.slowDownCounter = slowDownCounter;
-  saveObj.shouldUpdate = shouldUpdate;
+  saveObj.frameCount = frameCount;
+  saveObj.slowMode = slowMode;
 
   saveObj.char1State = player1->saveState();
   saveObj.char2State = player2->saveState();
   saveObj.cameraState = camera.saveState();
+}
+
+void FightState::saveState(unsigned char** buffer, int* length, int frame){
+  saveObj.currentRound = currentRound;
+  saveObj.inSlowDown = inSlowDown;
+  saveObj.p1RoundsWon = p1RoundsWon;
+  saveObj.p2RoundsWon = p2RoundsWon;
+  saveObj.roundEnd = roundEnd;
+  saveObj.roundStart = roundStart;
+  saveObj.roundStartCounter = roundStartCounter;
+  saveObj.roundWinner = roundWinner;
+  saveObj.screenFreeze = screenFreeze;
+  saveObj.screenFreezeCounter = screenFreezeCounter;
+  saveObj.screenFreezeLength = screenFreezeLength;
+  saveObj.slowDownCounter = slowDownCounter;
+  saveObj.frameCount = frameCount;
+
+  saveObj.char1State = player1->saveState();
+  saveObj.char2State = player2->saveState();
+  saveObj.cameraState = camera.saveState();
+  printf("saved state\n");
 
   *length = sizeof(saveObj);
   *buffer = (unsigned char*) malloc(*length);
@@ -344,8 +370,35 @@ void FightState::saveState(unsigned char** buffer, int* length, int frame){
   checksum = fletcher32_checksum((short *)*buffer, *length / 2);
 }
 
+void FightState::advanceFrame(){
+  handleInput();
+  update();
+}
+
+void FightState::loadState(){
+  currentRound = saveObj.currentRound;
+  slowDownCounter = saveObj.slowDownCounter;
+  slowMode = saveObj.slowMode;
+  p1RoundsWon = saveObj.p1RoundsWon;
+  p2RoundsWon = saveObj.p2RoundsWon;
+  roundEnd = saveObj.roundEnd;
+
+  roundStart = saveObj.roundStart;
+  inSlowDown = saveObj.inSlowDown;
+  roundStartCounter = saveObj.roundStartCounter;
+  roundWinner = saveObj.roundWinner;
+  screenFreeze = saveObj.screenFreeze;
+  screenFreezeCounter = saveObj.screenFreezeCounter;
+  screenFreezeLength = saveObj.screenFreezeLength;
+  frameCount = saveObj.frameCount;
+
+  printf("FRAMECOUNT:%d\n", frameCount);
+  player1->loadState(saveObj.char1State);
+  player2->loadState(saveObj.char2State);
+  camera.loadState(saveObj.cameraState);
+}
+
 void FightState::loadState(unsigned char* buffer, int length){
-  FightStateObj saveObj;
   memcpy(&saveObj, buffer, length);
 
   currentRound = saveObj.currentRound;
@@ -361,8 +414,9 @@ void FightState::loadState(unsigned char* buffer, int length){
   screenFreeze = saveObj.screenFreeze;
   screenFreezeCounter = saveObj.screenFreezeCounter;
   screenFreezeLength = saveObj.screenFreezeLength;
-  shouldUpdate = saveObj.shouldUpdate;
+  frameCount = saveObj.frameCount;
 
+  printf("FRAMECOUNT:%d\n", frameCount);
   player1->loadState(saveObj.char1State);
   player2->loadState(saveObj.char2State);
   camera.loadState(saveObj.cameraState);
@@ -370,89 +424,104 @@ void FightState::loadState(unsigned char* buffer, int length){
 
 
 void FightState::handleInput(){
-  if (shouldUpdate) {
-    if(!slowMode && !screenFreeze){
-      handleRoundStart();
-      checkCorner(player1);
-      checkCorner(player2);
-      updateFaceRight();
-      checkHitstop(player1);
-      checkHitstop(player2);
-      checkEntityHitstop(player1);
-      checkEntityHitstop(player2);
+  if (!shouldUpdate) {
+    return;
+  }
+  printf("HANDLE_INPUT - FRAMECOUNT:%d\n", frameCount);
+  printf("HANDLE_INPUT PLAYER:%d { STATE TIME:%d | CURRENT STATE:%d | CANCEL POINTER:%d }\n", 
+      player1->playerNum, 
+      player1->currentState->stateTime, 
+      player1->currentState->stateNum, 
+      player1->cancelPointer);
+  printf("HANDLE_INPUT PLAYER:%d { STATE TIME:%d | CURRENT STATE:%d | CANCEL POINTER:%d }\n", 
+      player2->playerNum, 
+      player2->currentState->stateTime, 
+      player2->currentState->stateNum, 
+      player2->cancelPointer);
 
-      if (!player1->inHitStop) {
-        player1->handleInput();
-      }
-      if (!player2->inHitStop) {
-        player2->handleInput();
-      }
 
-      for (auto &i : player1->entityList) {
-        if(!i.inHitStop){
-          i.handleInput();
-        }
-      }
-      for (auto &i : player2->entityList) {
-        if(!i.inHitStop){
-          i.handleInput();
-        }
-      }
-      checkThrowTechs();
-    }
-
-    player1->currentState->handleCancels();
-    player2->currentState->handleCancels();
-    for (auto &i : player1->entityList) {
-      i.currentState->handleCancels();
-    }
-    for (auto &i : player2->entityList) {
-      i.currentState->handleCancels();
-    }
-    
-    checkProximityAgainst(player1, player2);
-    checkProximityAgainst(player2, player1);
-    checkThrowCollisions();
-    checkProjectileCollisions(player1, player2);
-    checkHitCollisions();
+  if(!slowMode && !screenFreeze){
+    handleRoundStart();
     checkCorner(player1);
     checkCorner(player2);
-    checkBounds();
     updateFaceRight();
+    checkHitstop(player1);
+    checkHitstop(player2);
+    checkEntityHitstop(player1);
+    checkEntityHitstop(player2);
+
+    if (!player1->inHitStop) {
+      player1->handleInput();
+    }
+    if (!player2->inHitStop) {
+      player2->handleInput();
+    }
+
+    for (auto &i : player1->entityList) {
+      if(!i.inHitStop){
+        i.handleInput();
+      }
+    }
+    for (auto &i : player2->entityList) {
+      if(!i.inHitStop){
+        i.handleInput();
+      }
+    }
+    checkThrowTechs();
   }
+
+  player1->currentState->handleCancels();
+  player2->currentState->handleCancels();
+  for (auto &i : player1->entityList) {
+    i.currentState->handleCancels();
+  }
+  for (auto &i : player2->entityList) {
+    i.currentState->handleCancels();
+  }
+  
+  checkProximityAgainst(player1, player2);
+  checkProximityAgainst(player2, player1);
+  checkThrowCollisions();
+  checkProjectileCollisions(player1, player2);
+  checkHitCollisions();
+  checkCorner(player1);
+  checkCorner(player2);
+  checkBounds();
+  updateFaceRight();
 }
 
 void FightState::update(){
-  if (shouldUpdate) {
+  if (!shouldUpdate) {
+    return;
+  }
     if(!slowMode && !screenFreeze){
-      if(!player1->inHitStop){
-        player1->update();
-      }
+    if(!player1->inHitStop){
+      player1->update();
+    }
 
-      if(!player2->inHitStop){
-        player2->update();
-      }
+    if(!player2->inHitStop){
+      player2->update();
+    }
 
-      for (auto &i : player1->entityList) {
-        if(!i.inHitStop){
-          i.update();
-        }
+    for (auto &i : player1->entityList) {
+      if(!i.inHitStop){
+        i.update();
       }
-      for (auto &i : player2->entityList) {
-        if(!i.inHitStop){
-          i.update();
-        }
+    }
+    for (auto &i : player2->entityList) {
+      if(!i.inHitStop){
+        i.update();
       }
-      if (player1->currentState->checkFlag(SUPER_ATTACK) && (player1->currentState->stateTime == player1->currentState->freezeFrame)) {
-        screenFreeze = true;
-        screenFreezeLength = player1->currentState->freezeLength;
-        player1->activateVisFX(1);
-      }
-      if (player2->currentState->checkFlag(SUPER_ATTACK) && (player2->currentState->stateTime == player2->currentState->freezeFrame)) {
-        screenFreeze = true;
-        screenFreezeLength = player2->currentState->freezeLength;
-        player2->activateVisFX(1);
-      }
+    }
+    if (player1->currentState->checkFlag(SUPER_ATTACK) && (player1->currentState->stateTime == player1->currentState->freezeFrame)) {
+      screenFreeze = true;
+      screenFreezeLength = player1->currentState->freezeLength;
+      player1->activateVisFX(1);
+    }
+    if (player2->currentState->checkFlag(SUPER_ATTACK) && (player2->currentState->stateTime == player2->currentState->freezeFrame)) {
+      screenFreeze = true;
+      screenFreezeLength = player2->currentState->freezeLength;
+      player2->activateVisFX(1);
     }
 
 
@@ -500,7 +569,7 @@ void FightState::update(){
     updateVisuals();
     
     if (netPlayState && doneSync) {
-      printf("calling ggpo advance frame\n");
+      // printf("calling ggpo advance frame\n");
       ggpo_advance_frame(ggpo);
     } else if(!netPlayState){
       // saveState(&buffer, &bufferLen, gameTime);
@@ -509,280 +578,7 @@ void FightState::update(){
   // printf("camera: x%d|y%d|UpperBound%d|LowerBound%d\n", camera.positionObj.x, camera.positionObj.y, camera.upperBound, camera.lowerBound);
   // printf("player1: x%d|y%d\n", player1->position.first, player1->position.second);
   // printf("player2: x%d|y%d\n", player2->position.first, player2->position.second);
-}
-
-void FightState::drawText(){
-  if (player1->virtualController->copyMode) {
-    if (player1->virtualController->copyModeSlot == 1) {
-      currentScreen.recordStatus = RECORDING_ONE;
-    } else {
-      currentScreen.recordStatus = RECORDING_TWO;
-    }
-  } else if (player2->virtualController->playbackMode) {
-    if (player1->virtualController->copyModeSlot == 1) {
-      currentScreen.recordStatus = PLAYBACK_ONE;
-    } else {
-      currentScreen.recordStatus = PLAYBACK_TWO;
-    }
-  } else {
-    currentScreen.recordStatus = RECORDING_NONE;
-  }
-  if (screenFreeze) {
-    currentScreen.showGradient = true;
-  } else {
-    currentScreen.showGradient = false;
-  }
-  if (netPlayState && !doneSync) {
-    currentScreen.recordStatus = RecordingStatus::CONNECTING;
-  } else {
-    currentScreen.recordStatus = RecordingStatus::RECORDING_NONE;
-  }
-  currentScreen.checksumValue = checksum;
-  currentScreen.fps = graphics->getFPS();
-}
-
-void FightState::drawCounterHit(){
-  if (p1CounterHit.getActive()) {
-    p1CounterHit.draw();
-  }
-  if (p2CounterHit.getActive()) {
-    p2CounterHit.draw();
-  }
-}
-
-
-void FightState::drawUIEffects(){
-  if (matchIntroPopup.getActive()) {
-    matchIntroPopup.draw();
-  }
-  if (round1.getActive()) {
-    round1.draw();
-  }
-  if (round2Popup.getActive()) {
-    round2Popup.draw();
-  }
-  if (finalRoundPopup.getActive()) {
-    finalRoundPopup.draw();
-  }
-  if (fightPopup.getActive()) {
-    fightPopup.draw();
-  }
-  if (knockoutPopup.getActive()) {
-    knockoutPopup.draw();
-  }
-  if (p1WinPopup.getActive()) {
-    p1WinPopup.draw();
-  }
-  if (p2WinPopup.getActive()) {
-    p2WinPopup.draw();
-  }
-}
-
-void FightState::drawPlayers(){
-  if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
-    player2->draw();
-    for (auto &i : player2->entityList) {
-      i.draw();
-      for (auto &e : i.visualEffects) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-      for (auto &e : i.hitSparks) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-    }
-    for (auto &i : player2->visualEffects) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
-    for (auto &i : player2->guardSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
-    for (auto &i : player2->hitSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
-
-    player1->draw();
-    for (auto &i : player1->entityList) {
-      i.draw();
-      for (auto &e : i.visualEffects) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-      for (auto &e : i.hitSparks) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-    }
-    for (auto &i : player1->visualEffects) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player1->faceRight);
-      }
-    }
-    for (auto &i : player1->guardSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
-    for (auto &i : player1->hitSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
-  } else {
-    player1->draw();
-    for (auto &i : player1->entityList) {
-      i.draw();
-      for (auto &e : i.visualEffects) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-      for (auto &e : i.hitSparks) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-    }
-    for (auto &i : player1->visualEffects) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player1->faceRight);
-      }
-    }
-    for (auto &i : player1->guardSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player1->faceRight);
-      }
-    }
-    for (auto &i : player1->hitSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player1->faceRight);
-      }
-    }
-    // printf("drew p1 entities\n");
-
-    player2->draw();
-    // printf("drew p2\n");
-    for (auto &i : player2->entityList) {
-      i.draw();
-      for (auto &e : i.visualEffects) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-      for (auto &e : i.hitSparks) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-    }
-    for (auto &i : player2->visualEffects) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
-    for (auto &i : player2->guardSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
-    for (auto &i : player2->hitSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
-  }
-}
-
-void FightState::handleSoundEffects(){
-  for (auto& i : player1->soundsEffects) {
-    SoundObj& soundEffect = i.second;
-    if (soundEffect.active) {
-      Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
-      soundEffect.active = false;
-    }
-  }
-  for (auto& i : player1->hurtSoundEffects) {
-    SoundObj& soundEffect = i.second;
-    if (soundEffect.active) {
-      Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
-      soundEffect.active = false;
-    }
-    if (player1->currentHurtSoundID++ == player1->hurtSoundMax) {
-      player1->currentHurtSoundID = 1;
-    }
-  }
-  for (auto& entity : player1->entityList) {
-    for (auto& i : entity.soundsEffects) {
-      SoundObj& soundEffect = i.second;
-      if (soundEffect.active) {
-        Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
-        soundEffect.active = false;
-      }
-    }
-  }
-  for (auto& i : player2->soundsEffects) {
-    SoundObj& soundEffect = i.second;
-    if (soundEffect.active) {
-      Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
-      soundEffect.active = false;
-    }
-  }
-  for (auto& i : player2->hurtSoundEffects) {
-    SoundObj& soundEffect = i.second;
-    if (soundEffect.active) {
-      Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
-      soundEffect.active = false;
-    }
-    if (player2->currentHurtSoundID++ == player2->hurtSoundMax) {
-      player2->currentHurtSoundID = 1;
-    }
-  }
-  for (auto& entity : player2->entityList) {
-    for (auto& i : entity.soundsEffects) {
-      SoundObj& soundEffect = i.second;
-      if (soundEffect.active) {
-        Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
-        soundEffect.active = false;
-      }
-    }
-  }
-}
-
-void FightState::draw() {
-  camera.render();
-  drawText();
-  currentScreen.draw();
-  currentScreen.drawWins(p1RoundsWon, p2RoundsWon);
-  drawCounterHit();
-  drawHealthBars();
-  drawComboCount();
-  drawInputHistory();
-  drawUIEffects();
-  drawPlayers();
-  handleSoundEffects();
+  frameCount++;
 }
 
 void FightState::updateCamera(){
@@ -1869,6 +1665,267 @@ void FightState::updateFaceRight(){
   }
 }
 
+
+void FightState::drawText(){
+  if (player1->virtualController->copyMode) {
+    if (player1->virtualController->copyModeSlot == 1) {
+      currentScreen.recordStatus = RECORDING_ONE;
+    } else {
+      currentScreen.recordStatus = RECORDING_TWO;
+    }
+  } else if (player2->virtualController->playbackMode) {
+    if (player1->virtualController->copyModeSlot == 1) {
+      currentScreen.recordStatus = PLAYBACK_ONE;
+    } else {
+      currentScreen.recordStatus = PLAYBACK_TWO;
+    }
+  } else {
+    currentScreen.recordStatus = RECORDING_NONE;
+  }
+  if (screenFreeze) {
+    currentScreen.showGradient = true;
+  } else {
+    currentScreen.showGradient = false;
+  }
+  if (netPlayState && !doneSync) {
+    currentScreen.recordStatus = RecordingStatus::CONNECTING;
+  } else {
+    currentScreen.recordStatus = RecordingStatus::RECORDING_NONE;
+  }
+  currentScreen.checksumValue = checksum;
+  currentScreen.fps = graphics->getFPS();
+}
+
+void FightState::drawCounterHit(){
+  if (p1CounterHit.getActive()) {
+    p1CounterHit.draw();
+  }
+  if (p2CounterHit.getActive()) {
+    p2CounterHit.draw();
+  }
+}
+
+
+void FightState::drawUIEffects(){
+  if (matchIntroPopup.getActive()) {
+    matchIntroPopup.draw();
+  }
+  if (round1.getActive()) {
+    round1.draw();
+  }
+  if (round2Popup.getActive()) {
+    round2Popup.draw();
+  }
+  if (finalRoundPopup.getActive()) {
+    finalRoundPopup.draw();
+  }
+  if (fightPopup.getActive()) {
+    fightPopup.draw();
+  }
+  if (knockoutPopup.getActive()) {
+    knockoutPopup.draw();
+  }
+  if (p1WinPopup.getActive()) {
+    p1WinPopup.draw();
+  }
+  if (p2WinPopup.getActive()) {
+    p2WinPopup.draw();
+  }
+}
+
+void FightState::drawPlayers(){
+  if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
+    player2->draw();
+    for (auto &i : player2->entityList) {
+      i.draw();
+      for (auto &e : i.visualEffects) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
+      for (auto &e : i.hitSparks) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
+    }
+    for (auto &i : player2->visualEffects) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
+      }
+    }
+    for (auto &i : player2->guardSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
+      }
+    }
+    for (auto &i : player2->hitSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
+      }
+    }
+
+    player1->draw();
+    for (auto &i : player1->entityList) {
+      i.draw();
+      for (auto &e : i.visualEffects) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
+      for (auto &e : i.hitSparks) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
+    }
+    for (auto &i : player1->visualEffects) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player1->faceRight);
+      }
+    }
+    for (auto &i : player1->guardSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
+      }
+    }
+    for (auto &i : player1->hitSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
+      }
+    }
+  } else {
+    player1->draw();
+    for (auto &i : player1->entityList) {
+      i.draw();
+      for (auto &e : i.visualEffects) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
+      for (auto &e : i.hitSparks) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
+    }
+    for (auto &i : player1->visualEffects) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player1->faceRight);
+      }
+    }
+    for (auto &i : player1->guardSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player1->faceRight);
+      }
+    }
+    for (auto &i : player1->hitSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player1->faceRight);
+      }
+    }
+    // printf("drew p1 entities\n");
+
+    player2->draw();
+    // printf("drew p2\n");
+    for (auto &i : player2->entityList) {
+      i.draw();
+      for (auto &e : i.visualEffects) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
+      for (auto &e : i.hitSparks) {
+        if (e.second.getActive()) {
+          e.second.draw(i.faceRight);
+        }
+      }
+    }
+    for (auto &i : player2->visualEffects) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
+      }
+    }
+    for (auto &i : player2->guardSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
+      }
+    }
+    for (auto &i : player2->hitSparks) {
+      VisualEffect& visFX = i.second;
+      if (visFX.getActive()) {
+        visFX.draw(player2->faceRight);
+      }
+    }
+  }
+}
+
+void FightState::handleSoundEffects(){
+  for (auto& i : player1->soundsEffects) {
+    SoundObj& soundEffect = i.second;
+    if (soundEffect.active) {
+      Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
+      soundEffect.active = false;
+    }
+  }
+  for (auto& i : player1->hurtSoundEffects) {
+    SoundObj& soundEffect = i.second;
+    if (soundEffect.active) {
+      Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
+      soundEffect.active = false;
+    }
+    if (player1->currentHurtSoundID++ == player1->hurtSoundMax) {
+      player1->currentHurtSoundID = 1;
+    }
+  }
+  for (auto& entity : player1->entityList) {
+    for (auto& i : entity.soundsEffects) {
+      SoundObj& soundEffect = i.second;
+      if (soundEffect.active) {
+        Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
+        soundEffect.active = false;
+      }
+    }
+  }
+  for (auto& i : player2->soundsEffects) {
+    SoundObj& soundEffect = i.second;
+    if (soundEffect.active) {
+      Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
+      soundEffect.active = false;
+    }
+  }
+  for (auto& i : player2->hurtSoundEffects) {
+    SoundObj& soundEffect = i.second;
+    if (soundEffect.active) {
+      Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
+      soundEffect.active = false;
+    }
+    if (player2->currentHurtSoundID++ == player2->hurtSoundMax) {
+      player2->currentHurtSoundID = 1;
+    }
+  }
+  for (auto& entity : player2->entityList) {
+    for (auto& i : entity.soundsEffects) {
+      SoundObj& soundEffect = i.second;
+      if (soundEffect.active) {
+        Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
+        soundEffect.active = false;
+      }
+    }
+  }
+}
+
 void FightState::drawHealthBars(){
   int p1Hp = player1->health;
   float p1HpPercent = (float)p1Hp / (float)player1->maxHealth;
@@ -1909,9 +1966,18 @@ void FightState::drawInputHistory(){
   currentScreen.drawInputHistory(false, player2->virtualController->inputEventList);
 }
 
-bool FightState::beginGame(const char* name){
-  printf("GGPO BEGIN GAME CALLBACK!\n");
-  return true;
+void FightState::draw() {
+  camera.render();
+  drawText();
+  currentScreen.draw();
+  currentScreen.drawWins(p1RoundsWon, p2RoundsWon);
+  drawCounterHit();
+  drawHealthBars();
+  drawComboCount();
+  drawInputHistory();
+  drawUIEffects();
+  drawPlayers();
+  handleSoundEffects();
 }
 
 void FightState::ggpoInit(){
@@ -1995,17 +2061,16 @@ void FightState::netPlayHandleInput(){
   p2Vc->inputHistory.front().clear();
   // p2Vc->setState(0);
 
-  printf("adding local input\n");
+  // printf("adding local input\n");
 #if defined(SYNC_TEST)
      currentInput = rand(); // test: use random inputs to demonstrate sync testing
 #endif
 
   GGPOErrorCode result = ggpo_add_local_input(ggpo, *local_player_handle, &currentInput, sizeof(currentInput));
-  inputs[0] = currentInput;
   if (GGPO_SUCCEEDED(result)) {
     ggpo_synchronize_input(ggpo, (void *)inputs, sizeof(int)*2, &disconnectFlags);
     if (GGPO_SUCCEEDED(result)) {
-      printf("GGPO SYNC SUCCESS\n");
+      // printf("GGPO SYNC SUCCESS\n");
       // simulate a local keypress with input
       p1Vc->setState(inputs[0]);
       p1Vc->addNetInput();
@@ -2015,6 +2080,6 @@ void FightState::netPlayHandleInput(){
       shouldUpdate = true;
     }
   } else {
-    printf("GGPO SYNC FAIL %d\n", result);
+    // printf("GGPO SYNC FAIL %d\n", result);
   }
 };

@@ -57,6 +57,7 @@ struct CharStateObj {
   bool auraActive;
   int currentState;
   int inputState;
+  int inputPrevState;
 
   StateDefObj stateDefObj;
   EntityStateObj entityStates[3];

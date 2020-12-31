@@ -36,6 +36,10 @@ struct StateDefObj {
   int animTime;
   int freezeFrame;
   int freezeLength;
+  int animFrame;
+  int animationTimePassed;
+  int currentAnimElemIndex;
+  int currentAnimElemTimePassed;
   bool hitboxesDisabled;
   bool canWhiffCancel;
   bool canHitCancel;

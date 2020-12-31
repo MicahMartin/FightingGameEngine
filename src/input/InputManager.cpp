@@ -120,10 +120,13 @@ void InputManager::update() {
             controllers[0]->copyMode ? controllers[0]->stopCopyMode() : controllers[0]->startCopyMode();
             printf("copyMode slot 2 toggled to %d, copySize:%ld\n", controllers[0]->copyMode, controllers[0]->inputHistoryCopyTwo.size());
           };
-          if (event.key.keysym.sym == SDLK_2) {
-            notifyOne("game", "SAVE_STATE");
+          if (event.key.keysym.sym == SDLK_e) {
+            notifyOne("game", "ADVANCE_STATE");
           };
-          if (event.key.keysym.sym == SDLK_3) {
+          if (event.key.keysym.sym == SDLK_t) {
+            notifyOne("game", "RESUME_REQUEST");
+          };
+          if (event.key.keysym.sym == SDLK_r) {
             notifyOne("game", "LOAD_STATE");
           }
           if (event.key.keysym.sym == SDLK_1) {
@@ -183,6 +186,12 @@ void InputManager::update() {
           }
           if (event.key.keysym.sym == SDLK_c) {
             notifyOne("game", "VIEW_CBOXES_TOGGLE");
+          }
+          if (event.key.keysym.sym == SDLK_q) {
+            notifyOne("game", "PAUSE_REQUEST");
+          }
+          if (event.key.keysym.sym == SDLK_w) {
+            notifyOne("game", "SAVE_STATE");
           }
           break;
         }

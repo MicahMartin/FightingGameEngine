@@ -57,7 +57,6 @@ CharStateObj Character::saveState(){
   stateObj.comebackCounter = comebackCounter;
   stateObj.hasAirAction = hasAirAction;
   stateObj.comboCounter = comboCounter;
-  stateObj.cancelPointer = cancelPointer;
   stateObj.noGravityCounter = noGravityCounter;
   stateObj.velocityX = velocityX;
   stateObj.momentum = momentum;
@@ -89,7 +88,9 @@ CharStateObj Character::saveState(){
   stateObj.auraActive = auraActive;
   stateObj.auraID = auraID;
   stateObj.inputState = virtualController->currentState;
+  stateObj.inputPrevState = virtualController->prevState;
 
+  stateObj.cancelPointer = cancelPointer;
   stateObj.currentState = currentState->stateNum;
   stateObj.stateDefObj = currentState->saveState();
 
@@ -110,7 +111,6 @@ CharStateObj Character::saveState(){
 }
 
 void Character::loadState(CharStateObj stateObj){
-  printf("player %d LoadState Begin\n", playerNum);
   position.first = stateObj.positionX;
   position.second = stateObj.positionY;
   control = stateObj.control;
@@ -154,9 +154,19 @@ void Character::loadState(CharStateObj stateObj){
   auraActive = stateObj.auraActive;
   auraID = stateObj.auraID;
   virtualController->setState(stateObj.inputState);
+  virtualController->prevState = stateObj.inputPrevState;
+
+
+  printf("GGPO PLAYER:%d { STATE TIME:%d | LOAD STATE:%d | CANCEL POINTER:%d }\n", 
+      playerNum, 
+      stateObj.stateDefObj.stateTime, 
+      stateObj.currentState, 
+      stateObj.cancelPointer);
 
   setCurrentState(stateObj.currentState);
+  printf("set the current state to %d\n", stateObj.currentState);
   currentState->loadState(stateObj.stateDefObj);
+
   for (int i = 0; i < entityList.size(); ++i) {
     entityList[i].loadState(stateObj.entityStates[i]);
   }
@@ -204,13 +214,13 @@ void Character::changeState(int stateDefNum){
   if(stateDefNum >= 6000){
     int theNum = stateDefNum - 6000;
     int customStateNum = stateCount + theNum;
-    printf("the num:%d, the customStateNum%d\n", theNum, customStateNum);
+    printf("the num:%d, the customStateNum%d\n", stateDefNum, customStateNum);
     currentState = &stateList.at(customStateNum-1);
   } else if (stateDefNum >= 5000) {
     int theNum = stateDefNum - 5000;
     SpecialState theState = (SpecialState)theNum;
     int specialStateNum = specialStateMap[theState];
-    printf("the num:%d, the specialStateNum %d\n", theNum, specialStateNum);
+    printf("the num:%d, the specialStateNum %d\n", stateDefNum, specialStateNum);
     currentState = &stateList.at(specialStateNum-1);
   } else {
     currentState = &stateList.at(stateDefNum-1);
@@ -225,7 +235,21 @@ void Character::changeState(int stateDefNum){
 };
 
 void Character::setCurrentState(int stateDefNum){
-  currentState = &stateList.at(stateDefNum-1);
+  if(stateDefNum >= 6000){
+    int theNum = stateDefNum - 6000;
+    int customStateNum = stateCount + theNum;
+    printf("the num:%d, the customStateNum%d\n", stateDefNum, customStateNum);
+    currentState = &stateList.at(customStateNum-1);
+  } else if (stateDefNum >= 5000) {
+    int theNum = stateDefNum - 5000;
+    SpecialState theState = (SpecialState)theNum;
+    int specialStateNum = specialStateMap[theState];
+    printf("the num:%d, the specialStateNum %d\n", stateDefNum, specialStateNum);
+    currentState = &stateList.at(specialStateNum-1);
+  } else {
+    printf("the the stateNum:%d\n", stateDefNum);
+    currentState = &stateList.at(stateDefNum-1);
+  }
 }
 
 void Character::cancelState(int stateDefNum){

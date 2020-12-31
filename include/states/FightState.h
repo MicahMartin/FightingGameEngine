@@ -34,9 +34,11 @@ struct FightStateObj {
   int roundStartCounter;
   int screenFreezeCounter;
   int screenFreezeLength;
+  int frameCount;
 
   bool roundStart;
   bool inSlowDown;
+  bool slowMode;
   bool roundEnd;
   bool screenFreeze;
   bool shouldUpdate;
@@ -44,28 +46,6 @@ struct FightStateObj {
   CameraStateObj cameraState;
   CharStateObj char1State;
   CharStateObj char2State;
-  // boost serialize
-  private:
-      friend class boost::serialization::access;
-      template <typename Archive> void serialize(Archive &ar, const unsigned int version) {
-        ar & roundStartCounter;
-        ar & p1RoundsWon;
-        ar & p2RoundsWon;
-        ar & currentRound;
-        ar & slowDownCounter;
-        ar & roundWinner;
-        ar & screenFreezeCounter;
-        ar & screenFreezeLength;
-
-        ar & roundStart;
-        ar & inSlowDown;
-        ar & roundEnd;
-        ar & screenFreeze;
-
-        ar & cameraState;
-        ar & char1State;
-        ar & char2State;
-      }
 };
 
 class FightState : public GameState {
@@ -86,9 +66,12 @@ public:
 
   //ggpo stuff
   bool beginGame(const char* name);
+  void advanceFrame();
   void saveState(unsigned char** buffer, int* length, int frame);
+  void saveState();
   void freeBuffer(void* buffer);
   void loadState(unsigned char* buffer, int length);
+  void loadState();
 
   void checkPushCollisions();
   void checkThrowCollisions();

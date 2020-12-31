@@ -12,7 +12,7 @@ Animation::Animation(){
 
 Animation::~Animation(){ }
 
-void Animation::loadAnimEvents(nlohmann::json json) {
+void Animation::loadAnimEvents(nlohmann::json json){
   loadAnimEvents(4, json);
 }
 

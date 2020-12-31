@@ -53,12 +53,13 @@ void Game::update() {
       fightState->netPlayHandleInput();
     }
   }
+
   currentState->handleInput();
   currentState = stateManager->getState();
   currentState->update();
   currentState = stateManager->getState();
-  
 }
+
 void Game::draw(){
   // the current state holds a pointer to the currrent screen
   // screen has a surface pointer with all the pixels that need to be
@@ -95,12 +96,25 @@ void Game::onNotify(const char* eventName) {
     exit(EXIT_SUCCESS);
     // printf("Here is the input history size %d\n", inputManager.getInputHistorySize());
 
-  }else if (std::strcmp(eventName, "RESTART_REQUEST") == 0){
+  } else if (std::strcmp(eventName, "RESTART_REQUEST") == 0){
     printf("restarting\n");
     GameState* currentState = stateManager->getState();
     while(std::strcmp(currentState->stateName, "OPENING_STATE") != 0){
       stateManager->popState();
       currentState = stateManager->getState();
+    }
+  } else if (std::strcmp(eventName, "PAUSE_REQUEST") == 0){
+    stateManager->getState()->pause();
+  } else if (std::strcmp(eventName, "RESUME_REQUEST") == 0){
+    stateManager->getState()->resume();
+  } else if (std::strcmp(eventName, "ADVANCE_STATE") == 0){
+    GameState* currentState = stateManager->getState();
+    if(std::strcmp(currentState->stateName, "FIGHT_STATE") == 0){
+      FightState* statePointer = (FightState*)currentState;
+      bool prevShouldUpdate = statePointer->shouldUpdate;
+      statePointer->shouldUpdate = true;
+      statePointer->advanceFrame();
+      statePointer->shouldUpdate = prevShouldUpdate;
     }
   } else if (std::strcmp(eventName, "SAVE_STATE") == 0){
     GameState* currentState = stateManager->getState();
