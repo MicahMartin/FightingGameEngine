@@ -107,6 +107,7 @@ typedef enum {
   SS_BACK_THROW_SUCCESS,
 } SpecialState;
 
+const int METER_ARRAY_MAX = 256;
 class Character : public GameObject {
 public:
   Character(std::pair<int, int> position, int playerNum);
@@ -195,6 +196,7 @@ public:
   int hitPushVelX = 0;
   int hitPushVelY = 0;
   int meter = 0;
+  int meterArray[METER_ARRAY_MAX];
   int comeback = 750;
   int installCounter = 0;
   int currentHurtSoundID = 1;
@@ -229,13 +231,14 @@ public:
   void _setGravity(int set);
   void _setAirAction(int set);
   void _setCounter(int val);
-  void _resetAnim();
   void _activateEntity(int entityID);
   void _deactivateEntity(int entityID);
   void _snapToOpponent(int offset);
   void _addMeter(int input);
+  void _setMeter(int input);
   void _subtractMeter(int input);
   void _setInstall(int input);
+  void _resetAnim();
 
   int _getHitStun();
   int _getBlockStun();
@@ -254,7 +257,7 @@ public:
   int _getInput(int input);
   int _wasPressed(int input);
   int _checkCommand(int commandIndex);
-  int _getMeter();
+  int _getMeter(int meterIndex);
   int _getComebackMeter();
   int _getEntityStatus(int entityID);
   int _getInstall();

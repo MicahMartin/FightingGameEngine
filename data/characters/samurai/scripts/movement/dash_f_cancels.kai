@@ -82,6 +82,5 @@
     if(upback){
       $cancel_state 8;
     }
-
   }
 }

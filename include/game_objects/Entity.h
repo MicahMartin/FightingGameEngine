@@ -156,7 +156,7 @@ public:
   int _getInput(int input);
   int _wasPressed(int input);
   int _checkCommand(int commandIndex);
-  int _getMeter();
+  int _getMeter(int meterIndex);
   int _getComebackMeter();
   int _getEntityStatus(int entityID);
   int _getInstall();

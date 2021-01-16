@@ -2,10 +2,10 @@
   if($get_state_time == 0){ 
     $set_control 1; 
     $set_air_action 0;
-    $velset_x 0; 
-    $velset_y 46; 
+    $velset_x 0000; 
+    $velset_y 47250; 
   } 
-  if($get_state_time > 35 and $get_yvel < 1){
+  if($get_state_time > 25 and $get_yvel < 1){
     $cancel_state 5027;
   }
 } 

@@ -10,6 +10,6 @@
     $set_control 1;
   }
   if($get_state_time > 20 and $get_yvel < 1){ 
-    $cancel_state 27; 
+    $cancel_state 5027; 
   } 
 }

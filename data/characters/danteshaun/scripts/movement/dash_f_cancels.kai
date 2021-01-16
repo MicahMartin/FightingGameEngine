@@ -33,12 +33,6 @@
         $cancel_state 5023;
       }
     }
-    if(qcf_k){
-      $cancel_state 14;
-    }
-    if (qcb_p) {
-      $cancel_state 30;
-    }
 
     if(slash){
       if(anyDown){
@@ -51,7 +45,6 @@
         $cancel_state 39;
       }
     }
-
 
     if(kick){
       if (anyDown) {
@@ -74,14 +67,13 @@
     }
 
     if(up){
-      $cancel_state 6;
+      $cancel_state 5005;
     }
     if(upforward){
-      $cancel_state 7;
+      $cancel_state 5006;
     }
     if(upback){
-      $cancel_state 8;
+      $cancel_state 5007;
     }
-
   }
 }

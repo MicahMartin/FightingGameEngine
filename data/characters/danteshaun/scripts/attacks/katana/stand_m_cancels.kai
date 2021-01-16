@@ -1,0 +1,54 @@
+{
+  var canHitCancel = $get_hit_cancel;
+  var stateTime = $get_state_time;
+  var inCancelWindow = (stateTime >= 7) and (stateTime <= 14);
+  var cancel = $check_command 10;
+  if(canHitCancel and (stateTime > 17)) {
+    $set_hit_cancel 0;
+  }
+  if (stateTime == 0) {
+    $set_counter 1;
+  }
+  if (stateTime == 12) {
+    $set_counter 0;
+  }
+
+  if(canHitCancel and inCancelWindow){
+    var qcf_k = $check_command 2;
+    var qcb_p = $check_command 3;
+    var kick = $check_command 16;
+    var slash = $check_command 17;
+
+    var lb = $check_command 10;
+
+    var up = $get_input 8;
+    var upforward = $get_input 9;
+    var upback = $get_input 7;
+    var forward = $get_input 6;
+
+    var down = $get_input 2;
+    var downback = $get_input 1;
+    var downforward = $get_input 3;
+    var anyDown = (down or downback or downforward);
+
+    var limit_break = $check_command 10;
+    var meter = $get_meter 1;
+    if (limit_break and (meter > 500)) {
+      $subtract_meter 500;
+      $cancel_state 70;
+    }
+
+    if(slash){
+    }
+
+    if(up){
+      $cancel_state 5005;
+    }
+    if(upforward){
+      $cancel_state 5006;
+    }
+    if(upback){
+      $cancel_state 5007;
+    }
+  }
+}

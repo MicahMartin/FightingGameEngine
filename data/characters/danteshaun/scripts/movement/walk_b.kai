@@ -2,13 +2,12 @@
   if($get_state_time == 0){
     var install = $get_install == 1;
     if (install) {
-      $neg_velset_x 10;
+      $neg_velset_x 6000;
     } else {
-      $neg_velset_x 4;
+      $neg_velset_x 6000;
     }
-  } 
-
-  if($get_state_time == 70) {
-    $cancel_state 3;
+  }
+  if($get_state_time == 60) {
+    $cancel_state 5003;
   }
 }

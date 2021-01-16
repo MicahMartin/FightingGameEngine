@@ -949,8 +949,8 @@ int Character::_getIsAlive(){
   return !isDead;
 }
 
-int Character::_getMeter(){
-  return meter;
+int Character::_getMeter(int meterIndex){
+  return meterArray[meterIndex];
 }
 
 int Character::_getComebackMeter(){
@@ -958,19 +958,24 @@ int Character::_getComebackMeter(){
 }
 
 void Character::_addMeter(int i){
-  if (i > 1000) {
-    comeback += (i - 1000);
-  } else {
-    meter += i;
-  }
+  std::string meterString = std::to_string(i);
+  int meterIndex = std::stoi(meterString.front());
+  int meterValue = std::stoi(meterString.substr(1));
+  meterArray[meterIndex] += meterValue;
+}
+
+void Character::_setMeter(int i){
+  std::string meterString = std::to_string(i);
+  int meterIndex = std::stoi(meterString.front());
+  int meterValue = std::stoi(meterString.substr(1));
+  meterArray[meterIndex] = meterValue;
 }
 
 void Character::_subtractMeter(int i){
-  if (i > 1000) {
-    comeback -= (i - 1000);
-  } else {
-    meter -= i;
-  }
+  std::string meterString = std::to_string(i);
+  int meterIndex = std::stoi(meterString.front());
+  int meterValue = std::stoi(meterString.substr(1));
+  meterArray[meterIndex] -= meterValue;
 }
 
 int Character::_checkCommand(int commandIndex){

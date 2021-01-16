@@ -1,32 +1,50 @@
 {
-  var control = ($get_control == 1);
+  var control = ($get_control == 1); 
   var grounded = ($get_y_pos == 0);
   var airborne = ($get_y_pos > 0);
   var hasAirAction = $has_air_action;
-  var stateNum = $get_state_num;
+  var stateNum = $get_state_num; 
   var yPos = $get_y_pos;
 
   var dash_f = $check_command 0;
   var dash_b = $check_command 1;
+  var qcf_k = $check_command 2;
+  var qcb_p = $check_command 3;
+  var down_down_lp = $check_command 4;
+  var super = $check_command 13;
 
-  var neutral = $get_input 5;
-  var forward = $get_input 6;
-  var up = $get_input 8;
-  var upforward = $get_input 9;
-  var down = $get_input 2;
-  var downback = $get_input 1;
-  var downforward = $get_input 3;
+  var neutral = $get_input 5; 
+  var forward = $get_input 6; 
+  var up = $get_input 8; 
+  var upforward = $get_input 9; 
+  var down = $get_input 2; 
+  var downback = $get_input 1; 
+  var downforward = $get_input 3; 
   var anyDown = (down or downforward or downback);
-  var back = $get_input 4;
-  var upback = $get_input 7;
+  var back = $get_input 4; 
+  var upback = $get_input 7; 
   var anyBack = (back or upback or downback);
-
   var meter = $get_meter 1;
+  var install = $get_install == 1;
+  var comebackMeter = $get_meter 2;
+  var installActivate = $check_command 14;
 
-  var punch = $was_pressed 10;
-  var kick = $was_pressed 11;
-  var slash = $was_pressed 12;
+  var light = $was_pressed 10;
+  var medium = $was_pressed 11;
+  var heavy = $was_pressed 12;
   var lp_and_lk = $check_command 5;
+
+  var katanaStyle = 1 == 1;
+  var gloveStyle = 1 == 2;
+  var chainStyle = 1 == 2;
+
+  var revolverStyle = 1 == 1;
+  var shottyStyle = 1 == 2;
+  var duffyStyle = 1 == 2;
+
+  var weaponStyle = 1 == 1;
+  var gunStyle = 1 == 2;
+  var quickStyle = 1 == 2;
 
   if (grounded) {
     if (meter >= 1) {
@@ -43,78 +61,100 @@
 
     if (lp_and_lk) {
       if(anyBack){
-      } else {
+        $change_state 5036;
+      } else { 
+        $change_state 5032;
       }
     }
 
-    if(slash){
+    if(heavy){
       if(anyDown){
-        if (downforward) {
-          $change_state 45;
-        } else {
-          $change_state 44;
-        }
+        $change_state 54; 
       } else {
-        $change_state 39;
+        $change_state 53; 
       }
     }
 
-    if(kick){
-      if(anyDown){
-        $change_state 42;
-      } else {
-        if (forward) {
-          $change_state 38;
+    if(medium){
+      if (katanaStyle) {
+        if(anyDown){
+          $change_state 36; 
         } else {
-          $change_state 37;
+          $change_state 35; 
+        }
+      }
+      if (gloveStyle) {
+        if(anyDown){
+          $change_state 39; 
+        } else {
+          $change_state 38; 
+        }
+      }
+      if (chainStyle) {
+        if(anyDown){
+          $change_state 42; 
+        } else {
+          $change_state 41; 
         }
       }
     }
-    if(punch){
-      if(anyDown){
-        $change_state 41;
-      } else {
-        if (forward) {
-          $change_state 43;
+
+    if(light){
+      if (revolverStyle) {
+        if(anyDown){
+          $change_state 45; 
         } else {
-          $change_state 36;
+          $change_state 44; 
+        }
+      }
+      if (shottyStyle) {
+        if(anyDown){
+          $change_state 48; 
+        } else {
+          $change_state 47; 
+        }
+      }
+      if (duffyStyle) {
+        if(anyDown){
+          $change_state 51; 
+        } else {
+          $change_state 50; 
         }
       }
     }
 
     if(dash_f){
-      $change_state 31;
+      $change_state 31; 
     }
 
     if(dash_b){
-      $change_state 32;
+      $change_state 32; 
     }
 
     if(upforward){
-      $change_state 7;
+      $change_state 5006; 
     }
 
     if(upback){
-      $change_state 8;
+      $change_state 5007; 
     }
 
     if(up){
-      $change_state 6;
+      $change_state 5005; 
     }
 
 
     if(anyDown and stateNum != 5){
-      $change_state 5;
+      $change_state 5004; 
     }
-
     if(forward and stateNum != 3){
-      $change_state 3;
+      $change_state 5002; 
     }
     if(back and stateNum != 4){
-      $change_state 4;
+      $change_state 5003; 
     }
-    if(neutral and stateNum != 2){
-      $change_state 2;
+    if(neutral and stateNum != 1){
+      $change_state 5001; 
     }
   }
 
@@ -126,21 +166,38 @@
         $change_state 5026;
       }
     }
+
     if (lp_and_lk) {
       if(anyBack){
-      } else {
+      } else { 
       }
     }
 
-    if(slash){
-      $change_state 49;
+    if(medium){
+      if (katanaStyle) {
+        $change_state 37; 
+      }
+      if (gloveStyle) {
+        $change_state 40; 
+      }
+      if (chainStyle) {
+        $change_state 43; 
+      }
     }
-    if(kick){
-      $change_state 48;
+
+    if(light){
+      if (revolverStyle) {
+        $change_state 46; 
+      }
+      if (shottyStyle) {
+        $change_state 49; 
+      }
+      if (duffyStyle) {
+        $change_state 52; 
+      }
     }
-    if(punch){
-      $change_state 47;
+    if (heavy) {
+      $change_state 55;
     }
   }
 }
-

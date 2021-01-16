@@ -105,7 +105,7 @@ public:
   virtual int _getInput(int input) = 0;
   virtual int _wasPressed(int input) = 0;
   virtual int _checkCommand(int commandIndex) = 0;
-  virtual int _getMeter() = 0;
+  virtual int _getMeter(int meterIndex) = 0;
   virtual int _getComebackMeter() = 0;
   virtual int _getInstall() = 0;
   virtual int _getEntityStatus(int entityID) = 0;

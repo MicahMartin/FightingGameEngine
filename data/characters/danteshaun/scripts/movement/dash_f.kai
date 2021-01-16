@@ -1,26 +1,23 @@
 { 
+  var downforward = $get_input 3; 
+  var forward = $get_input 6; 
+  var anyForward = (downforward or forward);
   var stateTime = $get_state_time;
   var quotient = stateTime / 40;
   var product = quotient * 40;
   var remainder = stateTime - product;
 
-  var downforward = $get_input 3; 
-  var forward = $get_input 6; 
-  var anyForward = (downforward or forward);
-
-  if($get_state_time == 0){ 
+  if(stateTime == 0){
     $set_control 0; 
+    $set_whiff_cancel 1;
     var install = $get_install == 1;
     if (install) {
-      $velset_x 18;
+      $velset_x 18000;
     } else {
-      $velset_x 12;
+      $velset_x 12000;
     }
-  } 
-  if($get_state_time == 2){ 
-    $set_whiff_cancel 1;
-  } 
-  if($get_state_time >= 16 and (!anyForward)){ 
+  }
+  if(!anyForward){ 
     $set_control 1;
     $cancel_state 5001; 
   } 

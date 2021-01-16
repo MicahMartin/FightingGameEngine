@@ -41,11 +41,6 @@
       $cancel_state 30;
     }
   }
-  if ($get_state_time == 46) {
-    $velset_y 00; 
-    $set_nograv_count 20; 
-    $cancel_state 19;
-  }
   if($get_state_time > 25 and $get_yvel < 1){
     $cancel_state 5027;
   }

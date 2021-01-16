@@ -218,15 +218,7 @@ inline ExecutionCode VirtualMachine::run(){
       }
       case OP_GET_METER: {
         long operand = AS_NUMBER(stack.pop());
-        long val = 0;
-        switch (operand) {
-          case 2:
-            val = character->_getComebackMeter();
-          break;
-          default:
-            val = character->_getMeter();
-          break;
-        }
+        long val = character->_getMeter(operand);
         stack.push(NUMBER_VAL(val));
         break;
       }

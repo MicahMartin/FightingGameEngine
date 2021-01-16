@@ -563,6 +563,7 @@
       "flags": [
         "NO_TURN"
       ],
+      "cancel_script": "../data/characters/danteshaun/scripts/movement/dash_f_cancels.kai",
       "update_script": "../data/characters/danteshaun/scripts/movement/dash_f.kai",
       "animation": [
         { "file": "../data/characters/danteshaun/sprites/danteshaun_100-0.png", "time": 4, "offsetX": -1},
@@ -668,17 +669,51 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "cancel_script": "../data/characters/danteshaun/scripts/attacks/katana/stand_m_cancels.kai",
+      "update_script": "../data/characters/danteshaun/scripts/attacks/katana/stand_m.kai",
       "animation": [
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-0.png", "time": 4, "offsetX": 193},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-1.png", "time": 2, "offsetX": 145},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-2.png", "time": 2, "offsetX": 130},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-3.png", "time": 2, "offsetX": 142},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-4.png", "time": 2, "offsetX": 139},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-5.png", "time": 2, "offsetX": 249},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-6.png", "time": 2, "offsetX": 265},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-7.png", "time": 2, "offsetX": 87},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-8.png", "time": 2, "offsetX": 69},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-9.png", "time": 2, "offsetX": 119},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-10.png", "time": 2, "offsetX": 154},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-11.png", "time": 2, "offsetX": 220},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-12.png", "time": 2, "offsetX": 90},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-13.png", "time": 2, "offsetX": 144},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-14.png", "time": 2, "offsetX": 151},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-15.png", "time": 2, "offsetX": 151},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-16.png", "time": 2, "offsetX": 135},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-17.png", "time": 2, "offsetX": 101},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-18.png", "time": 2, "offsetX": 93},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-19.png", "time": 2, "offsetX": 80},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-20.png", "time": 2, "offsetX": 97},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-21.png", "time": 2, "offsetX": 125},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-22.png", "time": 2, "offsetX": 68},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_205-23.png", "time": 2, "offsetX": 65}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
-        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+        {"type": "POSITION", "start": 1, "end": -1, "width":150, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HIT", "block_type": 1, "hitstun":14, "block_stun":12, "hitstop": 12, "damage":3, "push": 8000, "push_time": 8, "start": 9, "end": 11, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 1, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "HIT", "block_type": 1, "hitstun":14, "block_stun":12, "hitstop": 12, "damage":3, "push": 8000, "push_time": 8, "start": 13, "end": 15, "width":350, "height":300, "offsetX":-375, "offsetY": 0, "group": 2, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "HIT", "block_type": 1, "hitstun":14, "block_stun":12, "hitstop": 12, "damage":3, "push": 8000, "push_time": 8, "start": 19, "end": 21, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 3, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "HIT", "block_type": 1, "hitstun":14, "block_stun":12, "hitstop": 16, "damage":3, "push": 8000, "push_time": 8, "start": 27, "end": 29, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 4, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "PROXIMITY", "start": 1, "end": 28, "width":400, "height":300, "offsetX":75, "offsetY": 0, "group": 1},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 8, "end": -1, "width":150, "height":300, "offsetX":75, "offsetY": 0},
+        {"type": "HURT", "start": 20, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290},
+        {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
       "sounds": [
       ],
@@ -2191,16 +2226,19 @@
     "SS_AIR_BLOCK":18,
     "SS_DEAD_STANDING":24,
     "SS_DEAD_KNOCKDOWN":25,
-    "SS_THROW_TECH":1,
-    "SS_AIR_THROW_TECH":1,
     "SS_PUSH_BLOCK":19,
     "SS_CROUCH_PUSH_BLOCK":20,
-    "SS_GROUNDBOUNCE_FLING":1,
-    "SS_GROUNDBOUNCE_IMPACT":1,
     "SS_AIR_PUSH_BLOCK":21,
     "SS_AIR_HURT_RECOVERY": 13,
     "SS_HURT_RECOVERY": 11,
+    "SS_DEAD_FALLING": 23,
+    "SS_FLOAT_HURT": 33,
+    "SS_FLOAT_HURT_RECOVERY": 34,
     "SS_JUMP_R": 9,
+    "SS_GROUNDBOUNCE_FLING":1,
+    "SS_GROUNDBOUNCE_IMPACT":1,
+    "SS_THROW_TECH":1,
+    "SS_AIR_THROW_TECH":1,
     "SS_FORWARD_THROW": 1,
     "SS_FORWARD_THROW_ATTEMPT": 1,
     "SS_FORWARD_THROW_SUCCESS": 1,
@@ -2208,10 +2246,7 @@
     "SS_BACK_THROW_ATTEMPT": 1,
     "SS_BACK_THROW_SUCCESS": 1,
     "SS_GROUND_THROW_TECH": 1,
-    "SS_AIR_TECH": 1,
-    "SS_DEAD_FALLING": 23,
-    "SS_FLOAT_HURT": 33,
-    "SS_FLOAT_HURT_RECOVERY": 34
+    "SS_AIR_TECH": 1
   },
   "anim_scale": "1.5",
   "gravity": "2000",

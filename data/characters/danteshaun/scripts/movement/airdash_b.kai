@@ -3,8 +3,8 @@
     $set_control 0; 
     $set_air_action 0; 
     $set_nograv_count 18; 
-    $neg_velset_x 14; 
-    $velset_y 0; 
+    $neg_velset_x 12000; 
+    $velset_y 0000; 
   }
   if($get_state_time == 8){
     $set_control 1;
