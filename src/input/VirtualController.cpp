@@ -291,43 +291,27 @@ uint8_t VirtualController::getStickState() {
   return (currentState & 0x0F);
 }
 
-void VirtualController::serializeHistory() { 
-  // int historySize = inputHistory.size();
-  // // printf("the input history size %d\n", historySize);
-  // for (int i = 0; i < (historySize - 1); ++i) {
-  //   InputFrameT* currentEventList = &inputHistory[i];
-  //   inputHistorySnapShot[i].clear();
-  //   for (auto &x : *currentEventList) {
-  //     printf("%d %d\n", x.inputBit, x.pressed);
-  //     inputHistorySnapShot[i].push_back(InputEvent(x.inputBit, x.pressed));
-  //   }
-  //   printf("historySnapShot:%d for frame :%d\n", (int)inputHistorySnapShot[i].size(), i);
-  // }
-  // printf("returning this history with size %d\n", inputHistorySnapShot.size());
+VirtualControllerObj VirtualController::saveState() {
+  VirtualControllerObj controllerObj;
+  controllerObj.currentState = currentState;
   for (int i = 0; (i <= inputHistory.size() - 1); ++i) {
-    std::vector<InputEvent> newInputs{std::begin(inputHistory.at(i)), std::end(inputHistory.at(i))};
-    // for (int x = 0; x <= newInputs.size(); ++x) {
-    //   printf("the x:%d\n", x);
-    //   InputEvent input;
-    //   input.inputBit = 1;
-    //   input.pressed = 1;
-
-    //   newInputs.push_back(input);
-    // }
-    inputHistorySnapShot.at(i) = newInputs;
+    InputEvent input = inputHistory.at(i).front();
+    controllerObj.inputHistory[i] = input;
   }
+  return controllerObj;
 }
 
-void VirtualController::loadHistory(HistoryCopyT historyCopy) { 
-  int historySize = historyCopy.size();
+void VirtualController::loadState(VirtualControllerObj stateObj) { 
+  currentState = stateObj.currentState;
   for (int i = 0; i <= (inputHistory.size() - 1); ++i) {
-    printf("frame:%d\n", i);
-    InputFrameT currentFrame{std::begin(historyCopy.at(i)), std::end(historyCopy.at(i))};
-    printf("the history copy size %d\n", currentFrame.size());
+    InputEvent input = stateObj.inputHistory[i];
+    printf("frame:%d input:%d pressed:%d\n", i, input.inputBit, input.pressed);
+
+    InputFrameT currentFrame{input};
+    inputHistory.at(i).clear();
     inputHistory.at(i) = currentFrame;
-    printf("input history set for frame %d\n", i);
   }
-  printf("loadhistory done\n");
+  printf("virtualController loadHistory done\n");
 }
 
 void VirtualController::addNetInput() {

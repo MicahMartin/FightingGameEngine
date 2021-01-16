@@ -303,7 +303,7 @@ void FightScreen::drawComboCount(bool p1Side, int count) {
   }
 }
 
-void FightScreen::drawInputHistory(bool p1Side, boost::circular_buffer<InputEvent>& events) {
+void FightScreen::drawInputHistory(bool p1Side, EventHistoryT& events) {
   for (int i = 0; i < events.size(); ++i) {
     SDL_Rect drawPosition = inputHistoryPositions[i];
     if (!p1Side) {

@@ -661,6 +661,1277 @@
       ],
       "visual_effects": [
       ]
+    },
+    {
+      "state_num": 35,
+      "state_name": "KATANA_STAND_M",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 36,
+      "state_name": "KATANA_CROUCH_M",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 37,
+      "state_name": "KATANA_JUMP_M",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 38,
+      "state_name": "GLOVES_STAND_M",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 39,
+      "state_name": "GLOVES_CROUCH_M",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 40,
+      "state_name": "GLOVES_JUMP_M",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 41,
+      "state_name": "CHAIN_STAND_M",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 42,
+      "state_name": "CHAIN_CROUCH_M",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 43,
+      "state_name": "CHAIN_JUMP_M",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 44,
+      "state_name": "REVOLVER_STAND_L",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 45,
+      "state_name": "REVOLVER_CROUCH_L",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 46,
+      "state_name": "REVOLVER_JUMP_L",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 47,
+      "state_name": "SHOTTY_STAND_L",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 48,
+      "state_name": "SHOTTY_CROUCH_L",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 49,
+      "state_name": "SHOTTY_JUMP_L",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 50,
+      "state_name": "DUFFY_STAND_L",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 51,
+      "state_name": "DUFFY_CROUCH_L",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 52,
+      "state_name": "DUFFY_JUMP_L",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 53,
+      "state_name": "STAND_H",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 54,
+      "state_name": "CROUCH_H",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 55,
+      "state_name": "JUMP_H",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 56,
+      "state_name": "WEAPON_CHANGE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 57,
+      "state_name": "WEAPON_CHANGE_GLOVES",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 58,
+      "state_name": "WEAPON_CHANGE_KATANA",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 59,
+      "state_name": "WEAPON_CHANGE_CHAIN",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 60,
+      "state_name": "AIR_WEAPON_CHANGE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 61,
+      "state_name": "AIR_WEAPON_CHANGE_GLOVES",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 62,
+      "state_name": "AIR_WEAPON_CHANGE_KATANA",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 63,
+      "state_name": "AIR_WEAPON_CHANGE_CHAIN",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 64,
+      "state_name": "ARM_CHANGE_CANCEL",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 65,
+      "state_name": "AIR_ARM_CHANGE_CANCEL",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 66,
+      "state_name": "GUN_CHANGE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 67,
+      "state_name": "GUN_CHANGE_REVOLVER",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 68,
+      "state_name": "GUN_CHANGE_SHOTTY",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 69,
+      "state_name": "GUN_CHANGE_DUFFY",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 70,
+      "state_name": "AIR_GUN_CHANGE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 71,
+      "state_name": "AIR_GUN_CHANGE_REVOLVER",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 72,
+      "state_name": "AIR_GUN_CHANGE_SHOTTY",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 73,
+      "state_name": "AIR_GUN_CHANGE_DUFFY",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 74,
+      "state_name": "STYLE_CHANGE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 75,
+      "state_name": "STYLE_CHANGE_SHOOTER",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 76,
+      "state_name": "STYLE_CHANGE_HITTER",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 77,
+      "state_name": "STYLE_CHANGE_QUICKER",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 78,
+      "state_name": "AIR_STYLE_CHANGE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 79,
+      "state_name": "AIR_STYLE_CHANGE_SHOOTER",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 80,
+      "state_name": "AIR_STYLE_CHANGE_HITTER",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 81,
+      "state_name": "AIR_STYLE_CHANGE_QUICKER",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 82,
+      "state_name": "GLOVE_STYLE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 83,
+      "state_name": "KATANA_STYLE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 84,
+      "state_name": "CHAIN_STYLE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 85,
+      "state_name": "AIR_GLOVE_STYLE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 86,
+      "state_name": "AIR_KATANA_STYLE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 87,
+      "state_name": "AIR_CHAIN_STYLE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 88,
+      "state_name": "REVOLVER_STYLE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 89,
+      "state_name": "SHOTTY_STYLE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 90,
+      "state_name": "DUFFY_STYLE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 91,
+      "state_name": "AIR_REVOLVER_STYLE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 92,
+      "state_name": "AIR_SHOTTY_STYLE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 93,
+      "state_name": "AIR_DUFFY_STYLE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 94,
+      "state_name": "QUICK_STYLE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 95,
+      "state_name": "AIR_QUICK_STYLE",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "animation": [
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+      ],
+      "visual_effects": [
+      ]
     }
   ],
   "custom_states":[
@@ -669,43 +1940,6 @@
   "entities":[
 
   ],
-  "special_state_nums":{
-    "SS_PRE_MATCH":1,
-    "SS_IDLE":2,
-    "SS_WALK_F":3,
-    "SS_WALK_B":4,
-    "SS_CROUCH":5,
-    "SS_JUMP_N":6,
-    "SS_JUMP_F":7,
-    "SS_JUMP_B":8,
-    "SS_JUMP_R": 9,
-    "SS_HURT":10,
-    "SS_HURT_RECOVERY": 11,
-    "SS_AIR_HURT":12,
-    "SS_AIR_HURT_RECOVERY": 13,
-    "SS_KNOCKDOWN":14,
-    "SS_BLOCK_STAND":16,
-    "SS_BLOCK_CROUCH":17,
-    "SS_AIR_BLOCK":18,
-    "SS_PUSH_BLOCK":19,
-    "SS_CROUCH_PUSH_BLOCK":20,
-    "SS_AIR_PUSH_BLOCK":21,
-    "SS_AIR_TECH":22,
-    "SS_DEAD_KNOCKDOWN":25,
-    "SS_THROW_TECH":24,
-    "SS_AIR_THROW_TECH":25,
-    "SS_GROUNDBOUNCE_FLING":26,
-    "SS_GROUNDBOUNCE_IMPACT":27,
-    "SS_DEAD_STANDING":24,
-    "SS_BLOWBACK_FALLING":29,
-    "SS_DEAD_FALLING":23,
-    "SS_FLOAT_HURT": 33,
-    "SS_FLOAT_HURT_RECOVERY": 34
-  },
-  "anim_scale": "1.5",
-  "gravity": "2000",
-  "command_script": "../data/characters/danteshaun/scripts/input.kai",
-  "assets": "../data/characters/danteshaun/assets.json",
   "hit_sparks":[
     {
       "assetID": 1,
@@ -938,5 +2172,49 @@
     {"assetID": 1, "file": "../data/audio/char_audio/hurt1.wav"},
     {"assetID": 2, "file": "../data/audio/char_audio/hurt2.wav"},
     {"assetID": 3, "file": "../data/audio/char_audio/hurt3.wav"}
-  ]
+  ],
+  "special_state_nums":{
+    "SS_IDLE":2,
+    "SS_PRE_MATCH":1,
+    "SS_WALK_F":3,
+    "SS_WALK_B":4,
+    "SS_CROUCH":5,
+    "SS_JUMP_N":6,
+    "SS_JUMP_F":7,
+    "SS_JUMP_B":8,
+    "SS_HURT":10,
+    "SS_AIR_HURT":12,
+    "SS_KNOCKDOWN":14,
+    "SS_BLOCK_STAND":16,
+    "SS_BLOCK_CROUCH":17,
+    "SS_BLOWBACK_FALLING":12,
+    "SS_AIR_BLOCK":18,
+    "SS_DEAD_STANDING":24,
+    "SS_DEAD_KNOCKDOWN":25,
+    "SS_THROW_TECH":1,
+    "SS_AIR_THROW_TECH":1,
+    "SS_PUSH_BLOCK":19,
+    "SS_CROUCH_PUSH_BLOCK":20,
+    "SS_GROUNDBOUNCE_FLING":1,
+    "SS_GROUNDBOUNCE_IMPACT":1,
+    "SS_AIR_PUSH_BLOCK":21,
+    "SS_AIR_HURT_RECOVERY": 13,
+    "SS_HURT_RECOVERY": 11,
+    "SS_JUMP_R": 9,
+    "SS_FORWARD_THROW": 1,
+    "SS_FORWARD_THROW_ATTEMPT": 1,
+    "SS_FORWARD_THROW_SUCCESS": 1,
+    "SS_BACK_THROW": 1,
+    "SS_BACK_THROW_ATTEMPT": 1,
+    "SS_BACK_THROW_SUCCESS": 1,
+    "SS_GROUND_THROW_TECH": 1,
+    "SS_AIR_TECH": 1,
+    "SS_DEAD_FALLING": 23,
+    "SS_FLOAT_HURT": 33,
+    "SS_FLOAT_HURT_RECOVERY": 34
+  },
+  "anim_scale": "1.5",
+  "gravity": "2000",
+  "command_script": "../data/characters/danteshaun/scripts/input.kai",
+  "assets": "../data/characters/danteshaun/assets.json"
 }

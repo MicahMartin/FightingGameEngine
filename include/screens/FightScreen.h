@@ -44,7 +44,7 @@ public:
   void drawMeterBar(float meterPercent, float comebackPercent, bool isPlayerOne);
   void drawBurstBar(float burstPercent, bool isPlayerOne);
   void drawComboCount(bool side, int count);
-  void drawInputHistory(bool side, boost::circular_buffer<InputEvent>& events);
+  void drawInputHistory(bool side, EventHistoryT& events);
   void drawWins(int p1Wins, int p2Wins);
 
   RecordingStatus recordStatus = RECORDING_NONE;

@@ -61,6 +61,7 @@ struct CharStateObj {
 
   StateDefObj stateDefObj;
   EntityStateObj entityStates[3];
+  VirtualControllerObj virtualControllerObj;
   // std::unordered_map<int, EntityStateObj> entityStates;
 };
 

@@ -9,6 +9,8 @@
 #include <nlohmann/json.hpp>
 #include <boost/circular_buffer.hpp>
 #include <boost/serialization/access.hpp>
+
+const int INPUT_BUFFER_MAX = 128;
 typedef enum {
   NOINPUT = 0,
 
@@ -58,14 +60,11 @@ struct InputEvent {
 
   uint16_t inputBit;
   bool pressed;
-  // serialization
-  private:
-  friend class boost::serialization::access;
-  template<class Archive>
-  void serialize(Archive & ar, const unsigned int version) {
-    ar & inputBit;
-    ar & pressed;
-  }
+};
+
+struct VirtualControllerObj {
+  InputEvent inputHistory[INPUT_BUFFER_MAX];
+  uint16_t currentState;
 };
 
 typedef std::list<InputEvent> InputFrameT;
@@ -119,8 +118,8 @@ public:
   uint8_t getStickState();
   void printStickState();
 
-  void serializeHistory();
-  void loadHistory(HistoryCopyT historyCopy);
+  VirtualControllerObj saveState();
+  void loadState(VirtualControllerObj state);
   void addNetInput();
 
   void onNotify(const char* eventName);

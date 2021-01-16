@@ -111,9 +111,9 @@ bool fsAdvanceFrame(int flags){
 
   VirtualController* p1Vc = ggpoFightState->player1->virtualController;
   VirtualController* p2Vc = ggpoFightState->player2->virtualController;
+
   p1Vc->inputHistory.front().clear();
   p2Vc->inputHistory.front().clear();
-
   // simulate a local keypress with input
   p1Vc->setState(inputs[0]);
   p1Vc->addNetInput();
@@ -338,6 +338,7 @@ void FightState::saveState(){
   saveObj.slowDownCounter = slowDownCounter;
   saveObj.frameCount = frameCount;
   saveObj.slowMode = slowMode;
+  saveObj.shouldUpdate = shouldUpdate;
 
   saveObj.char1State = player1->saveState();
   saveObj.char2State = player2->saveState();
@@ -391,6 +392,7 @@ void FightState::loadState(){
   screenFreezeCounter = saveObj.screenFreezeCounter;
   screenFreezeLength = saveObj.screenFreezeLength;
   frameCount = saveObj.frameCount;
+  shouldUpdate = saveObj.shouldUpdate;
 
   printf("FRAMECOUNT:%d\n", frameCount);
   player1->loadState(saveObj.char1State);

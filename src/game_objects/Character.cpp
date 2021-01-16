@@ -87,8 +87,7 @@ CharStateObj Character::saveState(){
   stateObj.installMode = installMode;
   stateObj.auraActive = auraActive;
   stateObj.auraID = auraID;
-  stateObj.inputState = virtualController->currentState;
-  stateObj.inputPrevState = virtualController->prevState;
+  stateObj.virtualControllerObj = virtualController->saveState();
 
   stateObj.cancelPointer = cancelPointer;
   stateObj.currentState = currentState->stateNum;
@@ -97,16 +96,6 @@ CharStateObj Character::saveState(){
   for (int i = 0; i < entityList.size(); ++i) {
     stateObj.entityStates[i] = entityList[i].saveState();
   }
-
-  // {
-  //   std::ostringstream os;
-  //   boost::archive::text_oarchive oArchive(os);
-
-  //   virtualController->serializeHistory();
-  //   oArchive << virtualController->inputHistorySnapShot;
-
-  //   playerNum == 1 ? p1InputHistory = os.str() : p2InputHistory = os.str();
-  // }
   return stateObj;
 }
 
@@ -153,9 +142,8 @@ void Character::loadState(CharStateObj stateObj){
   installMode = stateObj.installMode;
   auraActive = stateObj.auraActive;
   auraID = stateObj.auraID;
-  virtualController->setState(stateObj.inputState);
-  virtualController->prevState = stateObj.inputPrevState;
-
+  virtualController->loadState(stateObj.virtualControllerObj);
+  stateObj.inputPrevState = virtualController->prevState;
 
   printf("GGPO PLAYER:%d { STATE TIME:%d | LOAD STATE:%d | CANCEL POINTER:%d }\n", 
       playerNum, 
