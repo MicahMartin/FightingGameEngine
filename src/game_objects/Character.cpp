@@ -959,21 +959,21 @@ int Character::_getComebackMeter(){
 
 void Character::_addMeter(int i){
   std::string meterString = std::to_string(i);
-  int meterIndex = std::stoi(meterString.front());
+  int meterIndex = meterString.front();
   int meterValue = std::stoi(meterString.substr(1));
   meterArray[meterIndex] += meterValue;
 }
 
 void Character::_setMeter(int i){
   std::string meterString = std::to_string(i);
-  int meterIndex = std::stoi(meterString.front());
+  int meterIndex = meterString.front();
   int meterValue = std::stoi(meterString.substr(1));
   meterArray[meterIndex] = meterValue;
 }
 
 void Character::_subtractMeter(int i){
   std::string meterString = std::to_string(i);
-  int meterIndex = std::stoi(meterString.front());
+  int meterIndex = meterString.front();
   int meterValue = std::stoi(meterString.substr(1));
   meterArray[meterIndex] -= meterValue;
 }

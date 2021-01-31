@@ -1,6 +1,6 @@
 {
   "animation": [
-    { "file": "../data/images/UI/pop_up/counter/counter_small.png", "time": -1, "offsetX": 350, "offsetY": -300, "scale": 1}
+    { "file": "../data/images/UI/pop_up/counter/counter_small.png", "time": -1, "offsetX": 350, "offsetY": -300, "scale": "1"}
   ],
   "sounds": [
     {"file": "", "start": 1}

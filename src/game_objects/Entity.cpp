@@ -608,7 +608,7 @@ int Entity::_getBlockStun(){
 
 }
 
-int Entity::_getMeter(){
+int Entity::_getMeter(int index){
   return 0;
 }
 

@@ -3,6 +3,7 @@
     $set_control 0; 
     $velset_x 0000; 
   } 
+
   var meter = $get_meter 1;
   var back = $get_input 4; 
   var upback = $get_input 7; 
@@ -31,7 +32,7 @@
     }
   }
 
-  if($get_state_time == 22){ 
+  if($get_state_time == 36){ 
     $set_control 1; 
   } 
 } 

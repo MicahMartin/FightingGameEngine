@@ -218,8 +218,8 @@ inline ExecutionCode VirtualMachine::run(){
       }
       case OP_GET_METER: {
         long operand = AS_NUMBER(stack.pop());
-        long val = character->_getMeter(operand);
-        stack.push(NUMBER_VAL(val));
+        // long val = character->_getMeter(operand);
+        stack.push(NUMBER_VAL(100));
         break;
       }
       case OP_HAS_AIR_ACTION: {
@@ -246,12 +246,12 @@ inline ExecutionCode VirtualMachine::run(){
       }
       case OP_ADD_METER: {
         long operand = AS_NUMBER(stack.pop());
-        character->_addMeter(operand);
+        // character->_addMeter(operand);
         break;
       }
       case OP_SUBTRACT_METER: {
         long operand = AS_NUMBER(stack.pop());
-        character->_subtractMeter(operand);
+        // character->_subtractMeter(operand);
         break;
       }
       case OP_GET_ENTITY_STATUS: {

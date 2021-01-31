@@ -726,17 +726,35 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "cancel_script": "../data/characters/danteshaun/scripts/attacks/katana/crouch_m_cancels.kai",
+      "update_script": "../data/characters/danteshaun/scripts/attacks/katana/crouch_m.kai",
       "animation": [
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-0.png", "time": 4, "offsetX": 144},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-1.png", "time": 2, "offsetX": 144},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-2.png", "time": 2, "offsetX": 144},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-15.png", "time": 2, "offsetX": 151},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-16.png", "time": 4, "offsetX": 135},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-17.png", "time": 2, "offsetX": 101},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-18.png", "time": 2, "offsetX": 93},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-19.png", "time": 2, "offsetX": 80},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-20.png", "time": 2, "offsetX": 97},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-21.png", "time": 2, "offsetX": 125},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-22.png", "time": 2, "offsetX": 68},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-23.png", "time": 2, "offsetX": 65},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-24.png", "time": 2, "offsetX": 65},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-25.png", "time": 2, "offsetX": 65},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-26.png", "time": 4, "offsetX": 65}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
-        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+        {"type": "POSITION", "start": 1, "end": -1, "width":150, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "HIT", "block_type": 1, "hitstun":14, "block_stun":12, "hitstop": 12, "damage":3, "push": 8000, "push_time": 8, "start": 15, "end": 17, "width":500, "height":300, "offsetX":25, "offsetY": 0, "group": 1, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "PROXIMITY", "start": 1, "end": 17, "width":400, "height":300, "offsetX":75, "offsetY": 0, "group": 1},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 8, "end": -1, "width":150, "height":300, "offsetX":75, "offsetY": 0},
+        {"type": "HURT", "start": 20, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290},
+        {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
       "sounds": [
       ],
@@ -1979,71 +1997,71 @@
     {
       "assetID": 1,
       "animation": [
-        { "file": "../data/images/hitspark/light/0.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light/1.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light/2.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light/3.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light/4.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light/5.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light/6.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": 1}
+        { "file": "../data/images/hitspark/light/0.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light/1.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light/2.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light/3.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light/4.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light/5.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light/6.png", "time": 2, "offsetX": 75, "offsetY": -1, "scale": "1"}
       ]
     },
     {
       "assetID": 2,
       "animation": [
-        { "file": "../data/images/hitspark/light/0.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/light/1.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/light/2.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/light/3.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/light/4.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/light/5.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/light/6.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 2}
+        { "file": "../data/images/hitspark/light/0.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/light/1.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/light/2.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/light/3.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/light/4.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/light/5.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/light/6.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "2"}
       ]
     },
     {
       "assetID": 3,
       "animation": [
-        { "file": "../data/images/hitspark/light_slash/0.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/1.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/2.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/3.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/4.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/5.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/6.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/7.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/8.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/9.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/10.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/11.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/12.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/13.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/14.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/15.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/16.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1},
-        { "file": "../data/images/hitspark/light_slash/17.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 1}
+        { "file": "../data/images/hitspark/light_slash/0.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/1.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/2.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/3.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/4.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/5.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/6.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/7.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/8.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/9.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/10.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/11.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/12.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/13.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/14.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/15.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/16.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"},
+        { "file": "../data/images/hitspark/light_slash/17.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "1"}
       ]
     },
     {
       "assetID": 4,
       "animation": [
-        { "file": "../data/images/hitspark/medium_slash/0.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/1.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/2.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/3.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/4.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/5.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/6.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/7.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/8.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/9.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/10.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/11.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/12.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/13.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/14.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/15.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/16.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2},
-        { "file": "../data/images/hitspark/medium_slash/17.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": 2}
+        { "file": "../data/images/hitspark/medium_slash/0.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/1.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/2.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/3.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/4.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/5.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/6.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/7.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/8.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/9.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/10.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/11.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/12.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/13.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/14.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/15.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/16.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"},
+        { "file": "../data/images/hitspark/medium_slash/17.png", "time": 1, "offsetX": -1, "offsetY": -1, "scale": "2"}
       ]
     }
   ],
@@ -2051,23 +2069,23 @@
     {
       "assetID": 1,
       "animation": [
-        { "file": "../data/images/guardspark/1.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
-        { "file": "../data/images/guardspark/2.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
-        { "file": "../data/images/guardspark/3.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
-        { "file": "../data/images/guardspark/4.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
-        { "file": "../data/images/guardspark/5.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
-        { "file": "../data/images/guardspark/6.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
-        { "file": "../data/images/guardspark/7.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
-        { "file": "../data/images/guardspark/8.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3},
-        { "file": "../data/images/guardspark/9.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": 3}
+        { "file": "../data/images/guardspark/1.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "3"},
+        { "file": "../data/images/guardspark/2.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "3"},
+        { "file": "../data/images/guardspark/3.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "3"},
+        { "file": "../data/images/guardspark/4.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "3"},
+        { "file": "../data/images/guardspark/5.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "3"},
+        { "file": "../data/images/guardspark/6.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "3"},
+        { "file": "../data/images/guardspark/7.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "3"},
+        { "file": "../data/images/guardspark/8.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "3"},
+        { "file": "../data/images/guardspark/9.png", "time": 2, "offsetX": -1, "offsetY": -1, "scale": "3"}
       ]
     },
     {
       "assetID": 2,
       "animation": [
-        { "file": "../data/images/guardspark/1.png", "time": 2, "offsetX": 75, "offsetY": 75, "scale": 1},
-        { "file": "../data/images/guardspark/2.png", "time": 3, "offsetX": 75, "offsetY": 75, "scale": 1},
-        { "file": "../data/images/guardspark/3.png", "time": 1, "offsetX": 75, "offsetY": 75, "scale": 1}
+        { "file": "../data/images/guardspark/1.png", "time": 2, "offsetX": 75, "offsetY": 75, "scale": "1"},
+        { "file": "../data/images/guardspark/2.png", "time": 3, "offsetX": 75, "offsetY": 75, "scale": "1"},
+        { "file": "../data/images/guardspark/3.png", "time": 1, "offsetX": 75, "offsetY": 75, "scale": "1"}
       ]
     }
   ],
@@ -2075,105 +2093,105 @@
     {
       "assetID": 1,
       "animation": [
-        { "file": "../data/images/visual_effects/flash/flare_01.png", "time": 2, "offsetX":-1, "offsetY":50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/light_01.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/light_02.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/light_03.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/circle_01.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/circle_02.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/circle_03.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/circle_04.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/circle_05.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/circle_06.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/circle_07.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1}
+        { "file": "../data/images/visual_effects/flash/flare_01.png", "time": 2, "offsetX":-1, "offsetY":50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/light_01.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/light_02.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/light_03.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/circle_01.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/circle_02.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/circle_03.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/circle_04.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/circle_05.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/circle_06.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/circle_07.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"}
       ]
     },
     {
       "assetID": 2,
       "animation": [
-        { "file": "../data/images/visual_effects/floor_impact/0.png", "time": 3, "offsetX":-1 , "offsetY":0, "scale": 2},
-        { "file": "../data/images/visual_effects/floor_impact/1.png", "time": 3, "offsetX":-1 , "offsetY":0, "scale": 2},
-        { "file": "../data/images/visual_effects/floor_impact/2.png", "time": 3, "offsetX":-1, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/floor_impact/3.png", "time": 3, "offsetX":-1, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/floor_impact/4.png", "time": 3, "offsetX":-1, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/floor_impact/5.png", "time":3, "offsetX":-1, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/floor_impact/6.png", "time":3, "offsetX":-1, "offsetY": 0, "scale": 2}
+        { "file": "../data/images/visual_effects/floor_impact/0.png", "time": 3, "offsetX":-1 , "offsetY":0, "scale": "2"},
+        { "file": "../data/images/visual_effects/floor_impact/1.png", "time": 3, "offsetX":-1 , "offsetY":0, "scale": "2"},
+        { "file": "../data/images/visual_effects/floor_impact/2.png", "time": 3, "offsetX":-1, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/floor_impact/3.png", "time": 3, "offsetX":-1, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/floor_impact/4.png", "time": 3, "offsetX":-1, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/floor_impact/5.png", "time":3, "offsetX":-1, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/floor_impact/6.png", "time":3, "offsetX":-1, "offsetY": 0, "scale": "2"}
       ]
     },
     {
       "assetID": 3,
       "animation": [
-        { "file": "../data/images/visual_effects/floor_impact/0.png", "time":2, "offsetX":-1 , "offsetY":0, "scale": 1},
-        { "file": "../data/images/visual_effects/floor_impact/1.png", "time":2, "offsetX":-1 , "offsetY":0, "scale": 1},
-        { "file": "../data/images/visual_effects/floor_impact/2.png", "time":2, "offsetX":-1, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/visual_effects/floor_impact/3.png", "time":2, "offsetX":-1, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/visual_effects/floor_impact/4.png", "time":2, "offsetX":-1, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/visual_effects/floor_impact/5.png", "time":2, "offsetX":-1, "offsetY": 0, "scale": 1},
-        { "file": "../data/images/visual_effects/floor_impact/6.png", "time":2, "offsetX":-1, "offsetY": 0, "scale": 1}
+        { "file": "../data/images/visual_effects/floor_impact/0.png", "time":2, "offsetX":-1 , "offsetY":0, "scale": "1"},
+        { "file": "../data/images/visual_effects/floor_impact/1.png", "time":2, "offsetX":-1 , "offsetY":0, "scale": "1"},
+        { "file": "../data/images/visual_effects/floor_impact/2.png", "time":2, "offsetX":-1, "offsetY": 0, "scale": "1"},
+        { "file": "../data/images/visual_effects/floor_impact/3.png", "time":2, "offsetX":-1, "offsetY": 0, "scale": "1"},
+        { "file": "../data/images/visual_effects/floor_impact/4.png", "time":2, "offsetX":-1, "offsetY": 0, "scale": "1"},
+        { "file": "../data/images/visual_effects/floor_impact/5.png", "time":2, "offsetX":-1, "offsetY": 0, "scale": "1"},
+        { "file": "../data/images/visual_effects/floor_impact/6.png", "time":2, "offsetX":-1, "offsetY": 0, "scale": "1"}
       ]
     },
     {
       "assetID": 4,
       "animation": [
-        { "file": "../data/images/visual_effects/dust/0.png", "time":2, "offsetX":0 , "offsetY":0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust/1.png", "time":2, "offsetX":0 , "offsetY":0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust/2.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust/3.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust/4.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust/5.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust/6.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust/7.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust/8.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust/9.png", "time":2, "offsetX":0, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust/10.png", "time":3, "offsetX":0, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust/11.png", "time":3, "offsetX":0, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust/12.png", "time":3, "offsetX":0, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust/13.png", "time":3, "offsetX":0, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust/14.png", "time":3, "offsetX":0, "offsetY": 0, "scale": 2}
+        { "file": "../data/images/visual_effects/dust/0.png", "time":2, "offsetX":0 , "offsetY":0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust/1.png", "time":2, "offsetX":0 , "offsetY":0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust/2.png", "time":2, "offsetX":0, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust/3.png", "time":2, "offsetX":0, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust/4.png", "time":2, "offsetX":0, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust/5.png", "time":2, "offsetX":0, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust/6.png", "time":2, "offsetX":0, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust/7.png", "time":2, "offsetX":0, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust/8.png", "time":2, "offsetX":0, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust/9.png", "time":2, "offsetX":0, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust/10.png", "time":3, "offsetX":0, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust/11.png", "time":3, "offsetX":0, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust/12.png", "time":3, "offsetX":0, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust/13.png", "time":3, "offsetX":0, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust/14.png", "time":3, "offsetX":0, "offsetY": 0, "scale": "2"}
       ]
     },
     {
       "assetID": 5,
       "animation": [
-        { "file": "../data/images/visual_effects/dust_straight/0.png", "time":2, "offsetX":-2 , "offsetY":0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust_straight/1.png", "time":2, "offsetX":-2 , "offsetY":0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust_straight/2.png", "time":2, "offsetX":-2, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust_straight/3.png", "time":2, "offsetX":-2, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust_straight/4.png", "time":2, "offsetX":-2, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust_straight/5.png", "time":2, "offsetX":-2, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust_straight/6.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust_straight/7.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust_straight/8.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust_straight/9.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust_straight/10.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust_straight/11.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust_straight/12.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2},
-        { "file": "../data/images/visual_effects/dust_straight/13.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": 2}
+        { "file": "../data/images/visual_effects/dust_straight/0.png", "time":2, "offsetX":-2 , "offsetY":0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust_straight/1.png", "time":2, "offsetX":-2 , "offsetY":0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust_straight/2.png", "time":2, "offsetX":-2, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust_straight/3.png", "time":2, "offsetX":-2, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust_straight/4.png", "time":2, "offsetX":-2, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust_straight/5.png", "time":2, "offsetX":-2, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust_straight/6.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust_straight/7.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust_straight/8.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust_straight/9.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust_straight/10.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust_straight/11.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust_straight/12.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": "2"},
+        { "file": "../data/images/visual_effects/dust_straight/13.png", "time":3, "offsetX":-2, "offsetY": 0, "scale": "2"}
       ]
     },
     {
       "assetID": 6,
       "animation": [
-        { "file": "../data/images/visual_effects/pooty_tang_01/0.png", "time":2, "offsetX":100, "offsetY":0, "scale": 3},
-        { "file": "../data/images/visual_effects/pooty_tang_01/1.png", "time":2, "offsetX":100, "offsetY":0, "scale": 3},
-        { "file": "../data/images/visual_effects/pooty_tang_01/2.png", "time":2, "offsetX":100, "offsetY": 0, "scale": 3}
+        { "file": "../data/images/visual_effects/pooty_tang_01/0.png", "time":2, "offsetX":100, "offsetY":0, "scale": "3"},
+        { "file": "../data/images/visual_effects/pooty_tang_01/1.png", "time":2, "offsetX":100, "offsetY":0, "scale": "3"},
+        { "file": "../data/images/visual_effects/pooty_tang_01/2.png", "time":2, "offsetX":100, "offsetY": 0, "scale": "3"}
       ]
     },
     {
       "assetID": 7,
       "aura": true,
       "animation": [
-        { "file": "../data/images/visual_effects/flash/flare_01.png", "time": 2, "offsetX":-1, "offsetY":50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/light_01.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/light_02.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/light_03.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/circle_01.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/circle_02.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/circle_03.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/circle_04.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/circle_05.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/circle_06.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1},
-        { "file": "../data/images/visual_effects/flash/circle_07.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": 1}
+        { "file": "../data/images/visual_effects/flash/flare_01.png", "time": 2, "offsetX":-1, "offsetY":50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/light_01.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/light_02.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/light_03.png", "time": 2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/circle_01.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/circle_02.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/circle_03.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/circle_04.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/circle_05.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/circle_06.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"},
+        { "file": "../data/images/visual_effects/flash/circle_07.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"}
       ]
     }
   ],

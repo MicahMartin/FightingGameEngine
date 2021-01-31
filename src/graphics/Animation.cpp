@@ -27,7 +27,8 @@ void Animation::loadAnimEvents(float defaultScale, nlohmann::json json) {
       offsetY = i.value().at("offsetY");
     }
     if(i.value().count("scale")){
-      scale = i.value().at("scale");
+      std::string animScaleStr = i.value().at("scale");
+      scale = std::stof(animScaleStr);
       printf("the scale %f\n", scale);
     }
     if(i.value().count("offsetX")){

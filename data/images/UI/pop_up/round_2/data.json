@@ -1,6 +1,6 @@
 {
   "animation": [
-    { "file": "../data/images/UI/pop_up/round_2/roundtwo_small.png", "time": -1, "offsetX": 300, "offsetY": -200, "scale": 1}
+    { "file": "../data/images/UI/pop_up/round_2/roundtwo_small.png", "time": -1, "offsetX": 300, "offsetY": -200, "scale": "1"}
   ],
   "sounds": [
     {"file": "", "start": 1}
