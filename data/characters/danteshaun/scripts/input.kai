@@ -153,9 +153,6 @@
     if (meter >= 1) {
       var lk = $get_input 11;
       var mp = $get_input 12;
-      if ((lk and mp) and anyBack) {
-        $change_state 5026;
-      }
     }
 
     if (lp_and_lk) {

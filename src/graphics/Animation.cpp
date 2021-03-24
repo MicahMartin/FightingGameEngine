@@ -12,6 +12,21 @@ Animation::Animation(){
 
 Animation::~Animation(){ }
 
+AnimationStateObj* Animation::saveState(){
+  animObj.animFrame = animFrame;
+  animObj.animationTimePassed = animationTimePassed;
+  animObj.currentAnimElemIndex = currentAnimElemIndex;
+  animObj.currentAnimElemTimePassed = currentAnimElemTimePassed;
+  
+  return &animObj;
+}
+void Animation::loadState(AnimationStateObj stateObj){
+  animFrame = stateObj.animFrame;
+  animationTimePassed = stateObj.animationTimePassed;
+  currentAnimElemIndex = stateObj.currentAnimElemIndex;
+  currentAnimElemTimePassed = stateObj.currentAnimElemTimePassed;
+}
+
 void Animation::loadAnimEvents(nlohmann::json json){
   loadAnimEvents(4, json);
 }

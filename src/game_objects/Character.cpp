@@ -43,7 +43,8 @@ void Character::init(const char* path){
 }
 
 CharStateObj* Character::saveState(){
-  // stateObj.virtualControllerObj = virtualController->saveState();
+  stateObj.virtualControllerObj = *virtualController->saveState();
+
   stateObj.positionX = position.first;
   stateObj.positionY = position.second;
   stateObj.control = control;
@@ -101,7 +102,8 @@ void Character::loadState(CharStateObj stateObj){
       stateObj.currentState, 
       stateObj.cancelPointer);
 
-  // virtualController->loadState(stateObj.virtualControllerObj);
+  virtualController->loadState(stateObj.virtualControllerObj);
+
   position.first = stateObj.positionX;
   position.second = stateObj.positionY;
   control = stateObj.control;
@@ -184,31 +186,41 @@ void Character::refresh(){
 }
 
 void Character::changeState(int stateDefNum){
+  printf("in changeState:%d\n", stateDefNum);
   for (auto &i : visualEffects) {
     if (i.second.getAura()) {
       i.second.setActive(false);
     }
   }
+  printf("handled auras\n");
   auraActive = false;
   cancelPointer = 0;
   if(stateDefNum >= 6000){
+    printf("greater than 6k\n");
     int theNum = stateDefNum - 6000;
     int customStateNum = stateCount + theNum;
     // printf("the num:%d, the customStateNum%d\n", stateDefNum, customStateNum);
     currentState = &stateList.at(customStateNum-1);
   } else if (stateDefNum >= 5000) {
+    printf("greater than 5k\n");
     int theNum = stateDefNum - 5000;
     SpecialState theState = (SpecialState)theNum;
+    printf("checking special state map\n");
     int specialStateNum = specialStateMap[theState];
+    printf("done with special state map, setting current state:%d\n", specialStateNum);
     // printf("the num:%d, the specialStateNum %d\n", stateDefNum, specialStateNum);
     currentState = &stateList.at(specialStateNum-1);
+    printf("set the current state\n");
   } else {
+    printf("normal\n");
     currentState = &stateList.at(stateDefNum-1);
   }
 
+  printf("checking flag\n");
   if(!currentState->checkFlag(NO_TURN_ON_ENTER)){
     updateFaceRight();
   }
+  printf("going into enter\n");
   currentState->enter();
   updateCollisionBoxPositions();
   updateCollisionBoxes();

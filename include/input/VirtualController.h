@@ -120,7 +120,7 @@ public:
   uint8_t getStickState();
   void printStickState();
 
-  VirtualControllerObj saveState();
+  VirtualControllerObj* saveState();
   void loadState(VirtualControllerObj state);
   void addNetInput(int input);
 
@@ -153,6 +153,7 @@ public:
   uint16_t currentState = 0;
   uint16_t prevState = 0;
 
+  VirtualControllerObj controllerObj;
 private:
   // CircularBuffer<LinkedList<InputEvent>>
 };

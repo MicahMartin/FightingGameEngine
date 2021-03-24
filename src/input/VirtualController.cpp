@@ -311,34 +311,33 @@ uint8_t VirtualController::getStickState() {
   return (currentState & 0x0F);
 }
 
-VirtualControllerObj VirtualController::saveState() {
-  VirtualControllerObj controllerObj;
+VirtualControllerObj* VirtualController::saveState() {
   controllerObj.currentState = currentState;
   controllerObj.prevState = prevState;
-  for (int i = 0; (i < inputHistory.size()); ++i) {
-    InputEvent input = inputHistory.at(i).back();
-    controllerObj.inputHistory[i] = input;
-  }
-  return controllerObj;
+  // for (int i = 0; (i < inputHistory.size()); ++i) {
+  //   InputEvent input = inputHistory.at(i).back();
+  //   controllerObj.inputHistory[i] = input;
+  // }
+  return &controllerObj;
 }
 
 void VirtualController::loadState(VirtualControllerObj stateObj) { 
   currentState = stateObj.currentState;
   prevState = stateObj.prevState;
-  for (int i = 0; i < (inputHistory.size()); ++i) {
-    InputEvent input = stateObj.inputHistory[i];
-    printf("frame:%d input:%d pressed:%d\n", i, input.inputBit, input.pressed);
+  // for (int i = 0; i < (inputHistory.size()); ++i) {
+  //   InputEvent input = stateObj.inputHistory[i];
+  //   printf("frame:%d input:%d pressed:%d\n", i, input.inputBit, input.pressed);
 
-    InputFrameT currentFrame{input};
-    inputHistory.at(i).clear();
-    inputHistory.at(i) = currentFrame;
-  }
+  //   InputFrameT currentFrame{input};
+  //   inputHistory.at(i).clear();
+  //   inputHistory.at(i) = currentFrame;
+  // }
   printf("virtualController loadHistory done\n");
 }
 
 void VirtualController::addNetInput(int input) {
   // prevState = currentState;
-  // currentState = input;
+  currentState = input;
   // inputHistory.front().emplace_back(InputEvent(currentState, true));
   // loop through bits in currentState
   // for each bit in current state,

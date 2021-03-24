@@ -45,12 +45,13 @@ struct StateDefObj {
   bool canHitCancel;
   bool counterHitFlag;
   bool hitboxGroupDisabled[HITBOX_GROUP_MAX];
+
+  AnimationStateObj animObj;
   CollisionBoxState collisionBoxStates[COLLISION_BOX_MAX];
 
   // std::unordered_map<int, bool> hitboxGroupDisabled;
   // std::unordered_map<CollisionBox*, CollisionBoxState> collisionBoxStates;
 };
-
 class GameObject;
 class StateDef {
 public:

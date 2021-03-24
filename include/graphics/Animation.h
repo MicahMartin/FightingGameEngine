@@ -24,10 +24,22 @@ struct AnimationFrame {
   AnimationElement* animElem;
 };
 
+struct AnimationStateObj {
+  int animFrame,
+  animationTimePassed,
+  currentAnimElemIndex,
+  currentAnimElemTimePassed;
+};
+
+
 class Animation {
 public:
   Animation();
   ~Animation();
+
+
+  AnimationStateObj* saveState();
+  void loadState(AnimationStateObj stateObj);
 
   void loadAnimEvents(nlohmann::json json);
   void loadAnimEvents(float defaultScale, nlohmann::json json);
@@ -58,6 +70,7 @@ public:
   bool isLight = false;
   int hitShakeToggler = 0;
   std::string charName = "";
+  AnimationStateObj animObj;
 private:
   /* data */
   std::vector<AnimationElement> animationElements;
