@@ -12,7 +12,10 @@ struct CommandNode {
   CommandFunction function;
   int bufferLength;
 };
-typedef std::vector<CommandNode> Command;
+struct CommandObj {
+  std::vector<CommandNode> command;
+  bool clears;
+};
 
 class CommandCompiler {
 public:
@@ -27,7 +30,7 @@ public:
   CommandFunction binaryCommand(CommandFunction currentFunc, CommandTokenType type);
 
   static std::vector<std::string> commandStrings;
-  std::vector<Command> commands;
+  std::vector<CommandObj> commands;
   VirtualController* controllerPointer;
 private:
   CommandScanner commandScanner;

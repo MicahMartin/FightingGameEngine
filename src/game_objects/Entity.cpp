@@ -190,8 +190,9 @@ void Entity::updatePosition(){
 
   if(noGravityCounter > 0){
     gravity = false;
-    if(--noGravityCounter == 0){
+    if(--noGravityCounter <= 0){
       gravity = true;
+      noGravityCounter = 0;
     }
   };
   if(position.second < 0 && gravity){
@@ -374,7 +375,7 @@ EntityStateObj Entity::saveState(){
   stateObj.isDead = isDead;
   stateObj.updateFacing = updateFacing;
   stateObj.currentStateNum = currentState->stateNum;
-  stateObj.currentStateObj = currentState->saveState();
+  stateObj.currentStateObj = *currentState->saveState();
   stateObj.positionX = position.first;
   stateObj.positionY = position.second;
 

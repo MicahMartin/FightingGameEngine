@@ -9,7 +9,6 @@
   var dash_f = $check_command 0;
   var dash_b = $check_command 1;
   var qcf_k = $check_command 2;
-  var qcb_p = $check_command 3;
   var down_down_lp = $check_command 4;
   var super = $check_command 13;
 
@@ -47,6 +46,9 @@
       }
     }
 
+    if (qcf_k) {
+      $change_state 56;
+    }
     if (lp_and_lk) {
       if(anyBack){
         $change_state 5036;

@@ -41,22 +41,22 @@ Game::Game(){
 Game::~Game(){}
 
 void Game::update() {
-  ++gameTime;
   inputManager->update();
 
   GameState* currentState = stateManager->getState();
-  currentState->gameTime = gameTime;
-
   if(std::strcmp(currentState->stateName, "FIGHT_STATE") == 0){
     FightState* fightState = (FightState*)currentState;
     if (fightState->netPlayState && fightState->doneSync) {
+      printf("netplay input\n");
       fightState->netPlayHandleInput();
     }
   }
 
+  printf("game handle input\n");
   currentState->handleInput();
-  currentState = stateManager->getState();
+  // currentState = stateManager->getState();
   currentState->update();
+  printf("game update\n");
   currentState = stateManager->getState();
 }
 

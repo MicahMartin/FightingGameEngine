@@ -41,7 +41,10 @@ public:
   int upperBound = 0;
   int middle = 0;
   int shakeCount = 0;
+  int zoomThresh = 0;
+  float zoomMag = 1;
   bool shaking = false;
+
 private:
   Graphics* graphics = Graphics::getInstance();
   int viewportCentreX;

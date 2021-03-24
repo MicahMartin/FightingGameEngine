@@ -13,6 +13,7 @@ void Camera::init(int width, int height, int _screenWidth){
   cameraRect.h = height/COORDINATE_SCALE;
   cameraRect.y = 0;
   shaking = false;
+  zoomThresh = 750000;
 }
 
 CameraStateObj Camera::saveState(){
@@ -35,6 +36,13 @@ void Camera::loadState(CameraStateObj stateObj){
 Camera::~Camera(){}
 
 void Camera::update(std::pair<int,int> p1Pos, std::pair<int,int> p2Pos){
+  int diff = abs(p1Pos.first - p2Pos.first);
+  if (diff > zoomThresh) {
+    zoomMag = .5;
+  } else {
+    zoomMag = 1;
+  }
+  // printf("thresh:%d the diff: %d, zoomMag:%f\n", zoomThresh, diff, zoomMag);
   int midPoint = (p1Pos.first + p2Pos.first) / 2;
   positionObj.x = (midPoint - (positionObj.w/2));
   if(positionObj.x < 0){

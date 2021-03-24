@@ -4,7 +4,7 @@
   var product = quotient * 9;
   var remainder = stateTime - product;
 
-  if(stateTime  == 0){
+  if(stateTime == 0){
     $set_control 1;
   }
   var up = $was_pressed 8; 
@@ -20,17 +20,6 @@
     }
     if(dash_b){
       $cancel_state 30; 
-    }
-  }
-  if(hasAirAction){
-    if(up){
-      $cancel_state 26;
-    }
-    if(upforward){
-      $cancel_state 27;
-    }
-    if(upback){
-      $cancel_state 28;
     }
   }
   if (remainder == 0) {

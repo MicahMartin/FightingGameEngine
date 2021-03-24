@@ -26,6 +26,7 @@ struct CollisionBoxState {
   int positionY;
   bool disabled; 
 };
+
 class CollisionBox {
 public:
 
@@ -53,7 +54,7 @@ public:
   ~CollisionBox();
 
   void render();
-  CollisionBoxState saveState();
+  CollisionBoxState* saveState();
   void loadState(CollisionBoxState stateObj);
   
 
@@ -101,6 +102,7 @@ public:
   int guardsparkID = 0;
   bool canTrip = false;
 
+  CollisionBoxState stateObj;
 private:
   Graphics* graphics = Graphics::getInstance();
   CollisionType boxType;

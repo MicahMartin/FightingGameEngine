@@ -8,18 +8,18 @@
 #include <thread>
 #include <csignal>
 #include <boost/format.hpp>
-// #define SYNC_TEST    // test: turn on synctest
+#define SYNC_TEST
 
 
 
 FightState* ggpoFightState;
 Character* characters[2];
-FightStateObj saveObj;
+FightStateObj saveObj = {0};
 
 int checksum = 0;
-int worldWidth = 3840*COORDINATE_SCALE;
 int p1StartPos = 1700*COORDINATE_SCALE;
 int p2StartPos = 2200*COORDINATE_SCALE;
+int worldWidth = 3840*COORDINATE_SCALE;
 int camWidth = 1280*COORDINATE_SCALE;
 int camHeight = 720*COORDINATE_SCALE;
 
@@ -111,31 +111,34 @@ bool fsAdvanceFrame(int flags){
 
   VirtualController* p1Vc = ggpoFightState->player1->virtualController;
   VirtualController* p2Vc = ggpoFightState->player2->virtualController;
+  // p1Vc->setState(0);
+  // p2Vc->setState(0);
+  // p1Vc->inputHistory.front().clear();
+  // p2Vc->inputHistory.front().clear();
 
-  p1Vc->inputHistory.front().clear();
-  p2Vc->inputHistory.front().clear();
   // simulate a local keypress with input
-  p1Vc->setState(inputs[0]);
-  p1Vc->addNetInput();
+  p1Vc->addNetInput(inputs[0]);
+  p2Vc->addNetInput(inputs[1]);
 
-  p2Vc->setState(inputs[1]);
-  p2Vc->addNetInput();
+  // bool prevShouldUpdate = ggpoFightState->shouldUpdate;
+  // ggpoFightState->shouldUpdate = true;
 
-  bool prevShouldUpdate = ggpoFightState->shouldUpdate;
-  ggpoFightState->shouldUpdate = true;
   ggpoFightState->advanceFrame();
-  ggpoFightState->shouldUpdate = prevShouldUpdate;
+
+  // ggpoFightState->shouldUpdate = prevShouldUpdate;
   printf("GGPO ADVANCE FRAME END\n");
   return true;
 }
 
 bool fsLoadGameState(unsigned char* buffer, int length){
+  printf("calling loadState\n");
   memcpy(&saveObj, buffer, length);
   ggpoFightState->loadState();
   return true;
 }
 
 bool fsSaveGameState(unsigned char** buffer, int* len, int* checksum, int frame){
+  printf("calling saveState\n");
    ggpoFightState->saveState();
    *len = sizeof(saveObj);
    *buffer = (unsigned char *)malloc(*len);
@@ -149,6 +152,147 @@ bool fsSaveGameState(unsigned char** buffer, int* len, int* checksum, int frame)
 
 void fsFreeBuffer(void* buffer){ 
   free(buffer);
+}
+
+bool logSaveState(){
+  printf( "Fightstate Data. \n");
+  printf( "roundStartCounter:%d | roundStart:%d | currrentRound:%d | inSlowDown:%d | p1RoundsWon:%d | p2RoundsWon:%d | roundEnd:%d | roundWinner:%d \n", 
+      saveObj.roundStartCounter, saveObj.roundStart, 
+      saveObj.currentRound, saveObj.inSlowDown, saveObj.p1RoundsWon, 
+      saveObj.p2RoundsWon, saveObj.roundEnd, saveObj.roundWinner);
+  printf( "screenFreeze:%d | screenFreezeCounter:%d | screenFreezeLength:%d | slowDownCounter:%d | frameCount:%d | slowMode:%d | shouldUpdate:%d \n", 
+      saveObj.screenFreeze, saveObj.screenFreezeCounter, 
+      saveObj.screenFreezeLength, saveObj.slowDownCounter, saveObj.frameCount, 
+      saveObj.slowMode, saveObj.shouldUpdate);
+  printf( "---------- \n");
+  printf( "Camera State Data\n");
+  printf( "cameraUpperBound:%d | cameraLowerBound:%d | cameraMiddle:%d | camRectW:%d | camRectH:%d | camRectX:%d | camRectY:%d \n", 
+      saveObj.cameraState.upperBound, saveObj.cameraState.lowerBound, saveObj.cameraState.middle, 
+      saveObj.cameraState.camRect.w, saveObj.cameraState.camRect.h, saveObj.cameraState.camRect.x, 
+      saveObj.cameraState.camRect.y);
+  printf( "---------- \n");
+  printf( "Player1 Data\n");
+  printf( "P1: x:%d | y:%d | ctrl:%d | hStun:%d | bStun:%d | hStop:%d | pTime:%d | pBVel:%d | cBCounter:%d | hasAirAction:%d | cMCounter:%d\n", 
+      saveObj.char1State.positionX, saveObj.char1State.positionY, saveObj.char1State.control, 
+      saveObj.char1State.hitstun, saveObj.char1State.blockstun, saveObj.char1State.hitStop, 
+      saveObj.char1State.pushTime, saveObj.char1State.pushBackVelocity, saveObj.char1State.comebackCounter, 
+      saveObj.char1State.hasAirAction, saveObj.char1State.comboCounter);
+  printf( "P1: noGrvCount:%d | velX:%d | velY:%d | hp:%d | rhp:%d | rhpc:%d | gval:%d | hpushT:%d | hpushX:%d | hpushY:%d | meter:%d\n", 
+      saveObj.char1State.noGravityCounter, saveObj.char1State.velocityX, saveObj.char1State.velocityY, 
+      saveObj.char1State.health, saveObj.char1State.redHealth, saveObj.char1State.redHealthCounter, 
+      saveObj.char1State.gravityVal, saveObj.char1State.hitPushTime, saveObj.char1State.hitPushVelX, 
+      saveObj.char1State.hitPushVelY, saveObj.char1State.meter);
+  printf( "P1: cback:%d | fLastA:%ld | inCorner:%d | inHStop:%d | grav:%d | isDead:%d | fRight:%d | iRight:%d | hSnId:%d | sChn:%d | flshCn:%d\n", 
+      saveObj.char1State.comeback, saveObj.char1State.frameLastAttackConnected, saveObj.char1State.inCorner, 
+      saveObj.char1State.inHitStop, saveObj.char1State.gravity, saveObj.char1State.isDead, 
+      saveObj.char1State.faceRight, saveObj.char1State.inputFaceRight, saveObj.char1State.currentHurtSoundID, 
+      saveObj.char1State.soundChannel, saveObj.char1State.flashCounter);
+  printf( "P1: iRed:%d | iGreen:%d | iLight:%d | install:%d | aura:%d | auraID:%d \n", 
+      saveObj.char1State.isRed, saveObj.char1State.isGreen, saveObj.char1State.isLight, 
+      saveObj.char1State.installMode, saveObj.char1State.auraActive, saveObj.char1State.auraID);
+  printf( "P1: cPointer:%d | sNumber:%d | sTime:%d | aTime:%d | fFrame:%d | fLen:%d | hDisabled:%d | wCancel:%d | hCancel:%d | chFlag:%d | aFrame:%d | aTimeP:%d | aElem:%d | aElemT:%d\n", 
+      saveObj.char1State.cancelPointer, saveObj.char1State.currentState,
+      saveObj.char1State.stateDefObj.stateTime, saveObj.char1State.stateDefObj.animTime, saveObj.char1State.stateDefObj.freezeFrame, 
+      saveObj.char1State.stateDefObj.freezeLength, saveObj.char1State.stateDefObj.hitboxesDisabled, saveObj.char1State.stateDefObj.canWhiffCancel, 
+      saveObj.char1State.stateDefObj.canHitCancel, saveObj.char1State.stateDefObj.counterHitFlag, saveObj.char1State.stateDefObj.animFrame,
+      saveObj.char1State.stateDefObj.animationTimePassed, saveObj.char1State.stateDefObj.currentAnimElemIndex, saveObj.char1State.stateDefObj.currentAnimElemTimePassed);
+
+  //PLAYER 2 LOG
+  printf( "---------- \n");
+  printf( "Player2 Data\n");
+  printf( "P2: x:%d | y:%d | ctrl:%d | hStun:%d | bStun:%d | hStop:%d | pTime:%d | pBVel:%d | cBCounter:%d | hasAirAction:%d | cMCounter:%d\n", 
+      saveObj.char2State.positionX, saveObj.char2State.positionY, saveObj.char2State.control, 
+      saveObj.char2State.hitstun, saveObj.char2State.blockstun, saveObj.char2State.hitStop, 
+      saveObj.char2State.pushTime, saveObj.char2State.pushBackVelocity, saveObj.char2State.comebackCounter, 
+      saveObj.char2State.hasAirAction, saveObj.char2State.comboCounter);
+  printf( "P2: noGrvCount:%d | velX:%d | velY:%d | hp:%d | rhp:%d | rhpc:%d | gval:%d | hpushT:%d | hpushX:%d | hpushY:%d | meter:%d\n", 
+      saveObj.char2State.noGravityCounter, saveObj.char2State.velocityX, saveObj.char2State.velocityY, 
+      saveObj.char2State.health, saveObj.char2State.redHealth, saveObj.char2State.redHealthCounter, 
+      saveObj.char2State.gravityVal, saveObj.char2State.hitPushTime, saveObj.char2State.hitPushVelX, 
+      saveObj.char2State.hitPushVelY, saveObj.char2State.meter);
+  printf( "P2: cback:%d | fLastA:%ld | inCorner:%d | inHStop:%d | grav:%d | isDead:%d | fRight:%d | iRight:%d | hSnId:%d | sChn:%d | flshCn:%d\n", 
+      saveObj.char2State.comeback, saveObj.char2State.frameLastAttackConnected, saveObj.char2State.inCorner, 
+      saveObj.char2State.inHitStop, saveObj.char2State.gravity, saveObj.char2State.isDead, 
+      saveObj.char2State.faceRight, saveObj.char2State.inputFaceRight, saveObj.char2State.currentHurtSoundID, 
+      saveObj.char2State.soundChannel, saveObj.char2State.flashCounter);
+  printf( "P2: iRed:%d | iGreen:%d | iLight:%d | install:%d | aura:%d | auraID:%d \n", 
+      saveObj.char2State.isRed, saveObj.char2State.isGreen, saveObj.char2State.isLight, 
+      saveObj.char2State.installMode, saveObj.char2State.auraActive, saveObj.char2State.auraID);
+  printf( "P2: cPointer:%d | sNumber:%d | sTime:%d | aTime:%d | fFrame:%d | fLen:%d | hDisabled:%d | wCancel:%d | hCancel:%d | chFlag:%d | aFrame:%d | aTimeP:%d | aElem:%d | aElemT:%d\n", 
+      saveObj.char2State.cancelPointer, saveObj.char2State.currentState,
+      saveObj.char2State.stateDefObj.stateTime, saveObj.char2State.stateDefObj.animTime, saveObj.char2State.stateDefObj.freezeFrame, 
+      saveObj.char2State.stateDefObj.freezeLength, saveObj.char2State.stateDefObj.hitboxesDisabled, saveObj.char2State.stateDefObj.canWhiffCancel, 
+      saveObj.char2State.stateDefObj.canHitCancel, saveObj.char2State.stateDefObj.counterHitFlag, saveObj.char2State.stateDefObj.animFrame,
+      saveObj.char2State.stateDefObj.animationTimePassed, saveObj.char2State.stateDefObj.currentAnimElemIndex, saveObj.char2State.stateDefObj.currentAnimElemTimePassed);
+  return true;
+}
+
+bool fsLogGameState(char *filename, unsigned char *buffer, int len){
+  std::FILE *fp = fopen(filename, "w");
+  if (fp) {
+    FightStateObj* gamestate = (FightStateObj*)buffer;
+    fprintf(fp, "Fightstate Data. \n");
+    fprintf(fp, "roundStartCounter:%d | roundStart:%d | currrentRound:%d | inSlowDown:%d | p1RoundsWon:%d | p2RoundsWon:%d | roundEnd:%d | roundWinner:%d \n", 
+        gamestate->roundStartCounter, gamestate->roundStart, 
+        gamestate->currentRound, gamestate->inSlowDown, gamestate->p1RoundsWon, 
+        gamestate->p2RoundsWon, gamestate->roundEnd, gamestate->roundWinner);
+    fprintf(fp, "screenFreeze:%d | screenFreezeCounter:%d | screenFreezeLength:%d | slowDownCounter:%d | frameCount:%d | slowMode:%d | shouldUpdate:%d \n", 
+        gamestate->screenFreeze, gamestate->screenFreezeCounter, 
+        gamestate->screenFreezeLength, gamestate->slowDownCounter, gamestate->frameCount, 
+        gamestate->slowMode, gamestate->shouldUpdate);
+    fprintf(fp, "---------- \n");
+    fprintf(fp, "Camera State Data\n");
+    fprintf(fp, "cameraUpperBound:%d | cameraLowerBound:%d | cameraMiddle:%d | camRectW:%d | camRectH:%d | camRectX:%d | camRectY:%d \n", 
+        gamestate->cameraState.upperBound, gamestate->cameraState.lowerBound, gamestate->cameraState.middle, 
+        gamestate->cameraState.camRect.w, gamestate->cameraState.camRect.h, gamestate->cameraState.camRect.x, 
+        gamestate->cameraState.camRect.y);
+    fprintf(fp, "---------- \n");
+    fprintf(fp, "Player1 Data\n");
+    fprintf(fp, "P1: x:%d | y:%d | ctrl:%d | hStun:%d | bStun:%d | hStop:%d | pTime:%d | pBVel:%d | cBCounter:%d | hasAirAction:%d | cMCounter:%d\n", 
+        gamestate->char1State.positionX, gamestate->char1State.positionY, gamestate->char1State.control, 
+        gamestate->char1State.hitstun, gamestate->char1State.blockstun, gamestate->char1State.hitStop, 
+        gamestate->char1State.pushTime, gamestate->char1State.pushBackVelocity, gamestate->char1State.comebackCounter, 
+        gamestate->char1State.hasAirAction, gamestate->char1State.comboCounter);
+    fprintf(fp, "P1: noGrvCount:%d | velX:%d | velY:%d | hp:%d | rhp:%d | rhpc:%d | gval:%d | hpushT:%d | hpushX:%d | hpushY:%d | meter:%d\n", 
+        gamestate->char1State.noGravityCounter, gamestate->char1State.velocityX, gamestate->char1State.velocityY, 
+        gamestate->char1State.health, gamestate->char1State.redHealth, gamestate->char1State.redHealthCounter, 
+        gamestate->char1State.gravityVal, gamestate->char1State.hitPushTime, gamestate->char1State.hitPushVelX, 
+        gamestate->char1State.hitPushVelY, gamestate->char1State.meter);
+    fprintf(fp, "P1: cback:%d | fLastA:%ld | inCorner:%d | inHStop:%d | grav:%d | isDead:%d | fRight:%d | iRight:%d | hSnId:%d | sChn:%d | flshCn:%d\n", 
+        gamestate->char1State.comeback, gamestate->char1State.frameLastAttackConnected, gamestate->char1State.inCorner, 
+        gamestate->char1State.inHitStop, gamestate->char1State.gravity, gamestate->char1State.isDead, 
+        gamestate->char1State.faceRight, gamestate->char1State.inputFaceRight, gamestate->char1State.currentHurtSoundID, 
+        gamestate->char1State.soundChannel, gamestate->char1State.flashCounter);
+    fprintf(fp, "P1: iRed:%d | iGreen:%d | iLight:%d | install:%d | aura:%d | auraID:%d | cancelPointer:%d | currentState:%d\n", 
+        gamestate->char1State.isRed, gamestate->char1State.isGreen, gamestate->char1State.isLight, 
+        gamestate->char1State.installMode, gamestate->char1State.auraActive, gamestate->char1State.auraID, 
+        gamestate->char1State.cancelPointer, gamestate->char1State.currentState);
+
+    //PLAYER 2 LOG
+    fprintf(fp, "---------- \n");
+    fprintf(fp, "Player2 Data\n");
+    fprintf(fp, "P2: x:%d | y:%d | ctrl:%d | hStun:%d | bStun:%d | hStop:%d | pTime:%d | pBVel:%d | cBCounter:%d | hasAirAction:%d | cMCounter:%d\n", 
+        gamestate->char2State.positionX, gamestate->char2State.positionY, gamestate->char2State.control, 
+        gamestate->char2State.hitstun, gamestate->char2State.blockstun, gamestate->char2State.hitStop, 
+        gamestate->char2State.pushTime, gamestate->char2State.pushBackVelocity, gamestate->char2State.comebackCounter, 
+        gamestate->char2State.hasAirAction, gamestate->char2State.comboCounter);
+    fprintf(fp, "P2: noGrvCount:%d | velX:%d | velY:%d | hp:%d | rhp:%d | rhpc:%d | gval:%d | hpushT:%d | hpushX:%d | hpushY:%d | meter:%d\n", 
+        gamestate->char2State.noGravityCounter, gamestate->char2State.velocityX, gamestate->char2State.velocityY, 
+        gamestate->char2State.health, gamestate->char2State.redHealth, gamestate->char2State.redHealthCounter, 
+        gamestate->char2State.gravityVal, gamestate->char2State.hitPushTime, gamestate->char2State.hitPushVelX, 
+        gamestate->char2State.hitPushVelY, gamestate->char2State.meter);
+    fprintf(fp, "P2: cback:%d | fLastA:%ld | inCorner:%d | inHStop:%d | grav:%d | isDead:%d | fRight:%d | iRight:%d | hSnId:%d | sChn:%d | flshCn:%d\n", 
+        gamestate->char2State.comeback, gamestate->char2State.frameLastAttackConnected, gamestate->char2State.inCorner, 
+        gamestate->char2State.inHitStop, gamestate->char2State.gravity, gamestate->char2State.isDead, 
+        gamestate->char2State.faceRight, gamestate->char2State.inputFaceRight, gamestate->char2State.currentHurtSoundID, 
+        gamestate->char2State.soundChannel, gamestate->char2State.flashCounter);
+    fprintf(fp, "P2: iRed:%d | iGreen:%d | iLight:%d | install:%d | aura:%d | auraID:%d | cancelPointer:%d | currentState:%d\n", 
+        gamestate->char2State.isRed, gamestate->char2State.isGreen, gamestate->char2State.isLight, 
+        gamestate->char2State.installMode, gamestate->char2State.auraActive, gamestate->char2State.auraID, 
+        gamestate->char2State.cancelPointer, gamestate->char2State.currentState);
+    fclose(fp);
+  }
+  return true;
 }
 
 
@@ -304,6 +448,7 @@ void FightState::enter(){
 
   if (netPlayState) {
     shouldUpdate = false;
+    doneSync = false;
     if (pnum != 1) {
       inputManager->stickToVC[inputManager->p1SDLController] = player2->virtualController;
     }
@@ -324,25 +469,35 @@ void FightState::pause(){ shouldUpdate = false;}
 void FightState::resume(){ shouldUpdate = true;}
 
 void FightState::saveState(){
+  printf("---------------\n");
+  printf("START SAVE STATE\n");
+  printf("---------------\n");
+
+  saveObj.roundStartCounter = roundStartCounter;
+  saveObj.roundStart = roundStart;
   saveObj.currentRound = currentRound;
   saveObj.inSlowDown = inSlowDown;
   saveObj.p1RoundsWon = p1RoundsWon;
   saveObj.p2RoundsWon = p2RoundsWon;
   saveObj.roundEnd = roundEnd;
-  saveObj.roundStart = roundStart;
-  saveObj.roundStartCounter = roundStartCounter;
   saveObj.roundWinner = roundWinner;
   saveObj.screenFreeze = screenFreeze;
   saveObj.screenFreezeCounter = screenFreezeCounter;
   saveObj.screenFreezeLength = screenFreezeLength;
   saveObj.slowDownCounter = slowDownCounter;
-  saveObj.frameCount = frameCount;
   saveObj.slowMode = slowMode;
-  saveObj.shouldUpdate = shouldUpdate;
 
-  saveObj.char1State = player1->saveState();
-  saveObj.char2State = player2->saveState();
+  // saveObj.shouldUpdate = shouldUpdate;
+  saveObj.frameCount = frameCount;
+
+  saveObj.char1State = *player1->saveState();
+  saveObj.char2State = *player2->saveState();
   saveObj.cameraState = camera.saveState();
+
+  logSaveState();
+  printf("---------------\n");
+  printf("DONE SAVE STATE\n");
+  printf("---------------\n");
 }
 
 void FightState::saveState(unsigned char** buffer, int* length, int frame){
@@ -359,24 +514,23 @@ void FightState::saveState(unsigned char** buffer, int* length, int frame){
   saveObj.screenFreezeLength = screenFreezeLength;
   saveObj.slowDownCounter = slowDownCounter;
   saveObj.frameCount = frameCount;
-
-  saveObj.char1State = player1->saveState();
-  saveObj.char2State = player2->saveState();
+  saveObj.char1State = *player1->saveState();
+  saveObj.char2State = *player2->saveState();
   saveObj.cameraState = camera.saveState();
-  printf("saved state\n");
-
-  *length = sizeof(saveObj);
-  *buffer = (unsigned char*) malloc(*length);
-  memcpy(*buffer, &saveObj, *length);
-  checksum = fletcher32_checksum((short *)*buffer, *length / 2);
 }
 
 void FightState::advanceFrame(){
+  printf("in FS advance frame\n");
   handleInput();
   update();
 }
 
 void FightState::loadState(){
+  printf("---------------\n");
+  printf("START LOAD STATE\n");
+  printf("---------------\n");
+
+  logSaveState();
   currentRound = saveObj.currentRound;
   slowDownCounter = saveObj.slowDownCounter;
   slowMode = saveObj.slowMode;
@@ -391,14 +545,18 @@ void FightState::loadState(){
   screenFreeze = saveObj.screenFreeze;
   screenFreezeCounter = saveObj.screenFreezeCounter;
   screenFreezeLength = saveObj.screenFreezeLength;
-  frameCount = saveObj.frameCount;
-  shouldUpdate = saveObj.shouldUpdate;
 
-  printf("FRAMECOUNT:%d\n", frameCount);
+  // shouldUpdate = saveObj.shouldUpdate;
+  frameCount = saveObj.frameCount;
+  
   player1->loadState(saveObj.char1State);
   player2->loadState(saveObj.char2State);
+  
   camera.loadState(saveObj.cameraState);
+
+  printf("---------------\n");
   printf("DONE LOAD STATE\n");
+  printf("---------------\n");
 }
 
 void FightState::loadState(unsigned char* buffer, int length){
@@ -427,20 +585,22 @@ void FightState::loadState(unsigned char* buffer, int length){
 
 
 void FightState::handleInput(){
-  if (!shouldUpdate) {
+  printf("in handleInput, shouldUpdate?:%d\n", shouldUpdate);
+  if (!shouldUpdate || (netPlayState && !doneSync)) {
     return;
   }
-  printf("HANDLE_INPUT - FRAMECOUNT:%d\n", frameCount);
-  printf("HANDLE_INPUT PLAYER:%d { STATE TIME:%d | CURRENT STATE:%d | CANCEL POINTER:%d }\n", 
-      player1->playerNum, 
-      player1->currentState->stateTime, 
-      player1->currentState->stateNum, 
-      player1->cancelPointer);
-  printf("HANDLE_INPUT PLAYER:%d { STATE TIME:%d | CURRENT STATE:%d | CANCEL POINTER:%d }\n", 
-      player2->playerNum, 
-      player2->currentState->stateTime, 
-      player2->currentState->stateNum, 
-      player2->cancelPointer);
+  frameCount++;
+  // printf("HANDLE_INPUT - FRAMECOUNT:%d\n", frameCount);
+  // printf("HANDLE_INPUT PLAYER:%d { STATE TIME:%d | CURRENT STATE:%d | CANCEL POINTER:%d }\n", 
+  //     player1->playerNum, 
+  //     player1->currentState->stateTime, 
+  //     player1->currentState->stateNum, 
+  //     player1->cancelPointer);
+  // printf("HANDLE_INPUT PLAYER:%d { STATE TIME:%d | CURRENT STATE:%d | CANCEL POINTER:%d }\n", 
+  //     player2->playerNum, 
+  //     player2->currentState->stateTime, 
+  //     player2->currentState->stateNum, 
+  //     player2->cancelPointer);
 
 
   if(!slowMode && !screenFreeze){
@@ -494,9 +654,11 @@ void FightState::handleInput(){
 }
 
 void FightState::update(){
-if (!shouldUpdate) {
-  return;
-}
+  printf("in update, shouldUpdate?:%d\n", shouldUpdate);
+  if (!shouldUpdate || (netPlayState && !doneSync)) {
+    return;
+  }
+
   if(!slowMode && !screenFreeze){
     if(!player1->inHitStop){
       player1->update();
@@ -516,11 +678,13 @@ if (!shouldUpdate) {
         i.update();
       }
     }
+
     if (player1->currentState->checkFlag(SUPER_ATTACK) && (player1->currentState->stateTime == player1->currentState->freezeFrame)) {
       screenFreeze = true;
       screenFreezeLength = player1->currentState->freezeLength;
       player1->activateVisFX(1);
     }
+
     if (player2->currentState->checkFlag(SUPER_ATTACK) && (player2->currentState->stateTime == player2->currentState->freezeFrame)) {
       screenFreeze = true;
       screenFreezeLength = player2->currentState->freezeLength;
@@ -574,7 +738,7 @@ if (!shouldUpdate) {
   updateVisuals();
   
   if (netPlayState && doneSync) {
-    // printf("calling ggpo advance frame\n");
+    printf("calling ggpo advance frame\n");
     ggpo_advance_frame(ggpo);
   } else if(!netPlayState){
     // saveState(&buffer, &bufferLen, gameTime);
@@ -582,7 +746,6 @@ if (!shouldUpdate) {
   // printf("camera: x%d|y%d|UpperBound%d|LowerBound%d\n", camera.positionObj.x, camera.positionObj.y, camera.upperBound, camera.lowerBound);
   // printf("player1: x%d|y%d\n", player1->position.first, player1->position.second);
   // printf("player2: x%d|y%d\n", player2->position.first, player2->position.second);
-  frameCount++;
 }
 
 void FightState::updateCamera(){
@@ -633,9 +796,17 @@ void FightState::updateVisuals(){
 
   // TODO: Container of base class pointer to all this shit
   for (auto &i : player1->visualEffects) {
+    if (i.second.getActive() && i.second.charEffect) {
+      i.second.setX(player1->position.first);
+      i.second.setY(player1->position.second);
+    }
     i.second.update();
   }
   for (auto &i : player2->visualEffects) {
+    if (i.second.getActive() && i.second.charEffect) {
+      i.second.setX(player2->position.first);
+      i.second.setY(player2->position.second);
+    }
     i.second.update();
   }
   for (auto &i : player1->guardSparks) {
@@ -678,6 +849,10 @@ void FightState::checkCorner(Character* player){
 }
 
 void FightState::handleRoundStart(){
+  //roundStartCounter
+  //roundStart
+  //currentRound
+  
   if (roundStartCounter > 0) {
     // printf("roundStarTCounter!:%d\n", roundStartCounter);
     if (--roundStartCounter == 0) {
@@ -914,13 +1089,13 @@ ThrowResult FightState::checkThrowAgainst(Character* thrower, Character* throwee
               if (p1ThrowHitbox->throwType == 1 && throwee->_getYPos() > 0) {
                 result.thrown = true;
                 result.throwCb = p1ThrowHitbox;
-                thrower->frameLastAttackConnected = gameTime; 
+                thrower->frameLastAttackConnected = frameCount; 
                 thrower->currentState->hitboxesDisabled = true;
                 
               } else if(p1ThrowHitbox->throwType == 2 && throwee->_getYPos() == 0) {
                 result.thrown = true;
                 result.throwCb = p1ThrowHitbox;
-                thrower->frameLastAttackConnected = gameTime; 
+                thrower->frameLastAttackConnected = frameCount; 
                 thrower->currentState->hitboxesDisabled = true;
               }
             }
@@ -962,7 +1137,7 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
 
               hurter->hitStop = hitBox->hitstop;
               hurter->inHitStop = true;
-              hitter->frameLastAttackConnected = gameTime; 
+              hitter->frameLastAttackConnected = frameCount; 
               // TODO: Hitbox group IDs
               hitter->currentState->hitboxGroupDisabled[hitBox->groupID] = true;
               hitter->currentState->canHitCancel = true;
@@ -1048,7 +1223,7 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                     default: break;
                   }
                 }
-                if (hurter->inCorner) {
+                if (hurter->inCorner && (hitBox->pushback > 0)) {
                   hitter->pushTime = hitBox->pushTime;
                   if (hitter->faceRight) {
                     hitter->pushBackVelocity = hitBox->pushback;
@@ -1086,16 +1261,16 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                 if (hurter->inCorner) {
                   hitter->pushTime = hitBox->hitPushTime;
                   if (hitter->faceRight) {
-                    hitter->pushBackVelocity = hitBox->hitVelocityX/2;
+                    hitter->pushBackVelocity = hitBox->hitVelocityX+(hurter->comboCounter*10);
                   } else {
-                    hitter->pushBackVelocity = -(hitBox->hitVelocityX/2);
+                    hitter->pushBackVelocity = -(hitBox->hitVelocityX+(hurter->comboCounter*10));
                   }
                 } else {
                   hurter->hitPushTime = hitBox->hitPushTime;
                   if (hitter->faceRight) {
-                    hurter->hitPushVelX = -hitBox->hitVelocityX;
+                    hurter->hitPushVelX = -(hitBox->hitVelocityX+(hurter->comboCounter*10));
                   } else {
-                    hurter->hitPushVelX = hitBox->hitVelocityX;
+                    hurter->hitPushVelX = hitBox->hitVelocityX+(hurter->comboCounter*10);
                   }
                 }
 
@@ -1132,7 +1307,7 @@ HitResult FightState::checkHitboxAgainstHurtbox(Character* hitter, Character* hu
                     hurter->hitstun = hitBox->airHitstun;
                   }
                   if (hitBox->airHitVelocityX > 0) {
-                    if (hurter->inCorner) {
+                    if (hurter->inCorner && (hitBox->pushback > 0)) {
                       hitter->pushTime = hitBox->hitPushTime;
                       if (hitter->faceRight) {
                         hitter->pushBackVelocity = hitBox->airHitVelocityX/2;
@@ -1277,7 +1452,7 @@ HitResult FightState::checkEntityHitAgainst(Character* p1, Character* p2){
                 p2->inHitStop = true;
                 p2->hitStop = entityHitbox->hitstop;
 
-                p1->frameLastAttackConnected = gameTime; 
+                p1->frameLastAttackConnected = frameCount; 
                 entity.currentState->hitboxGroupDisabled[entityHitbox->groupID] = true;
                 // TODO: Hitbox group IDs
                 entity.currentState->canHitCancel = true;
@@ -2030,6 +2205,7 @@ void FightState::ggpoInit(){
   cb.load_game_state = fsLoadGameState;
   cb.save_game_state = fsSaveGameState;
   cb.free_buffer = fsFreeBuffer;
+  cb.log_game_state = fsLogGameState;
 
   // Start Session
    GGPOErrorCode result = GGPO_OK;
@@ -2059,13 +2235,13 @@ void FightState::netPlayHandleInput(){
 
   VirtualController* p1Vc = player1->virtualController;
   VirtualController* p2Vc = player2->virtualController;
-
   VirtualController* currentVc = pnum == 1 ? p1Vc : p2Vc;
+
   currentInput = currentVc->getState();
-  // p1Vc->setState(0);
+  p1Vc->setState(0);
+  p2Vc->setState(0);
   p1Vc->inputHistory.front().clear();
   p2Vc->inputHistory.front().clear();
-  // p2Vc->setState(0);
 
   // printf("adding local input\n");
 #if defined(SYNC_TEST)
@@ -2073,16 +2249,15 @@ void FightState::netPlayHandleInput(){
 #endif
 
   GGPOErrorCode result = ggpo_add_local_input(ggpo, *local_player_handle, &currentInput, sizeof(currentInput));
+  inputs[0] = currentInput;
+
   if (GGPO_SUCCEEDED(result)) {
     ggpo_synchronize_input(ggpo, (void *)inputs, sizeof(int)*2, &disconnectFlags);
     if (GGPO_SUCCEEDED(result)) {
       // printf("GGPO SYNC SUCCESS\n");
       // simulate a local keypress with input
-      p1Vc->setState(inputs[0]);
-      p1Vc->addNetInput();
-
-      p2Vc->setState(inputs[1]);
-      p2Vc->addNetInput();
+      p1Vc->addNetInput(inputs[0]);
+      p2Vc->addNetInput(inputs[1]);
       shouldUpdate = true;
     }
   } else {

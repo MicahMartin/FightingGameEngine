@@ -1,7 +1,7 @@
 {
   var canHitCancel = $get_hit_cancel;
   var stateTime = $get_state_time;
-  var inCancelWindow = (stateTime >= 24) and (stateTime <= 28);
+  var inCancelWindow = (stateTime >= 21) and (stateTime <= 28);
 
   if(canHitCancel and (stateTime > 28)) {
     $set_hit_cancel 0;
@@ -20,6 +20,7 @@
     var upforward = $get_input 9; 
     var upback = $get_input 7; 
     var kick = $check_command 16;
+    var slash = $check_command 17;
     var down = $get_input 2; 
     var downback = $get_input 1; 
     var downforward = $get_input 3; 
@@ -34,6 +35,11 @@
     }
     if(upback){
       $cancel_state 8;
+    }
+    if(slash){
+      if(anyDown){
+          $cancel_state 44; 
+      } 
     }
     if(kick){
       if (anyDown) {

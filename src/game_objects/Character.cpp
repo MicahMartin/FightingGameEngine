@@ -11,7 +11,6 @@
 
 std::string p1InputHistory;
 std::string p2InputHistory;
-
 Character::Character(std::pair<int, int> _position, int _playerNum) {
   faceRight = playerNum == 1 ? true : false;
   health = 100;
@@ -43,9 +42,8 @@ void Character::init(const char* path){
   changeState(specialStateMap[SS_PRE_MATCH]);
 }
 
-CharStateObj Character::saveState(){
-  CharStateObj stateObj;
-
+CharStateObj* Character::saveState(){
+  // stateObj.virtualControllerObj = virtualController->saveState();
   stateObj.positionX = position.first;
   stateObj.positionY = position.second;
   stateObj.control = control;
@@ -59,8 +57,6 @@ CharStateObj Character::saveState(){
   stateObj.comboCounter = comboCounter;
   stateObj.noGravityCounter = noGravityCounter;
   stateObj.velocityX = velocityX;
-  stateObj.momentum = momentum;
-  stateObj.mass = mass;
   stateObj.velocityY = velocityY;
   stateObj.health = health;
   stateObj.redHealth = redHealth;
@@ -87,19 +83,25 @@ CharStateObj Character::saveState(){
   stateObj.installMode = installMode;
   stateObj.auraActive = auraActive;
   stateObj.auraID = auraID;
-  stateObj.virtualControllerObj = virtualController->saveState();
 
   stateObj.cancelPointer = cancelPointer;
   stateObj.currentState = currentState->stateNum;
-  stateObj.stateDefObj = currentState->saveState();
+  stateObj.stateDefObj = *currentState->saveState();
 
-  for (int i = 0; i < entityList.size(); ++i) {
-    stateObj.entityStates[i] = entityList[i].saveState();
-  }
-  return stateObj;
+  // for (int i = 0; i < entityList.size(); ++i) {
+  //   stateObj.entityStates[i] = entityList[i].saveState();
+  // }
+  return &stateObj;
 }
 
 void Character::loadState(CharStateObj stateObj){
+  printf("GGPO PLAYER:%d { STATE TIME:%d | LOAD STATE:%d | CANCEL POINTER:%d }\n", 
+      playerNum, 
+      stateObj.stateDefObj.stateTime, 
+      stateObj.currentState, 
+      stateObj.cancelPointer);
+
+  // virtualController->loadState(stateObj.virtualControllerObj);
   position.first = stateObj.positionX;
   position.second = stateObj.positionY;
   control = stateObj.control;
@@ -111,11 +113,8 @@ void Character::loadState(CharStateObj stateObj){
   comebackCounter = stateObj.comebackCounter;
   hasAirAction = stateObj.hasAirAction;
   comboCounter = stateObj.comboCounter;
-  cancelPointer = stateObj.cancelPointer;
   noGravityCounter = stateObj.noGravityCounter;
   velocityX = stateObj.velocityX;
-  momentum = stateObj.momentum;
-  mass = stateObj.mass;
   velocityY = stateObj.velocityY;
   health = stateObj.health;
   redHealth = stateObj.redHealth;
@@ -142,23 +141,14 @@ void Character::loadState(CharStateObj stateObj){
   installMode = stateObj.installMode;
   auraActive = stateObj.auraActive;
   auraID = stateObj.auraID;
-  virtualController->loadState(stateObj.virtualControllerObj);
-  stateObj.inputPrevState = virtualController->prevState;
 
-  printf("GGPO PLAYER:%d { STATE TIME:%d | LOAD STATE:%d | CANCEL POINTER:%d }\n", 
-      playerNum, 
-      stateObj.stateDefObj.stateTime, 
-      stateObj.currentState, 
-      stateObj.cancelPointer);
-
+  cancelPointer = stateObj.cancelPointer;
   setCurrentState(stateObj.currentState);
-  printf("set the current state to %d\n", stateObj.currentState);
   currentState->loadState(stateObj.stateDefObj);
-
-  for (int i = 0; i < entityList.size(); ++i) {
-    entityList[i].loadState(stateObj.entityStates[i]);
-  }
-
+  
+  // for (int i = 0; i < entityList.size(); ++i) {
+  //   entityList[i].loadState(stateObj.entityStates[i]);
+  // }
   //{
   //  std::string* theString = playerNum == 1 ? &p1InputHistory : &p2InputHistory;
   //  std::stringstream iStream(*theString);
@@ -194,21 +184,23 @@ void Character::refresh(){
 }
 
 void Character::changeState(int stateDefNum){
-  if (auraActive) {
-    visualEffects.at(auraID).setActive(false);
-    auraActive = false;
+  for (auto &i : visualEffects) {
+    if (i.second.getAura()) {
+      i.second.setActive(false);
+    }
   }
+  auraActive = false;
   cancelPointer = 0;
   if(stateDefNum >= 6000){
     int theNum = stateDefNum - 6000;
     int customStateNum = stateCount + theNum;
-    printf("the num:%d, the customStateNum%d\n", stateDefNum, customStateNum);
+    // printf("the num:%d, the customStateNum%d\n", stateDefNum, customStateNum);
     currentState = &stateList.at(customStateNum-1);
   } else if (stateDefNum >= 5000) {
     int theNum = stateDefNum - 5000;
     SpecialState theState = (SpecialState)theNum;
     int specialStateNum = specialStateMap[theState];
-    printf("the num:%d, the specialStateNum %d\n", stateDefNum, specialStateNum);
+    // printf("the num:%d, the specialStateNum %d\n", stateDefNum, specialStateNum);
     currentState = &stateList.at(specialStateNum-1);
   } else {
     currentState = &stateList.at(stateDefNum-1);
@@ -223,19 +215,20 @@ void Character::changeState(int stateDefNum){
 };
 
 void Character::setCurrentState(int stateDefNum){
+  printf("in setCurrentState\n");
   if(stateDefNum >= 6000){
     int theNum = stateDefNum - 6000;
     int customStateNum = stateCount + theNum;
-    printf("the num:%d, the customStateNum%d\n", stateDefNum, customStateNum);
+    // printf("the num:%d, the customStateNum%d\n", stateDefNum, customStateNum);
     currentState = &stateList.at(customStateNum-1);
   } else if (stateDefNum >= 5000) {
     int theNum = stateDefNum - 5000;
     SpecialState theState = (SpecialState)theNum;
     int specialStateNum = specialStateMap[theState];
-    printf("the num:%d, the specialStateNum %d\n", stateDefNum, specialStateNum);
+    // printf("the num:%d, the specialStateNum %d\n", stateDefNum, specialStateNum);
     currentState = &stateList.at(specialStateNum-1);
   } else {
-    printf("the the stateNum:%d\n", stateDefNum);
+    // printf("the the stateNum:%d\n", stateDefNum);
     currentState = &stateList.at(stateDefNum-1);
   }
 }
@@ -245,7 +238,7 @@ void Character::cancelState(int stateDefNum){
   if (stateDefNum >= 6000) {
     int theNum = stateDefNum - 6000;
     int customState = stateCount + theNum;
-    printf("the num:%d, the customState%d\n", theNum, customState);
+    // printf("the num:%d, the customState%d\n", theNum, customState);
     cancelPointer = customState;
   } else if (stateDefNum >= 5000) {
     int theNum = stateDefNum - 5000;
@@ -258,13 +251,13 @@ void Character::cancelState(int stateDefNum){
 };
 
 void Character::loadStates(const char* path){
-  printf("%d Loading states\n", playerNum);
+  // printf("%d Loading states\n", playerNum);
   std::ifstream configFile(path);
   configFile >> stateJson;
   // compile inputs
   if (stateJson.count("anim_scale")) {
     std::string animScaleStr = stateJson.at("anim_scale");
-    printf("the animScale %s\n", animScaleStr.c_str());
+    // printf("the animScale %s\n", animScaleStr.c_str());
     animScale = std::stod(animScaleStr);
   }
   if (stateJson.count("gravity")) {
@@ -315,6 +308,9 @@ void Character::loadStates(const char* path){
     visualEffects.at(visualID).setPlayLength(visualEffects.at(visualID).anim.animationTime);
     if (i.value().count("aura")) {
       visualEffects.at(visualID).setAura(i.value().at("aura"));
+    }
+    if (i.value().count("charEffect")) {
+      visualEffects.at(visualID).charEffect = (i.value().at("charEffect"));
     }
     printf("loaded visual effect # %d\n", visualID);
   }
@@ -423,7 +419,7 @@ void Character::loadCustomStates(const char* path){
 Character::~Character(){};
 
 void Character::handleInput(){ 
-  if(cancelPointer != 0){
+  if(cancelPointer != 0 && !inHitStop){
     changeState(cancelPointer);
   }
 
@@ -473,10 +469,8 @@ void Character::update(){
     int visualID = currentState->visualEffectMap.at(currentState->stateTime);
     VisualEffect& visFX = visualEffects.at(visualID);
     // printf("found visFX for frame %d, the playLEngth %d\n", currentState->stateTime, visFX.getPlayLength());
-    if (!visFX.getAura()) {
-      visFX.reset(position.first, position.second);
-      visFX.setActive(true);
-    }
+    visFX.reset(position.first, position.second);
+    visFX.setActive(true);
   }
   for (auto i : currentState->visualEffectMap) {
     VisualEffect& visFX = visualEffects.at(i.second);
@@ -484,9 +478,6 @@ void Character::update(){
     if (visFX.getAura()) {
       visFX.setX(position.first);
       visFX.setY(position.second);
-      visFX.setActive(true);
-      auraActive = true;
-      auraID = i.second;
     }
   }
   if (currentState->soundIndexMap[currentState->stateTime].size() > 0) {
@@ -561,7 +552,8 @@ void Character::updatePosition() {
 
   if(noGravityCounter > 0){
     gravity = false;
-    if(--noGravityCounter == 0){
+    if(--noGravityCounter <= 0){
+      noGravityCounter = 0;
       gravity = true;
     }
   }
@@ -804,12 +796,12 @@ void Character::_cancelState(int  stateNum){
 
 void Character::_velSetX(int ammount){
  velocityX = faceRight ? ammount : -ammount;
- momentum = (mass/100) * velocityX;
+ // momentum = (mass/100) * velocityX;
 }
 
 void Character::_negVelSetX(int ammount){
  velocityX = faceRight ? -ammount : ammount;
- momentum = (mass/100) * velocityX;
+ // momentum = (mass/100) * velocityX;
 }
 
 void Character::_velSetY(int ammount){

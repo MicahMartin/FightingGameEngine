@@ -72,7 +72,7 @@ public:
   void draw(std::pair<int,int> position, bool faceRight, bool inHitStop);
   void drawCollisionBoxes();
 
-  StateDefObj saveState();
+  StateDefObj* saveState();
   void loadState(StateDefObj stateObj);
 
   void resetAnim();
@@ -83,6 +83,7 @@ public:
   Script updateScript;
   Script cancelScript;
   Animation anim;
+  StateDefObj stateObj;
 
   // TODO: Polymorph or atleast use a union
   CollisionBoxList pushBoxes;

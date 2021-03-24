@@ -35,14 +35,14 @@
     if(alive){
       if (teching) {
         $neg_velset_x 6;
-        $velset_y 14;
+        $velset_y 14000;
         if (anyForward) {
-          $velset_x 10;
-          $velset_y 20;
+          $velset_x 10000;
+          $velset_y 20000;
         }
         if (anyBack) {
-          $neg_velset_x 10;
-          $velset_y 20;
+          $neg_velset_x 10000;
+          $velset_y 20000;
         }
         
         $cancel_state 5028;
@@ -50,6 +50,6 @@
     } else {
       $cancel_state 5029;
     }
-  } 
+  }
 } 
 

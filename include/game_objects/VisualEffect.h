@@ -36,6 +36,7 @@ public:
   bool getAura();
 
   Animation anim;
+  bool charEffect = false;
 private:
   bool aura = false;
   bool isActive = false;

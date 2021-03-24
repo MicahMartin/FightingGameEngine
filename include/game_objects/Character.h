@@ -128,7 +128,7 @@ public:
   void update();
   void draw();
 
-  CharStateObj saveState();
+  CharStateObj* saveState();
   void loadState(CharStateObj stateObj);
   int stateCount = 0;
 
@@ -277,6 +277,8 @@ public:
   std::unordered_map<int, SoundObj> soundsEffects;
   std::unordered_map<int, SoundObj> hurtSoundEffects;
   std::unordered_map<SpecialState, int> specialStateMap;
+  CharStateObj stateObj;
+
 private:
   nlohmann::json stateJson;
   std::vector<StateDef> stateList;

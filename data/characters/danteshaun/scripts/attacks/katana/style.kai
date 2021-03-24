@@ -1,0 +1,17 @@
+{ 
+  if($get_state_time == 0){ 
+    $set_control 0; 
+    $velset_x 0000; 
+  } 
+  var meter = $get_meter 1;
+  var back = $get_input 4; 
+  var upback = $get_input 7; 
+  var downback = $get_input 1; 
+  var anyBack = (back or upback or downback);
+  var lp_and_lk = $was_pressed 10;
+
+  if($get_state_time == 60){ 
+    $set_control 1; 
+  } 
+} 
+

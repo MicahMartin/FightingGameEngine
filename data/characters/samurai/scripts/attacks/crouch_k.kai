@@ -10,7 +10,7 @@
   if($get_state_time < 2){
     if (lp_and_lk) {
       if(anyBack){
-        $change_state 5036;
+        $cancel_state 5036;
       } else { 
         $cancel_state 5032;
       }
@@ -18,7 +18,7 @@
   }
   if ($get_state_time == 3) {
     $velset_x 10000; 
-    $velset_y 6000; 
+    $velset_y 10000; 
     $set_nograv_count 15;
   }
   

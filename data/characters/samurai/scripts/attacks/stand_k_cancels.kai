@@ -16,7 +16,7 @@
   if(canHitCancel and inCancelWindow){
     var qcf_k = $check_command 2;
     var qcb_p = $check_command 3;
-    var kick = $check_command 16;
+    var kick = $was_pressed 11;
     var slash = $check_command 17;
 
     var lb = $check_command 10;

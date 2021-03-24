@@ -43,7 +43,7 @@ std::vector<std::string> CommandCompiler::commandStrings = {
   "@F, N, F", // dash
   "B, N, B", // backdash
   "~D, DF, F, LK | ~LK",
-  "N & MK",
+  "~D, DB, B, LP | ~LP",
   "@~D, N, @D, LP", // 22P
   "2LK & 2LP", // lp and lk
   "~N, U",
@@ -56,10 +56,14 @@ std::vector<std::string> CommandCompiler::commandStrings = {
   "~D, DF, F, D, DF, F, LK | ~LK",
   "MK & 2MP",
   "3LP",
-  "3LK",
+  "18LK",
   "3MP",
   "3MK",
   "3LP",
+  "LK | ~LK",
+  "*F, 3LP & 3MP",
+  "*B, 3LP & 3MP",
+  "14@D",
 };
 
 CommandCompiler::CommandCompiler() { }
@@ -87,16 +91,19 @@ void CommandCompiler::compile(const char* inputString) {
   // set command func's return to the evaluation of function @ function pointer
   // push command func onto commandFuncStack
   std::vector<CommandToken> tokens = commandScanner.scan(inputString);
-  Command command;
+  CommandObj commandObj;
+  //im lazy
+  std::string inputStringString(inputString);
+  commandObj.clears = (inputStringString.find("D, DF, F") != std::string::npos) || (inputStringString.find("LK") != std::string::npos);
   currentToken = &tokens[0];
   //for (auto i : tokens) {
   //}
   while(currentToken->type != CTOKEN_END){
     printf("TOKEN:%s\n", std::string(currentToken->start, currentToken->length).c_str());
-    command.push_back(compileNode());
+    commandObj.command.push_back(compileNode());
     printf("node compiled\n");
   }
-  commands.push_back(command);
+  commands.push_back(commandObj);
 }
 
 CommandNode CommandCompiler::compileNode(){

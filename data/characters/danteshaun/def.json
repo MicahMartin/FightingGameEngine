@@ -54,7 +54,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_0-9.png","time":5,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -76,7 +76,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_20-8.png","time":7,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -99,7 +99,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_21-3.png","time":7,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -113,7 +113,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_11-0.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -121,7 +121,9 @@
     {
       "state_num": 6,
       "state_name": "JUMP_N",
-      "flags":[],
+      "flags":[
+        "NO_TURN"
+      ],
       "update_script": "../data/characters/danteshaun/scripts/movement/jump_n.kai",
       "animation":[
         {"file":"../data/characters/danteshaun/sprites/danteshaun_41-0.png","time":3,"offsetX":-1},
@@ -136,7 +138,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_41-8.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -144,7 +146,9 @@
     {
       "state_num": 7,
       "state_name": "JUMP_F",
-      "flags":[],
+      "flags":[
+        "NO_TURN"
+      ],
       "update_script": "../data/characters/danteshaun/scripts/movement/jump_f.kai",
       "animation":[
         {"file":"../data/characters/danteshaun/sprites/danteshaun_42-0.png","time":3,"offsetX":-1},
@@ -158,7 +162,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_42-8.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -166,7 +170,9 @@
     {
       "state_num": 8,
       "state_name": "JUMP_B",
-      "flags":[],
+      "flags":[
+        "NO_TURN"
+      ],
       "update_script": "../data/characters/danteshaun/scripts/movement/jump_b.kai",
       "animation":[
         {"file":"../data/characters/danteshaun/sprites/danteshaun_41-0.png","time":3,"offsetX":-1},
@@ -179,7 +185,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_41-7.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -187,7 +193,10 @@
     {
       "state_num": 9,
       "state_name": "JUMP_R",
-      "flags":[],
+      "flags":[
+        "NO_TURN",
+        "NO_TURN_ON_ENTER"
+      ],
       "update_script": "../data/characters/danteshaun/scripts/movement/jump_recovery.kai",
       "animation":[
         {"file":"../data/characters/danteshaun/sprites/danteshaun_3020-4.png","time":3,"offsetX":-1},
@@ -195,7 +204,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_3020-6.png","time":3,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -211,7 +220,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_5000-20.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -229,7 +238,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_5010-40.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -244,7 +253,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_5030-10.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -258,7 +267,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_5030-40.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -308,7 +317,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_120-1.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -324,7 +333,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_121-0.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -340,7 +349,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_122-0.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -355,7 +364,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_120-1.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -370,7 +379,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_120-1.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -435,7 +444,7 @@
     },
     {
       "state_num": 26,
-      "state_name": "DBL_JUMP_N",
+      "state_name": "SHORTHOP_N",
       "flags":[],
       "update_script": "../data/characters/danteshaun/scripts/movement/dbl_jump_n.kai",
       "animation":[
@@ -451,7 +460,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_41-8.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -473,7 +482,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_42-8.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -494,7 +503,7 @@
         {"file":"../data/characters/danteshaun/sprites/danteshaun_41-7.png","time":-1,"offsetX":-1}
       ],
       "collision_boxes":[
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
@@ -519,7 +528,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-9.png", "time": 2, "offsetX": 167}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -546,7 +555,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_3010-4.png", "time": 2, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -578,15 +587,15 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_100-9.png", "time": 4, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
       "sounds": [
-        {"soundID": 8, "start": 1}
+        {"soundID": 8, "start": 0}
       ],
       "visual_effects": [
-        {"visualID": 6, "start": 1}
+        {"visualID": 6, "start": 0}
       ]
     },
     {
@@ -611,7 +620,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5100-9.png", "time": 2, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 6, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -631,7 +640,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-0.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -654,7 +663,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -705,11 +714,11 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":150, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":14, "block_stun":12, "hitstop": 12, "damage":3, "push": 8000, "push_time": 8, "start": 9, "end": 11, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 1, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
-        {"type": "HIT", "block_type": 1, "hitstun":14, "block_stun":12, "hitstop": 12, "damage":3, "push": 8000, "push_time": 8, "start": 13, "end": 15, "width":350, "height":300, "offsetX":-375, "offsetY": 0, "group": 2, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
-        {"type": "HIT", "block_type": 1, "hitstun":14, "block_stun":12, "hitstop": 12, "damage":3, "push": 8000, "push_time": 8, "start": 19, "end": 21, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 3, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
-        {"type": "HIT", "block_type": 1, "hitstun":14, "block_stun":12, "hitstop": 16, "damage":3, "push": 8000, "push_time": 8, "start": 27, "end": 29, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 4, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
-        {"type": "PROXIMITY", "start": 1, "end": 28, "width":400, "height":300, "offsetX":75, "offsetY": 0, "group": 1},
+        {"type": "HIT", "block_type": 1, "hitstun":11, "block_stun":8, "hitstop": 6, "damage":1, "push": 8000, "push_time": 8, "start": 9, "end": 11, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 1, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "HIT", "block_type": 1, "hitstun":9, "block_stun":8, "hitstop": 6, "damage":1, "push": 8000, "push_time": 8, "start": 13, "end": 15, "width":350, "height":300, "offsetX":-375, "offsetY": 0, "group": 2, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "HIT", "block_type": 1, "hitstun":12, "block_stun":8, "hitstop": 8, "damage":1, "push": 8000, "push_time": 8, "start": 19, "end": 21, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 3, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": -8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "HIT", "block_type": 1, "hitstun":16, "block_stun":12, "hitstop": 16, "damage":1, "push": 8000, "push_time": 8, "start": 27, "end": 29, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 4, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "PROXIMITY", "start": 1, "end": 28, "width":400, "height":400, "offsetX":75, "offsetY": 0, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 8, "end": -1, "width":150, "height":300, "offsetX":75, "offsetY": 0},
         {"type": "HURT", "start": 20, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290},
@@ -724,7 +733,8 @@
       "state_num": 36,
       "state_name": "KATANA_CROUCH_M",
       "flags": [
-        "NO_TURN"
+        "NO_TURN",
+        "NO_TURN_ON_ENTER"
       ],
       "cancel_script": "../data/characters/danteshaun/scripts/attacks/katana/crouch_m_cancels.kai",
       "update_script": "../data/characters/danteshaun/scripts/attacks/katana/crouch_m.kai",
@@ -749,7 +759,7 @@
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":150, "height":150, "offsetX":0, "offsetY": 0},
-        {"type": "HIT", "block_type": 1, "hitstun":14, "block_stun":12, "hitstop": 12, "damage":3, "push": 8000, "push_time": 8, "start": 15, "end": 17, "width":500, "height":300, "offsetX":25, "offsetY": 0, "group": 1, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "HIT", "block_type": 1, "hitstun":14, "block_stun":12, "hitstop": 16, "damage":1, "push": 8000, "push_time": 8, "start": 15, "end": 17, "width":500, "height":300, "offsetX":25, "offsetY": 0, "group": 1, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
         {"type": "PROXIMITY", "start": 1, "end": 17, "width":400, "height":300, "offsetX":75, "offsetY": 0, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "HURT", "start": 8, "end": -1, "width":150, "height":300, "offsetX":75, "offsetY": 0},
@@ -765,19 +775,27 @@
       "state_num": 37,
       "state_name": "KATANA_JUMP_M",
       "flags": [
-        "NO_TURN"
+        "NO_TURN",
+        "NO_TURN_ON_ENTER"
       ],
-      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "cancel_script": "../data/characters/danteshaun/scripts/attacks/katana/jump_m_cancels.kai",
+      "update_script": "../data/characters/danteshaun/scripts/attacks/katana/jump_m.kai",
       "animation": [
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_600-0.png", "time": 2, "offsetX": -1, "offsetY": 75},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_600-1.png", "time": 2, "offsetX": -1, "offsetY": 75},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_600-2.png", "time": 7, "offsetX": -1, "offsetY": 75},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_600-3.png", "time": 2, "offsetX": -1, "offsetY": 75},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_600-4.png", "time": 2, "offsetX": -1, "offsetY": 75},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_600-5.png", "time": 2, "offsetX": -1, "offsetY": 75},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_600-7.png", "time": 2, "offsetX": -1, "offsetY": 75},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_600-8.png", "time": -1, "offsetX": -1, "offsetY": 75}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
-        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HIT", "block_type": 1, "hitstun":18, "block_stun":16, "hitstop": 16, "damage":1, "push": 8000, "push_time": 8, "start": 20, "end": -1, "width":300, "height":200, "offsetX":0, "offsetY": 0, "group": 1, "hitsound": 24, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "PROXIMITY", "start": 1, "end": 17, "width":300, "height":80, "offsetX":75, "offsetY": 215, "group": 1}
       ],
       "sounds": [
       ],
@@ -788,7 +806,8 @@
       "state_num": 38,
       "state_name": "GLOVES_STAND_M",
       "flags": [
-        "NO_TURN"
+        "NO_TURN",
+        "NO_TURN_ON_ENTER"
       ],
       "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
       "animation": [
@@ -798,7 +817,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -821,7 +840,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -844,7 +863,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -867,7 +886,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -890,7 +909,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -913,7 +932,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -936,7 +955,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -959,7 +978,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -982,7 +1001,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1005,7 +1024,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1028,7 +1047,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1051,7 +1070,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1074,7 +1093,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1097,7 +1116,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1120,7 +1139,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1143,7 +1162,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1166,7 +1185,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1189,7 +1208,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1204,21 +1223,27 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "cancel_script": "../data/characters/danteshaun/scripts/attacks/weapon_change_cancels.kai",
+      "update_script": "../data/characters/danteshaun/scripts/attacks/weapon_change.kai",
       "animation": [
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_195-7.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_195-8.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_195-9.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_195-10.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_195-11.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_195-12.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_195-13.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_195-14.png", "time": 2, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
       "sounds": [
       ],
       "visual_effects": [
+        {"visualID": 1, "start": 0}
       ]
     },
     {
@@ -1235,7 +1260,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1250,21 +1275,48 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "cancel_script": "../data/characters/danteshaun/scripts/attacks/katana/weapon_change_katana_cancels.kai",
+      "update_script": "../data/characters/danteshaun/scripts/attacks/katana/weapon_change_katana.kai",
       "animation": [
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-0.png", "time": 4, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-1.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-2.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-3.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-4.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-5.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-6.png", "time": 2, "offsetX": -1},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-7.png", "time": 2, "offsetX": -1},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-8.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-9.png", "time": 2, "offsetX": -1},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-10.png", "time": 2, "offsetX": -1},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-11.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-12.png", "time": 2, "offsetX": -1},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-13.png", "time": 2, "offsetX": -1},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-14.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-15.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-16.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2040-17.png", "time": 2, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
+        {"type": "HIT", "block_type": 1, "hitstun":10, "block_stun":10, "hitstop": 6, "damage":1, "push": 8000, "push_time": 13, "start": 15, "end": 17, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 1, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 2, "hit_velX": 8000, "hit_velY": 20000, "hit_push_time": 8, "meter": 10},
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":10, "hitstop": 6, "damage":1, "push": 8000, "push_time": 15, "start": 21, "end": 23, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 2, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 2, "hit_velX": 8000, "hit_velY": 30000, "hit_push_time": 8, "meter": 10},
+        {"type": "HIT", "block_type": 1, "hitstun":14, "block_stun":10, "hitstop": 12, "damage":1, "push": 8000, "push_time": 8, "start": 27, "end": 29, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 3, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 2, "hit_velX": 8000, "hit_velY": 40000, "hit_push_time": 8, "meter": 10},
+        {"type": "PROXIMITY", "start": 1, "end": 49, "width":400, "height":300, "offsetX":75, "offsetY": 0, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
       "sounds": [
       ],
       "visual_effects": [
+        {"visualID": 8, "start": 12},
+        {"visualID": 9, "start": 13}
       ]
     },
     {
@@ -1281,7 +1333,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1294,23 +1346,24 @@
       "state_num": 60,
       "state_name": "AIR_WEAPON_CHANGE",
       "flags": [
-        "NO_TURN"
+        "NO_TURN",
+        "NO_TURN_ON_ENTER"
       ],
-      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "cancel_script": "../data/characters/danteshaun/scripts/attacks/air_weapon_change_cancels.kai",
+      "update_script": "../data/characters/danteshaun/scripts/attacks/air_weapon_change.kai",
       "animation": [
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_1500-3.png", "time": 4, "offsetX": -1, "offsetY": 50},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_1500-4.png", "time": -1, "offsetX": -1, "offsetY": 50}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
       "sounds": [
       ],
       "visual_effects": [
+        {"visualID": 1, "start": 0}
       ]
     },
     {
@@ -1327,7 +1380,7 @@
         { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1342,21 +1395,36 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "cancel_script": "../data/characters/danteshaun/scripts/attacks/katana/air_weapon_change_katana_cancels.kai",
+      "update_script": "../data/characters/danteshaun/scripts/attacks/katana/air_weapon_change_katana.kai",
       "animation": [
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-0.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-10.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5030-40.png", "time": 4, "offsetX": -1},
-        { "file": "../data/characters/danteshaun/sprites/danteshaun_5060-10.png", "time": -1, "offsetX": -1}
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4600-0.png", "time": 12, "offsetX": -1, "offsetY": 50},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4600-1.png", "time": 2, "offsetX": -1, "offsetY": 50},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4600-2.png", "time": 2, "offsetX": -1, "offsetY": 50},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4600-3.png", "time": 2, "offsetX": -1, "offsetY": 50},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4600-4.png", "time": 2, "offsetX": -1, "offsetY": 50},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4600-5.png", "time": 2, "offsetX": -1, "offsetY": 50},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4600-6.png", "time": 2, "offsetX": -1, "offsetY": 50},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4600-7.png", "time": 2, "offsetX": -1, "offsetY": 50},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4600-8.png", "time": 2, "offsetX": -1, "offsetY": 50}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
+        {"type": "HIT", "block_type": 1, "hitstun":8, "block_stun":10, "hitstop": 8, "damage":1, "push": 8000, "push_time": 15, "start": 15, "end": 17, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 1, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 2, "hit_velX": 8000, "hit_velY": 30000, "hit_push_time": 8, "meter": 10},
+        {"type": "HIT", "block_type": 1, "hitstun":14, "block_stun":10, "hitstop": 14, "damage":1, "push": 8000, "push_time": 8, "start": 21, "end": 23, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 2, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 2, "hit_velX": 8000, "hit_velY": 40000, "hit_push_time": 8, "meter": 10},
+        {"type": "PROXIMITY", "start": 1, "end": 49, "width":400, "height":300, "offsetX":75, "offsetY": 0, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
       "sounds": [
       ],
       "visual_effects": [
+        {"visualID": 11, "start": 13},
+        {"visualID": 12, "start": 19}
       ]
     },
     {
@@ -1369,7 +1437,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1388,7 +1456,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1407,7 +1475,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1426,7 +1494,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1445,7 +1513,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1464,7 +1532,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1483,7 +1551,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1502,7 +1570,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1521,7 +1589,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1540,7 +1608,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1559,7 +1627,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1578,7 +1646,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1597,7 +1665,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1616,7 +1684,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1635,7 +1703,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1654,7 +1722,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1673,7 +1741,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1692,7 +1760,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1711,7 +1779,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1730,7 +1798,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1745,11 +1813,50 @@
       "flags": [
         "NO_TURN"
       ],
-      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "cancel_script": "../data/characters/danteshaun/scripts/attacks/katana/style_cancels.kai",
+      "update_script": "../data/characters/danteshaun/scripts/attacks/katana/style.kai",
       "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-0.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-1.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-2.png", "time": 2, "offsetX": -1},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-3.png", "time": 2, "offsetX": 130},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-4.png", "time": 2, "offsetX": 135},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-5.png", "time": 2, "offsetX": 143},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-6.png", "time": 2, "offsetX": 130},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-7.png", "time": 2, "offsetX": 131},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-5.png", "time": 2, "offsetX": 140},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-8.png", "time": 2, "offsetX": 130},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-9.png", "time": 2, "offsetX": 130},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-10.png", "time": 2, "offsetX": 140},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-11.png", "time": 2, "offsetX": 130},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-12.png", "time": 2, "offsetX": 130},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-5.png", "time": 2, "offsetX": 140},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-4.png", "time": 2, "offsetX": 135},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-3.png", "time": 2, "offsetX": 130},
+
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-4.png", "time": 2, "offsetX": 135},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-5.png", "time": 2, "offsetX": 140},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-24.png", "time": 5, "offsetX": 140},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-25.png", "time": 5, "offsetX": 140},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_225-26.png", "time": 6, "offsetX": 140}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
+        {"type": "HIT", "block_type": 1, "hitstun":20, "block_stun":10, "hitstop": 4, "damage":1, "push": 8000, "push_time": 8, "start": 7, "end": 9, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 1, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "HIT", "block_type": 1, "hitstun":20, "block_stun":10, "hitstop": 4, "damage":1, "push": 8000, "push_time": 8, "start": 15, "end": 17, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 2, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "HIT", "block_type": 1, "hitstun":20, "block_stun":10, "hitstop": 4, "damage":1, "push": 8000, "push_time": 8, "start": 21, "end": 23, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 3, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "HIT", "block_type": 1, "hitstun":20, "block_stun":10, "hitstop": 4, "damage":1, "push": 8000, "push_time": 8, "start": 27, "end": 29, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 5, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "HIT", "block_type": 1, "hitstun":20, "block_stun":10, "hitstop": 8, "damage":1, "push": 8000, "push_time": 8, "start": 33, "end": 35, "width":350, "height":300, "offsetX":25, "offsetY": 0, "group": 6, "hitsound": 21, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "PROXIMITY", "start": 1, "end": 49, "width":400, "height":300, "offsetX":75, "offsetY": 0, "group": 1},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1768,7 +1875,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1787,7 +1894,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1800,19 +1907,27 @@
       "state_num": 86,
       "state_name": "AIR_KATANA_STYLE",
       "flags": [
-        "NO_TURN"
+        "NO_TURN",
+        "NO_TURN_ON_ENTER"
       ],
-      "update_script": "../data/characters/danteshaun/scripts/hurt/air_recovery.kai",
+      "cancel_script": "../data/characters/danteshaun/scripts/attacks/katana/jump_style_cancels.kai",
+      "update_script": "../data/characters/danteshaun/scripts/attacks/katana/jump_style.kai",
       "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2510-0.png", "time": 4, "offsetX": -1, "offsetY": 25},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2510-1.png", "time": 4, "offsetX": -1, "offsetY": 25},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2510-2.png", "time": 4, "offsetX": -1, "offsetY": 25},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2510-3.png", "time": 4, "offsetX": -1, "offsetY": 25},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2510-4.png", "time": 2, "offsetX": -1, "offsetY": 25},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2510-5.png", "time": 2, "offsetX": -1, "offsetY": 25},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2510-6.png", "time": 2, "offsetX": -1, "offsetY": 25},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2510-7.png", "time": 8, "offsetX": -1, "offsetY": 25}
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
-        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
-      ],
-      "sounds": [
-      ],
-      "visual_effects": [
+        {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HIT", "block_type": 1, "hitstun":14, "block_stun":12, "hitstop": 12, "damage":1, "push": 8000, "push_time": 8, "start": 13, "end": 17, "width":350, "height":200, "offsetX":-100, "offsetY": 200, "group": 1, "hitsound": 24, "guardsound": 16, "hitsparkID": 1, "guardsparkID": 1, "hit_type": 1, "hit_velX": 8000, "hit_velY": 8000, "hit_push_time": 8, "meter": 10},
+        {"type": "PROXIMITY", "start": 1, "end": 17, "width":300, "height":500, "offsetX":75, "offsetY": -215, "group": 1}
       ]
     },
     {
@@ -1825,7 +1940,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1844,7 +1959,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1863,7 +1978,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1882,7 +1997,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1901,7 +2016,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1920,7 +2035,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1939,7 +2054,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1958,7 +2073,7 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
@@ -1977,13 +2092,143 @@
       "animation": [
       ],
       "collision_boxes": [
-        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
         {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
         {"type": "THROW_HURT", "start": 4, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
       ],
       "sounds": [
       ],
       "visual_effects": [
+      ]
+    },
+    {
+      "state_num": 96,
+      "state_name": "HOP_DASH_F",
+      "flags": [
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/movement/hopdash_f.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-0.png", "time": 2, "offsetX": 126},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-1.png", "time": 2, "offsetX": 122},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-2.png", "time": 2, "offsetX": 133},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-3.png", "time": 2, "offsetX": 133},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-4.png", "time": 2, "offsetX": 128},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-5.png", "time": 2, "offsetX": 138},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-6.png", "time": 2, "offsetX": 128},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-7.png", "time": 2, "offsetX": 127},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-8.png", "time": 2, "offsetX": 157},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3040-9.png", "time": 2, "offsetX": 167}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 8, "start": 1}
+      ],
+      "visual_effects": [
+        {"visualID": 6, "start": 1}
+      ]
+    },
+    {
+      "state_num": 97,
+      "state_name": "HOP_DASH_B",
+      "flags": [
+        "NO_TURN"
+
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/movement/hopdash_b.kai",
+      "animation": [
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3010-0.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3010-1.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3010-2.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3010-3.png", "time": 2, "offsetX": -1},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_3010-4.png", "time": 2, "offsetX": -1}
+      ],
+      "collision_boxes": [
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":150, "offsetX":-75, "offsetY": 150},
+        {"type": "THROW_HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0}
+      ],
+      "sounds": [
+        {"soundID": 8, "start": 1}
+      ],
+      "visual_effects": [
+        {"visualID": 6, "start": 1}
+      ]
+    },
+    {
+      "state_num": 98,
+      "state_name": "HOP_N",
+      "flags":[
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/movement/hop_n.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-0.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-1.png","time":8,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-2.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-3.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-4.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-5.png","time":6,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-6.png","time":6,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-4.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-7.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-8.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 99,
+      "state_name": "HOP_F",
+      "flags":[
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/movement/hop_f.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-0.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-1.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-2.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-3.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-4.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-5.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-6.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-7.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_42-8.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
+      ]
+    },
+    {
+      "state_num": 100,
+      "state_name": "HOP_B",
+      "flags":[
+        "NO_TURN"
+      ],
+      "update_script": "../data/characters/danteshaun/scripts/movement/hop_b.kai",
+      "animation":[
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-0.png","time":3,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-1.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-2.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-3.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-4.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-5.png","time":4,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-6.png","time":5,"offsetX":-1},
+        {"file":"../data/characters/danteshaun/sprites/danteshaun_41-7.png","time":-1,"offsetX":-1}
+      ],
+      "collision_boxes":[
+        {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":225, "offsetX":0, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
+        {"type": "HURT", "start": 1, "end": -1, "width":100, "height":100, "offsetX":-50, "offsetY": 290}
       ]
     }
   ],
@@ -2193,6 +2438,84 @@
         { "file": "../data/images/visual_effects/flash/circle_06.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"},
         { "file": "../data/images/visual_effects/flash/circle_07.png", "time":2, "offsetX":-1, "offsetY": 50, "scale": "1"}
       ]
+    },
+    {
+      "assetID": 8,
+      "aura": true,
+      "animation":[
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-0.png", "time": 1, "offsetX": -81, "offsetY": -290, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-1.png", "time": 1, "offsetX": 19, "offsetY": -317, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-2.png", "time": 1, "offsetX": 31, "offsetY": -189, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-3.png", "time": 1, "offsetX": -71, "offsetY": -180, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-4.png", "time": 1, "offsetX": -71, "offsetY": -285, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-5.png", "time": 1, "offsetX": 103, "offsetY": -194, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-6.png", "time": 1, "offsetX": 58, "offsetY": -188, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-7.png", "time": 1, "offsetX": -71, "offsetY": -183, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-0.png", "time": 1, "offsetX": -81, "offsetY": -290, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-1.png", "time": 1, "offsetX": 19, "offsetY": -317, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-2.png", "time": 1, "offsetX": 31, "offsetY": -189, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-3.png", "time": 1, "offsetX": -71, "offsetY": -180, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-4.png", "time": 1, "offsetX": -71, "offsetY": -285, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-5.png", "time": 1, "offsetX": 103, "offsetY": -194, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-6.png", "time": 1, "offsetX": 58, "offsetY": -188, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2041-7.png", "time": 1, "offsetX": -71, "offsetY": -183, "scale": "1.5"}
+      ]
+    },
+    {
+      "assetID": 9,
+      "aura": true,
+      "animation":[
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2042-0.png", "time": 1, "offsetX": 199, "offsetY": -176, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2042-1.png", "time": 1, "offsetX": 196, "offsetY": -175, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2042-2.png", "time": 1, "offsetX": 188, "offsetY": -102, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2042-3.png", "time": 1, "offsetX": 105, "offsetY": -290, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2042-4.png", "time": 1, "offsetX": 19, "offsetY": -363, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2042-5.png", "time": 1, "offsetX": 104, "offsetY": -344, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2042-6.png", "time": 1, "offsetX": 115, "offsetY": -298, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2042-7.png", "time": 1, "offsetX": 128, "offsetY": -284, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2042-8.png", "time": 1, "offsetX": 199, "offsetY": -176, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2042-9.png", "time": 1, "offsetX": 196, "offsetY": -175, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2042-10.png", "time": 1, "offsetX": 188, "offsetY": -102, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2042-11.png", "time": 1, "offsetX": 105, "offsetY": -290, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2042-12.png", "time": 1, "offsetX": 19, "offsetY": -363, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2042-13.png", "time": 1, "offsetX": 104, "offsetY": -344, "scale": "1.5"}
+      ]
+    },
+    {
+      "assetID": 10,
+      "aura": true,
+      "animation":[
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2515-0.png", "time": 1, "offsetX": 160, "offsetY": -130, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2515-1.png", "time": 1, "offsetX": 235, "offsetY": -140, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2515-2.png", "time": 1, "offsetX": 45, "offsetY": -180, "scale": "1.5"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_2515-3.png", "time": 1, "offsetX": 180, "offsetY": -190, "scale": "1.5"}
+      ]
+    },
+    {
+      "assetID": 11,
+      "charEffect": true,
+      "animation":[
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4601-0.png", "time": 1, "offsetX": -3, "offsetY": -150, "scale": "1"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4601-1.png", "time": 1, "offsetX": 35, "offsetY": -150, "scale": "1"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4601-2.png", "time": 1, "offsetX": 0, "offsetY": -150, "scale": "1"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4601-3.png", "time": 1, "offsetX": 16, "offsetY": -150, "scale": "1"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4601-4.png", "time": 1, "offsetX": 50, "offsetY": -150, "scale": "1"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4601-5.png", "time": 1, "offsetX": -23, "offsetY": -150, "scale": "1"}
+      ]
+    },
+    {
+      "assetID": 12,
+      "charEffect": false,
+      "animation":[
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4601-6.png", "time": 2, "offsetX": 180, "offsetY": -70, "scale": "1"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4601-7.png", "time": 2, "offsetX": 50, "offsetY": -70, "scale": "1"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4601-8.png", "time": 2, "offsetX": 40, "offsetY": -70, "scale": "1"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4601-9.png", "time": 2, "offsetX": 100, "offsetY": -110, "scale": "1"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4601-10.png", "time": 2, "offsetX": 125, "offsetY": -30, "scale": "1"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4601-11.png", "time": 2, "offsetX": 120, "offsetY": -65, "scale": "1"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4601-11.png", "time": 2, "offsetX": 175, "offsetY": -30, "scale": "1"},
+        { "file": "../data/characters/danteshaun/sprites/danteshaun_4601-11.png", "time": 2, "offsetX": 150, "offsetY": -20, "scale": "1"}
+      ]
     }
   ],
   "audio_assets":[
@@ -2264,9 +2587,9 @@
     "SS_BACK_THROW_ATTEMPT": 1,
     "SS_BACK_THROW_SUCCESS": 1,
     "SS_GROUND_THROW_TECH": 1,
-    "SS_AIR_TECH": 1
+    "SS_AIR_TECH": 22
   },
-  "anim_scale": "1.5",
+  "anim_scale": "1.4",
   "gravity": "2000",
   "command_script": "../data/characters/danteshaun/scripts/input.kai",
   "assets": "../data/characters/danteshaun/assets.json"

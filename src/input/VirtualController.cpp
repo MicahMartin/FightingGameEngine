@@ -110,11 +110,13 @@ bool VirtualController::wasPressed(Input input, bool strict, int index, bool pre
   }
 
   for(InputEvent& event : *eventList) {
-    if((pressed && event.pressed) || (!pressed && !event.pressed)){
-      if (input <= 10 && strict) {
-        return (input == (event.inputBit & 0x0F));       
-      } else if(event.inputBit & input) {
-        return true;
+    if (event.valid) {
+      if((pressed && event.pressed) || (!pressed && !event.pressed)){
+        if (input <= 10 && strict) {
+          return (input == (event.inputBit & 0x0F));       
+        } else if(event.inputBit & input) {
+          return true;
+        }
       }
     }
   }
@@ -123,25 +125,24 @@ bool VirtualController::wasPressed(Input input, bool strict, int index, bool pre
 }
 
 bool VirtualController::wasPressedBuffer(Input input, bool strict, bool pressed) {
-  int buffLen = 1;
+  int buffLen = 4;
   bool found = false;
   int historySize = inputHistory.size();
-  if (buffLen >= historySize) {
-    return false;
-  }
 
   for (int i = 0; i < buffLen && !found; ++i) {
     InputFrameT* eventList = &inputHistory[i];
 
     if (eventList->size() > 0) {
       for(InputEvent& event : *eventList) {
-        if((pressed && event.pressed) || (!pressed && !event.pressed)){
-          if (input <= 10 && strict) {
-            found = (input == (event.inputBit & 0x0F));       
-          } else if(event.inputBit & input) {
-            // printf("checking non cardinal direction %d\n", input);
-            // printf("was pressed\n");
-            found = true;
+        if (event.valid) {
+          if((pressed && event.pressed) || (!pressed && !event.pressed)){
+            if (input <= 10 && strict) {
+              found = (input == (event.inputBit & 0x0F));       
+            } else if(event.inputBit & input) {
+              // printf("checking non cardinal direction %d\n", input);
+              // printf("was pressed\n");
+              found = true;
+            }
           }
         }
       }
@@ -161,18 +162,25 @@ bool VirtualController::checkCommand(int commandIndex, bool faceRight) {
   bool foundCommand = false;
   bool breakFlag  = false;
   int searchOffset = 0;
+  int firstFindOffet = 0;
+  bool firstFind = true;
 
   if(commandIndex >= commandCompiler->commands.size()){
     return false;
   }
 
-  Command* command = &commandCompiler->commands[commandIndex];
+  bool clears = commandCompiler->commands[commandIndex].clears;
+  std::vector<CommandNode>* command = &commandCompiler->commands[commandIndex].command;
   for (int i = command->size() - 1; i >= 0 && !breakFlag; --i) {
     CommandNode& funcNode = (*command)[i];
 
     for (int i = 0; (!foundPart) && (i < funcNode.bufferLength); ++i) {
       foundPart = (funcNode.function)(i+searchOffset, faceRight);
       if(foundPart){
+        if (firstFind) {
+          firstFindOffet = i;
+          firstFind = false;
+        }
         searchOffset += i;
       }
     }
@@ -181,6 +189,18 @@ bool VirtualController::checkCommand(int commandIndex, bool faceRight) {
       foundPart = false;
       if(i == 0){
         foundCommand = true;
+        if (clears) {
+          for (int i = firstFindOffet; i < inputHistory.size(); ++i) {
+             InputFrameT* eventList = &inputHistory[i];
+
+            if (eventList->size() > 0) {
+              for(InputEvent& event : *eventList) {
+                event.valid = false;
+              }
+            }
+          }
+          // inputHistory.erase(inputHistory.begin() + firstFindOffet, inputHistory.end());
+        }
       }
     } else {
       breakFlag = true;
@@ -294,8 +314,9 @@ uint8_t VirtualController::getStickState() {
 VirtualControllerObj VirtualController::saveState() {
   VirtualControllerObj controllerObj;
   controllerObj.currentState = currentState;
-  for (int i = 0; (i <= inputHistory.size() - 1); ++i) {
-    InputEvent input = inputHistory.at(i).front();
+  controllerObj.prevState = prevState;
+  for (int i = 0; (i < inputHistory.size()); ++i) {
+    InputEvent input = inputHistory.at(i).back();
     controllerObj.inputHistory[i] = input;
   }
   return controllerObj;
@@ -303,7 +324,8 @@ VirtualControllerObj VirtualController::saveState() {
 
 void VirtualController::loadState(VirtualControllerObj stateObj) { 
   currentState = stateObj.currentState;
-  for (int i = 0; i <= (inputHistory.size() - 1); ++i) {
+  prevState = stateObj.prevState;
+  for (int i = 0; i < (inputHistory.size()); ++i) {
     InputEvent input = stateObj.inputHistory[i];
     printf("frame:%d input:%d pressed:%d\n", i, input.inputBit, input.pressed);
 
@@ -314,17 +336,17 @@ void VirtualController::loadState(VirtualControllerObj stateObj) {
   printf("virtualController loadHistory done\n");
 }
 
-void VirtualController::addNetInput() {
-  inputHistory.front().emplace_back(InputEvent(currentState, true));
+void VirtualController::addNetInput(int input) {
+  // prevState = currentState;
+  // currentState = input;
+  // inputHistory.front().emplace_back(InputEvent(currentState, true));
   // loop through bits in currentState
   // for each bit in current state,
   // if set..
   //  and not set before, send wasPressed event
   // if not set..
   //  and was set before, send wasReleased event
-  // std::bitset<16> stickState(currentState);
   // std::cout << "currentState:" << stickState << std::endl;
-  // std::bitset<16> prevStickState(prevState);
   // std::cout << "prevState:" << prevStickState << std::endl;
   // uint8_t oldStickState = prevState & 0x0F;
   // uint8_t newStickState = currentState & 0x0F;
@@ -333,7 +355,9 @@ void VirtualController::addNetInput() {
   //   inputHistory.front().emplace_back(InputEvent(oldStickState, false));
   //   inputHistory.front().emplace_back(InputEvent(newStickState, true));
   // }
-  // for (int i = 4; i < 16; ++i) {
+  // std::bitset<16> stickState(currentState);
+  // std::bitset<16> prevStickState(prevState);
+  // for (int i = 0; i < 16; ++i) {
   //   uint16_t temp = 0;
   //   temp |= (1 << i);
   //   if (stickState.test(i) && !prevStickState.test(i)) {
@@ -344,7 +368,6 @@ void VirtualController::addNetInput() {
   //     inputHistory.front().emplace_back(InputEvent(temp, false));
   //   }
   // }
-  // prevState = currentState;
 }
 
 

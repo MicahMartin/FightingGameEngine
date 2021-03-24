@@ -28,7 +28,7 @@
     }
 
     if(qcf_k){
-      $cancel_state 14;
+      $cancel_state 56;
     }
     if (qcb_p) {
       $cancel_state 30;

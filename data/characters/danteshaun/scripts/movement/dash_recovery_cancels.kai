@@ -39,38 +39,6 @@
       $cancel_state 30;
     }
 
-    if(dust){
-      if (anyDown) {
-        $cancel_state 23;
-      } else {
-      }
-    }
-
-    if(slash){
-      if (anyDown) {
-        $cancel_state 40;
-      } else {
-        $cancel_state 39;
-      }
-    }
-
-
-    if(kick){
-      if (anyDown) {
-        $cancel_state 22;
-      } else {
-        $cancel_state 37;
-      }
-    }
-
-    if(punch){
-      if (anyDown) {
-        $cancel_state 21;
-      } else {
-        $cancel_state 36;
-      }
-    }
-
     if(up){
       $cancel_state 6;
     }

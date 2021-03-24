@@ -6,10 +6,10 @@
   var stateNum = $get_state_num; 
   var yPos = $get_y_pos;
 
-  var dash_f = $check_command 0;
-  var dash_b = $check_command 1;
-  var qcf_k = $check_command 2;
-  var qcb_p = $check_command 3;
+  var dash_f = $check_command 0 or $check_command 21;
+  var dash_b = $check_command 1 or $check_command 22;
+  var range_change = $check_command 3;
+  var melee_change = $check_command 2;
   var down_down_lp = $check_command 4;
   var super = $check_command 13;
 
@@ -32,6 +32,7 @@
   var light = $was_pressed 10;
   var medium = $was_pressed 11;
   var heavy = $was_pressed 12;
+  var style = $was_pressed 13;
   var lp_and_lk = $check_command 5;
 
   var katanaStyle = 1 == 1;
@@ -67,11 +68,32 @@
       }
     }
 
+    if(dash_f){
+      $change_state 31; 
+    }
+
+    if(dash_b){
+      $change_state 32; 
+    }
+
+    if(melee_change){
+      $change_state 56; 
+    }
+
+    if(style){
+      if (katanaStyle) {
+        $change_state 83; 
+      }
+      if (gloveStyle) {
+        $change_state 82; 
+      }
+      if (chainStyle) {
+        $change_state 84; 
+      }
+    }
     if(heavy){
       if(anyDown){
-        $change_state 54; 
       } else {
-        $change_state 53; 
       }
     }
 
@@ -99,37 +121,6 @@
       }
     }
 
-    if(light){
-      if (revolverStyle) {
-        if(anyDown){
-          $change_state 45; 
-        } else {
-          $change_state 44; 
-        }
-      }
-      if (shottyStyle) {
-        if(anyDown){
-          $change_state 48; 
-        } else {
-          $change_state 47; 
-        }
-      }
-      if (duffyStyle) {
-        if(anyDown){
-          $change_state 51; 
-        } else {
-          $change_state 50; 
-        }
-      }
-    }
-
-    if(dash_f){
-      $change_state 31; 
-    }
-
-    if(dash_b){
-      $change_state 32; 
-    }
 
     if(upforward){
       $change_state 5006; 
@@ -173,6 +164,26 @@
       }
     }
 
+    if(melee_change){
+      $change_state 60; 
+    }
+
+    if(style){
+      if (stateNum == 96 or stateNum == 97) {
+        $set_nograv_count 0;
+        $velset_y 0;
+      }
+        
+      if (katanaStyle) {
+        $change_state 86; 
+      }
+      if (gloveStyle) {
+        $change_state 82; 
+      }
+      if (chainStyle) {
+        $change_state 84; 
+      }
+    }
     if(medium){
       if (katanaStyle) {
         $change_state 37; 
@@ -185,19 +196,5 @@
       }
     }
 
-    if(light){
-      if (revolverStyle) {
-        $change_state 46; 
-      }
-      if (shottyStyle) {
-        $change_state 49; 
-      }
-      if (duffyStyle) {
-        $change_state 52; 
-      }
-    }
-    if (heavy) {
-      $change_state 55;
-    }
   }
 }

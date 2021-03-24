@@ -125,7 +125,7 @@ public:
   bool screenFreeze = false;
   int screenFreezeCounter = 0;
   int screenFreezeLength = 0;
-  int frameCount = 0;
+  long frameCount = 0;
 
   Mix_Music* bgMusic = NULL;
   Mix_Chunk* yawl_ready = NULL;

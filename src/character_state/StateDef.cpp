@@ -115,8 +115,7 @@ void StateDef::init(nlohmann::json::value_type json, VirtualMachine* _charVm, fl
 
 
 
-StateDefObj StateDef::saveState(){
-  StateDefObj stateObj;
+StateDefObj* StateDef::saveState(){
   // std::unordered_map<CollisionBox*, CollisionBoxState> cbStates;
   // for (auto i : collisionBoxes) {
   //   cbStates[i] = i->saveState();
@@ -138,11 +137,11 @@ StateDefObj StateDef::saveState(){
     stateObj.hitboxGroupDisabled[i] = hitboxGroupDisabled[i];
   }
   for (int i = 0; i < collisionBoxes.size(); ++i) {
-    stateObj.collisionBoxStates[i] = collisionBoxes[i]->saveState();
+    stateObj.collisionBoxStates[i] = *collisionBoxes[i]->saveState();
   }
   // stateObj.collisionBoxStates = cbStates;
  
-  return stateObj;
+  return &stateObj;
 }
 
 void StateDef::loadState(StateDefObj stateObj){

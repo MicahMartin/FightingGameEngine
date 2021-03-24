@@ -1,7 +1,8 @@
 { 
+  var down = $get_input 3; 
   var downforward = $get_input 3; 
-  var forward = $get_input 6; 
-  var anyForward = (downforward or forward);
+  var downback = $get_input 3; 
+  var anyDown = (down or downforward or downback);
   var stateTime = $get_state_time;
   var quotient = stateTime / 40;
   var product = quotient * 40;
@@ -10,19 +11,19 @@
   if(stateTime == 0){
     $set_control 0; 
     $set_whiff_cancel 1;
-    var install = $get_install == 1;
-    if (install) {
-      $velset_x 18000;
-    } else {
-      $velset_x 12000;
-    }
+    $velset_x 18000;
   }
-  if(!anyForward){ 
+  if (stateTime == 12) {
+    $velset_x 9000;
+  }
+  
+  if((stateTime > 3) and anyDown){ 
     $set_control 1;
     $cancel_state 5001; 
   } 
-  if (remainder == 0) {
-    $reset_anim;
+  if (stateTime == 25) {
+    $set_control 1;
+    $cancel_state 5001; 
   }
   $add_meter 5;
 } 

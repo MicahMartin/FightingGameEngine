@@ -47,14 +47,12 @@ bool CollisionBox::checkAABB(CollisionBox box1, CollisionBox box2){
 };
 
 
-CollisionBoxState CollisionBox::saveState(){
-  CollisionBoxState stateObj;
-
+CollisionBoxState* CollisionBox::saveState(){
   stateObj.positionX = positionX;
   stateObj.positionY = positionY;
   stateObj.disabled = disabled;
 
-  return stateObj;
+  return &stateObj;
 }
 
 void CollisionBox::loadState(CollisionBoxState stateObj){

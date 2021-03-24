@@ -1,0 +1,15 @@
+{ 
+  $add_meter 1;
+  if($get_state_time == 0){ 
+    $set_control 0; 
+    $set_air_action 0; 
+  } 
+  if($get_state_time == 4){ 
+    $velset_x 12000; 
+    $velset_y 22000; 
+  } 
+
+  if($get_state_time == 8){ 
+    $set_control 1; 
+  } 
+} 

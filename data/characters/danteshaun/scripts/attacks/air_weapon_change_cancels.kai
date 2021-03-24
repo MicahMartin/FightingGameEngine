@@ -1,0 +1,8 @@
+{
+  var light = $was_pressed 10;
+  var medium = $check_command 16;
+  var heavy = $was_pressed 12;
+  if (medium) {
+    $cancel_state 62;
+  }
+}

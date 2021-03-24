@@ -1,7 +1,7 @@
 { 
   var downforward = $get_input 3; 
   var forward = $get_input 6; 
-  var anyForward = (downforward or forward);
+  var anyForward = (forward);
   var stateTime = $get_state_time;
   var quotient = stateTime / 15;
   var product = quotient * 15;

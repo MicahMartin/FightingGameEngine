@@ -1,0 +1,14 @@
+{
+  if($get_state_time == 0){
+    $set_control 0; 
+    $set_air_action 0; 
+    $set_nograv_count 4; 
+  }
+  if($get_state_time == 4){
+    $neg_velset_x 14000; 
+    $velset_y 22000; 
+  }
+  if($get_state_time == 8){
+    $set_control 1;
+  }
+}

@@ -60,6 +60,8 @@ void GameTexture::render(SDL_Rect dest, double angle) {
 void GameTexture::render(bool faceRight) {
   Camera* cam = graphics->getCamera();
   SDL_FRect srcRect = textRect;
+  // srcRect.w = srcRect.w * cam->zoomMag;
+  // srcRect.h = srcRect.h * cam->zoomMag;
   srcRect.x -= cam->cameraRect.x;
   srcRect.y += cam->cameraRect.y;
   SDL_RendererFlip flipFlag = faceRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;

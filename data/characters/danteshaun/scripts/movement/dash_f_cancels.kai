@@ -34,37 +34,6 @@
       }
     }
 
-    if(slash){
-      if(anyDown){
-        if (downforward) {
-          $cancel_state 45; 
-        } else {
-          $cancel_state 44; 
-        }
-      } else {
-        $cancel_state 39;
-      }
-    }
-
-    if(kick){
-      if (anyDown) {
-        $cancel_state 42;
-      } else {
-        if (forward) {
-          $cancel_state 38;
-        } else {
-          $cancel_state 37;
-        }
-      }
-    }
-
-    if(punch){
-      if (anyDown) {
-        $cancel_state 41;
-      } else {
-        $cancel_state 36;
-      }
-    }
 
     if(up){
       $cancel_state 5005;

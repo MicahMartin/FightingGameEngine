@@ -60,11 +60,13 @@ struct InputEvent {
 
   uint16_t inputBit;
   bool pressed;
+  bool valid = true;
 };
 
 struct VirtualControllerObj {
   InputEvent inputHistory[INPUT_BUFFER_MAX];
   uint16_t currentState;
+  uint16_t prevState;
 };
 
 typedef std::list<InputEvent> InputFrameT;
@@ -120,7 +122,7 @@ public:
 
   VirtualControllerObj saveState();
   void loadState(VirtualControllerObj state);
-  void addNetInput();
+  void addNetInput(int input);
 
   void onNotify(const char* eventName);
 
