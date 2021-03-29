@@ -25,18 +25,7 @@
     var pushblocking = (kick and slash) and anyBackNotDown;
     var crouchPB = (kick and slash) and downback;
     if (meter > 1) {
-      if (pushblocking) {
-        $cancel_state 5022;
       }
-      if (crouchPB) {
-        $cancel_state 5023;
-      }
-    }
-    if(qcf_k){
-      $cancel_state 14;
-    }
-    if (qcb_p) {
-      $cancel_state 30;
     }
 
     if(up){

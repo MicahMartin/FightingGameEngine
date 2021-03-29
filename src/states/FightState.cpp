@@ -8,13 +8,13 @@
 #include <thread>
 #include <csignal>
 #include <boost/format.hpp>
-#define SYNC_TEST
+// #define SYNC_TEST
 
 
 
 FightState* ggpoFightState;
 Character* characters[2];
-FightStateObj saveObj = {0};
+FightStateObj saveObj;
 
 int checksum = 0;
 int p1StartPos = 1700*COORDINATE_SCALE;
@@ -111,21 +111,25 @@ bool fsAdvanceFrame(int flags){
 
   VirtualController* p1Vc = ggpoFightState->player1->virtualController;
   VirtualController* p2Vc = ggpoFightState->player2->virtualController;
+  p1Vc->prevState = p1Vc->currentState;
+  p2Vc->prevState = p2Vc->currentState;
   // p1Vc->setState(0);
   // p2Vc->setState(0);
-  // p1Vc->inputHistory.front().clear();
-  // p2Vc->inputHistory.front().clear();
+  p1Vc->inputHistory.front().clear();
+  p2Vc->inputHistory.front().clear();
 
   // simulate a local keypress with input
+  // p1Vc->inputHistory.push_front(InputFrameT());
+  // p2Vc->inputHistory.push_front(InputFrameT());
   p1Vc->addNetInput(inputs[0]);
   p2Vc->addNetInput(inputs[1]);
 
-  // bool prevShouldUpdate = ggpoFightState->shouldUpdate;
-  // ggpoFightState->shouldUpdate = true;
+  bool prevShouldUpdate = ggpoFightState->shouldUpdate;
+  ggpoFightState->shouldUpdate = true;
 
   ggpoFightState->advanceFrame();
 
-  // ggpoFightState->shouldUpdate = prevShouldUpdate;
+  ggpoFightState->shouldUpdate = prevShouldUpdate;
   printf("GGPO ADVANCE FRAME END\n");
   return true;
 }
@@ -196,34 +200,38 @@ bool logSaveState(){
       saveObj.char1State.stateDefObj.freezeLength, saveObj.char1State.stateDefObj.hitboxesDisabled, saveObj.char1State.stateDefObj.canWhiffCancel, 
       saveObj.char1State.stateDefObj.canHitCancel, saveObj.char1State.stateDefObj.counterHitFlag, saveObj.char1State.stateDefObj.animFrame,
       saveObj.char1State.stateDefObj.animationTimePassed, saveObj.char1State.stateDefObj.currentAnimElemIndex, saveObj.char1State.stateDefObj.currentAnimElemTimePassed);
+  printf( "P1: iState:%d | iPrevState:%d | iBuffer:%d\n", 
+      saveObj.char1State.virtualControllerObj.currentState, saveObj.char1State.virtualControllerObj.prevState, saveObj.char1State.inputHistory.size());
 
   //PLAYER 2 LOG
   printf( "---------- \n");
-  printf( "Player2 Data\n");
-  printf( "P2: x:%d | y:%d | ctrl:%d | hStun:%d | bStun:%d | hStop:%d | pTime:%d | pBVel:%d | cBCounter:%d | hasAirAction:%d | cMCounter:%d\n", 
-      saveObj.char2State.positionX, saveObj.char2State.positionY, saveObj.char2State.control, 
-      saveObj.char2State.hitstun, saveObj.char2State.blockstun, saveObj.char2State.hitStop, 
-      saveObj.char2State.pushTime, saveObj.char2State.pushBackVelocity, saveObj.char2State.comebackCounter, 
-      saveObj.char2State.hasAirAction, saveObj.char2State.comboCounter);
-  printf( "P2: noGrvCount:%d | velX:%d | velY:%d | hp:%d | rhp:%d | rhpc:%d | gval:%d | hpushT:%d | hpushX:%d | hpushY:%d | meter:%d\n", 
-      saveObj.char2State.noGravityCounter, saveObj.char2State.velocityX, saveObj.char2State.velocityY, 
-      saveObj.char2State.health, saveObj.char2State.redHealth, saveObj.char2State.redHealthCounter, 
-      saveObj.char2State.gravityVal, saveObj.char2State.hitPushTime, saveObj.char2State.hitPushVelX, 
-      saveObj.char2State.hitPushVelY, saveObj.char2State.meter);
-  printf( "P2: cback:%d | fLastA:%ld | inCorner:%d | inHStop:%d | grav:%d | isDead:%d | fRight:%d | iRight:%d | hSnId:%d | sChn:%d | flshCn:%d\n", 
-      saveObj.char2State.comeback, saveObj.char2State.frameLastAttackConnected, saveObj.char2State.inCorner, 
-      saveObj.char2State.inHitStop, saveObj.char2State.gravity, saveObj.char2State.isDead, 
-      saveObj.char2State.faceRight, saveObj.char2State.inputFaceRight, saveObj.char2State.currentHurtSoundID, 
-      saveObj.char2State.soundChannel, saveObj.char2State.flashCounter);
-  printf( "P2: iRed:%d | iGreen:%d | iLight:%d | install:%d | aura:%d | auraID:%d \n", 
-      saveObj.char2State.isRed, saveObj.char2State.isGreen, saveObj.char2State.isLight, 
-      saveObj.char2State.installMode, saveObj.char2State.auraActive, saveObj.char2State.auraID);
-  printf( "P2: cPointer:%d | sNumber:%d | sTime:%d | aTime:%d | fFrame:%d | fLen:%d | hDisabled:%d | wCancel:%d | hCancel:%d | chFlag:%d | aFrame:%d | aTimeP:%d | aElem:%d | aElemT:%d\n", 
-      saveObj.char2State.cancelPointer, saveObj.char2State.currentState,
-      saveObj.char2State.stateDefObj.stateTime, saveObj.char2State.stateDefObj.animTime, saveObj.char2State.stateDefObj.freezeFrame, 
-      saveObj.char2State.stateDefObj.freezeLength, saveObj.char2State.stateDefObj.hitboxesDisabled, saveObj.char2State.stateDefObj.canWhiffCancel, 
-      saveObj.char2State.stateDefObj.canHitCancel, saveObj.char2State.stateDefObj.counterHitFlag, saveObj.char2State.stateDefObj.animFrame,
-      saveObj.char2State.stateDefObj.animationTimePassed, saveObj.char2State.stateDefObj.currentAnimElemIndex, saveObj.char2State.stateDefObj.currentAnimElemTimePassed);
+  // printf( "Player2 Data\n");
+  // printf( "P2: x:%d | y:%d | ctrl:%d | hStun:%d | bStun:%d | hStop:%d | pTime:%d | pBVel:%d | cBCounter:%d | hasAirAction:%d | cMCounter:%d\n", 
+  //     saveObj.char2State.positionX, saveObj.char2State.positionY, saveObj.char2State.control, 
+  //     saveObj.char2State.hitstun, saveObj.char2State.blockstun, saveObj.char2State.hitStop, 
+  //     saveObj.char2State.pushTime, saveObj.char2State.pushBackVelocity, saveObj.char2State.comebackCounter, 
+  //     saveObj.char2State.hasAirAction, saveObj.char2State.comboCounter);
+  // printf( "P2: noGrvCount:%d | velX:%d | velY:%d | hp:%d | rhp:%d | rhpc:%d | gval:%d | hpushT:%d | hpushX:%d | hpushY:%d | meter:%d\n", 
+  //     saveObj.char2State.noGravityCounter, saveObj.char2State.velocityX, saveObj.char2State.velocityY, 
+  //     saveObj.char2State.health, saveObj.char2State.redHealth, saveObj.char2State.redHealthCounter, 
+  //     saveObj.char2State.gravityVal, saveObj.char2State.hitPushTime, saveObj.char2State.hitPushVelX, 
+  //     saveObj.char2State.hitPushVelY, saveObj.char2State.meter);
+  // printf( "P2: cback:%d | fLastA:%ld | inCorner:%d | inHStop:%d | grav:%d | isDead:%d | fRight:%d | iRight:%d | hSnId:%d | sChn:%d | flshCn:%d\n", 
+  //     saveObj.char2State.comeback, saveObj.char2State.frameLastAttackConnected, saveObj.char2State.inCorner, 
+  //     saveObj.char2State.inHitStop, saveObj.char2State.gravity, saveObj.char2State.isDead, 
+  //     saveObj.char2State.faceRight, saveObj.char2State.inputFaceRight, saveObj.char2State.currentHurtSoundID, 
+  //     saveObj.char2State.soundChannel, saveObj.char2State.flashCounter);
+  // printf( "P2: iRed:%d | iGreen:%d | iLight:%d | install:%d | aura:%d | auraID:%d \n", 
+  //     saveObj.char2State.isRed, saveObj.char2State.isGreen, saveObj.char2State.isLight, 
+  //     saveObj.char2State.installMode, saveObj.char2State.auraActive, saveObj.char2State.auraID);
+  // printf( "P2: cPointer:%d | sNumber:%d | sTime:%d | aTime:%d | fFrame:%d | fLen:%d | hDisabled:%d | wCancel:%d | hCancel:%d | chFlag:%d | aFrame:%d | aTimeP:%d | aElem:%d | aElemT:%d\n", 
+  //     saveObj.char2State.cancelPointer, saveObj.char2State.currentState,
+  //     saveObj.char2State.stateDefObj.stateTime, saveObj.char2State.stateDefObj.animTime, saveObj.char2State.stateDefObj.freezeFrame, 
+  //     saveObj.char2State.stateDefObj.freezeLength, saveObj.char2State.stateDefObj.hitboxesDisabled, saveObj.char2State.stateDefObj.canWhiffCancel, 
+  //     saveObj.char2State.stateDefObj.canHitCancel, saveObj.char2State.stateDefObj.counterHitFlag, saveObj.char2State.stateDefObj.animFrame,
+  //     saveObj.char2State.stateDefObj.animationTimePassed, saveObj.char2State.stateDefObj.currentAnimElemIndex, saveObj.char2State.stateDefObj.currentAnimElemTimePassed);
+  // printf( "P2: iState:%d | iPrevState:%d\n", 
+  //     saveObj.char2State.virtualControllerObj.currentState, saveObj.char2State.virtualControllerObj.prevState);
   return true;
 }
 
@@ -2171,12 +2179,19 @@ void FightState::ggpoInit(){
   p2.size = sizeof(p2);
 
   int localPort = stateManager->getPort();
+  std::string remoteIp;
+  int remotePort;
+
+#if defined(SYNC_TEST)
+  remoteIp = "1.1.1.1";
+  remotePort = (pnum == 1) ? 9999 : 9998;
+#else
   std::string clipboardText = SDL_GetClipboardText();
   int i = clipboardText.find(":");
-
-  std::string remoteIp = clipboardText.substr(0, i);
-  int remotePort = std::stoi(clipboardText.substr(i+1));
+  remoteIp = clipboardText.substr(0, i);
+  remotePort = std::stoi(clipboardText.substr(i+1));
   printf("clipboardText:%s\n", clipboardText.c_str());
+#endif
   printf("remoteIP:%s, remotePort:%d\n", remoteIp.c_str(), remotePort);
 
   if (pNum == 1) {
@@ -2235,13 +2250,11 @@ void FightState::netPlayHandleInput(){
 
   VirtualController* p1Vc = player1->virtualController;
   VirtualController* p2Vc = player2->virtualController;
-  VirtualController* currentVc = pnum == 1 ? p1Vc : p2Vc;
 
+  VirtualController* currentVc = pnum == 1 ? p1Vc : p2Vc;
   currentInput = currentVc->getState();
-  p1Vc->setState(0);
-  p2Vc->setState(0);
-  p1Vc->inputHistory.front().clear();
-  p2Vc->inputHistory.front().clear();
+  currentVc->setState(0);
+  currentVc->inputHistory.front().clear();
 
   // printf("adding local input\n");
 #if defined(SYNC_TEST)
@@ -2249,14 +2262,14 @@ void FightState::netPlayHandleInput(){
 #endif
 
   GGPOErrorCode result = ggpo_add_local_input(ggpo, *local_player_handle, &currentInput, sizeof(currentInput));
-  inputs[0] = currentInput;
-
   if (GGPO_SUCCEEDED(result)) {
     ggpo_synchronize_input(ggpo, (void *)inputs, sizeof(int)*2, &disconnectFlags);
     if (GGPO_SUCCEEDED(result)) {
       // printf("GGPO SYNC SUCCESS\n");
       // simulate a local keypress with input
       p1Vc->addNetInput(inputs[0]);
+
+      // p2Vc->prevState = otherVc->currentState;
       p2Vc->addNetInput(inputs[1]);
       shouldUpdate = true;
     }

@@ -71,6 +71,7 @@ void InputManager::update() {
         controller->playbackCounter++;
       }
     } else { 
+      controller->prevState = controller->currentState;
       controller->update();
     }
   }

@@ -4,13 +4,19 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <boost/serialization/vector.hpp>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
+#include <boost/iostreams/device/array.hpp>
+#include <boost/iostreams/device/back_inserter.hpp>
+#include <boost/iostreams/stream.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/list.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+
 
 
 std::string p1InputHistory;
 std::string p2InputHistory;
+
 Character::Character(std::pair<int, int> _position, int _playerNum) {
   faceRight = playerNum == 1 ? true : false;
   health = 100;
@@ -89,6 +95,26 @@ CharStateObj* Character::saveState(){
   stateObj.currentState = currentState->stateNum;
   stateObj.stateDefObj = *currentState->saveState();
 
+  bool log = playerNum == 1;
+  virtualController->serializeHistory(log);
+  stateObj.inputHistory = virtualController->inputHistorySnapShot;
+
+  // printf("char:%d input history size:%d\n", playerNum, virtualController->inputHistory.size());
+  // {
+  //   boost::iostreams::basic_array_sink<char> sr(stateObj.inputBuffer, sizeof(stateObj.inputBuffer));
+  //   boost::iostreams::stream< boost::iostreams::basic_array_sink<char>> source(sr);
+  //   boost::archive::binary_oarchive oa(source);
+
+  //   oa << virtualController->inputHistory;
+  //   source.flush();
+  //   if(strlen(stateObj.inputBuffer) == 0) {
+  //   printf("char:%d save buffer is empty for some reason!!?\n", playerNum);
+  //   } else {
+  //     printf("char:%d save buffer:%d\n", playerNum, stateObj.inputBuffer);
+  //   }
+
+  // }
+
   // for (int i = 0; i < entityList.size(); ++i) {
   //   stateObj.entityStates[i] = entityList[i].saveState();
   // }
@@ -147,18 +173,19 @@ void Character::loadState(CharStateObj stateObj){
   cancelPointer = stateObj.cancelPointer;
   setCurrentState(stateObj.currentState);
   currentState->loadState(stateObj.stateDefObj);
+  virtualController->inputHistorySnapShot = stateObj.inputHistory;
+  bool log = playerNum == 1;
+  virtualController->loadHistory(virtualController->inputHistorySnapShot, log);
   
   // for (int i = 0; i < entityList.size(); ++i) {
   //   entityList[i].loadState(stateObj.entityStates[i]);
   // }
-  //{
-  //  std::string* theString = playerNum == 1 ? &p1InputHistory : &p2InputHistory;
-  //  std::stringstream iStream(*theString);
-  //  boost::archive::text_iarchive iArchive(iStream);
-  //  iArchive >> virtualController->inputHistorySnapShot;
-  //  virtualController->loadHistory(virtualController->inputHistorySnapShot);
-  //  iStream.clear();
-  //}
+  // {
+  //   boost::iostreams::basic_array_source<char> device(stateObj.inputBuffer, sizeof(stateObj.inputBuffer));
+  //   boost::iostreams::stream<boost::iostreams::basic_array_source<char>> s(device);
+  //   boost::archive::binary_iarchive ia(s);
+  //   ia >> virtualController->inputHistory;
+  // }
 }
 
 void Character::refresh(){
@@ -186,48 +213,37 @@ void Character::refresh(){
 }
 
 void Character::changeState(int stateDefNum){
-  printf("in changeState:%d\n", stateDefNum);
   for (auto &i : visualEffects) {
     if (i.second.getAura()) {
       i.second.setActive(false);
     }
   }
-  printf("handled auras\n");
   auraActive = false;
   cancelPointer = 0;
   if(stateDefNum >= 6000){
-    printf("greater than 6k\n");
     int theNum = stateDefNum - 6000;
     int customStateNum = stateCount + theNum;
     // printf("the num:%d, the customStateNum%d\n", stateDefNum, customStateNum);
     currentState = &stateList.at(customStateNum-1);
   } else if (stateDefNum >= 5000) {
-    printf("greater than 5k\n");
     int theNum = stateDefNum - 5000;
     SpecialState theState = (SpecialState)theNum;
-    printf("checking special state map\n");
     int specialStateNum = specialStateMap[theState];
-    printf("done with special state map, setting current state:%d\n", specialStateNum);
     // printf("the num:%d, the specialStateNum %d\n", stateDefNum, specialStateNum);
     currentState = &stateList.at(specialStateNum-1);
-    printf("set the current state\n");
   } else {
-    printf("normal\n");
     currentState = &stateList.at(stateDefNum-1);
   }
 
-  printf("checking flag\n");
   if(!currentState->checkFlag(NO_TURN_ON_ENTER)){
     updateFaceRight();
   }
-  printf("going into enter\n");
   currentState->enter();
   updateCollisionBoxPositions();
   updateCollisionBoxes();
 };
 
 void Character::setCurrentState(int stateDefNum){
-  printf("in setCurrentState\n");
   if(stateDefNum >= 6000){
     int theNum = stateDefNum - 6000;
     int customStateNum = stateCount + theNum;
@@ -437,6 +453,7 @@ void Character::handleInput(){
 
   if(control){
     // TODO: Precompile all scripts
+    printf("char:%d handling input\n", playerNum);
     virtualMachine.execute(&inputScript);
   }
 };

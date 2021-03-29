@@ -11,6 +11,63 @@
 #include "graphics/Animation.h"
 #include "game_objects/VisualEffect.h"
 #include "game_objects/Entity.h"
+#include <boost/serialization/binary_object.hpp>
+#include <boost/serialization/split_free.hpp>
+#include <boost/circular_buffer.hpp>
+
+
+// implement serialization for boost::circular_buffer
+namespace boost { namespace serialization {
+template <class Archive, class T>
+void save(Archive& ar, const circular_buffer<T>& b, const unsigned int /* version */)
+{
+    typename circular_buffer<T>::size_type size = b.size();
+    ar << b.capacity();
+    ar << size;
+#ifdef USE_BINARY
+    const typename circular_buffer<T>::const_array_range one = b.array_one();
+    const typename circular_buffer<T>::const_array_range two = b.array_two();
+    ar.save_binary(one.first, one.second*sizeof(T));
+    ar.save_binary(two.first, two.second*sizeof(T));
+#else
+    while (size > 0) {
+        --size;
+        ar << b[size];
+    }
+#endif
+}
+
+template <class Archive, class T>
+void load(Archive& ar, circular_buffer<T>& b, const unsigned int /* version */)
+{
+    typename circular_buffer<T>::capacity_type capacity;
+    typename circular_buffer<T>::size_type size;
+    ar >> capacity;
+    b.set_capacity(capacity);
+    ar >> size;
+    b.clear();
+#ifdef USE_BINARY
+    const typename circular_buffer<T>::pointer buff = new T[size*sizeof(T)];
+    ar.load_binary(buff, size*sizeof(T));
+    b.insert(b.begin(), buff, buff+size);
+    delete[] buff;
+#else
+    T elem;
+    while (size > 0) {
+        --size;
+        ar >> elem;
+        b.push_front(elem);
+    }
+#endif
+}
+
+template<class Archive, class T>
+inline void serialize(Archive & ar, circular_buffer<T>& b, const unsigned int version)
+{
+    split_free(ar, b, version);
+}
+
+} } // end namespace boost::serialization
 
 struct CharStateObj {
   int control;
@@ -62,6 +119,7 @@ struct CharStateObj {
   StateDefObj stateDefObj;
   EntityStateObj entityStates[3];
   VirtualControllerObj virtualControllerObj;
+  HistoryCopyT inputHistory;
   // std::unordered_map<int, EntityStateObj> entityStates;
 };
 

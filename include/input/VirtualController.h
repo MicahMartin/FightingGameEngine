@@ -61,10 +61,18 @@ struct InputEvent {
   uint16_t inputBit;
   bool pressed;
   bool valid = true;
+    // serialization
+  private:
+  friend class boost::serialization::access;
+  template<class Archive>
+  void serialize(Archive & ar, const unsigned int version) {
+    ar & inputBit;
+    ar & pressed;
+    ar & valid;
+  }
 };
 
 struct VirtualControllerObj {
-  InputEvent inputHistory[INPUT_BUFFER_MAX];
   uint16_t currentState;
   uint16_t prevState;
 };
@@ -123,6 +131,9 @@ public:
   VirtualControllerObj* saveState();
   void loadState(VirtualControllerObj state);
   void addNetInput(int input);
+
+  void serializeHistory(bool log);
+  void loadHistory(HistoryCopyT historyCopy, bool log);
 
   void onNotify(const char* eventName);
 

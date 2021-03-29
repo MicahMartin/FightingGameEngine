@@ -189,18 +189,18 @@ bool VirtualController::checkCommand(int commandIndex, bool faceRight) {
       foundPart = false;
       if(i == 0){
         foundCommand = true;
-        if (clears) {
-          for (int i = firstFindOffet; i < inputHistory.size(); ++i) {
-             InputFrameT* eventList = &inputHistory[i];
+        // if (clears) {
+        //   for (int i = firstFindOffet; i < inputHistory.size(); ++i) {
+        //      InputFrameT* eventList = &inputHistory[i];
 
-            if (eventList->size() > 0) {
-              for(InputEvent& event : *eventList) {
-                event.valid = false;
-              }
-            }
-          }
-          // inputHistory.erase(inputHistory.begin() + firstFindOffet, inputHistory.end());
-        }
+        //     if (eventList->size() > 0) {
+        //       for(InputEvent& event : *eventList) {
+        //         event.valid = false;
+        //       }
+        //     }
+        //   }
+        //   // inputHistory.erase(inputHistory.begin() + firstFindOffet, inputHistory.end());
+        // }
       }
     } else {
       breakFlag = true;
@@ -315,8 +315,7 @@ VirtualControllerObj* VirtualController::saveState() {
   controllerObj.currentState = currentState;
   controllerObj.prevState = prevState;
   // for (int i = 0; (i < inputHistory.size()); ++i) {
-  //   InputEvent input = inputHistory.at(i).back();
-  //   controllerObj.inputHistory[i] = input;
+  //   controllerObj.inputHistory[i] = inputHistory.at(i).back();
   // }
   return &controllerObj;
 }
@@ -325,11 +324,7 @@ void VirtualController::loadState(VirtualControllerObj stateObj) {
   currentState = stateObj.currentState;
   prevState = stateObj.prevState;
   // for (int i = 0; i < (inputHistory.size()); ++i) {
-  //   InputEvent input = stateObj.inputHistory[i];
-  //   printf("frame:%d input:%d pressed:%d\n", i, input.inputBit, input.pressed);
-
-  //   InputFrameT currentFrame{input};
-  //   inputHistory.at(i).clear();
+  //   InputFrameT currentFrame{stateObj.inputHistory[i]};
   //   inputHistory.at(i) = currentFrame;
   // }
   printf("virtualController loadHistory done\n");
@@ -347,28 +342,77 @@ void VirtualController::addNetInput(int input) {
   //  and was set before, send wasReleased event
   // std::cout << "currentState:" << stickState << std::endl;
   // std::cout << "prevState:" << prevStickState << std::endl;
-  // uint8_t oldStickState = prevState & 0x0F;
-  // uint8_t newStickState = currentState & 0x0F;
-  // if (oldStickState != newStickState) {
-  //   // printf("clearing:%s setting:%s\n", inputToString[oldStickState], inputToString[newStickState]);
-  //   inputHistory.front().emplace_back(InputEvent(oldStickState, false));
-  //   inputHistory.front().emplace_back(InputEvent(newStickState, true));
-  // }
-  // std::bitset<16> stickState(currentState);
-  // std::bitset<16> prevStickState(prevState);
-  // for (int i = 0; i < 16; ++i) {
-  //   uint16_t temp = 0;
-  //   temp |= (1 << i);
-  //   if (stickState.test(i) && !prevStickState.test(i)) {
-  //     printf("detected button press for %s\n", inputToString[temp]);
-  //     inputHistory.front().emplace_back(InputEvent(temp, true));
-  //   } else if(!stickState.test(i) && prevStickState.test(i)){
-  //     printf("detected button release for %s\n", inputToString[temp]);
-  //     inputHistory.front().emplace_back(InputEvent(temp, false));
-  //   }
-  // }
+  uint8_t oldStickState = prevState & 0x0F;
+  uint8_t newStickState = currentState & 0x0F;
+  if (oldStickState != newStickState) {
+    inputHistory.front().emplace_back(InputEvent(oldStickState, false));
+    inputHistory.front().emplace_back(InputEvent(newStickState, true));
+  }
+  std::bitset<16> oldState(prevState);
+  std::bitset<16> newState(currentState);
+  for (int i = 4; i < 10; ++i) {
+    uint16_t temp = 0;
+    temp |= (1 << i);
+    if (inputToString.count(temp) != 0) {
+      if (newState.test(i) && !oldState.test(i)) {
+        printf("detected button press for %s\n", inputToString[temp]);
+        inputHistory.front().emplace_back(InputEvent(temp, true));
+      } else if(!newState.test(i) && oldState.test(i)){
+        printf("detected button release for %s\n", inputToString[temp]);
+        inputHistory.front().emplace_back(InputEvent(temp, false));
+      }
+    }
+  }
+  // prevState = currentState;
 }
 
+void VirtualController::serializeHistory(bool log) {
+  // int historySize = inputHistory.size();
+  // // printf("the input history size %d\n", historySize);
+  // for (int i = 0; i < (historySize - 1); ++i) {
+  //   InputFrameT* currentEventList = &inputHistory[i];
+  //   inputHistorySnapShot[i].clear();
+  //   for (auto &x : *currentEventList) {
+  //     printf("%d %d\n", x.inputBit, x.pressed);
+  //     inputHistorySnapShot[i].push_back(InputEvent(x.inputBit, x.pressed));
+  //   }
+  //   printf("historySnapShot:%d for frame :%d\n", (int)inputHistorySnapShot[i].size(), i);
+  // }
+  // printf("returning this history with size %d\n", inputHistorySnapShot.size());
+  for (int i = 0; (i < inputHistory.size()); ++i) {
+    std::vector<InputEvent> newInputs{std::begin(inputHistory.at(i)), std::end(inputHistory.at(i))};
+    inputHistorySnapShot[i] = newInputs;
+    if (log){
+      if (i <= 12) {
+        printf("input save frame:%d\n", i);
+        for (int x = 0; (x < newInputs.size()); ++x) {
+          printf("{%d:%s} | ", x, inputToString[newInputs[x].inputBit]);
+        }
+        printf("\n");
+      }
+    }
+  }
+  printf("\n-----------------\n");
+}
+
+void VirtualController::loadHistory(HistoryCopyT historyCopy, bool log) {
+  int historySize = historyCopy.size();
+  for (int i = 0; i < inputHistory.size(); ++i) {
+    InputFrameT currentFrame{std::begin(historyCopy[i]), std::end(historyCopy[i])};
+    inputHistory[i] = currentFrame;
+    if(log){
+      int counter = 0;
+      if (i <= 12) {
+        printf("input load frame:%d\n", i);
+        for (std::list<InputEvent>::iterator it = currentFrame.begin(); it != currentFrame.end(); ++it) {
+          printf("{%d:%s} | ", counter++, inputToString[it->inputBit]);
+        }
+        printf("\n");
+      }
+    }
+  }
+  // printf("loadhistory done\n");
+}
 
 
 void VirtualController::onNotify(const char* eventName) { }

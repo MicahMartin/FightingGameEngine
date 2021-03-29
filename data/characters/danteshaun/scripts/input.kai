@@ -55,16 +55,11 @@
       if ((lk and mp) and anyBackNotDown) {
         $change_state 5022;
       }
-      if ((lk and mp) and downback) {
-        $change_state 5023;
-      }
     }
 
     if (lp_and_lk) {
       if(anyBack){
-        $change_state 5036;
       } else { 
-        $change_state 5032;
       }
     }
 
