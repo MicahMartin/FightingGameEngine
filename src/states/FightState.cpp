@@ -146,10 +146,10 @@ bool fsAdvanceFrame(int flags){
   ggpoFightState->shouldUpdate = true;
   ggpoFightState->advanceFrame();
   printf("GGPO ADVANCE FRAME END\n");
-  if (multiSimFrameCounter++ == 9) {
-    exit(1);
-    
-  };
+  // if (multiSimFrameCounter++ == 10) {
+  //   exit(1);
+  //   
+  // };
   return true;
 }
 
