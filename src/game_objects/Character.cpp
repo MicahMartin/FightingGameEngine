@@ -4,13 +4,6 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <boost/iostreams/device/array.hpp>
-#include <boost/iostreams/device/back_inserter.hpp>
-#include <boost/iostreams/stream.hpp>
-#include <boost/archive/binary_oarchive.hpp>
-#include <boost/serialization/serialization.hpp>
-#include <boost/serialization/list.hpp>
-#include <boost/archive/binary_iarchive.hpp>
 
 
 
@@ -95,9 +88,8 @@ CharStateObj* Character::saveState(){
   stateObj.currentState = currentState->stateNum;
   stateObj.stateDefObj = *currentState->saveState();
 
-  bool log = playerNum == 1;
-  virtualController->serializeHistory(log);
-  stateObj.inputHistory = virtualController->inputHistorySnapShot;
+  // bool log = playerNum == 1;
+  // virtualController->serializeHistory(log);
 
   // printf("char:%d input history size:%d\n", playerNum, virtualController->inputHistory.size());
   // {
@@ -129,6 +121,7 @@ void Character::loadState(CharStateObj stateObj){
       stateObj.cancelPointer);
 
   virtualController->loadState(stateObj.virtualControllerObj);
+  // virtualController->inputHistory = stateObj.inputBuffer;
 
   position.first = stateObj.positionX;
   position.second = stateObj.positionY;
@@ -173,9 +166,10 @@ void Character::loadState(CharStateObj stateObj){
   cancelPointer = stateObj.cancelPointer;
   setCurrentState(stateObj.currentState);
   currentState->loadState(stateObj.stateDefObj);
-  virtualController->inputHistorySnapShot = stateObj.inputHistory;
-  bool log = playerNum == 1;
-  virtualController->loadHistory(virtualController->inputHistorySnapShot, log);
+
+  // virtualController->inputHistorySnapShot = stateObj.inputHistory;
+  // bool log = playerNum == 1;
+  // virtualController->loadHistory(virtualController->inputHistorySnapShot, log);
   
   // for (int i = 0; i < entityList.size(); ++i) {
   //   entityList[i].loadState(stateObj.entityStates[i]);
@@ -453,7 +447,7 @@ void Character::handleInput(){
 
   if(control){
     // TODO: Precompile all scripts
-    printf("char:%d handling input\n", playerNum);
+    // printf("char:%d handling input\n", playerNum);
     virtualMachine.execute(&inputScript);
   }
 };
@@ -739,6 +733,42 @@ void Character::draw(){
   // SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 };
 
+void Character::drawEntities(){
+  for (auto &i : entityList) {
+    i.draw();
+    for (auto &v : i.visualEffects) {
+      if (v.second.getActive()) {
+        v.second.draw(i.faceRight);
+      }
+    }
+    for (auto &s : i.hitSparks) {
+      if (s.second.getActive()) {
+        s.second.draw(i.faceRight);
+      }
+    }
+  }
+}
+
+void Character::drawFX(){
+  for (auto &i : visualEffects) {
+    VisualEffect& visFX = i.second;
+    if (visFX.getActive()) {
+      visFX.draw(faceRight);
+    }
+  }
+  for (auto &i : guardSparks) {
+    VisualEffect& visFX = i.second;
+    if (visFX.getActive()) {
+      visFX.draw(faceRight);
+    }
+  }
+  for (auto &i : hitSparks) {
+    VisualEffect& visFX = i.second;
+    if (visFX.getActive()) {
+      visFX.draw(faceRight);
+    }
+  }
+}
 
 std::pair<int,int> Character::getPos(){
   return position;

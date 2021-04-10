@@ -13,6 +13,7 @@
 #include <boost/serialization/map.hpp>
 #include <ggponet.h>
 
+const int BUFFER_SIZE = 8192;
 struct ThrowResult {
   bool thrown;
   CollisionBox* throwCb;
@@ -42,10 +43,11 @@ struct FightStateObj {
   bool roundEnd;
   bool screenFreeze;
   bool shouldUpdate;
-
   CameraStateObj cameraState;
   CharStateObj char1State;
   CharStateObj char2State;
+  char p1Buffer[BUFFER_SIZE];
+  char p2Buffer[BUFFER_SIZE];
 };
 
 class FightState : public GameState {

@@ -8,6 +8,22 @@
 #include <thread>
 #include <csignal>
 #include <boost/format.hpp>
+
+// include input and output archivers
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+
+#include <boost/iostreams/device/back_inserter.hpp>
+#include <boost/iostreams/device/array.hpp>
+#include <boost/iostreams/stream.hpp>
+
+// include this header to serialize vectors
+#include <boost/serialization/binary_object.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/vector.hpp>
+
+#include <boost/asio/streambuf.hpp>
+
 // #define SYNC_TEST
 
 
@@ -17,6 +33,8 @@ Character* characters[2];
 FightStateObj saveObj;
 
 int checksum = 0;
+bool multiSimFrame = false;
+int multiSimFrameCounter = 0;
 int p1StartPos = 1700*COORDINATE_SCALE;
 int p2StartPos = 2200*COORDINATE_SCALE;
 int worldWidth = 3840*COORDINATE_SCALE;
@@ -104,134 +122,143 @@ bool fsBeginGame(const char* game){
 
 bool fsAdvanceFrame(int flags){
   printf("GGPO ADVANCE FRAME START\n");
-  int inputs[2] = {0};
+  int inputs[2];
   int disconnectFlags;
   GGPOSession* ggpoObj = ggpoFightState->ggpo;
-  ggpo_synchronize_input(ggpoObj, (void *)inputs, sizeof(int) * 2, &disconnectFlags);
+  ggpo_synchronize_input(ggpoObj, (void *)inputs, sizeof(inputs), &disconnectFlags);
 
   VirtualController* p1Vc = ggpoFightState->player1->virtualController;
   VirtualController* p2Vc = ggpoFightState->player2->virtualController;
-  p1Vc->prevState = p1Vc->currentState;
-  p2Vc->prevState = p2Vc->currentState;
   // p1Vc->setState(0);
   // p2Vc->setState(0);
-  p1Vc->inputHistory.front().clear();
-  p2Vc->inputHistory.front().clear();
+  //p1Vc->inputHistory.front().clear();
+  //p2Vc->inputHistory.front().clear();
 
   // simulate a local keypress with input
   // p1Vc->inputHistory.push_front(InputFrameT());
   // p2Vc->inputHistory.push_front(InputFrameT());
+  p1Vc->prevState = p1Vc->currentState;
+  p2Vc->prevState = p2Vc->currentState;
+  printf("p1Vc current:%d, prevstate:%d\n", p1Vc->currentState, p1Vc->prevState);
   p1Vc->addNetInput(inputs[0]);
   p2Vc->addNetInput(inputs[1]);
 
-  bool prevShouldUpdate = ggpoFightState->shouldUpdate;
   ggpoFightState->shouldUpdate = true;
-
   ggpoFightState->advanceFrame();
-
-  ggpoFightState->shouldUpdate = prevShouldUpdate;
   printf("GGPO ADVANCE FRAME END\n");
+  if (multiSimFrameCounter++ == 9) {
+    exit(1);
+    
+  };
   return true;
 }
 
-bool fsLoadGameState(unsigned char* buffer, int length){
+bool fsLoadGameState(unsigned char *buffer, int length){
   printf("calling loadState\n");
   memcpy(&saveObj, buffer, length);
   ggpoFightState->loadState();
   return true;
 }
 
-bool fsSaveGameState(unsigned char** buffer, int* len, int* checksum, int frame){
+bool fsSaveGameState(unsigned char **buffer, int *len, int *checksum, int frame){
   printf("calling saveState\n");
    ggpoFightState->saveState();
+   if (std::is_trivially_copyable<FightStateObj>::value) {
+     printf("fightstate saveable\n");
+     
+   } else {
+     printf("unsaveable fightstate\n");
+     exit(1);
+   }
    *len = sizeof(saveObj);
    *buffer = (unsigned char *)malloc(*len);
    if (!*buffer) {
       return false;
    }
-   memcpy(*buffer, &saveObj, *len);
+   std::memcpy(*buffer, &saveObj, *len);
    *checksum = fletcher32_checksum((short *)*buffer, *len / 2);
    return true;
 }
 
 void fsFreeBuffer(void* buffer){ 
+  printf("freeing buffer\n");
   free(buffer);
 }
 
 bool logSaveState(){
-  printf( "Fightstate Data. \n");
-  printf( "roundStartCounter:%d | roundStart:%d | currrentRound:%d | inSlowDown:%d | p1RoundsWon:%d | p2RoundsWon:%d | roundEnd:%d | roundWinner:%d \n", 
-      saveObj.roundStartCounter, saveObj.roundStart, 
-      saveObj.currentRound, saveObj.inSlowDown, saveObj.p1RoundsWon, 
-      saveObj.p2RoundsWon, saveObj.roundEnd, saveObj.roundWinner);
-  printf( "screenFreeze:%d | screenFreezeCounter:%d | screenFreezeLength:%d | slowDownCounter:%d | frameCount:%d | slowMode:%d | shouldUpdate:%d \n", 
-      saveObj.screenFreeze, saveObj.screenFreezeCounter, 
-      saveObj.screenFreezeLength, saveObj.slowDownCounter, saveObj.frameCount, 
-      saveObj.slowMode, saveObj.shouldUpdate);
-  printf( "---------- \n");
-  printf( "Camera State Data\n");
-  printf( "cameraUpperBound:%d | cameraLowerBound:%d | cameraMiddle:%d | camRectW:%d | camRectH:%d | camRectX:%d | camRectY:%d \n", 
-      saveObj.cameraState.upperBound, saveObj.cameraState.lowerBound, saveObj.cameraState.middle, 
-      saveObj.cameraState.camRect.w, saveObj.cameraState.camRect.h, saveObj.cameraState.camRect.x, 
-      saveObj.cameraState.camRect.y);
-  printf( "---------- \n");
-  printf( "Player1 Data\n");
-  printf( "P1: x:%d | y:%d | ctrl:%d | hStun:%d | bStun:%d | hStop:%d | pTime:%d | pBVel:%d | cBCounter:%d | hasAirAction:%d | cMCounter:%d\n", 
-      saveObj.char1State.positionX, saveObj.char1State.positionY, saveObj.char1State.control, 
-      saveObj.char1State.hitstun, saveObj.char1State.blockstun, saveObj.char1State.hitStop, 
-      saveObj.char1State.pushTime, saveObj.char1State.pushBackVelocity, saveObj.char1State.comebackCounter, 
-      saveObj.char1State.hasAirAction, saveObj.char1State.comboCounter);
-  printf( "P1: noGrvCount:%d | velX:%d | velY:%d | hp:%d | rhp:%d | rhpc:%d | gval:%d | hpushT:%d | hpushX:%d | hpushY:%d | meter:%d\n", 
-      saveObj.char1State.noGravityCounter, saveObj.char1State.velocityX, saveObj.char1State.velocityY, 
-      saveObj.char1State.health, saveObj.char1State.redHealth, saveObj.char1State.redHealthCounter, 
-      saveObj.char1State.gravityVal, saveObj.char1State.hitPushTime, saveObj.char1State.hitPushVelX, 
-      saveObj.char1State.hitPushVelY, saveObj.char1State.meter);
-  printf( "P1: cback:%d | fLastA:%ld | inCorner:%d | inHStop:%d | grav:%d | isDead:%d | fRight:%d | iRight:%d | hSnId:%d | sChn:%d | flshCn:%d\n", 
-      saveObj.char1State.comeback, saveObj.char1State.frameLastAttackConnected, saveObj.char1State.inCorner, 
-      saveObj.char1State.inHitStop, saveObj.char1State.gravity, saveObj.char1State.isDead, 
-      saveObj.char1State.faceRight, saveObj.char1State.inputFaceRight, saveObj.char1State.currentHurtSoundID, 
-      saveObj.char1State.soundChannel, saveObj.char1State.flashCounter);
-  printf( "P1: iRed:%d | iGreen:%d | iLight:%d | install:%d | aura:%d | auraID:%d \n", 
-      saveObj.char1State.isRed, saveObj.char1State.isGreen, saveObj.char1State.isLight, 
-      saveObj.char1State.installMode, saveObj.char1State.auraActive, saveObj.char1State.auraID);
-  printf( "P1: cPointer:%d | sNumber:%d | sTime:%d | aTime:%d | fFrame:%d | fLen:%d | hDisabled:%d | wCancel:%d | hCancel:%d | chFlag:%d | aFrame:%d | aTimeP:%d | aElem:%d | aElemT:%d\n", 
-      saveObj.char1State.cancelPointer, saveObj.char1State.currentState,
-      saveObj.char1State.stateDefObj.stateTime, saveObj.char1State.stateDefObj.animTime, saveObj.char1State.stateDefObj.freezeFrame, 
-      saveObj.char1State.stateDefObj.freezeLength, saveObj.char1State.stateDefObj.hitboxesDisabled, saveObj.char1State.stateDefObj.canWhiffCancel, 
-      saveObj.char1State.stateDefObj.canHitCancel, saveObj.char1State.stateDefObj.counterHitFlag, saveObj.char1State.stateDefObj.animFrame,
-      saveObj.char1State.stateDefObj.animationTimePassed, saveObj.char1State.stateDefObj.currentAnimElemIndex, saveObj.char1State.stateDefObj.currentAnimElemTimePassed);
-  printf( "P1: iState:%d | iPrevState:%d | iBuffer:%d\n", 
-      saveObj.char1State.virtualControllerObj.currentState, saveObj.char1State.virtualControllerObj.prevState, saveObj.char1State.inputHistory.size());
-
-  //PLAYER 2 LOG
-  printf( "---------- \n");
-  // printf( "Player2 Data\n");
-  // printf( "P2: x:%d | y:%d | ctrl:%d | hStun:%d | bStun:%d | hStop:%d | pTime:%d | pBVel:%d | cBCounter:%d | hasAirAction:%d | cMCounter:%d\n", 
-  //     saveObj.char2State.positionX, saveObj.char2State.positionY, saveObj.char2State.control, 
-  //     saveObj.char2State.hitstun, saveObj.char2State.blockstun, saveObj.char2State.hitStop, 
-  //     saveObj.char2State.pushTime, saveObj.char2State.pushBackVelocity, saveObj.char2State.comebackCounter, 
-  //     saveObj.char2State.hasAirAction, saveObj.char2State.comboCounter);
-  // printf( "P2: noGrvCount:%d | velX:%d | velY:%d | hp:%d | rhp:%d | rhpc:%d | gval:%d | hpushT:%d | hpushX:%d | hpushY:%d | meter:%d\n", 
-  //     saveObj.char2State.noGravityCounter, saveObj.char2State.velocityX, saveObj.char2State.velocityY, 
-  //     saveObj.char2State.health, saveObj.char2State.redHealth, saveObj.char2State.redHealthCounter, 
-  //     saveObj.char2State.gravityVal, saveObj.char2State.hitPushTime, saveObj.char2State.hitPushVelX, 
-  //     saveObj.char2State.hitPushVelY, saveObj.char2State.meter);
-  // printf( "P2: cback:%d | fLastA:%ld | inCorner:%d | inHStop:%d | grav:%d | isDead:%d | fRight:%d | iRight:%d | hSnId:%d | sChn:%d | flshCn:%d\n", 
-  //     saveObj.char2State.comeback, saveObj.char2State.frameLastAttackConnected, saveObj.char2State.inCorner, 
-  //     saveObj.char2State.inHitStop, saveObj.char2State.gravity, saveObj.char2State.isDead, 
-  //     saveObj.char2State.faceRight, saveObj.char2State.inputFaceRight, saveObj.char2State.currentHurtSoundID, 
-  //     saveObj.char2State.soundChannel, saveObj.char2State.flashCounter);
-  // printf( "P2: iRed:%d | iGreen:%d | iLight:%d | install:%d | aura:%d | auraID:%d \n", 
-  //     saveObj.char2State.isRed, saveObj.char2State.isGreen, saveObj.char2State.isLight, 
-  //     saveObj.char2State.installMode, saveObj.char2State.auraActive, saveObj.char2State.auraID);
-  // printf( "P2: cPointer:%d | sNumber:%d | sTime:%d | aTime:%d | fFrame:%d | fLen:%d | hDisabled:%d | wCancel:%d | hCancel:%d | chFlag:%d | aFrame:%d | aTimeP:%d | aElem:%d | aElemT:%d\n", 
-  //     saveObj.char2State.cancelPointer, saveObj.char2State.currentState,
-  //     saveObj.char2State.stateDefObj.stateTime, saveObj.char2State.stateDefObj.animTime, saveObj.char2State.stateDefObj.freezeFrame, 
-  //     saveObj.char2State.stateDefObj.freezeLength, saveObj.char2State.stateDefObj.hitboxesDisabled, saveObj.char2State.stateDefObj.canWhiffCancel, 
-  //     saveObj.char2State.stateDefObj.canHitCancel, saveObj.char2State.stateDefObj.counterHitFlag, saveObj.char2State.stateDefObj.animFrame,
-  //     saveObj.char2State.stateDefObj.animationTimePassed, saveObj.char2State.stateDefObj.currentAnimElemIndex, saveObj.char2State.stateDefObj.currentAnimElemTimePassed);
-  // printf( "P2: iState:%d | iPrevState:%d\n", 
-  //     saveObj.char2State.virtualControllerObj.currentState, saveObj.char2State.virtualControllerObj.prevState);
+//  printf( "Fightstate Data. \n");
+//  printf( "roundStartCounter:%d | roundStart:%d | currrentRound:%d | inSlowDown:%d | p1RoundsWon:%d | p2RoundsWon:%d | roundEnd:%d | roundWinner:%d \n", 
+//      saveObj.roundStartCounter, saveObj.roundStart, 
+//      saveObj.currentRound, saveObj.inSlowDown, saveObj.p1RoundsWon, 
+//      saveObj.p2RoundsWon, saveObj.roundEnd, saveObj.roundWinner);
+//  printf( "screenFreeze:%d | screenFreezeCounter:%d | screenFreezeLength:%d | slowDownCounter:%d | frameCount:%d | slowMode:%d | shouldUpdate:%d \n", 
+//      saveObj.screenFreeze, saveObj.screenFreezeCounter, 
+//      saveObj.screenFreezeLength, saveObj.slowDownCounter, saveObj.frameCount, 
+//      saveObj.slowMode, saveObj.shouldUpdate);
+//  printf( "---------- \n");
+//  printf( "Camera State Data\n");
+//  printf( "cameraUpperBound:%d | cameraLowerBound:%d | cameraMiddle:%d | camRectW:%d | camRectH:%d | camRectX:%d | camRectY:%d \n", 
+//      saveObj.cameraState.upperBound, saveObj.cameraState.lowerBound, saveObj.cameraState.middle, 
+//      saveObj.cameraState.camRect.w, saveObj.cameraState.camRect.h, saveObj.cameraState.camRect.x, 
+//      saveObj.cameraState.camRect.y);
+//  printf( "---------- \n");
+//  printf( "Player1 Data\n");
+//  printf( "P1: x:%d | y:%d | ctrl:%d | hStun:%d | bStun:%d | hStop:%d | pTime:%d | pBVel:%d | cBCounter:%d | hasAirAction:%d | cMCounter:%d\n", 
+//      saveObj.char1State.positionX, saveObj.char1State.positionY, saveObj.char1State.control, 
+//      saveObj.char1State.hitstun, saveObj.char1State.blockstun, saveObj.char1State.hitStop, 
+//      saveObj.char1State.pushTime, saveObj.char1State.pushBackVelocity, saveObj.char1State.comebackCounter, 
+//      saveObj.char1State.hasAirAction, saveObj.char1State.comboCounter);
+//  printf( "P1: noGrvCount:%d | velX:%d | velY:%d | hp:%d | rhp:%d | rhpc:%d | gval:%d | hpushT:%d | hpushX:%d | hpushY:%d | meter:%d\n", 
+//      saveObj.char1State.noGravityCounter, saveObj.char1State.velocityX, saveObj.char1State.velocityY, 
+//      saveObj.char1State.health, saveObj.char1State.redHealth, saveObj.char1State.redHealthCounter, 
+//      saveObj.char1State.gravityVal, saveObj.char1State.hitPushTime, saveObj.char1State.hitPushVelX, 
+//      saveObj.char1State.hitPushVelY, saveObj.char1State.meter);
+//  printf( "P1: cback:%d | fLastA:%ld | inCorner:%d | inHStop:%d | grav:%d | isDead:%d | fRight:%d | iRight:%d | hSnId:%d | sChn:%d | flshCn:%d\n", 
+//      saveObj.char1State.comeback, saveObj.char1State.frameLastAttackConnected, saveObj.char1State.inCorner, 
+//      saveObj.char1State.inHitStop, saveObj.char1State.gravity, saveObj.char1State.isDead, 
+//      saveObj.char1State.faceRight, saveObj.char1State.inputFaceRight, saveObj.char1State.currentHurtSoundID, 
+//      saveObj.char1State.soundChannel, saveObj.char1State.flashCounter);
+//  printf( "P1: iRed:%d | iGreen:%d | iLight:%d | install:%d | aura:%d | auraID:%d \n", 
+//      saveObj.char1State.isRed, saveObj.char1State.isGreen, saveObj.char1State.isLight, 
+//      saveObj.char1State.installMode, saveObj.char1State.auraActive, saveObj.char1State.auraID);
+//  printf( "P1: cPointer:%d | sNumber:%d | sTime:%d | aTime:%d | fFrame:%d | fLen:%d | hDisabled:%d | wCancel:%d | hCancel:%d | chFlag:%d | aFrame:%d | aTimeP:%d | aElem:%d | aElemT:%d\n", 
+//      saveObj.char1State.cancelPointer, saveObj.char1State.currentState,
+//      saveObj.char1State.stateDefObj.stateTime, saveObj.char1State.stateDefObj.animTime, saveObj.char1State.stateDefObj.freezeFrame, 
+//      saveObj.char1State.stateDefObj.freezeLength, saveObj.char1State.stateDefObj.hitboxesDisabled, saveObj.char1State.stateDefObj.canWhiffCancel, 
+//      saveObj.char1State.stateDefObj.canHitCancel, saveObj.char1State.stateDefObj.counterHitFlag, saveObj.char1State.stateDefObj.animFrame,
+//      saveObj.char1State.stateDefObj.animationTimePassed, saveObj.char1State.stateDefObj.currentAnimElemIndex, saveObj.char1State.stateDefObj.currentAnimElemTimePassed);
+//  printf( "P1: iState:%d | iPrevState:%d\n", 
+//      saveObj.char1State.virtualControllerObj.currentState, saveObj.char1State.virtualControllerObj.prevState);
+//
+//  //PLAYER 2 LOG
+//  printf( "---------- \n");
+//  // printf( "Player2 Data\n");
+//  // printf( "P2: x:%d | y:%d | ctrl:%d | hStun:%d | bStun:%d | hStop:%d | pTime:%d | pBVel:%d | cBCounter:%d | hasAirAction:%d | cMCounter:%d\n", 
+//  //     saveObj.char2State.positionX, saveObj.char2State.positionY, saveObj.char2State.control, 
+//  //     saveObj.char2State.hitstun, saveObj.char2State.blockstun, saveObj.char2State.hitStop, 
+//  //     saveObj.char2State.pushTime, saveObj.char2State.pushBackVelocity, saveObj.char2State.comebackCounter, 
+//  //     saveObj.char2State.hasAirAction, saveObj.char2State.comboCounter);
+//  // printf( "P2: noGrvCount:%d | velX:%d | velY:%d | hp:%d | rhp:%d | rhpc:%d | gval:%d | hpushT:%d | hpushX:%d | hpushY:%d | meter:%d\n", 
+//  //     saveObj.char2State.noGravityCounter, saveObj.char2State.velocityX, saveObj.char2State.velocityY, 
+//  //     saveObj.char2State.health, saveObj.char2State.redHealth, saveObj.char2State.redHealthCounter, 
+//  //     saveObj.char2State.gravityVal, saveObj.char2State.hitPushTime, saveObj.char2State.hitPushVelX, 
+//  //     saveObj.char2State.hitPushVelY, saveObj.char2State.meter);
+//  // printf( "P2: cback:%d | fLastA:%ld | inCorner:%d | inHStop:%d | grav:%d | isDead:%d | fRight:%d | iRight:%d | hSnId:%d | sChn:%d | flshCn:%d\n", 
+//  //     saveObj.char2State.comeback, saveObj.char2State.frameLastAttackConnected, saveObj.char2State.inCorner, 
+//  //     saveObj.char2State.inHitStop, saveObj.char2State.gravity, saveObj.char2State.isDead, 
+//  //     saveObj.char2State.faceRight, saveObj.char2State.inputFaceRight, saveObj.char2State.currentHurtSoundID, 
+//  //     saveObj.char2State.soundChannel, saveObj.char2State.flashCounter);
+//  // printf( "P2: iRed:%d | iGreen:%d | iLight:%d | install:%d | aura:%d | auraID:%d \n", 
+//  //     saveObj.char2State.isRed, saveObj.char2State.isGreen, saveObj.char2State.isLight, 
+//  //     saveObj.char2State.installMode, saveObj.char2State.auraActive, saveObj.char2State.auraID);
+//  // printf( "P2: cPointer:%d | sNumber:%d | sTime:%d | aTime:%d | fFrame:%d | fLen:%d | hDisabled:%d | wCancel:%d | hCancel:%d | chFlag:%d | aFrame:%d | aTimeP:%d | aElem:%d | aElemT:%d\n", 
+//  //     saveObj.char2State.cancelPointer, saveObj.char2State.currentState,
+//  //     saveObj.char2State.stateDefObj.stateTime, saveObj.char2State.stateDefObj.animTime, saveObj.char2State.stateDefObj.freezeFrame, 
+//  //     saveObj.char2State.stateDefObj.freezeLength, saveObj.char2State.stateDefObj.hitboxesDisabled, saveObj.char2State.stateDefObj.canWhiffCancel, 
+//  //     saveObj.char2State.stateDefObj.canHitCancel, saveObj.char2State.stateDefObj.counterHitFlag, saveObj.char2State.stateDefObj.animFrame,
+//  //     saveObj.char2State.stateDefObj.animationTimePassed, saveObj.char2State.stateDefObj.currentAnimElemIndex, saveObj.char2State.stateDefObj.currentAnimElemTimePassed);
+//  // printf( "P2: iState:%d | iPrevState:%d\n", 
+//  //     saveObj.char2State.virtualControllerObj.currentState, saveObj.char2State.virtualControllerObj.prevState);
   return true;
 }
 
@@ -324,7 +351,7 @@ bool fsOnEvent(GGPOEvent* info){
       break;
     case GGPO_EVENTCODE_TIMESYNC:
       printf("GGPO_EVENT timesync\n");
-      std::this_thread::sleep_for(FPS{info->u.timesync.frames_ahead});
+      // std::this_thread::sleep_for(FPS{info->u.timesync.frames_ahead});
       break;
     case GGPO_EVENTCODE_CONNECTION_INTERRUPTED:
       printf("GGPO_EVENT connection interrupted\n");
@@ -339,7 +366,7 @@ bool fsOnEvent(GGPOEvent* info){
   return true;
 }
 
-FightState::FightState(){ 
+FightState::FightState(){
   printf("creating new fightState\n");
   stateName = "FIGHT_STATE";
   // bgMusic = Mix_LoadMUS("../data/audio/fightingTheme.mp3");
@@ -459,6 +486,7 @@ void FightState::enter(){
     doneSync = false;
     if (pnum != 1) {
       inputManager->stickToVC[inputManager->p1SDLController] = player2->virtualController;
+      inputManager->stickToVC[inputManager->p2SDLController] = player1->virtualController;
     }
     ggpoInit();
   }
@@ -480,6 +508,8 @@ void FightState::saveState(){
   printf("---------------\n");
   printf("START SAVE STATE\n");
   printf("---------------\n");
+  printf("FRAMECOUNT:%d\n", frameCount);
+  printf("p1VC PREV:%d, CURRENT:%d\n", player1->virtualController->prevState,player1->virtualController->currentState);
 
   saveObj.roundStartCounter = roundStartCounter;
   saveObj.roundStart = roundStart;
@@ -502,7 +532,24 @@ void FightState::saveState(){
   saveObj.char2State = *player2->saveState();
   saveObj.cameraState = camera.saveState();
 
-  logSaveState();
+  {
+    player1->virtualController->serializeHistory(true);
+    player2->virtualController->serializeHistory(false);
+
+    boost::iostreams::basic_array_sink<char> p1Inserter(saveObj.p1Buffer, BUFFER_SIZE);
+    boost::iostreams::stream<boost::iostreams::basic_array_sink<char>> p1Sink(p1Inserter);
+    boost::archive::binary_oarchive p1Out(p1Sink);
+    p1Out << player1->virtualController->inputHistorySnapShot;
+    p1Sink.flush();
+
+    boost::iostreams::basic_array_sink<char> p2Inserter(saveObj.p2Buffer, BUFFER_SIZE);
+    boost::iostreams::stream<boost::iostreams::basic_array_sink<char>> p2Sink(p2Inserter);
+    boost::archive::binary_oarchive p2Out(p2Sink);
+    p2Out << player2->virtualController->inputHistorySnapShot;
+    p2Sink.flush();
+  }
+
+  // logSaveState();
   printf("---------------\n");
   printf("DONE SAVE STATE\n");
   printf("---------------\n");
@@ -510,6 +557,7 @@ void FightState::saveState(){
 
 void FightState::saveState(unsigned char** buffer, int* length, int frame){
   saveObj.currentRound = currentRound;
+  saveObj.shouldUpdate = shouldUpdate;
   saveObj.inSlowDown = inSlowDown;
   saveObj.p1RoundsWon = p1RoundsWon;
   saveObj.p2RoundsWon = p2RoundsWon;
@@ -537,8 +585,10 @@ void FightState::loadState(){
   printf("---------------\n");
   printf("START LOAD STATE\n");
   printf("---------------\n");
+  printf("FRAMECOUNT:%d\n", saveObj.frameCount);
+  printf("p1VC PREV:%d, CURRENT:%d\n", saveObj.char1State.virtualControllerObj.prevState,saveObj.char1State.virtualControllerObj.currentState);
 
-  logSaveState();
+  // logSaveState();
   currentRound = saveObj.currentRound;
   slowDownCounter = saveObj.slowDownCounter;
   slowMode = saveObj.slowMode;
@@ -561,6 +611,20 @@ void FightState::loadState(){
   player2->loadState(saveObj.char2State);
   
   camera.loadState(saveObj.cameraState);
+
+  {
+    boost::iostreams::basic_array_source<char> p1Device(saveObj.p1Buffer, BUFFER_SIZE);
+    boost::iostreams::stream<boost::iostreams::basic_array_source<char>> p1Source(p1Device);
+    boost::archive::binary_iarchive p1In(p1Source);
+    p1In >> player1->virtualController->inputHistorySnapShot;
+
+    boost::iostreams::basic_array_source<char> p2Device(saveObj.p2Buffer, BUFFER_SIZE);
+    boost::iostreams::stream<boost::iostreams::basic_array_source<char>> p2Source(p2Device);
+    boost::archive::binary_iarchive p2In(p2Source);
+    p2In >> player2->virtualController->inputHistorySnapShot;
+  }
+  player1->virtualController->loadHistory(true);
+  player2->virtualController->loadHistory(false);
 
   printf("---------------\n");
   printf("DONE LOAD STATE\n");
@@ -593,7 +657,7 @@ void FightState::loadState(unsigned char* buffer, int length){
 
 
 void FightState::handleInput(){
-  printf("in handleInput, shouldUpdate?:%d\n", shouldUpdate);
+  // printf("in handleInput, shouldUpdate?:%d\n", shouldUpdate);
   if (!shouldUpdate || (netPlayState && !doneSync)) {
     return;
   }
@@ -662,7 +726,7 @@ void FightState::handleInput(){
 }
 
 void FightState::update(){
-  printf("in update, shouldUpdate?:%d\n", shouldUpdate);
+  // printf("in update, shouldUpdate?:%d\n", shouldUpdate);
   if (!shouldUpdate || (netPlayState && !doneSync)) {
     return;
   }
@@ -1925,138 +1989,20 @@ void FightState::drawUIEffects(){
 void FightState::drawPlayers(){
   if (player1->frameLastAttackConnected > player2->frameLastAttackConnected) {
     player2->draw();
-    for (auto &i : player2->entityList) {
-      i.draw();
-      for (auto &e : i.visualEffects) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-      for (auto &e : i.hitSparks) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-    }
-    for (auto &i : player2->visualEffects) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
-    for (auto &i : player2->guardSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
-    for (auto &i : player2->hitSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
+    player2->drawEntities();
+    player2->drawFX();
 
     player1->draw();
-    for (auto &i : player1->entityList) {
-      i.draw();
-      for (auto &e : i.visualEffects) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-      for (auto &e : i.hitSparks) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-    }
-    for (auto &i : player1->visualEffects) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player1->faceRight);
-      }
-    }
-    for (auto &i : player1->guardSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
-    for (auto &i : player1->hitSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
+    player1->drawEntities();
+    player1->drawFX();
   } else {
     player1->draw();
-    for (auto &i : player1->entityList) {
-      i.draw();
-      for (auto &e : i.visualEffects) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-      for (auto &e : i.hitSparks) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-    }
-    for (auto &i : player1->visualEffects) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player1->faceRight);
-      }
-    }
-    for (auto &i : player1->guardSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player1->faceRight);
-      }
-    }
-    for (auto &i : player1->hitSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player1->faceRight);
-      }
-    }
-    // printf("drew p1 entities\n");
+    player1->drawEntities();
+    player1->drawFX();
 
     player2->draw();
-    // printf("drew p2\n");
-    for (auto &i : player2->entityList) {
-      i.draw();
-      for (auto &e : i.visualEffects) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-      for (auto &e : i.hitSparks) {
-        if (e.second.getActive()) {
-          e.second.draw(i.faceRight);
-        }
-      }
-    }
-    for (auto &i : player2->visualEffects) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
-    for (auto &i : player2->guardSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
-    for (auto &i : player2->hitSparks) {
-      VisualEffect& visFX = i.second;
-      if (visFX.getActive()) {
-        visFX.draw(player2->faceRight);
-      }
-    }
+    player2->drawEntities();
+    player2->drawFX();
   }
 }
 
@@ -2243,9 +2189,10 @@ void FightState::ggpoInit(){
 }
 
 void FightState::netPlayHandleInput(){
-  shouldUpdate = false;
-  int inputs[2] = { 0 };
-  int currentInput = 0;
+  shouldUpdate = true;
+  multiSimFrameCounter = 0;
+  int inputs[2];
+  int currentInput;
   int disconnectFlags;
 
   VirtualController* p1Vc = player1->virtualController;
@@ -2253,9 +2200,11 @@ void FightState::netPlayHandleInput(){
 
   VirtualController* currentVc = pnum == 1 ? p1Vc : p2Vc;
   currentInput = currentVc->getState();
-  currentVc->setState(0);
-  currentVc->inputHistory.front().clear();
+  p1Vc->inputHistory.pop_front();
+  p2Vc->inputHistory.pop_front();
 
+  // p1Vc->setState(0);
+  // p2Vc->setState(0);
   // printf("adding local input\n");
 #if defined(SYNC_TEST)
      currentInput = rand(); // test: use random inputs to demonstrate sync testing
@@ -2263,17 +2212,22 @@ void FightState::netPlayHandleInput(){
 
   GGPOErrorCode result = ggpo_add_local_input(ggpo, *local_player_handle, &currentInput, sizeof(currentInput));
   if (GGPO_SUCCEEDED(result)) {
-    ggpo_synchronize_input(ggpo, (void *)inputs, sizeof(int)*2, &disconnectFlags);
+    result = ggpo_synchronize_input(ggpo, (void *)inputs, sizeof(inputs), &disconnectFlags);
     if (GGPO_SUCCEEDED(result)) {
-      // printf("GGPO SYNC SUCCESS\n");
+      printf("GGPO SYNC SUCCESS\n");
       // simulate a local keypress with input
       p1Vc->addNetInput(inputs[0]);
-
-      // p2Vc->prevState = otherVc->currentState;
       p2Vc->addNetInput(inputs[1]);
-      shouldUpdate = true;
+      p1Vc->prevState = p1Vc->currentState;
+      p2Vc->prevState = p2Vc->currentState;
+    } else {
+      printf("GGPO SYNC FAIL %d\n", result);
+      shouldUpdate = false;
     }
   } else {
-    // printf("GGPO SYNC FAIL %d\n", result);
+    if (doneSync) {
+      printf("GGPO ADD LOCAL FAIL %d\n", result);
+      shouldUpdate = false;
+    }
   }
 };

@@ -119,7 +119,6 @@ struct CharStateObj {
   StateDefObj stateDefObj;
   EntityStateObj entityStates[3];
   VirtualControllerObj virtualControllerObj;
-  HistoryCopyT inputHistory;
   // std::unordered_map<int, EntityStateObj> entityStates;
 };
 
@@ -185,6 +184,8 @@ public:
   void handleInput();
   void update();
   void draw();
+  void drawEntities();
+  void drawFX();
 
   CharStateObj* saveState();
   void loadState(CharStateObj stateObj);

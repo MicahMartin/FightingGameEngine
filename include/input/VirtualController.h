@@ -72,15 +72,16 @@ struct InputEvent {
   }
 };
 
+
+typedef std::vector<InputEvent> InputFrameT;
+typedef boost::circular_buffer<InputEvent> EventHistoryT;
+typedef boost::circular_buffer<InputFrameT> InputHistoryT;
+typedef std::vector<std::vector<InputEvent>> HistoryCopyT;
+
 struct VirtualControllerObj {
   uint16_t currentState;
   uint16_t prevState;
 };
-
-typedef std::list<InputEvent> InputFrameT;
-typedef boost::circular_buffer<InputEvent> EventHistoryT;
-typedef boost::circular_buffer<InputFrameT> InputHistoryT;
-typedef std::vector<std::vector<InputEvent>> HistoryCopyT;
 
 class CommandCompiler;
 class VirtualController : public Observer {
@@ -133,7 +134,7 @@ public:
   void addNetInput(int input);
 
   void serializeHistory(bool log);
-  void loadHistory(HistoryCopyT historyCopy, bool log);
+  void loadHistory(bool log);
 
   void onNotify(const char* eventName);
 
@@ -154,8 +155,8 @@ public:
 
   InputHistoryT inputHistory;
   HistoryCopyT inputHistorySnapShot;
-  std::vector<std::list<InputEvent>> inputHistoryCopy;
-  std::vector<std::list<InputEvent>> inputHistoryCopyTwo;
+  std::vector<InputFrameT> inputHistoryCopy;
+  std::vector<InputFrameT> inputHistoryCopyTwo;
   EventHistoryT inputEventList;
   std::vector<int> inputStateCopy;
   std::vector<uint16_t> inputStateCopyTwo;

@@ -314,8 +314,16 @@ uint8_t VirtualController::getStickState() {
 VirtualControllerObj* VirtualController::saveState() {
   controllerObj.currentState = currentState;
   controllerObj.prevState = prevState;
-  // for (int i = 0; (i < inputHistory.size()); ++i) {
-  //   controllerObj.inputHistory[i] = inputHistory.at(i).back();
+  // controllerObj.inputBuffer.resize(128);
+  // for (int i = 0; i < (inputHistory.size()); ++i) {
+  //   controllerObj.inputBuffer[i] = inputHistory[i];
+  //   if (i<12) {
+  //     printf("input save frame:%d\n", i);
+  //     for (int x = 0; (x < controllerObj.inputBuffer[i].size()); ++x) {
+  //       printf("{%d:%s} | ", x, inputToString[controllerObj.inputBuffer[i][x].inputBit]);
+  //     }
+  //     printf("\n");
+  //   }
   // }
   return &controllerObj;
 }
@@ -323,15 +331,24 @@ VirtualControllerObj* VirtualController::saveState() {
 void VirtualController::loadState(VirtualControllerObj stateObj) { 
   currentState = stateObj.currentState;
   prevState = stateObj.prevState;
-  // for (int i = 0; i < (inputHistory.size()); ++i) {
-  //   InputFrameT currentFrame{stateObj.inputHistory[i]};
-  //   inputHistory.at(i) = currentFrame;
+  // printf("loading input\n");
+  // // inputHistory = controllerObj.buffer;
+  // for (int i = 0; i < (stateObj.inputBuffer.size()); ++i) {
+  //   InputFrameT currentFrame(stateObj.inputBuffer[i]);
+  //   if (i<12) {
+  //     printf("input load frame:%d\n", i);
+  //     for (int x = 0; (x < currentFrame.size()); ++x) {
+  //       printf("{%d:%s} | ", x, inputToString[currentFrame[x].inputBit]);
+  //     }
+  //     printf("\n");
+  //   }
   // }
-  printf("virtualController loadHistory done\n");
+  // printf("virtualController loadHistory done\n");
 }
 
 void VirtualController::addNetInput(int input) {
   // prevState = currentState;
+  inputHistory.push_front(InputFrameT());
   currentState = input;
   // inputHistory.front().emplace_back(InputEvent(currentState, true));
   // loop through bits in currentState
@@ -345,8 +362,17 @@ void VirtualController::addNetInput(int input) {
   uint8_t oldStickState = prevState & 0x0F;
   uint8_t newStickState = currentState & 0x0F;
   if (oldStickState != newStickState) {
-    inputHistory.front().emplace_back(InputEvent(oldStickState, false));
-    inputHistory.front().emplace_back(InputEvent(newStickState, true));
+    if (oldStickState == 0) {
+      inputHistory.front().push_back(InputEvent(NOINPUT, false));
+    } else {
+      inputHistory.front().push_back(InputEvent(oldStickState, false));
+    }
+
+    if (newStickState == 0) {
+      inputHistory.front().push_back(InputEvent(NOINPUT, true));
+    } else {
+      inputHistory.front().push_back(InputEvent(newStickState, true));
+    }
   }
   std::bitset<16> oldState(prevState);
   std::bitset<16> newState(currentState);
@@ -356,14 +382,13 @@ void VirtualController::addNetInput(int input) {
     if (inputToString.count(temp) != 0) {
       if (newState.test(i) && !oldState.test(i)) {
         printf("detected button press for %s\n", inputToString[temp]);
-        inputHistory.front().emplace_back(InputEvent(temp, true));
+        inputHistory.front().push_back(InputEvent(temp, true));
       } else if(!newState.test(i) && oldState.test(i)){
         printf("detected button release for %s\n", inputToString[temp]);
-        inputHistory.front().emplace_back(InputEvent(temp, false));
+        inputHistory.front().push_back(InputEvent(temp, false));
       }
     }
   }
-  // prevState = currentState;
 }
 
 void VirtualController::serializeHistory(bool log) {
@@ -383,7 +408,7 @@ void VirtualController::serializeHistory(bool log) {
     std::vector<InputEvent> newInputs{std::begin(inputHistory.at(i)), std::end(inputHistory.at(i))};
     inputHistorySnapShot[i] = newInputs;
     if (log){
-      if (i <= 12) {
+      if (i <= 6) {
         printf("input save frame:%d\n", i);
         for (int x = 0; (x < newInputs.size()); ++x) {
           printf("{%d:%s} | ", x, inputToString[newInputs[x].inputBit]);
@@ -395,23 +420,21 @@ void VirtualController::serializeHistory(bool log) {
   printf("\n-----------------\n");
 }
 
-void VirtualController::loadHistory(HistoryCopyT historyCopy, bool log) {
-  int historySize = historyCopy.size();
+void VirtualController::loadHistory(bool log) {
   for (int i = 0; i < inputHistory.size(); ++i) {
-    InputFrameT currentFrame{std::begin(historyCopy[i]), std::end(historyCopy[i])};
+    InputFrameT currentFrame(inputHistorySnapShot[i]);
     inputHistory[i] = currentFrame;
-    if(log){
-      int counter = 0;
-      if (i <= 12) {
+    if (log){
+      if (i <= 6) {
         printf("input load frame:%d\n", i);
-        for (std::list<InputEvent>::iterator it = currentFrame.begin(); it != currentFrame.end(); ++it) {
-          printf("{%d:%s} | ", counter++, inputToString[it->inputBit]);
+        for (int x = 0; (x < currentFrame.size()); ++x) {
+          printf("{%d:%s} | ", x, inputToString[currentFrame[x].inputBit]);
         }
         printf("\n");
       }
     }
   }
-  // printf("loadhistory done\n");
+  printf("\n-----------------\n");
 }
 
 

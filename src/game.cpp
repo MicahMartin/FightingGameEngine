@@ -52,11 +52,11 @@ void Game::update() {
     }
   }
 
-  printf("game handle input\n");
+  // printf("game handle input\n");
   currentState->handleInput();
   // currentState = stateManager->getState();
   currentState->update();
-  printf("game update\n");
+  // printf("game update\n");
   currentState = stateManager->getState();
 }
 
