@@ -62,7 +62,7 @@
         if (downforward) {
           $change_state 45; 
         } else {
-          $change_state 44; 
+          $change_state 42; 
         }
       } else {
         $change_state 39;
@@ -71,13 +71,9 @@
 
     if(kick){
       if(anyDown){
-        $change_state 42; 
+        $change_state 44; 
       } else {
-        if (forward) {
-          $change_state 38; 
-        } else {
-          $change_state 37; 
-        }
+        $change_state 38; 
       }
     }
     if(punch){

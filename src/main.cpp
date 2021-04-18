@@ -5,12 +5,12 @@
 #include "game.h"
 #include "ggponet.h"
 
-void ggpoUpdate(Game* game){
+void ggpoUpdate(Game* game, int time){
   GameState* currentState = game->stateManager->getState();
   if(std::strcmp(currentState->stateName, "FIGHT_STATE") == 0){
     FightState* fightState = (FightState*)currentState;
     if (fightState->netPlayState) {
-      ggpo_idle(fightState->ggpo, 1);
+      ggpo_idle(fightState->ggpo, time);
     }
   }
 }
@@ -53,14 +53,19 @@ int main(int argc, char* args[]) {
   //mainloop
   {
     using namespace std::chrono;
-    auto nextFrame = system_clock::now() + FPS{1};
     auto prevSec = time_point_cast<seconds>(system_clock::now());
+    auto nextFrame = system_clock::now() + FPS{1};
     int fpsCounter = 0;
 
     while(game.running) {
       game.update();
-      ggpoUpdate(&game);
+      auto timeRemaining = duration_cast<milliseconds>(nextFrame - system_clock::now());
+      int ggpoTime = (timeRemaining.count() > 10) ? timeRemaining.count() - 2 : 1;
+      printf("time for ggpo %d\n", timeRemaining.count());
+      ggpoUpdate(&game, ggpoTime);
       game.draw();
+      timeRemaining = duration_cast<milliseconds>(nextFrame - system_clock::now());
+      printf("time after draw %d\n", timeRemaining.count());
 
       ++fpsCounter;
       auto currentSec = time_point_cast<seconds>(system_clock::now());

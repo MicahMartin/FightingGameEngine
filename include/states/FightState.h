@@ -13,7 +13,7 @@
 #include <boost/serialization/map.hpp>
 #include <ggponet.h>
 
-const int BUFFER_SIZE = 8192;
+const int BUFFER_SIZE = 5120;
 struct ThrowResult {
   bool thrown;
   CollisionBox* throwCb;

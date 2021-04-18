@@ -137,11 +137,11 @@ bool fsAdvanceFrame(int flags){
   // simulate a local keypress with input
   // p1Vc->inputHistory.push_front(InputFrameT());
   // p2Vc->inputHistory.push_front(InputFrameT());
-  p1Vc->prevState = p1Vc->currentState;
-  p2Vc->prevState = p2Vc->currentState;
   printf("p1Vc current:%d, prevstate:%d\n", p1Vc->currentState, p1Vc->prevState);
   p1Vc->addNetInput(inputs[0]);
   p2Vc->addNetInput(inputs[1]);
+  p1Vc->prevState = p1Vc->currentState;
+  p2Vc->prevState = p2Vc->currentState;
 
   ggpoFightState->shouldUpdate = true;
   ggpoFightState->advanceFrame();
@@ -351,7 +351,7 @@ bool fsOnEvent(GGPOEvent* info){
       break;
     case GGPO_EVENTCODE_TIMESYNC:
       printf("GGPO_EVENT timesync\n");
-      // std::this_thread::sleep_for(FPS{info->u.timesync.frames_ahead});
+      std::this_thread::sleep_for(FPS{info->u.timesync.frames_ahead});
       break;
     case GGPO_EVENTCODE_CONNECTION_INTERRUPTED:
       printf("GGPO_EVENT connection interrupted\n");
@@ -693,12 +693,12 @@ void FightState::handleInput(){
     }
 
     for (auto &i : player1->entityList) {
-      if(!i.inHitStop){
+      if(i.active && !i.inHitStop){
         i.handleInput();
       }
     }
     for (auto &i : player2->entityList) {
-      if(!i.inHitStop){
+      if(i.active && !i.inHitStop){
         i.handleInput();
       }
     }
@@ -708,10 +708,14 @@ void FightState::handleInput(){
   player1->currentState->handleCancels();
   player2->currentState->handleCancels();
   for (auto &i : player1->entityList) {
-    i.currentState->handleCancels();
+    if (i.active) {
+      i.currentState->handleCancels();
+    }
   }
   for (auto &i : player2->entityList) {
-    i.currentState->handleCancels();
+    if (i.active) {
+      i.currentState->handleCancels();
+    }
   }
   
   checkProximityAgainst(player1, player2);
@@ -741,12 +745,12 @@ void FightState::update(){
     }
 
     for (auto &i : player1->entityList) {
-      if(!i.inHitStop){
+      if(i.active && !i.inHitStop){
         i.update();
       }
     }
     for (auto &i : player2->entityList) {
-      if(!i.inHitStop){
+      if(i.active && !i.inHitStop){
         i.update();
       }
     }
@@ -1004,7 +1008,7 @@ void FightState::checkHitstop(Character* player){
 
 void FightState::checkEntityHitstop(Character* player){
   for (auto &i : player->entityList) {
-    if(i.inHitStop && --i.hitStop == 0){
+    if(i.active && i.inHitStop && --i.hitStop == 0){
       i.inHitStop = false;
     }
   }
@@ -2025,11 +2029,13 @@ void FightState::handleSoundEffects(){
     }
   }
   for (auto& entity : player1->entityList) {
-    for (auto& i : entity.soundsEffects) {
-      SoundObj& soundEffect = i.second;
-      if (soundEffect.active) {
-        Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
-        soundEffect.active = false;
+    if (entity.active) {
+      for (auto& i : entity.soundsEffects) {
+        SoundObj& soundEffect = i.second;
+        if (soundEffect.active) {
+          Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
+          soundEffect.active = false;
+        }
       }
     }
   }
@@ -2051,11 +2057,13 @@ void FightState::handleSoundEffects(){
     }
   }
   for (auto& entity : player2->entityList) {
-    for (auto& i : entity.soundsEffects) {
-      SoundObj& soundEffect = i.second;
-      if (soundEffect.active) {
-        Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
-        soundEffect.active = false;
+    if (entity.active) {
+      for (auto& i : entity.soundsEffects) {
+        SoundObj& soundEffect = i.second;
+        if (soundEffect.active) {
+          Mix_PlayChannel(soundEffect.channel, soundEffect.sound, 0);
+          soundEffect.active = false;
+        }
       }
     }
   }

@@ -735,16 +735,19 @@ void Character::draw(){
 
 void Character::drawEntities(){
   for (auto &i : entityList) {
-    i.draw();
-    for (auto &v : i.visualEffects) {
-      if (v.second.getActive()) {
-        v.second.draw(i.faceRight);
+    if (i.active) {
+      i.draw();
+      for (auto &v : i.visualEffects) {
+        if (v.second.getActive()) {
+          v.second.draw(i.faceRight);
+        }
       }
-    }
-    for (auto &s : i.hitSparks) {
-      if (s.second.getActive()) {
-        s.second.draw(i.faceRight);
+      for (auto &s : i.hitSparks) {
+        if (s.second.getActive()) {
+          s.second.draw(i.faceRight);
+        }
       }
+      
     }
   }
 }

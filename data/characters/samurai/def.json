@@ -203,10 +203,14 @@
       "flags": ["NO_TURN"],
       "update_script": "../data/characters/samurai/scripts/movement/jump_n.kai",
       "animation": [
-        { "file": "../data/characters/samurai/sprites/samurai_41-0.png", "time": 11, "offsetX": 120},
-        { "file": "../data/characters/samurai/sprites/samurai_41-1.png", "time": 4, "offsetX": 122},
-        { "file": "../data/characters/samurai/sprites/samurai_41-2.png", "time": 6, "offsetX": 115},
-        { "file": "../data/characters/samurai/sprites/samurai_41-3.png", "time": -1, "offsetX": 105}
+        { "file": "../data/characters/senjin/sprites/jump/0001.png", "time": 3, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/jump/0002.png", "time": 4, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/jump/0003.png", "time": 4, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+
+        { "file": "../data/characters/senjin/sprites/jump/0004.png", "time": 4, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+
+        { "file": "../data/characters/senjin/sprites/jump/0005.png", "time": 4, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/jump/0006.png", "time": -1, "offsetX": -1, "offsetY": 205, "scale": ".4"}
       ],
       "collision_boxes": [
         {"type": "POSITION", "width":150, "height":150, "offsetX":0, "offsetY": 0, "start": 1, "end": -1},
@@ -221,10 +225,14 @@
       "flags": [ "NO_TURN" ],
       "update_script": "../data/characters/samurai/scripts/movement/jump_f.kai",
       "animation": [
-        { "file": "../data/characters/samurai/sprites/samurai_41-0.png", "time": 11, "offsetX": 120},
-        { "file": "../data/characters/samurai/sprites/samurai_41-1.png", "time": 4, "offsetX": 122},
-        { "file": "../data/characters/samurai/sprites/samurai_41-2.png", "time": 6, "offsetX": 115},
-        { "file": "../data/characters/samurai/sprites/samurai_41-3.png", "time": -1, "offsetX": 105}
+        { "file": "../data/characters/senjin/sprites/jump/0001.png", "time": 3, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/jump/0002.png", "time": 4, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/jump/0003.png", "time": 4, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+
+        { "file": "../data/characters/senjin/sprites/jump/0004.png", "time": 4, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+
+        { "file": "../data/characters/senjin/sprites/jump/0005.png", "time": 4, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/jump/0006.png", "time": -1, "offsetX": -1, "offsetY": 205, "scale": ".4"}
       ],
       "collision_boxes": [
         {"type": "POSITION", "width":150, "height":150, "offsetX":0, "offsetY": 0, "start": 1, "end": -1},
@@ -239,10 +247,14 @@
       "flags": ["NO_TURN"],
       "update_script": "../data/characters/samurai/scripts/movement/jump_b.kai",
       "animation": [
-        { "file": "../data/characters/samurai/sprites/samurai_41-0.png", "time": 11, "offsetX": 120},
-        { "file": "../data/characters/samurai/sprites/samurai_41-1.png", "time": 4, "offsetX": 122},
-        { "file": "../data/characters/samurai/sprites/samurai_41-2.png", "time": 6, "offsetX": 115},
-        { "file": "../data/characters/samurai/sprites/samurai_41-3.png", "time": -1, "offsetX": 105}
+        { "file": "../data/characters/senjin/sprites/jump/0001.png", "time": 3, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/jump/0002.png", "time": 4, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/jump/0003.png", "time": 4, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+
+        { "file": "../data/characters/senjin/sprites/jump/0004.png", "time": 4, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+
+        { "file": "../data/characters/senjin/sprites/jump/0005.png", "time": 4, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/jump/0006.png", "time": -1, "offsetX": -1, "offsetY": 205, "scale": ".4"}
       ],
       "collision_boxes": [
         {"type": "POSITION", "width":150, "height":150, "offsetX":0, "offsetY": 0, "start": 1, "end": -1},
@@ -258,12 +270,11 @@
       "cancel_script": "../data/characters/samurai/scripts/hurt_cancels.kai",
       "update_script": "../data/characters/samurai/scripts/hurt.kai",
       "animation": [
-        { "file": "../data/characters/samurai/sprites/samurai_5010-0.png", "time": 2, "offsetX": 143},
-        { "file": "../data/characters/samurai/sprites/samurai_5010-10.png", "time": 2, "offsetX": 139},
-        { "file": "../data/characters/samurai/sprites/samurai_5010-20.png", "time": 2, "offsetX": 157},
-        { "file": "../data/characters/samurai/sprites/samurai_5010-21.png", "time": 2, "offsetX": 158},
-        { "file": "../data/characters/samurai/sprites/samurai_5010-22.png", "time": 2, "offsetX": 179},
-        { "file": "../data/characters/samurai/sprites/samurai_5010-23.png", "time": -1, "offsetX": 177}
+        { "file": "../data/characters/senjin/sprites/upper_hit/Senjin_UpperHit20003.png", "time": 2, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/upper_hit/Senjin_UpperHit20004.png", "time": 2, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/upper_hit/Senjin_UpperHit20005.png", "time": 2, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/upper_hit/Senjin_UpperHit20006.png", "time": 2, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/upper_hit/Senjin_UpperHit20007.png", "time": -1, "offsetX": -1, "offsetY": 205, "scale": ".4"}
       ],
       "collision_boxes": [
         {"type": "POSITION", "width":150, "height":150, "offsetX":0, "offsetY": 0, "start": 1, "end": -1},
@@ -278,11 +289,13 @@
       "cancel_script": "../data/characters/samurai/scripts/hurt_cancels.kai",
       "update_script": "../data/characters/samurai/scripts/hurt_recovery.kai",
       "animation": [
-        { "file": "../data/characters/samurai/sprites/samurai_5010-22.png", "time": 1, "offsetX": 179},
-        { "file": "../data/characters/samurai/sprites/samurai_5010-21.png", "time": 1, "offsetX": 158},
-        { "file": "../data/characters/samurai/sprites/samurai_5010-20.png", "time": 1, "offsetX": 157},
-        { "file": "../data/characters/samurai/sprites/samurai_5010-10.png", "time": 1, "offsetX": 139},
-        { "file": "../data/characters/samurai/sprites/samurai_5010-0.png", "time": 1, "offsetX": 143}
+        { "file": "../data/characters/senjin/sprites/upper_hit/Senjin_UpperHit20008.png", "time": 2, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/upper_hit/Senjin_UpperHit20009.png", "time": 2, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/upper_hit/Senjin_UpperHit20010.png", "time": 2, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/upper_hit/Senjin_UpperHit20011.png", "time": 2, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/upper_hit/Senjin_UpperHit20012.png", "time": 2, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/upper_hit/Senjin_UpperHit20013.png", "time": 2, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/upper_hit/Senjin_UpperHit20014.png", "time": -1, "offsetX": -1, "offsetY": 205, "scale": ".4"}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -582,10 +595,9 @@
       ],
       "update_script": "../data/characters/samurai/scripts/jump_recovery.kai",
       "animation": [
-        { "file": "../data/characters/samurai/sprites/samurai_41-4.png", "time": 2, "offsetX": 107 },
-        { "file": "../data/characters/samurai/sprites/samurai_41-5.png", "time": 2, "offsetX": 103 },
-        { "file": "../data/characters/samurai/sprites/samurai_41-6.png", "time": 2, "offsetX": 102 },
-        { "file": "../data/characters/samurai/sprites/samurai_41-7.png", "time": -1, "offsetX": 102 }
+          { "file": "../data/characters/senjin/sprites/jump/0005.png", "time": 4, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+          { "file": "../data/characters/senjin/sprites/jump/0004.png", "time": 4, "offsetX": -1, "offsetY": 205, "scale": ".4"},
+          { "file": "../data/characters/senjin/sprites/jump/0006.png", "time": -1, "offsetX": -1, "offsetY": 205, "scale": ".4"}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -667,11 +679,13 @@
       ],
       "update_script": "../data/characters/samurai/scripts/movement/airdash_f.kai",
       "animation": [
-        { "file": "../data/characters/samurai/sprites/samurai_105-3.png", "time": 2, "offsetX": 101},
-        { "file": "../data/characters/samurai/sprites/samurai_110-0.png", "time": 2, "offsetX": 135},
-        { "file": "../data/characters/samurai/sprites/samurai_110-1.png", "time": 2, "offsetX": 135},
-        { "file": "../data/characters/samurai/sprites/samurai_110-0.png", "time": 2, "offsetX": 135},
-        { "file": "../data/characters/samurai/sprites/samurai_110-1.png", "time": 2, "offsetX": 135}
+        { "file": "../data/characters/senjin/sprites/airdash_forward/0004.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_forward/0005.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_forward/0006.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_forward/0007.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_forward/0008.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_forward/0009.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_forward/0010.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -694,11 +708,13 @@
       ],
       "update_script": "../data/characters/samurai/scripts/movement/airdash_b.kai",
       "animation": [
-        { "file": "../data/characters/samurai/sprites/samurai_115-0.png", "time": 2, "offsetX": 127},
-        { "file": "../data/characters/samurai/sprites/samurai_115-1.png", "time": 2, "offsetX": 125},
-        { "file": "../data/characters/samurai/sprites/samurai_115-0.png", "time": 2, "offsetX": 127},
-        { "file": "../data/characters/samurai/sprites/samurai_115-1.png", "time": 2, "offsetX": 125},
-        { "file": "../data/characters/samurai/sprites/samurai_115-0.png", "time": 2, "offsetX": 127}
+        { "file": "../data/characters/senjin/sprites/airdash_back/0001.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_back/0002.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_back/0003.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_back/0004.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_back/0005.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_back/0006.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_back/0007.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0},
@@ -1196,18 +1212,14 @@
       "cancel_script": "../data/characters/samurai/scripts/attacks/jump_k_cancels.kai",
       "update_script": "../data/characters/samurai/scripts/attacks/jump_k.kai",
       "animation": [
-        { "file": "../data/characters/samurai/sprites/samurai_610-0.png", "time": 2, "offsetX": 123},
-        { "file": "../data/characters/samurai/sprites/samurai_610-1.png", "time": 2, "offsetX": 119},
-        { "file": "../data/characters/samurai/sprites/samurai_610-2.png", "time": 2, "offsetX": 117},
-        { "file": "../data/characters/samurai/sprites/samurai_610-3.png", "time": 2, "offsetX": 117},
-        { "file": "../data/characters/samurai/sprites/samurai_610-4.png", "time": 1, "offsetX": 122},
+        { "file": "../data/characters/senjin/sprites/airdash_back/0001.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_back/0002.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_back/0003.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_back/0004.png", "time": 2, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_back/0005.png", "time": 1, "offsetX": -1, "offsetY": 175, "scale": ".4"},
 
-        { "file": "../data/characters/samurai/sprites/samurai_610-5.png", "time": 6, "offsetX": 109},
-
-        { "file": "../data/characters/samurai/sprites/samurai_610-6.png", "time": 5, "offsetX": 94},
-        { "file": "../data/characters/samurai/sprites/samurai_610-7.png", "time": 4, "offsetX": 97},
-        { "file": "../data/characters/samurai/sprites/samurai_610-8.png", "time": 4, "offsetX": 122},
-        { "file": "../data/characters/samurai/sprites/samurai_610-9.png", "time": 4, "offsetX": 101}
+        { "file": "../data/characters/senjin/sprites/airdash_back/0006.png", "time": 6, "offsetX": -1, "offsetY": 175, "scale": ".4"},
+        { "file": "../data/characters/senjin/sprites/airdash_back/0007.png", "time": -1, "offsetX": -1, "offsetY": 175, "scale": ".4"}
       ],
       "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":150, "height":150, "offsetX":0, "offsetY": 0},
@@ -1485,7 +1497,7 @@
       "animation": [
         { "file": "../data/characters/%CHARNAME%/sprites/hurt0_0.png", "time": -1, "offsetX": -1}
       ],
-      "collision_boxes": [ 
+      "collision_boxes": [
         {"type": "HURT", "start": 59, "end": 60, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
       ]
@@ -1502,7 +1514,7 @@
       "animation": [
         { "file": "../data/characters/%CHARNAME%/sprites/tech_attempt.png", "time": 10, "offsetX": -1}
       ],
-      "collision_boxes": [ 
+      "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
       ]
     },
@@ -1515,7 +1527,7 @@
       "animation": [
         { "file": "../data/characters/%CHARNAME%/sprites/hurt0_0.png", "time": -1, "offsetX": -1}
       ],
-      "collision_boxes": [ 
+      "collision_boxes": [
         {"type": "HURT", "start": 59, "end": 60, "width":150, "height":290, "offsetX":-75, "offsetY": 0},
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
       ]
@@ -1532,7 +1544,7 @@
       "animation": [
         { "file": "../data/characters/%CHARNAME%/sprites/tech_attempt.png", "time": 10, "offsetX": -1}
       ],
-      "collision_boxes": [ 
+      "collision_boxes": [
         {"type": "POSITION", "start": 1, "end": -1, "width":100, "height":150, "offsetX":0, "offsetY": 0}
       ]
     },
@@ -1852,7 +1864,7 @@
     "SS_AIR_TECH": 60,
     "SS_DEAD_FALLING": 60,
     "SS_FLOAT_HURT": 60,
-    "SS_FLOAT_HURT_RECOVERY": 60 
+    "SS_FLOAT_HURT_RECOVERY": 60
   },
   "anim_scale": ".75",
   "gravity": "3000",

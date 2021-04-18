@@ -5,6 +5,7 @@
 
 void Graphics::init(){
   // setup window. return -1 on error
+  SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
   window = SDL_CreateWindow(windowName.c_str(),
       SDL_WINDOWPOS_UNDEFINED,
       SDL_WINDOWPOS_UNDEFINED,
