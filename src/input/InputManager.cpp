@@ -355,39 +355,39 @@ void InputManager::update() {
       switch (event.type) {
         case SDL_KEYDOWN: {
           if(event.key.repeat == 0){
-            printf("the sdl keycode for the thing just pressed: %d\n", event.key.keysym.sym);
+              printf("configuring item:%d, the sdl keycode for the thing just released : %d\n", configCounter, event.key.keysym.sym);
+              if (bConf.find(event.key.keysym.sym) != bConf.end()) {
+                  configCounter++;
+                  ConfItem* item = &bConf.at(event.key.keysym.sym);
+                  Input* inputBit = &item->inputBit;
+                  if (*inputBit == MK) {
+                      keySelectionMode = false;
+                      configCounter = 0;
+                  }
           }
           break;
         }
 
         case SDL_KEYUP: {
-          printf("configuring item:%d, the sdl keycode for the thing just released : %d\n", configCounter, event.key.keysym.sym);
-          if (bConf.find(event.key.keysym.sym) != bConf.end()) {
-            configCounter++;
-            ConfItem* item = &bConf.at(event.key.keysym.sym);
-            Input* inputBit = &item->inputBit;
-            if (*inputBit == MK) {
-              keySelectionMode = false;
-              configCounter = 0;
-            }
           }
           break;
         }
 
         case SDL_JOYBUTTONDOWN: {
+
+            printf("configuring item:%d, the button keycode for the thing just released : %d\n", configCounter, event.jbutton.button);
+            buttonConfigArray[configCounter] = event.jbutton.button;
+            configCounter++;
+            if (configCounter == 4) {
+                configCounter = 0;
+                printf("writing button config\n");
+                keySelectionMode = false;
+                writeButtonConfig();
+            }
           break;
         }
         
         case SDL_JOYBUTTONUP: {
-          printf("configuring item:%d, the button keycode for the thing just released : %d\n", configCounter, event.jbutton.button);
-          buttonConfigArray[configCounter] = event.jbutton.button;
-          configCounter++;
-          if (configCounter == 4) {
-            configCounter = 0;
-            printf("writing button config\n");
-            keySelectionMode = false;
-            writeButtonConfig();
-          }
           break;
         }
         case SDL_JOYAXISMOTION: {
