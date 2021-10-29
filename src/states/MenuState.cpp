@@ -133,6 +133,7 @@ void MenuState::handleInput() {
   VirtualController* vc = inputManager->getVirtualController(0);
   if (vc->wasPressed(MK)) {
     stateManager->popState();
+    printf("Popping state\n");
     return;
   }
   activeMenu->handleInput();
