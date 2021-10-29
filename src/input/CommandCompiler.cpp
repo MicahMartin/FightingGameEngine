@@ -1,4 +1,6 @@
 #include "input/CommandCompiler.h"
+#include <fstream>
+#include <nlohmann/json.hpp>
 
 // each 'commandString' is a descriptor for a stack of boolean function calls
 // P | ~P = ((wasPressed(LP)) || (wasReleased(LP)))
@@ -39,46 +41,34 @@
 //  "~D, DB, @B & !D, LP | ~LP",
 //  TODO: load from file
 //   "~D, 20DF, 20F, 8LP | 8~LP", // 214P
-std::vector<std::string> CommandCompiler::commandStrings = {
-  "@F, N, F", // dash
-  "B, N, B", // backdash
-  "~D, DF, F, LK | ~LK",
-  "~D, DB, B, LP | ~LP",
-  "@~D, N, @D, LP", // 22P
-  "2LK & 2LP", // lp and lk
-  "~N, U",
-  "~N, UF",
-  "~N, UB",
-  "~LP",
-  "MP & 2LK", // mp and lk
-  "8~N, 8@B", // IB back
-  "LP | LK | MP | MK", // any button held
-  "~D, DF, F, D, DF, F, LK | ~LK",
-  "MK & 2MP",
-  "3LP",
-  "18LK",
-  "3MP",
-  "3MK",
-  "3LP",
-  "LK | ~LK",
-  "*F, 3LP & 3MP",
-  "*B, 3LP & 3MP",
-  "14@D",
-};
 
 CommandCompiler::CommandCompiler() { }
 
 CommandCompiler::~CommandCompiler(){ }
 
-void CommandCompiler::init() {
+void CommandCompiler::init(const char* path) {
+  std::ifstream configFile(path);
+  nlohmann::json commandJson;
+  configFile >> commandJson;
+  printf("loaded command json\n");
+  commandStrings.clear();
   commands.clear();
+  for (auto& commandStringObj : commandJson["commands"].items()) {
+      std::string name = commandStringObj.value()["name"].get<std::string>();
+      std::string commandString = commandStringObj.value()["command"].get<std::string>();
+      bool clears = commandStringObj.value()["clears"].get<bool>();
+      printf("commad-%s:%s:%d\n", name.c_str(), commandString.c_str(), clears);
+      CommandStringObj command{ commandString, clears };
+      commandStrings.push_back(command);
+  }
+  printf("command string size:%d\n", commandStrings.size());
   for (int i = 0; i < commandStrings.size(); ++i) {
-    compile(commandStrings[i].c_str());
+    compile(commandStrings[i].command.c_str(), commandStrings[i].clears);
   }
   printf("done compiling commands\n");
 }
 
-void CommandCompiler::compile(const char* inputString) {
+void CommandCompiler::compile(const char* inputString, bool clears) {
   // consume all tokens up until a delim
   // create annonymous boolean func commandFunc
   // get function pointers to wasPressed, wasReleased, and isPressed, 
@@ -93,8 +83,7 @@ void CommandCompiler::compile(const char* inputString) {
   std::vector<CommandToken> tokens = commandScanner.scan(inputString);
   CommandObj commandObj;
   //im lazy
-  std::string inputStringString(inputString);
-  commandObj.clears = (inputStringString.find("D, DF, F") != std::string::npos) || (inputStringString.find("LK") != std::string::npos);
+  commandObj.clears = clears;
   currentToken = &tokens[0];
   //for (auto i : tokens) {
   //}
@@ -103,6 +92,7 @@ void CommandCompiler::compile(const char* inputString) {
     commandObj.command.push_back(compileNode());
     printf("node compiled\n");
   }
+  printf("command compiled\n");
   commands.push_back(commandObj);
 }
 
